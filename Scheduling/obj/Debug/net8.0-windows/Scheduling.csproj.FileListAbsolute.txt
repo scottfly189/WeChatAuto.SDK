@@ -1,0 +1,14 @@
+D:\repo\wxauto.net\wxauto.net\Scheduling\bin\Debug\net8.0-windows\Scheduling.exe
+D:\repo\wxauto.net\wxauto.net\Scheduling\bin\Debug\net8.0-windows\Scheduling.deps.json
+D:\repo\wxauto.net\wxauto.net\Scheduling\bin\Debug\net8.0-windows\Scheduling.runtimeconfig.json
+D:\repo\wxauto.net\wxauto.net\Scheduling\bin\Debug\net8.0-windows\Scheduling.dll
+D:\repo\wxauto.net\wxauto.net\Scheduling\bin\Debug\net8.0-windows\Scheduling.pdb
+D:\repo\wxauto.net\wxauto.net\Scheduling\obj\Debug\net8.0-windows\Scheduling.GeneratedMSBuildEditorConfig.editorconfig
+D:\repo\wxauto.net\wxauto.net\Scheduling\obj\Debug\net8.0-windows\Scheduling.AssemblyInfoInputs.cache
+D:\repo\wxauto.net\wxauto.net\Scheduling\obj\Debug\net8.0-windows\Scheduling.AssemblyInfo.cs
+D:\repo\wxauto.net\wxauto.net\Scheduling\obj\Debug\net8.0-windows\Scheduling.csproj.CoreCompileInputs.cache
+D:\repo\wxauto.net\wxauto.net\Scheduling\obj\Debug\net8.0-windows\Scheduling.dll
+D:\repo\wxauto.net\wxauto.net\Scheduling\obj\Debug\net8.0-windows\refint\Scheduling.dll
+D:\repo\wxauto.net\wxauto.net\Scheduling\obj\Debug\net8.0-windows\Scheduling.pdb
+D:\repo\wxauto.net\wxauto.net\Scheduling\obj\Debug\net8.0-windows\Scheduling.genruntimeconfig.cache
+D:\repo\wxauto.net\wxauto.net\Scheduling\obj\Debug\net8.0-windows\ref\Scheduling.dll
