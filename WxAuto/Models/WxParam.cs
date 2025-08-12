@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace WxAutoCore.Models
+namespace WxAuto.Models
 {
     /// <summary>
     /// 微信自动化参数配置类

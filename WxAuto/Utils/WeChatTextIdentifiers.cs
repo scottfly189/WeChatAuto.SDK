@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace WxAutoCore.Utils
+namespace WxAuto.Utils
 {
     /// <summary>
     /// 微信界面文本标识符集合
