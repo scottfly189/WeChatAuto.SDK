@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
+using WxAutoCommon.Models;
 using WxAutoCore.Interface;
 using WxAutoCore.Services.WxAutomationSubscription;
 
@@ -68,11 +70,17 @@ namespace WxAutoCore.Services
         /// 发送消息
         /// </summary>
         /// <param name="message"></param>
-        /// <param name="toUserName"></param>
-        public static void SendMessage(string message, string toUserName)
+        public static void SendMessage(ChatMessage message)
         {
-            var wxAuto = GetWxAuto();
-            
+        }
+
+        /// <summary>
+        /// 等待seconds秒
+        /// </summary>
+        /// <param name="seconds"></param>
+        public static void Wait(int seconds = 2)
+        {
+            Thread.Sleep(seconds * 1000);
         }
     }
 }

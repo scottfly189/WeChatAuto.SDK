@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace WxAuto.Models
+namespace WxAutoCommon.Models
 {
     /// <summary>
     /// 微信自动化参数配置类
@@ -58,4 +58,4 @@ namespace WxAuto.Models
         /// </summary>
         public static int SearchChatTimeout { get; set; } = 5;
     }
-} 
+}
