@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31903.59
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34902.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WxAutoCore", "WxAutoCore\WxAutoCore.csproj", "{4B6E2057-BD42-4562-A519-E4FCB3B6AC14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WxAutoCore", "WxAutoCore\WxAutoCore.csproj", "{4B6E2057-BD42-4562-A519-E4FCB3B6AC14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WxAuto", "WxAuto\WxAuto.csproj", "{7C386AAA-1A69-45B2-BEF5-7F2C41096634}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WxAuto", "WxAuto\WxAuto.csproj", "{7C386AAA-1A69-45B2-BEF5-7F2C41096634}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WxAutoCommon", "WxAutoCommon\WxAutoCommon.csproj", "{81CD18E4-7EEE-49C5-8DD5-15F5EE947DCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WxAutoCommon", "WxAutoCommon\WxAutoCommon.csproj", "{81CD18E4-7EEE-49C5-8DD5-15F5EE947DCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WxScheduling", "WxScheduling\WxScheduling.csproj", "{F502F870-4587-4594-B1C3-ED0D782AC529}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WxScheduling", "WxScheduling\WxScheduling.csproj", "{9C57A04F-E49C-4850-8719-6CA3B41BC185}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,20 +57,23 @@ Global
 		{81CD18E4-7EEE-49C5-8DD5-15F5EE947DCA}.Release|x64.Build.0 = Release|Any CPU
 		{81CD18E4-7EEE-49C5-8DD5-15F5EE947DCA}.Release|x86.ActiveCfg = Release|Any CPU
 		{81CD18E4-7EEE-49C5-8DD5-15F5EE947DCA}.Release|x86.Build.0 = Release|Any CPU
-		{F502F870-4587-4594-B1C3-ED0D782AC529}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F502F870-4587-4594-B1C3-ED0D782AC529}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F502F870-4587-4594-B1C3-ED0D782AC529}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F502F870-4587-4594-B1C3-ED0D782AC529}.Debug|x64.Build.0 = Debug|Any CPU
-		{F502F870-4587-4594-B1C3-ED0D782AC529}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F502F870-4587-4594-B1C3-ED0D782AC529}.Debug|x86.Build.0 = Debug|Any CPU
-		{F502F870-4587-4594-B1C3-ED0D782AC529}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F502F870-4587-4594-B1C3-ED0D782AC529}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F502F870-4587-4594-B1C3-ED0D782AC529}.Release|x64.ActiveCfg = Release|Any CPU
-		{F502F870-4587-4594-B1C3-ED0D782AC529}.Release|x64.Build.0 = Release|Any CPU
-		{F502F870-4587-4594-B1C3-ED0D782AC529}.Release|x86.ActiveCfg = Release|Any CPU
-		{F502F870-4587-4594-B1C3-ED0D782AC529}.Release|x86.Build.0 = Release|Any CPU
+		{9C57A04F-E49C-4850-8719-6CA3B41BC185}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C57A04F-E49C-4850-8719-6CA3B41BC185}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C57A04F-E49C-4850-8719-6CA3B41BC185}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9C57A04F-E49C-4850-8719-6CA3B41BC185}.Debug|x64.Build.0 = Debug|Any CPU
+		{9C57A04F-E49C-4850-8719-6CA3B41BC185}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9C57A04F-E49C-4850-8719-6CA3B41BC185}.Debug|x86.Build.0 = Debug|Any CPU
+		{9C57A04F-E49C-4850-8719-6CA3B41BC185}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C57A04F-E49C-4850-8719-6CA3B41BC185}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C57A04F-E49C-4850-8719-6CA3B41BC185}.Release|x64.ActiveCfg = Release|Any CPU
+		{9C57A04F-E49C-4850-8719-6CA3B41BC185}.Release|x64.Build.0 = Release|Any CPU
+		{9C57A04F-E49C-4850-8719-6CA3B41BC185}.Release|x86.ActiveCfg = Release|Any CPU
+		{9C57A04F-E49C-4850-8719-6CA3B41BC185}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5F36BEBD-45A8-4959-8CFC-4271D18CCAD6}
 	EndGlobalSection
 EndGlobal
