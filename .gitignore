@@ -1,0 +1,48 @@
+# Build and Release Folders
+bin-debug/
+bin-release/
+[Oo]bj/
+[Bb]in/
+
+# Other files and folders
+.settings/
+
+# Executables
+*.swf
+*.air
+*.ipa
+*.apk
+
+# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
+# should NOT be excluded as they contain compiler settings and other important
+# information for Eclipse / Flash Builder.
+/Admin.NET/.vs
+/Admin.NET/packages
+/Admin.NET/Admin.NET.Web.Entry/wwwroot/[Uu]pload
+/Admin.NET/Admin.NET.Web.Entry/wwwroot/[Aa]vatar
+/Admin.NET/Admin.NET.Web.Entry/wwwroot/[Ss]ignature
+/Admin.NET/Admin.NET.Web.Entry/wwwroot/[Cc]odeGen
+/Admin.NET/Admin.NET.Web.Entry/wwwroot/is-cache
+/Admin.NET/Admin.NET.Web.Core/Admin.NET.Web.Core.csproj.user
+/Admin.NET/Admin.NET.Web.Entry/Admin.NET.Web.Entry.csproj.user
+/Admin.NET/Admin.NET.Web.Entry/Properties/PublishProfiles
+/Admin.NET/Admin.NET.Web.Entry/publish
+/Admin.NET/Admin.NET.Web.Entry/logs
+/Admin.NET/Admin.NET.Web.Entry/Admin.NET.db
+
+# folders
+dist/
+node_modules/
+/Web/package-lock.json
+/Web/public/config.js
+/Web/stats.html
+/Web/npminstall-debug.log
+.vs
+.svn
+.idea
+.DS_Store
+
+/Admin.NET.App/unpackage
+/App/unpackage
+.history
+/package-lock.json
