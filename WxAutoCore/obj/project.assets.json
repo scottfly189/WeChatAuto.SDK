@@ -425,6 +425,16 @@
             "related": ".xml"
           }
         }
+      },
+      "WxAutoCommon/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.8",
+        "compile": {
+          "bin/placeholder/WxAutoCommon.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WxAutoCommon.dll": {}
+        }
       }
     },
     ".NETFramework,Version=v4.8.1": {
@@ -851,6 +861,16 @@
             "related": ".xml"
           }
         }
+      },
+      "WxAutoCommon/1.0.0": {
+        "type": "project",
+        "framework": ".NETFramework,Version=v4.8.1",
+        "compile": {
+          "bin/placeholder/WxAutoCommon.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WxAutoCommon.dll": {}
+        }
       }
     },
     "net10.0-windows7.0": {
@@ -1272,6 +1292,16 @@
             "rid": "win"
           }
         }
+      },
+      "WxAutoCommon/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/WxAutoCommon.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WxAutoCommon.dll": {}
+        }
       }
     },
     "net6.0-windows7.0": {
@@ -1680,6 +1710,16 @@
             "assetType": "runtime",
             "rid": "win"
           }
+        }
+      },
+      "WxAutoCommon/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/WxAutoCommon.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WxAutoCommon.dll": {}
         }
       }
     },
@@ -2116,6 +2156,16 @@
             "assetType": "runtime",
             "rid": "win"
           }
+        }
+      },
+      "WxAutoCommon/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/WxAutoCommon.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WxAutoCommon.dll": {}
         }
       }
     },
@@ -2555,6 +2605,16 @@
             "rid": "win"
           }
         }
+      },
+      "WxAutoCommon/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/WxAutoCommon.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WxAutoCommon.dll": {}
+        }
       }
     },
     "net9.0-windows7.0": {
@@ -2975,6 +3035,16 @@
             "assetType": "runtime",
             "rid": "win"
           }
+        }
+      },
+      "WxAutoCommon/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/WxAutoCommon.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/WxAutoCommon.dll": {}
         }
       }
     }
@@ -3961,6 +4031,11 @@
         "system.windows.extensions.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "WxAutoCommon/1.0.0": {
+      "type": "project",
+      "path": "../WxAutoCommon/WxAutoCommon.csproj",
+      "msbuildProject": "../WxAutoCommon/WxAutoCommon.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -3970,7 +4045,8 @@
       "Microsoft.Extensions.DependencyInjection >= 9.0.8",
       "Microsoft.Extensions.Logging >= 9.0.8",
       "NLog >= 6.0.3",
-      "NLog.Extensions.Logging >= 6.0.3"
+      "NLog.Extensions.Logging >= 6.0.3",
+      "WxAutoCommon >= 1.0.0"
     ],
     ".NETFramework,Version=v4.8.1": [
       "FlaUI.Core >= 5.0.0",
@@ -3978,7 +4054,8 @@
       "Microsoft.Extensions.DependencyInjection >= 9.0.8",
       "Microsoft.Extensions.Logging >= 9.0.8",
       "NLog >= 6.0.3",
-      "NLog.Extensions.Logging >= 6.0.3"
+      "NLog.Extensions.Logging >= 6.0.3",
+      "WxAutoCommon >= 1.0.0"
     ],
     "net10.0-windows7.0": [
       "FlaUI.Core >= 5.0.0",
@@ -3986,7 +4063,8 @@
       "Microsoft.Extensions.DependencyInjection >= 9.0.8",
       "Microsoft.Extensions.Logging >= 9.0.8",
       "NLog >= 6.0.3",
-      "NLog.Extensions.Logging >= 6.0.3"
+      "NLog.Extensions.Logging >= 6.0.3",
+      "WxAutoCommon >= 1.0.0"
     ],
     "net6.0-windows7.0": [
       "FlaUI.Core >= 5.0.0",
@@ -3994,7 +4072,8 @@
       "Microsoft.Extensions.DependencyInjection >= 9.0.8",
       "Microsoft.Extensions.Logging >= 9.0.8",
       "NLog >= 6.0.3",
-      "NLog.Extensions.Logging >= 6.0.3"
+      "NLog.Extensions.Logging >= 6.0.3",
+      "WxAutoCommon >= 1.0.0"
     ],
     "net7.0-windows7.0": [
       "FlaUI.Core >= 5.0.0",
@@ -4002,7 +4081,8 @@
       "Microsoft.Extensions.DependencyInjection >= 9.0.8",
       "Microsoft.Extensions.Logging >= 9.0.8",
       "NLog >= 6.0.3",
-      "NLog.Extensions.Logging >= 6.0.3"
+      "NLog.Extensions.Logging >= 6.0.3",
+      "WxAutoCommon >= 1.0.0"
     ],
     "net8.0-windows7.0": [
       "FlaUI.Core >= 5.0.0",
@@ -4010,7 +4090,8 @@
       "Microsoft.Extensions.DependencyInjection >= 9.0.8",
       "Microsoft.Extensions.Logging >= 9.0.8",
       "NLog >= 6.0.3",
-      "NLog.Extensions.Logging >= 6.0.3"
+      "NLog.Extensions.Logging >= 6.0.3",
+      "WxAutoCommon >= 1.0.0"
     ],
     "net9.0-windows7.0": [
       "FlaUI.Core >= 5.0.0",
@@ -4018,7 +4099,8 @@
       "Microsoft.Extensions.DependencyInjection >= 9.0.8",
       "Microsoft.Extensions.Logging >= 9.0.8",
       "NLog >= 6.0.3",
-      "NLog.Extensions.Logging >= 6.0.3"
+      "NLog.Extensions.Logging >= 6.0.3",
+      "WxAutoCommon >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -4052,31 +4134,59 @@
       "frameworks": {
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+              "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+            }
+          }
         },
         "net7.0-windows7.0": {
           "targetAlias": "net7.0-windows",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+              "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+            }
+          }
         },
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+              "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+            }
+          }
         },
         "net9.0-windows7.0": {
           "targetAlias": "net9.0-windows",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+              "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+            }
+          }
         },
         "net10.0-windows7.0": {
           "targetAlias": "net10.0-windows",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+              "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+            }
+          }
         },
         "net48": {
           "targetAlias": "net48",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+              "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+            }
+          }
         },
         "net481": {
           "targetAlias": "net481",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+              "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
