@@ -1,4 +1,3 @@
-using System.DirectoryServices.ActiveDirectory;
 using FlaUI.Core.AutomationElements;
 using WxAutoCommon.Utils;
 
