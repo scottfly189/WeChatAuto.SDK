@@ -60,8 +60,10 @@ namespace WxAutoCommon.Utils
             ["聊天信息"] = new TextIdentifier { Cn = "聊天信息", CnT = "", En = "" },
             ["发送"] = new TextIdentifier { Cn = "发送(S)", CnT = "", En = "" },
             ["置顶"] = new TextIdentifier { Cn = "置顶", CnT = "", En = "" },
+            ["取消置顶"] = new TextIdentifier { Cn = "取消置顶", CnT = "", En = "" },
             ["最小化"] = new TextIdentifier { Cn = "最小化", CnT = "", En = "" },
             ["最大化"] = new TextIdentifier { Cn = "最大化", CnT = "", En = "" },
+            ["向下还原"] = new TextIdentifier { Cn = "向下还原", CnT = "", En = "" },
             ["关闭"] = new TextIdentifier { Cn = "关闭", CnT = "", En = "" },
             ["以下为新消息"] = new TextIdentifier { Cn = "以下为新消息", CnT = "", En = "" },
             ["re_新消息按钮"] = new TextIdentifier { Cn = ".*?条新消息", CnT = "", En = "" }

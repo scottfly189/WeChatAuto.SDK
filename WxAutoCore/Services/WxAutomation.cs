@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using WxAutoCommon.Models;
+using WxAutoCore.Components;
 using WxAutoCore.Interface;
-using WxAutoCore.Pages;
 using WxAutoCore.Services.WxAutomationSubscription;
 
 namespace WxAutoCore.Services
@@ -24,7 +24,8 @@ namespace WxAutoCore.Services
         {
             //这里增加服务.
             services.AddSingleton<WxAutoSubscriptionService>();
-            services.AddSingleton<WxUIHelper>();
+            services.AddSingleton<WxFramwork>();
+            services.AddSingleton<WxClient>();
             return services;
         }
         /// <summary>
@@ -43,42 +44,9 @@ namespace WxAutoCore.Services
         /// </summary>
         public static void Init()
         {
-            _internalProvider.GetRequiredService<WxUIHelper>().Init();
+            _internalProvider.GetRequiredService<WxFramwork>().Init();
         }
-        /// <summary>
-        /// 添加微信自动化服务
-        /// </summary>
-        /// <param name="wxAuto"></param>
-        public static void AddWxAuto(IWxAuto wxAuto)
-        {
-            var subscriptionService = _internalProvider.GetRequiredService<WxAutoSubscriptionService>();
-            subscriptionService.AddWxAuto(wxAuto);
-        }
-        /// <summary>
-        /// 移除微信自动化服务
-        /// </summary>
-        /// <param name="wxAuto"></param>
-        public static void RemoveWxAuto(IWxAuto wxAuto)
-        {
-            var subscriptionService = _internalProvider.GetRequiredService<WxAutoSubscriptionService>();
-            subscriptionService.RemoveWxAuto(wxAuto);
-        }
-        /// <summary>
-        /// 获取微信自动化服务
-        /// </summary>
-        /// <returns></returns>
-        public static IList<IWxAuto> GetWxAuto()
-        {
-            var subscriptionService = _internalProvider.GetRequiredService<WxAutoSubscriptionService>();
-            return subscriptionService.GetWxAuto();
-        }
-        /// <summary>
-        /// 发送消息
-        /// </summary>
-        /// <param name="message"></param>
-        public static void SendMessage(ChatMessage message)
-        {
-        }
+
 
         /// <summary>
         /// 等待seconds秒

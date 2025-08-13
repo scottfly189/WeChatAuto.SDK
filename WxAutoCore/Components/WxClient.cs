@@ -11,81 +11,90 @@ using WxAutoCommon.Utils;
 namespace WxAutoCore.Components
 {
     /// <summary>
-    /// 微信窗口管理
+    /// 微信客户端
     /// </summary>
     public class WxClient
     {
-        private readonly UIA3Automation _automation;
-        private readonly Window _wxWindow;
-        private readonly Dictionary<string, (Window window, int processId, int notifyIconId, Button notifiIconButton)> _wxWindows = new Dictionary<string, (Window window, int processId, int notifyIconId, Button button)>();
-        private readonly AutomationElement _desktop;
+        private Window _Window;
+        private ToolBar _ToolBar;  // 工具栏
+        private PopWinList _PopWinList;  // 弹出窗口列表
+        private Navigation _Navigation;  // 导航栏
+        private Conversations _Conversations;  // 会话列表
+        private AddressBook _AddressBook;  // 通讯录
+        private WxChat _WxChat;  // 聊天窗口
+        public ToolBar ToolBar => _ToolBar;  // 工具栏
+        public Navigation Navigation => _Navigation;  // 导航栏
+        public Conversations Conversations => _Conversations;  // 会话列表
+        public AddressBook AddressBook => _AddressBook;  // 通讯录
+        public WxChat WxChat => _WxChat;  // 聊天窗口
+        public int ProcessId { get; private set; }
+        public WxNotifyIcon WxNotifyIcon { get; private set; }
 
-        public AutomationElement Desktop => _desktop;
-        public UIA3Automation Automation => _automation;
-
-        public WxClient()
+        /// <summary>
+        /// 微信客户端构造函数
+        /// </summary>
+        /// <param name="window">微信客户端窗口类</param>
+        /// <param name="processId">微信客户端进程ID</param>
+        /// <param name="wxNotifyIcon">微信客户端通知图标类</param>
+        /// <param name="notifyIconProcessId">微信客户端通知图标进程ID</param>
+        public WxClient(Window window, int processId, Button wxNotifyIcon, int notifyIconProcessId)
         {
-            _automation = new UIA3Automation();
-            _desktop = _automation.GetDesktop();
+            _Window = window;
+            ProcessId = processId;
+            WxNotifyIcon = new WxNotifyIcon(wxNotifyIcon, notifyIconProcessId);
+            _InitSolidControls();
         }
 
         /// <summary>
-        /// 初始化微信窗口
+        /// 初始化固定控件
         /// </summary>
-        public void Init()
+        private void _InitSolidControls()
         {
-            _RefreshWxWindows();
+            _ToolBar = new ToolBar(_Window);
+            //_PopWinList = new PopWinList(_Window.Desktop);
         }
 
         /// <summary>
-        /// 重新获取微信窗口
+        /// 点击通知图标
         /// </summary>
-        private void _RefreshWxWindows()
+        public void ClickNotifyIcon()
         {
-            _wxWindows.Clear();
-            var wxInstances = _desktop.FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME)
-                            .And(cf.ByClassName("WeChatMainWndForPC")
-                            .And(cf.ByControlType(ControlType.Window))));
-            var notifyIconRoot = _desktop.FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd")));
-            var wxNotifyList = notifyIconRoot.FindFirstDescendant(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NOTIFY_ICON)
-                .And(cf.ByClassName("ToolbarWindow32").And(cf.ByControlType(ControlType.ToolBar))))
-                .FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME).And(cf.ByControlType(ControlType.Button)));
-            for (int i = 0; i < wxNotifyList.Length; i++)
-            {
-                var wxNotify = wxNotifyList[i];
-                var wxInstance = wxInstances[i];
-                var button = wxInstance.FindFirstByXPath("/Pane[2]/Pane/ToolBar/Button[1]").AsButton();
-                _wxWindows.Add(button.Name, (wxInstance.AsWindow(), wxInstance.Properties.ProcessId.Value, wxNotify.Properties.ProcessId.Value, wxNotify.AsButton()));
-            }
+            WxNotifyIcon.Click();
+        }
+
+        #region 窗口操作
+
+        /// <summary>
+        /// 窗口置顶
+        /// </summary>
+        /// <param name="isTop">是否置顶</param>
+        public void WindowTop(bool isTop = true)
+        {
+            ToolBar.Top(isTop);
+        }
+        /// <summary>
+        /// 窗口最小化
+        /// </summary>
+        public void WindowMin()
+        {
+            ToolBar.Min();
         }
 
         /// <summary>
-        /// 显示微信
-        /// 如果wxNickName为空，则显示第一个微信窗口
-        /// 如果wxNickName不为空，则显示指定微信窗口
+        /// 窗口最大化
         /// </summary>
-        /// <param name="wxNickName">登录的微信昵称</param>
-        public void Show(string wxNickName = "")
+        public void WindowMax()
         {
-            var firstKey = _wxWindows.Keys.ToList().FirstOrDefault();
-            Button button = null;
-            Window wxWindow = null;
-            if (string.IsNullOrEmpty(wxNickName))
-            {
-                button = _wxWindows[firstKey].notifiIconButton;
-                wxWindow = _wxWindows[firstKey].window;
-            }
-            else
-            {
-                button = _wxWindows[wxNickName].notifiIconButton;
-                wxWindow = _wxWindows[wxNickName].window;
-            }
-            if (button != null && wxWindow != null)
-            {
-                button.Click();
-                wxWindow.Focus();
-                wxWindow.SetForeground();
-            }
+            ToolBar.Max();
         }
+
+        /// <summary>
+        /// 窗口还原
+        /// </summary>
+        public void WindowRestore()
+        {
+            ToolBar.Restore();
+        }
+        #endregion
     }
 }
