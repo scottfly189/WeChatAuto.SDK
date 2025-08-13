@@ -19,6 +19,7 @@ namespace WxAutoCore.Components
         private ToolBar _ToolBar;  // 工具栏
         private PopWinList _PopWinList;  // 弹出窗口列表
         private Navigation _Navigation;  // 导航栏
+        private Search _Search;  // 搜索
         private Conversations _Conversations;  // 会话列表
         private AddressBook _AddressBook;  // 通讯录
         private WxChat _WxChat;  // 聊天窗口
@@ -29,6 +30,7 @@ namespace WxAutoCore.Components
         public WxChat WxChat => _WxChat;  // 聊天窗口
         public int ProcessId { get; private set; }
         public WxNotifyIcon WxNotifyIcon { get; private set; }
+        
 
         /// <summary>
         /// 微信客户端构造函数
@@ -50,8 +52,10 @@ namespace WxAutoCore.Components
         /// </summary>
         private void _InitSolidControls()
         {
-            _ToolBar = new ToolBar(_Window);
-            //_PopWinList = new PopWinList(_Window.Desktop);
+            _ToolBar = new ToolBar(_Window);  // 工具栏
+            _Navigation = new Navigation(_Window);  // 导航栏
+            _Search = new Search(_Window);  // 搜索
+            _PopWinList = new PopWinList(_Window);
         }
 
         /// <summary>

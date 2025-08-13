@@ -113,6 +113,7 @@ namespace WxAutoCommon.Utils
         /// </summary>
         public static readonly Dictionary<string, TextIdentifier> WECHAT_NAVIGATION_BOX = new Dictionary<string, TextIdentifier>
         {
+            ["导航"] = new TextIdentifier { Cn = "导航", CnT = "", En = "" },
             ["聊天"] = new TextIdentifier { Cn = "聊天", CnT = "", En = "" },
             ["通讯录"] = new TextIdentifier { Cn = "通讯录", CnT = "", En = "" },
             ["收藏"] = new TextIdentifier { Cn = "收藏", CnT = "", En = "" },

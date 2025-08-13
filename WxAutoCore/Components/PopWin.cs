@@ -1,3 +1,5 @@
+using FlaUI.Core.AutomationElements;
+
 namespace WxAutoCore.Components
 {
     /// <summary>
@@ -5,9 +7,12 @@ namespace WxAutoCore.Components
     /// </summary>
     public class PopWin
     {
-        public PopWin()
+        private Window _Window;
+        private string _Name;
+        public PopWin(Window window, string name)
         {
-
+            _Window = window;
+            _Name = name;
         }
     }
 }

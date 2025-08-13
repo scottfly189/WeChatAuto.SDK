@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Windows.Forms;
+using MessageBox = System.Windows.Forms.MessageBox;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.UIA3;
