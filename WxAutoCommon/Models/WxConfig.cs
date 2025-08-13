@@ -6,17 +6,8 @@ namespace WxAutoCommon.Models
     /// <summary>
     /// 微信自动化参数配置类
     /// </summary>
-    public static class WxParam
+    public static class WxConfig
     {
-        /// <summary>
-        /// 语言设置
-        /// </summary>
-        public static class Language
-        {
-            public const string Chinese = "Cn";
-            public const string ChineseTraditional = "CnT";
-            public const string English = "En";
-        }
 
         /// <summary>
         /// 当前语言设置
@@ -31,7 +22,7 @@ namespace WxAutoCommon.Models
         /// <summary>
         /// 下载文件/图片默认保存路径
         /// </summary>
-        public static string DefaultSavePath { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "wxauto文件下载");
+        public static string DefaultSavePath { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "wxauto_download");
 
         /// <summary>
         /// 是否启用消息哈希值用于辅助判断消息，开启后会稍微影响性能
@@ -57,5 +48,15 @@ namespace WxAutoCommon.Models
         /// 搜索聊天对象超时时间
         /// </summary>
         public static int SearchChatTimeout { get; set; } = 5;
+    }
+
+    /// <summary>
+    /// 语言设置
+    /// </summary>
+    public static class Language
+    {
+        public const string Chinese = "Cn";
+        public const string ChineseTraditional = "CnT";
+        public const string English = "En";
     }
 }
