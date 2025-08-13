@@ -1,4 +1,4 @@
-namespace WxAutoCore.Pages
+namespace WxAutoCore.Components
 {
     public class LoginPage
     {

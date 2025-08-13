@@ -1,12 +1,31 @@
 using System.Collections.Generic;
+using WxAutoCommon.Models;
 
-namespace WxAuto.Utils
+namespace WxAutoCommon.Utils
 {
     /// <summary>
     /// 微信界面文本标识符集合
     /// </summary>
     public static class WeChatTextIdentifiers
     {
+        public static string GetText(Dictionary<string, TextIdentifier> textIdentifiers, string key)
+        {
+            if (textIdentifiers.TryGetValue(key, out var textIdentifier))
+            {
+                switch (WxParam.CurrentLanguage)
+                {
+                    case WxParam.Language.Chinese:
+                        return textIdentifier.Cn;
+                    case WxParam.Language.ChineseTraditional:
+                        return textIdentifier.CnT;
+                    case WxParam.Language.English:
+                        return textIdentifier.En;
+                    default:
+                        return textIdentifier.Cn;
+                }
+            }
+            return "";
+        }
         /// <summary>
         /// 微信主界面文本标识符
         /// </summary>
@@ -16,6 +35,13 @@ namespace WxAuto.Utils
             ["添加朋友"] = new TextIdentifier { Cn = "添加朋友", CnT = "", En = "" },
             ["搜索结果"] = new TextIdentifier { Cn = "搜索：", CnT = "", En = "" },
             ["找不到相关账号或内容"] = new TextIdentifier { Cn = "找不到相关账号或内容", CnT = "", En = "" }
+        };
+
+        public static readonly Dictionary<string, TextIdentifier> WECHAT_SYSTEM = new Dictionary<string, TextIdentifier>
+        {
+            ["微信"] = new TextIdentifier { Cn = "微信", CnT = "", En = "" },
+            ["任务栏"] = new TextIdentifier { Cn = "任务栏", CnT = "", En = "" },
+            ["用户提示通知区域"] = new TextIdentifier { Cn = "用户提示通知区域", CnT = "", En = "" }
         };
 
         /// <summary>
@@ -362,4 +388,4 @@ namespace WxAuto.Utils
         /// </summary>
         public string En { get; set; } = "";
     }
-} 
+}

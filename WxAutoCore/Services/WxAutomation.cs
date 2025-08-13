@@ -5,6 +5,7 @@ using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using WxAutoCommon.Models;
 using WxAutoCore.Interface;
+using WxAutoCore.Pages;
 using WxAutoCore.Services.WxAutomationSubscription;
 
 namespace WxAutoCore.Services
@@ -23,21 +24,26 @@ namespace WxAutoCore.Services
         {
             //这里增加服务.
             services.AddSingleton<WxAutoSubscriptionService>();
+            services.AddSingleton<WxUIHelper>();
             return services;
         }
         /// <summary>
         /// 如果用户端没有依赖注入框架，则初始化
         /// 注意：此方法与AddWxAutomation方法不能同时使用
         /// </summary>
-        /// <param name="existingProvider"></param>
         /// <returns></returns>
-        public static IServiceProvider Init(IServiceProvider existingProvider = null)
+        public static IServiceProvider GetServiceProvider()
         {
-            if (existingProvider != null)
-                return existingProvider;
             if (_internalProvider == null)
                 _internalProvider = new ServiceCollection().AddWxAutomation().BuildServiceProvider();
             return _internalProvider;
+        }
+        /// <summary>
+        /// 如果客户端使用了依赖注入框架，则需要调用此方法初始化
+        /// </summary>
+        public static void Init()
+        {
+            _internalProvider.GetRequiredService<WxUIHelper>().Init();
         }
         /// <summary>
         /// 添加微信自动化服务
