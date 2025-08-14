@@ -5,6 +5,7 @@ using FlaUI.Core.Definitions;
 using FlaUI.UIA3;
 using WxAutoCommon.Utils;
 using System;
+using System.Windows.Forms;
 
 namespace WxAutoCore.Components
 {
@@ -47,7 +48,7 @@ namespace WxAutoCore.Components
             {
                 return _wxClientList[name];
             }
-            MessageBox.Show($"微信客户端[{name}]不存在，请检查微信是否运行");
+            MessageBox.Show($"微信客户端[{name}]不存在，请检查微信是否打开", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return null;
         }
         /// <summary>

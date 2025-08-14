@@ -35,7 +35,7 @@ public class WxFramworkTests
     public void InitTest()
     {
         var framework = _serviceProvider.GetRequiredService<WxFramwork>();
-        Assert.True(true);
+        Assert.NotNull(framework);
     }
 
     [Fact(DisplayName = "测试WxClient的NickName是否正确")]
