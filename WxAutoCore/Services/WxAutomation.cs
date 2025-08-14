@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using WxAutoCommon.Models;
 using WxAutoCore.Components;
@@ -52,9 +53,10 @@ namespace WxAutoCore.Services
         /// 等待seconds秒
         /// </summary>
         /// <param name="seconds"></param>
-        public static void Wait(int seconds = 2)
+        public static async Task Wait(int seconds = 2)
         {
-            Thread.Sleep(seconds * 1000);
+            await Task.Delay(seconds * 1000);
         }
+
     }
 }

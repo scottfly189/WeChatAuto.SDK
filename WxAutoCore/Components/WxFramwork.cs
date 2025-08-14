@@ -29,6 +29,13 @@ namespace WxAutoCore.Components
             _RefreshWxWindows();
         }
         /// <summary>
+        /// 清除所有事件
+        /// </summary>
+        public void ClearAllEvent() 
+        {
+            _automation.UnregisterAllEvents();
+        }
+        /// <summary>
         /// 获取微信客户端
         /// </summary>
         /// <param name="name">微信客户端名称</param>

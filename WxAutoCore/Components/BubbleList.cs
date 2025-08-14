@@ -1,10 +1,7 @@
 namespace WxAutoCore.Components
 {
-    public class BubbleList
+    public abstract class BubbleList
     {
-        public BubbleList()
-        {
-
-        }
+        
     }
 }

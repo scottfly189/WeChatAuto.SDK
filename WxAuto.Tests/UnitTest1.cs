@@ -1,4 +1,4 @@
-﻿namespace WxAuto_Test;
+﻿namespace WxAuto.Tests;
 
 public class UnitTest1
 {
