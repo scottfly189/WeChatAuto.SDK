@@ -4135,56 +4135,56 @@
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
           "projectReferences": {
-            "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
-              "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+            "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+              "projectPath": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
             }
           }
         },
         "net7.0-windows7.0": {
           "targetAlias": "net7.0-windows",
           "projectReferences": {
-            "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
-              "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+            "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+              "projectPath": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
             }
           }
         },
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "projectReferences": {
-            "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
-              "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+            "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+              "projectPath": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
             }
           }
         },
         "net9.0-windows7.0": {
           "targetAlias": "net9.0-windows",
           "projectReferences": {
-            "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
-              "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+            "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+              "projectPath": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
             }
           }
         },
         "net10.0-windows7.0": {
           "targetAlias": "net10.0-windows",
           "projectReferences": {
-            "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
-              "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+            "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+              "projectPath": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
             }
           }
         },
         "net48": {
           "targetAlias": "net48",
           "projectReferences": {
-            "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
-              "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+            "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+              "projectPath": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
             }
           }
         },
         "net481": {
           "targetAlias": "net481",
           "projectReferences": {
-            "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
-              "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+            "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+              "projectPath": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
             }
           }
         }

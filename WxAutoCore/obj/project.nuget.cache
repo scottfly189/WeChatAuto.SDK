@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "CG98E+B0AAw=",
+  "dgSpecHash": "aOljCZvE7WM=",
   "success": true,
-  "projectFilePath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCore\\WxAutoCore.csproj",
+  "projectFilePath": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCore\\WxAutoCore.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Administrator\\.nuget\\packages\\flaui.core\\5.0.0\\flaui.core.5.0.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\flaui.uia3\\5.0.0\\flaui.uia3.5.0.0.nupkg.sha512",
