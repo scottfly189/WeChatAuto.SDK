@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WxAutoCore")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fc9458a1d9de3b74d2472142c43526a82a25d8cd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+72eafd2c2df2e817c9341f77775277dc831acb87")]
 [assembly: System.Reflection.AssemblyProductAttribute("WxAutoCore")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WxAutoCore")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -22,12 +22,12 @@ namespace WxAutoCore.Components
         private Search _Search;  // 搜索
         private Conversations _Conversations;  // 会话列表
         private AddressBook _AddressBook;  // 通讯录
-        private WxChat _WxChat;  // 聊天窗口
+        private ChatContent _WxChat;  // 聊天窗口
         public ToolBar ToolBar => _ToolBar;  // 工具栏
         public Navigation Navigation => _Navigation;  // 导航栏
         public Conversations Conversations => _Conversations;  // 会话列表
         public AddressBook AddressBook => _AddressBook;  // 通讯录
-        public WxChat WxChat => _WxChat;  // 聊天窗口
+        public ChatContent WxChat => _WxChat;  // 聊天窗口
         public int ProcessId { get; private set; }
         public WxNotifyIcon WxNotifyIcon { get; private set; }
         
