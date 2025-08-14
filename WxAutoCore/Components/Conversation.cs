@@ -1,6 +1,6 @@
 namespace WxAutoCore.Components
 {
-    public class AddressBook
+    public class Conversation
     {
     }
 }

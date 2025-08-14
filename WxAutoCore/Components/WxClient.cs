@@ -20,13 +20,13 @@ namespace WxAutoCore.Components
         private PopWinList _PopWinList;  // 弹出窗口列表
         private Navigation _Navigation;  // 导航栏
         private Search _Search;  // 搜索
-        private Conversations _Conversations;  // 会话列表
-        private AddressBook _AddressBook;  // 通讯录
+        private ConversationList _Conversations;  // 会话列表
+        private AddressBookList _AddressBook;  // 通讯录
         private ChatContent _WxChat;  // 聊天窗口
         public ToolBar ToolBar => _ToolBar;  // 工具栏
         public Navigation Navigation => _Navigation;  // 导航栏
-        public Conversations Conversations => _Conversations;  // 会话列表
-        public AddressBook AddressBook => _AddressBook;  // 通讯录
+        public ConversationList Conversations => _Conversations;  // 会话列表
+        public AddressBookList AddressBook => _AddressBook;  // 通讯录
         public ChatContent WxChat => _WxChat;  // 聊天窗口
         public int ProcessId { get; private set; }
         public WxNotifyIcon WxNotifyIcon { get; private set; }
