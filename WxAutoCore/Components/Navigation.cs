@@ -8,28 +8,28 @@ namespace WxAutoCore.Components
 {
     public class Navigation
     {
-        private List<Button> _NavigationButtons;
+        private List<Button> _NavigationButtons = new List<Button>();
         public List<Button> NavigationButtons => _NavigationButtons;
         public Navigation(Window window)
         {
-            var navigationRoot = window.FindFirstByXPath("/Pane[2]/Pane/ToolBar");
+            var navigationRoot = window.FindFirstByXPath("/Pane/Pane/ToolBar");
             var buttons = navigationRoot.FindAllChildren(cf => cf.ByControlType(ControlType.Button));
             foreach (var button in buttons)
             {
                 _NavigationButtons.Add(button.AsButton());
             }
-            var rootPane = window.FindFirstByXPath("/Pane[2]/Pane/ToolBar/Pane[1]/Pane");
+            var rootPane = window.FindFirstByXPath("/Pane/Pane/ToolBar/Pane[1]");
             buttons = rootPane.FindAllDescendants(cf => cf.ByControlType(ControlType.Button));
             foreach (var button in buttons)
             {
                 //视频号、看一看、搜一搜
                 _NavigationButtons.Add(button.AsButton());
             }
-            var buttonItem = window.FindFirstByXPath("/Pane[2]/Pane/ToolBar/Pane[2]").FindFirstDescendant(cf => cf.ByControlType(ControlType.Button)).AsButton();
+            var buttonItem = window.FindFirstByXPath("/Pane/Pane/ToolBar/Pane[2]").FindFirstDescendant(cf => cf.ByControlType(ControlType.Button)).AsButton();
             _NavigationButtons.Add(buttonItem);
-            buttonItem = window.FindFirstByXPath("/Pane[2]/Pane/ToolBar/Pane[3]").FindFirstDescendant(cf => cf.ByControlType(ControlType.Button)).AsButton();
+            buttonItem = window.FindFirstByXPath("/Pane/Pane/ToolBar/Pane[3]").FindFirstDescendant(cf => cf.ByControlType(ControlType.Button)).AsButton();
             _NavigationButtons.Add(buttonItem);
-            buttonItem = window.FindFirstByXPath("/Pane[2]/Pane/ToolBar/Pane[4]").FindFirstDescendant(cf => cf.ByControlType(ControlType.Button)).AsButton();
+            buttonItem = window.FindFirstByXPath("/Pane/Pane/ToolBar/Pane[4]").FindFirstDescendant(cf => cf.ByControlType(ControlType.Button)).AsButton();
             _NavigationButtons.Add(buttonItem);
         }
         /// <summary>

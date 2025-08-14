@@ -30,6 +30,8 @@ namespace WxAutoCore.Components
         public ChatContent WxChat => _WxChat;  // 聊天窗口
         public int ProcessId { get; private set; }
         public WxNotifyIcon WxNotifyIcon { get; private set; }
+        public string NickName => _Navigation.NavigationButtons[0].Name;
+
         
 
         /// <summary>

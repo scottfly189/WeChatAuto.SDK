@@ -47,7 +47,7 @@ namespace WxAutoCore.Components
             {
                 return _wxClientList[name];
             }
-            MessageBox.Show($"微信客户端{name}不存在，请检查微信是否运行");
+            MessageBox.Show($"微信客户端[{name}]不存在，请检查微信是否运行");
             return null;
         }
         /// <summary>
@@ -65,10 +65,10 @@ namespace WxAutoCore.Components
                 .FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME).And(cf.ByControlType(ControlType.Button)));
             for (int i = 0; i < wxNotifyList.Length; i++)
             {
-                var wxNotify = wxNotifyList[i];
-                var wxInstance = wxInstances[i];
-                var button = wxInstance.FindFirstByXPath("/Pane[2]/Pane/ToolBar/Button[1]").AsButton();
-                _wxClientList.Add(button.Name, new WxClient(wxInstance.AsWindow(), wxInstance.Properties.ProcessId, button, button.Properties.ProcessId));
+                var wxNotify = wxNotifyList[i].AsButton();
+                var wxInstance = wxInstances[i];  //这里可能有错误，因为微信notifyicon与实例并不是按索引一一对应
+                var button = wxInstance.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]").AsButton();
+                _wxClientList.Add(button.Name, new WxClient(wxInstance.AsWindow(), wxInstance.Properties.ProcessId.Value, wxNotify, wxNotify.Properties.ProcessId.Value));
             }
         }
 

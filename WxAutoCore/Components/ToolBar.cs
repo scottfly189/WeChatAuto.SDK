@@ -16,8 +16,8 @@ namespace WxAutoCore.Components
         public ToolBar(Window window)
         {
             _Window = window;
-            _ToolBar = _Window.FindFirstByXPath("/Pane[2]/Pane/Pane[2]/ToolBar");
-            var childen = _TopButton.FindAllChildren();
+            _ToolBar = _Window.FindFirstByXPath("/Pane/Pane/Pane[2]/ToolBar");
+            var childen = _ToolBar.FindAllChildren();
             _TopButton = childen[0].AsButton();
             _MinButton = childen[1].AsButton();
             _MaxButton = childen[2].AsButton();
