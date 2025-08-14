@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCore\\WxAutoCore.csproj": {}
+    "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCore\\WxAutoCore.csproj": {}
   },
   "projects": {
-    "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+    "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj",
+        "projectUniqueName": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj",
         "projectName": "WxAutoCommon",
-        "projectPath": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj",
+        "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\obj\\",
+        "outputPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "configFilePaths": [
@@ -392,20 +392,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[7.0.20, 7.0.20]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[7.0.20, 7.0.20]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[7.0.20, 7.0.20]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -1647,14 +1633,14 @@
         }
       }
     },
-    "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCore\\WxAutoCore.csproj": {
+    "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCore\\WxAutoCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCore\\WxAutoCore.csproj",
+        "projectUniqueName": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCore\\WxAutoCore.csproj",
         "projectName": "WxAutoCore",
-        "projectPath": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCore\\WxAutoCore.csproj",
+        "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCore\\WxAutoCore.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCore\\obj\\",
+        "outputPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCore\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "configFilePaths": [
@@ -1676,56 +1662,56 @@
           "net6.0-windows7.0": {
             "targetAlias": "net6.0-windows",
             "projectReferences": {
-              "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
-                "projectPath": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+              "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+                "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
               }
             }
           },
           "net7.0-windows7.0": {
             "targetAlias": "net7.0-windows",
             "projectReferences": {
-              "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
-                "projectPath": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+              "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+                "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
               }
             }
           },
           "net8.0-windows7.0": {
             "targetAlias": "net8.0-windows",
             "projectReferences": {
-              "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
-                "projectPath": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+              "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+                "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
               }
             }
           },
           "net9.0-windows7.0": {
             "targetAlias": "net9.0-windows",
             "projectReferences": {
-              "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
-                "projectPath": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+              "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+                "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
               }
             }
           },
           "net10.0-windows7.0": {
             "targetAlias": "net10.0-windows",
             "projectReferences": {
-              "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
-                "projectPath": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+              "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+                "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
               }
             }
           },
           "net48": {
             "targetAlias": "net48",
             "projectReferences": {
-              "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
-                "projectPath": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+              "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+                "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
               }
             }
           },
           "net481": {
             "targetAlias": "net481",
             "projectReferences": {
-              "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
-                "projectPath": "d:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
+              "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj": {
+                "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCommon\\WxAutoCommon.csproj"
               }
             }
           }
@@ -2115,20 +2101,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[7.0.20, 7.0.20]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[7.0.20, 7.0.20]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[7.0.20, 7.0.20]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
