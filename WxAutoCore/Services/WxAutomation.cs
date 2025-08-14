@@ -24,9 +24,7 @@ namespace WxAutoCore.Services
         public static IServiceCollection AddWxAutomation(this IServiceCollection services)
         {
             //这里增加服务.
-            services.AddSingleton<WxAutoSubscriptionService>();
             services.AddSingleton<WxFramwork>();
-            services.AddSingleton<WxClient>();
             return services;
         }
         /// <summary>
@@ -40,14 +38,6 @@ namespace WxAutoCore.Services
                 _internalProvider = new ServiceCollection().AddWxAutomation().BuildServiceProvider();
             return _internalProvider;
         }
-        /// <summary>
-        /// 如果客户端使用了依赖注入框架，则需要调用此方法初始化
-        /// </summary>
-        public static void Init()
-        {
-            _internalProvider.GetRequiredService<WxFramwork>().Init();
-        }
-
 
         /// <summary>
         /// 等待seconds秒

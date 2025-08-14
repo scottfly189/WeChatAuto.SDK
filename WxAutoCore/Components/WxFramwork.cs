@@ -4,10 +4,11 @@ using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.UIA3;
 using WxAutoCommon.Utils;
+using System;
 
 namespace WxAutoCore.Components
 {
-    public class WxFramwork
+    public class WxFramwork: IDisposable
     {
         private readonly UIA3Automation _automation;
         private readonly Dictionary<string, WxClient> _wxClientList = new Dictionary<string, WxClient>();
@@ -68,6 +69,15 @@ namespace WxAutoCore.Components
                 var wxInstance = wxInstances[i];
                 var button = wxInstance.FindFirstByXPath("/Pane[2]/Pane/ToolBar/Button[1]").AsButton();
                 _wxClientList.Add(button.Name, new WxClient(wxInstance.AsWindow(), wxInstance.Properties.ProcessId, button, button.Properties.ProcessId));
+            }
+        }
+
+        public void Dispose()
+        {
+            if (_automation != null)
+            {
+                ClearAllEvent();
+                _automation.Dispose();
             }
         }
     }
