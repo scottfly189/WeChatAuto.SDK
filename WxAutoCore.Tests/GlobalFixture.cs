@@ -13,8 +13,8 @@ public class GlobalFixture : IDisposable
         var services = new ServiceCollection();
         services.AddWxAutomation();
         _serviceProvider = services.BuildServiceProvider();
+        WxAutomation.Init(_serviceProvider);
         _framework = _serviceProvider.GetRequiredService<WxFramwork>();
-        _framework.Init();
     }
     public void Dispose()
     {
