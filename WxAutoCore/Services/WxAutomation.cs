@@ -39,10 +39,6 @@ namespace WxAutoCore.Services
             return _internalProvider;
         }
 
-        public static void Init(IServiceProvider serviceProvider)
-        {
-            serviceProvider.GetRequiredService<WxFramwork>().Init();
-        }
 
         /// <summary>
         /// 等待seconds秒

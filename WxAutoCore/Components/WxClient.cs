@@ -32,7 +32,7 @@ namespace WxAutoCore.Components
         public WxNotifyIcon WxNotifyIcon { get; private set; }
         public string NickName => _Navigation.NavigationButtons[0].Name;
 
-        
+
 
         /// <summary>
         /// 微信客户端构造函数
@@ -46,17 +46,25 @@ namespace WxAutoCore.Components
             _Window = window;
             ProcessId = processId;
             WxNotifyIcon = new WxNotifyIcon(wxNotifyIcon, notifyIconProcessId);
-            _InitSolidControls();
+            _InitFramework();
+            _VariableControlsInit();
         }
 
         /// <summary>
         /// 初始化固定控件
         /// </summary>
-        private void _InitSolidControls()
+        private void _InitFramework()
         {
             _ToolBar = new ToolBar(_Window);  // 工具栏
             _Navigation = new Navigation(_Window);  // 导航栏
             _Search = new Search(_Window);  // 搜索
+        }
+
+        /// <summary>
+        /// 初始化变量控件
+        /// </summary>
+        private void _VariableControlsInit()
+        {
             _PopWinList = new PopWinList(_Window);
         }
 

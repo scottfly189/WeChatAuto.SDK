@@ -6,17 +6,39 @@ using FlaUI.UIA3;
 using WxAutoCommon.Utils;
 using System;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace WxAutoCore.Components
 {
-    public class WxFramwork: IDisposable
+    public class WxFramwork : IDisposable
     {
+        private bool _IsInit = false;
         private readonly UIA3Automation _automation;
         private readonly Dictionary<string, WxClient> _wxClientList = new Dictionary<string, WxClient>();
         private readonly AutomationElement _desktop;
-
         public AutomationElement Desktop => _desktop;
         public UIA3Automation Automation => _automation;
+        /// <summary>
+        /// 微信客户端列表
+        /// </summary>
+        public Dictionary<string, WxClient> WxClientList
+        {
+            get
+            {
+                Init();
+                return _wxClientList;
+            }
+        }
+        /// <summary>
+        /// 获取客户端名称列表
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetWxClientNames()
+        {
+            Init();
+            return _wxClientList.Keys.ToList();
+        }
+
         public WxFramwork()
         {
             _automation = new UIA3Automation();
@@ -26,14 +48,18 @@ namespace WxAutoCore.Components
         /// <summary>
         /// 初始化微信窗口
         /// </summary>
-        public void Init()
+        private void Init()
         {
-            _RefreshWxWindows();
+            if (!_IsInit)
+            {
+                RefreshWxWindows();
+                _IsInit = true;
+            }
         }
         /// <summary>
         /// 清除所有事件
         /// </summary>
-        public void ClearAllEvent() 
+        public void ClearAllEvent()
         {
             _automation.UnregisterAllEvents();
         }
@@ -44,6 +70,7 @@ namespace WxAutoCore.Components
         /// <returns></returns>
         public WxClient GetWxClient(string name)
         {
+            Init();
             if (_wxClientList.ContainsKey(name))
             {
                 return _wxClientList[name];
@@ -54,16 +81,17 @@ namespace WxAutoCore.Components
         /// <summary>
         /// 重新获取微信窗口
         /// </summary>
-        private void _RefreshWxWindows()
+        public void RefreshWxWindows()
         {
             _wxClientList.Clear();
-            var wxInstances = _desktop.FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME)
-                            .And(cf.ByClassName("WeChatMainWndForPC")
-                            .And(cf.ByControlType(ControlType.Window))));
             var notifyIconRoot = _desktop.FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd")));
             var wxNotifyList = notifyIconRoot.FindFirstDescendant(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NOTIFY_ICON)
                 .And(cf.ByClassName("ToolbarWindow32").And(cf.ByControlType(ControlType.ToolBar))))
                 .FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME).And(cf.ByControlType(ControlType.Button)));
+
+            var wxInstances = _desktop.FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME)
+                            .And(cf.ByClassName("WeChatMainWndForPC")
+                            .And(cf.ByControlType(ControlType.Window))));
             for (int i = 0; i < wxNotifyList.Length; i++)
             {
                 var wxNotify = wxNotifyList[i].AsButton();

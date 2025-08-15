@@ -1301,7 +1301,10 @@
         },
         "runtime": {
           "bin/placeholder/WxAutoCommon.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WindowsForms"
+        ]
       }
     },
     "net6.0-windows7.0": {
@@ -1720,7 +1723,10 @@
         },
         "runtime": {
           "bin/placeholder/WxAutoCommon.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WindowsForms"
+        ]
       }
     },
     "net7.0-windows7.0": {
@@ -2166,7 +2172,10 @@
         },
         "runtime": {
           "bin/placeholder/WxAutoCommon.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WindowsForms"
+        ]
       }
     },
     "net8.0-windows7.0": {
@@ -2614,7 +2623,10 @@
         },
         "runtime": {
           "bin/placeholder/WxAutoCommon.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WindowsForms"
+        ]
       }
     },
     "net9.0-windows7.0": {
@@ -3045,7 +3057,10 @@
         },
         "runtime": {
           "bin/placeholder/WxAutoCommon.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WindowsForms"
+        ]
       }
     }
   },

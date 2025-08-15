@@ -8,6 +8,7 @@ namespace WxAutoCore.Tests.Components;
 [Collection("GlobalCollection")]
 public class WxFramworkTests
 {
+    private readonly string sutClientName = "Alex Zhao"; // 如果测试自己的微信客户端，请修改此处为自己的微信昵称
     private readonly IServiceProvider _serviceProvider;
     private readonly WxFramwork _framework;
     private readonly ITestOutputHelper _output;
@@ -41,7 +42,7 @@ public class WxFramworkTests
     [Fact(DisplayName = "测试WxClient的NickName是否正确")]
     public void Test_WxClient_NickName()
     {
-        var wxClientName = "Alex Zhao";
+        var wxClientName = sutClientName;
         var nickName = _framework.GetWxClient(wxClientName)?.NickName;
         Assert.Equal(wxClientName, nickName);
         wxClientName = "一个错误的名字";
