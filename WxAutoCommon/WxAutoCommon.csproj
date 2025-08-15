@@ -11,11 +11,6 @@
       net10.0-windows;
     </TargetFrameworks>
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
-    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net48' or '$(TargetFramework)' == 'net481'">
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
 
 </Project>
