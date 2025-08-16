@@ -11,6 +11,9 @@ using WxAutoCore.Utils;
 
 namespace WxAutoCore.Components
 {
+    /// <summary>
+    /// 微信自动化框架,封装的微信自动化框架，支持多微信实例
+    /// </summary>
     public class WxFramwork : IDisposable
     {
         private bool _IsInit = false;
@@ -106,6 +109,7 @@ namespace WxAutoCore.Components
                 var NickNameButton = wxInstances.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]").AsButton();
                 _wxClientList.Add(NickNameButton.Name, new WxClient(wxNotifyIcon, wxWindow));
             }
+            this._IsInit = true;
         }
 
         public void Dispose()

@@ -11,7 +11,7 @@ using WxAutoCommon.Utils;
 namespace WxAutoCore.Components
 {
     /// <summary>
-    /// 微信客户端
+    /// 微信客户端,一个微信客户端包含一个通知图标和一个窗口
     /// </summary>
     public class WxClient
     {

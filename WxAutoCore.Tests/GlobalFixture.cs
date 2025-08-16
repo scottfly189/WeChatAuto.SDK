@@ -18,6 +18,9 @@ public class GlobalFixture : IDisposable
     public void Dispose()
     {
         var framework = _serviceProvider.GetRequiredService<WxFramwork>();
-        framework.Dispose();
+        if (framework != null)
+        {
+            framework.Dispose();
+        }
     }
 }

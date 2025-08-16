@@ -6,12 +6,13 @@ using FlaUI.Core.WindowsAPI;
 using System.Collections.Generic;
 using System.Linq;
 using WxAutoCommon.Utils;
+using WxAutoCommon.Enums;
 
 
 namespace WxAutoCore.Components
 {
     /// <summary>
-    /// 微信客户端
+    /// 微信客户端窗口,封装的微信窗口，包含工具栏、导航栏、搜索、会话列表、通讯录、聊天窗口等
     /// </summary>
     public class WxWindow
     {
@@ -31,6 +32,10 @@ namespace WxAutoCore.Components
         public int ProcessId { get; private set; }
         public string NickName => _Navigation.NavigationButtons[0].Name;
 
+        /// <summary>
+        /// 微信客户端窗口构造函数
+        /// </summary>
+        /// <param name="window"></param>
         public WxWindow(Window window)
         {
             _Window = window;
@@ -55,6 +60,7 @@ namespace WxAutoCore.Components
             _PopWinList = new PopWinList(_Window);
         }
 
+        #region 窗口操作
         public void WindowTop(bool isTop = true)
         {
             ToolBar.Top(isTop);
@@ -77,5 +83,17 @@ namespace WxAutoCore.Components
         {
             ToolBar.Restore();
         }
+        #endregion
+
+        #region 导航栏操作
+        /// <summary>
+        /// 切换导航栏
+        /// </summary>
+        /// <param name="navigationType">导航栏类型</param>
+        public void NavigationSwitch(NavigationType navigationType)
+        {
+            Navigation.SwitchNavigation(navigationType);
+        }
+        #endregion
     }
 }
