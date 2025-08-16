@@ -46,7 +46,6 @@ namespace WxAutoCore.Components
         /// <param name="navigationType">导航栏类型</param>
         public void SwitchNavigation(NavigationType navigationType)
         {
-            _RefreshNavigation();
             var name = navigationType.ToString();
             var button = _NavigationButtons.FirstOrDefault(b => b.Name.Equals(name));
             if (button != null)
