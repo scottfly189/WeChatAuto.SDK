@@ -86,21 +86,21 @@ namespace WxAutoCore.Components
         public void RefreshWxWindows()
         {
             _wxClientList.Clear();
-            var notifyIconRoot = _desktop.FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd")));
-            var wxNotifyList = notifyIconRoot.FindFirstDescendant(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NOTIFY_ICON)
+            var taskBarRoot = _desktop.FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd")));
+            var wxNotifyList = taskBarRoot.FindFirstDescendant(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NOTIFY_ICON)
                 .And(cf.ByClassName("ToolbarWindow32").And(cf.ByControlType(ControlType.ToolBar))))
                 .FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME).And(cf.ByControlType(ControlType.Button)));
 
             var wxInstances = _desktop.FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME)
                             .And(cf.ByClassName("WeChatMainWndForPC")
                             .And(cf.ByControlType(ControlType.Window))));
-            for (int i = 0; i < wxNotifyList.Length; i++)
-            {
-                var wxNotify = wxNotifyList[i].AsButton();
-                var wxInstance = wxInstances[i];  //这里可能有错误，因为微信notifyicon与实例并不是按索引一一对应
-                var button = wxInstance.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]").AsButton();
-                _wxClientList.Add(button.Name, new WxClient(wxInstance.AsWindow(), wxInstance.Properties.ProcessId.Value, wxNotify, wxNotify.Properties.ProcessId.Value));
-            }
+            // for (int i = 0; i < wxNotifyList.Length; i++)
+            // {
+            //     var wxNotify = wxNotifyList[i].AsButton();
+            //     var wxInstance = wxInstances[i];  //这里可能有错误，因为微信notifyicon与实例并不是按索引一一对应
+            //     var button = wxInstance.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]").AsButton();
+            //     _wxClientList.Add(button.Name, new WxClient(wxInstance.AsWindow(), wxInstance.Properties.ProcessId.Value, wxNotify, wxNotify.Properties.ProcessId.Value));
+            // }
         }
 
         public void Dispose()
