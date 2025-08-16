@@ -8,15 +8,6 @@ namespace WxAutoCommon.Models
     /// </summary>
     public static class WxConfig
     {
-        /// <summary>
-        /// 语言设置
-        /// </summary>
-        public static class Language
-        {
-            public const string Chinese = "Cn";
-            public const string ChineseTraditional = "CnT";
-            public const string English = "En";
-        }
 
         /// <summary>
         /// 当前语言设置
@@ -57,6 +48,16 @@ namespace WxAutoCommon.Models
         /// 搜索聊天对象超时时间
         /// </summary>
         public static int SearchChatTimeout { get; set; } = 5;
+
+        /// <summary>
+        /// 语言设置
+        /// </summary>
+        public static class Language
+        {
+            public const string Chinese = "Cn";
+            public const string ChineseTraditional = "CnT";
+            public const string English = "En";
+        }
     }
 
 }

@@ -38,7 +38,9 @@ namespace WxAutoCore.Components
             Init();
             return _wxClientList.Keys.ToList();
         }
-
+        /// <summary>
+        /// 微信自动化框架构造函数
+        /// </summary>
         public WxFramwork()
         {
             _automation = new UIA3Automation();
