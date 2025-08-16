@@ -1,4 +1,5 @@
 using FlaUI.Core.AutomationElements;
+using FlaUI.Core.Input;
 using WxAutoCommon.Utils;
 
 namespace WxAutoCore.Components
@@ -43,6 +44,7 @@ namespace WxAutoCore.Components
             {
                 if (_TopButton.Name.Equals(WeChatConstant.WECHAT_SYSTEM_TOP_BUTTON))
                 {
+                    Wait.UntilResponsive(_TopButton);
                     _TopButton.Click();
                 }
             }
@@ -50,6 +52,7 @@ namespace WxAutoCore.Components
             {
                 if (_TopButton.Name.Equals(WeChatConstant.WECHAT_SYSTEM_UNTOP_BUTTON))
                 {
+                    Wait.UntilResponsive(_TopButton);
                     _TopButton.Click();
                 }
             }
@@ -61,6 +64,7 @@ namespace WxAutoCore.Components
         public void Min()
         {
             RefreshToolBar();
+            Wait.UntilResponsive(_MinButton);
             _MinButton.Click();
         }
 
@@ -69,6 +73,7 @@ namespace WxAutoCore.Components
         /// </summary>
         public void MinRestore()
         {
+            Wait.UntilResponsive(_MinButton);
             _NotifyIcon.Click();
         }
 
@@ -80,6 +85,7 @@ namespace WxAutoCore.Components
             RefreshToolBar();
             if (_MaxButton.Name.Equals(WeChatConstant.WECHAT_SYSTEM_MAX_BUTTON))
             {
+                Wait.UntilResponsive(_MaxButton);
                 _MaxButton.Click();
             }
         }
@@ -92,6 +98,7 @@ namespace WxAutoCore.Components
             RefreshToolBar();
             if (_MaxButton.Name.Equals(WeChatConstant.WECHAT_SYSTEM_RESTORE_BUTTON))
             {
+                Wait.UntilResponsive(_MaxButton);
                 _MaxButton.Click();
             }
         }

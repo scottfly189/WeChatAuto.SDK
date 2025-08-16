@@ -8,6 +8,8 @@ using System;
 using System.Windows.Forms;
 using System.Linq;
 using WxAutoCore.Utils;
+using FlaUI.Core.Input;
+using FlaUI.Core.Tools;
 
 namespace WxAutoCore.Components
 {
@@ -91,22 +93,24 @@ namespace WxAutoCore.Components
         {
             _wxClientList.Clear();
             var taskBarRoot = _desktop.FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd")));
-            var wxNotifyList = taskBarRoot.FindFirstDescendant(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NOTIFY_ICON)
+            var wxNotifyList = Retry.WhileNull(() => taskBarRoot.FindFirstDescendant(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NOTIFY_ICON)
                 .And(cf.ByClassName("ToolbarWindow32").And(cf.ByControlType(ControlType.ToolBar))))
-                .FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME).And(cf.ByControlType(ControlType.Button)));
-            foreach (var wxNotify in wxNotifyList)
+                .FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME).And(cf.ByControlType(ControlType.Button))),
+                timeout: TimeSpan.FromSeconds(10));
+            foreach (var wxNotify in wxNotifyList.Result)
             {
                 DrawHightlightHelper.DrawHightlight(wxNotify);
                 wxNotify.AsButton().Invoke();
-                var topWindowProcessId = (int)WinApi.GetTopWindowProcessIdByClassName("WeChatMainWndForPC");
+                var topWindowProcessId = Retry.WhileException(() => WinApi.GetTopWindowProcessIdByClassName("WeChatMainWndForPC"), timeout: TimeSpan.FromSeconds(10));
                 var wxInstances = _desktop.FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME)
                             .And(cf.ByClassName("WeChatMainWndForPC")
                             .And(cf.ByControlType(ControlType.Window))
-                            .And(cf.ByProcessId(topWindowProcessId)))).AsWindow();
+                            .And(cf.ByProcessId(topWindowProcessId.Result)))).AsWindow();
                 DrawHightlightHelper.DrawHightlight(wxInstances);
                 WxNotifyIcon wxNotifyIcon = new WxNotifyIcon(wxNotify.AsButton());
                 WxWindow wxWindow = new WxWindow(wxInstances, wxNotifyIcon);
-                var client = new WxClient(wxNotifyIcon, wxWindow);  
+
+                var client = new WxClient(wxNotifyIcon, wxWindow);
                 var NickNameButton = wxInstances.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]").AsButton();
                 _wxClientList.Add(NickNameButton.Name, client);
             }

@@ -133,14 +133,14 @@ namespace WxAutoCore.Utils
         /// </summary>
         /// <param name="className">要查找的窗口类名</param>
         /// <returns>最顶层窗口的进程ID</returns>
-        public static uint GetTopWindowProcessIdByClassName(string className)
+        public static int GetTopWindowProcessIdByClassName(string className)
         {
             var topMostWindow = GetTopMostWindow(className);
 
             if (topMostWindow != IntPtr.Zero)
             {
                 GetWindowThreadProcessId(topMostWindow, out uint pid);
-                return pid;
+                return (int)pid;
             }
             else
             {
