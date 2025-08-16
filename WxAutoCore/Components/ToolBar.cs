@@ -3,8 +3,12 @@ using WxAutoCommon.Utils;
 
 namespace WxAutoCore.Components
 {
+    /// <summary>
+    /// 微信窗口工具栏封装
+    /// </summary>
     public class ToolBar
     {
+        private WxNotifyIcon _NotifyIcon;
         private AutomationElement _ToolBar;
         private Window _Window;
         private Button _TopButton;
@@ -13,14 +17,19 @@ namespace WxAutoCore.Components
         private Button _CloseButton;
 
         public AutomationElement ToolBarInfo => _ToolBar;
-        public ToolBar(Window window)
+        public ToolBar(Window window, WxNotifyIcon notifyIcon)
         {
             _Window = window;
+            _NotifyIcon = notifyIcon;
+        }
+
+        private void RefreshToolBar()
+        {
             _ToolBar = _Window.FindFirstByXPath("/Pane/Pane/Pane[2]/ToolBar");
             var childen = _ToolBar.FindAllChildren();
             _TopButton = childen[0].AsButton();
             _MinButton = childen[1].AsButton();
-            _MaxButton = childen[2].AsButton();
+            _MaxButton = childen[2].AsButton();   // 最大化或者还原
             _CloseButton = childen[3].AsButton();
         }
 
@@ -29,18 +38,19 @@ namespace WxAutoCore.Components
         /// </summary>
         public void Top(bool isTop = true)
         {
+            RefreshToolBar();
             if (isTop)
             {
                 if (_TopButton.Name.Equals(WeChatConstant.WECHAT_SYSTEM_TOP_BUTTON))
                 {
-                    _TopButton.Invoke();
+                    _TopButton.Click();
                 }
             }
             else
             {
                 if (_TopButton.Name.Equals(WeChatConstant.WECHAT_SYSTEM_UNTOP_BUTTON))
                 {
-                    _TopButton.Invoke();
+                    _TopButton.Click();
                 }
             }
         }
@@ -50,7 +60,16 @@ namespace WxAutoCore.Components
         /// </summary>
         public void Min()
         {
-            _MinButton.Invoke();
+            RefreshToolBar();
+            _MinButton.Click();
+        }
+
+        /// <summary>
+        /// 最小化后的还原操作
+        /// </summary>
+        public void MinRestore()
+        {
+            _NotifyIcon.Click();
         }
 
         /// <summary>
@@ -58,9 +77,10 @@ namespace WxAutoCore.Components
         /// </summary>
         public void Max()
         {
+            RefreshToolBar();
             if (_MaxButton.Name.Equals(WeChatConstant.WECHAT_SYSTEM_MAX_BUTTON))
             {
-                _MaxButton.Invoke();
+                _MaxButton.Click();
             }
         }
 
@@ -69,9 +89,10 @@ namespace WxAutoCore.Components
         /// </summary>
         public void Restore()
         {
+            RefreshToolBar();
             if (_MaxButton.Name.Equals(WeChatConstant.WECHAT_SYSTEM_RESTORE_BUTTON))
             {
-                _MaxButton.Invoke();
+                _MaxButton.Click();
             }
         }
     }

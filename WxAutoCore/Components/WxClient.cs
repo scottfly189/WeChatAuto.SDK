@@ -18,6 +18,8 @@ namespace WxAutoCore.Components
         public WxNotifyIcon WxNotifyIcon { get; private set; }  // 微信客户端通知图标
         public WxWindow WxWindow { get; private set; }  // 微信客户端窗口
 
+        public string NickName => WxWindow.NickName;   // 微信昵称
+
 
         /// <summary>
         /// 微信客户端构造函数
@@ -28,6 +30,11 @@ namespace WxAutoCore.Components
         {
             WxNotifyIcon = wxNotifyIcon;
             WxWindow = wxWindow;
+        }
+
+        public void ClickNotifyIcon()
+        {
+            WxNotifyIcon.Click();
         }
     }
 }

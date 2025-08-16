@@ -31,26 +31,29 @@ namespace WxAutoCore.Components
         public ChatContent WxChat => _WxChat;  // 聊天窗口
         public int ProcessId { get; private set; }
         public string NickName => _Navigation.NavigationButtons[0].Name;
+        public Window Window => _Window;
 
         /// <summary>
         /// 微信客户端窗口构造函数
         /// </summary>
         /// <param name="window"></param>
-        public WxWindow(Window window)
+        public WxWindow(Window window, WxNotifyIcon notifyIcon)
         {
             _Window = window;
-            _InitWxWindow();
+            _InitWxWindow(notifyIcon);
             _VariableControlsInit();
         }
+
         /// <summary>
         /// 初始化固定控件
         /// </summary>
-        private void _InitWxWindow()
+        private void _InitWxWindow(WxNotifyIcon notifyIcon)
         {
-            _ToolBar = new ToolBar(_Window);  // 工具栏
+            _ToolBar = new ToolBar(_Window, notifyIcon);  // 工具栏
             _Navigation = new Navigation(_Window);  // 导航栏
             _Search = new Search(_Window);  // 搜索
         }
+
 
         /// <summary>
         /// 初始化变量控件
@@ -61,16 +64,33 @@ namespace WxAutoCore.Components
         }
 
         #region 窗口操作
+        /// <summary>
+        /// 置顶窗口
+        /// </summary>
+        /// <param name="isTop"></param>
         public void WindowTop(bool isTop = true)
         {
             ToolBar.Top(isTop);
         }
-
+        /// <summary>
+        /// 最小化窗口
+        /// </summary>
         public void WindowMin()
         {
             ToolBar.Min();
         }
 
+        /// <summary>
+        /// 最小化后的还原操作
+        /// </summary>
+        public void WinMinRestore()
+        {
+            ToolBar.MinRestore();
+        }
+
+        /// <summary>
+        /// 最大化窗口
+        /// </summary>
         public void WindowMax()
         {
             ToolBar.Max();
