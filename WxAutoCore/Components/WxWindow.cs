@@ -31,23 +31,12 @@ namespace WxAutoCore.Components
         public int ProcessId { get; private set; }
         public string NickName => _Navigation.NavigationButtons[0].Name;
 
-
-
-        /// <summary>
-        /// 微信客户端构造函数
-        /// </summary>
-        /// <param name="window">微信客户端窗口类</param>
-        /// <param name="processId">微信客户端进程ID</param>
-        /// <param name="wxNotifyIcon">微信客户端通知图标类</param>
-        /// <param name="notifyIconProcessId">微信客户端通知图标进程ID</param>
-        public WxWindow(Window window, int processId, Button wxNotifyIcon, int notifyIconProcessId)
+        public WxWindow(Window window)
         {
             _Window = window;
-            ProcessId = processId;
             _InitWxWindow();
             _VariableControlsInit();
         }
-
         /// <summary>
         /// 初始化固定控件
         /// </summary>
@@ -66,27 +55,16 @@ namespace WxAutoCore.Components
             _PopWinList = new PopWinList(_Window);
         }
 
-        #region 窗口操作
-
-        /// <summary>
-        /// 窗口置顶
-        /// </summary>
-        /// <param name="isTop"></param>
         public void WindowTop(bool isTop = true)
         {
             ToolBar.Top(isTop);
         }
-        /// <summary>
-        /// 窗口最小化
-        /// </summary>
+
         public void WindowMin()
         {
             ToolBar.Min();
         }
 
-        /// <summary>
-        /// 窗口最大化
-        /// </summary>
         public void WindowMax()
         {
             ToolBar.Max();
@@ -99,6 +77,5 @@ namespace WxAutoCore.Components
         {
             ToolBar.Restore();
         }
-        #endregion
     }
 }

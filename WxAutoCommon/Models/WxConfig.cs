@@ -50,6 +50,11 @@ namespace WxAutoCommon.Models
         public static int SearchChatTimeout { get; set; } = 5;
 
         /// <summary>
+        /// 是否启用高亮
+        /// </summary>
+        public static bool EnableHightlight { get; set; } = true;
+
+        /// <summary>
         /// 语言设置
         /// </summary>
         public static class Language

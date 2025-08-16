@@ -7,6 +7,7 @@ using WxAutoCommon.Utils;
 using System;
 using System.Windows.Forms;
 using System.Linq;
+using WxAutoCore.Utils;
 
 namespace WxAutoCore.Components
 {
@@ -90,17 +91,21 @@ namespace WxAutoCore.Components
             var wxNotifyList = taskBarRoot.FindFirstDescendant(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NOTIFY_ICON)
                 .And(cf.ByClassName("ToolbarWindow32").And(cf.ByControlType(ControlType.ToolBar))))
                 .FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME).And(cf.ByControlType(ControlType.Button)));
-
-            var wxInstances = _desktop.FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME)
+            foreach (var wxNotify in wxNotifyList)
+            {
+                DrawHightlightHelper.DrawHightlight(wxNotify);
+                wxNotify.AsButton().Invoke();
+                var topWindowProcessId = (int)WinApi.GetTopWindowProcessIdByClassName("WeChatMainWndForPC");
+                var wxInstances = _desktop.FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME)
                             .And(cf.ByClassName("WeChatMainWndForPC")
-                            .And(cf.ByControlType(ControlType.Window))));
-            // for (int i = 0; i < wxNotifyList.Length; i++)
-            // {
-            //     var wxNotify = wxNotifyList[i].AsButton();
-            //     var wxInstance = wxInstances[i];  //这里可能有错误，因为微信notifyicon与实例并不是按索引一一对应
-            //     var button = wxInstance.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]").AsButton();
-            //     _wxClientList.Add(button.Name, new WxClient(wxInstance.AsWindow(), wxInstance.Properties.ProcessId.Value, wxNotify, wxNotify.Properties.ProcessId.Value));
-            // }
+                            .And(cf.ByControlType(ControlType.Window))
+                            .And(cf.ByProcessId(topWindowProcessId)))).AsWindow();
+                DrawHightlightHelper.DrawHightlight(wxInstances);
+                WxNotifyIcon wxNotifyIcon = new WxNotifyIcon(wxNotify.AsButton());
+                WxWindow wxWindow = new WxWindow(wxInstances);
+                var NickNameButton = wxInstances.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]").AsButton();
+                _wxClientList.Add(NickNameButton.Name, new WxClient(wxNotifyIcon, wxWindow));
+            }
         }
 
         public void Dispose()

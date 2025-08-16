@@ -5,8 +5,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 namespace WxAutoCore.Utils
 {
-
-
     public class WinApi
     {
         delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
