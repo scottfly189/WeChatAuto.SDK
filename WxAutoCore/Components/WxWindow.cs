@@ -66,20 +66,12 @@ namespace WxAutoCore.Components
             _PopWinList = new PopWinList(_Window);
         }
 
-        /// <summary>
-        /// 点击通知图标
-        /// </summary>
-        public void ClickNotifyIcon()
-        {
-            WxNotifyIcon.Click();
-        }
-
         #region 窗口操作
 
         /// <summary>
         /// 窗口置顶
         /// </summary>
-        /// <param name="isTop">是否置顶</param>
+        /// <param name="isTop"></param>
         public void WindowTop(bool isTop = true)
         {
             ToolBar.Top(isTop);

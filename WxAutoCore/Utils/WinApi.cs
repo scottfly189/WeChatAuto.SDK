@@ -41,11 +41,11 @@ namespace WxAutoCore.Utils
         const uint GW_HWNDLAST = 1;
 
         /// <summary>
-        /// 查找所有包含指定窗口名称的窗口句柄
+        /// 查找所有包含指定类名的窗口句柄
         /// </summary>
-        /// <param name="windowName">要查找的窗口名称</param>
+        /// <param name="className">要查找的窗口类名</param>
         /// <returns>所有匹配的窗口句柄列表</returns>
-        private static List<IntPtr> GetAllWindows(string windowName)
+        private static List<IntPtr> GetAllWindows(string className)
         {
             List<IntPtr> windowHandles = new List<IntPtr>();
 
@@ -53,10 +53,10 @@ namespace WxAutoCore.Utils
             {
                 if (!IsWindowVisible(hWnd)) return true;
 
-                StringBuilder title = new StringBuilder(256);
-                GetWindowText(hWnd, title, title.Capacity);
+                StringBuilder classText = new StringBuilder(256);
+                GetClassName(hWnd, classText, classText.Capacity);
 
-                if (title.ToString().Contains(windowName))
+                if (classText.ToString().Contains(className))
                 {
                     windowHandles.Add(hWnd);
                 }
@@ -67,13 +67,13 @@ namespace WxAutoCore.Utils
         }
 
         /// <summary>
-        /// 查找最顶层的指定名称窗口
+        /// 查找最顶层的指定类名窗口
         /// </summary>
-        /// <param name="windowName">要查找的窗口名称</param>
+        /// <param name="className">要查找的窗口类名</param>
         /// <returns>最顶层的窗口句柄</returns>
-        private static IntPtr GetTopMostWindow(string windowName)
+        private static IntPtr GetTopMostWindow(string className)
         {
-            var windowHandles = GetAllWindows(windowName);
+            var windowHandles = GetAllWindows(className);
 
             if (windowHandles.Count == 0)
             {
@@ -87,7 +87,6 @@ namespace WxAutoCore.Utils
 
             // 如果有多个窗口，找到Z-order最高的那个
             IntPtr topMostWindow = IntPtr.Zero;
-            IntPtr highestZOrderWindow = IntPtr.Zero;
 
             // 从桌面最顶层开始，向下遍历所有窗口
             IntPtr currentWindow = GetTopWindow(IntPtr.Zero);
@@ -95,10 +94,10 @@ namespace WxAutoCore.Utils
             while (currentWindow != IntPtr.Zero)
             {
                 // 检查当前窗口是否是我们要找的微信窗口
-                StringBuilder title = new StringBuilder(256);
-                GetWindowText(currentWindow, title, title.Capacity);
+                StringBuilder classText = new StringBuilder(256);
+                GetClassName(currentWindow, classText, classText.Capacity);
 
-                if (title.ToString().Contains(windowName))
+                if (classText.ToString().Contains(className))
                 {
                     // 找到第一个匹配的窗口，它就是Z-order最高的
                     topMostWindow = currentWindow;
@@ -113,14 +112,14 @@ namespace WxAutoCore.Utils
         }
 
         /// <summary>
-        /// 查找所有包含指定窗口名称的窗口的进程ID
+        /// 查找所有包含指定类名的窗口的进程ID
         /// </summary>
-        /// <param name="windowName">要查找的窗口名称</param>
+        /// <param name="className">要查找的窗口类名</param>
         /// <returns>所有匹配窗口的进程ID列表</returns>
-        private static List<uint> GetAllWindowProcessIds(string windowName)
+        private static List<uint> GetAllWindowProcessIds(string className)
         {
             List<uint> processIds = new List<uint>();
-            var windowHandles = GetAllWindows(windowName);
+            var windowHandles = GetAllWindows(className);
 
             foreach (var hwnd in windowHandles)
             {
@@ -132,13 +131,13 @@ namespace WxAutoCore.Utils
         }
 
         /// <summary>
-        /// 获取指定窗口名称的顶层窗口的进程ID
+        /// 获取指定类名的顶层窗口的进程ID
         /// </summary>
-        /// <param name="windowName">要查找的窗口名称</param>
+        /// <param name="className">要查找的窗口类名</param>
         /// <returns>最顶层窗口的进程ID</returns>
-        public static uint GetTopWindow(string windowName)
+        public static uint GetTopWindowProcessIdByClassName(string className)
         {
-            var topMostWindow = GetTopMostWindow(windowName);
+            var topMostWindow = GetTopMostWindow(className);
 
             if (topMostWindow != IntPtr.Zero)
             {
@@ -147,7 +146,7 @@ namespace WxAutoCore.Utils
             }
             else
             {
-                throw new Exception($"没找到 {windowName} 窗口");
+                throw new Exception($"没找到类名为 {className} 的窗口");
             }
         }
     }
