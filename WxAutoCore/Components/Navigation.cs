@@ -1,44 +1,71 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
+using FlaUI.Core.Input;
 using WxAutoCommon.Enums;
+using WxAutoCommon.Utils;
 using WxAutoCore.Utils;
 
 namespace WxAutoCore.Components
 {
     public class Navigation
     {
+        public WxLocationCaches _wxLocationCaches = new WxLocationCaches();
         private Window _Window;
-        private List<Button> _NavigationButtons = new List<Button>();
-        public List<Button> NavigationButtons => _NavigationButtons;
         public Navigation(Window window)
         {
             _Window = window;
-            _RefreshNavigation();
+            _InitNavigation();
         }
-        private void _RefreshNavigation()
+        private void _InitNavigation()
         {
-            _NavigationButtons.Clear();
-            var navigationRoot = _Window.FindFirstByXPath("/Pane/Pane/ToolBar");
-            var buttons = navigationRoot.FindAllChildren(cf => cf.ByControlType(ControlType.Button));
-            foreach (var button in buttons)
-            {
-                _NavigationButtons.Add(button.AsButton());
-            }
-            var rootPane = _Window.FindFirstByXPath("/Pane/Pane/ToolBar/Pane[1]");
-            buttons = rootPane.FindAllDescendants(cf => cf.ByControlType(ControlType.Button));
-            foreach (var button in buttons)
-            {
-                //视频号、看一看、搜一搜
-                _NavigationButtons.Add(button.AsButton());
-            }
-            var buttonItem = _Window.FindFirstByXPath("/Pane/Pane/ToolBar/Pane[2]").FindFirstDescendant(cf => cf.ByControlType(ControlType.Button)).AsButton();
-            _NavigationButtons.Add(buttonItem);
-            buttonItem = _Window.FindFirstByXPath("/Pane/Pane/ToolBar/Pane[3]").FindFirstDescendant(cf => cf.ByControlType(ControlType.Button)).AsButton();
-            _NavigationButtons.Add(buttonItem);
-            buttonItem = _Window.FindFirstByXPath("/Pane/Pane/ToolBar/Pane[4]").FindFirstDescendant(cf => cf.ByControlType(ControlType.Button)).AsButton();
-            _NavigationButtons.Add(buttonItem);
+            var navigationRoot = _Window.FindFirstByXPath($"/Pane/Pane/ToolBar[@Name='{WeChatConstant.WECHAT_NAVIGATION_NAVIGATION}'][@IsEnabled='true']");
+            _wxLocationCaches.AddXPathLocation(NavigationType.聊天.ToString(),
+                parentElement: navigationRoot,
+                xPath: $"/Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_CHAT}'][@IsEnabled='true']"
+            );
+            _wxLocationCaches.AddXPathLocation(NavigationType.通讯录.ToString(),
+                parentElement: navigationRoot,
+                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_CONTACT}'][@IsEnabled='true']"
+            );
+            _wxLocationCaches.AddXPathLocation(NavigationType.收藏.ToString(),
+                parentElement: navigationRoot,
+                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_COLLECT}'][@IsEnabled='true']"
+            );
+            _wxLocationCaches.AddXPathLocation(NavigationType.聊天文件.ToString(),
+                parentElement: navigationRoot,
+                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_FILE}'][@IsEnabled='true']"
+            );
+            _wxLocationCaches.AddXPathLocation(NavigationType.朋友圈.ToString(),
+                parentElement: navigationRoot,
+                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_MOMENT}'][@IsEnabled='true']"
+            );
+            _wxLocationCaches.AddXPathLocation(NavigationType.视频号.ToString(),
+                parentElement: navigationRoot,
+                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_VIDEO}'][@IsEnabled='true']"
+            );
+            _wxLocationCaches.AddXPathLocation(NavigationType.看一看.ToString(),
+                parentElement: navigationRoot,
+                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_READ}'][@IsEnabled='true']"
+            );
+            _wxLocationCaches.AddXPathLocation(NavigationType.搜一搜.ToString(),
+                parentElement: navigationRoot,
+                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_SEARCH}'][@IsEnabled='true']"
+            );
+            _wxLocationCaches.AddXPathLocation(NavigationType.小程序面板.ToString(),
+                parentElement: navigationRoot,
+                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_APP}'][@IsEnabled='true']"
+            );
+            _wxLocationCaches.AddXPathLocation(NavigationType.手机.ToString(),
+                parentElement: navigationRoot,
+                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_PHONE}'][@IsEnabled='true']"
+            );
+            _wxLocationCaches.AddXPathLocation(NavigationType.设置及其他.ToString(),
+                parentElement: navigationRoot,
+                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_SETTING}'][@IsEnabled='true']"
+            );
         }
         /// <summary>
         /// 切换导航栏
@@ -47,11 +74,14 @@ namespace WxAutoCore.Components
         public void SwitchNavigation(NavigationType navigationType)
         {
             var name = navigationType.ToString();
-            var button = _NavigationButtons.FirstOrDefault(b => b.Name.Equals(name));
+            var button = _wxLocationCaches.GetElement(name)?.AsButton();
             if (button != null)
             {
-                DrawHightlightHelper.DrawHightlight(button);
-                button.Click();
+                if (Wait.UntilResponsive(button, timeout: TimeSpan.FromSeconds(5)))
+                {
+                    DrawHightlightHelper.DrawHightlight(button);
+                    button.Click();
+                }
             }
         }
 

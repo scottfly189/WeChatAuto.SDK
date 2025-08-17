@@ -30,7 +30,7 @@ namespace WxAutoCore.Components
         public AddressBookList AddressBook => _AddressBook;  // 通讯录
         public ChatContent WxChat => _WxChat;  // 聊天窗口
         public int ProcessId { get; private set; }
-        public string NickName => _Navigation.NavigationButtons[0].Name;
+        public string NickName => _Window.FindFirstByXPath($"/Pane/Pane/ToolBar[@Name='{WeChatConstant.WECHAT_NAVIGATION_NAVIGATION}'][@IsEnabled='true']").FindFirstChild().Name;
         public Window Window => _Window;
 
         /// <summary>
@@ -40,6 +40,7 @@ namespace WxAutoCore.Components
         public WxWindow(Window window, WxNotifyIcon notifyIcon)
         {
             _Window = window;
+            ProcessId = window.Properties.ProcessId;
             _InitWxWindow(notifyIcon);
             _VariableControlsInit();
         }
