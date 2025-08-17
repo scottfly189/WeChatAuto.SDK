@@ -3,13 +3,13 @@ using Xunit.Abstractions;
 
 namespace WxAutoCore.Tests.Components
 {
-    [Collection("GlobalCollection")]
+    [Collection("UiTestCollection")]
     public class WxFramworkTests
     {
         private readonly string _wxClientName = "Alex Zhao";
         private ITestOutputHelper _output;
-        private GlobalFixture _globalFixture;
-        public WxFramworkTests(ITestOutputHelper output, GlobalFixture globalFixture)
+        private UiTestFixture _globalFixture;
+        public WxFramworkTests(ITestOutputHelper output, UiTestFixture globalFixture)
         {
             _output = output;
             _globalFixture = globalFixture;

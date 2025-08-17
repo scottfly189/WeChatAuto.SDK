@@ -4,13 +4,13 @@ using Xunit.Abstractions;
 
 namespace WxAutoCore.Tests.Components
 {
-    [Collection("GlobalCollection")]
+    [Collection("UiTestCollection")]
     public class WxWindowTests
     {
         private readonly string _wxClientName = "Alex Zhao";
         private readonly ITestOutputHelper _output;
-        private GlobalFixture _globalFixture;
-        public WxWindowTests(ITestOutputHelper output, GlobalFixture globalFixture)
+        private UiTestFixture _globalFixture;
+        public WxWindowTests(ITestOutputHelper output, UiTestFixture globalFixture)
         {
             _output = output;
             _globalFixture = globalFixture;

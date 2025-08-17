@@ -4,6 +4,7 @@ using System.Linq;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
+using FlaUI.Core.Tools;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Utils;
 using WxAutoCore.Utils;
@@ -92,6 +93,66 @@ namespace WxAutoCore.Components
             }
         }
 
+        /// <summary>
+        /// 关闭导航栏
+        /// 仅支持聊天文件、朋友圈、视频号、看一看、搜一搜、小程序面板
+        /// </summary>
+        /// <param name="navigationType">导航栏类型</param>
+        public void CloseNavigation(NavigationType navigationType)
+        {
+            RetryResult<AutomationElement> window = null;
+            switch (navigationType)
+            {
+                case NavigationType.聊天文件:
+                    window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
+                        .FindFirstByXPath($"/Window[@Name='聊天文件'][@ClassName='FileListMgrWnd'][@ProcessId={_Window.Properties.ProcessId}]"),
+                        timeout: TimeSpan.FromSeconds(10),
+                        interval: TimeSpan.FromMilliseconds(200)
+                    );
+                    break;
+                case NavigationType.朋友圈:
+                    window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
+                        .FindFirstByXPath($"/Window[@Name='朋友圈'][@ClassName='SnsWnd'][@ProcessId={_Window.Properties.ProcessId}]"),
+                        timeout: TimeSpan.FromSeconds(10),
+                        interval: TimeSpan.FromMilliseconds(200)
+                    );
+                    break;
+                case NavigationType.视频号:
+                    window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
+                        .FindFirstByXPath("/Window[@Name='微信'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
+                        timeout: TimeSpan.FromSeconds(10),
+                        interval: TimeSpan.FromMilliseconds(200)
+                    );
+                    break;
+                case NavigationType.看一看:
+                    window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
+                        .FindFirstByXPath("/Window[@Name='微信'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
+                        timeout: TimeSpan.FromSeconds(10),
+                        interval: TimeSpan.FromMilliseconds(200)
+                    );
+                    break;
+                case NavigationType.搜一搜:
+                    window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
+                        .FindFirstByXPath("/Window[@Name='微信'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
+                        timeout: TimeSpan.FromSeconds(10),
+                        interval: TimeSpan.FromMilliseconds(200)
+                    );
+                    break;
+                case NavigationType.小程序面板:
+                    window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
+                        .FindFirstByXPath("/Window[@Name='微信'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
+                        timeout: TimeSpan.FromSeconds(10),
+                        interval: TimeSpan.FromMilliseconds(200)
+                    );                
+                    break;
+                default:
+                    break;
+            }
+            if (window.Success)
+            {
+                window.Result.AsWindow().Close();
+            }
+        }
 
     }
 }

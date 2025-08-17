@@ -46,7 +46,7 @@ namespace WxAutoCore.Services
         /// <param name="seconds"></param>
         public static async Task Wait(int seconds = 2)
         {
-            await Task.Delay(seconds * 1000);
+            await Task.Run(() => Thread.Sleep(seconds * 1000)).ConfigureAwait(false);
         }
 
     }

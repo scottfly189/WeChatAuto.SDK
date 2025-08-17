@@ -1,7 +1,6 @@
 using Xunit;
-
-[CollectionDefinition("GlobalCollection")]
-public class GlobalCollection : ICollectionFixture<GlobalFixture>
+[CollectionDefinition("UiTestCollection", DisableParallelization = true)]
+public class UiTestCollection : ICollectionFixture<UiTestFixture>
 {
 
 }

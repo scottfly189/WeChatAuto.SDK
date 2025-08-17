@@ -7,13 +7,13 @@ using Xunit.Abstractions;
 
 namespace WxAutoCore.Tests.Components
 {
-    [Collection("GlobalCollection")]
+    [Collection("UiTestCollection")]
     public class NavigationTests
     {
         private readonly string _wxClientName = "Alex Zhao";
         private readonly ITestOutputHelper _output;
-        private GlobalFixture _globalFixture;
-        public NavigationTests(ITestOutputHelper output, GlobalFixture globalFixture)
+        private UiTestFixture _globalFixture;
+        public NavigationTests(ITestOutputHelper output, UiTestFixture globalFixture)
         {
             _output = output;
             _globalFixture = globalFixture;
@@ -61,6 +61,42 @@ namespace WxAutoCore.Tests.Components
             await WxAutomation.Wait(4);
             navigation.SwitchNavigation(NavigationType.通讯录);
             Assert.Equal(NavigationType.通讯录.ToString(), navigation.CurrentNavigationElement.Name);
+        }
+
+        [Fact(DisplayName = "测试关闭导航栏")]
+        // [Fact(Skip = "测试关闭导航栏")]
+        public async Task TestCloseNavigation()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxWindow;
+            var navigation = window.Navigation;
+            navigation.SwitchNavigation(NavigationType.聊天文件);
+            await WxAutomation.Wait(4);
+            navigation.CloseNavigation(NavigationType.聊天文件);
+            await WxAutomation.Wait(4);
+            navigation.SwitchNavigation(NavigationType.朋友圈);
+            await WxAutomation.Wait(4);
+            navigation.CloseNavigation(NavigationType.朋友圈);
+            await WxAutomation.Wait(4);
+            navigation.SwitchNavigation(NavigationType.视频号);
+            await WxAutomation.Wait(4);
+            navigation.CloseNavigation(NavigationType.视频号);
+            await WxAutomation.Wait(4);
+            navigation.SwitchNavigation(NavigationType.看一看);
+            await WxAutomation.Wait(4);
+            navigation.CloseNavigation(NavigationType.看一看);
+            await WxAutomation.Wait(4);
+            navigation.SwitchNavigation(NavigationType.搜一搜);
+            await WxAutomation.Wait(4);
+            navigation.CloseNavigation(NavigationType.搜一搜);
+            await WxAutomation.Wait(4);
+            navigation.SwitchNavigation(NavigationType.小程序面板);
+            await WxAutomation.Wait(4);
+            navigation.CloseNavigation(NavigationType.小程序面板);
+            await WxAutomation.Wait(4);
+
+            Assert.True(true);
         }
     }
 }
