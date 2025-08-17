@@ -13,6 +13,7 @@ namespace WxAutoCore.Components
     public class Navigation
     {
         public WxLocationCaches _wxLocationCaches = new WxLocationCaches();
+        public AutomationElement CurrentNavigationElement { get; private set; }
         private Window _Window;
         public Navigation(Window window)
         {
@@ -66,6 +67,8 @@ namespace WxAutoCore.Components
                 parentElement: navigationRoot,
                 xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_SETTING}'][@IsEnabled='true']"
             );
+            CurrentNavigationElement = _wxLocationCaches.GetElement(NavigationType.聊天.ToString());
+            CurrentNavigationElement.Click();
         }
         /// <summary>
         /// 切换导航栏
@@ -80,7 +83,11 @@ namespace WxAutoCore.Components
                 if (Wait.UntilResponsive(button, timeout: TimeSpan.FromSeconds(5)))
                 {
                     DrawHightlightHelper.DrawHightlight(button);
-                    button.Click();
+                    if (CurrentNavigationElement.Name != button.Name)
+                    {
+                        button.Click();
+                        CurrentNavigationElement = button;
+                    }
                 }
             }
         }

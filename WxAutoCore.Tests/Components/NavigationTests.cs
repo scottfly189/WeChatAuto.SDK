@@ -1,3 +1,4 @@
+using FlaUI.Core.AutomationElements;
 using WxAutoCommon.Enums;
 using WxAutoCore.Services;
 using WxAutoCore.Utils;
@@ -28,8 +29,38 @@ namespace WxAutoCore.Tests.Components
             navigation.SwitchNavigation(NavigationType.通讯录);
             navigation.SwitchNavigation(NavigationType.聊天);
             navigation.SwitchNavigation(NavigationType.收藏);
-
+            var caches = navigation._wxLocationCaches;
+            var element = caches.GetElement(NavigationType.聊天文件.ToString());
+            DrawHightlightHelper.DrawHightlight(element);
+            element = caches.GetElement(NavigationType.朋友圈.ToString());
+            DrawHightlightHelper.DrawHightlight(element);
+            element = caches.GetElement(NavigationType.视频号.ToString());
+            DrawHightlightHelper.DrawHightlight(element);
+            element = caches.GetElement(NavigationType.看一看.ToString());
+            DrawHightlightHelper.DrawHightlight(element);
+            element = caches.GetElement(NavigationType.搜一搜.ToString());
+            DrawHightlightHelper.DrawHightlight(element);
+            element = caches.GetElement(NavigationType.小程序面板.ToString());
+            DrawHightlightHelper.DrawHightlight(element);
+            element = caches.GetElement(NavigationType.手机.ToString());
+            DrawHightlightHelper.DrawHightlight(element);
+            element = caches.GetElement(NavigationType.设置及其他.ToString());
+            DrawHightlightHelper.DrawHightlight(element);
+            await Task.CompletedTask;
             Assert.True(true);
+        }
+
+        [Fact(DisplayName = "测试当前导航栏")]
+        public async Task TestCurrentNavigationElement()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxWindow;
+            var navigation = window.Navigation;
+            navigation.SwitchNavigation(NavigationType.通讯录);
+            await WxAutomation.Wait(4);
+            navigation.SwitchNavigation(NavigationType.通讯录);
+            Assert.Equal(NavigationType.通讯录.ToString(), navigation.CurrentNavigationElement.Name);
         }
     }
 }
