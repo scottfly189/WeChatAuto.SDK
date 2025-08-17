@@ -22,5 +22,8 @@ namespace WxAutoCommon.Utils
         public static readonly string WECHAT_NAVIGATION_PHONE = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_NAVIGATION_BOX, "手机");
         public static readonly string WECHAT_NAVIGATION_SETTING = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_NAVIGATION_BOX, "设置及其他");
         public static readonly string WECHAT_NAVIGATION_NAVIGATION = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_NAVIGATION_BOX, "导航");
+        public static readonly string WECHAT_SESSION_SEARCH = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_SESSION_BOX, "搜索");
+        public static readonly string WECHAT_SESSION_CLEAR = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_SESSION_BOX, "清空");
+
     }
 }

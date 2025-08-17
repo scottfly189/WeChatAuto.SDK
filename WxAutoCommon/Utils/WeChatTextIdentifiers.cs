@@ -83,6 +83,7 @@ namespace WxAutoCommon.Utils
             ["发起群聊"] = new TextIdentifier { Cn = "发起群聊", CnT = "", En = "" },
             ["搜索"] = new TextIdentifier { Cn = "搜索", CnT = "", En = "" },
             ["re_条数"] = new TextIdentifier { Cn = @"\[\d+条\]", CnT = "", En = "" },
+            ["清空"] = new TextIdentifier { Cn = "清空", CnT = "", En = "" },
 
             // 联系人页面
             ["添加朋友"] = new TextIdentifier { Cn = "添加朋友", CnT = "", En = "" },

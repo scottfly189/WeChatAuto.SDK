@@ -105,42 +105,42 @@ namespace WxAutoCore.Components
             {
                 case NavigationType.聊天文件:
                     window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
-                        .FindFirstByXPath($"/Window[@Name='聊天文件'][@ClassName='FileListMgrWnd'][@ProcessId={_Window.Properties.ProcessId}]"),
+                        .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_NAVIGATION_FILE}'][@ClassName='FileListMgrWnd'][@ProcessId={_Window.Properties.ProcessId}]"),
                         timeout: TimeSpan.FromSeconds(10),
                         interval: TimeSpan.FromMilliseconds(200)
                     );
                     break;
                 case NavigationType.朋友圈:
                     window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
-                        .FindFirstByXPath($"/Window[@Name='朋友圈'][@ClassName='SnsWnd'][@ProcessId={_Window.Properties.ProcessId}]"),
+                        .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_NAVIGATION_MOMENT}'][@ClassName='SnsWnd'][@ProcessId={_Window.Properties.ProcessId}]"),
                         timeout: TimeSpan.FromSeconds(10),
                         interval: TimeSpan.FromMilliseconds(200)
                     );
                     break;
                 case NavigationType.视频号:
                     window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
-                        .FindFirstByXPath("/Window[@Name='微信'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
+                        .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_SYSTEM_NAME}'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
                         timeout: TimeSpan.FromSeconds(10),
                         interval: TimeSpan.FromMilliseconds(200)
                     );
                     break;
                 case NavigationType.看一看:
                     window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
-                        .FindFirstByXPath("/Window[@Name='微信'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
+                        .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_SYSTEM_NAME}'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
                         timeout: TimeSpan.FromSeconds(10),
                         interval: TimeSpan.FromMilliseconds(200)
                     );
                     break;
                 case NavigationType.搜一搜:
                     window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
-                        .FindFirstByXPath("/Window[@Name='微信'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
+                        .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_SYSTEM_NAME}'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
                         timeout: TimeSpan.FromSeconds(10),
                         interval: TimeSpan.FromMilliseconds(200)
                     );
                     break;
                 case NavigationType.小程序面板:
                     window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
-                        .FindFirstByXPath("/Window[@Name='微信'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
+                        .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_SYSTEM_NAME}'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
                         timeout: TimeSpan.FromSeconds(10),
                         interval: TimeSpan.FromMilliseconds(200)
                     );                

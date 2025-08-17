@@ -9,6 +9,9 @@ namespace WxAutoCore.Utils
     {
         delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
 
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
         [DllImport("user32.dll")]
         static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
 
@@ -37,6 +40,10 @@ namespace WxAutoCore.Utils
         const uint GW_HWNDNEXT = 2;
         const uint GW_HWNDFIRST = 0;
         const uint GW_HWNDLAST = 1;
+        public const uint WM_KEYDOWN = 0x0100;
+        public const uint WM_KEYUP = 0x0101;
+        public const uint WM_CHAR = 0x0102;
+        public const int VK_RETURN = 0x0D;
 
         /// <summary>
         /// 查找所有包含指定类名的窗口句柄
