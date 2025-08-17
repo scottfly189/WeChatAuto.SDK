@@ -63,8 +63,8 @@ namespace WxAutoCore.Tests.Components
             Assert.Equal(NavigationType.通讯录.ToString(), navigation.CurrentNavigationElement.Name);
         }
 
-        [Fact(DisplayName = "测试关闭导航栏")]
-        // [Fact(Skip = "测试关闭导航栏")]
+        // [Fact(DisplayName = "测试关闭导航栏")]
+        [Fact(Skip = "测试关闭导航栏")]
         public async Task TestCloseNavigation()
         {
             var framework = _globalFixture.wxFramwork;

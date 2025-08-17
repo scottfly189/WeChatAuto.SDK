@@ -35,5 +35,16 @@ namespace WxAutoCore.Tests.Components
             await WxAutomation.Wait(2);
             Assert.True(true);
         }
+
+        [Fact(DisplayName = "测试获取昵称")]
+        public void TestNickName()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxWindow;
+            var nickName = window.NickName;
+            _output.WriteLine($"昵称: {nickName}");
+            Assert.Equal(_wxClientName, nickName);
+        }
     }
 }

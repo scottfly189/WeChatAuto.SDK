@@ -28,6 +28,7 @@ namespace WxAutoCore.Components
         public Navigation Navigation => _Navigation;  // 导航栏
         public ConversationList Conversations => _Conversations;  // 会话列表
         public AddressBookList AddressBook => _AddressBook;  // 通讯录
+        public Search Search => _Search;  // 搜索
         public ChatContent WxChat => _WxChat;  // 聊天窗口
         public int ProcessId { get; private set; }
         public string NickName => _Window.FindFirstByXPath($"/Pane/Pane/ToolBar[@Name='{WeChatConstant.WECHAT_NAVIGATION_NAVIGATION}'][@IsEnabled='true']").FindFirstChild().Name;
@@ -42,7 +43,6 @@ namespace WxAutoCore.Components
             _Window = window;
             ProcessId = window.Properties.ProcessId;
             _InitWxWindow(notifyIcon);
-            _VariableControlsInit();
         }
 
         /// <summary>
@@ -52,17 +52,11 @@ namespace WxAutoCore.Components
         {
             _ToolBar = new ToolBar(_Window, notifyIcon);  // 工具栏
             _Navigation = new Navigation(_Window);  // 导航栏
-            _Search = new Search(_Window);  // 搜索
-        }
-
-
-        /// <summary>
-        /// 初始化变量控件
-        /// </summary>
-        private void _VariableControlsInit()
-        {
+            _Search = new Search(this);  // 搜索
             _PopWinList = new PopWinList(_Window);
         }
+
+
 
         #region 窗口操作
         /// <summary>
