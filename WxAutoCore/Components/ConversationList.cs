@@ -7,6 +7,9 @@ using WxAutoCommon.Models;
 using WxAutoCommon.Enums;
 using System;
 using FlaUI.Core.Tools;
+using FlaUI.Core.Conditions;
+using System.Text.RegularExpressions;
+using WxAutoCore.Utils;
 
 namespace WxAutoCore.Components
 {
@@ -16,6 +19,7 @@ namespace WxAutoCore.Components
     public class ConversationList
     {
         private Window _Window;
+        private WxWindow _WxWindow;
         private List<string> _TitleTypeList = new List<string> { WeChatConstant.WECHAT_CONVERSATION_WX_TEAM,
             WeChatConstant.WECHAT_CONVERSATION_SERVICE_NOTICE,
             WeChatConstant.WECHAT_CONVERSATION_WX_PAY,
@@ -26,9 +30,10 @@ namespace WxAutoCore.Components
         };
         private readonly string _titleSuffix = WeChatConstant.WECHAT_SESSION_BOX_HAS_TOP;
         private List<ListBoxItem> _Conversations = new List<ListBoxItem>();
-        public ConversationList(Window window)
+        public ConversationList(Window window, WxWindow wxWindow)
         {
             _Window = window;
+            _WxWindow = wxWindow;
         }
         /// <summary>
         /// 获取会话列表可见会话
@@ -42,7 +47,8 @@ namespace WxAutoCore.Components
             foreach (var item in items)
             {
                 Conversation conversation = new Conversation();
-                conversation.ConversationTitle = _GetConversationTitle(item);
+                conversation.ConversationTitle = _GetConversationTitle(item, conversation);
+                conversation.IsTop = _GetConversationIsTop(item);
                 conversation.ConversationType = _GetConversationType(conversation.ConversationTitle);
                 conversation.ConversationContent = _GetConversationContent(item);
                 conversation.IsCompanyGroup = _IsCompanyGroup(item);
@@ -55,11 +61,64 @@ namespace WxAutoCore.Components
             return conversations;
         }
         /// <summary>
+        /// 点击会话
+        /// </summary>
+        /// <param name="title">会话标题</param>
+        public void ClickConversation(string title)
+        {
+            var root = _GetConversationRoot();
+            var items = root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
+            var item = items.FirstOrDefault(c => c.Name.Contains(title));
+            if (item != null)
+            {
+                var xPath = "/Pane/Button";
+                var retryElement = Retry.WhileNull(() => item.FindFirstByXPath(xPath));
+                if (retryElement.Success)
+                {
+                    var button = retryElement.Result.AsButton();
+                    DrawHightlightHelper.DrawHightlight(button);
+                    button.Click();
+                }
+            }
+        }
+        /// <summary>
+        /// 双击会话
+        /// </summary>
+        /// <param name="title">会话标题</param>
+        public void DoubleClickConversation(string title)
+        {
+            var root = _GetConversationRoot();
+            var items = root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
+            var item = items.FirstOrDefault(c => c.Name.Contains(title));
+            if (item != null)
+            {
+                var xPath = "/Pane/Button";
+                var retryElement = Retry.WhileNull(() => item.FindFirstByXPath(xPath));
+                if (retryElement.Success)
+                {
+                    var button = retryElement.Result.AsButton();
+                    DrawHightlightHelper.DrawHightlight(button);
+                    button.DoubleClick();
+                }
+            }
+        }
+        /// <summary>
+        /// 获取会话列表所有会话标题
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetConversationTitles()
+        {
+            var root = _GetConversationRoot();
+            var items = root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
+            return items.Select(item => item.Name).ToList();
+        }
+
+        /// <summary>
         /// 获取会话标题
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        private string _GetConversationTitle(ListBoxItem item)
+        private string _GetConversationTitle(ListBoxItem item, Conversation conversation)
         {
             var xPath = "/Pane/Button";
             var retryElement = Retry.WhileNull(() => item.FindFirstByXPath(xPath));
@@ -71,6 +130,8 @@ namespace WxAutoCore.Components
             }
             return string.Empty;
         }
+
+        private bool _GetConversationIsTop(ListBoxItem item) => item.Name.Contains(_titleSuffix);
 
         private string DoAnotherLogic(string title)
         {
@@ -157,7 +218,13 @@ namespace WxAutoCore.Components
         /// <returns></returns>
         private bool _GetConversationHasNotRead(ListBoxItem item)
         {
-            var xPath = "/Pane/Pane[2]";
+            // var xPath = "/Pane/Pane[2]";
+            // var retryElement = Retry.WhileNull(() => item.FindFirstByXPath(xPath));
+            // var flag = retryElement.Success;
+            // xPath = "/Pane/Text";
+            // var retryElement2 = Retry.WhileNull(() => item.FindFirstByXPath(xPath));
+            // flag = flag || retryElement2.Success;
+            var xPath = "/Pane/Pane[2] | /Pane/Text";
             var retryElement = Retry.WhileNull(() => item.FindFirstByXPath(xPath));
             return retryElement.Success;
         }

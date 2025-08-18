@@ -60,6 +60,7 @@ namespace WxAutoCommon.Models
                 HasNotRead = this.HasNotRead,
                 Time = this.Time,
                 IsDoNotDisturb = this.IsDoNotDisturb,
+                IsTop = this.IsTop,
             };
 
             return JsonConvert.SerializeObject(serializableObject, Formatting.Indented);

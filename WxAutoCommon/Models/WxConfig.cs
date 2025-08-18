@@ -52,7 +52,7 @@ namespace WxAutoCommon.Models
         /// <summary>
         /// 是否启用高亮
         /// </summary>
-        public static bool EnableHightlight { get; set; } = true;
+        public static bool DebugMode { get; set; } = true;
 
         /// <summary>
         /// 语言设置

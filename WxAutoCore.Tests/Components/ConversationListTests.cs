@@ -31,5 +31,40 @@ namespace WxAutoCore.Tests.Components
             }
             Assert.True(list.Count > 0);
         }
+
+        [Fact(DisplayName = "测试点击会话")]
+        public void TestClickConversation()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxWindow;
+            var conversations = window.Conversations;
+            conversations.ClickConversation("猫哥 Flutter 六群");
+        }
+
+        [Fact(DisplayName = "测试双击会话")]
+        public void TestDoubleClickConversation()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxWindow;
+            var conversations = window.Conversations;
+            conversations.DoubleClickConversation(".NET-AI实时快讯3群");
+        }
+
+        [Fact(DisplayName = "测试获取会话列表所有会话标题")]
+        public void TestGetConversationTitles()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxWindow;
+            var conversations = window.Conversations;
+            var titles = conversations.GetConversationTitles();
+            foreach (var title in titles)
+            {
+                _output.WriteLine(title);
+            }
+            Assert.True(titles.Count > 0);
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace WxAutoCore.Components
     {
         private Window _Window;
         private ToolBar _ToolBar;  // 工具栏
-        private PopWinList _PopWinList;  // 弹出窗口列表
+        private SubWinList _SubWinList;  // 弹出窗口列表
         private Navigation _Navigation;  // 导航栏
         private Search _Search;  // 搜索
         private ConversationList _Conversations;  // 会话列表
@@ -30,6 +30,7 @@ namespace WxAutoCore.Components
         public AddressBookList AddressBook => _AddressBook;  // 通讯录
         public Search Search => _Search;  // 搜索
         public ChatContent WxChat => _WxChatContent;  // 聊天窗口
+        public SubWinList SubWinList => _SubWinList;  // 子窗口列表
         public int ProcessId { get; private set; }
         public string NickName => _Window.FindFirstByXPath($"/Pane/Pane/ToolBar[@Name='{WeChatConstant.WECHAT_NAVIGATION_NAVIGATION}'][@IsEnabled='true']").FindFirstChild().Name;
         public Window Window => _Window;
@@ -53,8 +54,8 @@ namespace WxAutoCore.Components
             _ToolBar = new ToolBar(_Window, notifyIcon);  // 工具栏
             _Navigation = new Navigation(_Window);  // 导航栏
             _Search = new Search(this);  // 搜索
-            _Conversations = new ConversationList(_Window);  // 会话列表
-            _PopWinList = new PopWinList(_Window);
+            _Conversations = new ConversationList(_Window, this);  // 会话列表
+            _SubWinList = new SubWinList(_Window, this);
         }
 
 
