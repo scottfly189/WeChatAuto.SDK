@@ -112,5 +112,43 @@ namespace WxAutoCore.Components
             Navigation.SwitchNavigation(navigationType);
         }
         #endregion
+
+        #region 好友查询操作
+        /// <summary>
+        /// 单个查询，查询单个好友
+        /// 注意：此方法不会打开子聊天窗口
+        /// </summary>
+        /// <param name="who">好友名称</param>
+        public void SearchWho(string who)
+        {
+
+        }
+        /// <summary>
+        /// 批量查询，查询多个好友
+        /// 注意：此方法不会打开子聊天窗口
+        /// </summary>
+        /// <param name="whos">好友名称列表</param>
+        public void SearchWhos(string[] whos)
+        {
+            whos.ToList().ForEach(who => SearchWho(who));
+        }
+        /// <summary>
+        /// 单个查询，查询单个好友，并打开子聊天窗口
+        /// </summary>
+        /// <param name="who">好友名称</param>
+        public void SearchWhoAndOpenChat(string who)
+        {
+            SearchWho(who);
+            
+        }
+        /// <summary>
+        /// 批量查询，查询多个好友，并打开子聊天窗口
+        /// </summary>
+        /// <param name="whos">好友名称列表</param>
+        public void SearchWhosAndOpenChat(string[] whos)
+        {
+            whos.ToList().ForEach(who => SearchWhoAndOpenChat(who));
+        }
+        #endregion
     }
 }
