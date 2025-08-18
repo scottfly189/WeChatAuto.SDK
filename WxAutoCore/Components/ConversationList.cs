@@ -42,7 +42,7 @@ namespace WxAutoCore.Components
             foreach (var item in items)
             {
                 Conversation conversation = new Conversation();
-                conversation.ConversationTitle = item.Name.EndsWith(_titleSuffix) ? item.Name.Substring(0, item.Name.Length - _titleSuffix.Length) : item.Name;
+                conversation.ConversationTitle = _GetConversationTitle(item);
                 conversation.ConversationType = _GetConversationType(conversation.ConversationTitle);
                 conversation.ConversationContent = _GetConversationContent(item);
                 conversation.IsCompanyGroup = _IsCompanyGroup(item);
@@ -53,6 +53,29 @@ namespace WxAutoCore.Components
                 conversations.Add(conversation);
             }
             return conversations;
+        }
+        /// <summary>
+        /// 获取会话标题
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        private string _GetConversationTitle(ListBoxItem item)
+        {
+            var xPath = "/Pane/Button";
+            var retryElement = Retry.WhileNull(() => item.FindFirstByXPath(xPath));
+            if (retryElement.Success)
+            {
+                var button = retryElement.Result.AsButton();
+                var title = DoAnotherLogic(button.Name);
+                return title;
+            }
+            return string.Empty;
+        }
+
+        private string DoAnotherLogic(string title)
+        {
+            var result = title.Replace("SessionListItem", "订阅号");
+            return result;
         }
         /// <summary>
         /// 获取会话列表根节点
@@ -134,7 +157,7 @@ namespace WxAutoCore.Components
         /// <returns></returns>
         private bool _GetConversationHasNotRead(ListBoxItem item)
         {
-            var xPath = "//Pane/Pane[2]";
+            var xPath = "/Pane/Pane[2]";
             var retryElement = Retry.WhileNull(() => item.FindFirstByXPath(xPath));
             return retryElement.Success;
         }

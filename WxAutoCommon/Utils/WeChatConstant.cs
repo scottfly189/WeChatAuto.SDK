@@ -31,7 +31,7 @@ namespace WxAutoCommon.Utils
         public static readonly string WECHAT_CONVERSATION_WX_TEAM = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CONVERSATION_TITLE, "微信团队");
         public static readonly string WECHAT_CONVERSATION_SERVICE_NOTICE = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CONVERSATION_TITLE, "服务通知");
         public static readonly string WECHAT_CONVERSATION_WX_PAY = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CONVERSATION_TITLE, "微信支付");
-        public static readonly string WECHAT_CONVERSATION_TX_NEWS = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CONVERSATION_TITLE, "腾迅新闻");
+        public static readonly string WECHAT_CONVERSATION_TX_NEWS = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CONVERSATION_TITLE, "腾讯新闻");
         public static readonly string WECHAT_CONVERSATION_SUBSCRIPTION = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CONVERSATION_TITLE, "订阅号");
         public static readonly string WECHAT_CONVERSATION_FILE_TRANSFER = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CONVERSATION_TITLE, "文件传输助手");
         public static readonly string WECHAT_CONVERSATION_COLLAPSED_GROUP = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CONVERSATION_TITLE, "折叠的群聊");

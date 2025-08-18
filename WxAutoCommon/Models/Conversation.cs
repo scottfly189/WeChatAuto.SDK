@@ -42,6 +42,11 @@ namespace WxAutoCommon.Models
         /// 是否免打扰
         /// </summary>
         public bool IsDoNotDisturb { get; set; } = false;  //是否免打扰
+        
+        /// <summary>
+        /// 是否置顶
+        /// </summary>
+        public bool IsTop { get; set; } = false;
 
         public override string ToString()
         {
@@ -56,7 +61,7 @@ namespace WxAutoCommon.Models
                 Time = this.Time,
                 IsDoNotDisturb = this.IsDoNotDisturb,
             };
-            
+
             return JsonConvert.SerializeObject(serializableObject, Formatting.Indented);
         }
     }
