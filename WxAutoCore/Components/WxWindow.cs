@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using WxAutoCommon.Utils;
 using WxAutoCommon.Enums;
+using WxAutoCommon.Interface;
 
 
 namespace WxAutoCore.Components
@@ -14,7 +15,7 @@ namespace WxAutoCore.Components
     /// <summary>
     /// 微信客户端窗口,封装的微信窗口，包含工具栏、导航栏、搜索、会话列表、通讯录、聊天窗口等
     /// </summary>
-    public class WxWindow
+    public class WxWindow : IChatContentAction
     {
         private Window _Window;
         private ToolBar _ToolBar;  // 工具栏
@@ -56,6 +57,7 @@ namespace WxAutoCore.Components
             _Search = new Search(this);  // 搜索
             _Conversations = new ConversationList(_Window, this);  // 会话列表
             _SubWinList = new SubWinList(_Window, this);
+            _WxChatContent = new ChatContent(_Window, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane");
         }
 
 
@@ -139,7 +141,7 @@ namespace WxAutoCore.Components
         public void SearchWhoAndOpenChat(string who)
         {
             SearchWho(who);
-            
+
         }
         /// <summary>
         /// 批量查询，查询多个好友，并打开子聊天窗口

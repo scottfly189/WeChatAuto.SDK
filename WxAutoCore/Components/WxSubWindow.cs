@@ -1,12 +1,15 @@
 using FlaUI.Core.AutomationElements;
+using WxAutoCommon.Enums;
+using WxAutoCommon.Interface;
 
 namespace WxAutoCore.Components
 {
     /// <summary>
     /// 子窗口基类
     /// </summary>
-    public class WxSubWindow
+    public class WxSubWindow : IChatContentAction
     {
+        private ChatContent _ChatContent;
         private WxWindow _MainWxWindow;    //主窗口对象
         private Window _SelfWindow;        //子窗口FlaUI的window
 
@@ -19,6 +22,7 @@ namespace WxAutoCore.Components
         {
             _SelfWindow = window;
             _MainWxWindow = wxWindow;
+            _ChatContent = new ChatContent(_SelfWindow, ChatContentType.SubWindow, "/Pane[2]/Pane/Pane[2]/Pane/Pane");
         }
 
         public void Close()
