@@ -252,6 +252,19 @@
           "buildTransitive/net462/_._": {}
         }
       },
+      "Newtonsoft.Json/13.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "NLog/6.0.3": {
         "type": "package",
         "frameworkAssemblies": [
@@ -453,7 +466,8 @@
         "dependencies": {
           "FlaUI.Core": "5.0.0",
           "FlaUI.UIA2": "5.0.0",
-          "FlaUI.UIA3": "5.0.0"
+          "FlaUI.UIA3": "5.0.0",
+          "Newtonsoft.Json": "13.0.3"
         },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
@@ -714,6 +728,19 @@
           "buildTransitive/net462/_._": {}
         }
       },
+      "Newtonsoft.Json/13.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "NLog/6.0.3": {
         "type": "package",
         "frameworkAssemblies": [
@@ -915,7 +942,8 @@
         "dependencies": {
           "FlaUI.Core": "5.0.0",
           "FlaUI.UIA2": "5.0.0",
-          "FlaUI.UIA3": "5.0.0"
+          "FlaUI.UIA3": "5.0.0",
+          "Newtonsoft.Json": "13.0.3"
         },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
@@ -1148,6 +1176,19 @@
           }
         }
       },
+      "Newtonsoft.Json/13.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "NLog/6.0.3": {
         "type": "package",
         "compile": {
@@ -1370,7 +1411,8 @@
         "dependencies": {
           "FlaUI.Core": "5.0.0",
           "FlaUI.UIA2": "5.0.0",
-          "FlaUI.UIA3": "5.0.0"
+          "FlaUI.UIA3": "5.0.0",
+          "Newtonsoft.Json": "13.0.3"
         },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
@@ -1602,6 +1644,19 @@
           }
         }
       },
+      "Newtonsoft.Json/13.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "NLog/6.0.3": {
         "type": "package",
         "compile": {
@@ -1813,7 +1868,8 @@
         "dependencies": {
           "FlaUI.Core": "5.0.0",
           "FlaUI.UIA2": "5.0.0",
-          "FlaUI.UIA3": "5.0.0"
+          "FlaUI.UIA3": "5.0.0",
+          "Newtonsoft.Json": "13.0.3"
         },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
@@ -2042,6 +2098,19 @@
           "runtimes/win/lib/net7.0/Microsoft.Win32.SystemEvents.dll": {
             "assetType": "runtime",
             "rid": "win"
+          }
+        }
+      },
+      "Newtonsoft.Json/13.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
           }
         }
       },
@@ -2283,7 +2352,8 @@
         "dependencies": {
           "FlaUI.Core": "5.0.0",
           "FlaUI.UIA2": "5.0.0",
-          "FlaUI.UIA3": "5.0.0"
+          "FlaUI.UIA3": "5.0.0",
+          "Newtonsoft.Json": "13.0.3"
         },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
@@ -2514,6 +2584,19 @@
           "runtimes/win/lib/net8.0/Microsoft.Win32.SystemEvents.dll": {
             "assetType": "runtime",
             "rid": "win"
+          }
+        }
+      },
+      "Newtonsoft.Json/13.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
           }
         }
       },
@@ -2755,7 +2838,8 @@
         "dependencies": {
           "FlaUI.Core": "5.0.0",
           "FlaUI.UIA2": "5.0.0",
-          "FlaUI.UIA3": "5.0.0"
+          "FlaUI.UIA3": "5.0.0",
+          "Newtonsoft.Json": "13.0.3"
         },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
@@ -2988,6 +3072,19 @@
           }
         }
       },
+      "Newtonsoft.Json/13.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "NLog/6.0.3": {
         "type": "package",
         "compile": {
@@ -3210,7 +3307,8 @@
         "dependencies": {
           "FlaUI.Core": "5.0.0",
           "FlaUI.UIA2": "5.0.0",
-          "FlaUI.UIA3": "5.0.0"
+          "FlaUI.UIA3": "5.0.0",
+          "Newtonsoft.Json": "13.0.3"
         },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
@@ -3644,6 +3742,36 @@
         "runtimes/win/lib/net8.0/Microsoft.Win32.SystemEvents.dll",
         "runtimes/win/lib/net8.0/Microsoft.Win32.SystemEvents.xml",
         "useSharedDesignerContext.txt"
+      ]
+    },
+    "Newtonsoft.Json/13.0.3": {
+      "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
+      "type": "package",
+      "path": "newtonsoft.json/13.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/net6.0/Newtonsoft.Json.dll",
+        "lib/net6.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "newtonsoft.json.13.0.3.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
       ]
     },
     "NLog/6.0.3": {

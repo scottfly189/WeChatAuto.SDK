@@ -3,10 +3,8 @@ using FlaUI.Core.AutomationElements;
 using System.Linq;
 using WxAutoCommon.Utils;
 using FlaUI.Core.Definitions;
-using Microsoft.VisualBasic;
 using WxAutoCommon.Models;
 using WxAutoCommon.Enums;
-using System.Text.Json;
 using System;
 using FlaUI.Core.Tools;
 
@@ -85,11 +83,11 @@ namespace WxAutoCore.Components
         {
             if (!_TitleTypeList.Any(t => title.Contains(t)))
             {
-                return ConversationType.不需要识别;
+                return ConversationType.好友或群聊;
             }
             else
             {
-                return Enum.Parse<ConversationType>(title, true);
+                return Enum.TryParse<ConversationType>(title, true, out ConversationType conversationType) ? conversationType : ConversationType.好友或群聊;
             }
         }
         /// <summary>

@@ -12,7 +12,6 @@ namespace WxAutoCore.Components
     public class Search
     {
         private WxWindow _WxWindow;
-        private TextBox _SearchEdit;
         public Search(WxWindow wxWindow)
         {
             _WxWindow = wxWindow;

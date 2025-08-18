@@ -5,7 +5,7 @@ namespace WxAutoCommon.Enums
     /// </summary>
     public enum ConversationType
     {
-        不需要识别,  
+        好友或群聊,  
         文件传输助手, 
         好友,         
         群聊,          

@@ -1,6 +1,7 @@
-using System.Text.Json;
 using FlaUI.Core.AutomationElements;
 using WxAutoCommon.Enums;
+using Newtonsoft.Json;
+
 namespace WxAutoCommon.Models
 {
     /// <summary>
@@ -44,7 +45,19 @@ namespace WxAutoCommon.Models
 
         public override string ToString()
         {
-            return JsonSerializer.Serialize(this);
+            // 创建一个匿名对象来避免循环引用
+            var serializableObject = new
+            {
+                ConversationType = this.ConversationType.ToString(),
+                ConversationTitle = this.ConversationTitle,
+                ConversationContent = this.ConversationContent,
+                IsCompanyGroup = this.IsCompanyGroup,
+                HasNotRead = this.HasNotRead,
+                Time = this.Time,
+                IsDoNotDisturb = this.IsDoNotDisturb,
+            };
+            
+            return JsonConvert.SerializeObject(serializableObject, Formatting.Indented);
         }
     }
 }
