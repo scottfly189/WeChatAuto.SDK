@@ -46,7 +46,7 @@ namespace WxAutoCore.Components
             );
             _wxLocationCaches.AddXPathLocation(NavigationType.视频号.ToString(),
                 parentElement: navigationRoot,
-                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_VIDEO}'][@IsEnabled='true']"
+                xPath: $"/Pane/Pane/Pane[1]/Button"
             );
             _wxLocationCaches.AddXPathLocation(NavigationType.看一看.ToString(),
                 parentElement: navigationRoot,

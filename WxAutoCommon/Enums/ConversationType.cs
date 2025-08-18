@@ -5,18 +5,18 @@ namespace WxAutoCommon.Enums
     /// </summary>
     public enum ConversationType
     {
-        DontNeedKnown,  //不需要识别
-        FileAssistant,  //文件传输助手
-        Friend,         //好友
-        Group,          //群聊
-        OfficialAccount,//公众号
-        MiniProgram,    //小程序
-        Subscription,   //订阅号
-        Service,        //服务号
-        Company,        //企业号
-        ServiceNotice,  //服务通知
-        CollapsedGroupChat, //折叠的群聊
-        WxPay,            //微信支付
-        TxNew,            //腾讯新闻
+        不需要识别,  
+        文件传输助手, 
+        好友,         
+        群聊,          
+        公众号,        
+        小程序,    
+        订阅号,   
+        服务号,        
+        企业号,        
+        服务通知,  
+        折叠的群聊, 
+        微信支付,            
+        腾讯新闻,            
     }
 }

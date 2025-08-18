@@ -1,3 +1,5 @@
+using System.Text.Json;
+using FlaUI.Core.AutomationElements;
 using WxAutoCommon.Enums;
 namespace WxAutoCommon.Models
 {
@@ -18,11 +20,19 @@ namespace WxAutoCommon.Models
         /// 会话内容
         /// </summary>
         public string ConversationContent { get; set; }
+
         /// <summary>
-        /// 会话图片
+        /// 是否是企业群
         /// </summary>
-        public string ImageName { get; set; }
-        public bool IsNotRead { get; set; } = false;
+        public bool IsCompanyGroup { get; set; } = false;
+        /// <summary>
+        /// 会话头像按钮
+        /// </summary>
+        public Button ImageButton { get; set; }
+        /// <summary>
+        /// 是否有未读消息
+        /// </summary>
+        public bool HasNotRead { get; set; } = false;
         /// <summary>
         /// 会话时间
         /// </summary>
@@ -31,5 +41,10 @@ namespace WxAutoCommon.Models
         /// 是否免打扰
         /// </summary>
         public bool IsDoNotDisturb { get; set; } = false;  //是否免打扰
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
+        }
     }
 }

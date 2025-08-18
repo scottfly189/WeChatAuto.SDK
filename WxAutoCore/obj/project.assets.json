@@ -28,6 +28,27 @@
           }
         }
       },
+      "FlaUI.UIA2/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "FlaUI.Core": "5.0.0"
+        },
+        "frameworkAssemblies": [
+          "UIAutomationClient",
+          "UIAutomationTypes",
+          "WindowsBase"
+        ],
+        "compile": {
+          "lib/net48/FlaUI.UIA2.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net48/FlaUI.UIA2.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "FlaUI.UIA3/5.0.0": {
         "type": "package",
         "dependencies": {
@@ -429,6 +450,11 @@
       "WxAutoCommon/1.0.0": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.8",
+        "dependencies": {
+          "FlaUI.Core": "5.0.0",
+          "FlaUI.UIA2": "5.0.0",
+          "FlaUI.UIA3": "5.0.0"
+        },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
         },
@@ -460,6 +486,27 @@
         },
         "runtime": {
           "lib/net48/FlaUI.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "FlaUI.UIA2/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "FlaUI.Core": "5.0.0"
+        },
+        "frameworkAssemblies": [
+          "UIAutomationClient",
+          "UIAutomationTypes",
+          "WindowsBase"
+        ],
+        "compile": {
+          "lib/net48/FlaUI.UIA2.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net48/FlaUI.UIA2.dll": {
             "related": ".xml"
           }
         }
@@ -865,6 +912,11 @@
       "WxAutoCommon/1.0.0": {
         "type": "project",
         "framework": ".NETFramework,Version=v4.8.1",
+        "dependencies": {
+          "FlaUI.Core": "5.0.0",
+          "FlaUI.UIA2": "5.0.0",
+          "FlaUI.UIA3": "5.0.0"
+        },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
         },
@@ -894,6 +946,25 @@
         },
         "frameworkReferences": [
           "Microsoft.WindowsDesktop.App.WindowsForms"
+        ]
+      },
+      "FlaUI.UIA2/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "FlaUI.Core": "5.0.0"
+        },
+        "compile": {
+          "lib/net8.0-windows7.0/FlaUI.UIA2.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows7.0/FlaUI.UIA2.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
         ]
       },
       "FlaUI.UIA3/5.0.0": {
@@ -1296,6 +1367,11 @@
       "WxAutoCommon/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "FlaUI.Core": "5.0.0",
+          "FlaUI.UIA2": "5.0.0",
+          "FlaUI.UIA3": "5.0.0"
+        },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
         },
@@ -1325,6 +1401,25 @@
         },
         "frameworkReferences": [
           "Microsoft.WindowsDesktop.App.WindowsForms"
+        ]
+      },
+      "FlaUI.UIA2/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "FlaUI.Core": "5.0.0"
+        },
+        "compile": {
+          "lib/net6.0-windows7.0/FlaUI.UIA2.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows7.0/FlaUI.UIA2.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
         ]
       },
       "FlaUI.UIA3/5.0.0": {
@@ -1715,6 +1810,11 @@
       "WxAutoCommon/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "FlaUI.Core": "5.0.0",
+          "FlaUI.UIA2": "5.0.0",
+          "FlaUI.UIA3": "5.0.0"
+        },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
         },
@@ -1744,6 +1844,25 @@
         },
         "frameworkReferences": [
           "Microsoft.WindowsDesktop.App.WindowsForms"
+        ]
+      },
+      "FlaUI.UIA2/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "FlaUI.Core": "5.0.0"
+        },
+        "compile": {
+          "lib/net6.0-windows7.0/FlaUI.UIA2.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows7.0/FlaUI.UIA2.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
         ]
       },
       "FlaUI.UIA3/5.0.0": {
@@ -2161,6 +2280,11 @@
       "WxAutoCommon/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "FlaUI.Core": "5.0.0",
+          "FlaUI.UIA2": "5.0.0",
+          "FlaUI.UIA3": "5.0.0"
+        },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
         },
@@ -2190,6 +2314,25 @@
         },
         "frameworkReferences": [
           "Microsoft.WindowsDesktop.App.WindowsForms"
+        ]
+      },
+      "FlaUI.UIA2/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "FlaUI.Core": "5.0.0"
+        },
+        "compile": {
+          "lib/net8.0-windows7.0/FlaUI.UIA2.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows7.0/FlaUI.UIA2.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
         ]
       },
       "FlaUI.UIA3/5.0.0": {
@@ -2609,6 +2752,11 @@
       "WxAutoCommon/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "FlaUI.Core": "5.0.0",
+          "FlaUI.UIA2": "5.0.0",
+          "FlaUI.UIA3": "5.0.0"
+        },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
         },
@@ -2638,6 +2786,25 @@
         },
         "frameworkReferences": [
           "Microsoft.WindowsDesktop.App.WindowsForms"
+        ]
+      },
+      "FlaUI.UIA2/5.0.0": {
+        "type": "package",
+        "dependencies": {
+          "FlaUI.Core": "5.0.0"
+        },
+        "compile": {
+          "lib/net8.0-windows7.0/FlaUI.UIA2.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0-windows7.0/FlaUI.UIA2.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
         ]
       },
       "FlaUI.UIA3/5.0.0": {
@@ -3040,6 +3207,11 @@
       "WxAutoCommon/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "FlaUI.Core": "5.0.0",
+          "FlaUI.UIA2": "5.0.0",
+          "FlaUI.UIA3": "5.0.0"
+        },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
         },
@@ -3068,6 +3240,26 @@
         "lib/net6.0-windows7.0/FlaUI.Core.xml",
         "lib/net8.0-windows7.0/FlaUI.Core.dll",
         "lib/net8.0-windows7.0/FlaUI.Core.xml"
+      ]
+    },
+    "FlaUI.UIA2/5.0.0": {
+      "sha512": "0pQGeIm5W4/NRekL+2uPty1bIIZC7KsL7giz3aaHbPMD0vSsMaWcvVwDX2Vk6ZIoz/W4EujC7s0XFj/J9ev2aw==",
+      "type": "package",
+      "path": "flaui.uia2/5.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "CHANGELOG.md",
+        "FlaUI.png",
+        "LICENSE.txt",
+        "flaui.uia2.5.0.0.nupkg.sha512",
+        "flaui.uia2.nuspec",
+        "lib/net48/FlaUI.UIA2.dll",
+        "lib/net48/FlaUI.UIA2.xml",
+        "lib/net6.0-windows7.0/FlaUI.UIA2.dll",
+        "lib/net6.0-windows7.0/FlaUI.UIA2.xml",
+        "lib/net8.0-windows7.0/FlaUI.UIA2.dll",
+        "lib/net8.0-windows7.0/FlaUI.UIA2.xml"
       ]
     },
     "FlaUI.UIA3/5.0.0": {

@@ -24,6 +24,16 @@ namespace WxAutoCommon.Utils
         public static readonly string WECHAT_NAVIGATION_NAVIGATION = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_NAVIGATION_BOX, "导航");
         public static readonly string WECHAT_SESSION_SEARCH = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_SESSION_BOX, "搜索");
         public static readonly string WECHAT_SESSION_CLEAR = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_SESSION_BOX, "清空");
-
+        public static readonly string WECHAT_CHAT_BOX_TOP = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CHAT_BOX, "置顶");
+        public static readonly string WECHAT_SESSION_BOX_HAS_TOP = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_SESSION_BOX, "已置顶");
+        public static readonly string WECHAT_CHAT_BOX_UNTOP = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CHAT_BOX, "取消置顶");
+        public static readonly string WECHAT_SESSION_BOX_CONVERSATION = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_SESSION_BOX, "会话");
+        public static readonly string WECHAT_CONVERSATION_WX_TEAM = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CONVERSATION_TITLE, "微信团队");
+        public static readonly string WECHAT_CONVERSATION_SERVICE_NOTICE = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CONVERSATION_TITLE, "服务通知");
+        public static readonly string WECHAT_CONVERSATION_WX_PAY = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CONVERSATION_TITLE, "微信支付");
+        public static readonly string WECHAT_CONVERSATION_TX_NEWS = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CONVERSATION_TITLE, "腾迅新闻");
+        public static readonly string WECHAT_CONVERSATION_SUBSCRIPTION = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CONVERSATION_TITLE, "订阅号");
+        public static readonly string WECHAT_CONVERSATION_FILE_TRANSFER = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CONVERSATION_TITLE, "文件传输助手");
+        public static readonly string WECHAT_CONVERSATION_COLLAPSED_GROUP = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CONVERSATION_TITLE, "折叠的群聊");
     }
 }

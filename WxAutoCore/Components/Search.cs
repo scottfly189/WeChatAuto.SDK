@@ -23,14 +23,14 @@ namespace WxAutoCore.Components
         /// 输入搜索内容，并回车
         /// </summary>
         /// <param name="text"></param>
-        public void SearchSomething(string text,bool isClear = false)
+        public void SearchSomething(string text, bool isClear = false)
         {
             var searchEdit = Retry.WhileNull(() => _WxWindow.Window.FindFirstByXPath($"/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='{WeChatConstant.WECHAT_SESSION_SEARCH}']"),
             timeout: TimeSpan.FromSeconds(10),
             interval: TimeSpan.FromMilliseconds(200));
             if (searchEdit.Success)
             {
-                Wait.UntilResponsive(searchEdit.Result, TimeSpan.FromSeconds(5));
+                WaitHelper.WaitTextBoxReady(searchEdit.Result, TimeSpan.FromSeconds(5));
                 var textBox = searchEdit.Result.AsTextBox();
                 DrawHightlightHelper.DrawHightlight(textBox);
                 if (isClear)
@@ -91,7 +91,7 @@ namespace WxAutoCore.Components
         public void SearchCollection(string text)
         {
             _WxWindow.Navigation.SwitchNavigation(NavigationType.收藏);
-            SearchSomething(text,true);
+            SearchSomething(text, true);
         }
     }
 }

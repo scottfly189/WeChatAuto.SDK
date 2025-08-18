@@ -370,6 +370,16 @@ namespace WxAutoCommon.Utils
             ["转发给朋友"] = new TextIdentifier { Cn = "转发给朋友", CnT = "", En = "" },
             ["复制链接"] = new TextIdentifier { Cn = "复制链接", CnT = "", En = "" }
         };
+        public static readonly Dictionary<string, TextIdentifier> WECHAT_CONVERSATION_TITLE = new Dictionary<string, TextIdentifier>
+        {
+            ["微信团队"] = new TextIdentifier { Cn = "微信团队", CnT = "", En = "" },
+            ["服务通知"] = new TextIdentifier { Cn = "服务通知", CnT = "", En = "" },
+            ["微信支付"] = new TextIdentifier { Cn = "微信支付", CnT = "", En = "" },
+            ["腾迅新闻"] = new TextIdentifier { Cn = "腾迅新闻", CnT = "", En = "" },
+            ["订阅号"] = new TextIdentifier { Cn = "订阅号", CnT = "", En = "" },
+            ["文件传输助手"] = new TextIdentifier { Cn = "文件传输助手", CnT = "", En = "" },
+            ["折叠的群聊"] = new TextIdentifier { Cn = "折叠的群聊", CnT = "", En = "" }
+        };
     }
 
     /// <summary>
