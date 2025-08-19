@@ -32,5 +32,13 @@ namespace WxAutoCore.Components
         {
             ChatInfoButton?.Invoke();  //可能有问题，需要测试
         }
+        /// <summary>
+        /// 重写ToString方法
+        /// </summary>
+        /// <returns>聊天标题和聊天信息按钮名称</returns>
+        public override string ToString()
+        {
+            return $"Title: {Title}, ChatInfoButton: {ChatInfoButton?.Name}";
+        }
     }
 }
