@@ -58,7 +58,8 @@ namespace WxAutoCommon.Utils
         public static string MESSAGES_VIDEO_NUMBER_LIVE = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "[视频号直播]");
         public static string MESSAGES_CHAT_RECORD = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "[聊天记录]");
         public static string MESSAGES_PICK_UP = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "拍一拍");
-        public static string MESSAGES_RED_PACKET = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "红包");
+        public static string MESSAGES_RED_PACKET_SEND = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "发出红包");
+        public static string MESSAGES_RED_PACKET_RECEIVE = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "收到红包");
         public static string MESSAGES_WECHAT_TRANSFER = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "微信转账");
         public static string MESSAGES_COLLECT = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "收藏");
         public static string MESSAGES_NOTE_TEXT = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "笔记");

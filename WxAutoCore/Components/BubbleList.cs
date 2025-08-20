@@ -128,7 +128,7 @@ namespace WxAutoCore.Components
             {
                 return _ParseVoice(listItem);
             }
-            if (listItem.Name == WeChatConstant.MESSAGES_RED_PACKET)
+            if (listItem.Name == WeChatConstant.MESSAGES_RED_PACKET_SEND || listItem.Name == WeChatConstant.MESSAGES_RED_PACKET_RECEIVE)
             {
                 return _ParseRedPacket(listItem);
             }
@@ -290,6 +290,7 @@ namespace WxAutoCore.Components
                 if (Regex.IsMatch(text.Name, @"^￥[\d\.]*$"))
                 {
                     result += Regex.Match(text.Name, @"^￥([\d\.]*)$").Groups[0].Value;
+                    break;
                 }
             }
             bubble.MessageContent = "微信转账:" + result;
@@ -377,7 +378,6 @@ namespace WxAutoCore.Components
             }
             bubble.ClickActionButton = button.AsButton();
             //笔记消息内容
-
             var textList = children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text));
             var result = "";
             foreach (var text in textList)
@@ -477,7 +477,8 @@ namespace WxAutoCore.Components
                 throw new Exception("视频号直播消息解析失败");
             }
             bubble.ClickActionButton = button.AsButton();
-            var text = children[1].FindAllByXPath("/Pane/Pane/Pane/Pane/Text");
+            var textRoot = children[1].FindFirstByXPath("/Pane/Pane/Pane/Pane");
+            var text = textRoot.FindAllDescendants(cf => cf.ByControlType(ControlType.Text));
             var result = "";
             foreach (var item in text)
             {
@@ -671,7 +672,7 @@ namespace WxAutoCore.Components
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
             {
-                throw new Exception("位置消息解析失败");
+                throw new Exception("聊天记录消息解析失败");
             }
             var children = paneElement.FindAllChildren();
             var bubble = new Bubble();
@@ -690,7 +691,7 @@ namespace WxAutoCore.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = children[1].FindFirstByXPath("/Pane/Pane/Button");
+            var button = children[1].FindFirstByXPath("/Pane/Pane/Pane/Button");
             if (button == null)
             {
                 throw new Exception("聊天记录消息解析失败");

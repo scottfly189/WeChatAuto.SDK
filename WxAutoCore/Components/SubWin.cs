@@ -7,7 +7,7 @@ namespace WxAutoCore.Components
     /// <summary>
     /// 子窗口基类
     /// </summary>
-    public class WxSubWindow : IChatContentAction
+    public class SubWin : IChatContentAction
     {
         private ChatContent _ChatContent;
         private WxWindow _MainWxWindow;    //主窗口对象
@@ -18,7 +18,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="window">子窗口FlaUI的window</param>
         /// <param name="wxWindow">主窗口</param>
-        public WxSubWindow(Window window, WxWindow wxWindow)
+        public SubWin(Window window, WxWindow wxWindow)
         {
             _SelfWindow = window;
             _MainWxWindow = wxWindow;

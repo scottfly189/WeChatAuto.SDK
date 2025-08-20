@@ -38,7 +38,7 @@ namespace WxAutoCore.Components
         /// <returns>聊天标题和聊天信息按钮名称</returns>
         public override string ToString()
         {
-            return $"Title: {Title}, ChatInfoButton: {ChatInfoButton?.Name}";
+            return $"Title: {Title}";
         }
     }
 }

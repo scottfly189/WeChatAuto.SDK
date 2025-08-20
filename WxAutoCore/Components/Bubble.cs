@@ -1,6 +1,7 @@
 using FlaUI.Core.AutomationElements;
 using WxAutoCommon.Enums;
 using Newtonsoft.Json;
+using System;
 
 namespace WxAutoCore.Components
 {
@@ -32,6 +33,11 @@ namespace WxAutoCore.Components
         /// 消息内容
         /// </summary>
         public string MessageContent { get; set; }
+
+        /// <summary>
+        /// 消息时间
+        /// </summary>
+        public DateTime? MessageTime { get; set; }
 
         /// <summary>
         /// 引用消息

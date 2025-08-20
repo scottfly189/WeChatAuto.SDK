@@ -15,7 +15,7 @@ namespace WxAutoCore.Components
         private AutomationElement _ChatBodyRoot;
         public BubbleList BubbleList => GetBubbleList();
         public Sender Sender => GetSender();
-        public ChatBody(Window window,AutomationElement chatBodyRoot)
+        public ChatBody(Window window, AutomationElement chatBodyRoot)
         {
             _Window = window;
             _ChatBodyRoot = chatBodyRoot;
@@ -43,4 +43,4 @@ namespace WxAutoCore.Components
             return null;
         }
     }
-} 
+}

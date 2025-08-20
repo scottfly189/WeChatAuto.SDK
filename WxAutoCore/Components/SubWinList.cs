@@ -58,8 +58,8 @@ namespace WxAutoCore.Components
         /// 根据名称获取子窗口
         /// </summary>
         /// <param name="name">子窗口名称</param>
-        /// <returns>子窗口对象<see cref="WxSubWindow"/></returns>
-        public WxSubWindow GetSubWin(string name)
+        /// <returns>子窗口对象<see cref="SubWin"/></returns>
+        public SubWin GetSubWin(string name)
         {
             var desktop = _MainFlaUIWindow.Automation.GetDesktop();
             var subWin = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("ChatWnd")
@@ -70,7 +70,7 @@ namespace WxAutoCore.Components
                         interval: TimeSpan.FromMilliseconds(200));
             if (subWin.Success)
             {
-                return new WxSubWindow(subWin.Result.AsWindow(), _MainWxWindow);
+                return new SubWin(subWin.Result.AsWindow(), _MainWxWindow);
             }
             return null;
         }
