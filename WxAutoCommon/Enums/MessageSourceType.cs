@@ -6,10 +6,9 @@ namespace WxAutoCommon.Enums
     public enum MessageSourceType
     {
         系统消息,
-        时间消息,
         自己发送消息,
         好友消息,
-        拍一拍消息,
+        被引用的消息,
         其他消息,
     }
 }

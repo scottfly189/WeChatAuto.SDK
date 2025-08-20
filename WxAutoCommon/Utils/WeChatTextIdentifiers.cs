@@ -191,13 +191,21 @@ namespace WxAutoCommon.Utils
             ["[名片]"] = new TextIdentifier { Cn = "[名片]", CnT = "", En = "" },
             ["[笔记]"] = new TextIdentifier { Cn = "[笔记]", CnT = "", En = "" },
             ["[视频号]"] = new TextIdentifier { Cn = "[视频号]", CnT = "", En = "" },
+            ["[视频号直播]"] = new TextIdentifier { Cn = "[视频号直播]", CnT = "", En = "" },
             ["[动画表情]"] = new TextIdentifier { Cn = "[动画表情]", CnT = "", En = "" },
             ["[聊天记录]"] = new TextIdentifier { Cn = "[聊天记录]", CnT = "", En = "" },
             ["微信转账"] = new TextIdentifier { Cn = "微信转账", CnT = "", En = "" },
+            ["红包"] = new TextIdentifier { Cn = "收到红包，请在手机上查看", CnT = "", En = "" },
             ["接收中"] = new TextIdentifier { Cn = "接收中", CnT = "", En = "" },
+            ["拍一拍"] = new TextIdentifier { Cn = "", CnT = "", En = "" },
             ["re_语音"] = new TextIdentifier { Cn = @"^\[语音\]\d+秒(,未播放)?$", CnT = "", En = "" },
             ["re_引用消息"] = new TextIdentifier { Cn = @"(^.+)\n引用.*?的消息 : (.+$)", CnT = "", En = "" },
-            ["re_拍一拍"] = new TextIdentifier { Cn = "^.+拍了拍.+$", CnT = "", En = "" }
+            ["re_拍一拍"] = new TextIdentifier { Cn = "^.+拍了拍.+$", CnT = "", En = "" },
+            ["笔记"] = new TextIdentifier { Cn = "笔记", CnT = "", En = "" },
+            ["收藏"] = new TextIdentifier { Cn = "收藏", CnT = "", En = "" },
+            ["直播中"] = new TextIdentifier { Cn = "直播中", CnT = "", En = "" },
+            ["直播已结束"] = new TextIdentifier { Cn = "直播已结束", CnT = "", En = "" },
+            ["我"] = new TextIdentifier { Cn = "我", CnT = "", En = "" }
         };
 
         /// <summary>

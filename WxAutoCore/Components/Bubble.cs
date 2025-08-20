@@ -33,6 +33,10 @@ namespace WxAutoCore.Components
         /// </summary>
         public string MessageContent { get; set; }
 
+        /// <summary>
+        /// 引用消息
+        /// </summary>
+        public Bubble ReferencedBubble { get; set; } = null;
 
         public override string ToString()
         {
@@ -44,6 +48,22 @@ namespace WxAutoCore.Components
                 this.MessageContent,
             };
             return JsonConvert.SerializeObject(serializableObject, Formatting.Indented);
+        }
+        /// <summary>
+        /// 格式化输出
+        /// </summary>
+        /// <returns></returns>
+        public string RrettyPrint()
+        {
+            return $"{this.Sender}: {this.MessageContent}";
+        }
+        /// <summary>
+        /// 是否可点击
+        /// </summary>
+        /// <returns>是否可点击</returns>
+        public bool IsInvokable()
+        {
+            return this.ClickActionButton != null;
         }
     }
 }

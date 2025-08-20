@@ -44,5 +44,26 @@ namespace WxAutoCommon.Utils
         public static readonly string WECHAT_CHAT_BOX_VOICE_CHAT = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CHAT_BOX, "语音聊天");
         public static readonly string WECHAT_CHAT_BOX_VIDEO_CHAT = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CHAT_BOX, "视频聊天");
         public static readonly string WECHAT_CHAT_BOX_CONTENT_SEND = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CHAT_BOX, "发送");
+        public static readonly string WECHAT_CHAT_BOX_CONTENT_LOOK_MORE = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CHAT_BOX, "查看更多消息");
+        public static string MESSAGES_IMAGE = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "[图片]");
+        public static string MESSAGES_VIDEO = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "[视频]");
+        public static string MESSAGES_VOICE = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "[语音]");
+        //public static string MESSAGES_MUSIC = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "[音乐]");
+        public static string MESSAGES_LOCATION = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "[位置]");
+        public static string MESSAGES_LINK = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "[链接]");
+        public static string MESSAGES_FILE = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "[文件]");
+        public static string MESSAGES_CARD = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "[名片]");
+        public static string MESSAGES_NOTE = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "[笔记]");
+        public static string MESSAGES_VIDEO_NUMBER = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "[视频号]");
+        public static string MESSAGES_VIDEO_NUMBER_LIVE = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "[视频号直播]");
+        public static string MESSAGES_CHAT_RECORD = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "[聊天记录]");
+        public static string MESSAGES_PICK_UP = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "拍一拍");
+        public static string MESSAGES_RED_PACKET = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "红包");
+        public static string MESSAGES_WECHAT_TRANSFER = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "微信转账");
+        public static string MESSAGES_COLLECT = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "收藏");
+        public static string MESSAGES_NOTE_TEXT = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "笔记");
+        public static string MESSAGES_VIDEO_NUMBER_LIVE_END = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "直播已结束");
+        public static string MESSAGES_VIDEO_NUMBER_LIVE_ING = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "直播中");
+        public static string MESSAGES_I = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "我");
     }
 }
