@@ -4366,6 +4366,7 @@
       "Microsoft.Extensions.Logging >= 9.0.8",
       "NLog >= 6.0.3",
       "NLog.Extensions.Logging >= 6.0.3",
+      "Newtonsoft.Json >= 13.0.3",
       "WxAutoCommon >= 1.0.0"
     ],
     ".NETFramework,Version=v4.8.1": [
@@ -4375,6 +4376,7 @@
       "Microsoft.Extensions.Logging >= 9.0.8",
       "NLog >= 6.0.3",
       "NLog.Extensions.Logging >= 6.0.3",
+      "Newtonsoft.Json >= 13.0.3",
       "WxAutoCommon >= 1.0.0"
     ],
     "net10.0-windows7.0": [
@@ -4384,6 +4386,7 @@
       "Microsoft.Extensions.Logging >= 9.0.8",
       "NLog >= 6.0.3",
       "NLog.Extensions.Logging >= 6.0.3",
+      "Newtonsoft.Json >= 13.0.3",
       "WxAutoCommon >= 1.0.0"
     ],
     "net6.0-windows7.0": [
@@ -4393,6 +4396,7 @@
       "Microsoft.Extensions.Logging >= 9.0.8",
       "NLog >= 6.0.3",
       "NLog.Extensions.Logging >= 6.0.3",
+      "Newtonsoft.Json >= 13.0.3",
       "WxAutoCommon >= 1.0.0"
     ],
     "net7.0-windows7.0": [
@@ -4402,6 +4406,7 @@
       "Microsoft.Extensions.Logging >= 9.0.8",
       "NLog >= 6.0.3",
       "NLog.Extensions.Logging >= 6.0.3",
+      "Newtonsoft.Json >= 13.0.3",
       "WxAutoCommon >= 1.0.0"
     ],
     "net8.0-windows7.0": [
@@ -4411,6 +4416,7 @@
       "Microsoft.Extensions.Logging >= 9.0.8",
       "NLog >= 6.0.3",
       "NLog.Extensions.Logging >= 6.0.3",
+      "Newtonsoft.Json >= 13.0.3",
       "WxAutoCommon >= 1.0.0"
     ],
     "net9.0-windows7.0": [
@@ -4420,6 +4426,7 @@
       "Microsoft.Extensions.Logging >= 9.0.8",
       "NLog >= 6.0.3",
       "NLog.Extensions.Logging >= 6.0.3",
+      "Newtonsoft.Json >= 13.0.3",
       "WxAutoCommon >= 1.0.0"
     ]
   },
@@ -4548,6 +4555,10 @@
           "NLog.Extensions.Logging": {
             "target": "Package",
             "version": "[6.0.3, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.3, )"
           }
         },
         "imports": [
@@ -4881,6 +4892,10 @@
           "NLog.Extensions.Logging": {
             "target": "Package",
             "version": "[6.0.3, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.3, )"
           }
         },
         "imports": [
@@ -5214,6 +5229,10 @@
           "NLog.Extensions.Logging": {
             "target": "Package",
             "version": "[6.0.3, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.3, )"
           }
         },
         "imports": [
@@ -5561,6 +5580,10 @@
           "NLog.Extensions.Logging": {
             "target": "Package",
             "version": "[6.0.3, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.3, )"
           }
         },
         "imports": [
@@ -5910,6 +5933,10 @@
           "NLog.Extensions.Logging": {
             "target": "Package",
             "version": "[6.0.3, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.3, )"
           }
         },
         "imports": [
@@ -6229,6 +6256,10 @@
           "NLog.Extensions.Logging": {
             "target": "Package",
             "version": "[6.0.3, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.3, )"
           }
         },
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-preview.6.25358.103\\RuntimeIdentifierGraph.json"
@@ -6259,6 +6290,10 @@
           "NLog.Extensions.Logging": {
             "target": "Package",
             "version": "[6.0.3, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.3, )"
           }
         },
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-preview.6.25358.103\\RuntimeIdentifierGraph.json"

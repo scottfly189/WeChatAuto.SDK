@@ -7,9 +7,14 @@ namespace WxAutoCore.Components
     /// </summary>
     public class BubbleList
     {
+        private Window _SelfWindow;
+        private AutomationElement _BubbleListRoot;
         public Bubble[] Bubbles { get; set; }
-        public BubbleList()
-        { }
+        public BubbleList(Window selfWindow, AutomationElement bubbleListRoot)
+        {
+            _SelfWindow = selfWindow;
+            _BubbleListRoot = bubbleListRoot;
+        }
 
         /// <summary>
         /// 获取气泡列表

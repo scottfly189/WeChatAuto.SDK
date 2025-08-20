@@ -48,7 +48,9 @@ namespace WxAutoCore.Components
         /// <returns>聊天内容</returns>
         public ChatBody GetChatBody()
         {
-            return null;
+            var chatBodyRoot = _ChatContentRoot.FindFirstByXPath("/Pane[2]");
+            var chatBody = new ChatBody(_Window, chatBodyRoot);
+            return chatBody;
         }
     }
 }

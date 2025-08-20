@@ -35,5 +35,14 @@ namespace WxAutoCommon.Utils
         public static readonly string WECHAT_CONVERSATION_SUBSCRIPTION = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CONVERSATION_TITLE, "订阅号");
         public static readonly string WECHAT_CONVERSATION_FILE_TRANSFER = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CONVERSATION_TITLE, "文件传输助手");
         public static readonly string WECHAT_CONVERSATION_COLLAPSED_GROUP = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CONVERSATION_TITLE, "折叠的群聊");
+        public static readonly string WECHAT_CHAT_BOX_MESSAGE = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CHAT_BOX, "消息");
+        public static readonly string WECHAT_CHAT_BOX_LIVE = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CHAT_BOX, "直播");
+        public static readonly string WECHAT_CHAT_BOX_EMOTION = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CHAT_BOX, "表情");
+        public static readonly string WECHAT_CHAT_BOX_SEND_FILE = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CHAT_BOX, "发送文件");
+        public static readonly string WECHAT_CHAT_BOX_SCREENSHOT = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CHAT_BOX, "截图");
+        public static readonly string WECHAT_CHAT_BOX_CHAT_RECORD = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CHAT_BOX, "聊天记录");
+        public static readonly string WECHAT_CHAT_BOX_VOICE_CHAT = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CHAT_BOX, "语音聊天");
+        public static readonly string WECHAT_CHAT_BOX_VIDEO_CHAT = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CHAT_BOX, "视频聊天");
+        public static readonly string WECHAT_CHAT_BOX_CONTENT_SEND = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.WECHAT_CHAT_BOX, "发送");
     }
 }

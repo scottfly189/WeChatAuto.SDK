@@ -1881,6 +1881,10 @@
             "NLog.Extensions.Logging": {
               "target": "Package",
               "version": "[6.0.3, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             }
           },
           "imports": [
@@ -2214,6 +2218,10 @@
             "NLog.Extensions.Logging": {
               "target": "Package",
               "version": "[6.0.3, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             }
           },
           "imports": [
@@ -2547,6 +2555,10 @@
             "NLog.Extensions.Logging": {
               "target": "Package",
               "version": "[6.0.3, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             }
           },
           "imports": [
@@ -2894,6 +2906,10 @@
             "NLog.Extensions.Logging": {
               "target": "Package",
               "version": "[6.0.3, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             }
           },
           "imports": [
@@ -3243,6 +3259,10 @@
             "NLog.Extensions.Logging": {
               "target": "Package",
               "version": "[6.0.3, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             }
           },
           "imports": [
@@ -3562,6 +3582,10 @@
             "NLog.Extensions.Logging": {
               "target": "Package",
               "version": "[6.0.3, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-preview.6.25358.103\\RuntimeIdentifierGraph.json"
@@ -3592,6 +3616,10 @@
             "NLog.Extensions.Logging": {
               "target": "Package",
               "version": "[6.0.3, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-preview.6.25358.103\\RuntimeIdentifierGraph.json"

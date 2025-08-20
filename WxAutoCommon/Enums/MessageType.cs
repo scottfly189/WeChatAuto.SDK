@@ -10,6 +10,7 @@ namespace WxAutoCommon.Enums
         语音,
         视频,
         文件,
+        聊天记录,
         位置,
         个人名片,
         转账,
