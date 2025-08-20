@@ -66,5 +66,6 @@ namespace WxAutoCommon.Utils
         public static string MESSAGES_VIDEO_NUMBER_LIVE_END = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "直播已结束");
         public static string MESSAGES_VIDEO_NUMBER_LIVE_ING = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "直播中");
         public static string MESSAGES_I = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "我");
+        public static string MESSAGES_MINI_PROGRAM = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "小程序");
     }
 }

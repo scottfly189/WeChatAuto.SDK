@@ -206,7 +206,8 @@ namespace WxAutoCommon.Utils
             ["收藏"] = new TextIdentifier { Cn = "收藏", CnT = "", En = "" },
             ["直播中"] = new TextIdentifier { Cn = "直播中", CnT = "", En = "" },
             ["直播已结束"] = new TextIdentifier { Cn = "直播已结束", CnT = "", En = "" },
-            ["我"] = new TextIdentifier { Cn = "我", CnT = "", En = "" }
+            ["我"] = new TextIdentifier { Cn = "我", CnT = "", En = "" },
+            ["小程序"] = new TextIdentifier { Cn = "小程序", CnT = "", En = "" }
         };
 
         /// <summary>

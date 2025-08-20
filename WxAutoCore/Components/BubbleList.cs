@@ -210,10 +210,33 @@ namespace WxAutoCore.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
+
+            if (_ParseMiniProgram(children[1]))
+            {
+                bubble.MessageType = MessageType.小程序;
+                return bubble;
+            }
+
             //处理、解析引用消息
             _ParseReferencedMessage(children[1], listItem.Name, bubble);
             return bubble;
         }
+        /// <summary>
+        /// 解析小程序消息
+        /// </summary>
+        /// <param name="listItem"></param>
+        /// <returns></returns>
+        private bool _ParseMiniProgram(AutomationElement root)
+        {
+            var children = root.FindAllDescendants(cf => cf.ByControlType(ControlType.Text)).ToList().Select(item => item.AsLabel()).ToList();
+            var result = children.FirstOrDefault(item => item.Name == WeChatConstant.MESSAGES_MINI_PROGRAM);
+            if (result != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// 解析引用消息
         /// </summary>
