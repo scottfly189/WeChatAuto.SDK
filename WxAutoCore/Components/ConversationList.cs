@@ -78,7 +78,7 @@ namespace WxAutoCore.Components
                 {
                     var button = retryElement.Result.AsButton();
                     DrawHightlightHelper.DrawHightlight(button);
-                    _WxWindow.ClickExt(button);
+                    _WxWindow.SilenceClickExt(button);
                 }
             }
         }

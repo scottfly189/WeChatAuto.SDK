@@ -38,15 +38,11 @@ namespace WxAutoCore.Components
                 {
                     ClearText();
                 }
-                textBox.FocusNative();
-                textBox.Focus();
-                _WxWindow.ClickExt(textBox);
-                textBox.Enter(text);
-                _WxWindow.Window.Focus();
-                textBox.Focus();
-                _WxWindow.ClickExt(textBox);
+                _WxWindow.SilenceEnterText(textBox, text);
+                // _WxWindow.SilenceClickExt(textBox);
                 Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));
-                Keyboard.Press(VirtualKeyShort.RETURN);
+                // Keyboard.Press(VirtualKeyShort.RETURN);
+                _WxWindow.SilenceReturn(textBox);
             }
         }
         /// <summary>
@@ -59,7 +55,7 @@ namespace WxAutoCore.Components
             interval: TimeSpan.FromMilliseconds(200));
             if (clearButton.Success)
             {
-                _WxWindow.ClickExt(clearButton.Result);
+                _WxWindow.SilenceClickExt(clearButton.Result);
             }
         }
 

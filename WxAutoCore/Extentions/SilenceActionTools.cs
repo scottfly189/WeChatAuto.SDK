@@ -20,7 +20,7 @@ namespace WxAutoCore.Extentions
         /// </summary>
         /// <param name="wxWindow">微信窗口封装<see cref="IWeChatWindow"/></param>
         /// <param name="element">要点击的元素<see cref="AutomationElement"/>最好保证是最近刷新的元素</param>
-        public static void ClickExt(this IWeChatWindow wxWindow, AutomationElement element)
+        public static void SilenceClickExt(this IWeChatWindow wxWindow, AutomationElement element)
         {
             Wait.UntilInputIsProcessed();
             var lastWindow = wxWindow.SelfWindow.Automation.GetDesktop().FindFirstChild(cf => cf.ByControlType(ControlType.Window)
@@ -52,9 +52,9 @@ namespace WxAutoCore.Extentions
         /// </summary>
         /// <param name="element">输入框<see cref="TextBox"/></param>
         /// <param name="text">文本</param>
-        public static void EnterText(this IWeChatWindow wxWindow, TextBox edit, string text)
+        public static void SilenceEnterText(this IWeChatWindow wxWindow, TextBox edit, string text)
         {
-            wxWindow.ClickExt(edit);
+            wxWindow.SilenceClickExt(edit);
             Wait.UntilInputIsProcessed();
 
             var hwnd = wxWindow.SelfWindow.Properties.NativeWindowHandle.Value;
@@ -66,6 +66,23 @@ namespace WxAutoCore.Extentions
             {
                 User32.SendMessage(hwnd, WindowsMessages.WM_CHAR, (IntPtr)c, IntPtr.Zero);
             }
+        }
+        /// <summary>
+        /// 静默回车
+        /// </summary>
+        /// <param name="wxWindow">微信窗口封装<see cref="IWeChatWindow"/></param>
+        /// <param name="edit">输入框<see cref="TextBox"/></param>
+        public static void SilenceReturn(this IWeChatWindow wxWindow, TextBox edit)
+        {
+            wxWindow.SilenceClickExt(edit);
+            Wait.UntilInputIsProcessed();
+
+            var hwnd = wxWindow.SelfWindow.Properties.NativeWindowHandle.Value;
+            var rect = edit.BoundingRectangle;
+            int x = (int)((rect.Left + rect.Right) / 2 - wxWindow.SelfWindow.BoundingRectangle.Left);
+            int y = (int)((rect.Top + rect.Bottom) / 2 - wxWindow.SelfWindow.BoundingRectangle.Top);
+            IntPtr lParam = (IntPtr)((y << 16) | (x & 0xFFFF));
+            User32.SendMessage(hwnd, WindowsMessages.WM_KEYDOWN, (IntPtr)VirtualKeyShort.RETURN, lParam);
         }
     }
 }

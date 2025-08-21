@@ -73,7 +73,7 @@ namespace WxAutoCore.Components
                 xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_SETTING}'][@IsEnabled='true']"
             );
             CurrentNavigationElement = _wxLocationCaches.GetElement(NavigationType.聊天.ToString());
-            _WxWindow.ClickExt(CurrentNavigationElement);
+            _WxWindow.SilenceClickExt(CurrentNavigationElement);
         }
         /// <summary>
         /// 切换导航栏
@@ -90,7 +90,7 @@ namespace WxAutoCore.Components
                     DrawHightlightHelper.DrawHightlight(button);
                     if (CurrentNavigationElement.Name != button.Name)
                     {
-                        _WxWindow.ClickExt(button);
+                        _WxWindow.SilenceClickExt(button);
                         CurrentNavigationElement = button;
                     }
                 }

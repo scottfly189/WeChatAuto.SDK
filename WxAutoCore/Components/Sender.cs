@@ -121,9 +121,9 @@ namespace WxAutoCore.Components
         /// <param name="message">消息内容</param>
         public void SendMessage(string message)
         {
-            _WxWindow.EnterText(ContentArea, message);
+            _WxWindow.SilenceEnterText(ContentArea, message);
             var button = SendButton;
-            _WxWindow.ClickExt(button);
+            _WxWindow.SilenceClickExt(button);
         }
     }
 }
