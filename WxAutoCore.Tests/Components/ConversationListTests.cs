@@ -2,13 +2,14 @@ using FlaUI.Core.AutomationElements;
 using WxAutoCore.Components;
 using Xunit;
 using Xunit.Abstractions;
+using WxAutoCommon.Models;
 
 namespace WxAutoCore.Tests.Components
 {
     [Collection("UiTestCollection")]
     public class ConversationListTests
     {
-        private readonly string _wxClientName = "Alex Zhao";
+        private readonly string _wxClientName = WxConfig.TestClientName;
         private readonly ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public ConversationListTests(ITestOutputHelper output, UiTestFixture globalFixture)
@@ -39,7 +40,7 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxWindow;
             var conversations = window.Conversations;
-            conversations.ClickConversation("猫哥 Flutter 六群");
+            conversations.ClickConversation(WxConfig.TestGroupNickName);
         }
 
         [Fact(DisplayName = "测试双击会话")]
@@ -49,7 +50,7 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxWindow;
             var conversations = window.Conversations;
-            conversations.DoubleClickConversation(".NET-AI实时快讯3群");
+            conversations.DoubleClickConversation(WxConfig.TestGroupNickName);
         }
 
         [Fact(DisplayName = "测试获取会话列表所有会话标题")]

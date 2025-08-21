@@ -1,6 +1,7 @@
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Tools;
 using WxAutoCommon.Enums;
+using WxAutoCommon.Models;
 using WxAutoCore.Services;
 using Xunit;
 using Xunit.Abstractions;
@@ -10,7 +11,7 @@ namespace WxAutoCore.Tests.Utils;
 [Collection("UiTestCollection")]
 public class XPathTests
 {
-    private readonly string _wxClientName = "Alex Zhao";
+    private readonly string _wxClientName = WxConfig.TestClientName;
     private ITestOutputHelper _output;
     private UiTestFixture _globalFixture;
     public XPathTests(ITestOutputHelper output, UiTestFixture globalFixture)

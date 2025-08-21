@@ -1,13 +1,14 @@
 using Xunit;
 using Xunit.Abstractions;
 using WxAutoCore.Components;
+using WxAutoCommon.Models;
 
 namespace WxAutoCore.Tests.Components;
 
 [Collection("UiTestCollection")]
 public class ChatHeaderTests
 {
-    private readonly string _wxClientName = "Alex Zhao";
+    private readonly string _wxClientName = WxConfig.TestClientName;
     private readonly ITestOutputHelper _output;
     private UiTestFixture _globalFixture;
     public ChatHeaderTests(ITestOutputHelper output, UiTestFixture globalFixture)

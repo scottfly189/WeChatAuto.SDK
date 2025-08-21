@@ -4,13 +4,14 @@ using FlaUI.Core;
 using WxAutoCore.Components;
 using Xunit.Abstractions;
 using WxAutoCore.Services;
+using WxAutoCommon.Models;
 
 namespace WxAutoCore.Tests.Components
 {
     [Collection("UiTestCollection")]
     public class SubWinListTests
     {
-        private readonly string _wxClientName = "Alex Zhao";
+        private readonly string _wxClientName = WxConfig.TestClientName;
         private readonly ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public SubWinListTests(ITestOutputHelper output, UiTestFixture globalFixture)

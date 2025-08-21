@@ -55,6 +55,21 @@ namespace WxAutoCommon.Models
         public static bool DebugMode { get; set; } = true;
 
         /// <summary>
+        /// 测试好友,要改成自己的才能正确运行单元测试
+        /// </summary>
+        public static string TestFriendNickName { get; set; } = "梁工";
+
+        /// <summary>
+        /// 测试客户端,要改成自己的才能正确运行单元测试
+        /// </summary>
+        public static string TestClientName { get; set; } = "Alex Zhao";
+
+        /// <summary>
+        /// 测试群组,要改成自己的才能正确运行单元测试
+        /// </summary>
+        public static string TestGroupNickName { get; set; } = ".NET-AI实时快讯3群";
+
+        /// <summary>
         /// 语言设置
         /// </summary>
         public static class Language

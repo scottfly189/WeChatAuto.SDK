@@ -1,3 +1,4 @@
+using WxAutoCommon.Models;
 using WxAutoCore.Components;
 using Xunit.Abstractions;
 
@@ -6,7 +7,7 @@ namespace WxAutoCore.Tests.Components
     [Collection("UiTestCollection")]
     public class WxFramworkTests
     {
-        private readonly string _wxClientName = "Alex Zhao";
+        private readonly string _wxClientName = WxConfig.TestClientName;
         private ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public WxFramworkTests(ITestOutputHelper output, UiTestFixture globalFixture)
