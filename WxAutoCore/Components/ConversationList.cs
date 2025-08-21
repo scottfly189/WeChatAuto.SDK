@@ -111,7 +111,7 @@ namespace WxAutoCore.Components
         {
             var root = _GetConversationRoot();
             var items = root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
-            return items.Select(item => item.Name).ToList();
+            return items.Select(item => item.Name.Replace(WeChatConstant.WECHAT_SESSION_BOX_HAS_TOP, "")).ToList();
         }
 
         /// <summary>

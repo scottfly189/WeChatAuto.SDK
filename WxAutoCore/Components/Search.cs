@@ -48,7 +48,7 @@ namespace WxAutoCore.Components
         /// <summary>
         /// 清空搜索框
         /// </summary>
-        private void ClearText()
+        public void ClearText()
         {
             var clearButton = Retry.WhileNull(() => _WxWindow.Window.FindFirstByXPath($"/Pane/Pane/Pane/Pane/Pane/Pane/Button[@Name='{WeChatConstant.WECHAT_SESSION_CLEAR}']"),
             timeout: TimeSpan.FromSeconds(5),

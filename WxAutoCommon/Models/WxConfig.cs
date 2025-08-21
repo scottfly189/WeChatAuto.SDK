@@ -50,9 +50,9 @@ namespace WxAutoCommon.Models
         public static int SearchChatTimeout { get; set; } = 5;
 
         /// <summary>
-        /// 是否启用高亮
+        /// 是否启用调试模式
         /// </summary>
-        public static bool DebugMode { get; set; } = true;
+        public static bool DebugMode { get; set; } = false;
 
         /// <summary>
         /// 测试好友,要改成自己的才能正确运行单元测试

@@ -47,5 +47,115 @@ namespace WxAutoCore.Tests.Components
             _output.WriteLine($"昵称: {nickName}");
             Assert.Equal(_wxClientName, nickName);
         }
+
+        [Fact(DisplayName = "测试获取当前聊天窗口的标题")]
+        public void Test_GetCurrentChatTitle()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxWindow;
+            var title = window.GetCurrentChatTitle();
+            _output.WriteLine($"当前聊天窗口的标题: {title}");
+            Assert.True(title != null);
+        }
+
+        [Fact(DisplayName = "测试发送消息")]
+        public void Test_SendMessage()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxWindow;
+            window.SendMessage("你好，世界！");
+            Assert.True(true);
+        }
+        //要先打开测试人的聊天窗口
+        [Fact(DisplayName = "测试发送消息-已打开聊天窗口")]
+        public async Task Test_SendWho_AlreadyOpenChat()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxWindow;
+            await window.SendWho(WxConfig.TestFriendNickName, "你好，世界111！");
+            Assert.True(true);
+        }
+
+        [Fact(DisplayName = "测试发送消息-当前聊天窗口")]
+        public async Task Test_SendWho_CurrentChat()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxWindow;
+            await window.SendWho(WxConfig.TestFriendNickName, "你好，世界222！");
+            Assert.True(true);
+        }
+        [Fact(DisplayName = "测试发送消息-非当前聊天窗口,但是在会话列表中")]
+        public async Task Test_SendWho_NotCurrentChat_InConversationList()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxWindow;
+            await window.SendWho(WxConfig.TestFriendNickName, "你好，世界333！");
+            Assert.True(true);
+        }
+
+        [Fact(DisplayName = "测试发送消息-非当前聊天窗口,但是在会话列表中,并打开聊天窗口")]
+        public async Task Test_SendWho_NotCurrentChat_InConversationList_OpenChat()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxWindow;
+            await window.SendWhoAndOpenChat(WxConfig.TestFriendNickName, "你好，世界333222！");
+            Assert.True(true);
+        }
+
+        [Fact(DisplayName = "测试发送消息-非当前聊天窗口,不在会话列表中")]
+        public async Task Test_SendWho_NotCurrentChat_NOT_InConversationList()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxWindow;
+            await window.SendWho(WxConfig.TestFriendNickName, "你好，世界444！");
+            Assert.True(true);
+        }
+
+        [Fact(DisplayName = "测试发送消息-不存在的人")]
+        public async Task Test_SendWho_Not_Exist_Person()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxWindow;
+            await window.SendWho("不存在的人", "你好，世界555！");
+            Assert.True(true);
+        }
+
+        [Fact(DisplayName = "测试发送消息")]
+        public async Task Test_SendWhoAndOpenChat()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxWindow;
+            await window.SendWhoAndOpenChat(WxConfig.TestFriendNickName, "你好，世界666！");
+            Assert.True(true);
+        }
+
+        [Fact(DisplayName = "测试发送消息-批量")]
+        public void Test_SendWhos()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxWindow;
+            window.SendWhos([WxConfig.TestFriendNickName, WxConfig.TestGroupNickName], "你好，世界777！");
+            Assert.True(true);
+        }
+
+        [Fact(DisplayName = "测试发送消息-批量,并打开聊天窗口")]
+        public void Test_SendWhosAndOpenChat()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxWindow;
+            window.SendWhosAndOpenChat([WxConfig.TestFriendNickName, WxConfig.TestGroupNickName], "你好，世界777！");
+            Assert.True(true);
+        }
     }
 }

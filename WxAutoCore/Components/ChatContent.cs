@@ -24,8 +24,6 @@ namespace WxAutoCore.Components
             _ChatContentType = chatContentType;
             _XPath = xPath;
             _WxWindow = wxWindow;
-            _ChatContentRoot = _Window.FindFirstByXPath(_XPath);
-            DrawHightlightHelper.DrawHightlight(_ChatContentRoot);
         }
         /// <summary>
         /// 获取聊天标题
@@ -33,9 +31,18 @@ namespace WxAutoCore.Components
         /// <returns>聊天标题区<see cref="ChatHeader"/></returns>
         public ChatHeader GetChatHeader()
         {
+            _ChatContentRoot = _Window.FindFirstByXPath(_XPath);
+            if (_ChatContentRoot == null)
+            {
+                return new ChatHeader(string.Empty, null);
+            }
             var header =_ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             DrawHightlightHelper.DrawHightlight(header);
             var titles = header.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text));
+            if (titles == null)
+            {
+                return new ChatHeader(string.Empty, null);
+            }
             var title = titles.Name;
             if (Regex.IsMatch(title, @"^([^\(]+) \("))
             {
@@ -60,6 +67,10 @@ namespace WxAutoCore.Components
         /// <returns>聊天内容组件</returns>
         public ChatBody GetChatBody()
         {
+            if (_ChatContentRoot == null)
+            {
+               _ChatContentRoot = _Window.FindFirstByXPath(_XPath);
+            }
             var chatBodyRoot = _ChatContentRoot.FindFirstByXPath("/Pane[2]");
             DrawHightlightHelper.DrawHightlight(chatBodyRoot);
             var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow);

@@ -8,6 +8,9 @@ using System.Linq;
 using WxAutoCommon.Utils;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Interface;
+using FlaUI.Core.Input;
+using System.Threading.Tasks;
+
 
 
 namespace WxAutoCore.Components
@@ -56,11 +59,11 @@ namespace WxAutoCore.Components
         private void _InitWxWindow(WxNotifyIcon notifyIcon)
         {
             _ToolBar = new ToolBar(_Window, notifyIcon);  // 工具栏
-            _Navigation = new Navigation(_Window,this);  // 导航栏
+            _Navigation = new Navigation(_Window, this);  // 导航栏
             _Search = new Search(this);  // 搜索
             _Conversations = new ConversationList(_Window, this);  // 会话列表
             _SubWinList = new SubWinList(_Window, this);
-            _WxChatContent = new ChatContent(_Window, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane",this);
+            _WxChatContent = new ChatContent(_Window, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane", this);
         }
 
         #region 窗口操作
@@ -116,49 +119,170 @@ namespace WxAutoCore.Components
         }
         #endregion
 
-        #region 好友查询操作
+        #region 发送消息操作
         /// <summary>
         /// 单个查询，查询单个好友
         /// 注意：此方法不会打开子聊天窗口
         /// </summary>
         /// <param name="who">好友名称</param>
-        public void SearchWho(string who)
+        /// <param name="message">消息内容</param>
+        public async Task SendWho(string who, string message)
         {
-            SendWhoCore(who,false);
+            await SendWhoCore(who, message, false);
         }
         /// <summary>
         /// 批量查询，查询多个好友
         /// 注意：此方法不会打开子聊天窗口
         /// </summary>
         /// <param name="whos">好友名称列表</param>
-        public void SearchWhos(string[] whos)
+        /// <param name="message">消息内容</param>
+        public void SendWhos(string[] whos, string message)
         {
-            whos.ToList().ForEach(who => SearchWho(who));
+            whos.ToList().ForEach(async who => await SendWho(who, message));
         }
         /// <summary>
         /// 单个查询，查询单个好友，并打开子聊天窗口
         /// </summary>
         /// <param name="who">好友名称</param>
-        public void SearchWhoAndOpenChat(string who)
+        /// <param name="message">消息内容</param>
+        public async Task SendWhoAndOpenChat(string who, string message)
         {
-            SendWhoCore(who,true);
+            await SendWhoCore(who, message, true);
+        }
+
+        /// <summary>
+        /// 批量查询，查询多个好友，并打开子聊天窗口
+        /// </summary>
+        /// <param name="whos">好友名称列表</param>
+        /// <param name="message">消息内容</param>
+        public void SendWhosAndOpenChat(string[] whos, string message)
+        {
+            whos.ToList().ForEach(async who => await SendWhoAndOpenChat(who, message));
+        }
+
+        /// <summary>
+        /// 给当前聊天窗口发送消息
+        /// </summary>
+        /// <param name="message">消息内容</param>
+        public void SendMessage(string message)
+        {
+            this.ChatContent.ChatBody.Sender.SendMessage(message);
+        }
+        /// <summary>
+        /// 获取当前聊天窗口的标题
+        /// </summary>
+        /// <returns>当前聊天窗口的标题</returns>
+        public string GetCurrentChatTitle()
+        {
+            return this.ChatContent.ChatHeader.Title;
         }
         /// <summary>
         /// 发送消息核心方法
         /// </summary>
         /// <param name="who">好友名称</param>
+        /// <param name="message">消息内容</param>
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
-        private void SendWhoCore(string who, bool isOpenChat = false)
+        private async Task SendWhoCore(string who, string message, bool isOpenChat = false)
         {
+            //步骤：
+            //1.首先查询此用户是否在弹出窗口列表中
+            //2.如果存在，则用弹出窗口发出消息
+            if (SubWindowIsOpen(who, message))
+            {
+                return;
+            }
+            //3.如果不存在，则查询当前聊天窗口是否是此用户(即who)
+            //4.如果是，则发送消息
+            if (IsCurrentChat(who, message))
+            {
+                return;
+            }
+            //5.如果不是，则查询此用户是否在会话列表中
+            //6.如果存在，则打开或者点击此会话，并且发送消息
+            if (await IsConversation(who, message, isOpenChat))
+            {
+                return;
+            }
+            //7.如果不存在，则进行查询,如果查询到有此用户，则打开或者点击此会话，并且发送消息
+            //8.如果查询不到，则提示用户不存在.
+            if (await IsSearch(who, message, isOpenChat))
+            {
+                return;
+            }
+
+            System.Windows.MessageBox.Show($"用户{who}不存在,请检查您的输入是否正确",
+                "错误",
+                System.Windows.MessageBoxButton.OK,
+                System.Windows.MessageBoxImage.Error);
 
         }
-        /// <summary>
-        /// 批量查询，查询多个好友，并打开子聊天窗口
-        /// </summary>
-        /// <param name="whos">好友名称列表</param>
-        public void SearchWhosAndOpenChat(string[] whos)
+        private bool SubWindowIsOpen(string who, string message)
         {
-            whos.ToList().ForEach(who => SearchWhoAndOpenChat(who));
+            var subWin = this.SubWinList.GetSubWin(who);
+            if (subWin != null)
+            {
+                subWin.ChatContent.ChatBody.Sender.SendMessage(message);
+                return true;
+            }
+            return false;
+        }
+
+        private bool IsCurrentChat(string who, string message)
+        {
+            var currentChatTitle = this.GetCurrentChatTitle();
+            if (currentChatTitle == who)
+            {
+                this.SendMessage(message);
+                return true;
+            }
+            return false;
+        }
+        private async Task<bool> IsConversation(string who, string message, bool isOpenChat)
+        {
+            var conversations = this.Conversations.GetConversationTitles();
+            if (conversations.Contains(who))
+            {
+                if (isOpenChat)
+                {
+                    this.Conversations.DoubleClickConversation(who);
+                    Wait.UntilInputIsProcessed();
+                    await SendWhoCore(who, message, isOpenChat); // 由于是双击会话,弹出窗口实例已经存在，所以需要从弹出窗口重新发送消息
+                    return true;
+                }
+                else
+                {
+                    this.Conversations.ClickConversation(who);
+                    Wait.UntilInputIsProcessed();
+                    this.SendMessage(message);
+                    return true;
+                }
+            }
+            return false;
+        }
+        private async Task<bool> IsSearch(string who, string message, bool isOpenChat)
+        {
+            this.Search.SearchChat(who);
+            await Task.Delay(1000);
+            var conversations = this.Conversations.GetConversationTitles();
+            if (conversations.Contains(who))
+            {
+                if (isOpenChat)
+                {
+                    this.Conversations.DoubleClickConversation(who);
+                    Wait.UntilInputIsProcessed();
+                    await SendWhoCore(who, message, isOpenChat); // 由于是双击会话,弹出窗口实例已经存在，所以需要从弹出窗口重新发送消息
+                    return true;
+                }
+                else
+                {
+                    this.Conversations.ClickConversation(who);
+                    Wait.UntilInputIsProcessed();
+                    this.SendMessage(message);
+                    return true;
+                }
+            }
+            this.Search.ClearText();
+            return false;
         }
         #endregion
     }
