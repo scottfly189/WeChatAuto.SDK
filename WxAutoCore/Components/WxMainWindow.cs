@@ -51,7 +51,7 @@ namespace WxAutoCore.Components
         }
 
         /// <summary>
-        /// 初始化固定控件
+        /// 初始化微信窗口的各种组件
         /// </summary>
         private void _InitWxWindow(WxNotifyIcon notifyIcon)
         {
@@ -124,7 +124,7 @@ namespace WxAutoCore.Components
         /// <param name="who">好友名称</param>
         public void SearchWho(string who)
         {
-
+            SendWhoCore(who,false);
         }
         /// <summary>
         /// 批量查询，查询多个好友
@@ -141,7 +141,15 @@ namespace WxAutoCore.Components
         /// <param name="who">好友名称</param>
         public void SearchWhoAndOpenChat(string who)
         {
-            SearchWho(who);
+            SendWhoCore(who,true);
+        }
+        /// <summary>
+        /// 发送消息核心方法
+        /// </summary>
+        /// <param name="who">好友名称</param>
+        /// <param name="isOpenChat">是否打开子聊天窗口</param>
+        private void SendWhoCore(string who, bool isOpenChat = false)
+        {
 
         }
         /// <summary>

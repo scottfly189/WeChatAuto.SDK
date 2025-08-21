@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Text.RegularExpressions;
 using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
@@ -34,12 +35,17 @@ namespace WxAutoCore.Components
         {
             var header =_ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             DrawHightlightHelper.DrawHightlight(header);
-            var titles = header.FindAllDescendants(cf => cf.ByControlType(ControlType.Text));
-            var title = "";
-            foreach (var item in titles)
+            var titles = header.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text));
+            var title = titles.Name;
+            if (Regex.IsMatch(title, @"^([^\(]+) \("))
             {
-                title += item.Name;
+                title = Regex.Match(title, @"^([^\(]+) \(").Groups[1].Value;
             }
+            else
+            {
+                title = title.Trim();
+            }
+
             var buttons = header.FindAllDescendants(cf => cf.ByControlType(ControlType.Button));
             Button chatInfoButton = null;
             if (buttons.Count() > 0)
@@ -55,6 +61,7 @@ namespace WxAutoCore.Components
         public ChatBody GetChatBody()
         {
             var chatBodyRoot = _ChatContentRoot.FindFirstByXPath("/Pane[2]");
+            DrawHightlightHelper.DrawHightlight(chatBodyRoot);
             var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow);
             return chatBody;
         }

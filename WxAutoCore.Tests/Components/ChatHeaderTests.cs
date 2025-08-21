@@ -32,6 +32,12 @@ public class ChatHeaderTests
     {
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
-        
+        var mainWindow = client.WxWindow;
+        mainWindow.Conversations.DoubleClickConversation(WxConfig.TestGroupNickName);
+        var subWin = mainWindow.SubWinList.GetSubWin(WxConfig.TestGroupNickName);
+        var chatHeader = subWin.ChatContent.ChatHeader;
+        _output.WriteLine(chatHeader.Title);
+        Assert.Equal(WxConfig.TestGroupNickName, chatHeader.Title);
+        mainWindow.SubWinList.CloseAllSubWins();
     }
 }

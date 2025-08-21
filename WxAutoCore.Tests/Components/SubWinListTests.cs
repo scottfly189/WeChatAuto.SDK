@@ -60,10 +60,12 @@ namespace WxAutoCore.Tests.Components
             var window = client.WxWindow;
             window.Conversations.DoubleClickConversation(subWinName);
             var subWinList = window.SubWinList;
-            var isOpen = subWinList.GetSubWinIsOpen(subWinName);
+            var isOpen = subWinList.CheckSubWinIsOpen(subWinName);
             Assert.True(isOpen);
             await WxAutomation.Wait(TimeSpan.FromSeconds(5));
             subWinList.CloseAllSubWins();
+            isOpen = subWinList.CheckSubWinIsOpen(subWinName);
+            Assert.False(isOpen);
         }
     }
 }

@@ -48,7 +48,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="name">子窗口名称</param>
         /// <returns></returns>
-        public bool GetSubWinIsOpen(string name)
+        public bool CheckSubWinIsOpen(string name)
         {
             var subWin = GetSubWin(name);
             return subWin != null;

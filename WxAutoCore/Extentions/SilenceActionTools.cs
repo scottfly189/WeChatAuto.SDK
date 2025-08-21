@@ -55,7 +55,6 @@ namespace WxAutoCore.Extentions
         public static void SilenceEnterText(this IWeChatWindow wxWindow, TextBox edit, string text)
         {
             wxWindow.SilenceClickExt(edit);
-            Wait.UntilInputIsProcessed();
 
             var hwnd = wxWindow.SelfWindow.Properties.NativeWindowHandle.Value;
             var rect = edit.BoundingRectangle;
@@ -66,6 +65,8 @@ namespace WxAutoCore.Extentions
             {
                 User32.SendMessage(hwnd, WindowsMessages.WM_CHAR, (IntPtr)c, IntPtr.Zero);
             }
+
+            Wait.UntilInputIsProcessed();
         }
         /// <summary>
         /// 静默回车

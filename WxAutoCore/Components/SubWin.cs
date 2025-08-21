@@ -16,13 +16,15 @@ namespace WxAutoCore.Components
 
         public Window SelfWindow { get => _SelfWindow; set => _SelfWindow = value; }
 
+        public ChatContent ChatContent => _ChatContent;
+
         public int ProcessId => _ProcessId;
 
         /// <summary>
         /// 子窗口构造函数
         /// </summary>
         /// <param name="window">子窗口FlaUI的window</param>
-        /// <param name="wxWindow">主窗口</param>
+        /// <param name="wxWindow">主窗口的微信窗口对象</param>
         public SubWin(Window window, WxMainWindow wxWindow)
         {
             _SelfWindow = window;

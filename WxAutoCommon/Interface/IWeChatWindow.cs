@@ -3,7 +3,7 @@ using FlaUI.Core.AutomationElements;
 namespace WxAutoCommon.Interface
 {
     /// <summary>
-    /// 聊天内容接口
+    /// 微信窗口接口
     /// </summary>
     public interface IWeChatWindow
     {
