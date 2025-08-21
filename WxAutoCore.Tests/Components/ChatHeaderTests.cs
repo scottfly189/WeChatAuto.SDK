@@ -26,4 +26,12 @@ public class ChatHeaderTests
         _output.WriteLine(chatHeader.Title);
         Assert.True(chatHeader.Title != null);
     }
+
+    [Fact(DisplayName = "测试获取子窗口标题")]
+    public void Test_SubWin_ChatHeaderTitle()
+    {
+        var framework = _globalFixture.wxFramwork;
+        var client = framework.GetWxClient(_wxClientName);
+        
+    }
 }

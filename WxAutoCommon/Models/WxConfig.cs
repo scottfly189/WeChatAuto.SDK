@@ -60,6 +60,11 @@ namespace WxAutoCommon.Models
         public static string TestFriendNickName { get; set; } = "梁工";
 
         /// <summary>
+        /// 备选测试好友,要改成自己的才能正确运行单元测试
+        /// </summary>
+        public static string TestAlternativeFriendNickName { get; set; } = "文件传输助手";
+
+        /// <summary>
         /// 测试客户端,要改成自己的才能正确运行单元测试
         /// </summary>
         public static string TestClientName { get; set; } = "Alex Zhao";
@@ -68,6 +73,11 @@ namespace WxAutoCommon.Models
         /// 测试群组,要改成自己的才能正确运行单元测试
         /// </summary>
         public static string TestGroupNickName { get; set; } = ".NET-AI实时快讯3群";
+
+        /// <summary>
+        /// 备选测试群组,要改成自己的才能正确运行单元测试
+        /// </summary>
+        public static string TestAlternativeGroupNickName { get; set; } = "备选测试群";
 
         /// <summary>
         /// 语言设置
