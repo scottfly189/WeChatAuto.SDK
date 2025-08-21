@@ -47,5 +47,25 @@ namespace WxAutoCore.Extentions
             User32.SendMessage(windowHandle, WindowsMessages.WM_LBUTTONUP, IntPtr.Zero, lParam);
             Wait.UntilInputIsProcessed();
         }
+        /// <summary>
+        /// 静默输入文本
+        /// </summary>
+        /// <param name="element">输入框<see cref="TextBox"/></param>
+        /// <param name="text">文本</param>
+        public static void EnterText(this IWeChatWindow wxWindow, TextBox edit, string text)
+        {
+            wxWindow.ClickExt(edit);
+            Wait.UntilInputIsProcessed();
+
+            var hwnd = wxWindow.SelfWindow.Properties.NativeWindowHandle.Value;
+            var rect = edit.BoundingRectangle;
+            int x = (int)((rect.Left + rect.Right) / 2 - wxWindow.SelfWindow.BoundingRectangle.Left);
+            int y = (int)((rect.Top + rect.Bottom) / 2 - wxWindow.SelfWindow.BoundingRectangle.Top);
+            IntPtr lParam = (IntPtr)((y << 16) | (x & 0xFFFF));
+            foreach (char c in text)
+            {
+                User32.SendMessage(hwnd, WindowsMessages.WM_CHAR, (IntPtr)c, IntPtr.Zero);
+            }
+        }
     }
 }

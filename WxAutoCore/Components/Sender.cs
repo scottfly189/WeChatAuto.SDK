@@ -14,6 +14,7 @@ using FlaUI.Core.WindowsAPI;
 using System;
 using WxAutoCore.Extentions;
 using WxAutoCommon.Interface;
+using System.Text;
 
 namespace WxAutoCore.Components
 {
@@ -120,11 +121,7 @@ namespace WxAutoCore.Components
         /// <param name="message">消息内容</param>
         public void SendMessage(string message)
         {
-            _WxWindow.ClickExt(ContentArea);
-            ContentArea.FocusNative();
-            ContentArea.Focus();
-            ContentArea.Enter(message);
-            // Keyboard.Type(message);
+            _WxWindow.EnterText(ContentArea, message);
             var button = SendButton;
             _WxWindow.ClickExt(button);
         }
