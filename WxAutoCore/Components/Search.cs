@@ -6,13 +6,15 @@ using FlaUI.Core.WindowsAPI;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Utils;
 using WxAutoCore.Utils;
+using WxAutoCommon.Interface;
+using WxAutoCore.Extentions;
 
 namespace WxAutoCore.Components
 {
     public class Search
     {
-        private WxWindow _WxWindow;
-        public Search(WxWindow wxWindow)
+        private WxMainWindow _WxWindow;
+        public Search(WxMainWindow wxWindow)
         {
             _WxWindow = wxWindow;
         }
@@ -38,10 +40,11 @@ namespace WxAutoCore.Components
                 }
                 textBox.FocusNative();
                 textBox.Focus();
-                textBox.Click();
+                _WxWindow.ClickExt(textBox);
                 textBox.Enter(text);
                 _WxWindow.Window.Focus();
                 textBox.Focus();
+                _WxWindow.ClickExt(textBox);
                 Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));
                 Keyboard.Press(VirtualKeyShort.RETURN);
             }
@@ -56,7 +59,7 @@ namespace WxAutoCore.Components
             interval: TimeSpan.FromMilliseconds(200));
             if (clearButton.Success)
             {
-                clearButton.Result.Click();
+                _WxWindow.ClickExt(clearButton.Result);
             }
         }
 

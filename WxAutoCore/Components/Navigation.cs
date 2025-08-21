@@ -6,19 +6,23 @@ using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
 using WxAutoCommon.Enums;
+using WxAutoCommon.Interface;
 using WxAutoCommon.Utils;
+using WxAutoCore.Extentions;
 using WxAutoCore.Utils;
 
 namespace WxAutoCore.Components
 {
     public class Navigation
     {
+        private IWeChatWindow _WxWindow;
         public WxLocationCaches _wxLocationCaches = new WxLocationCaches();
         public AutomationElement CurrentNavigationElement { get; private set; }
         private Window _Window;
-        public Navigation(Window window)
+        public Navigation(Window window,IWeChatWindow wxWindow)
         {
             _Window = window;
+            _WxWindow = wxWindow;
             _InitNavigation();
         }
         private void _InitNavigation()
@@ -69,7 +73,7 @@ namespace WxAutoCore.Components
                 xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_SETTING}'][@IsEnabled='true']"
             );
             CurrentNavigationElement = _wxLocationCaches.GetElement(NavigationType.聊天.ToString());
-            CurrentNavigationElement.Click();
+            _WxWindow.ClickExt(CurrentNavigationElement);
         }
         /// <summary>
         /// 切换导航栏
@@ -86,7 +90,7 @@ namespace WxAutoCore.Components
                     DrawHightlightHelper.DrawHightlight(button);
                     if (CurrentNavigationElement.Name != button.Name)
                     {
-                        button.Click();
+                        _WxWindow.ClickExt(button);
                         CurrentNavigationElement = button;
                     }
                 }

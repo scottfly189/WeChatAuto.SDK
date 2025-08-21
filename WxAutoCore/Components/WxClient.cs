@@ -16,7 +16,7 @@ namespace WxAutoCore.Components
     public class WxClient
     {
         public WxNotifyIcon WxNotifyIcon { get; private set; }  // 微信客户端通知图标
-        public WxWindow WxWindow { get; private set; }  // 微信客户端窗口
+        public WxMainWindow WxWindow { get; private set; }  // 微信客户端窗口
 
         public string NickName => WxWindow.NickName;   // 微信昵称
 
@@ -26,7 +26,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="wxNotifyIcon">微信客户端通知图标类</param>
         /// <param name="wxWindow">微信客户端窗口类</param>
-        public WxClient(WxNotifyIcon wxNotifyIcon, WxWindow wxWindow)
+        public WxClient(WxNotifyIcon wxNotifyIcon, WxMainWindow wxWindow)
         {
             WxNotifyIcon = wxNotifyIcon;
             WxWindow = wxWindow;

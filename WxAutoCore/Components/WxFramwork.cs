@@ -108,7 +108,7 @@ namespace WxAutoCore.Components
                             .And(cf.ByProcessId(topWindowProcessId.Result)))).AsWindow();
                 DrawHightlightHelper.DrawHightlight(wxInstances);
                 WxNotifyIcon wxNotifyIcon = new WxNotifyIcon(wxNotify.AsButton());
-                WxWindow wxWindow = new WxWindow(wxInstances, wxNotifyIcon);
+                WxMainWindow wxWindow = new WxMainWindow(wxInstances, wxNotifyIcon);
 
                 var client = new WxClient(wxNotifyIcon, wxWindow);
                 var NickNameButton = wxInstances.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]").AsButton();

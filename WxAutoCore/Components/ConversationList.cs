@@ -10,6 +10,7 @@ using FlaUI.Core.Tools;
 using FlaUI.Core.Conditions;
 using System.Text.RegularExpressions;
 using WxAutoCore.Utils;
+using WxAutoCore.Extentions;
 
 namespace WxAutoCore.Components
 {
@@ -19,7 +20,7 @@ namespace WxAutoCore.Components
     public class ConversationList
     {
         private Window _Window;
-        private WxWindow _WxWindow;
+        private WxMainWindow _WxWindow;
         private List<string> _TitleTypeList = new List<string> { WeChatConstant.WECHAT_CONVERSATION_WX_TEAM,
             WeChatConstant.WECHAT_CONVERSATION_SERVICE_NOTICE,
             WeChatConstant.WECHAT_CONVERSATION_WX_PAY,
@@ -30,7 +31,7 @@ namespace WxAutoCore.Components
         };
         private readonly string _titleSuffix = WeChatConstant.WECHAT_SESSION_BOX_HAS_TOP;
         private List<ListBoxItem> _Conversations = new List<ListBoxItem>();
-        public ConversationList(Window window, WxWindow wxWindow)
+        public ConversationList(Window window, WxMainWindow wxWindow)
         {
             _Window = window;
             _WxWindow = wxWindow;
@@ -77,7 +78,7 @@ namespace WxAutoCore.Components
                 {
                     var button = retryElement.Result.AsButton();
                     DrawHightlightHelper.DrawHightlight(button);
-                    button.Click();
+                    _WxWindow.ClickExt(button);
                 }
             }
         }
