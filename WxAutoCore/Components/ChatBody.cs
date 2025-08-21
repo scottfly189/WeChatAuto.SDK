@@ -6,19 +6,23 @@ using FlaUI.Core.Tools;
 using FlaUI.Core.EventHandlers;
 using FlaUI.Core.AutomationElements;
 using WxAutoCommon.Utils;
+using WxAutoCore.Utils;
+using WxAutoCommon.Interface;
 
 namespace WxAutoCore.Components
 {
     public class ChatBody
     {
         private Window _Window;
+        private IWeChatWindow _WxWindow;
         private AutomationElement _ChatBodyRoot;
         public BubbleList BubbleList => GetBubbleList();
         public Sender Sender => GetSender();
-        public ChatBody(Window window, AutomationElement chatBodyRoot)
+        public ChatBody(Window window, AutomationElement chatBodyRoot,IWeChatWindow wxWindow)
         {
             _Window = window;
             _ChatBodyRoot = chatBodyRoot;
+            _WxWindow = wxWindow;
         }
         /// <summary>
         /// 获取聊天内容区气泡列表
@@ -28,6 +32,7 @@ namespace WxAutoCore.Components
         {
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
             var bubbleListRoot = _ChatBodyRoot.FindFirstByXPath(xPath);
+            DrawHightlightHelper.DrawHightlight(bubbleListRoot);
             BubbleList bubbleList = new BubbleList(_Window, bubbleListRoot);
             return bubbleList;
         }
@@ -37,10 +42,11 @@ namespace WxAutoCore.Components
         /// <returns>聊天内容区发送者<see cref="Sender"/></returns>
         public Sender GetSender()
         {
-            var xPath = "/Pane[2]/Pane[2]";
+            var xPath = "/Pane[2]";
             var senderRoot = _ChatBodyRoot.FindFirstByXPath(xPath);
-            var sender = new Sender(_Window, senderRoot);
-            return null;
+            DrawHightlightHelper.DrawHightlight(senderRoot);
+            var sender = new Sender(_Window, senderRoot, _WxWindow);
+            return sender;
         }
     }
 }

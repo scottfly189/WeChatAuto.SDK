@@ -7,11 +7,16 @@ namespace WxAutoCore.Components
     /// <summary>
     /// 子窗口基类
     /// </summary>
-    public class SubWin : IChatContentAction
+    public class SubWin : IWeChatWindow
     {
         private ChatContent _ChatContent;
         private WxWindow _MainWxWindow;    //主窗口对象
         private Window _SelfWindow;        //子窗口FlaUI的window
+        private int _ProcessId;
+
+        public Window SelfWindow { get => _SelfWindow; set => _SelfWindow = value; }
+
+        public int ProcessId => _ProcessId;
 
         /// <summary>
         /// 子窗口构造函数
@@ -22,7 +27,8 @@ namespace WxAutoCore.Components
         {
             _SelfWindow = window;
             _MainWxWindow = wxWindow;
-            _ChatContent = new ChatContent(_SelfWindow, ChatContentType.SubWindow, "/Pane[2]/Pane/Pane[2]/Pane/Pane");
+            _ChatContent = new ChatContent(_SelfWindow, ChatContentType.SubWindow, "/Pane[2]/Pane/Pane[2]/Pane/Pane",this);
+            _ProcessId = _SelfWindow.Properties.ProcessId.Value;
         }
 
         public void Close()

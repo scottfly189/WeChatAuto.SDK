@@ -8,6 +8,12 @@ using System.Collections.Generic;
 using System.Linq;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Utils;
+using WxAutoCore.Utils;
+using FlaUI.UIA3.Converters;
+using FlaUI.Core.WindowsAPI;
+using System;
+using WxAutoCore.Extentions;
+using WxAutoCommon.Interface;
 
 namespace WxAutoCore.Components
 {
@@ -17,16 +23,21 @@ namespace WxAutoCore.Components
     public class Sender
     {
         private Window _Window;
+        private IWeChatWindow _WxWindow;
         private AutomationElement _SenderRoot;
         public TextBox ContentArea => GetContentArea();
         public List<(ChatBoxToolBarType type, Button button)> ToolBarButtons => GetToolBarButtons();
         public Button SendButton => GetSendButton();
         /// <summary>
         /// 聊天内容区发送者构造函数
+        /// <param name="window">窗口<see cref="Window"/></param>
+        /// <param name="senderRoot">发送者根元素<see cref="AutomationElement"/></param>
+        /// <param name="wxWindow">微信窗口封装<see cref="WxWindow"/></param>
         /// </summary>
-        public Sender(Window window, AutomationElement senderRoot)
+        public Sender(Window window, AutomationElement senderRoot,IWeChatWindow wxWindow)
         {
             _Window = window;
+            _WxWindow = wxWindow;
             _SenderRoot = senderRoot;
         }
         /// <summary>
@@ -62,6 +73,7 @@ namespace WxAutoCore.Components
         public List<(ChatBoxToolBarType type, Button button)> GetToolBarButtons()
         {
             var toolBarRoot = _SenderRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.ToolBar));
+            DrawHightlightHelper.DrawHightlight(toolBarRoot);
             var buttons = toolBarRoot.FindAllChildren(cf => cf.ByControlType(ControlType.Button));
             List<Button> buttonList = buttons.Select(btn => btn.AsButton()).ToList();
             List<(ChatBoxToolBarType type, Button button)> toolBarButtons = new List<(ChatBoxToolBarType type, Button button)>
@@ -82,9 +94,11 @@ namespace WxAutoCore.Components
         /// <returns>输入框</returns>
         public TextBox GetContentArea()
         {
-            var xPath = "/Pane/Pane/Pane/Pane/Edit";
-            var contentAreaRoot = _SenderRoot.FindFirstByXPath(xPath);
-            var contentArea = contentAreaRoot.AsTextBox();
+            ///Pane[2]/Pane/Pane[1]/Edit
+            // var xPath = "/Pane[2]/Pane/Pane[1]/Edit";
+            // var contentAreaRoot = _SenderRoot.FindFirstByXPath(xPath);
+            // var contentArea = contentAreaRoot.AsTextBox();
+            var contentArea = _SenderRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit)).AsTextBox();
             return contentArea;
         }
         /// <summary>
@@ -93,9 +107,11 @@ namespace WxAutoCore.Components
         /// <returns>发送按钮</returns>
         public Button GetSendButton()
         {
-            var xPath = "/Pane/Pane/Pane/Pane/Pane/Button";
-            var senderBotton = _SenderRoot.FindAllByXPath(xPath);
-            var sendButton = senderBotton.ToList().Select(btn => btn.AsButton()).FirstOrDefault(btn => btn.Name.Contains(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_SEND));
+            // var xPath = "/Pane/Pane/Pane/Pane/Pane/Button";
+            // var senderBotton = _SenderRoot.FindAllByXPath(xPath);
+            // var sendButton = senderBotton.ToList().Select(btn => btn.AsButton()).FirstOrDefault(btn => btn.Name.Contains(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_SEND));
+            var sendButton = _SenderRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByText(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_SEND))).AsButton();
+            DrawHightlightHelper.DrawHightlight(sendButton);
             return sendButton;
         }
         /// <summary>
@@ -104,9 +120,13 @@ namespace WxAutoCore.Components
         /// <param name="message">消息内容</param>
         public void SendMessage(string message)
         {
-            ContentArea.Text = message;
-            Wait.UntilInputIsProcessed();
-            SendButton.Invoke();  //试试，可能要改成SendButton.Click();
+            ContentArea.Click();
+            ContentArea.FocusNative();
+            ContentArea.Focus();
+            ContentArea.Enter(message);
+            // Keyboard.Type(message);
+            var button = SendButton;
+            _WxWindow.ClickExt(button);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace WxAutoCore.Components
     /// <summary>
     /// 微信客户端窗口,封装的微信窗口，包含工具栏、导航栏、搜索、会话列表、通讯录、聊天窗口等
     /// </summary>
-    public class WxWindow : IChatContentAction
+    public class WxWindow : IWeChatWindow
     {
         private Window _Window;
         private ToolBar _ToolBar;  // 工具栏
@@ -30,11 +30,13 @@ namespace WxAutoCore.Components
         public ConversationList Conversations => _Conversations;  // 会话列表
         public AddressBookList AddressBook => _AddressBook;  // 通讯录
         public Search Search => _Search;  // 搜索
-        public ChatContent WxChat => _WxChatContent;  // 聊天窗口
+        public ChatContent ChatContent => _WxChatContent;  // 聊天窗口
         public SubWinList SubWinList => _SubWinList;  // 子窗口列表
         public int ProcessId { get; private set; }
         public string NickName => _Window.FindFirstByXPath($"/Pane/Pane/ToolBar[@Name='{WeChatConstant.WECHAT_NAVIGATION_NAVIGATION}'][@IsEnabled='true']").FindFirstChild().Name;
         public Window Window => _Window;
+
+        public Window SelfWindow { get => _Window; set => _Window = value; }
 
         /// <summary>
         /// 微信客户端窗口构造函数
@@ -57,10 +59,8 @@ namespace WxAutoCore.Components
             _Search = new Search(this);  // 搜索
             _Conversations = new ConversationList(_Window, this);  // 会话列表
             _SubWinList = new SubWinList(_Window, this);
-            _WxChatContent = new ChatContent(_Window, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane");
+            _WxChatContent = new ChatContent(_Window, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane",this);
         }
-
-
 
         #region 窗口操作
         /// <summary>

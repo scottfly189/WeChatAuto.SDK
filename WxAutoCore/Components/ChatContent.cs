@@ -3,23 +3,28 @@ using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using WxAutoCommon.Enums;
+using WxAutoCommon.Interface;
+using WxAutoCore.Utils;
 
 namespace WxAutoCore.Components
 {
     public class ChatContent
     {
         private Window _Window;
+        private IWeChatWindow _WxWindow;
         private ChatContentType _ChatContentType;
         private string _XPath;
         private AutomationElement _ChatContentRoot;
         public ChatHeader ChatHeader => GetChatHeader();
         public ChatBody ChatBody => GetChatBody();
-        public ChatContent(Window window, ChatContentType chatContentType, string xPath)
+        public ChatContent(Window window, ChatContentType chatContentType, string xPath,IWeChatWindow wxWindow)
         {
             _Window = window;
             _ChatContentType = chatContentType;
             _XPath = xPath;
+            _WxWindow = wxWindow;
             _ChatContentRoot = _Window.FindFirstByXPath(_XPath);
+            DrawHightlightHelper.DrawHightlight(_ChatContentRoot);
         }
         /// <summary>
         /// 获取聊天标题
@@ -28,6 +33,7 @@ namespace WxAutoCore.Components
         public ChatHeader GetChatHeader()
         {
             var header =_ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
+            DrawHightlightHelper.DrawHightlight(header);
             var titles = header.FindAllDescendants(cf => cf.ByControlType(ControlType.Text));
             var title = "";
             foreach (var item in titles)
@@ -43,13 +49,13 @@ namespace WxAutoCore.Components
             return new ChatHeader(title, chatInfoButton);
         }
         /// <summary>
-        /// 获取聊天内容
+        /// 获取聊天内容组件
         /// </summary>
-        /// <returns>聊天内容</returns>
+        /// <returns>聊天内容组件</returns>
         public ChatBody GetChatBody()
         {
             var chatBodyRoot = _ChatContentRoot.FindFirstByXPath("/Pane[2]");
-            var chatBody = new ChatBody(_Window, chatBodyRoot);
+            var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow);
             return chatBody;
         }
     }
