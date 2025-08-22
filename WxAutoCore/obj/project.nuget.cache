@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "OGlVY4zQ8s4=",
+  "dgSpecHash": "26UFv6JZ8cw=",
   "success": true,
   "projectFilePath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCore\\WxAutoCore.csproj",
   "expectedPackageFiles": [
@@ -21,6 +21,7 @@
     "C:\\Users\\Administrator\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\nlog\\6.0.3\\nlog.6.0.3.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\nlog.extensions.logging\\6.0.3\\nlog.extensions.logging.6.0.3.nupkg.sha512",
+    "C:\\Users\\Administrator\\.nuget\\packages\\oneof\\3.0.271\\oneof.3.0.271.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.codedom\\8.0.0\\system.codedom.8.0.0.nupkg.sha512",
     "C:\\Users\\Administrator\\.nuget\\packages\\system.configuration.configurationmanager\\8.0.1\\system.configuration.configurationmanager.8.0.1.nupkg.sha512",

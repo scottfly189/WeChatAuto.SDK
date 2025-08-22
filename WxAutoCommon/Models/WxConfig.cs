@@ -20,6 +20,11 @@ namespace WxAutoCommon.Models
         public static bool EnableFileLogger { get; set; } = true;
 
         /// <summary>
+        /// 接口KEY
+        /// </summary>
+        public static string ApiKey { get; set; } = "";
+
+        /// <summary>
         /// 下载文件/图片默认保存路径
         /// </summary>
         public static string DefaultSavePath { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "wxauto_download");

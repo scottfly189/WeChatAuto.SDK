@@ -305,6 +305,15 @@
           }
         }
       },
+      "OneOf/3.0.271": {
+        "type": "package",
+        "compile": {
+          "lib/net45/OneOf.dll": {}
+        },
+        "runtime": {
+          "lib/net45/OneOf.dll": {}
+        }
+      },
       "System.Buffers/4.5.1": {
         "type": "package",
         "frameworkAssemblies": [
@@ -467,7 +476,8 @@
           "FlaUI.Core": "5.0.0",
           "FlaUI.UIA2": "5.0.0",
           "FlaUI.UIA3": "5.0.0",
-          "Newtonsoft.Json": "13.0.3"
+          "Newtonsoft.Json": "13.0.3",
+          "OneOf": "3.0.271"
         },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
@@ -781,6 +791,15 @@
           }
         }
       },
+      "OneOf/3.0.271": {
+        "type": "package",
+        "compile": {
+          "lib/net45/OneOf.dll": {}
+        },
+        "runtime": {
+          "lib/net45/OneOf.dll": {}
+        }
+      },
       "System.Buffers/4.5.1": {
         "type": "package",
         "frameworkAssemblies": [
@@ -943,7 +962,8 @@
           "FlaUI.Core": "5.0.0",
           "FlaUI.UIA2": "5.0.0",
           "FlaUI.UIA3": "5.0.0",
-          "Newtonsoft.Json": "13.0.3"
+          "Newtonsoft.Json": "13.0.3",
+          "OneOf": "3.0.271"
         },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
@@ -1220,6 +1240,15 @@
           }
         }
       },
+      "OneOf/3.0.271": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/OneOf.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/OneOf.dll": {}
+        }
+      },
       "System.CodeDom/8.0.0": {
         "type": "package",
         "compile": {
@@ -1412,7 +1441,8 @@
           "FlaUI.Core": "5.0.0",
           "FlaUI.UIA2": "5.0.0",
           "FlaUI.UIA3": "5.0.0",
-          "Newtonsoft.Json": "13.0.3"
+          "Newtonsoft.Json": "13.0.3",
+          "OneOf": "3.0.271"
         },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
@@ -1688,6 +1718,15 @@
           }
         }
       },
+      "OneOf/3.0.271": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/OneOf.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/OneOf.dll": {}
+        }
+      },
       "System.CodeDom/8.0.0": {
         "type": "package",
         "compile": {
@@ -1869,7 +1908,8 @@
           "FlaUI.Core": "5.0.0",
           "FlaUI.UIA2": "5.0.0",
           "FlaUI.UIA3": "5.0.0",
-          "Newtonsoft.Json": "13.0.3"
+          "Newtonsoft.Json": "13.0.3",
+          "OneOf": "3.0.271"
         },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
@@ -2145,6 +2185,15 @@
           }
         }
       },
+      "OneOf/3.0.271": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/OneOf.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/OneOf.dll": {}
+        }
+      },
       "System.CodeDom/8.0.0": {
         "type": "package",
         "compile": {
@@ -2353,7 +2402,8 @@
           "FlaUI.Core": "5.0.0",
           "FlaUI.UIA2": "5.0.0",
           "FlaUI.UIA3": "5.0.0",
-          "Newtonsoft.Json": "13.0.3"
+          "Newtonsoft.Json": "13.0.3",
+          "OneOf": "3.0.271"
         },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
@@ -2631,6 +2681,15 @@
           }
         }
       },
+      "OneOf/3.0.271": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/OneOf.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/OneOf.dll": {}
+        }
+      },
       "System.CodeDom/8.0.0": {
         "type": "package",
         "compile": {
@@ -2839,7 +2898,8 @@
           "FlaUI.Core": "5.0.0",
           "FlaUI.UIA2": "5.0.0",
           "FlaUI.UIA3": "5.0.0",
-          "Newtonsoft.Json": "13.0.3"
+          "Newtonsoft.Json": "13.0.3",
+          "OneOf": "3.0.271"
         },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
@@ -3116,6 +3176,15 @@
           }
         }
       },
+      "OneOf/3.0.271": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/OneOf.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/OneOf.dll": {}
+        }
+      },
       "System.CodeDom/8.0.0": {
         "type": "package",
         "compile": {
@@ -3308,7 +3377,8 @@
           "FlaUI.Core": "5.0.0",
           "FlaUI.UIA2": "5.0.0",
           "FlaUI.UIA3": "5.0.0",
-          "Newtonsoft.Json": "13.0.3"
+          "Newtonsoft.Json": "13.0.3",
+          "OneOf": "3.0.271"
         },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
@@ -3817,6 +3887,21 @@
         "lib/netstandard2.1/NLog.Extensions.Logging.xml",
         "nlog.extensions.logging.6.0.3.nupkg.sha512",
         "nlog.extensions.logging.nuspec"
+      ]
+    },
+    "OneOf/3.0.271": {
+      "sha512": "pqpqeK8xQGggExhr4tesVgJkjdn+9HQAO0QgrYV2hFjE3y90okzk1kQMntMiUOGfV7FrCUfKPaVvPBD4IANqKg==",
+      "type": "package",
+      "path": "oneof/3.0.271",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35/OneOf.dll",
+        "lib/net45/OneOf.dll",
+        "lib/netstandard1.3/OneOf.dll",
+        "lib/netstandard2.0/OneOf.dll",
+        "oneof.3.0.271.nupkg.sha512",
+        "oneof.nuspec"
       ]
     },
     "System.Buffers/4.5.1": {
@@ -4367,6 +4452,7 @@
       "NLog >= 6.0.3",
       "NLog.Extensions.Logging >= 6.0.3",
       "Newtonsoft.Json >= 13.0.3",
+      "OneOf >= 3.0.271",
       "WxAutoCommon >= 1.0.0"
     ],
     ".NETFramework,Version=v4.8.1": [
@@ -4377,6 +4463,7 @@
       "NLog >= 6.0.3",
       "NLog.Extensions.Logging >= 6.0.3",
       "Newtonsoft.Json >= 13.0.3",
+      "OneOf >= 3.0.271",
       "WxAutoCommon >= 1.0.0"
     ],
     "net10.0-windows7.0": [
@@ -4387,6 +4474,7 @@
       "NLog >= 6.0.3",
       "NLog.Extensions.Logging >= 6.0.3",
       "Newtonsoft.Json >= 13.0.3",
+      "OneOf >= 3.0.271",
       "WxAutoCommon >= 1.0.0"
     ],
     "net6.0-windows7.0": [
@@ -4397,6 +4485,7 @@
       "NLog >= 6.0.3",
       "NLog.Extensions.Logging >= 6.0.3",
       "Newtonsoft.Json >= 13.0.3",
+      "OneOf >= 3.0.271",
       "WxAutoCommon >= 1.0.0"
     ],
     "net7.0-windows7.0": [
@@ -4407,6 +4496,7 @@
       "NLog >= 6.0.3",
       "NLog.Extensions.Logging >= 6.0.3",
       "Newtonsoft.Json >= 13.0.3",
+      "OneOf >= 3.0.271",
       "WxAutoCommon >= 1.0.0"
     ],
     "net8.0-windows7.0": [
@@ -4417,6 +4507,7 @@
       "NLog >= 6.0.3",
       "NLog.Extensions.Logging >= 6.0.3",
       "Newtonsoft.Json >= 13.0.3",
+      "OneOf >= 3.0.271",
       "WxAutoCommon >= 1.0.0"
     ],
     "net9.0-windows7.0": [
@@ -4427,6 +4518,7 @@
       "NLog >= 6.0.3",
       "NLog.Extensions.Logging >= 6.0.3",
       "Newtonsoft.Json >= 13.0.3",
+      "OneOf >= 3.0.271",
       "WxAutoCommon >= 1.0.0"
     ]
   },
@@ -4559,6 +4651,10 @@
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.3, )"
+          },
+          "OneOf": {
+            "target": "Package",
+            "version": "[3.0.271, )"
           }
         },
         "imports": [
@@ -4896,6 +4992,10 @@
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.3, )"
+          },
+          "OneOf": {
+            "target": "Package",
+            "version": "[3.0.271, )"
           }
         },
         "imports": [
@@ -5233,6 +5333,10 @@
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.3, )"
+          },
+          "OneOf": {
+            "target": "Package",
+            "version": "[3.0.271, )"
           }
         },
         "imports": [
@@ -5584,6 +5688,10 @@
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.3, )"
+          },
+          "OneOf": {
+            "target": "Package",
+            "version": "[3.0.271, )"
           }
         },
         "imports": [
@@ -5937,6 +6045,10 @@
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.3, )"
+          },
+          "OneOf": {
+            "target": "Package",
+            "version": "[3.0.271, )"
           }
         },
         "imports": [
@@ -6260,6 +6372,10 @@
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.3, )"
+          },
+          "OneOf": {
+            "target": "Package",
+            "version": "[3.0.271, )"
           }
         },
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-preview.6.25358.103\\RuntimeIdentifierGraph.json"
@@ -6294,6 +6410,10 @@
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.3, )"
+          },
+          "OneOf": {
+            "target": "Package",
+            "version": "[3.0.271, )"
           }
         },
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-preview.6.25358.103\\RuntimeIdentifierGraph.json"

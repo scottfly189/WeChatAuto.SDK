@@ -10,6 +10,7 @@ using WxAutoCommon.Enums;
 using WxAutoCommon.Interface;
 using FlaUI.Core.Input;
 using System.Threading.Tasks;
+using OneOf;
 
 
 
@@ -126,8 +127,28 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="who">好友名称</param>
         /// <param name="message">消息内容</param>
-        public async Task SendWho(string who, string message)
+        /// <param name="atUser">被@的用户</param>
+        public async Task SendWho(string who, string message, OneOf<string, string[]> atUser = default)
         {
+            if (atUser.Value != null)
+            {
+                atUser.Switch(
+                    (string atUser) =>
+                    {
+                        message = $"@{atUser} {message}";
+                    },
+                    (string[] atUsers) =>
+                    {
+                        var atUserList = atUsers.ToList();
+                        var atUserString = "";
+                        atUserList.ForEach(atUser =>
+                        {
+                            atUserString += $"@{atUser} ";
+                        });
+                        message = $"{atUserString}{message}";
+                    }
+                );
+            }
             await SendWhoCore(who, message, false);
         }
         /// <summary>
@@ -136,17 +157,41 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="whos">好友名称列表</param>
         /// <param name="message">消息内容</param>
-        public void SendWhos(string[] whos, string message)
+        /// <param name="atUser">被@的用户</param>
+        public void SendWhos(string[] whos, string message, OneOf<string, string[]> atUser = default)
         {
-            whos.ToList().ForEach(async who => await SendWho(who, message));
+            whos.ToList().ForEach(async who =>
+            {
+                await SendWho(who, message, atUser);
+            });
         }
         /// <summary>
         /// 单个查询，查询单个好友，并打开子聊天窗口
         /// </summary>
         /// <param name="who">好友名称</param>
         /// <param name="message">消息内容</param>
-        public async Task SendWhoAndOpenChat(string who, string message)
+        /// <param name="atUser">被@的用户</param>
+        public async Task SendWhoAndOpenChat(string who, string message, OneOf<string, string[]> atUser = default)
         {
+            if (atUser.Value != null)
+            {
+                atUser.Switch(
+                    (string atUser) =>
+                    {
+                        message = $"@{atUser} {message}";
+                    },
+                    (string[] atUsers) =>
+                    {
+                        var atUserList = atUsers.ToList();
+                        var atUserString = "";
+                        atUserList.ForEach(atUser =>
+                        {
+                            atUserString += $"@{atUser} ";
+                        });
+                        message = $"{atUserString}{message}";
+                    }
+                );
+            }
             await SendWhoCore(who, message, true);
         }
 
@@ -155,17 +200,22 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="whos">好友名称列表</param>
         /// <param name="message">消息内容</param>
-        public void SendWhosAndOpenChat(string[] whos, string message)
+        /// <param name="atUser">被@的用户</param>
+        public void SendWhosAndOpenChat(string[] whos, string message, OneOf<string, string[]> atUser = default)
         {
-            whos.ToList().ForEach(async who => await SendWhoAndOpenChat(who, message));
+            whos.ToList().ForEach(async who => await SendWhoAndOpenChat(who, message, atUser));
         }
 
         /// <summary>
         /// 给当前聊天窗口发送消息
         /// </summary>
         /// <param name="message">消息内容</param>
-        public void SendMessage(string message)
+        public void SendMessage(string message, string atUser = null)
         {
+            if (atUser != null)
+            {
+                message = $"@{atUser} {message}";
+            }
             this.ChatContent.ChatBody.Sender.SendMessage(message);
         }
         /// <summary>
