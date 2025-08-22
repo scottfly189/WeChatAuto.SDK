@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ namespace WxAutoCore.Services
     public class WeChatPCCore
     {
         private WxFramwork _wxFramwork;
+        private WxClient _wxClient;
+        private WxMainWindow _wxMainWindow;
         private string _nickName;
         public string NickName
         {
@@ -75,26 +78,17 @@ namespace WxAutoCore.Services
                 {
                     WxConfig.ApiKey = message.ApiKey;
                 }
-                var client = _wxFramwork.GetWxClient(_nickName);
-                if (client == null)
-                {
-                    throw new Exception($"未找到微信窗口,可能微信客户端昵称:{_nickName}不正确");
-                }
-                var window = client.WxWindow;
-                if (window == null)
-                {
-                    throw new Exception($"未找到微信窗口,可能微信客户端昵称:{_nickName}不正确");
-                }
+                _InitWxClient();
                 if (message.IsNewWindow)
                 {
                     message.ToUser.Switch(
                         async (string toUser) =>
                         {
-                            await client.WxWindow.SendWhoAndOpenChat(toUser, message.Message,message.AtUser);
+                            await _wxMainWindow.SendWhoAndOpenChat(toUser, message.Message, message.AtUser);
                         },
                         (string[] toUsers) =>
                         {
-                            client.WxWindow.SendWhosAndOpenChat(toUsers, message.Message,message.AtUser);
+                            _wxMainWindow.SendWhosAndOpenChat(toUsers, message.Message, message.AtUser);
                         }
                     );
                 }
@@ -103,11 +97,11 @@ namespace WxAutoCore.Services
                     message.ToUser.Switch(
                         async (string toUser) =>
                         {
-                            await client.WxWindow.SendWho(toUser, message.Message,message.AtUser);
+                            await _wxMainWindow.SendWho(toUser, message.Message, message.AtUser);
                         },
                         (string[] toUsers) =>
                         {
-                            client.WxWindow.SendWhos(toUsers, message.Message,message.AtUser);
+                            _wxMainWindow.SendWhos(toUsers, message.Message, message.AtUser);
                         }
                     );
                 }
@@ -128,6 +122,25 @@ namespace WxAutoCore.Services
             };
         }
         /// <summary>
+        /// 初始化微信客户端
+        /// </summary>
+        private void _InitWxClient()
+        {
+            if (_wxClient == null)
+            {
+                _wxClient = _wxFramwork.GetWxClient(_nickName);
+                if (_wxClient == null)
+                {
+                    throw new Exception($"未找到微信窗口,可能微信客户端昵称:{_nickName}不正确");
+                }
+                _wxMainWindow = _wxClient.WxWindow;
+                if (_wxMainWindow == null)
+                {
+                    throw new Exception($"未找到微信窗口,可能微信客户端昵称:{_nickName}不正确");
+                }
+            }
+        }
+        /// <summary>
         /// 检查昵称是否为空
         /// </summary>
         /// <exception cref="Exception"></exception>
@@ -137,6 +150,22 @@ namespace WxAutoCore.Services
             {
                 throw new Exception("昵称不能为空");
             }
+        }
+        /// <summary>
+        /// 关闭所有子窗口
+        /// </summary>
+        public void CloseAllSubWindow()
+        {
+            _wxClient.WxWindow.SubWinList.CloseAllSubWins();
+        }
+
+        /// <summary>
+        /// 关闭指定子窗口
+        /// </summary>
+        /// <param name="nickName">好友昵称，或者窗口名称</param>
+        public void CloseSubWindow(string nickName)
+        {
+            _wxClient.WxWindow.SubWinList.CloseSubWin(nickName);
         }
     }
 }
