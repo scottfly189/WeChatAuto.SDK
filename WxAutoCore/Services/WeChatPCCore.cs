@@ -90,11 +90,11 @@ namespace WxAutoCore.Services
                     message.ToUser.Switch(
                         async (string toUser) =>
                         {
-                            await client.WxWindow.SendWhoAndOpenChat(toUser, message.Message);
+                            await client.WxWindow.SendWhoAndOpenChat(toUser, message.Message,message.AtUser);
                         },
                         (string[] toUsers) =>
                         {
-                            client.WxWindow.SendWhosAndOpenChat(toUsers, message.Message);
+                            client.WxWindow.SendWhosAndOpenChat(toUsers, message.Message,message.AtUser);
                         }
                     );
                 }
@@ -103,11 +103,11 @@ namespace WxAutoCore.Services
                     message.ToUser.Switch(
                         async (string toUser) =>
                         {
-                            await client.WxWindow.SendWho(toUser, message.Message);
+                            await client.WxWindow.SendWho(toUser, message.Message,message.AtUser);
                         },
                         (string[] toUsers) =>
                         {
-                            client.WxWindow.SendWhos(toUsers, message.Message);
+                            client.WxWindow.SendWhos(toUsers, message.Message,message.AtUser);
                         }
                     );
                 }

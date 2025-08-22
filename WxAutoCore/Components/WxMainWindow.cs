@@ -133,17 +133,17 @@ namespace WxAutoCore.Components
             if (atUser.Value != null)
             {
                 atUser.Switch(
-                    (string atUser) =>
+                    (string user) =>
                     {
-                        message = $"@{atUser} {message}";
+                        message = $"@{user} {message}";
                     },
                     (string[] atUsers) =>
                     {
                         var atUserList = atUsers.ToList();
                         var atUserString = "";
-                        atUserList.ForEach(atUser =>
+                        atUserList.ForEach(user =>
                         {
-                            atUserString += $"@{atUser} ";
+                            atUserString += $"@{user} ";
                         });
                         message = $"{atUserString}{message}";
                     }
@@ -176,17 +176,17 @@ namespace WxAutoCore.Components
             if (atUser.Value != null)
             {
                 atUser.Switch(
-                    (string atUser) =>
+                    (string user) =>
                     {
-                        message = $"@{atUser} {message}";
+                        message = $"@{user} {message}";
                     },
                     (string[] atUsers) =>
                     {
                         var atUserList = atUsers.ToList();
                         var atUserString = "";
-                        atUserList.ForEach(atUser =>
+                        atUserList.ForEach(user =>
                         {
-                            atUserString += $"@{atUser} ";
+                            atUserString += $"@{user} ";
                         });
                         message = $"{atUserString}{message}";
                     }
