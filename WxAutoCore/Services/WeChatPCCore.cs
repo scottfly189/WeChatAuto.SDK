@@ -18,12 +18,13 @@ namespace WxAutoCore.Services
         private WxFramwork _wxFramwork;
         private WxClient _wxClient;
         private WxMainWindow _wxMainWindow;
-        private string _nickName;
-        public string NickName
-        {
-            get { return _nickName; }
-            set { _nickName = value; }
-        }
+        /// <summary>
+        /// 微信主窗口
+        /// <see cref="WxMainWindow"/>
+        /// </summary>
+        public WxMainWindow WxMainWindow => _wxMainWindow;
+        private string _ClientName;
+        public string ClientName => _ClientName;
         /// <summary>
         /// 默认构造函数
         /// </summary>
@@ -34,10 +35,10 @@ namespace WxAutoCore.Services
         /// <summary>
         /// 带昵称参数的构造函数
         /// </summary>
-        /// <param name="nickName"></param>
-        public WeChatPCCore(string nickName) : this()
+        /// <param name="clientName">微信客户端名称</param>
+        public WeChatPCCore(string clientName) : this()
         {
-            _nickName = nickName;
+            _ClientName = clientName;
         }
 
         /// <summary>
@@ -121,36 +122,7 @@ namespace WxAutoCore.Services
                 Message = "发送成功"
             };
         }
-        /// <summary>
-        /// 初始化微信客户端
-        /// </summary>
-        private void _InitWxClient()
-        {
-            if (_wxClient == null)
-            {
-                _wxClient = _wxFramwork.GetWxClient(_nickName);
-                if (_wxClient == null)
-                {
-                    throw new Exception($"未找到微信窗口,可能微信客户端昵称:{_nickName}不正确");
-                }
-                _wxMainWindow = _wxClient.WxWindow;
-                if (_wxMainWindow == null)
-                {
-                    throw new Exception($"未找到微信窗口,可能微信客户端昵称:{_nickName}不正确");
-                }
-            }
-        }
-        /// <summary>
-        /// 检查昵称是否为空
-        /// </summary>
-        /// <exception cref="Exception"></exception>
-        private void CheckNickName()
-        {
-            if (string.IsNullOrEmpty(_nickName))
-            {
-                throw new Exception("昵称不能为空");
-            }
-        }
+
         /// <summary>
         /// 关闭所有子窗口
         /// </summary>
@@ -166,6 +138,36 @@ namespace WxAutoCore.Services
         public void CloseSubWindow(string nickName)
         {
             _wxClient.WxWindow.SubWinList.CloseSubWin(nickName);
+        }
+        /// <summary>
+        /// 初始化微信客户端
+        /// </summary>
+        private void _InitWxClient()
+        {
+            if (_wxClient == null)
+            {
+                _wxClient = _wxFramwork.GetWxClient(_ClientName);
+                if (_wxClient == null)
+                {
+                    throw new Exception($"未找到微信窗口,可能微信客户端昵称:{_ClientName}不正确");
+                }
+                _wxMainWindow = _wxClient.WxWindow;
+                if (_wxMainWindow == null)
+                {
+                    throw new Exception($"未找到微信窗口,可能微信客户端昵称:{_ClientName}不正确");
+                }
+            }
+        }
+        /// <summary>
+        /// 检查昵称是否为空
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        private void CheckNickName()
+        {
+            if (string.IsNullOrEmpty(_ClientName))
+            {
+                throw new Exception("昵称不能为空");
+            }
         }
     }
 }

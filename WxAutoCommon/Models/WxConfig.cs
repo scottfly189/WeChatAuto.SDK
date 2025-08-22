@@ -39,25 +39,17 @@ namespace WxAutoCommon.Models
         /// </summary>
         public static int DefaultMessageXbias { get; set; } = 51;
 
-        /// <summary>
-        /// 是否强制重新自动获取X偏移量，如果设置为True，则每次启动都会重新获取
-        /// </summary>
-        public static bool ForceMessageXbias { get; set; } = true;
 
         /// <summary>
         /// 监听消息时间间隔，单位秒
         /// </summary>
         public static int ListenInterval { get; set; } = 1;
 
-        /// <summary>
-        /// 搜索聊天对象超时时间
-        /// </summary>
-        public static int SearchChatTimeout { get; set; } = 5;
 
         /// <summary>
         /// 是否启用调试模式
         /// </summary>
-        public static bool DebugMode { get; set; } = false;
+        public static bool DebugMode { get; set; } = true;
 
         /// <summary>
         /// 测试好友,要改成自己的才能正确运行单元测试
