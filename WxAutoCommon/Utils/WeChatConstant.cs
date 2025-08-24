@@ -67,5 +67,8 @@ namespace WxAutoCommon.Utils
         public static string MESSAGES_VIDEO_NUMBER_LIVE_ING = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "直播中");
         public static string MESSAGES_I = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "我");
         public static string MESSAGES_MINI_PROGRAM = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MESSAGES, "小程序");
+        public static string MESSAGES_RECALL = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MENU_OPTIONS, "撤回");
+        public static string MESSAGES_YOU = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MENU_OPTIONS, "你");
+        public static string MESSAGES_REFERENCE = WeChatTextIdentifiers.GetText(WeChatTextIdentifiers.MENU_OPTIONS, "引用");
     }
 }

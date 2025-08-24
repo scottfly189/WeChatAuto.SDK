@@ -8,7 +8,6 @@ namespace WxAutoCommon.Enums
         系统消息,
         自己发送消息,
         好友消息,
-        被引用的消息,
         其他消息,
     }
 }

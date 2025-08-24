@@ -317,6 +317,7 @@ namespace WxAutoCommon.Utils
             ["在独立窗口打开"] = new TextIdentifier { Cn = "在独立窗口打开", CnT = "", En = "" },
             ["不显示聊天"] = new TextIdentifier { Cn = "不显示聊天", CnT = "", En = "" },
             ["删除聊天"] = new TextIdentifier { Cn = "删除聊天", CnT = "", En = "" },
+            ["你"] = new TextIdentifier { Cn = "你", CnT = "", En = "" },
 
             // msg
             ["撤回"] = new TextIdentifier { Cn = "撤回", CnT = "", En = "" },

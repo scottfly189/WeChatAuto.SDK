@@ -16,7 +16,7 @@ namespace WxAutoCore.Components
         private Window _Window;
         private IWeChatWindow _WxWindow;
         private AutomationElement _ChatBodyRoot;
-        public BubbleList BubbleList => GetBubbleList();
+        public MessageBubbleList BubbleList => GetBubbleList();
         public Sender Sender => GetSender();
         public ChatBody(Window window, AutomationElement chatBodyRoot,IWeChatWindow wxWindow)
         {
@@ -28,12 +28,12 @@ namespace WxAutoCore.Components
         /// 获取聊天内容区气泡列表
         /// </summary>
         /// <returns>聊天内容区气泡列表<see cref="BubbleList"/></returns>
-        public BubbleList GetBubbleList()
+        public MessageBubbleList GetBubbleList()
         {
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
             var bubbleListRoot = _ChatBodyRoot.FindFirstByXPath(xPath);
             DrawHightlightHelper.DrawHightlight(bubbleListRoot);
-            BubbleList bubbleList = new BubbleList(_Window, bubbleListRoot);
+            MessageBubbleList bubbleList = new MessageBubbleList(_Window, bubbleListRoot, _WxWindow);
             return bubbleList;
         }
         /// <summary>

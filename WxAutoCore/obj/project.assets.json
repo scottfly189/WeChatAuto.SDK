@@ -314,6 +314,27 @@
           "lib/net45/OneOf.dll": {}
         }
       },
+      "Quartz/3.15.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "2.1.1",
+          "System.Diagnostics.DiagnosticSource": "4.7.1"
+        },
+        "frameworkAssemblies": [
+          "System.Configuration",
+          "System.Runtime.Remoting"
+        ],
+        "compile": {
+          "lib/net472/Quartz.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net472/Quartz.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "System.Buffers/4.5.1": {
         "type": "package",
         "frameworkAssemblies": [
@@ -434,6 +455,26 @@
           "lib/net461/System.Runtime.CompilerServices.Unsafe.dll": {
             "related": ".xml"
           }
+        }
+      },
+      "System.Threading.Channels/9.0.8": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "9.0.8",
+          "System.Threading.Tasks.Extensions": "4.5.4"
+        },
+        "compile": {
+          "lib/net462/System.Threading.Channels.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/System.Threading.Channels.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net462/_._": {}
         }
       },
       "System.Threading.Tasks.Extensions/4.5.4": {
@@ -800,6 +841,27 @@
           "lib/net45/OneOf.dll": {}
         }
       },
+      "Quartz/3.15.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "2.1.1",
+          "System.Diagnostics.DiagnosticSource": "4.7.1"
+        },
+        "frameworkAssemblies": [
+          "System.Configuration",
+          "System.Runtime.Remoting"
+        ],
+        "compile": {
+          "lib/net472/Quartz.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net472/Quartz.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "System.Buffers/4.5.1": {
         "type": "package",
         "frameworkAssemblies": [
@@ -920,6 +982,26 @@
           "lib/net461/System.Runtime.CompilerServices.Unsafe.dll": {
             "related": ".xml"
           }
+        }
+      },
+      "System.Threading.Channels/9.0.8": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "9.0.8",
+          "System.Threading.Tasks.Extensions": "4.5.4"
+        },
+        "compile": {
+          "lib/net462/System.Threading.Channels.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net462/System.Threading.Channels.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net462/_._": {}
         }
       },
       "System.Threading.Tasks.Extensions/4.5.4": {
@@ -1249,6 +1331,22 @@
           "lib/netstandard2.0/OneOf.dll": {}
         }
       },
+      "Quartz/3.15.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "2.1.1"
+        },
+        "compile": {
+          "lib/net9.0/Quartz.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/Quartz.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "System.CodeDom/8.0.0": {
         "type": "package",
         "compile": {
@@ -1413,6 +1511,22 @@
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "System.Threading.Channels/9.0.8": {
+        "type": "package",
+        "compile": {
+          "lib/net9.0/System.Threading.Channels.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/System.Threading.Channels.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
         }
       },
       "System.Windows.Extensions/8.0.0": {
@@ -1727,6 +1841,22 @@
           "lib/netstandard2.0/OneOf.dll": {}
         }
       },
+      "Quartz/3.15.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "2.1.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/Quartz.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Quartz.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "System.CodeDom/8.0.0": {
         "type": "package",
         "compile": {
@@ -1880,6 +2010,22 @@
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "System.Threading.Channels/9.0.8": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/System.Threading.Channels.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/System.Threading.Channels.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/netcoreapp2.0/System.Threading.Channels.targets": {}
         }
       },
       "System.Windows.Extensions/8.0.0": {
@@ -2194,6 +2340,22 @@
           "lib/netstandard2.0/OneOf.dll": {}
         }
       },
+      "Quartz/3.15.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "2.1.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/Quartz.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Quartz.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "System.CodeDom/8.0.0": {
         "type": "package",
         "compile": {
@@ -2374,6 +2536,22 @@
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "System.Threading.Channels/9.0.8": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/System.Threading.Channels.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/System.Threading.Channels.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/netcoreapp2.0/System.Threading.Channels.targets": {}
         }
       },
       "System.Windows.Extensions/8.0.0": {
@@ -2690,6 +2868,22 @@
           "lib/netstandard2.0/OneOf.dll": {}
         }
       },
+      "Quartz/3.15.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "2.1.1"
+        },
+        "compile": {
+          "lib/net8.0/Quartz.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Quartz.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "System.CodeDom/8.0.0": {
         "type": "package",
         "compile": {
@@ -2870,6 +3064,22 @@
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "System.Threading.Channels/9.0.8": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.Threading.Channels.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Threading.Channels.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
         }
       },
       "System.Windows.Extensions/8.0.0": {
@@ -3185,6 +3395,22 @@
           "lib/netstandard2.0/OneOf.dll": {}
         }
       },
+      "Quartz/3.15.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "2.1.1"
+        },
+        "compile": {
+          "lib/net9.0/Quartz.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/Quartz.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "System.CodeDom/8.0.0": {
         "type": "package",
         "compile": {
@@ -3349,6 +3575,22 @@
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "System.Threading.Channels/9.0.8": {
+        "type": "package",
+        "compile": {
+          "lib/net9.0/System.Threading.Channels.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/System.Threading.Channels.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
         }
       },
       "System.Windows.Extensions/8.0.0": {
@@ -3904,6 +4146,29 @@
         "oneof.nuspec"
       ]
     },
+    "Quartz/3.15.0": {
+      "sha512": "seV76VI/OW9xdsEHJlfErciicfMmmU8lcGde2SJIYxVK+k4smAaBkm0FY8a4AiVb6MMpjTvH252438ol/OOUwQ==",
+      "type": "package",
+      "path": "quartz/3.15.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net462/Quartz.dll",
+        "lib/net462/Quartz.xml",
+        "lib/net472/Quartz.dll",
+        "lib/net472/Quartz.xml",
+        "lib/net8.0/Quartz.dll",
+        "lib/net8.0/Quartz.xml",
+        "lib/net9.0/Quartz.dll",
+        "lib/net9.0/Quartz.xml",
+        "lib/netstandard2.0/Quartz.dll",
+        "lib/netstandard2.0/Quartz.xml",
+        "quartz-logo-small.png",
+        "quartz.3.15.0.nupkg.sha512",
+        "quartz.nuspec",
+        "quick-start.md"
+      ]
+    },
     "System.Buffers/4.5.1": {
       "sha512": "Rw7ijyl1qqRS0YQD/WycNst8hUUMgrMH4FCn1nNm27M4VxchZ1js3fVjQaANHO5f3sN4isvP4a+Met9Y4YomAg==",
       "type": "package",
@@ -4329,6 +4594,36 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "System.Threading.Channels/9.0.8": {
+      "sha512": "kpvkzWJoHR9os3/4LL5feaTTLD92+XzTqPyYLU2tw2BoJ4MrWCfkjGXtL7MsdpV/20e1+SamCbrPj2L9ptwgBA==",
+      "type": "package",
+      "path": "system.threading.channels/9.0.8",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/System.Threading.Channels.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net8.0/_._",
+        "buildTransitive/netcoreapp2.0/System.Threading.Channels.targets",
+        "lib/net462/System.Threading.Channels.dll",
+        "lib/net462/System.Threading.Channels.xml",
+        "lib/net8.0/System.Threading.Channels.dll",
+        "lib/net8.0/System.Threading.Channels.xml",
+        "lib/net9.0/System.Threading.Channels.dll",
+        "lib/net9.0/System.Threading.Channels.xml",
+        "lib/netstandard2.0/System.Threading.Channels.dll",
+        "lib/netstandard2.0/System.Threading.Channels.xml",
+        "lib/netstandard2.1/System.Threading.Channels.dll",
+        "lib/netstandard2.1/System.Threading.Channels.xml",
+        "system.threading.channels.9.0.8.nupkg.sha512",
+        "system.threading.channels.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
     "System.Threading.Tasks.Extensions/4.5.4": {
       "sha512": "zteT+G8xuGu6mS+mzDzYXbzS7rd3K6Fjb9RiZlYlJPam2/hU7JCBZBVEcywNuR+oZ1ncTvc/cq0faRr3P01OVg==",
       "type": "package",
@@ -4453,6 +4748,8 @@
       "NLog.Extensions.Logging >= 6.0.3",
       "Newtonsoft.Json >= 13.0.3",
       "OneOf >= 3.0.271",
+      "Quartz >= 3.15.0",
+      "System.Threading.Channels >= 9.0.8",
       "WxAutoCommon >= 1.0.0"
     ],
     ".NETFramework,Version=v4.8.1": [
@@ -4464,6 +4761,8 @@
       "NLog.Extensions.Logging >= 6.0.3",
       "Newtonsoft.Json >= 13.0.3",
       "OneOf >= 3.0.271",
+      "Quartz >= 3.15.0",
+      "System.Threading.Channels >= 9.0.8",
       "WxAutoCommon >= 1.0.0"
     ],
     "net10.0-windows7.0": [
@@ -4475,6 +4774,8 @@
       "NLog.Extensions.Logging >= 6.0.3",
       "Newtonsoft.Json >= 13.0.3",
       "OneOf >= 3.0.271",
+      "Quartz >= 3.15.0",
+      "System.Threading.Channels >= 9.0.8",
       "WxAutoCommon >= 1.0.0"
     ],
     "net6.0-windows7.0": [
@@ -4486,6 +4787,8 @@
       "NLog.Extensions.Logging >= 6.0.3",
       "Newtonsoft.Json >= 13.0.3",
       "OneOf >= 3.0.271",
+      "Quartz >= 3.15.0",
+      "System.Threading.Channels >= 9.0.8",
       "WxAutoCommon >= 1.0.0"
     ],
     "net7.0-windows7.0": [
@@ -4497,6 +4800,8 @@
       "NLog.Extensions.Logging >= 6.0.3",
       "Newtonsoft.Json >= 13.0.3",
       "OneOf >= 3.0.271",
+      "Quartz >= 3.15.0",
+      "System.Threading.Channels >= 9.0.8",
       "WxAutoCommon >= 1.0.0"
     ],
     "net8.0-windows7.0": [
@@ -4508,6 +4813,8 @@
       "NLog.Extensions.Logging >= 6.0.3",
       "Newtonsoft.Json >= 13.0.3",
       "OneOf >= 3.0.271",
+      "Quartz >= 3.15.0",
+      "System.Threading.Channels >= 9.0.8",
       "WxAutoCommon >= 1.0.0"
     ],
     "net9.0-windows7.0": [
@@ -4519,6 +4826,8 @@
       "NLog.Extensions.Logging >= 6.0.3",
       "Newtonsoft.Json >= 13.0.3",
       "OneOf >= 3.0.271",
+      "Quartz >= 3.15.0",
+      "System.Threading.Channels >= 9.0.8",
       "WxAutoCommon >= 1.0.0"
     ]
   },
@@ -4528,11 +4837,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCore\\WxAutoCore.csproj",
+      "projectUniqueName": "D:\\repo\\wxauto.net\\wxauto.net\\wxautocore\\WxAutoCore.csproj",
       "projectName": "WxAutoCore",
-      "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCore\\WxAutoCore.csproj",
+      "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\wxautocore\\WxAutoCore.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCore\\obj\\",
+      "outputPath": "D:\\repo\\wxauto.net\\wxauto.net\\wxautocore\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "configFilePaths": [
@@ -4655,6 +4964,14 @@
           "OneOf": {
             "target": "Package",
             "version": "[3.0.271, )"
+          },
+          "Quartz": {
+            "target": "Package",
+            "version": "[3.15.0, )"
+          },
+          "System.Threading.Channels": {
+            "target": "Package",
+            "version": "[9.0.8, )"
           }
         },
         "imports": [
@@ -4996,6 +5313,14 @@
           "OneOf": {
             "target": "Package",
             "version": "[3.0.271, )"
+          },
+          "Quartz": {
+            "target": "Package",
+            "version": "[3.15.0, )"
+          },
+          "System.Threading.Channels": {
+            "target": "Package",
+            "version": "[9.0.8, )"
           }
         },
         "imports": [
@@ -5337,6 +5662,14 @@
           "OneOf": {
             "target": "Package",
             "version": "[3.0.271, )"
+          },
+          "Quartz": {
+            "target": "Package",
+            "version": "[3.15.0, )"
+          },
+          "System.Threading.Channels": {
+            "target": "Package",
+            "version": "[9.0.8, )"
           }
         },
         "imports": [
@@ -5692,6 +6025,14 @@
           "OneOf": {
             "target": "Package",
             "version": "[3.0.271, )"
+          },
+          "Quartz": {
+            "target": "Package",
+            "version": "[3.15.0, )"
+          },
+          "System.Threading.Channels": {
+            "target": "Package",
+            "version": "[9.0.8, )"
           }
         },
         "imports": [
@@ -6049,6 +6390,14 @@
           "OneOf": {
             "target": "Package",
             "version": "[3.0.271, )"
+          },
+          "Quartz": {
+            "target": "Package",
+            "version": "[3.15.0, )"
+          },
+          "System.Threading.Channels": {
+            "target": "Package",
+            "version": "[9.0.8, )"
           }
         },
         "imports": [
@@ -6376,6 +6725,14 @@
           "OneOf": {
             "target": "Package",
             "version": "[3.0.271, )"
+          },
+          "Quartz": {
+            "target": "Package",
+            "version": "[3.15.0, )"
+          },
+          "System.Threading.Channels": {
+            "target": "Package",
+            "version": "[9.0.8, )"
           }
         },
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-preview.6.25358.103\\RuntimeIdentifierGraph.json"
@@ -6414,6 +6771,14 @@
           "OneOf": {
             "target": "Package",
             "version": "[3.0.271, )"
+          },
+          "Quartz": {
+            "target": "Package",
+            "version": "[3.15.0, )"
+          },
+          "System.Threading.Channels": {
+            "target": "Package",
+            "version": "[9.0.8, )"
           }
         },
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-preview.6.25358.103\\RuntimeIdentifierGraph.json"

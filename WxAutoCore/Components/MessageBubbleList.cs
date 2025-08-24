@@ -6,43 +6,78 @@ using FlaUI.Core.Definitions;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Utils;
 using System.Text.RegularExpressions;
+using WxAutoCommon.Interface;
+using WxAutoCore.Extentions;
 
 namespace WxAutoCore.Components
 {
     /// <summary>
     /// 聊天内容区气泡列表
     /// </summary>
-    public class BubbleList
+    public class MessageBubbleList
     {
         private Window _SelfWindow;
+        private IWeChatWindow _WxWindow;
         private AutomationElement _BubbleListRoot;
-        public List<Bubble> Bubbles => GetBubbles();
+        public List<MessageBubble> Bubbles => GetBubbles();
         public ListBox BubbleListRoot => _BubbleListRoot.AsListBox();   //用于订阅事件
-        public BubbleList(Window selfWindow, AutomationElement bubbleListRoot)
+        public MessageBubbleList(Window selfWindow, AutomationElement bubbleListRoot, IWeChatWindow wxWindow)
         {
             _SelfWindow = selfWindow;
             _BubbleListRoot = bubbleListRoot;
+            _WxWindow = wxWindow;
+        }
+        /// <summary>
+        /// 获取最后一个气泡
+        /// </summary>
+        /// <returns>最后一个气泡</returns>
+        public MessageBubble GetLastBubble()
+        {
+            MessageBubble[] bubbles = GetBubbles().ToArray();
+            return bubbles.Count() > 0 ? bubbles.Last() : null;
+        }
+
+        /// <summary>
+        /// 加载更多
+        /// </summary>
+        public void LoadMore()
+        {
+            var lookMoreButton = _BubbleListRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_LOOK_MORE)));
+            if (lookMoreButton != null)
+            {
+                _WxWindow.SilenceClickExt(lookMoreButton.AsButton());
+            }
+        }
+
+        /// <summary>
+        /// 是否有加载更多按钮
+        /// </summary>
+        /// <returns>是否有加载更多按钮</returns>
+        public bool IsLoadingMore()
+        {
+            var lookMoreButton = _BubbleListRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Button));
+            return lookMoreButton != null;
         }
 
         /// <summary>
         /// 获取气泡列表
         /// </summary>
-        public List<Bubble> GetBubbles()
+        public List<MessageBubble> GetBubbles()
         {
             var listItemList = _BubbleListRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
-            List<Bubble> bubbles = new List<Bubble>();
+            List<MessageBubble> bubbles = new List<MessageBubble>();
             for (int i = 0; i < listItemList.Count; i++)
             {
                 var bubble = ParseBubble(listItemList[i]);
                 if (bubble != null)
                 {
-                    if (bubble is Bubble)
+                    if (bubble is MessageBubble)
                     {
-                        bubbles.Add(bubble as Bubble);
+                        bubbles.Add(bubble as MessageBubble);
                     }
                     else
                     {
-                        bubbles.AddRange(bubble as List<Bubble>);
+                        bubbles.AddRange(bubble as List<MessageBubble>);
                     }
                 }
             }
@@ -52,7 +87,7 @@ namespace WxAutoCore.Components
         /// 解析气泡为Bubble对象,Bubble对象可能为空
         /// </summary>
         /// <param name="listItem"></param>
-        /// <returns>Bubble对象,可能为空,也可能为List<Bubble>对象;<see cref="Bubble"/></returns>
+        /// <returns>Bubble对象,可能为空,也可能为List<Bubble>对象;<see cref="MessageBubble"/></returns>
         private Object ParseBubble(AutomationElement listItem)
         {
             var listItemChildren = listItem.FindAllChildren();
@@ -60,15 +95,21 @@ namespace WxAutoCore.Components
             {
                 return null;
             }
+
             if (listItemChildren.Count() == 1)
             {
-                //系统消息，并且是时间消息
-                return _ParseTimeMessage(listItemChildren[0]);
-            }
-            else
-            {
-                //消息
-                return _ParseMessage(listItem);
+
+                if (string.IsNullOrEmpty(listItemChildren[0].Name))
+                {
+                    //非时间消息
+                    return _ParseMessage(listItem);
+                }
+                else
+                {
+                    //系统消息，并且是时间消息
+                    return _ParseTimeMessage(listItemChildren[0]);
+                }
+
             }
 
             throw new Exception("气泡解析失败");
@@ -77,7 +118,7 @@ namespace WxAutoCore.Components
         /// 解析除消息以外的气泡
         /// </summary>
         /// <param name="listItem"></param>
-        /// <returns>Bubble对象,可能为空;<see cref="Bubble"/></returns>
+        /// <returns>Bubble对象,可能为空;<see cref="MessageBubble"/></returns>
         private Object _ParseMessage(AutomationElement listItem)
         {
             if (listItem.Name.Trim() == WeChatConstant.MESSAGES_PICK_UP)
@@ -149,7 +190,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="listItem"></param>
         /// <returns></returns>
-        private Bubble _ParseExpressionMessage(AutomationElement listItem)
+        private MessageBubble _ParseExpressionMessage(AutomationElement listItem)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -161,10 +202,10 @@ namespace WxAutoCore.Components
             {
                 throw new Exception("表情消息解析失败");
             }
-            Bubble bubble = new Bubble();
+            MessageBubble bubble = new MessageBubble();
             bubble.MessageType = MessageType.表情;
             bubble.MessageContent = listItem.Name;
-            if (children[0] is Button)
+            if (children[0].ControlType == ControlType.Button)
             {
                 bubble.Sender = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
@@ -181,7 +222,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="listItem"></param>
         /// <returns></returns>
-        private Bubble _ParseTextMessage(AutomationElement listItem)
+        private MessageBubble _ParseTextMessage(AutomationElement listItem)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -189,7 +230,7 @@ namespace WxAutoCore.Components
                 throw new Exception("文本消息解析失败");
             }
             var children = paneElement.FindAllChildren();
-            var bubble = new Bubble();
+            var bubble = new MessageBubble();
             if (children.Count() != 3)
             {
                 bubble.MessageType = MessageType.文字;
@@ -200,20 +241,32 @@ namespace WxAutoCore.Components
             }
             bubble.MessageType = MessageType.文字;
             bubble.MessageContent = listItem.Name;
-            if (children[0] is Button)
+            if (children[0].ControlType == ControlType.Button)
             {
                 bubble.Sender = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
-                bubble.MessageSource = MessageSourceType.自己发送消息;
+                if (children[2].ControlType == ControlType.Button)
+                {
+                    bubble.Sender = "我";
+                    bubble.MessageSource = MessageSourceType.自己发送消息;
+                }
+                else
+                {
+                    _ProcessRecallMessage(listItem, children, bubble);
+                }
             }
 
             if (_ParseMiniProgram(children[1]))
             {
                 bubble.MessageType = MessageType.小程序;
+                var button = children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button));
+                if (button != null)
+                {
+                    bubble.ClickActionButton = button.AsButton();
+                }
                 return bubble;
             }
 
@@ -221,6 +274,129 @@ namespace WxAutoCore.Components
             _ParseReferencedMessage(children[1], listItem.Name, bubble);
             return bubble;
         }
+        /// <summary>
+        /// 解析引用消息
+        /// </summary>
+        /// <param name="rootPaneElement"></param>
+        /// <param name="title"></param>
+        /// <param name="parentBubble"></param>
+        private void _ParseReferencedMessage(AutomationElement rootPaneElement, string title, MessageBubble parentBubble)
+        {
+            parentBubble.GroupNickName = parentBubble.Sender;
+            if (Regex.IsMatch(title, $@"(\n{WeChatConstant.MESSAGES_REFERENCE}\s)"))
+            {
+                var count = rootPaneElement.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).Count();
+                switch (count)
+                {
+                    case 1:
+                        _ProcessPersionReferenceMesssage(rootPaneElement, parentBubble);
+                        break;
+                    case 2:
+                    case 3:
+                        _ProcessGroupReferenceMesssage(rootPaneElement, parentBubble, count);
+                        break;
+                    default:
+                        throw new Exception("引用消息解析失败");
+                }
+            }
+        }
+        /// <summary>
+        /// 处理个人引用消息
+        /// </summary>
+        /// <param name="rootPaneElement"></param>
+        /// <param name="parentBubble"></param>
+        private void _ProcessPersionReferenceMesssage(AutomationElement rootPaneElement, MessageBubble parentBubble)
+        {
+            var paneList = rootPaneElement.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
+            paneList = paneList.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
+            var subPaneList = paneList.FindAllChildren();
+            if (subPaneList.Count() != 1)
+            {
+                int index = 0;
+                if (subPaneList.Count() > 2)
+                {
+                    index = 1;
+                }
+                var texts = subPaneList[index].FindAllDescendants(cf => cf.ByControlType(ControlType.Text));
+                var result = "";
+                foreach (var text in texts)
+                {
+                    result += text.Name;
+                }
+                parentBubble.MessageContent = result;
+                var refText = subPaneList[index + 1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Text));
+                if (refText != null)
+                {
+                    parentBubble.BeReferencedPersion = Regex.Match(refText.Name, @"^(.*?)\s*:").Groups[1].Value;
+                    parentBubble.BeReferencedMessage = Regex.Match(refText.Name, @":\s*(.*)$").Groups[1].Value;
+                }
+            }
+        }
+        /// <summary>
+        /// 处理群引用消息
+        /// 分为：
+        /// 2：不显示群昵称
+        /// 3: 显示群昵称
+        /// </summary>
+        /// <param name="rootPaneElement"></param>
+        /// <param name="parentBubble"></param>
+        /// <param name="count"></param>
+        private void _ProcessGroupReferenceMesssage(AutomationElement rootPaneElement, MessageBubble parentBubble, int count)
+        {
+            int index = 0;
+            parentBubble.GroupNickName = parentBubble.Sender;
+            var paneList = rootPaneElement.FindAllChildren(cf => cf.ByControlType(ControlType.Pane));
+            var nickName = paneList[0].FindFirstDescendant(cf => cf.ByControlType(ControlType.Text));
+            if (nickName != null)
+            {
+                parentBubble.GroupNickName = nickName.Name;
+            }
+            if (count == 3)
+            {
+                index = 1;
+            }
+            var texts = paneList[index].FindAllDescendants(cf => cf.ByControlType(ControlType.Text));
+            var result = "";
+            foreach (var text in texts)
+            {
+                result += text.Name;
+            }
+            parentBubble.MessageContent = result;
+            var refText = paneList[index + 1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Text));
+            if (refText != null)
+            {
+                parentBubble.BeReferencedPersion = Regex.Match(refText.Name, @"^(.*?)\s*:").Groups[1].Value;
+                parentBubble.BeReferencedMessage = Regex.Match(refText.Name, @":\s*(.*)$").Groups[1].Value;
+            }
+        }
+
+        /// <summary>
+        /// 处理撤回消息
+        /// </summary>
+        /// <param name="listItem"></param>
+        /// <param name="children"></param>
+        /// <param name="bubble"></param>
+        private static void _ProcessRecallMessage(AutomationElement listItem, AutomationElement[] children, MessageBubble bubble)
+        {
+            if (children[2].ControlType == ControlType.Pane)
+            {
+                //处理撤回消息
+                if (listItem.Name.StartsWith(WeChatConstant.MESSAGES_YOU))
+                {
+                    bubble.Sender = "我";
+                }
+                else
+                {
+                    bubble.Sender = Regex.Match(listItem.Name, @"^\""([^\""]+)\""").Success ? Regex.Match(listItem.Name, @"^\""([^\""]+)\""").Groups[1].Value : "系统消息";
+                }
+                bubble.MessageSource = MessageSourceType.系统消息;
+                if (children[2].ControlType == ControlType.Pane && listItem.Name.Contains(WeChatConstant.MESSAGES_RECALL))
+                {
+                    bubble.MessageType = MessageType.撤回消息;
+                }
+            }
+        }
+
         /// <summary>
         /// 解析小程序消息
         /// </summary>
@@ -237,40 +413,15 @@ namespace WxAutoCore.Components
             return false;
         }
 
-        /// <summary>
-        /// 解析引用消息
-        /// </summary>
-        /// <param name="rootPaneElement"></param>
-        /// <param name="title"></param>
-        /// <param name="parentBubble"></param>
-        private void _ParseReferencedMessage(AutomationElement rootPaneElement, string title, Bubble parentBubble)
-        {
-            if (Regex.IsMatch(title, @"(\n引用\s)"))
-            {
-                var paneList = rootPaneElement.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
-                paneList = paneList.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
-                var subPaneList = paneList.FindAllChildren();
-                if (subPaneList.Count() != 1)
-                {
-                    var pane = subPaneList[1];
-                    var text = pane.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text));
-                    var bubble = new Bubble();
-                    bubble.MessageType = MessageType.引用;
-                    bubble.MessageSource = MessageSourceType.被引用的消息;
-                    bubble.Sender = Regex.Match(text.Name, @"^(.*?)\s*:").Groups[1].Value;
-                    bubble.MessageContent = Regex.Match(text.Name, @":\s*(.*)$").Groups[1].Value;
-                    parentBubble.ReferencedBubble = bubble;
-                }
-            }
-        }
+
         /// <summary>
         /// 解析红包消息
         /// </summary>
         /// <param name="listItem"></param>
         /// <returns></returns>
-        private Bubble _ParseRedPacket(AutomationElement listItem)
+        private MessageBubble _ParseRedPacket(AutomationElement listItem)
         {
-            Bubble bubble = new Bubble();
+            MessageBubble bubble = new MessageBubble();
             bubble.MessageType = MessageType.红包;
             bubble.MessageSource = MessageSourceType.系统消息;
             bubble.Sender = "系统消息";
@@ -282,7 +433,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="listItem"></param>
         /// <returns></returns>
-        private Bubble _ParseWeChatTransfer(AutomationElement listItem)
+        private MessageBubble _ParseWeChatTransfer(AutomationElement listItem)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -290,13 +441,13 @@ namespace WxAutoCore.Components
                 throw new Exception("微信转账消息解析失败");
             }
             var children = paneElement.FindAllChildren();
-            var bubble = new Bubble();
+            var bubble = new MessageBubble();
             bubble.MessageType = MessageType.微信转账;
             if (children.Count() != 3)
             {
                 throw new Exception("微信转账消息解析失败");
             }
-            if (children[0] is Button)
+            if (children[0].ControlType == ControlType.Button)
             {
                 bubble.Sender = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
@@ -310,13 +461,12 @@ namespace WxAutoCore.Components
             var result = "";
             foreach (var text in textList)
             {
-                if (Regex.IsMatch(text.Name, @"^￥[\d\.]*$"))
+                if (text.Name != WeChatConstant.MESSAGES_WECHAT_TRANSFER)
                 {
-                    result += Regex.Match(text.Name, @"^￥([\d\.]*)$").Groups[0].Value;
-                    break;
+                    result += text.Name;
                 }
             }
-            bubble.MessageContent = "微信转账:" + result;
+            bubble.MessageContent = result;
             var button = children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button));
             if (button != null)
             {
@@ -330,7 +480,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="listItem"></param>
         /// <returns></returns>
-        private Bubble _ParseVoice(AutomationElement listItem)
+        private MessageBubble _ParseVoice(AutomationElement listItem)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -338,13 +488,13 @@ namespace WxAutoCore.Components
                 throw new Exception("语音消息解析失败");
             }
             var children = paneElement.FindAllChildren();
-            var bubble = new Bubble();
+            var bubble = new MessageBubble();
             bubble.MessageType = MessageType.语音;
             if (children.Count() != 3)
             {
                 throw new Exception("语音消息解析失败");
             }
-            if (children[0] is Button)
+            if (children[0].ControlType == ControlType.Button)
             {
                 bubble.Sender = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
@@ -369,7 +519,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="listItem"></param>
         /// <returns></returns>
-        private Bubble _ParseNote(AutomationElement listItem)
+        private MessageBubble _ParseNote(AutomationElement listItem)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -377,13 +527,13 @@ namespace WxAutoCore.Components
                 throw new Exception("笔记消息解析失败");
             }
             var children = paneElement.FindAllChildren();
-            var bubble = new Bubble();
+            var bubble = new MessageBubble();
             bubble.MessageType = MessageType.笔记;
             if (children.Count() != 3)
             {
                 throw new Exception("笔记消息解析失败");
             }
-            if (children[0] is Button)
+            if (children[0].ControlType == ControlType.Button)
             {
                 bubble.Sender = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
@@ -420,7 +570,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="listItem"></param>
         /// <returns></returns>
-        private Bubble _ParseLink(AutomationElement listItem)
+        private MessageBubble _ParseLink(AutomationElement listItem)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -428,13 +578,13 @@ namespace WxAutoCore.Components
                 throw new Exception("链接消息解析失败");
             }
             var children = paneElement.FindAllChildren();
-            var bubble = new Bubble();
+            var bubble = new MessageBubble();
             bubble.MessageType = MessageType.链接;
             if (children.Count() != 3)
             {
                 throw new Exception("链接消息解析失败");
             }
-            if (children[0] is Button)
+            if (children[0].ControlType == ControlType.Button)
             {
                 bubble.Sender = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
@@ -469,7 +619,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="listItem"></param>
         /// <returns></returns>
-        private Bubble _ParseVideoNumberLive(AutomationElement listItem)
+        private MessageBubble _ParseVideoNumberLive(AutomationElement listItem)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -477,13 +627,13 @@ namespace WxAutoCore.Components
                 throw new Exception("视频号直播消息解析失败");
             }
             var children = paneElement.FindAllChildren();
-            var bubble = new Bubble();
+            var bubble = new MessageBubble();
             bubble.MessageType = MessageType.视频号直播;
             if (children.Count() != 3)
             {
                 throw new Exception("视频号直播消息解析失败");
             }
-            if (children[0] is Button)
+            if (children[0].ControlType == ControlType.Button)
             {
                 bubble.Sender = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
@@ -520,7 +670,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="listItem"></param>
         /// <returns></returns>
-        private Bubble _ParseVideoNumber(AutomationElement listItem)
+        private MessageBubble _ParseVideoNumber(AutomationElement listItem)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -528,13 +678,13 @@ namespace WxAutoCore.Components
                 throw new Exception("视频号消息解析失败");
             }
             var children = paneElement.FindAllChildren();
-            var bubble = new Bubble();
+            var bubble = new MessageBubble();
             bubble.MessageType = MessageType.视频号;
             if (children.Count() != 3)
             {
                 throw new Exception("视频号消息解析失败");
             }
-            if (children[0] is Button)
+            if (children[0].ControlType == ControlType.Button)
             {
                 bubble.Sender = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
@@ -544,7 +694,7 @@ namespace WxAutoCore.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = children[1].FindFirstByXPath("/Pane/Pane/Pane/Button");
+            var button = children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button));
             if (button == null)
             {
                 throw new Exception("视频号直播消息解析失败");
@@ -568,7 +718,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="listItem"></param>
         /// <returns></returns>
-        private Bubble _ParseVideo(AutomationElement listItem)
+        private MessageBubble _ParseVideo(AutomationElement listItem)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -576,13 +726,13 @@ namespace WxAutoCore.Components
                 throw new Exception("视频消息解析失败");
             }
             var children = paneElement.FindAllChildren();
-            var bubble = new Bubble();
+            var bubble = new MessageBubble();
             bubble.MessageType = MessageType.视频;
             if (children.Count() != 3)
             {
                 throw new Exception("视频消息解析失败");
             }
-            if (children[0] is Button)
+            if (children[0].ControlType == ControlType.Button)
             {
                 bubble.Sender = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
@@ -592,7 +742,7 @@ namespace WxAutoCore.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = children[1].FindFirstByXPath("/Pane/Pane/Pane/Pane/Button");
+            var button = children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button));
             if (button == null)
             {
                 throw new Exception("视频消息解析失败");
@@ -606,7 +756,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="listItem"></param>
         /// <returns></returns>
-        private Bubble _ParseImage(AutomationElement listItem)
+        private MessageBubble _ParseImage(AutomationElement listItem)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -614,13 +764,13 @@ namespace WxAutoCore.Components
                 throw new Exception("图片消息解析失败");
             }
             var children = paneElement.FindAllChildren();
-            var bubble = new Bubble();
+            var bubble = new MessageBubble();
             bubble.MessageType = MessageType.图片;
             if (children.Count() != 3)
             {
                 throw new Exception("图片消息解析失败");
             }
-            if (children[0] is Button)
+            if (children[0].ControlType == ControlType.Button)
             {
                 bubble.Sender = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
@@ -630,7 +780,7 @@ namespace WxAutoCore.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = children[1].FindFirstByXPath("/Pane/Pane/Pane/Pane/Button");
+            var button = children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button));
             if (button == null)
             {
                 throw new Exception("图片消息解析失败");
@@ -644,7 +794,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="listItem"></param>
         /// <returns></returns>
-        private Bubble _ParseLocation(AutomationElement listItem)
+        private MessageBubble _ParseLocation(AutomationElement listItem)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -652,13 +802,13 @@ namespace WxAutoCore.Components
                 throw new Exception("位置消息解析失败");
             }
             var children = paneElement.FindAllChildren();
-            var bubble = new Bubble();
+            var bubble = new MessageBubble();
             bubble.MessageType = MessageType.位置;
             if (children.Count() != 3)
             {
                 throw new Exception("位置消息解析失败");
             }
-            if (children[0] is Button)
+            if (children[0].ControlType == ControlType.Button)
             {
                 bubble.Sender = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
@@ -690,7 +840,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="listItem"></param>
         /// <returns></returns>
-        private Bubble _ParseChatRecord(AutomationElement listItem)
+        private MessageBubble _ParseChatRecord(AutomationElement listItem)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -698,13 +848,13 @@ namespace WxAutoCore.Components
                 throw new Exception("聊天记录消息解析失败");
             }
             var children = paneElement.FindAllChildren();
-            var bubble = new Bubble();
+            var bubble = new MessageBubble();
             bubble.MessageType = MessageType.聊天记录;
             if (children.Count() != 3)
             {
                 throw new Exception("聊天记录消息解析失败");
             }
-            if (children[0] is Button)
+            if (children[0].ControlType == ControlType.Button)
             {
                 bubble.Sender = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
@@ -728,7 +878,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="listItem"></param>
         /// <returns></returns>
-        private Bubble _ParseCard(AutomationElement listItem)
+        private MessageBubble _ParseCard(AutomationElement listItem)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -736,13 +886,13 @@ namespace WxAutoCore.Components
                 throw new Exception("名片消息解析失败");
             }
             var children = paneElement.FindAllChildren();
-            var bubble = new Bubble();
+            var bubble = new MessageBubble();
             bubble.MessageType = MessageType.个人名片;
             if (children.Count() != 3)
             {
                 throw new Exception("名片消息解析失败");
             }
-            if (children[0] is Button)
+            if (children[0].ControlType == ControlType.Button)
             {
                 bubble.Sender = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
@@ -752,16 +902,16 @@ namespace WxAutoCore.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = children[1].FindFirstByXPath("/Pane/Pane/Pane/Button").AsButton();
+            var button = children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button));
             if (button == null)
             {
                 throw new Exception("名片消息解析失败");
             }
-            bubble.ClickActionButton = button;
-            button = children[1].FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane[1]/Button").AsButton();
-            if (button != null)
+            bubble.ClickActionButton = button.AsButton();
+            var text = children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Text));
+            if (text != null)
             {
-                bubble.MessageContent = button.Name;
+                bubble.MessageContent = text.AsLabel().Name;
             }
             else
             {
@@ -775,7 +925,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="listItem"></param>
         /// <returns></returns>
-        private Bubble _ParseFile(AutomationElement listItem)
+        private MessageBubble _ParseFile(AutomationElement listItem)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -783,13 +933,13 @@ namespace WxAutoCore.Components
                 throw new Exception("文件消息解析失败");
             }
             var children = paneElement.FindAllChildren();
-            var bubble = new Bubble();
+            var bubble = new MessageBubble();
             bubble.MessageType = MessageType.文件;
             if (children.Count() != 3)
             {
                 throw new Exception("文件消息解析失败");
             }
-            if (children[0] is Button)
+            if (children[0].ControlType == ControlType.Button)
             {
                 bubble.Sender = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
@@ -822,7 +972,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="listItem"></param>
         /// <returns></returns>
-        private List<Bubble> _ParsePickUp(AutomationElement listItem)
+        private List<MessageBubble> _ParsePickUp(AutomationElement listItem)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -830,37 +980,30 @@ namespace WxAutoCore.Components
                 throw new Exception("拍一拍消息解析失败");
             }
             var children = paneElement.FindAllChildren();
-            var bubble = new Bubble();
-            bubble.MessageType = MessageType.拍一拍;
             if (children.Count() != 3)
             {
                 throw new Exception("拍一拍消息解析失败");
             }
-            var items = children[1].FindAllByXPath("/Pane");
-            var list = new List<Bubble>();
+            var items = children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.ListItem));
+            var list = new List<MessageBubble>();
             foreach (var item in items)
             {
-                var bubbleItem = new Bubble();
+                var bubbleItem = new MessageBubble();
                 bubbleItem.MessageType = MessageType.拍一拍;
-                if (item.Name.StartsWith(WeChatConstant.MESSAGES_I))
+                var title = item.Name;
+                if (title.StartsWith(WeChatConstant.MESSAGES_I))
                 {
                     bubbleItem.MessageSource = MessageSourceType.自己发送消息;
                     bubbleItem.Sender = "我";
+                    bubbleItem.BeClapPerson = Regex.Match(title, @"""([^""]+)""$").Groups[1].Value;
                 }
                 else
                 {
                     bubbleItem.MessageSource = MessageSourceType.好友消息;
-                    bubbleItem.Sender = Regex.Match(item.Name, @"^""([^""]*)""").Groups[1].Value;
+                    bubbleItem.Sender = Regex.Match(title, @"^""([^""]+)""").Groups[1].Value;
+                    bubbleItem.BeClapPerson = "我";
                 }
-                var lable = item.FindFirstByXPath("/Pane/Text");
-                if (lable != null)
-                {
-                    bubbleItem.MessageContent = lable.AsLabel().Name;
-                }
-                else
-                {
-                    bubbleItem.MessageContent = "拍一拍";
-                }
+                bubbleItem.MessageContent = title;
                 list.Add(bubbleItem);
             }
             return list;
@@ -870,46 +1013,15 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="listItemChild"></param>
         /// <returns></returns>
-        private Bubble _ParseTimeMessage(AutomationElement listItemChild)
+        private MessageBubble _ParseTimeMessage(AutomationElement listItemChild)
         {
             var text = listItemChild.AsLabel();
-            Bubble bubble = new Bubble();
+            MessageBubble bubble = new MessageBubble();
             bubble.MessageType = MessageType.时间;
             bubble.MessageSource = MessageSourceType.系统消息;
             bubble.Sender = "系统消息";
             bubble.MessageContent = text.Name;
             return bubble;
-        }
-        /// <summary>
-        /// 获取最后一个气泡
-        /// </summary>
-        /// <returns>最后一个气泡</returns>
-        public Bubble GetLastBubble()
-        {
-            Bubble[] bubbles = GetBubbles().ToArray();
-            return bubbles.Count() > 0 ? bubbles.Last() : null;
-        }
-
-        /// <summary>
-        /// 加载更多
-        /// </summary>
-        public void LoadMore()
-        {
-            var lookMoreButton = _BubbleListRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_LOOK_MORE)));
-            if (lookMoreButton != null)
-            {
-                lookMoreButton.AsButton().Invoke();  //可能要改成Click()
-            }
-        }
-
-        /// <summary>
-        /// 是否有加载更多按钮
-        /// </summary>
-        /// <returns>是否有加载更多按钮</returns>
-        public bool IsLoadingMore()
-        {
-            var lookMoreButton = _BubbleListRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Button));
-            return lookMoreButton != null;
         }
     }
 }

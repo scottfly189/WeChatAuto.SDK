@@ -8,7 +8,7 @@ namespace WxAutoCore.Components
     /// <summary>
     /// 聊天内容区气泡
     /// </summary>
-    public class Bubble
+    public class MessageBubble
     {
         /// <summary>
         /// 消息类型
@@ -25,6 +25,12 @@ namespace WxAutoCore.Components
         public string Sender { get; set; }
 
         /// <summary>
+        /// 群昵称
+        /// 适用于群聊消息
+        /// </summary>
+        public string GroupNickName { get; set; } = "";
+
+        /// <summary>
         /// 点击气泡后执行的操作按钮,有可能为空
         /// </summary>
         public Button ClickActionButton { get; set; } = null;
@@ -37,12 +43,31 @@ namespace WxAutoCore.Components
         /// <summary>
         /// 消息时间
         /// </summary>
-        public DateTime? MessageTime { get; set; }
+        public DateTime? MessageTime { get; set; } = null;
 
         /// <summary>
-        /// 引用消息
+        /// 被引用消息的人
+        /// 适用于引用消息
+        /// 注：目前只有文字消息支持引用
         /// </summary>
-        public Bubble ReferencedBubble { get; set; } = null;
+        public string BeReferencedPersion { get; set; } = "";
+        /// <summary>
+        /// 被引用消息的内容
+        /// 适用于引用消息
+        /// 注：目前只有文字消息支持引用
+        /// </summary>
+        public string BeReferencedMessage { get; set; } = "";
+
+        /// <summary>
+        /// 是否是新消息,读取列表的消息默认为旧消息
+        /// </summary>
+        public bool IsNew { get; set; } = false;
+
+        /// <summary>
+        /// 被拍一拍的人
+        /// 适用于拍一拍消息
+        /// </summary>
+        public string BeClapPerson { get; set; } = "";
 
         public override string ToString()
         {
@@ -51,7 +76,13 @@ namespace WxAutoCore.Components
                 MessageType = this.MessageType.ToString(),
                 MessageSource = this.MessageSource.ToString(),
                 this.Sender,
+                this.GroupNickName,
                 this.MessageContent,
+                this.IsNew,
+                this.BeClapPerson,
+                this.BeReferencedPersion,
+                this.BeReferencedMessage,
+                MessageTime = this.MessageTime.HasValue ? this.MessageTime.Value.ToString() : "",
             };
             return JsonConvert.SerializeObject(serializableObject, Formatting.Indented);
         }
