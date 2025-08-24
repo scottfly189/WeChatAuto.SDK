@@ -15,14 +15,16 @@ namespace WxAutoCore.Components
     {
         private Window _Window;
         private IWeChatWindow _WxWindow;
+        private string _Title;
         private AutomationElement _ChatBodyRoot;
         public MessageBubbleList BubbleList => GetBubbleList();
         public Sender Sender => GetSender();
-        public ChatBody(Window window, AutomationElement chatBodyRoot,IWeChatWindow wxWindow)
+        public ChatBody(Window window, AutomationElement chatBodyRoot, IWeChatWindow wxWindow, string title)
         {
             _Window = window;
             _ChatBodyRoot = chatBodyRoot;
             _WxWindow = wxWindow;
+            _Title = title;
         }
         /// <summary>
         /// 获取聊天内容区气泡列表
@@ -33,7 +35,7 @@ namespace WxAutoCore.Components
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
             var bubbleListRoot = _ChatBodyRoot.FindFirstByXPath(xPath);
             DrawHightlightHelper.DrawHightlight(bubbleListRoot);
-            MessageBubbleList bubbleList = new MessageBubbleList(_Window, bubbleListRoot, _WxWindow);
+            MessageBubbleList bubbleList = new MessageBubbleList(_Window, bubbleListRoot, _WxWindow,_Title);
             return bubbleList;
         }
         /// <summary>
@@ -45,7 +47,7 @@ namespace WxAutoCore.Components
             var xPath = "/Pane[2]";
             var senderRoot = _ChatBodyRoot.FindFirstByXPath(xPath);
             DrawHightlightHelper.DrawHightlight(senderRoot);
-            var sender = new Sender(_Window, senderRoot, _WxWindow);
+            var sender = new Sender(_Window, senderRoot, _WxWindow,_Title);
             return sender;
         }
     }

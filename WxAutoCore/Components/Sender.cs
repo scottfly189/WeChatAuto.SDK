@@ -25,6 +25,7 @@ namespace WxAutoCore.Components
     {
         private Window _Window;
         private IWeChatWindow _WxWindow;
+        private string _Title;
         private AutomationElement _SenderRoot;
         public TextBox ContentArea => GetContentArea();
         public List<(ChatBoxToolBarType type, Button button)> ToolBarButtons => GetToolBarButtons();
@@ -35,7 +36,7 @@ namespace WxAutoCore.Components
         /// <param name="senderRoot">发送者根元素<see cref="AutomationElement"/></param>
         /// <param name="wxWindow">微信窗口封装<see cref="WxMainWindow"/></param>
         /// </summary>
-        public Sender(Window window, AutomationElement senderRoot,IWeChatWindow wxWindow)
+        public Sender(Window window, AutomationElement senderRoot,IWeChatWindow wxWindow,string title)
         {
             _Window = window;
             _WxWindow = wxWindow;
