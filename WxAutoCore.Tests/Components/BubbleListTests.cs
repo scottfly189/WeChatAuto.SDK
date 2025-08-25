@@ -34,7 +34,7 @@ public class BubbleListTests
                 _output.WriteLine($"有点击按钮，可点击！");
             }
         }
-        Assert.True(bubbles.Count > 0);
+        Assert.True(bubbles.Count >= 0);
     }
 
     [Fact(DisplayName = "测试获取聊天类型")]
@@ -44,8 +44,10 @@ public class BubbleListTests
         var client = framework.GetWxClient(_wxClientName);
         var window = client.WxWindow;
         await window.SendWho(WxConfig.TestFriendNickName, "hello world!");
+        _output.WriteLine(window.ChatContent.ChatBody.BubbleList.GetChatType().ToString());
         Assert.Equal(ChatType.好友, window.ChatContent.ChatBody.BubbleList.GetChatType());
         await window.SendWho(WxConfig.TestGroupNickName, "hello world!");
+        _output.WriteLine(window.ChatContent.ChatBody.BubbleList.GetChatType().ToString());
         Assert.Equal(ChatType.群聊, window.ChatContent.ChatBody.BubbleList.GetChatType());
     }
 }

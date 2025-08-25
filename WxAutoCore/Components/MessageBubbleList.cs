@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using WxAutoCommon.Interface;
 using WxAutoCore.Extentions;
 using Microsoft.Win32.SafeHandles;
+using System.Globalization;
 
 namespace WxAutoCore.Components
 {
@@ -84,9 +85,10 @@ namespace WxAutoCore.Components
         {
             var listItemList = _BubbleListRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
             List<MessageBubble> bubbles = new List<MessageBubble>();
+            DateTime? dateTime = null;
             for (int i = 0; i < listItemList.Count; i++)
             {
-                var bubble = ParseBubble(listItemList[i]);
+                var bubble = ParseBubble(listItemList[i], ref dateTime);
                 if (bubble != null)
                 {
                     if (bubble is MessageBubble)
@@ -105,15 +107,15 @@ namespace WxAutoCore.Components
         /// 解析气泡为Bubble对象,Bubble对象可能为空
         /// </summary>
         /// <param name="listItem"></param>
+        /// <param name="dateTime"></param>
         /// <returns>Bubble对象,可能为空,也可能为List<Bubble>对象;<see cref="MessageBubble"/></returns>
-        private Object ParseBubble(AutomationElement listItem)
+        private Object ParseBubble(AutomationElement listItem, ref DateTime? dateTime)
         {
             var listItemChildren = listItem.FindAllChildren();
             if (listItemChildren.Count() == 0)
             {
                 return null;
             }
-            var dateStr = "";
 
             if (listItemChildren.Count() == 1)
             {
@@ -121,12 +123,12 @@ namespace WxAutoCore.Components
                 if (string.IsNullOrEmpty(listItemChildren[0].Name))
                 {
                     //非时间消息
-                    return _ParseMessage(listItem, dateStr);
+                    return _ParseMessage(listItem, dateTime);
                 }
                 else
                 {
                     //系统消息，并且是时间消息
-                    return _ParseTimeMessage(listItemChildren[0], ref dateStr);
+                    return _ParseTimeMessage(listItemChildren[0], ref dateTime);
                 }
 
             }
@@ -137,92 +139,92 @@ namespace WxAutoCore.Components
         /// 解析除消息以外的气泡
         /// </summary>
         /// <param name="listItem"></param>
+        /// <param name="dateTime"></param>
         /// <returns>Bubble对象,可能为空;<see cref="MessageBubble"/></returns>
-        private Object _ParseMessage(AutomationElement listItem, string dateStr)
+        private Object _ParseMessage(AutomationElement listItem, DateTime? dateTime)
         {
             if (listItem.Name.Trim() == WeChatConstant.MESSAGES_PICK_UP)
             {
-                return _ParsePickUp(listItem, dateStr);
+                return _ParsePickUp(listItem, dateTime);
             }
             if (listItem.Name == WeChatConstant.MESSAGES_IMAGE)
             {
-                return _ParseImage(listItem, dateStr);
+                return _ParseImage(listItem, dateTime);
             }
             if (listItem.Name == WeChatConstant.MESSAGES_LOCATION)
             {
-                return _ParseLocation(listItem, dateStr);
+                return _ParseLocation(listItem, dateTime);
             }
             if (listItem.Name == WeChatConstant.MESSAGES_CHAT_RECORD)
             {
-                return _ParseChatRecord(listItem, dateStr);
+                return _ParseChatRecord(listItem, dateTime);
             }
             if (listItem.Name == WeChatConstant.MESSAGES_CARD)
             {
-                return _ParseCard(listItem, dateStr);
+                return _ParseCard(listItem, dateTime);
             }
             if (listItem.Name == WeChatConstant.MESSAGES_FILE)
             {
-                return _ParseFile(listItem, dateStr);
+                return _ParseFile(listItem, dateTime);
             }
             if (listItem.Name == WeChatConstant.MESSAGES_VIDEO)
             {
-                return _ParseVideo(listItem, dateStr);
+                return _ParseVideo(listItem, dateTime);
             }
             if (listItem.Name == WeChatConstant.MESSAGES_VIDEO_NUMBER)
             {
-                return _ParseVideoNumber(listItem, dateStr);
+                return _ParseVideoNumber(listItem, dateTime);
             }
             if (listItem.Name == WeChatConstant.MESSAGES_VIDEO_NUMBER_LIVE)
             {
-                return _ParseVideoNumberLive(listItem, dateStr);
+                return _ParseVideoNumberLive(listItem, dateTime);
             }
             if (listItem.Name == WeChatConstant.MESSAGES_LINK)
             {
-                return _ParseLink(listItem, dateStr);
+                return _ParseLink(listItem, dateTime);
             }
             if (listItem.Name == WeChatConstant.MESSAGES_NOTE)
             {
-                return _ParseNote(listItem, dateStr);
+                return _ParseNote(listItem, dateTime);
             }
             if (listItem.Name.Contains(WeChatConstant.MESSAGES_VOICE))
             {
-                return _ParseVoice(listItem, dateStr);
+                return _ParseVoice(listItem, dateTime);
             }
             if (listItem.Name == WeChatConstant.MESSAGES_RED_PACKET_SEND || listItem.Name == WeChatConstant.MESSAGES_RED_PACKET_RECEIVE)
             {
-                return _ParseRedPacket(listItem, dateStr);
+                return _ParseRedPacket(listItem, dateTime);
             }
             if (listItem.Name == WeChatConstant.MESSAGES_WECHAT_TRANSFER)
             {
-                return _ParseWeChatTransfer(listItem, dateStr);
+                return _ParseWeChatTransfer(listItem, dateTime);
             }
             if (Regex.IsMatch(listItem.Name, @"^(\[[^\]]+\])+$"))
             {
-                return _ParseExpressionMessage(listItem, dateStr);
+                return _ParseExpressionMessage(listItem, dateTime);
             }
-            var bubble = _ParseTextMessage(listItem, dateStr);
-            return bubble;
+            return _ParseTextMessage(listItem, dateTime);
         }
 
         /// <summary>
         /// 解析表情消息
         /// </summary>
         /// <param name="listItem"></param>
-        /// <param name="dateStr"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private MessageBubble _ParseExpressionMessage(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseExpressionMessage(AutomationElement listItem, DateTime? dateTime)
         {
             if (GetChatType() == ChatType.好友)
             {
-                return _ParseSingleExpressionMessage(listItem, dateStr);
+                return _ParseSingleExpressionMessage(listItem, dateTime);
             }
             else
             {
-                return _ParseGroupExpressionMessage(listItem, dateStr);
+                return _ParseGroupExpressionMessage(listItem, dateTime);
             }
         }
 
-        private MessageBubble _ParseSingleExpressionMessage(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseSingleExpressionMessage(AutomationElement listItem, DateTime? dateTime)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -249,7 +251,7 @@ namespace WxAutoCore.Components
             }
             return bubble;
         }
-        private MessageBubble _ParseGroupExpressionMessage(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseGroupExpressionMessage(AutomationElement listItem, DateTime? dateTime)
         {
             return new MessageBubble();
         }
@@ -260,21 +262,21 @@ namespace WxAutoCore.Components
         /// 解析文本消息
         /// </summary>
         /// <param name="listItem"></param>
-        /// <param name="dateStr"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private MessageBubble _ParseTextMessage(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseTextMessage(AutomationElement listItem, DateTime? dateTime)
         {
             if (GetChatType() == ChatType.好友)
             {
-                return _ParseSingleTextMessage(listItem, dateStr);
+                return _ParseSingleTextMessage(listItem, dateTime);
             }
             else
             {
-                return _ParseGroupTextMessage(listItem, dateStr);
+                return _ParseGroupTextMessage(listItem, dateTime);
             }
         }
 
-        private MessageBubble _ParseSingleTextMessage(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseSingleTextMessage(AutomationElement listItem, DateTime? dateTime)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -283,6 +285,7 @@ namespace WxAutoCore.Components
             }
             var children = paneElement.FindAllChildren();
             var bubble = new MessageBubble();
+            bubble.MessageTime = dateTime;
             if (children.Count() != 3)
             {
                 bubble.MessageType = MessageType.文字;
@@ -326,7 +329,7 @@ namespace WxAutoCore.Components
             _ParseReferencedMessage(children[1], listItem.Name, bubble);
             return bubble;
         }
-        private MessageBubble _ParseGroupTextMessage(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseGroupTextMessage(AutomationElement listItem, DateTime? dateTime)
         {
             return new MessageBubble();
         }
@@ -477,30 +480,32 @@ namespace WxAutoCore.Components
         /// 解析红包消息
         /// </summary>
         /// <param name="listItem"></param>
-        /// <param name="dateStr"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private MessageBubble _ParseRedPacket(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseRedPacket(AutomationElement listItem, DateTime? dateTime)
         {
             if (GetChatType() == ChatType.好友)
             {
-                return _ParseSingleRedPacket(listItem, dateStr);
+                return _ParseSingleRedPacket(listItem, dateTime);
             }
             else
             {
-                return _ParseGroupRedPacket(listItem, dateStr);
+                return _ParseGroupRedPacket(listItem, dateTime);
             }
         }
 
-        private MessageBubble _ParseSingleRedPacket(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseSingleRedPacket(AutomationElement listItem, DateTime? dateTime)
         {
-            MessageBubble bubble = new MessageBubble();
+            var bubble = new MessageBubble();
+            bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.红包;
             bubble.MessageSource = MessageSourceType.系统消息;
+            bubble.MessageTime = dateTime;
             bubble.Sender = "系统消息";
             bubble.MessageContent = listItem.Name;
             return bubble;
         }
-        private MessageBubble _ParseGroupRedPacket(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseGroupRedPacket(AutomationElement listItem, DateTime? dateTime)
         {
             return new MessageBubble();
         }
@@ -508,20 +513,20 @@ namespace WxAutoCore.Components
         /// 解析微信转账消息
         /// </summary>
         /// <param name="listItem"></param>
-        /// <param name="dateStr"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private MessageBubble _ParseWeChatTransfer(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseWeChatTransfer(AutomationElement listItem, DateTime? dateTime)
         {
             if (GetChatType() == ChatType.好友)
             {
-                return _ParseSingleWeChatTransfer(listItem, dateStr);
+                return _ParseSingleWeChatTransfer(listItem, dateTime);
             }
             else
             {
-                return _ParseGroupWeChatTransfer(listItem, dateStr);
+                return _ParseGroupWeChatTransfer(listItem, dateTime);
             }
         }
-        private MessageBubble _ParseSingleWeChatTransfer(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseSingleWeChatTransfer(AutomationElement listItem, DateTime? dateTime)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -530,6 +535,7 @@ namespace WxAutoCore.Components
             }
             var children = paneElement.FindAllChildren();
             var bubble = new MessageBubble();
+            bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.微信转账;
             if (children.Count() != 3)
             {
@@ -562,7 +568,7 @@ namespace WxAutoCore.Components
             }
             return bubble;
         }
-        private MessageBubble _ParseGroupWeChatTransfer(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseGroupWeChatTransfer(AutomationElement listItem, DateTime? dateTime)
         {
             return new MessageBubble();
         }
@@ -571,20 +577,20 @@ namespace WxAutoCore.Components
         /// 解析语音消息
         /// </summary>
         /// <param name="listItem"></param>
-        /// <param name="dateStr"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private MessageBubble _ParseVoice(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseVoice(AutomationElement listItem, DateTime? dateTime)
         {
             if (GetChatType() == ChatType.好友)
             {
-                return _ParseSingleVoice(listItem, dateStr);
+                return _ParseSingleVoice(listItem, dateTime);
             }
             else
             {
-                return _ParseGroupVoice(listItem, dateStr);
+                return _ParseGroupVoice(listItem, dateTime);
             }
         }
-        private MessageBubble _ParseSingleVoice(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseSingleVoice(AutomationElement listItem, DateTime? dateTime)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -593,6 +599,7 @@ namespace WxAutoCore.Components
             }
             var children = paneElement.FindAllChildren();
             var bubble = new MessageBubble();
+            bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.语音;
             if (children.Count() != 3)
             {
@@ -617,7 +624,7 @@ namespace WxAutoCore.Components
             bubble.MessageContent = listItem.Name;
             return bubble;
         }
-        private MessageBubble _ParseGroupVoice(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseGroupVoice(AutomationElement listItem, DateTime? dateTime)
         {
             return new MessageBubble();
         }
@@ -626,20 +633,20 @@ namespace WxAutoCore.Components
         /// 解析笔记消息
         /// </summary>
         /// <param name="listItem"></param>
-        /// <param name="dateStr"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private MessageBubble _ParseNote(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseNote(AutomationElement listItem, DateTime? dateTime)
         {
             if (GetChatType() == ChatType.好友)
             {
-                return _ParseSingleNote(listItem, dateStr);
+                return _ParseSingleNote(listItem, dateTime);
             }
             else
             {
-                return _ParseGroupNote(listItem, dateStr);
+                return _ParseGroupNote(listItem, dateTime);
             }
         }
-        private MessageBubble _ParseSingleNote(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseSingleNote(AutomationElement listItem, DateTime? dateTime)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -648,6 +655,7 @@ namespace WxAutoCore.Components
             }
             var children = paneElement.FindAllChildren();
             var bubble = new MessageBubble();
+            bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.笔记;
             if (children.Count() != 3)
             {
@@ -684,7 +692,7 @@ namespace WxAutoCore.Components
             bubble.MessageContent = string.IsNullOrEmpty(result) ? "笔记" : result;
             return bubble;
         }
-        private MessageBubble _ParseGroupNote(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseGroupNote(AutomationElement listItem, DateTime? dateTime)
         {
             return new MessageBubble();
         }
@@ -693,20 +701,20 @@ namespace WxAutoCore.Components
         /// 解析链接消息
         /// </summary>
         /// <param name="listItem"></param>
-        /// <param name="dateStr"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private MessageBubble _ParseLink(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseLink(AutomationElement listItem, DateTime? dateTime)
         {
             if (GetChatType() == ChatType.好友)
             {
-                return _ParseSingleLink(listItem, dateStr);
+                return _ParseSingleLink(listItem, dateTime);
             }
             else
             {
-                return _ParseGroupLink(listItem, dateStr);
+                return _ParseGroupLink(listItem, dateTime);
             }
         }
-        private MessageBubble _ParseSingleLink(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseSingleLink(AutomationElement listItem, DateTime? dateTime)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -715,6 +723,7 @@ namespace WxAutoCore.Components
             }
             var children = paneElement.FindAllChildren();
             var bubble = new MessageBubble();
+            bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.链接;
             if (children.Count() != 3)
             {
@@ -749,7 +758,7 @@ namespace WxAutoCore.Components
             }
             return bubble;
         }
-        private MessageBubble _ParseGroupLink(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseGroupLink(AutomationElement listItem, DateTime? dateTime)
         {
             return new MessageBubble();
         }
@@ -758,20 +767,20 @@ namespace WxAutoCore.Components
         /// 解析视频号直播消息
         /// </summary>
         /// <param name="listItem"></param>
-        /// <param name="dateStr"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private MessageBubble _ParseVideoNumberLive(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseVideoNumberLive(AutomationElement listItem, DateTime? dateTime)
         {
             if (GetChatType() == ChatType.好友)
             {
-                return _ParseSingleVideoNumberLive(listItem, dateStr);
+                return _ParseSingleVideoNumberLive(listItem, dateTime);
             }
             else
             {
-                return _ParseGroupVideoNumberLive(listItem, dateStr);
+                return _ParseGroupVideoNumberLive(listItem, dateTime);
             }
         }
-        private MessageBubble _ParseSingleVideoNumberLive(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseSingleVideoNumberLive(AutomationElement listItem, DateTime? dateTime)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -780,6 +789,7 @@ namespace WxAutoCore.Components
             }
             var children = paneElement.FindAllChildren();
             var bubble = new MessageBubble();
+            bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.视频号直播;
             if (children.Count() != 3)
             {
@@ -817,7 +827,7 @@ namespace WxAutoCore.Components
             bubble.MessageContent = string.IsNullOrEmpty(result) ? "视频号直播" : result;
             return bubble;
         }
-        private MessageBubble _ParseGroupVideoNumberLive(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseGroupVideoNumberLive(AutomationElement listItem, DateTime? dateTime)
         {
             return new MessageBubble();
         }
@@ -825,21 +835,21 @@ namespace WxAutoCore.Components
         /// 解析视频号消息
         /// </summary>
         /// <param name="listItem"></param>
-        /// <param name="dateStr"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private MessageBubble _ParseVideoNumber(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseVideoNumber(AutomationElement listItem, DateTime? dateTime)
         {
             if (GetChatType() == ChatType.好友)
             {
-                return _ParseSingleVideoNumber(listItem, dateStr);
+                return _ParseSingleVideoNumber(listItem, dateTime);
             }
             else
             {
-                return _ParseGroupVideoNumber(listItem, dateStr);
+                return _ParseGroupVideoNumber(listItem, dateTime);
             }
         }
 
-        private MessageBubble _ParseSingleVideoNumber(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseSingleVideoNumber(AutomationElement listItem, DateTime? dateTime)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -848,6 +858,7 @@ namespace WxAutoCore.Components
             }
             var children = paneElement.FindAllChildren();
             var bubble = new MessageBubble();
+            bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.视频号;
             if (children.Count() != 3)
             {
@@ -881,7 +892,7 @@ namespace WxAutoCore.Components
 
             return bubble;
         }
-        private MessageBubble _ParseGroupVideoNumber(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseGroupVideoNumber(AutomationElement listItem, DateTime? dateTime)
         {
             return new MessageBubble();
         }
@@ -890,21 +901,21 @@ namespace WxAutoCore.Components
         /// 解析视频消息
         /// </summary>
         /// <param name="listItem"></param>
-        /// <param name="dateStr"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private MessageBubble _ParseVideo(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseVideo(AutomationElement listItem, DateTime? dateTime)
         {
             if (GetChatType() == ChatType.好友)
             {
-                return _ParseSingleVideo(listItem, dateStr);
+                return _ParseSingleVideo(listItem, dateTime);
             }
             else
             {
-                return _ParseGroupVideo(listItem, dateStr);
+                return _ParseGroupVideo(listItem, dateTime);
             }
         }
 
-        private MessageBubble _ParseSingleVideo(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseSingleVideo(AutomationElement listItem, DateTime? dateTime)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -913,6 +924,7 @@ namespace WxAutoCore.Components
             }
             var children = paneElement.FindAllChildren();
             var bubble = new MessageBubble();
+            bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.视频;
             if (children.Count() != 3)
             {
@@ -937,7 +949,7 @@ namespace WxAutoCore.Components
             bubble.MessageContent = "视频";
             return bubble;
         }
-        private MessageBubble _ParseGroupVideo(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseGroupVideo(AutomationElement listItem, DateTime? dateTime)
         {
             return new MessageBubble();
         }
@@ -948,21 +960,21 @@ namespace WxAutoCore.Components
         /// 解析图片消息
         /// </summary>
         /// <param name="listItem"></param>
-        /// <param name="dateStr"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private MessageBubble _ParseImage(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseImage(AutomationElement listItem, DateTime? dateTime)
         {
             if (GetChatType() == ChatType.好友)
             {
-                return _ParseSingleImage(listItem, dateStr);
+                return _ParseSingleImage(listItem, dateTime);
             }
             else
             {
-                return _ParseGroupImage(listItem, dateStr);
+                return _ParseGroupImage(listItem, dateTime);
             }
         }
 
-        private MessageBubble _ParseSingleImage(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseSingleImage(AutomationElement listItem, DateTime? dateTime)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -971,6 +983,7 @@ namespace WxAutoCore.Components
             }
             var children = paneElement.FindAllChildren();
             var bubble = new MessageBubble();
+            bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.图片;
             if (children.Count() != 3)
             {
@@ -996,7 +1009,7 @@ namespace WxAutoCore.Components
             return bubble;
         }
 
-        private MessageBubble _ParseGroupImage(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseGroupImage(AutomationElement listItem, DateTime? dateTime)
         {
             return new MessageBubble();
         }
@@ -1004,21 +1017,21 @@ namespace WxAutoCore.Components
         /// 解析位置消息
         /// </summary>
         /// <param name="listItem"></param>
-        /// <param name="dateStr"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private MessageBubble _ParseLocation(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseLocation(AutomationElement listItem, DateTime? dateTime)
         {
             if (GetChatType() == ChatType.好友)
             {
-                return _ParseSingleLocation(listItem, dateStr);
+                return _ParseSingleLocation(listItem, dateTime);
             }
             else
             {
-                return _ParseGroupLocation(listItem, dateStr);
+                return _ParseGroupLocation(listItem, dateTime);
             }
         }
 
-        private MessageBubble _ParseSingleLocation(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseSingleLocation(AutomationElement listItem, DateTime? dateTime)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -1027,6 +1040,7 @@ namespace WxAutoCore.Components
             }
             var children = paneElement.FindAllChildren();
             var bubble = new MessageBubble();
+            bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.位置;
             if (children.Count() != 3)
             {
@@ -1059,7 +1073,7 @@ namespace WxAutoCore.Components
             }
             return bubble;
         }
-        private MessageBubble _ParseGroupLocation(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseGroupLocation(AutomationElement listItem, DateTime? dateTime)
         {
             return new MessageBubble();
         }
@@ -1070,21 +1084,21 @@ namespace WxAutoCore.Components
         /// 解析聊天记录消息
         /// </summary>
         /// <param name="listItem"></param>
-        /// <param name="dateStr"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private MessageBubble _ParseChatRecord(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseChatRecord(AutomationElement listItem, DateTime? dateTime)
         {
             if (GetChatType() == ChatType.好友)
             {
-                return _ParseSingleChatRecord(listItem, dateStr);
+                return _ParseSingleChatRecord(listItem, dateTime);
             }
             else
             {
-                return _ParseGroupChatRecord(listItem, dateStr);
+                return _ParseGroupChatRecord(listItem, dateTime);
             }
         }
 
-        private MessageBubble _ParseSingleChatRecord(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseSingleChatRecord(AutomationElement listItem, DateTime? dateTime)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -1093,6 +1107,7 @@ namespace WxAutoCore.Components
             }
             var children = paneElement.FindAllChildren();
             var bubble = new MessageBubble();
+            bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.聊天记录;
             if (children.Count() != 3)
             {
@@ -1117,7 +1132,7 @@ namespace WxAutoCore.Components
             bubble.MessageContent = "群聊的聊天记录";
             return bubble;
         }
-        private MessageBubble _ParseGroupChatRecord(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseGroupChatRecord(AutomationElement listItem, DateTime? dateTime)
         {
             return new MessageBubble();
         }
@@ -1129,21 +1144,21 @@ namespace WxAutoCore.Components
         /// 解析名片消息
         /// </summary>
         /// <param name="listItem"></param>
-        /// <param name="dateStr"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private MessageBubble _ParseCard(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseCard(AutomationElement listItem, DateTime? dateTime)
         {
             if (GetChatType() == ChatType.好友)
             {
-                return _ParseSingleCard(listItem, dateStr);
+                return _ParseSingleCard(listItem, dateTime);
             }
             else
             {
-                return _ParseGroupCard(listItem, dateStr);
+                return _ParseGroupCard(listItem, dateTime);
             }
         }
 
-        private MessageBubble _ParseSingleCard(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseSingleCard(AutomationElement listItem, DateTime? dateTime)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -1152,6 +1167,7 @@ namespace WxAutoCore.Components
             }
             var children = paneElement.FindAllChildren();
             var bubble = new MessageBubble();
+            bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.个人名片;
             if (children.Count() != 3)
             {
@@ -1185,7 +1201,7 @@ namespace WxAutoCore.Components
 
             return bubble;
         }
-        private MessageBubble _ParseGroupCard(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseGroupCard(AutomationElement listItem, DateTime? dateTime)
         {
             return new MessageBubble();
         }
@@ -1197,21 +1213,21 @@ namespace WxAutoCore.Components
         /// 解析文件消息
         /// </summary>
         /// <param name="listItem"></param>
-        /// <param name="dateStr"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private MessageBubble _ParseFile(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseFile(AutomationElement listItem, DateTime? dateTime)
         {
             if (GetChatType() == ChatType.好友)
             {
-                return _ParseSingleFile(listItem, dateStr);
+                return _ParseSingleFile(listItem, dateTime);
             }
             else
             {
-                return _ParseGroupFile(listItem, dateStr);
+                return _ParseGroupFile(listItem, dateTime);
             }
         }
 
-        private MessageBubble _ParseSingleFile(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseSingleFile(AutomationElement listItem, DateTime? dateTime)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -1220,6 +1236,7 @@ namespace WxAutoCore.Components
             }
             var children = paneElement.FindAllChildren();
             var bubble = new MessageBubble();
+            bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.文件;
             if (children.Count() != 3)
             {
@@ -1253,7 +1270,7 @@ namespace WxAutoCore.Components
             }
             return bubble;
         }
-        private MessageBubble _ParseGroupFile(AutomationElement listItem, string dateStr)
+        private MessageBubble _ParseGroupFile(AutomationElement listItem, DateTime? dateTime)
         {
             return new MessageBubble();
         }
@@ -1267,15 +1284,15 @@ namespace WxAutoCore.Components
         /// <param name="listItem"></param>
         /// <param name="dateStr"></param>
         /// <returns></returns>
-        private List<MessageBubble> _ParsePickUp(AutomationElement listItem, string dateStr)
+        private List<MessageBubble> _ParsePickUp(AutomationElement listItem, DateTime? dateTime)
         {
             if (GetChatType() == ChatType.好友)
             {
-                return _ParseSinglePickUp(listItem, dateStr);
+                return _ParseSinglePickUp(listItem, dateTime);
             }
             else
             {
-                return _ParseGroupPickUp(listItem, dateStr);
+                return _ParseGroupPickUp(listItem, dateTime);
             }
         }
 
@@ -1283,9 +1300,9 @@ namespace WxAutoCore.Components
         /// 解析群聊拍一拍消息
         /// </summary>
         /// <param name="listItem"></param>
-        /// <param name="dateStr"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private List<MessageBubble> _ParseGroupPickUp(AutomationElement listItem, string dateStr)
+        private List<MessageBubble> _ParseGroupPickUp(AutomationElement listItem, DateTime? dateTime)
         {
             return new List<MessageBubble>();
         }
@@ -1295,9 +1312,9 @@ namespace WxAutoCore.Components
         /// 解析单聊拍一拍消息
         /// </summary>
         /// <param name="listItem"></param>
-        /// <param name="dateStr"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private List<MessageBubble> _ParseSinglePickUp(AutomationElement listItem, string dateStr)
+        private List<MessageBubble> _ParseSinglePickUp(AutomationElement listItem, DateTime? dateTime)
         {
             var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
             if (paneElement == null)
@@ -1338,8 +1355,9 @@ namespace WxAutoCore.Components
         /// 解析时间消息
         /// </summary>
         /// <param name="listItemChild"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
-        private MessageBubble _ParseTimeMessage(AutomationElement listItemChild, ref string dateStr)
+        private MessageBubble _ParseTimeMessage(AutomationElement listItemChild, ref DateTime? dateTime)
         {
             var text = listItemChild.AsLabel();
             MessageBubble bubble = new MessageBubble();
@@ -1347,8 +1365,33 @@ namespace WxAutoCore.Components
             bubble.MessageSource = MessageSourceType.系统消息;
             bubble.Sender = "系统消息";
             bubble.MessageContent = text.Name;
-            dateStr = _ProcessDateStr(text.Name);
+            dateTime = _ProcessDateStr(text.Name);
+            bubble.MessageTime = dateTime;
             return bubble;
+        }
+
+        private DateTime? __ParseStringToDateTime(string dateStr)
+        {
+            // 定义支持的中文日期格式
+            string[] formats = new string[]
+            {
+                "yyyy年M月d日 H:m",
+                "yyyy年M月d日 H:m:s",
+                "yyyy年MM月dd日 HH:mm:ss",
+                "yyyy年M月d日",
+                "yyyy年MM月dd日",
+                "yyyy年M月d日 H:mm",
+                "yyyy年M月d日 HH:mm",
+                "yyyy年M月d日 H:mm:ss",
+            };
+            if (DateTime.TryParseExact(dateStr, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dt))
+            {
+                return dt;
+            }
+            else
+            {
+                throw new Exception("日期字符串解析失败");
+            }
         }
 
         /// <summary>
@@ -1356,17 +1399,17 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="date">原始日期字符串</param>
         /// <returns>标准化后的日期字符串</returns>
-        private string _ProcessDateStr(string date)
+        private DateTime? _ProcessDateStr(string date)
         {
             if (string.IsNullOrWhiteSpace(date))
             {
-                return string.Empty;
+                return null;
             }
 
             // 直接匹配“xxxx年xx月xx日 xx:xx”格式，直接返回
             if (Regex.IsMatch(date, @"^\d{4}年\d{1,2}月\d{1,2}日\s+\d{1,2}:\d{1,2}$"))
             {
-                return date;
+                return __ParseStringToDateTime(date);
             }
 
             // 匹配“昨天 xx:xx”或“前天 xx:xx”
@@ -1376,25 +1419,25 @@ namespace WxAutoCore.Components
                 int daysAgo = match.Groups[1].Value == "昨天" ? 1 : 2;
                 string ymd = DateTime.Now.AddDays(-daysAgo).ToString("yyyy年MM月dd日");
                 string hm = match.Groups[2].Value;
-                return $"{ymd} {hm}";
+                return __ParseStringToDateTime($"{ymd} {hm}");
             }
 
             // 匹配“xx:xx”格式，补全为今天
             if (Regex.IsMatch(date, @"^\d{1,2}:\d{1,2}$"))
             {
                 string ymd = DateTime.Now.ToString("yyyy年MM月dd日");
-                return $"{ymd} {date}";
+                return __ParseStringToDateTime($"{ymd} {date}");
             }
 
             // 匹配“xxxx年xx月xx日”但无时间，补全为00:00
             match = Regex.Match(date, @"^(\d{4}年\d{1,2}月\d{1,2}日)$");
             if (match.Success)
             {
-                return $"{match.Groups[1].Value} 00:00";
+                return __ParseStringToDateTime($"{match.Groups[1].Value} 00:00");
             }
 
             // 其他情况直接返回原字符串
-            return date;
+            throw new Exception("日期字符串解析失败");
         }
     }
 }
