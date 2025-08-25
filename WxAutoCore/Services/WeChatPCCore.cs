@@ -77,7 +77,7 @@ namespace WxAutoCore.Services
             {
                 if (!string.IsNullOrEmpty(message.ApiKey))
                 {
-                    WxConfig.ApiKey = message.ApiKey;
+                    WxAutoConfig.ApiKey = message.ApiKey;
                 }
                 _InitWxClient();
                 if (message.IsNewWindow)

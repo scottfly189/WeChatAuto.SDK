@@ -12,13 +12,13 @@ namespace WxAutoCommon.Utils
         {
             if (textIdentifiers.TryGetValue(key, out var textIdentifier))
             {
-                switch (WxConfig.CurrentLanguage)
+                switch (WxAutoConfig.CurrentLanguage)
                 {
-                    case WxConfig.Language.Chinese:
+                    case WxAutoConfig.Language.Chinese:
                         return textIdentifier.Cn;
-                    case WxConfig.Language.ChineseTraditional:
+                    case WxAutoConfig.Language.ChineseTraditional:
                         return textIdentifier.CnT;
-                    case WxConfig.Language.English:
+                    case WxAutoConfig.Language.English:
                         return textIdentifier.En;
                     default:
                         return textIdentifier.Cn;

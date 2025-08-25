@@ -9,7 +9,7 @@ namespace WxAutoCore.Tests.Components;
 [Collection("UiTestCollection")]
 public class SenderTests
 {
-    private readonly string _wxClientName = WxConfig.TestClientName;
+    private readonly string _wxClientName = WxAutoConfig.TestClientName;
     private readonly ITestOutputHelper _output;
     private UiTestFixture _globalFixture;
     public SenderTests(ITestOutputHelper output, UiTestFixture globalFixture)
@@ -34,8 +34,8 @@ public class SenderTests
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
         var mainWindow = client.WxWindow;
-        mainWindow.Conversations.DoubleClickConversation(WxConfig.TestGroupNickName);
-        var subWin = mainWindow.SubWinList.GetSubWin(WxConfig.TestGroupNickName);
+        mainWindow.Conversations.DoubleClickConversation(WxAutoConfig.TestGroupNickName);
+        var subWin = mainWindow.SubWinList.GetSubWin(WxAutoConfig.TestGroupNickName);
         var sender = subWin.ChatContent.ChatBody.Sender;
         sender.SendMessage("你好，世界！");
         Assert.True(true);

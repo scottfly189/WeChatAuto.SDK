@@ -9,7 +9,7 @@ namespace WxAutoCore.Tests.Components;
 [Collection("UiTestCollection")]
 public class BubbleListTests
 {
-    private readonly string _wxClientName = WxConfig.TestClientName;
+    private readonly string _wxClientName = WxAutoConfig.TestClientName;
     private readonly ITestOutputHelper _output;
     private UiTestFixture _globalFixture;
     public BubbleListTests(ITestOutputHelper output, UiTestFixture globalFixture)
@@ -43,7 +43,7 @@ public class BubbleListTests
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
         var window = client.WxWindow;
-        var subWin = window.SubWinList.GetSubWin(WxConfig.TestFriendNickName);
+        var subWin = window.SubWinList.GetSubWin(WxAutoConfig.TestFriendNickName);
         if (subWin == null)
         {
             _output.WriteLine("子窗口不存在");
@@ -69,10 +69,10 @@ public class BubbleListTests
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
         var window = client.WxWindow;
-        await window.SendWho(WxConfig.TestFriendNickName, "hello world!");
+        await window.SendWho(WxAutoConfig.TestFriendNickName, "hello world!");
         _output.WriteLine(window.ChatContent.ChatBody.BubbleList.GetChatType().ToString());
         Assert.Equal(ChatType.好友, window.ChatContent.ChatBody.BubbleList.GetChatType());
-        await window.SendWho(WxConfig.TestGroupNickName, "hello world!");
+        await window.SendWho(WxAutoConfig.TestGroupNickName, "hello world!");
         _output.WriteLine(window.ChatContent.ChatBody.BubbleList.GetChatType().ToString());
         Assert.Equal(ChatType.群聊, window.ChatContent.ChatBody.BubbleList.GetChatType());
     }

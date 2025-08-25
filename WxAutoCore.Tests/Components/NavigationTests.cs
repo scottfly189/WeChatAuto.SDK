@@ -11,7 +11,7 @@ namespace WxAutoCore.Tests.Components
     [Collection("UiTestCollection")]
     public class NavigationTests
     {
-        private readonly string _wxClientName = WxConfig.TestClientName;
+        private readonly string _wxClientName = WxAutoConfig.TestClientName;
         private readonly ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public NavigationTests(ITestOutputHelper output, UiTestFixture globalFixture)
