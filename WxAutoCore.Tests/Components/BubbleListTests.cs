@@ -19,7 +19,7 @@ public class BubbleListTests
     }
 
     [Fact(DisplayName = "测试获取气泡列表")]
-    public void Test_Get_Bubble_List()
+    public void Test_Get_Main_Bubble_List()
     {
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
@@ -35,6 +35,32 @@ public class BubbleListTests
             }
         }
         Assert.True(bubbles.Count >= 0);
+    }
+
+    [Fact(DisplayName = "测试获取子气泡列表")]
+    public void Test_Get_Sub_Bubble_List()
+    {
+        var framework = _globalFixture.wxFramwork;
+        var client = framework.GetWxClient(_wxClientName);
+        var window = client.WxWindow;
+        var subWin = window.SubWinList.GetSubWin(WxConfig.TestFriendNickName);
+        if (subWin == null)
+        {
+            _output.WriteLine("子窗口不存在");
+            Assert.True(false);
+            return;
+        }
+        var subBubbleList = subWin.ChatContent.ChatBody.BubbleList;
+        var subBubbles = subBubbleList.Bubbles;
+        foreach (var bubble in subBubbles)
+        {
+            _output.WriteLine(bubble.ToString());
+            if (bubble.ClickActionButton != null)
+            {
+                _output.WriteLine($"有点击按钮，可点击！");
+            }
+        }
+        Assert.True(subBubbles.Count >= 0);
     }
 
     [Fact(DisplayName = "测试获取聊天类型")]
