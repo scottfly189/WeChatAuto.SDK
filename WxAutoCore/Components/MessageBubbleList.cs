@@ -953,9 +953,6 @@ namespace WxAutoCore.Components
         {
             return new MessageBubble();
         }
-
-
-
         /// <summary>
         /// 解析图片消息
         /// </summary>
@@ -1011,8 +1008,66 @@ namespace WxAutoCore.Components
 
         private MessageBubble _ParseGroupImage(AutomationElement listItem, DateTime? dateTime)
         {
-            return new MessageBubble();
+            var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
+            if (paneElement == null)
+            {
+                throw new Exception("图片消息解析失败");
+            }
+            var children = paneElement.FindAllChildren();
+            var bubble = new MessageBubble();
+            bubble.MessageTime = dateTime;
+            bubble.MessageType = MessageType.图片;
+            if (children.Count() != 3)
+            {
+                throw new Exception("图片消息解析失败");
+            }
+            if (children[0].ControlType == ControlType.Button)
+            {
+                bubble.Sender = children[0].AsButton().Name;
+                bubble.MessageSource = MessageSourceType.好友消息;
+            }
+            else
+            {
+                bubble.Sender = "我";
+                bubble.MessageSource = MessageSourceType.自己发送消息;
+            }
+            bubble.GroupNickName = __GetGroupNickName(children);
+            var button = children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button));
+            if (button == null)
+            {
+                throw new Exception("图片消息解析失败");
+            }
+            bubble.ClickActionButton = button.AsButton();
+            bubble.MessageContent = "图片";
+            return bubble;
         }
+
+        private string __GetGroupNickName(AutomationElement[] rootPanelChildren)
+        {
+            if (rootPanelChildren.Length != 3)
+            {
+                throw new Exception("消息解析失败");
+            }
+            if (rootPanelChildren[0].ControlType == ControlType.Button)
+            {
+                //这里要判断群聊窗口是否打开昵称
+                var wxName = rootPanelChildren[0].AsButton().Name;
+                var label = rootPanelChildren[1].FindFirstChild(cf => cf.ByControlType(ControlType.Pane)).FindFirstChild(cf => cf.ByControlType(ControlType.Text));
+                if (label != null)
+                {
+                    return label.AsLabel().Name;
+                }
+                else
+                {
+                    return wxName;
+                }
+            }
+            else
+            {
+                return "我";
+            }
+        }
+
         /// <summary>
         /// 解析位置消息
         /// </summary>
@@ -1033,11 +1088,7 @@ namespace WxAutoCore.Components
 
         private MessageBubble _ParseSingleLocation(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
-            if (paneElement == null)
-            {
-                throw new Exception("位置消息解析失败");
-            }
+            var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane)) ?? throw new Exception("位置消息解析失败");
             var children = paneElement.FindAllChildren();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
@@ -1056,26 +1107,70 @@ namespace WxAutoCore.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = children[1].FindFirstByXPath("/Pane/Pane/Button");
+            var button = children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button));
             if (button == null)
             {
                 throw new Exception("图片消息解析失败");
             }
             bubble.ClickActionButton = button.AsButton();
-            var lable = children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Text));
-            if (lable != null)
+            var lable = children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text));
+            var locationContent = "";
+            foreach (var item in lable)
             {
-                bubble.MessageContent = lable.AsLabel().Name;
+                locationContent += " " + item.AsLabel().Name.Trim();
+            }
+            if (string.IsNullOrEmpty(locationContent))
+            {
+                bubble.MessageContent = "位置";
             }
             else
             {
-                bubble.MessageContent = "位置";
+                bubble.MessageContent = locationContent.Trim();
             }
             return bubble;
         }
         private MessageBubble _ParseGroupLocation(AutomationElement listItem, DateTime? dateTime)
         {
-            return new MessageBubble();
+            var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane)) ?? throw new Exception("位置消息解析失败");
+            var children = paneElement.FindAllChildren();
+            var bubble = new MessageBubble();
+            bubble.MessageTime = dateTime;
+            bubble.MessageType = MessageType.位置;
+            if (children.Count() != 3)
+            {
+                throw new Exception("位置消息解析失败");
+            }
+            if (children[0].ControlType == ControlType.Button)
+            {
+                bubble.Sender = children[0].AsButton().Name;
+                bubble.MessageSource = MessageSourceType.好友消息;
+            }
+            else
+            {
+                bubble.Sender = "我";
+                bubble.MessageSource = MessageSourceType.自己发送消息;
+            }
+            var button = children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button) ?? throw new Exception("位置消息解析失败"));
+            bubble.ClickActionButton = button.AsButton();
+            var lable = children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text));
+            var locationContent = "";
+            foreach (var item in lable)
+            {
+                if (item.Name.Trim() != bubble.Sender.Trim())
+                {
+                    locationContent += " " + item.AsLabel().Name.Trim();
+                }
+            }
+            if (string.IsNullOrEmpty(locationContent))
+            {
+                bubble.MessageContent = "位置";
+            }
+            else
+            {
+                bubble.MessageContent = locationContent.Trim();
+            }
+            bubble.GroupNickName = __GetGroupNickName(children);
+            return bubble;
         }
 
 
