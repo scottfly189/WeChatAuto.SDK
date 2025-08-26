@@ -145,7 +145,7 @@ namespace WxAutoCore.Components
                         {
                             atUserString += $"@{user} ";
                         });
-                        message = $"{atUserString}{message}";
+                        message = $"{atUserString} {message}";
                     }
                 );
             }
@@ -280,6 +280,10 @@ namespace WxAutoCore.Components
         private bool IsCurrentChat(string who, string message)
         {
             var currentChatTitle = this.GetCurrentChatTitle();
+            if (string.IsNullOrEmpty(currentChatTitle))
+            {
+                return false;
+            }
             if (currentChatTitle == who)
             {
                 this.SendMessage(message);
