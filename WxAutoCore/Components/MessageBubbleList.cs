@@ -389,7 +389,7 @@ namespace WxAutoCore.Components
             {
                 bubble.Sender = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
-                bubble.GroupNickName = bubble.Sender;
+                bubble.GroupNickName = __GetGroupNickName(children);
             }
             else
             {
@@ -477,11 +477,16 @@ namespace WxAutoCore.Components
                     result += text.Name;
                 }
                 parentBubble.MessageContent = result;
-                var refText = subPaneList[index + 1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Text));
+                var refText = subPaneList[index + 1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text));
                 if (refText != null)
                 {
-                    parentBubble.BeReferencedPersion = Regex.Match(refText.Name, @"^(.*?)\s*:").Groups[1].Value;
-                    parentBubble.BeReferencedMessage = Regex.Match(refText.Name, @":\s*(.*)$").Groups[1].Value;
+                    result = "";
+                    foreach (var text in refText)
+                    {
+                        result += text.Name;
+                    }
+                    parentBubble.BeReferencedPersion = Regex.Match(result, @"^(.*?)\s*:").Groups[1].Value;
+                    parentBubble.BeReferencedMessage = Regex.Match(result, @":\s*(.*)$").Groups[1].Value;
                 }
             }
         }
@@ -499,7 +504,7 @@ namespace WxAutoCore.Components
             int index = 0;
             parentBubble.GroupNickName = parentBubble.Sender;
             var paneList = rootPaneElement.FindAllChildren(cf => cf.ByControlType(ControlType.Pane));
-            var nickName = paneList[0].FindFirstDescendant(cf => cf.ByControlType(ControlType.Text));
+            var nickName = paneList[0].FindFirstChild(cf => cf.ByControlType(ControlType.Text));
             if (nickName != null)
             {
                 parentBubble.GroupNickName = nickName.Name;
@@ -515,11 +520,16 @@ namespace WxAutoCore.Components
                 result += text.Name;
             }
             parentBubble.MessageContent = result;
-            var refText = paneList[index + 1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Text));
-            if (refText != null)
+            var refTexts = paneList[index + 1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text));
+            if (refTexts != null)
             {
-                parentBubble.BeReferencedPersion = Regex.Match(refText.Name, @"^(.*?)\s*:").Groups[1].Value;
-                parentBubble.BeReferencedMessage = Regex.Match(refText.Name, @":\s*(.*)$").Groups[1].Value;
+                result = "";
+                foreach (var refText in refTexts)
+                {
+                    result += refText.Name;
+                }
+                parentBubble.BeReferencedPersion = Regex.Match(result, @"^(.*?)\s*:").Groups[1].Value;
+                parentBubble.BeReferencedMessage = Regex.Match(result, @":\s*(.*)$").Groups[1].Value;
             }
         }
 
