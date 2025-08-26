@@ -1875,7 +1875,62 @@ namespace WxAutoCore.Components
         /// <returns></returns>
         private List<MessageBubble> _ParseGroupPickUp(AutomationElement listItem, DateTime? dateTime)
         {
-            return new List<MessageBubble>();
+            var paneElement = listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
+            if (paneElement == null)
+            {
+                throw new Exception("拍一拍消息解析失败");
+            }
+            var children = paneElement.FindAllChildren();
+            if (children.Count() != 3)
+            {
+                throw new Exception("拍一拍消息解析失败");
+            }
+            var items = children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.ListItem));
+            var list = new List<MessageBubble>();
+            foreach (var item in items)
+            {
+                var bubbleItem = new MessageBubble();
+                bubbleItem.MessageType = MessageType.拍一拍;
+                var title = item.Name;
+                if (title.StartsWith(WeChatConstant.MESSAGES_I))
+                {
+                    bubbleItem.MessageSource = MessageSourceType.自己发送消息;
+                    bubbleItem.Sender = "我";
+                    bubbleItem.BeClapPerson = Regex.Match(title, @"""([^""]+)""").Groups[1].Value;
+                }
+                else
+                {
+                    if (title.Contains("我"))
+                    {
+                        bubbleItem.MessageSource = MessageSourceType.好友消息;
+                        bubbleItem.Sender = Regex.Match(title, @"^""([^""]+)""").Groups[1].Value;
+                        bubbleItem.GroupNickName = bubbleItem.Sender;
+                        bubbleItem.BeClapPerson = "我";
+                    }
+                    else
+                    {
+                        bubbleItem.MessageSource = MessageSourceType.好友消息;
+                        int index = 0;
+                        var matches = Regex.Matches(title, "\"([^\"]+)\"");
+                        foreach (Match m in matches)
+                        {
+                            if (index == 0)
+                            {
+                                bubbleItem.Sender = m.Groups[1].Value;
+                                bubbleItem.GroupNickName = bubbleItem.Sender;
+                                index++;
+                            }
+                            else if (index == 1)
+                            {
+                                bubbleItem.BeClapPerson = m.Groups[1].Value;
+                            }
+                        }
+                    }
+                }
+                bubbleItem.MessageContent = title;
+                list.Add(bubbleItem);
+            }
+            return list;
         }
 
 
