@@ -8,8 +8,8 @@ namespace WxAutoCommon.Models
     public class AutoAction
     {
         public ActionType ActionType { get; set; }
-        public string ToClient { get; set; }
         public string ToUser { get; set; }
-
+        public string Message { get; set; }
+        public string Payload { get; set; }
     }
 }

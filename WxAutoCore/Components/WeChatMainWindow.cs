@@ -11,6 +11,7 @@ using WxAutoCommon.Interface;
 using FlaUI.Core.Input;
 using System.Threading.Tasks;
 using OneOf;
+using WxAutoCommon.Models;
 
 
 
@@ -21,6 +22,7 @@ namespace WxAutoCore.Components
     /// </summary>
     public class WeChatMainWindow : IWeChatWindow
     {
+        private readonly ActionQueueChannel<AutoAction> _actionQueueChannel = new ActionQueueChannel<AutoAction>();
         private Window _Window;
         private ToolBar _ToolBar;  // 工具栏
         private SubWinList _SubWinList;  // 弹出窗口列表
