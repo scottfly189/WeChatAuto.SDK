@@ -94,6 +94,10 @@
             "OneOf": {
               "target": "Package",
               "version": "[3.0.271, )"
+            },
+            "System.Threading.Channels": {
+              "target": "Package",
+              "version": "[9.0.8, )"
             }
           },
           "imports": [
@@ -423,6 +427,10 @@
             "OneOf": {
               "target": "Package",
               "version": "[3.0.271, )"
+            },
+            "System.Threading.Channels": {
+              "target": "Package",
+              "version": "[9.0.8, )"
             }
           },
           "imports": [
@@ -752,6 +760,10 @@
             "OneOf": {
               "target": "Package",
               "version": "[3.0.271, )"
+            },
+            "System.Threading.Channels": {
+              "target": "Package",
+              "version": "[9.0.8, )"
             }
           },
           "imports": [
@@ -1095,6 +1107,10 @@
             "OneOf": {
               "target": "Package",
               "version": "[3.0.271, )"
+            },
+            "System.Threading.Channels": {
+              "target": "Package",
+              "version": "[9.0.8, )"
             }
           },
           "imports": [
@@ -1440,6 +1456,10 @@
             "OneOf": {
               "target": "Package",
               "version": "[3.0.271, )"
+            },
+            "System.Threading.Channels": {
+              "target": "Package",
+              "version": "[9.0.8, )"
             }
           },
           "imports": [
@@ -1755,6 +1775,10 @@
             "OneOf": {
               "target": "Package",
               "version": "[3.0.271, )"
+            },
+            "System.Threading.Channels": {
+              "target": "Package",
+              "version": "[9.0.8, )"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-preview.6.25358.103\\RuntimeIdentifierGraph.json"
@@ -1781,6 +1805,10 @@
             "OneOf": {
               "target": "Package",
               "version": "[3.0.271, )"
+            },
+            "System.Threading.Channels": {
+              "target": "Package",
+              "version": "[9.0.8, )"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-preview.6.25358.103\\RuntimeIdentifierGraph.json"

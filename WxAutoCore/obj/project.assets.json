@@ -518,7 +518,8 @@
           "FlaUI.UIA2": "5.0.0",
           "FlaUI.UIA3": "5.0.0",
           "Newtonsoft.Json": "13.0.3",
-          "OneOf": "3.0.271"
+          "OneOf": "3.0.271",
+          "System.Threading.Channels": "9.0.8"
         },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
@@ -1045,7 +1046,8 @@
           "FlaUI.UIA2": "5.0.0",
           "FlaUI.UIA3": "5.0.0",
           "Newtonsoft.Json": "13.0.3",
-          "OneOf": "3.0.271"
+          "OneOf": "3.0.271",
+          "System.Threading.Channels": "9.0.8"
         },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
@@ -2055,7 +2057,8 @@
           "FlaUI.UIA2": "5.0.0",
           "FlaUI.UIA3": "5.0.0",
           "Newtonsoft.Json": "13.0.3",
-          "OneOf": "3.0.271"
+          "OneOf": "3.0.271",
+          "System.Threading.Channels": "9.0.8"
         },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
@@ -2581,7 +2584,8 @@
           "FlaUI.UIA2": "5.0.0",
           "FlaUI.UIA3": "5.0.0",
           "Newtonsoft.Json": "13.0.3",
-          "OneOf": "3.0.271"
+          "OneOf": "3.0.271",
+          "System.Threading.Channels": "9.0.8"
         },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
@@ -3109,7 +3113,8 @@
           "FlaUI.UIA2": "5.0.0",
           "FlaUI.UIA3": "5.0.0",
           "Newtonsoft.Json": "13.0.3",
-          "OneOf": "3.0.271"
+          "OneOf": "3.0.271",
+          "System.Threading.Channels": "9.0.8"
         },
         "compile": {
           "bin/placeholder/WxAutoCommon.dll": {}
@@ -4837,11 +4842,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\repo\\wxauto.net\\wxauto.net\\wxautocore\\WxAutoCore.csproj",
+      "projectUniqueName": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCore\\WxAutoCore.csproj",
       "projectName": "WxAutoCore",
-      "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\wxautocore\\WxAutoCore.csproj",
+      "projectPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCore\\WxAutoCore.csproj",
       "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-      "outputPath": "D:\\repo\\wxauto.net\\wxauto.net\\wxautocore\\obj\\",
+      "outputPath": "D:\\repo\\wxauto.net\\wxauto.net\\WxAutoCore\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
       "configFilePaths": [
