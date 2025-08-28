@@ -1,6 +1,7 @@
 using WxAutoCommon.Models;
 using WxAutoCore.Components;
 using Xunit.Abstractions;
+using WxAutoCommon.Configs;
 
 namespace WxAutoCore.Tests.Components
 {

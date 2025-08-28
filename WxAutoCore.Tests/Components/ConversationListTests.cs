@@ -3,6 +3,7 @@ using WxAutoCore.Components;
 using Xunit;
 using Xunit.Abstractions;
 using WxAutoCommon.Models;
+using WxAutoCommon.Configs;
 
 namespace WxAutoCore.Tests.Components
 {

@@ -1,5 +1,6 @@
 
 using FlaUI.Core.AutomationElements;
+using WxAutoCommon.Configs;
 using WxAutoCommon.Models;
 
 namespace WxAutoCore.Utils

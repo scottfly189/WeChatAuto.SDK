@@ -3,6 +3,7 @@ using FlaUI.Core.Tools;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Models;
 using WxAutoCore.Services;
+using WxAutoCommon.Configs;
 using Xunit;
 using Xunit.Abstractions;
 

@@ -5,6 +5,7 @@ using WxAutoCore.Components;
 using Xunit.Abstractions;
 using WxAutoCore.Services;
 using WxAutoCommon.Models;
+using WxAutoCommon.Configs;
 
 namespace WxAutoCore.Tests.Components
 {

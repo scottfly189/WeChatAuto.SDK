@@ -1,4 +1,4 @@
-namespace WxAutoCommon.Models
+namespace WxAutoCommon.Configs
 {
     /// <summary>
     /// 腾迅会议配置类

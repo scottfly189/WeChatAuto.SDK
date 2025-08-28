@@ -1,6 +1,7 @@
 using WxAutoCommon.Models;
 using WxAutoCore.Services;
 using Xunit;
+using WxAutoCommon.Configs;
 
 namespace WxAutoCore.Tests.Services;
 

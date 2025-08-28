@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using WxAutoCommon.Configs;
 using WxAutoCommon.Models;
 
 namespace WxAutoCommon.Utils

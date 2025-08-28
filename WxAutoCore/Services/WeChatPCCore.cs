@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OneOf;
+using WxAutoCommon.Configs;
 using WxAutoCommon.Models;
 using WxAutoCore.Components;
 
