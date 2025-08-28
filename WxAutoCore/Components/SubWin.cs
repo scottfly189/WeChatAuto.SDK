@@ -10,7 +10,7 @@ namespace WxAutoCore.Components
     public class SubWin : IWeChatWindow
     {
         private ChatContent _ChatContent;
-        private WxMainWindow _MainWxWindow;    //主窗口对象
+        private WeChatMainWindow _MainWxWindow;    //主窗口对象
         private Window _SelfWindow;        //子窗口FlaUI的window
         private int _ProcessId;
 
@@ -25,7 +25,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="window">子窗口FlaUI的window</param>
         /// <param name="wxWindow">主窗口的微信窗口对象</param>
-        public SubWin(Window window, WxMainWindow wxWindow)
+        public SubWin(Window window, WeChatMainWindow wxWindow)
         {
             _SelfWindow = window;
             _MainWxWindow = wxWindow;

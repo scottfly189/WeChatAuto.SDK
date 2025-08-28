@@ -19,7 +19,7 @@ namespace WxAutoCore.Components
     /// <summary>
     /// 微信客户端窗口,封装的微信窗口，包含工具栏、导航栏、搜索、会话列表、通讯录、聊天窗口等
     /// </summary>
-    public class WxMainWindow : IWeChatWindow
+    public class WeChatMainWindow : IWeChatWindow
     {
         private Window _Window;
         private ToolBar _ToolBar;  // 工具栏
@@ -46,8 +46,8 @@ namespace WxAutoCore.Components
         /// 微信客户端窗口构造函数
         /// </summary>
         /// <param name="window">微信窗口<see cref="Window"/></param>
-        /// <param name="notifyIcon">微信通知图标<see cref="WxNotifyIcon"/></param>
-        public WxMainWindow(Window window, WxNotifyIcon notifyIcon)
+        /// <param name="notifyIcon">微信通知图标<see cref="WeChatNotifyIcon"/></param>
+        public WeChatMainWindow(Window window, WeChatNotifyIcon notifyIcon)
         {
             _Window = window;
             ProcessId = window.Properties.ProcessId;
@@ -57,7 +57,7 @@ namespace WxAutoCore.Components
         /// <summary>
         /// 初始化微信窗口的各种组件
         /// </summary>
-        private void _InitWxWindow(WxNotifyIcon notifyIcon)
+        private void _InitWxWindow(WeChatNotifyIcon notifyIcon)
         {
             _ToolBar = new ToolBar(_Window, notifyIcon);  // 工具栏
             _Navigation = new Navigation(_Window, this);  // 导航栏

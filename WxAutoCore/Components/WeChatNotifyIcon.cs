@@ -5,12 +5,12 @@ namespace WxAutoCore.Components
     /// <summary>
     /// 微信客户端通知图标,封装的微信客户端通知图标，包含通知图标、通知图标点击事件等
     /// </summary>
-    public class WxNotifyIcon
+    public class WeChatNotifyIcon
     {
         private Button _NotifyIcon;
         public Button NotifyIcon => _NotifyIcon;
 
-        public WxNotifyIcon(Button notifyIcon)
+        public WeChatNotifyIcon(Button notifyIcon)
         {
             _NotifyIcon = notifyIcon;
         }

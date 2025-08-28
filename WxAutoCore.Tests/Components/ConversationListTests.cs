@@ -9,7 +9,7 @@ namespace WxAutoCore.Tests.Components
     [Collection("UiTestCollection")]
     public class ConversationListTests
     {
-        private readonly string _wxClientName = WxAutoConfig.TestClientName;
+        private readonly string _wxClientName = WeChatConfig.TestClientName;
         private readonly ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public ConversationListTests(ITestOutputHelper output, UiTestFixture globalFixture)
@@ -40,7 +40,7 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxWindow;
             var conversations = window.Conversations;
-            conversations.ClickConversation(WxAutoConfig.TestGroupNickName);
+            conversations.ClickConversation(WeChatConfig.TestGroupNickName);
         }
 
         [Fact(DisplayName = "测试双击会话")]
@@ -50,7 +50,7 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxWindow;
             var conversations = window.Conversations;
-            conversations.DoubleClickConversation(WxAutoConfig.TestGroupNickName);
+            conversations.DoubleClickConversation(WeChatConfig.TestGroupNickName);
         }
 
         [Fact(DisplayName = "测试获取会话列表所有会话标题")]

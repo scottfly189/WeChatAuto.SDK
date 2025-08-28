@@ -13,14 +13,14 @@ namespace WxAutoCore.Components
     /// </summary>
     public class SubWinList
     {
-        private WxMainWindow _MainWxWindow;
+        private WeChatMainWindow _MainWxWindow;
         private Window _MainFlaUIWindow;
         /// <summary>
         /// 子窗口列表构造函数
         /// </summary>
         /// <param name="window">主窗口FlaUI的window</param>
-        /// <param name="wxWindow">主窗口对象<see cref="WxMainWindow"/></param>
-        public SubWinList(Window window, WxMainWindow wxWindow)
+        /// <param name="wxWindow">主窗口对象<see cref="WeChatMainWindow"/></param>
+        public SubWinList(Window window, WeChatMainWindow wxWindow)
         {
             _MainWxWindow = wxWindow;
             _MainFlaUIWindow = window;

@@ -8,7 +8,7 @@ namespace WxAutoCore.Tests.Components;
 [Collection("UiTestCollection")]
 public class ChatHeaderTests
 {
-    private readonly string _wxClientName = WxAutoConfig.TestClientName;
+    private readonly string _wxClientName = WeChatConfig.TestClientName;
     private readonly ITestOutputHelper _output;
     private UiTestFixture _globalFixture;
     public ChatHeaderTests(ITestOutputHelper output, UiTestFixture globalFixture)
@@ -33,11 +33,11 @@ public class ChatHeaderTests
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
         var mainWindow = client.WxWindow;
-        mainWindow.Conversations.DoubleClickConversation(WxAutoConfig.TestGroupNickName);
-        var subWin = mainWindow.SubWinList.GetSubWin(WxAutoConfig.TestGroupNickName);
+        mainWindow.Conversations.DoubleClickConversation(WeChatConfig.TestGroupNickName);
+        var subWin = mainWindow.SubWinList.GetSubWin(WeChatConfig.TestGroupNickName);
         var chatHeader = subWin.ChatContent.ChatHeader;
         _output.WriteLine(chatHeader.Title);
-        Assert.Equal(WxAutoConfig.TestGroupNickName, chatHeader.Title);
+        Assert.Equal(WeChatConfig.TestGroupNickName, chatHeader.Title);
         mainWindow.SubWinList.CloseAllSubWins();
     }
 }

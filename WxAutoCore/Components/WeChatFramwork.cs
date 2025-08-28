@@ -16,18 +16,18 @@ namespace WxAutoCore.Components
     /// <summary>
     /// 微信自动化框架,封装的微信自动化框架，支持多微信实例
     /// </summary>
-    public class WxFramwork : IDisposable
+    public class WeChatFramwork : IDisposable
     {
         private bool _IsInit = false;
         private readonly UIA3Automation _automation;
-        private readonly Dictionary<string, WxClient> _wxClientList = new Dictionary<string, WxClient>();
+        private readonly Dictionary<string, WeChatClient> _wxClientList = new Dictionary<string, WeChatClient>();
         private readonly AutomationElement _desktop;
         public AutomationElement Desktop => _desktop;
         public UIA3Automation Automation => _automation;
         /// <summary>
         /// 微信客户端列表
         /// </summary>
-        public Dictionary<string, WxClient> WxClientList
+        public Dictionary<string, WeChatClient> WxClientList
         {
             get
             {
@@ -47,7 +47,7 @@ namespace WxAutoCore.Components
         /// <summary>
         /// 微信自动化框架构造函数
         /// </summary>
-        public WxFramwork()
+        public WeChatFramwork()
         {
             _automation = new UIA3Automation();
             _desktop = _automation.GetDesktop();
@@ -76,7 +76,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="name">微信客户端名称</param>
         /// <returns></returns>
-        public WxClient GetWxClient(string name)
+        public WeChatClient GetWxClient(string name)
         {
             Init();
             if (_wxClientList.ContainsKey(name))
@@ -107,10 +107,10 @@ namespace WxAutoCore.Components
                             .And(cf.ByControlType(ControlType.Window))
                             .And(cf.ByProcessId(topWindowProcessId.Result)))).AsWindow();
                 DrawHightlightHelper.DrawHightlight(wxInstances);
-                WxNotifyIcon wxNotifyIcon = new WxNotifyIcon(wxNotify.AsButton());
-                WxMainWindow wxWindow = new WxMainWindow(wxInstances, wxNotifyIcon);
+                WeChatNotifyIcon wxNotifyIcon = new WeChatNotifyIcon(wxNotify.AsButton());
+                WeChatMainWindow wxWindow = new WeChatMainWindow(wxInstances, wxNotifyIcon);
 
-                var client = new WxClient(wxNotifyIcon, wxWindow);
+                var client = new WeChatClient(wxNotifyIcon, wxWindow);
                 var NickNameButton = wxInstances.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]").AsButton();
                 _wxClientList.Add(NickNameButton.Name, client);
             }

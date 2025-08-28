@@ -11,7 +11,7 @@ namespace WxAutoCore.Tests.Components
     [Collection("UiTestCollection")]
     public class NavigationTests
     {
-        private readonly string _wxClientName = WxAutoConfig.TestClientName;
+        private readonly string _wxClientName = WeChatConfig.TestClientName;
         private readonly ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public NavigationTests(ITestOutputHelper output, UiTestFixture globalFixture)
@@ -59,7 +59,7 @@ namespace WxAutoCore.Tests.Components
             var window = client.WxWindow;
             var navigation = window.Navigation;
             navigation.SwitchNavigation(NavigationType.通讯录);
-            await WxAutomation.Wait(4);
+            await WeAutomation.Wait(4);
             navigation.SwitchNavigation(NavigationType.通讯录);
             Assert.Equal(NavigationType.通讯录.ToString(), navigation.CurrentNavigationElement.Name);
         }
@@ -73,29 +73,29 @@ namespace WxAutoCore.Tests.Components
             var window = client.WxWindow;
             var navigation = window.Navigation;
             navigation.SwitchNavigation(NavigationType.聊天文件);
-            await WxAutomation.Wait(4);
+            await WeAutomation.Wait(4);
             navigation.CloseNavigation(NavigationType.聊天文件);
-            await WxAutomation.Wait(4);
+            await WeAutomation.Wait(4);
             navigation.SwitchNavigation(NavigationType.朋友圈);
-            await WxAutomation.Wait(4);
+            await WeAutomation.Wait(4);
             navigation.CloseNavigation(NavigationType.朋友圈);
-            await WxAutomation.Wait(4);
+            await WeAutomation.Wait(4);
             navigation.SwitchNavigation(NavigationType.视频号);
-            await WxAutomation.Wait(4);
+            await WeAutomation.Wait(4);
             navigation.CloseNavigation(NavigationType.视频号);
-            await WxAutomation.Wait(4);
+            await WeAutomation.Wait(4);
             navigation.SwitchNavigation(NavigationType.看一看);
-            await WxAutomation.Wait(4);
+            await WeAutomation.Wait(4);
             navigation.CloseNavigation(NavigationType.看一看);
-            await WxAutomation.Wait(4);
+            await WeAutomation.Wait(4);
             navigation.SwitchNavigation(NavigationType.搜一搜);
-            await WxAutomation.Wait(4);
+            await WeAutomation.Wait(4);
             navigation.CloseNavigation(NavigationType.搜一搜);
-            await WxAutomation.Wait(4);
+            await WeAutomation.Wait(4);
             navigation.SwitchNavigation(NavigationType.小程序面板);
-            await WxAutomation.Wait(4);
+            await WeAutomation.Wait(4);
             navigation.CloseNavigation(NavigationType.小程序面板);
-            await WxAutomation.Wait(4);
+            await WeAutomation.Wait(4);
 
             Assert.True(true);
         }

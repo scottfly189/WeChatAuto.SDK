@@ -9,7 +9,7 @@ namespace WxAutoCore.Components
     /// </summary>
     public class ToolBar
     {
-        private WxNotifyIcon _NotifyIcon;
+        private WeChatNotifyIcon _NotifyIcon;
         private AutomationElement _ToolBar;
         private Window _Window;
         private Button _TopButton;
@@ -18,7 +18,7 @@ namespace WxAutoCore.Components
         private Button _CloseButton;
 
         public AutomationElement ToolBarInfo => _ToolBar;
-        public ToolBar(Window window, WxNotifyIcon notifyIcon)
+        public ToolBar(Window window, WeChatNotifyIcon notifyIcon)
         {
             _Window = window;
             _NotifyIcon = notifyIcon;

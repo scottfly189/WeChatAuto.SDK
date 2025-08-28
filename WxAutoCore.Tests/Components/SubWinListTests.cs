@@ -11,7 +11,7 @@ namespace WxAutoCore.Tests.Components
     [Collection("UiTestCollection")]
     public class SubWinListTests
     {
-        private readonly string _wxClientName = WxAutoConfig.TestClientName;
+        private readonly string _wxClientName = WeChatConfig.TestClientName;
         private readonly ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public SubWinListTests(ITestOutputHelper output, UiTestFixture globalFixture)
@@ -34,7 +34,7 @@ namespace WxAutoCore.Tests.Components
                 _output.WriteLine($"子窗口名称: {subWinName}");
             }
             Assert.True(subWinNames.Count > 0);
-            await WxAutomation.Wait(TimeSpan.FromSeconds(5));
+            await WeAutomation.Wait(TimeSpan.FromSeconds(5));
             subWinList.CloseAllSubWins();
         }
         [Theory(DisplayName = "测试获取子窗口")]
@@ -48,7 +48,7 @@ namespace WxAutoCore.Tests.Components
             var subWinList = window.SubWinList;
             var subWin = subWinList.GetSubWin(subWinName);
             Assert.NotNull(subWin);
-            await WxAutomation.Wait(TimeSpan.FromSeconds(5));
+            await WeAutomation.Wait(TimeSpan.FromSeconds(5));
             subWinList.CloseAllSubWins();
         }
         [Theory(DisplayName = "测试判断子窗口是否打开")]
@@ -62,7 +62,7 @@ namespace WxAutoCore.Tests.Components
             var subWinList = window.SubWinList;
             var isOpen = subWinList.CheckSubWinIsOpen(subWinName);
             Assert.True(isOpen);
-            await WxAutomation.Wait(TimeSpan.FromSeconds(5));
+            await WeAutomation.Wait(TimeSpan.FromSeconds(5));
             subWinList.CloseAllSubWins();
             isOpen = subWinList.CheckSubWinIsOpen(subWinName);
             Assert.False(isOpen);

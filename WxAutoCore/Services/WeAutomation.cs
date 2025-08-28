@@ -11,7 +11,7 @@ using WxAutoCore.Services.WxAutomationSubscription;
 
 namespace WxAutoCore.Services
 {
-    public static class WxAutomation
+    public static class WeAutomation
     {
         private static IServiceProvider _internalProvider = null;
 
@@ -24,7 +24,7 @@ namespace WxAutoCore.Services
         public static IServiceCollection AddWxAutomation(this IServiceCollection services)
         {
             //这里增加服务.
-            services.AddSingleton<WxFramwork>();
+            services.AddSingleton<WeChatFramwork>();
             return services;
         }
         /// <summary>

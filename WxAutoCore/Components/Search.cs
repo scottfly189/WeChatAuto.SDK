@@ -13,8 +13,8 @@ namespace WxAutoCore.Components
 {
     public class Search
     {
-        private WxMainWindow _WxWindow;
-        public Search(WxMainWindow wxWindow)
+        private WeChatMainWindow _WxWindow;
+        public Search(WeChatMainWindow wxWindow)
         {
             _WxWindow = wxWindow;
         }

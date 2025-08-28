@@ -15,14 +15,14 @@ namespace WxAutoCore.Services
     /// </summary>
     public class WeChatPCCore
     {
-        private WxFramwork _wxFramwork;
-        private WxClient _wxClient;
-        private WxMainWindow _wxMainWindow;
+        private WeChatFramwork _wxFramwork;
+        private WeChatClient _wxClient;
+        private WeChatMainWindow _wxMainWindow;
         /// <summary>
         /// 微信主窗口
         /// <see cref="WxMainWindow"/>
         /// </summary>
-        public WxMainWindow WxMainWindow => _wxMainWindow;
+        public WeChatMainWindow WxMainWindow => _wxMainWindow;
         private string _ClientName;
         public string ClientName => _ClientName;
         /// <summary>
@@ -30,7 +30,7 @@ namespace WxAutoCore.Services
         /// </summary>
         public WeChatPCCore()
         {
-            _wxFramwork = new WxFramwork();
+            _wxFramwork = new WeChatFramwork();
         }
         /// <summary>
         /// 带昵称参数的构造函数
@@ -49,13 +49,13 @@ namespace WxAutoCore.Services
         /// <param name="User">发送给谁</param>
         /// <param name="isOPenWindow">是否打开窗口</param>
         /// <returns>微信响应结果</returns>
-        public WxResponse SendMessage(string message,
+        public ChatResponse SendMessage(string message,
                                       OneOf<string, string[]> toUser,
                                       OneOf<string, string[]> @user = default,
                                       bool isOPenWindow = false,
                                       string apiKey = "")
         {
-            return this.SendMessage(new WxMessage()
+            return this.SendMessage(new ChatMessage()
             {
                 Message = message,
                 ToUser = toUser,
@@ -68,16 +68,16 @@ namespace WxAutoCore.Services
         /// <summary>
         /// 发送消息
         /// </summary>
-        /// <param name="message">消息体,<see cref="WxMessage"/></param>
+        /// <param name="message">消息体,<see cref="ChatMessage"/></param>
         /// <returns>微信响应结果</returns>
-        public WxResponse SendMessage(WxMessage message)
+        public ChatResponse SendMessage(ChatMessage message)
         {
             CheckNickName();
             try
             {
                 if (!string.IsNullOrEmpty(message.ApiKey))
                 {
-                    WxAutoConfig.ApiKey = message.ApiKey;
+                    WeChatConfig.ApiKey = message.ApiKey;
                 }
                 _InitWxClient();
                 if (message.IsNewWindow)
@@ -109,14 +109,14 @@ namespace WxAutoCore.Services
             }
             catch (System.Exception ex)
             {
-                return new WxResponse()
+                return new ChatResponse()
                 {
                     IsSuccess = false,
                     Message = $"发送失败:{ex.Message}"
                 };
             }
 
-            return new WxResponse()
+            return new ChatResponse()
             {
                 IsSuccess = true,
                 Message = "发送成功"

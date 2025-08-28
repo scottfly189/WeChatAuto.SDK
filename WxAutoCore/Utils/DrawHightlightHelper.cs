@@ -8,7 +8,7 @@ namespace WxAutoCore.Utils
     {
         public static void DrawHightlight(AutomationElement element)
         {
-            if (WxAutoConfig.DebugMode && element != null)
+            if (WeChatConfig.DebugMode && element != null)
             {
                 element.DrawHighlight();
             }

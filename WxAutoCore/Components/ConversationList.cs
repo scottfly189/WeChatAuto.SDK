@@ -20,7 +20,7 @@ namespace WxAutoCore.Components
     public class ConversationList
     {
         private Window _Window;
-        private WxMainWindow _WxWindow;
+        private WeChatMainWindow _WxWindow;
         private List<string> _TitleTypeList = new List<string> { WeChatConstant.WECHAT_CONVERSATION_WX_TEAM,
             WeChatConstant.WECHAT_CONVERSATION_SERVICE_NOTICE,
             WeChatConstant.WECHAT_CONVERSATION_WX_PAY,
@@ -31,7 +31,7 @@ namespace WxAutoCore.Components
         };
         private readonly string _titleSuffix = WeChatConstant.WECHAT_SESSION_BOX_HAS_TOP;
         private List<ListBoxItem> _Conversations = new List<ListBoxItem>();
-        public ConversationList(Window window, WxMainWindow wxWindow)
+        public ConversationList(Window window, WeChatMainWindow wxWindow)
         {
             _Window = window;
             _WxWindow = wxWindow;

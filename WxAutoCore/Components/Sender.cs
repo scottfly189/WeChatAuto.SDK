@@ -34,7 +34,7 @@ namespace WxAutoCore.Components
         /// 聊天内容区发送者构造函数
         /// <param name="window">窗口<see cref="Window"/></param>
         /// <param name="senderRoot">发送者根元素<see cref="AutomationElement"/></param>
-        /// <param name="wxWindow">微信窗口封装<see cref="WxMainWindow"/></param>
+        /// <param name="wxWindow">微信窗口封装<see cref="WeChatMainWindow"/></param>
         /// </summary>
         public Sender(Window window, AutomationElement senderRoot,IWeChatWindow wxWindow,string title)
         {

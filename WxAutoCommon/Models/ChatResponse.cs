@@ -3,7 +3,7 @@ namespace WxAutoCommon.Models
     /// <summary>
     /// 微信响应结果
     /// </summary>
-    public class WxResponse
+    public class ChatResponse
     {
         /// <summary>
         /// 是否成功

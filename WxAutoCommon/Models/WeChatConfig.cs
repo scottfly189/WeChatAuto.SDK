@@ -6,7 +6,7 @@ namespace WxAutoCommon.Models
     /// <summary>
     /// 微信自动化参数配置类
     /// </summary>
-    public static class WxAutoConfig
+    public static class WeChatConfig
     {
 
         /// <summary>

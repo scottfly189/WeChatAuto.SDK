@@ -7,7 +7,7 @@ namespace WxAutoCore.Tests.Components
     [Collection("UiTestCollection")]
     public class WxFramworkTests
     {
-        private readonly string _wxClientName = WxAutoConfig.TestClientName;
+        private readonly string _wxClientName = WeChatConfig.TestClientName;
         private ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public WxFramworkTests(ITestOutputHelper output, UiTestFixture globalFixture)
