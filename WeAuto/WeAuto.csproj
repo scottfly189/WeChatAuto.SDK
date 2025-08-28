@@ -13,8 +13,8 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\WxAutoCommon\WxAutoCommon.csproj" />
-    <ProjectReference Include="..\WxAutoCore\WxAutoCore.csproj" />
+    <ProjectReference Include="..\WeAutoCommon\WeAutoCommon.csproj" />
+    <ProjectReference Include="..\WeAutoCore\WeAutoCore.csproj" />
   </ItemGroup>
 
 </Project>

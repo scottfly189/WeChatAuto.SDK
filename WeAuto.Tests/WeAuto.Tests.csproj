@@ -15,6 +15,6 @@
     <Using Include="Xunit" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WxAuto\WxAuto.csproj" />
+    <ProjectReference Include="..\WeAuto\WeAuto.csproj" />
   </ItemGroup>
 </Project>

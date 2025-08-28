@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WxAutoCommon\WxAutoCommon.csproj" />
+    <ProjectReference Include="..\WeAutoCommon\WeAutoCommon.csproj" />
   </ItemGroup>
 
 </Project>

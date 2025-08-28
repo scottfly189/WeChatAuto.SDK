@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WxAutoCore\WxAutoCore.csproj" />
+    <ProjectReference Include="..\WeAutoCore\WeAutoCore.csproj" />
   </ItemGroup>
 
 </Project>
