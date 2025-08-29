@@ -26,7 +26,7 @@ public class XPathTests
     {
         var framework = _globalFixture.wxFramwork;
         var sutClient = framework.GetWxClient(_wxClientName);
-        var sutWindow = sutClient.WxWindow;
+        var sutWindow = sutClient.WxMainWindow;
         // var element = Retry.WhileNull(checkMethod: () => sutWindow.Window
         //     .FindFirstByXPath($"/Pane[1]/Pane/Pane[1]/Button").AsButton(),
         //     timeout: TimeSpan.FromSeconds(10),

@@ -24,7 +24,7 @@ public class BubbleListTests
     {
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
-        var window = client.WxWindow;
+        var window = client.WxMainWindow;
         var bubbleList = window.ChatContent.ChatBody.BubbleList;
         var bubbles = bubbleList.Bubbles;
         foreach (var bubble in bubbles)
@@ -43,7 +43,7 @@ public class BubbleListTests
     {
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
-        var window = client.WxWindow;
+        var window = client.WxMainWindow;
         var subWin = window.SubWinList.GetSubWin(WeChatConfig.TestFriendNickName);
         if (subWin == null)
         {
@@ -69,7 +69,7 @@ public class BubbleListTests
     {
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
-        var window = client.WxWindow;
+        var window = client.WxMainWindow;
         var subWin = window.SubWinList.GetSubWin(WeChatConfig.TestGroupNickName);
         if (subWin == null)
         {
@@ -95,7 +95,7 @@ public class BubbleListTests
     {
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
-        var window = client.WxWindow;
+        var window = client.WxMainWindow;
         await window.SendWho(WeChatConfig.TestFriendNickName, "hello world!");
         _output.WriteLine(window.ChatContent.ChatBody.BubbleList.GetChatType().ToString());
         Assert.Equal(ChatType.好友, window.ChatContent.ChatBody.BubbleList.GetChatType());

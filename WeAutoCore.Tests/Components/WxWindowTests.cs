@@ -23,7 +23,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             window.WindowMax();
             DrawHightlightHelper.DrawHightlight(window.Window);
             window.WindowRestore();
@@ -43,7 +43,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             var nickName = window.NickName;
             _output.WriteLine($"昵称: {nickName}");
             Assert.Equal(_wxClientName, nickName);
@@ -54,7 +54,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             var title = window.GetCurrentChatTitle();
             _output.WriteLine($"当前聊天窗口的标题: {title}");
             Assert.True(title != null);
@@ -65,7 +65,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             window.SendMessage("你好，世界！");
             Assert.True(true);
         }
@@ -75,7 +75,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             await window.SendWho(WeChatConfig.TestFriendNickName, "你好，世界111！");
             Assert.True(true);
         }
@@ -85,7 +85,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             await window.SendWho(WeChatConfig.TestFriendNickName, "你好，世界222！");
             Assert.True(true);
         }
@@ -94,7 +94,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             await window.SendWho(WeChatConfig.TestFriendNickName, "你好，世界333！");
             Assert.True(true);
         }
@@ -104,7 +104,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             await window.SendWhoAndOpenChat(WeChatConfig.TestFriendNickName, "你好，世界333222！");
             Assert.True(true);
         }
@@ -114,7 +114,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             await window.SendWho(WeChatConfig.TestFriendNickName, "你好，世界444！");
             Assert.True(true);
         }
@@ -124,7 +124,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             await window.SendWho("不存在的人", "你好，世界555！");
             Assert.True(true);
         }
@@ -134,7 +134,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             await window.SendWhoAndOpenChat(WeChatConfig.TestFriendNickName, "你好，世界666！");
             Assert.True(true);
         }
@@ -144,7 +144,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             window.SendWhos([WeChatConfig.TestFriendNickName, WeChatConfig.TestGroupNickName], "你好，世界777！");
             Assert.True(true);
         }
@@ -154,7 +154,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             window.SendWhosAndOpenChat([WeChatConfig.TestFriendNickName, WeChatConfig.TestGroupNickName], "你好，世界777！");
             Assert.True(true);
         }

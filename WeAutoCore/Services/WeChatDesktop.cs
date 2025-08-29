@@ -14,32 +14,18 @@ namespace WxAutoCore.Services
     /// <summary>
     /// 微信PC端自动化核心服务
     /// </summary>
-    public class WeChatPCCore
+    public class WeChatDesktop
     {
-        private WeChatFramwork _wxFramwork;
-        private WeChatClient _wxClient;
-        private WeChatMainWindow _wxMainWindow;
-        /// <summary>
-        /// 微信主窗口
-        /// <see cref="WxMainWindow"/>
-        /// </summary>
-        public WeChatMainWindow WxMainWindow => _wxMainWindow;
-        private string _ClientName;
-        public string ClientName => _ClientName;
+        private readonly WeChatFramwork _wxFramwork;
+        private Dictionary<string, WeChatClient> _wxClientList = new Dictionary<string, WeChatClient>();
+
         /// <summary>
         /// 默认构造函数
         /// </summary>
-        public WeChatPCCore()
+        public WeChatDesktop(WeChatFramwork weChatFramwork)
         {
-            _wxFramwork = new WeChatFramwork();
-        }
-        /// <summary>
-        /// 带昵称参数的构造函数
-        /// </summary>
-        /// <param name="clientName">微信客户端名称</param>
-        public WeChatPCCore(string clientName) : this()
-        {
-            _ClientName = clientName;
+            _wxFramwork = weChatFramwork;
+            _wxClientList = _wxFramwork.GetWxClientList();
         }
 
         /// <summary>
@@ -54,6 +40,7 @@ namespace WxAutoCore.Services
                                       OneOf<string, string[]> toUser,
                                       OneOf<string, string[]> @user = default,
                                       bool isOPenWindow = false,
+                                      string clientName = "",
                                       string apiKey = "")
         {
             return this.SendMessage(new ChatMessage()
@@ -62,6 +49,7 @@ namespace WxAutoCore.Services
                 ToUser = toUser,
                 AtUser = @user,
                 IsNewWindow = isOPenWindow,
+                ClientName = clientName,
                 ApiKey = apiKey
             });
         }
@@ -73,24 +61,25 @@ namespace WxAutoCore.Services
         /// <returns>微信响应结果</returns>
         public ChatResponse SendMessage(ChatMessage message)
         {
-            CheckNickName();
+            var wxClient = GetWxClient(message.ClientName);
             try
             {
+                var wxMainWindow = wxClient.WxMainWindow;
                 if (!string.IsNullOrEmpty(message.ApiKey))
                 {
                     WeChatConfig.ApiKey = message.ApiKey;
                 }
-                _InitWxClient();
+
                 if (message.IsNewWindow)
                 {
                     message.ToUser.Switch(
                         async (string toUser) =>
                         {
-                            await _wxMainWindow.SendWhoAndOpenChat(toUser, message.Message, message.AtUser);
+                            await wxMainWindow.SendWhoAndOpenChat(toUser, message.Message, message.AtUser);
                         },
                         (string[] toUsers) =>
                         {
-                            _wxMainWindow.SendWhosAndOpenChat(toUsers, message.Message, message.AtUser);
+                            wxMainWindow.SendWhosAndOpenChat(toUsers, message.Message, message.AtUser);
                         }
                     );
                 }
@@ -99,11 +88,11 @@ namespace WxAutoCore.Services
                     message.ToUser.Switch(
                         async (string toUser) =>
                         {
-                            await _wxMainWindow.SendWho(toUser, message.Message, message.AtUser);
+                            await wxMainWindow.SendWho(toUser, message.Message, message.AtUser);
                         },
                         (string[] toUsers) =>
                         {
-                            _wxMainWindow.SendWhos(toUsers, message.Message, message.AtUser);
+                            wxMainWindow.SendWhos(toUsers, message.Message, message.AtUser);
                         }
                     );
                 }
@@ -125,50 +114,26 @@ namespace WxAutoCore.Services
         }
 
         /// <summary>
-        /// 关闭所有子窗口
+        /// 获取微信客户端
         /// </summary>
-        public void CloseAllSubWindow()
-        {
-            _wxClient.WxWindow.SubWinList.CloseAllSubWins();
-        }
-
-        /// <summary>
-        /// 关闭指定子窗口
-        /// </summary>
-        /// <param name="nickName">好友昵称，或者窗口名称</param>
-        public void CloseSubWindow(string nickName)
-        {
-            _wxClient.WxWindow.SubWinList.CloseSubWin(nickName);
-        }
-        /// <summary>
-        /// 初始化微信客户端
-        /// </summary>
-        private void _InitWxClient()
-        {
-            if (_wxClient == null)
-            {
-                _wxClient = _wxFramwork.GetWxClient(_ClientName);
-                if (_wxClient == null)
-                {
-                    throw new Exception($"未找到微信窗口,可能微信客户端昵称:{_ClientName}不正确");
-                }
-                _wxMainWindow = _wxClient.WxWindow;
-                if (_wxMainWindow == null)
-                {
-                    throw new Exception($"未找到微信窗口,可能微信客户端昵称:{_ClientName}不正确");
-                }
-            }
-        }
-        /// <summary>
-        /// 检查昵称是否为空
-        /// </summary>
+        /// <param name="clientName">微信客户端名称</param>
+        /// <returns>微信客户端</returns>
         /// <exception cref="Exception"></exception>
-        private void CheckNickName()
+        private WeChatClient GetWxClient(string clientName)
         {
-            if (string.IsNullOrEmpty(_ClientName))
+            if (_wxClientList.Count() == 0)
             {
-                throw new Exception("昵称不能为空");
+                throw new Exception("微信客户端不存在，请检查微信是否打开");
             }
+            if (string.IsNullOrEmpty(clientName))
+            {
+                return _wxClientList.First().Value;
+            }
+            if (_wxClientList.ContainsKey(clientName))
+            {
+                return _wxClientList[clientName];
+            }
+            throw new Exception($"微信客户端[{clientName}]不存在，请检查微信是否打开");
         }
     }
 }

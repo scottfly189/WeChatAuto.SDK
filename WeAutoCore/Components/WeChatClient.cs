@@ -16,9 +16,9 @@ namespace WxAutoCore.Components
     public class WeChatClient
     {
         public WeChatNotifyIcon WxNotifyIcon { get; private set; }  // 微信客户端通知图标
-        public WeChatMainWindow WxWindow { get; private set; }  // 微信客户端窗口
+        public WeChatMainWindow WxMainWindow { get; private set; }  // 微信客户端窗口
 
-        public string NickName => WxWindow.NickName;   // 微信昵称
+        public string NickName => WxMainWindow.NickName;   // 微信昵称
 
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace WxAutoCore.Components
         public WeChatClient(WeChatNotifyIcon wxNotifyIcon, WeChatMainWindow wxWindow)
         {
             WxNotifyIcon = wxNotifyIcon;
-            WxWindow = wxWindow;
+            WxMainWindow = wxWindow;
         }
 
         public void ClickNotifyIcon()

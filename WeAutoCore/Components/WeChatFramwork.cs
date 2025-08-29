@@ -64,6 +64,7 @@ namespace WxAutoCore.Components
                 _IsInit = true;
             }
         }
+
         /// <summary>
         /// 清除所有事件
         /// </summary>
@@ -86,6 +87,18 @@ namespace WxAutoCore.Components
             MessageBox.Show($"微信客户端[{name}]不存在，请检查微信是否打开", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return null;
         }
+
+        /// <summary>
+        /// 获取微信客户端列表
+        /// 微信客户端请参见<see cref="WeChatClient"/>
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, WeChatClient> GetWxClientList()
+        {
+            Init();
+            return _wxClientList;
+        }
+
         /// <summary>
         /// 重新获取微信窗口
         /// </summary>
@@ -97,24 +110,35 @@ namespace WxAutoCore.Components
                 .And(cf.ByClassName("ToolbarWindow32").And(cf.ByControlType(ControlType.ToolBar))))
                 .FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME).And(cf.ByControlType(ControlType.Button))),
                 timeout: TimeSpan.FromSeconds(10));
-            foreach (var wxNotify in wxNotifyList.Result)
+            if (wxNotifyList.Success)
             {
-                DrawHightlightHelper.DrawHightlight(wxNotify);
-                wxNotify.AsButton().Invoke();
-                var topWindowProcessId = Retry.WhileException(() => WinApi.GetTopWindowProcessIdByClassName("WeChatMainWndForPC"), timeout: TimeSpan.FromSeconds(10));
-                var wxInstances = _desktop.FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME)
-                            .And(cf.ByClassName("WeChatMainWndForPC")
-                            .And(cf.ByControlType(ControlType.Window))
-                            .And(cf.ByProcessId(topWindowProcessId.Result)))).AsWindow();
-                DrawHightlightHelper.DrawHightlight(wxInstances);
-                WeChatNotifyIcon wxNotifyIcon = new WeChatNotifyIcon(wxNotify.AsButton());
-                WeChatMainWindow wxWindow = new WeChatMainWindow(wxInstances, wxNotifyIcon);
+                foreach (var wxNotify in wxNotifyList.Result)
+                {
+                    DrawHightlightHelper.DrawHightlight(wxNotify);
+                    wxNotify.AsButton().Invoke();
+                    var topWindowProcessId = Retry.WhileException(() => WinApi.GetTopWindowProcessIdByClassName("WeChatMainWndForPC"), timeout: TimeSpan.FromSeconds(10));
+                    var wxInstances = _desktop.FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME)
+                                .And(cf.ByClassName("WeChatMainWndForPC")
+                                .And(cf.ByControlType(ControlType.Window))
+                                .And(cf.ByProcessId(topWindowProcessId.Result)))).AsWindow();
+                    DrawHightlightHelper.DrawHightlight(wxInstances);
+                    WeChatNotifyIcon wxNotifyIcon = new WeChatNotifyIcon(wxNotify.AsButton());
+                    WeChatMainWindow wxWindow = new WeChatMainWindow(wxInstances, wxNotifyIcon);
 
-                var client = new WeChatClient(wxNotifyIcon, wxWindow);
-                var NickNameButton = wxInstances.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]").AsButton();
-                _wxClientList.Add(NickNameButton.Name, client);
+                    var client = new WeChatClient(wxNotifyIcon, wxWindow);
+                    var NickNameButton = wxInstances.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]").AsButton();
+                    _wxClientList.Add(NickNameButton.Name, client);
+                }
+                this._IsInit = true;
             }
-            this._IsInit = true;
+            else
+            {
+                throw new Exception("微信客户端不存在，请检查微信是否打开");
+            }
+            if (_wxClientList.Count == 0)
+            {
+                throw new Exception("微信客户端不存在，请检查微信是否打开");
+            }
         }
 
         public void Dispose()

@@ -21,7 +21,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             var search = window.Search;
             search.SearchChat(WeChatConfig.TestFriendNickName);
             Assert.True(true);
@@ -32,7 +32,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             var search = window.Search;
             search.SearchContact(WeChatConfig.TestFriendNickName);
             Assert.True(true);
@@ -43,7 +43,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             var search = window.Search;
             search.SearchCollection(WeChatConfig.TestFriendNickName);
             Assert.True(true);

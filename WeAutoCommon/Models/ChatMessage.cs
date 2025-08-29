@@ -7,6 +7,10 @@ namespace WxAutoCommon.Models
     public class ChatMessage
     {
         /// <summary>
+        /// 微信客户端名称
+        /// </summary>
+        public string ClientName { get; set; }
+        /// <summary>
         /// 消息内容
         /// </summary>
         public string Message { get; set; }

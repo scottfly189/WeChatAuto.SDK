@@ -26,7 +26,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             var navigation = window.Navigation;
             navigation.SwitchNavigation(NavigationType.通讯录);
             navigation.SwitchNavigation(NavigationType.聊天);
@@ -57,7 +57,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             var navigation = window.Navigation;
             navigation.SwitchNavigation(NavigationType.通讯录);
             await WeAutomation.Wait(4);
@@ -71,7 +71,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             var navigation = window.Navigation;
             navigation.SwitchNavigation(NavigationType.聊天文件);
             await WeAutomation.Wait(4);

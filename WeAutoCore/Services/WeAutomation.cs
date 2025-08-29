@@ -1,13 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using WxAutoCommon.Models;
 using WxAutoCore.Components;
-using WxAutoCore.Interface;
-using WxAutoCore.Services.WxAutomationSubscription;
 
 namespace WxAutoCore.Services
 {
@@ -25,6 +20,8 @@ namespace WxAutoCore.Services
         {
             //这里增加服务.
             services.AddSingleton<WeChatFramwork>();
+            services.AddSingleton<WeChatDesktop>();
+            
             return services;
         }
         /// <summary>

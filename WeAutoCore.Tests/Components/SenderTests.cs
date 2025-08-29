@@ -23,7 +23,7 @@ public class SenderTests
     {
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
-        var window = client.WxWindow;
+        var window = client.WxMainWindow;
         var sender = window.ChatContent.ChatBody.Sender;
         sender.SendMessage("你好，世界！");
         Assert.True(true);
@@ -34,7 +34,7 @@ public class SenderTests
     {
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
-        var mainWindow = client.WxWindow;
+        var mainWindow = client.WxMainWindow;
         mainWindow.Conversations.DoubleClickConversation(WeChatConfig.TestGroupNickName);
         var subWin = mainWindow.SubWinList.GetSubWin(WeChatConfig.TestGroupNickName);
         var sender = subWin.ChatContent.ChatBody.Sender;

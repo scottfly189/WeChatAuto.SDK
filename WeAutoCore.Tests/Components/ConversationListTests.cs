@@ -24,7 +24,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             var conversations = window.Conversations;
             var list = conversations.GetVisibleConversations();
             foreach (var conversation in list)
@@ -39,7 +39,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             var conversations = window.Conversations;
             conversations.ClickConversation(WeChatConfig.TestGroupNickName);
         }
@@ -49,7 +49,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             var conversations = window.Conversations;
             conversations.DoubleClickConversation(WeChatConfig.TestGroupNickName);
         }
@@ -59,7 +59,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             var conversations = window.Conversations;
             var titles = conversations.GetConversationTitles();
             foreach (var title in titles)

@@ -34,8 +34,8 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            _output.WriteLine($"微信客户端名称: {client.WxWindow.NickName}");
-            Assert.True(client.WxWindow.NickName == _wxClientName);
+            _output.WriteLine($"微信客户端名称: {client.WxMainWindow.NickName}");
+            Assert.True(client.WxMainWindow.NickName == _wxClientName);
         }
     }
 }

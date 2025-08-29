@@ -26,7 +26,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             window.Conversations.DoubleClickConversation("文件传输助手");
             var subWinList = window.SubWinList;
             var subWinNames = subWinList.GetAllSubWinNames();
@@ -44,7 +44,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             window.Conversations.DoubleClickConversation(subWinName);
             var subWinList = window.SubWinList;
             var subWin = subWinList.GetSubWin(subWinName);
@@ -58,7 +58,7 @@ namespace WxAutoCore.Tests.Components
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxWindow;
+            var window = client.WxMainWindow;
             window.Conversations.DoubleClickConversation(subWinName);
             var subWinList = window.SubWinList;
             var isOpen = subWinList.CheckSubWinIsOpen(subWinName);
