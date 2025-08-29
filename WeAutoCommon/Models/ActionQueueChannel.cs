@@ -22,7 +22,7 @@ namespace WxAutoCommon.Models
         /// <param name="item"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public bool WriteAsync(T item, CancellationToken cancellationToken = default)
+        public bool Put(T item, CancellationToken cancellationToken = default)
         {
             return _channel.Writer.TryWrite(item);
         }
@@ -43,6 +43,13 @@ namespace WxAutoCommon.Models
         public ValueTask<bool> WaitToReadAsync(CancellationToken cancellationToken = default)
         {
             return _channel.Reader.WaitToReadAsync(cancellationToken);
+        }
+        /// <summary>
+        /// 关闭通道
+        /// </summary>
+        public void Close()
+        {
+            _channel.Writer.Complete();
         }
     }
 }

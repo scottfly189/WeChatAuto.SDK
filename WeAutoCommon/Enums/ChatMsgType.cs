@@ -1,6 +1,6 @@
 namespace WxAutoCommon.Enums
 {
-    public enum ActionType
+    public enum ChatMsgType
     {
         发送消息, //包括发送文字消息，发送链接等.
         发送文件, //发送图片,发送语音,发送视频,发送链接,发送文件等

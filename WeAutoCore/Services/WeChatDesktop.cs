@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using OneOf;
+using WeAutoCore.Models;
 using WxAutoCommon.Configs;
 using WxAutoCommon.Models;
 using WxAutoCore.Components;
@@ -33,17 +31,19 @@ namespace WxAutoCore.Services
         /// </summary>
         /// <param name="message">消息内容</param>
         /// <param name="toUser">发送给谁,可单人，也可以为一数组人群</param>
-        /// <param name="User">发送给谁</param>
-        /// <param name="isOPenWindow">是否打开窗口</param>
+        /// <param name="atUser">@谁,可单人，也可以为一数组人群</param>
+        /// <param name="clientName">微信客户端名称,如果只有一个客户端，则可以不传</param>
+        /// <param name="apiKey">接口KEY,非Pro接口不需要传</param>
+        /// <param name="isOPenWindow">是否打开窗口,默认打开</param>
         /// <returns>微信响应结果</returns>
         public ChatResponse SendMessage(string message,
                                       OneOf<string, string[]> toUser,
                                       OneOf<string, string[]> @user = default,
-                                      bool isOPenWindow = false,
+                                      bool isOPenWindow = true,
                                       string clientName = "",
                                       string apiKey = "")
         {
-            return this.SendMessage(new ChatMessage()
+            return this.SendMessage(new ChatMessageInner()
             {
                 Message = message,
                 ToUser = toUser,
@@ -57,9 +57,9 @@ namespace WxAutoCore.Services
         /// <summary>
         /// 发送消息
         /// </summary>
-        /// <param name="message">消息体,<see cref="ChatMessage"/></param>
+        /// <param name="message">消息体,<see cref="ChatMessageInner"/></param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse SendMessage(ChatMessage message)
+        private ChatResponse SendMessage(ChatMessageInner message)
         {
             var wxClient = GetWxClient(message.ClientName);
             try

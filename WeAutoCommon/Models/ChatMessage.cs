@@ -1,35 +1,31 @@
-using OneOf;
+using WxAutoCommon.Enums;
+
 namespace WxAutoCommon.Models
 {
     /// <summary>
-    /// 微信消息
+    /// 聊天消息
     /// </summary>
     public class ChatMessage
     {
         /// <summary>
-        /// 微信客户端名称
+        /// 消息类型
         /// </summary>
-        public string ClientName { get; set; }
+        public ChatMsgType Type { get; set; }
+        /// <summary>
+        /// 发送给谁
+        /// </summary>
+        public string ToUser { get; set; }
         /// <summary>
         /// 消息内容
         /// </summary>
         public string Message { get; set; }
         /// <summary>
-        /// 发送给谁,可以单人也可以群发
+        /// 消息负载
         /// </summary>
-        public OneOf<string, string[]> ToUser { get; set; }
+        public string Payload { get; set; }
         /// <summary>
-        /// @谁,可以单人也可以多人
+        /// 是否打开聊天窗口
         /// </summary>
-        public OneOf<string, string[]> AtUser { get; set; }
-        /// <summary>
-        /// 是否打开新窗口发送
-        /// </summary>
-        public bool IsNewWindow { get; set; }
-
-        /// <summary>
-        /// 接口KEY
-        /// </summary>
-        public string ApiKey { get; set; } = string.Empty;
+        public bool IsOpenChat { get; set; } = true;
     }
 }

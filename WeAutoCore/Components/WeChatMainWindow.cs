@@ -12,6 +12,7 @@ using FlaUI.Core.Input;
 using System.Threading.Tasks;
 using OneOf;
 using WxAutoCommon.Models;
+using System;
 
 
 
@@ -20,9 +21,9 @@ namespace WxAutoCore.Components
     /// <summary>
     /// 微信客户端窗口,封装的微信窗口，包含工具栏、导航栏、搜索、会话列表、通讯录、聊天窗口等
     /// </summary>
-    public class WeChatMainWindow : IWeChatWindow
+    public class WeChatMainWindow : IWeChatWindow, IDisposable
     {
-        private readonly ActionQueueChannel<AutoAction> _actionQueueChannel = new ActionQueueChannel<AutoAction>();
+        private readonly ActionQueueChannel<ChatMessage> _actionQueueChannel = new ActionQueueChannel<ChatMessage>();
         private Window _Window;
         private ToolBar _ToolBar;  // 工具栏
         private SubWinList _SubWinList;  // 弹出窗口列表
@@ -54,6 +55,38 @@ namespace WxAutoCore.Components
             _Window = window;
             ProcessId = window.Properties.ProcessId;
             _InitWxWindow(notifyIcon);
+            _InitSubscription();
+        }
+        private void _InitSubscription()
+        {
+            Task.Run(async () =>
+            {
+                while (await _actionQueueChannel.WaitToReadAsync())
+                {
+                    var msg = await _actionQueueChannel.ReadAsync();
+                    await SendMessageCore(msg);
+                }
+            });
+        }
+        /// <summary>
+        /// 发送消息核心方法
+        /// <see cref="ChatMessage"/>
+        /// </summary>
+        /// <param name="msg"></param>
+        private async Task SendMessageCore(ChatMessage msg)
+        {
+            switch (msg.Type)
+            {
+                case ChatMsgType.发送消息:
+                    await this.SendWhoCore(msg.ToUser, msg.Message, msg.IsOpenChat);
+                    break;
+                case ChatMsgType.自定义表情:
+                    break;
+                case ChatMsgType.发送文件:
+                    break;
+                default:
+                    break;
+            }
         }
 
         /// <summary>
@@ -151,7 +184,14 @@ namespace WxAutoCore.Components
                     }
                 );
             }
-            await SendWhoCore(who, message, false);
+            _actionQueueChannel.Put(new ChatMessage()
+            {
+                Type = ChatMsgType.发送消息,
+                ToUser = who,
+                Message = message,
+                IsOpenChat = false
+            });
+            await Task.CompletedTask;
         }
         /// <summary>
         /// 批量查询，查询多个好友
@@ -194,7 +234,14 @@ namespace WxAutoCore.Components
                     }
                 );
             }
-            await SendWhoCore(who, message, true);
+            _actionQueueChannel.Put(new ChatMessage()
+            {
+                Type = ChatMsgType.发送消息,
+                ToUser = who,
+                Message = message,
+                IsOpenChat = true
+            });
+            await Task.CompletedTask;
         }
 
         /// <summary>
@@ -218,7 +265,18 @@ namespace WxAutoCore.Components
             {
                 message = $"@{atUser} {message}";
             }
-            this.ChatContent.ChatBody.Sender.SendMessage(message);
+            ChatMessage msg = new ChatMessage()
+            {
+                Type = ChatMsgType.发送消息,
+                ToUser = this.GetCurrentChatTitle(),
+                Message = message,
+                IsOpenChat = false
+            };
+            if (string.IsNullOrEmpty(msg.ToUser))
+            {
+                return;
+            }
+            _actionQueueChannel.Put(msg);
         }
         /// <summary>
         /// 获取当前聊天窗口的标题
@@ -360,5 +418,10 @@ namespace WxAutoCore.Components
         {
         }
         #endregion
+
+        public void Dispose()
+        {
+            _actionQueueChannel.Close();
+        }
     }
 }
