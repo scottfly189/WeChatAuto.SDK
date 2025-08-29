@@ -270,18 +270,7 @@ namespace WxAutoCore.Components
             {
                 message = $"@{atUser} {message}";
             }
-            ChatMessage msg = new ChatMessage()
-            {
-                Type = ChatMsgType.发送消息,
-                ToUser = this.GetCurrentChatTitle(),
-                Message = message,
-                IsOpenChat = false
-            };
-            if (string.IsNullOrEmpty(msg.ToUser))
-            {
-                return;
-            }
-            _actionQueueChannel.Put(msg);
+            this.ChatContent.ChatBody.Sender.SendMessage(message);
         }
         /// <summary>
         /// 获取当前聊天窗口的标题
