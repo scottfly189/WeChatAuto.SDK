@@ -13,9 +13,11 @@ namespace WxAutoCore.Components
 {
     public class Search
     {
+        private UIThreadInvoker _uiThreadInvoker;
         private WeChatMainWindow _WxWindow;
-        public Search(WeChatMainWindow wxWindow)
+        public Search(WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker, Window window)
         {
+            _uiThreadInvoker = uiThreadInvoker;
             _WxWindow = wxWindow;
         }
 
@@ -26,37 +28,41 @@ namespace WxAutoCore.Components
         /// <param name="text"></param>
         public void SearchSomething(string text, bool isClear = false)
         {
-            var searchEdit = Retry.WhileNull(() => _WxWindow.Window.FindFirstByXPath($"/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='{WeChatConstant.WECHAT_SESSION_SEARCH}']"),
-            timeout: TimeSpan.FromSeconds(10),
-            interval: TimeSpan.FromMilliseconds(200));
-            if (searchEdit.Success)
+            _uiThreadInvoker.Run(automation =>
             {
-                WaitHelper.WaitTextBoxReady(searchEdit.Result, TimeSpan.FromSeconds(5));
-                var textBox = searchEdit.Result.AsTextBox();
-                DrawHightlightHelper.DrawHightlight(textBox);
-                if (isClear)
+                var searchEdit = Retry.WhileNull(() => _WxWindow.Window.FindFirstByXPath($"/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='{WeChatConstant.WECHAT_SESSION_SEARCH}']"),
+                    timeout: TimeSpan.FromSeconds(10),
+                    interval: TimeSpan.FromMilliseconds(200));
+                if (searchEdit.Success)
                 {
-                    ClearText();
+                    WaitHelper.WaitTextBoxReady(searchEdit.Result, TimeSpan.FromSeconds(5));
+                    var textBox = searchEdit.Result.AsTextBox();
+                    DrawHightlightHelper.DrawHightlight(textBox, _uiThreadInvoker);
+                    if (isClear)
+                    {
+                        ClearText();
+                    }
+                    _WxWindow.SilenceEnterText(textBox, text);
+                    Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));
+                    _WxWindow.SilenceReturn(textBox);
                 }
-                _WxWindow.SilenceEnterText(textBox, text);
-                // _WxWindow.SilenceClickExt(textBox);
-                Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));
-                // Keyboard.Press(VirtualKeyShort.RETURN);
-                _WxWindow.SilenceReturn(textBox);
-            }
+            }).Wait();
         }
         /// <summary>
         /// 清空搜索框
         /// </summary>
         public void ClearText()
         {
-            var clearButton = Retry.WhileNull(() => _WxWindow.Window.FindFirstByXPath($"/Pane/Pane/Pane/Pane/Pane/Pane/Button[@Name='{WeChatConstant.WECHAT_SESSION_CLEAR}']"),
-            timeout: TimeSpan.FromSeconds(5),
-            interval: TimeSpan.FromMilliseconds(200));
-            if (clearButton.Success)
+            _uiThreadInvoker.Run(automation =>
             {
-                _WxWindow.SilenceClickExt(clearButton.Result);
-            }
+                var clearButton = Retry.WhileNull(() => _WxWindow.Window.FindFirstByXPath($"/Pane/Pane/Pane/Pane/Pane/Pane/Button[@Name='{WeChatConstant.WECHAT_SESSION_CLEAR}']"),
+                timeout: TimeSpan.FromSeconds(5),
+                interval: TimeSpan.FromMilliseconds(200));
+                if (clearButton.Success)
+                {
+                    _WxWindow.SilenceClickExt(clearButton.Result);
+                }
+            }).Wait();
         }
 
         /// <summary>

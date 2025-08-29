@@ -13,7 +13,7 @@ namespace WxAutoCore.Components
         private WeChatMainWindow _MainWxWindow;    //主窗口对象
         private Window _SelfWindow;        //子窗口FlaUI的window
         private int _ProcessId;
-
+        private UIThreadInvoker _uiThreadInvoker;
         public Window SelfWindow { get => _SelfWindow; set => _SelfWindow = value; }
 
         public ChatContent ChatContent => _ChatContent;
@@ -25,11 +25,12 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="window">子窗口FlaUI的window</param>
         /// <param name="wxWindow">主窗口的微信窗口对象</param>
-        public SubWin(Window window, WeChatMainWindow wxWindow)
+        public SubWin(Window window, WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker)
         {
+            _uiThreadInvoker = uiThreadInvoker;
             _SelfWindow = window;
             _MainWxWindow = wxWindow;
-            _ChatContent = new ChatContent(_SelfWindow, ChatContentType.SubWindow, "/Pane[2]/Pane/Pane[2]/Pane/Pane",this);
+            _ChatContent = new ChatContent(_SelfWindow, ChatContentType.SubWindow, "/Pane[2]/Pane/Pane[2]/Pane/Pane",this, uiThreadInvoker);
             _ProcessId = _SelfWindow.Properties.ProcessId.Value;
         }
 

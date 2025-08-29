@@ -23,6 +23,7 @@ namespace WxAutoCore.Components
     /// </summary>
     public class WeChatMainWindow : IWeChatWindow, IDisposable
     {
+        private UIThreadInvoker _uiThreadInvoker;
         private readonly ActionQueueChannel<ChatMessage> _actionQueueChannel = new ActionQueueChannel<ChatMessage>();
         private Window _Window;
         private ToolBar _ToolBar;  // 工具栏
@@ -40,7 +41,7 @@ namespace WxAutoCore.Components
         public ChatContent ChatContent => _WxChatContent;  // 聊天窗口
         public SubWinList SubWinList => _SubWinList;  // 子窗口列表
         public int ProcessId { get; private set; }
-        public string NickName => _Window.FindFirstByXPath($"/Pane/Pane/ToolBar[@Name='{WeChatConstant.WECHAT_NAVIGATION_NAVIGATION}'][@IsEnabled='true']").FindFirstChild().Name;
+        public string NickName => _uiThreadInvoker.Run(automation => _Window.FindFirstByXPath($"/Pane/Pane/ToolBar[@Name='{WeChatConstant.WECHAT_NAVIGATION_NAVIGATION}'][@IsEnabled='true']").FindFirstChild().Name).Result;
         public Window Window => _Window;
 
         public Window SelfWindow { get => _Window; set => _Window = value; }
@@ -50,13 +51,17 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="window">微信窗口<see cref="Window"/></param>
         /// <param name="notifyIcon">微信通知图标<see cref="WeChatNotifyIcon"/></param>
-        public WeChatMainWindow(Window window, WeChatNotifyIcon notifyIcon)
+        public WeChatMainWindow(Window window, WeChatNotifyIcon notifyIcon, UIThreadInvoker uiThreadInvoker)
         {
+            _uiThreadInvoker = uiThreadInvoker;
             _InitSubscription();
             _Window = window;
             ProcessId = window.Properties.ProcessId;
             _InitWxWindow(notifyIcon);
         }
+        /// <summary>
+        /// 初始化订阅
+        /// </summary>
         private void _InitSubscription()
         {
             Task.Run(async () =>
@@ -94,12 +99,12 @@ namespace WxAutoCore.Components
         /// </summary>
         private void _InitWxWindow(WeChatNotifyIcon notifyIcon)
         {
-            _ToolBar = new ToolBar(_Window, notifyIcon);  // 工具栏
-            _Navigation = new Navigation(_Window, this);  // 导航栏
-            _Search = new Search(this);  // 搜索
-            _Conversations = new ConversationList(_Window, this);  // 会话列表
-            _SubWinList = new SubWinList(_Window, this);
-            _WxChatContent = new ChatContent(_Window, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane", this);
+            _ToolBar = new ToolBar(_Window, notifyIcon, _uiThreadInvoker);  // 工具栏
+            _Navigation = new Navigation(_Window, this, _uiThreadInvoker);  // 导航栏
+            _Search = new Search(this, _uiThreadInvoker,_Window);  // 搜索
+            _Conversations = new ConversationList(_Window, this, _uiThreadInvoker);  // 会话列表
+            _SubWinList = new SubWinList(_Window, this, _uiThreadInvoker);
+            _WxChatContent = new ChatContent(_Window, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane", this, _uiThreadInvoker);
         }
 
         #region 窗口操作

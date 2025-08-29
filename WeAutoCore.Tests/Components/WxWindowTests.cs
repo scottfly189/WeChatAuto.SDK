@@ -25,9 +25,9 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             window.WindowMax();
-            DrawHightlightHelper.DrawHightlight(window.Window);
+            DrawHightlightHelper.DrawHightlight(window.Window,framework.UiThreadInvoker);
             window.WindowRestore();
-            DrawHightlightHelper.DrawHightlight(window.Window);
+            DrawHightlightHelper.DrawHightlight(window.Window,framework.UiThreadInvoker);
             window.WindowMin();
             await WeAutomation.Wait(2);
             window.WinMinRestore();

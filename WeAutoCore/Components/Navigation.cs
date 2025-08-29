@@ -15,64 +15,69 @@ namespace WxAutoCore.Components
 {
     public class Navigation
     {
+        private UIThreadInvoker _uiThreadInvoker;
         private IWeChatWindow _WxWindow;
         public WxLocationCaches _wxLocationCaches = new WxLocationCaches();
         public AutomationElement CurrentNavigationElement { get; private set; }
         private Window _Window;
-        public Navigation(Window window,IWeChatWindow wxWindow)
+        public Navigation(Window window, IWeChatWindow wxWindow, UIThreadInvoker uiThreadInvoker)
         {
+            _uiThreadInvoker = uiThreadInvoker;
             _Window = window;
             _WxWindow = wxWindow;
             _InitNavigation();
         }
         private void _InitNavigation()
         {
-            var navigationRoot = _Window.FindFirstByXPath($"/Pane/Pane/ToolBar[@Name='{WeChatConstant.WECHAT_NAVIGATION_NAVIGATION}'][@IsEnabled='true']");
-            _wxLocationCaches.AddXPathLocation(NavigationType.聊天.ToString(),
-                parentElement: navigationRoot,
-                xPath: $"/Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_CHAT}'][@IsEnabled='true']"
-            );
-            _wxLocationCaches.AddXPathLocation(NavigationType.通讯录.ToString(),
-                parentElement: navigationRoot,
-                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_CONTACT}'][@IsEnabled='true']"
-            );
-            _wxLocationCaches.AddXPathLocation(NavigationType.收藏.ToString(),
-                parentElement: navigationRoot,
-                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_COLLECT}'][@IsEnabled='true']"
-            );
-            _wxLocationCaches.AddXPathLocation(NavigationType.聊天文件.ToString(),
-                parentElement: navigationRoot,
-                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_FILE}'][@IsEnabled='true']"
-            );
-            _wxLocationCaches.AddXPathLocation(NavigationType.朋友圈.ToString(),
-                parentElement: navigationRoot,
-                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_MOMENT}'][@IsEnabled='true']"
-            );
-            _wxLocationCaches.AddXPathLocation(NavigationType.视频号.ToString(),
-                parentElement: navigationRoot,
-                xPath: $"/Pane/Pane/Pane[1]/Button"
-            );
-            _wxLocationCaches.AddXPathLocation(NavigationType.看一看.ToString(),
-                parentElement: navigationRoot,
-                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_READ}'][@IsEnabled='true']"
-            );
-            _wxLocationCaches.AddXPathLocation(NavigationType.搜一搜.ToString(),
-                parentElement: navigationRoot,
-                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_SEARCH}'][@IsEnabled='true']"
-            );
-            _wxLocationCaches.AddXPathLocation(NavigationType.小程序面板.ToString(),
-                parentElement: navigationRoot,
-                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_APP}'][@IsEnabled='true']"
-            );
-            _wxLocationCaches.AddXPathLocation(NavigationType.手机.ToString(),
-                parentElement: navigationRoot,
-                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_PHONE}'][@IsEnabled='true']"
-            );
-            _wxLocationCaches.AddXPathLocation(NavigationType.设置及其他.ToString(),
-                parentElement: navigationRoot,
-                xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_SETTING}'][@IsEnabled='true']"
-            );
-            CurrentNavigationElement = _wxLocationCaches.GetElement(NavigationType.聊天.ToString());
+            _uiThreadInvoker.Run(automation =>
+            {
+                var navigationRoot = _Window.FindFirstByXPath($"/Pane/Pane/ToolBar[@Name='{WeChatConstant.WECHAT_NAVIGATION_NAVIGATION}'][@IsEnabled='true']");
+                _wxLocationCaches.AddXPathLocation(NavigationType.聊天.ToString(),
+                    parentElement: navigationRoot,
+                    xPath: $"/Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_CHAT}'][@IsEnabled='true']"
+                );
+                _wxLocationCaches.AddXPathLocation(NavigationType.通讯录.ToString(),
+                    parentElement: navigationRoot,
+                    xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_CONTACT}'][@IsEnabled='true']"
+                );
+                _wxLocationCaches.AddXPathLocation(NavigationType.收藏.ToString(),
+                    parentElement: navigationRoot,
+                    xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_COLLECT}'][@IsEnabled='true']"
+                );
+                _wxLocationCaches.AddXPathLocation(NavigationType.聊天文件.ToString(),
+                    parentElement: navigationRoot,
+                    xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_FILE}'][@IsEnabled='true']"
+                );
+                _wxLocationCaches.AddXPathLocation(NavigationType.朋友圈.ToString(),
+                    parentElement: navigationRoot,
+                    xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_MOMENT}'][@IsEnabled='true']"
+                );
+                _wxLocationCaches.AddXPathLocation(NavigationType.视频号.ToString(),
+                    parentElement: navigationRoot,
+                    xPath: $"/Pane/Pane/Pane[1]/Button"
+                );
+                _wxLocationCaches.AddXPathLocation(NavigationType.看一看.ToString(),
+                    parentElement: navigationRoot,
+                    xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_READ}'][@IsEnabled='true']"
+                );
+                _wxLocationCaches.AddXPathLocation(NavigationType.搜一搜.ToString(),
+                    parentElement: navigationRoot,
+                    xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_SEARCH}'][@IsEnabled='true']"
+                );
+                _wxLocationCaches.AddXPathLocation(NavigationType.小程序面板.ToString(),
+                    parentElement: navigationRoot,
+                    xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_APP}'][@IsEnabled='true']"
+                );
+                _wxLocationCaches.AddXPathLocation(NavigationType.手机.ToString(),
+                    parentElement: navigationRoot,
+                    xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_PHONE}'][@IsEnabled='true']"
+                );
+                _wxLocationCaches.AddXPathLocation(NavigationType.设置及其他.ToString(),
+                    parentElement: navigationRoot,
+                    xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_SETTING}'][@IsEnabled='true']"
+                );
+                CurrentNavigationElement = _wxLocationCaches.GetElement(NavigationType.聊天.ToString());
+            }).Wait();
             _WxWindow.SilenceClickExt(CurrentNavigationElement);
         }
         /// <summary>
@@ -81,20 +86,23 @@ namespace WxAutoCore.Components
         /// <param name="navigationType">导航栏类型</param>
         public void SwitchNavigation(NavigationType navigationType)
         {
-            var name = navigationType.ToString();
-            var button = _wxLocationCaches.GetElement(name)?.AsButton();
-            if (button != null)
+            _uiThreadInvoker.Run(automation =>
             {
-                if (Wait.UntilResponsive(button, timeout: TimeSpan.FromSeconds(5)))
+                var name = navigationType.ToString();
+                var button = _wxLocationCaches.GetElement(name)?.AsButton();
+                if (button != null)
                 {
-                    DrawHightlightHelper.DrawHightlight(button);
-                    if (CurrentNavigationElement.Name != button.Name)
+                    if (Wait.UntilResponsive(button, timeout: TimeSpan.FromSeconds(5)))
                     {
-                        _WxWindow.SilenceClickExt(button);
-                        CurrentNavigationElement = button;
+                        DrawHightlightHelper.DrawHightlight(button, _uiThreadInvoker);
+                        if (CurrentNavigationElement.Name != button.Name)
+                        {
+                            _WxWindow.SilenceClickExt(button);
+                            CurrentNavigationElement = button;
+                        }
                     }
                 }
-            }
+            }).Wait();
         }
 
         /// <summary>
@@ -104,58 +112,61 @@ namespace WxAutoCore.Components
         /// <param name="navigationType">导航栏类型</param>
         public void CloseNavigation(NavigationType navigationType)
         {
-            RetryResult<AutomationElement> window = null;
-            switch (navigationType)
+            _uiThreadInvoker.Run(automation =>
             {
-                case NavigationType.聊天文件:
-                    window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
-                        .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_NAVIGATION_FILE}'][@ClassName='FileListMgrWnd'][@ProcessId={_Window.Properties.ProcessId}]"),
-                        timeout: TimeSpan.FromSeconds(10),
-                        interval: TimeSpan.FromMilliseconds(200)
-                    );
-                    break;
-                case NavigationType.朋友圈:
-                    window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
-                        .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_NAVIGATION_MOMENT}'][@ClassName='SnsWnd'][@ProcessId={_Window.Properties.ProcessId}]"),
-                        timeout: TimeSpan.FromSeconds(10),
-                        interval: TimeSpan.FromMilliseconds(200)
-                    );
-                    break;
-                case NavigationType.视频号:
-                    window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
-                        .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_SYSTEM_NAME}'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
-                        timeout: TimeSpan.FromSeconds(10),
-                        interval: TimeSpan.FromMilliseconds(200)
-                    );
-                    break;
-                case NavigationType.看一看:
-                    window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
-                        .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_SYSTEM_NAME}'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
-                        timeout: TimeSpan.FromSeconds(10),
-                        interval: TimeSpan.FromMilliseconds(200)
-                    );
-                    break;
-                case NavigationType.搜一搜:
-                    window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
-                        .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_SYSTEM_NAME}'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
-                        timeout: TimeSpan.FromSeconds(10),
-                        interval: TimeSpan.FromMilliseconds(200)
-                    );
-                    break;
-                case NavigationType.小程序面板:
-                    window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
-                        .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_SYSTEM_NAME}'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
-                        timeout: TimeSpan.FromSeconds(10),
-                        interval: TimeSpan.FromMilliseconds(200)
-                    );                
-                    break;
-                default:
-                    break;
-            }
-            if (window.Success)
-            {
-                window.Result.AsWindow().Close();
-            }
+                RetryResult<AutomationElement> window = null;
+                switch (navigationType)
+                {
+                    case NavigationType.聊天文件:
+                        window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
+                            .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_NAVIGATION_FILE}'][@ClassName='FileListMgrWnd'][@ProcessId={_Window.Properties.ProcessId}]"),
+                            timeout: TimeSpan.FromSeconds(10),
+                            interval: TimeSpan.FromMilliseconds(200)
+                        );
+                        break;
+                    case NavigationType.朋友圈:
+                        window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
+                            .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_NAVIGATION_MOMENT}'][@ClassName='SnsWnd'][@ProcessId={_Window.Properties.ProcessId}]"),
+                            timeout: TimeSpan.FromSeconds(10),
+                            interval: TimeSpan.FromMilliseconds(200)
+                        );
+                        break;
+                    case NavigationType.视频号:
+                        window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
+                            .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_SYSTEM_NAME}'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
+                            timeout: TimeSpan.FromSeconds(10),
+                            interval: TimeSpan.FromMilliseconds(200)
+                        );
+                        break;
+                    case NavigationType.看一看:
+                        window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
+                            .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_SYSTEM_NAME}'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
+                            timeout: TimeSpan.FromSeconds(10),
+                            interval: TimeSpan.FromMilliseconds(200)
+                        );
+                        break;
+                    case NavigationType.搜一搜:
+                        window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
+                            .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_SYSTEM_NAME}'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
+                            timeout: TimeSpan.FromSeconds(10),
+                            interval: TimeSpan.FromMilliseconds(200)
+                        );
+                        break;
+                    case NavigationType.小程序面板:
+                        window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
+                            .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_SYSTEM_NAME}'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
+                            timeout: TimeSpan.FromSeconds(10),
+                            interval: TimeSpan.FromMilliseconds(200)
+                        );
+                        break;
+                    default:
+                        break;
+                }
+                if (window.Success)
+                {
+                    window.Result.AsWindow().Close();
+                }
+            }).Wait();
         }
 
     }

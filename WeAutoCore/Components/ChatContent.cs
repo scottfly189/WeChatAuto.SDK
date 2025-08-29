@@ -16,6 +16,7 @@ namespace WxAutoCore.Components
         private ChatContentType _ChatContentType;
         private string _XPath;
         private AutomationElement _ChatContentRoot;
+        private UIThreadInvoker _uiThreadInvoker;
         public AutomationElement ChatContentRoot
         {
             get
@@ -29,8 +30,9 @@ namespace WxAutoCore.Components
         }
         public ChatHeader ChatHeader => GetChatHeader();
         public ChatBody ChatBody => GetChatBody();
-        public ChatContent(Window window, ChatContentType chatContentType, string xPath, IWeChatWindow wxWindow)
+        public ChatContent(Window window, ChatContentType chatContentType, string xPath, IWeChatWindow wxWindow, UIThreadInvoker uiThreadInvoker)
         {
+            _uiThreadInvoker = uiThreadInvoker;
             _Window = window;
             _ChatContentType = chatContentType;
             _XPath = xPath;
@@ -55,8 +57,8 @@ namespace WxAutoCore.Components
             {
                 title = title.Trim();
             }
-            var header = ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
-            var buttons = header.FindAllDescendants(cf => cf.ByControlType(ControlType.Button));
+            var header = _uiThreadInvoker.Run(automation => ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var buttons = _uiThreadInvoker.Run(automation => header.FindAllDescendants(cf => cf.ByControlType(ControlType.Button))).Result;
             Button chatInfoButton = null;
             if (buttons.Count() > 0)
             {
@@ -70,9 +72,9 @@ namespace WxAutoCore.Components
         /// <returns></returns>
         public string GetFullTitle()
         {
-            var header = ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane));
-            DrawHightlightHelper.DrawHightlight(header);
-            var titles = header.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text));
+            var header = _uiThreadInvoker.Run(automation => ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            DrawHightlightHelper.DrawHightlight(header, _uiThreadInvoker);
+            var titles = _uiThreadInvoker.Run(automation => header.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text))).Result;
             if (titles == null)
             {
                 return "";
@@ -87,9 +89,9 @@ namespace WxAutoCore.Components
         public ChatBody GetChatBody()
         {
             var title = GetFullTitle();
-            var chatBodyRoot = ChatContentRoot.FindFirstByXPath("/Pane[2]");
-            DrawHightlightHelper.DrawHightlight(chatBodyRoot);
-            var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow,title);
+            var chatBodyRoot = _uiThreadInvoker.Run(automation => ChatContentRoot.FindFirstByXPath("/Pane[2]")).Result;
+            DrawHightlightHelper.DrawHightlight(chatBodyRoot, _uiThreadInvoker);
+            var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow,title, _uiThreadInvoker);
             return chatBody;
         }
     }

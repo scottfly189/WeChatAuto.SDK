@@ -15,13 +15,15 @@ namespace WxAutoCore.Components
     {
         private WeChatMainWindow _MainWxWindow;
         private Window _MainFlaUIWindow;
+        private UIThreadInvoker _uiThreadInvoker;
         /// <summary>
         /// 子窗口列表构造函数
         /// </summary>
         /// <param name="window">主窗口FlaUI的window</param>
         /// <param name="wxWindow">主窗口对象<see cref="WeChatMainWindow"/></param>
-        public SubWinList(Window window, WeChatMainWindow wxWindow)
+        public SubWinList(Window window, WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker)
         {
+            _uiThreadInvoker = uiThreadInvoker;
             _MainWxWindow = wxWindow;
             _MainFlaUIWindow = window;
         }
@@ -31,12 +33,15 @@ namespace WxAutoCore.Components
         /// <returns></returns>
         public List<string> GetAllSubWinNames()
         {
-            var desktop = _MainFlaUIWindow.Automation.GetDesktop();
-            var subWinRetry = Retry.WhileNull(() => desktop.FindAllChildren(cf => cf.ByClassName("ChatWnd")
+            var desktop = _uiThreadInvoker.Run(automation => automation.GetDesktop()).Result;
+            var subWinRetry = _uiThreadInvoker.Run(automation =>
+            {
+                return Retry.WhileNull(() => desktop.FindAllChildren(cf => cf.ByClassName("ChatWnd")
                         .And(cf.ByControlType(ControlType.Window)
                         .And(cf.ByProcessId(_MainFlaUIWindow.Properties.ProcessId)))),
                         timeout: TimeSpan.FromSeconds(10),
                         interval: TimeSpan.FromMilliseconds(200));
+            }).Result;
             if (subWinRetry.Success)
             {
                 return subWinRetry.Result.ToList().Select(subWin => subWin.Name).ToList();
@@ -61,16 +66,19 @@ namespace WxAutoCore.Components
         /// <returns>子窗口对象<see cref="SubWin"/></returns>
         public SubWin GetSubWin(string name)
         {
-            var desktop = _MainFlaUIWindow.Automation.GetDesktop();
-            var subWin = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("ChatWnd")
+            var desktop = _uiThreadInvoker.Run(automation => automation.GetDesktop()).Result;
+            var subWin = _uiThreadInvoker.Run(automation =>
+            {
+                return Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("ChatWnd")
                         .And(cf.ByControlType(ControlType.Window)
                         .And(cf.ByProcessId(_MainFlaUIWindow.Properties.ProcessId))
                         .And(cf.ByName(name)))),
                         timeout: TimeSpan.FromSeconds(5),
                         interval: TimeSpan.FromMilliseconds(200));
+            }).Result;
             if (subWin.Success)
             {
-                return new SubWin(subWin.Result.AsWindow(), _MainWxWindow);
+                return new SubWin(subWin.Result.AsWindow(), _MainWxWindow, _uiThreadInvoker);
             }
             return null;
         }

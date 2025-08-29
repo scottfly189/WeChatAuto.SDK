@@ -27,6 +27,7 @@ namespace WxAutoCore.Components
         private IWeChatWindow _WxWindow;
         private string _Title;
         private AutomationElement _SenderRoot;
+        private UIThreadInvoker _uiThreadInvoker;
         public TextBox ContentArea => GetContentArea();
         public List<(ChatBoxToolBarType type, Button button)> ToolBarButtons => GetToolBarButtons();
         public Button SendButton => GetSendButton();
@@ -36,11 +37,12 @@ namespace WxAutoCore.Components
         /// <param name="senderRoot">发送者根元素<see cref="AutomationElement"/></param>
         /// <param name="wxWindow">微信窗口封装<see cref="WeChatMainWindow"/></param>
         /// </summary>
-        public Sender(Window window, AutomationElement senderRoot,IWeChatWindow wxWindow,string title)
+        public Sender(Window window, AutomationElement senderRoot,IWeChatWindow wxWindow,string title,UIThreadInvoker uiThreadInvoker)
         {
             _Window = window;
             _WxWindow = wxWindow;
             _SenderRoot = senderRoot;
+            _uiThreadInvoker = uiThreadInvoker;
         }
         /// <summary>
         /// 获取工具栏按钮
@@ -74,9 +76,9 @@ namespace WxAutoCore.Components
         /// <returns>工具栏按钮</returns>
         public List<(ChatBoxToolBarType type, Button button)> GetToolBarButtons()
         {
-            var toolBarRoot = _SenderRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.ToolBar));
-            DrawHightlightHelper.DrawHightlight(toolBarRoot);
-            var buttons = toolBarRoot.FindAllChildren(cf => cf.ByControlType(ControlType.Button));
+            var toolBarRoot = _uiThreadInvoker.Run(automation=>_SenderRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.ToolBar))).Result;
+            DrawHightlightHelper.DrawHightlight(toolBarRoot,_uiThreadInvoker);
+            var buttons = _uiThreadInvoker.Run(automation=>toolBarRoot.FindAllChildren(cf => cf.ByControlType(ControlType.Button))).Result;
             List<Button> buttonList = buttons.Select(btn => btn.AsButton()).ToList();
             List<(ChatBoxToolBarType type, Button button)> toolBarButtons = new List<(ChatBoxToolBarType type, Button button)>
             {
@@ -100,7 +102,7 @@ namespace WxAutoCore.Components
             // var xPath = "/Pane[2]/Pane/Pane[1]/Edit";
             // var contentAreaRoot = _SenderRoot.FindFirstByXPath(xPath);
             // var contentArea = contentAreaRoot.AsTextBox();
-            var contentArea = _SenderRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit)).AsTextBox();
+            var contentArea = _uiThreadInvoker.Run(automation=>_SenderRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit))).Result.AsTextBox();
             return contentArea;
         }
         /// <summary>
@@ -112,8 +114,8 @@ namespace WxAutoCore.Components
             // var xPath = "/Pane/Pane/Pane/Pane/Pane/Button";
             // var senderBotton = _SenderRoot.FindAllByXPath(xPath);
             // var sendButton = senderBotton.ToList().Select(btn => btn.AsButton()).FirstOrDefault(btn => btn.Name.Contains(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_SEND));
-            var sendButton = _SenderRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByText(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_SEND))).AsButton();
-            DrawHightlightHelper.DrawHightlight(sendButton);
+            var sendButton = _uiThreadInvoker.Run(automation=>_SenderRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByText(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_SEND)))).Result.AsButton();
+            DrawHightlightHelper.DrawHightlight(sendButton,_uiThreadInvoker);
             return sendButton;
         }
         /// <summary>

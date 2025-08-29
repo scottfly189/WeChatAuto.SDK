@@ -17,14 +17,16 @@ namespace WxAutoCore.Components
         private IWeChatWindow _WxWindow;
         private string _Title;
         private AutomationElement _ChatBodyRoot;
+        private UIThreadInvoker _uiThreadInvoker;
         public MessageBubbleList BubbleList => GetBubbleList();
         public Sender Sender => GetSender();
-        public ChatBody(Window window, AutomationElement chatBodyRoot, IWeChatWindow wxWindow, string title)
+        public ChatBody(Window window, AutomationElement chatBodyRoot, IWeChatWindow wxWindow, string title, UIThreadInvoker uiThreadInvoker)
         {
             _Window = window;
             _ChatBodyRoot = chatBodyRoot;
             _WxWindow = wxWindow;
             _Title = title;
+            _uiThreadInvoker = uiThreadInvoker;
         }
         /// <summary>
         /// 获取聊天内容区气泡列表
@@ -33,9 +35,9 @@ namespace WxAutoCore.Components
         public MessageBubbleList GetBubbleList()
         {
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
-            var bubbleListRoot = _ChatBodyRoot.FindFirstByXPath(xPath);
-            DrawHightlightHelper.DrawHightlight(bubbleListRoot);
-            MessageBubbleList bubbleList = new MessageBubbleList(_Window, bubbleListRoot, _WxWindow,_Title);
+            var bubbleListRoot = _uiThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).Result;
+            DrawHightlightHelper.DrawHightlight(bubbleListRoot, _uiThreadInvoker);
+            MessageBubbleList bubbleList = new MessageBubbleList(_Window, bubbleListRoot, _WxWindow,_Title,_uiThreadInvoker);
             return bubbleList;
         }
         /// <summary>
@@ -45,9 +47,9 @@ namespace WxAutoCore.Components
         public Sender GetSender()
         {
             var xPath = "/Pane[2]";
-            var senderRoot = _ChatBodyRoot.FindFirstByXPath(xPath);
-            DrawHightlightHelper.DrawHightlight(senderRoot);
-            var sender = new Sender(_Window, senderRoot, _WxWindow,_Title);
+            var senderRoot = _uiThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).Result;
+            DrawHightlightHelper.DrawHightlight(senderRoot, _uiThreadInvoker);
+            var sender = new Sender(_Window, senderRoot, _WxWindow,_Title,_uiThreadInvoker);
             return sender;
         }
     }

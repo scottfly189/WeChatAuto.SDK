@@ -9,6 +9,7 @@ namespace WxAutoCore.Components
     /// </summary>
     public class ToolBar
     {
+        private UIThreadInvoker _uiThreadInvoker;
         private WeChatNotifyIcon _NotifyIcon;
         private AutomationElement _ToolBar;
         private Window _Window;
@@ -18,20 +19,24 @@ namespace WxAutoCore.Components
         private Button _CloseButton;
 
         public AutomationElement ToolBarInfo => _ToolBar;
-        public ToolBar(Window window, WeChatNotifyIcon notifyIcon)
+        public ToolBar(Window window, WeChatNotifyIcon notifyIcon, UIThreadInvoker uiThreadInvoker)
         {
             _Window = window;
             _NotifyIcon = notifyIcon;
+            _uiThreadInvoker = uiThreadInvoker;
         }
 
         private void RefreshToolBar()
         {
-            _ToolBar = _Window.FindFirstByXPath("/Pane/Pane/Pane[2]/ToolBar");
-            var childen = _ToolBar.FindAllChildren();
-            _TopButton = childen[0].AsButton();
-            _MinButton = childen[1].AsButton();
-            _MaxButton = childen[2].AsButton();   // 最大化或者还原
-            _CloseButton = childen[3].AsButton();
+            _uiThreadInvoker.Run(automation =>
+            {
+                _ToolBar = _Window.FindFirstByXPath("/Pane/Pane/Pane[2]/ToolBar");
+                var childen = _ToolBar.FindAllChildren();
+                _TopButton = childen[0].AsButton();
+                _MinButton = childen[1].AsButton();
+                _MaxButton = childen[2].AsButton();   // 最大化或者还原
+                _CloseButton = childen[3].AsButton();
+            }).Wait();
         }
 
         /// <summary>
@@ -44,8 +49,11 @@ namespace WxAutoCore.Components
             {
                 if (_TopButton.Name.Equals(WeChatConstant.WECHAT_SYSTEM_TOP_BUTTON))
                 {
-                    Wait.UntilResponsive(_TopButton);
-                    _TopButton.Click();
+                    _uiThreadInvoker.Run(automation =>
+                    {
+                        Wait.UntilResponsive(_TopButton);
+                        _TopButton.Click();
+                    }).Wait();
                 }
             }
             else
@@ -64,8 +72,11 @@ namespace WxAutoCore.Components
         public void Min()
         {
             RefreshToolBar();
-            Wait.UntilResponsive(_MinButton);
-            _MinButton.Click();
+            _uiThreadInvoker.Run(automation =>
+            {
+                Wait.UntilResponsive(_MinButton);
+                _MinButton.Click();
+            }).Wait();
         }
 
         /// <summary>
@@ -73,8 +84,11 @@ namespace WxAutoCore.Components
         /// </summary>
         public void MinRestore()
         {
-            Wait.UntilResponsive(_MinButton);
-            _NotifyIcon.Click();
+            _uiThreadInvoker.Run(automation =>
+            {
+                Wait.UntilResponsive(_MinButton);
+                _MinButton.Click();
+            }).Wait();
         }
 
         /// <summary>
@@ -83,11 +97,14 @@ namespace WxAutoCore.Components
         public void Max()
         {
             RefreshToolBar();
-            if (_MaxButton.Name.Equals(WeChatConstant.WECHAT_SYSTEM_MAX_BUTTON))
+            _uiThreadInvoker.Run(automation =>
             {
-                Wait.UntilResponsive(_MaxButton);
-                _MaxButton.Click();
-            }
+                if (_MaxButton.Name.Equals(WeChatConstant.WECHAT_SYSTEM_MAX_BUTTON))
+                {
+                    Wait.UntilResponsive(_MaxButton);
+                    _MaxButton.Click();
+                }
+            }).Wait();
         }
 
         /// <summary>
@@ -96,11 +113,14 @@ namespace WxAutoCore.Components
         public void Restore()
         {
             RefreshToolBar();
-            if (_MaxButton.Name.Equals(WeChatConstant.WECHAT_SYSTEM_RESTORE_BUTTON))
+            _uiThreadInvoker.Run(automation =>
             {
-                Wait.UntilResponsive(_MaxButton);
-                _MaxButton.Click();
-            }
+                if (_MaxButton.Name.Equals(WeChatConstant.WECHAT_SYSTEM_RESTORE_BUTTON))
+                {
+                    Wait.UntilResponsive(_MaxButton);
+                    _MaxButton.Click();
+                }
+            }).Wait();
         }
     }
 }

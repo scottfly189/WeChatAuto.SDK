@@ -7,11 +7,11 @@ namespace WxAutoCore.Utils
 {
     public static class DrawHightlightHelper
     {
-        public static void DrawHightlight(AutomationElement element)
+        public static void DrawHightlight(AutomationElement element, UIThreadInvoker uiThreadInvoker)
         {
             if (WeChatConfig.DebugMode && element != null)
             {
-                element.DrawHighlight();
+                uiThreadInvoker.Run(automation => element.DrawHighlight());
             }
         }
     }
