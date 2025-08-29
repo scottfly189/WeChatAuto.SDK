@@ -341,5 +341,24 @@ namespace WxAutoCore.Components
             return false;
         }
         #endregion
+
+        #region 发送文件操作
+        /// <summary>
+        /// 发送文件
+        /// </summary>
+        /// <param name="file">文件路径</param>
+        public void SendFile(string file)
+        {
+        }
+        #endregion
+        #region 发送表情操作
+        /// <summary>
+        /// 发送表情
+        /// </summary>
+        /// <param name="emoji">表情名称</param>
+        public void SendEmoji(int emojiId)
+        {
+        }
+        #endregion
     }
 }
