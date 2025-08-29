@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using OneOf;
 using WxAutoCommon.Models;
 using System;
+using System.Threading;
 
 
 
@@ -52,14 +53,22 @@ namespace WxAutoCore.Components
         /// <param name="notifyIcon">微信通知图标<see cref="WeChatNotifyIcon"/></param>
         public WeChatMainWindow(Window window, WeChatNotifyIcon notifyIcon)
         {
+            _InitSubscription();
             _Window = window;
             ProcessId = window.Properties.ProcessId;
             _InitWxWindow(notifyIcon);
-            _InitSubscription();
         }
         private void _InitSubscription()
         {
-            Task.Run(async () =>
+            // Task.Run(async () =>
+            // {
+            //     while (await _actionQueueChannel.WaitToReadAsync())
+            //     {
+            //         var msg = await _actionQueueChannel.ReadAsync();
+            //         await SendMessageCore(msg);
+            //     }
+            // });
+            Thread thread = new Thread(async () =>
             {
                 while (await _actionQueueChannel.WaitToReadAsync())
                 {
@@ -67,6 +76,8 @@ namespace WxAutoCore.Components
                     await SendMessageCore(msg);
                 }
             });
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
         }
         /// <summary>
         /// 发送消息核心方法

@@ -66,7 +66,7 @@ namespace WxAutoCore.Components
                         .And(cf.ByControlType(ControlType.Window)
                         .And(cf.ByProcessId(_MainFlaUIWindow.Properties.ProcessId))
                         .And(cf.ByName(name)))),
-                        timeout: TimeSpan.FromSeconds(10),
+                        timeout: TimeSpan.FromSeconds(5),
                         interval: TimeSpan.FromMilliseconds(200));
             if (subWin.Success)
             {
