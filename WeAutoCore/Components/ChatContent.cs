@@ -6,6 +6,7 @@ using FlaUI.Core.Definitions;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Interface;
 using WxAutoCore.Utils;
+using WxAutoCommon.Utils;
 
 namespace WxAutoCore.Components
 {

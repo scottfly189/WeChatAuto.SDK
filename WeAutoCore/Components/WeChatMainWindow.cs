@@ -101,7 +101,7 @@ namespace WxAutoCore.Components
         {
             _ToolBar = new ToolBar(_Window, notifyIcon, _uiThreadInvoker);  // 工具栏
             _Navigation = new Navigation(_Window, this, _uiThreadInvoker);  // 导航栏
-            _Search = new Search(this, _uiThreadInvoker,_Window);  // 搜索
+            _Search = new Search(this, _uiThreadInvoker, _Window);  // 搜索
             _Conversations = new ConversationList(_Window, this, _uiThreadInvoker);  // 会话列表
             _SubWinList = new SubWinList(_Window, this, _uiThreadInvoker);
             _WxChatContent = new ChatContent(_Window, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane", this, _uiThreadInvoker);

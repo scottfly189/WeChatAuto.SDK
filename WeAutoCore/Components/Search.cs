@@ -28,25 +28,23 @@ namespace WxAutoCore.Components
         /// <param name="text"></param>
         public void SearchSomething(string text, bool isClear = false)
         {
-            _uiThreadInvoker.Run(automation =>
+            var searchEdit = _uiThreadInvoker.Run(automation=>Retry.WhileNull(() => _WxWindow.Window.FindFirstByXPath($"/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='{WeChatConstant.WECHAT_SESSION_SEARCH}']"),
+                timeout: TimeSpan.FromSeconds(10),
+                interval: TimeSpan.FromMilliseconds(200))).Result;
+            if (searchEdit.Success)
             {
-                var searchEdit = Retry.WhileNull(() => _WxWindow.Window.FindFirstByXPath($"/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='{WeChatConstant.WECHAT_SESSION_SEARCH}']"),
-                    timeout: TimeSpan.FromSeconds(10),
-                    interval: TimeSpan.FromMilliseconds(200));
-                if (searchEdit.Success)
+                WaitHelper.WaitTextBoxReady(searchEdit.Result, TimeSpan.FromSeconds(5), _uiThreadInvoker);
+                var textBox = searchEdit.Result.AsTextBox();
+                DrawHightlightHelper.DrawHightlight(textBox, _uiThreadInvoker);
+                if (isClear)
                 {
-                    WaitHelper.WaitTextBoxReady(searchEdit.Result, TimeSpan.FromSeconds(5));
-                    var textBox = searchEdit.Result.AsTextBox();
-                    DrawHightlightHelper.DrawHightlight(textBox, _uiThreadInvoker);
-                    if (isClear)
-                    {
-                        ClearText();
-                    }
-                    _WxWindow.SilenceEnterText(textBox, text);
-                    Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));
-                    _WxWindow.SilenceReturn(textBox);
+                    ClearText();
                 }
-            }).Wait();
+                _WxWindow.SilenceEnterText(textBox, text);
+                Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));
+                _WxWindow.SilenceReturn(textBox);
+            }
+
         }
         /// <summary>
         /// 清空搜索框

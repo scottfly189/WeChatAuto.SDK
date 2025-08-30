@@ -1,6 +1,7 @@
 using FlaUI.Core.AutomationElements;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Interface;
+using WxAutoCommon.Utils;
 
 namespace WxAutoCore.Components
 {

@@ -254,7 +254,7 @@ namespace WxAutoCore.Components
             return _uiThreadInvoker.Run(automation =>
             {
                 var xPath = "/Pane/Pane/Pane[2]/Pane";
-                var retryElement = _uiThreadInvoker.Run(automation1=>Retry.WhileNull(() => item.FindFirstByXPath(xPath))).Result;
+                var retryElement = Retry.WhileNull(() => item.FindFirstByXPath(xPath));
                 return retryElement.Success;
             }).Result;
         }

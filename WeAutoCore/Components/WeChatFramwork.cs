@@ -67,7 +67,6 @@ namespace WxAutoCore.Components
         /// </summary>
         public void ClearAllEvent()
         {
-            //_automation.UnregisterAllEvents();
             _uiThreadInvoker.Run(automation => automation.UnregisterAllEvents()).Wait();
         }
         /// <summary>

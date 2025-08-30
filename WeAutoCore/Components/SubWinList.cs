@@ -5,6 +5,7 @@ using FlaUI.Core;
 using System.Linq;
 using FlaUI.Core.Tools;
 using System;
+using WxAutoCommon.Utils;
 
 namespace WxAutoCore.Components
 {

@@ -2,6 +2,7 @@ using System;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
+using WxAutoCommon.Utils;
 
 namespace WxAutoCore.Utils
 {
@@ -11,19 +12,22 @@ namespace WxAutoCore.Utils
         /// 等待控件可输入
         /// 如果控件是文本框，则等待文本框可输入
         /// </summary>
-        public static bool WaitTextBoxReady(AutomationElement element, TimeSpan timeout)
+        public static bool WaitTextBoxReady(AutomationElement element, TimeSpan timeout, UIThreadInvoker uiThreadInvoker)
         {
-            return Retry.WhileFalse(() =>
+            return uiThreadInvoker.Run(automation =>
             {
-                if (element == null) return false;
-                var textBox = element.AsTextBox();
-                if (textBox == null) return false;
-                return !textBox.IsOffscreen
-                       && textBox.IsEnabled
-                       && !textBox.IsReadOnly;
-            },
-            timeout: timeout,
-            interval: TimeSpan.FromMilliseconds(100)).Success;
+                return Retry.WhileFalse(() =>
+                {
+                    if (element == null) return false;
+                    var textBox = element.AsTextBox();
+                    if (textBox == null) return false;
+                    return !textBox.IsOffscreen
+                           && textBox.IsEnabled
+                           && !textBox.IsReadOnly;
+                },
+                timeout: timeout,
+                interval: TimeSpan.FromMilliseconds(100));
+            }).Result.Success;
         }
 
         public static bool WaitWindowReady(AutomationElement window, TimeSpan timeout) => Wait.UntilResponsive(window, timeout);
