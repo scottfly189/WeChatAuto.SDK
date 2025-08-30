@@ -78,6 +78,7 @@ namespace WxAutoCore.Tests.Components
             var window = client.WxMainWindow;
             await window.SendWho(WeChatConfig.TestFriendNickName, "你好，世界111！");
             Assert.True(true);
+            await Task.Delay(60000);
         }
 
         [Fact(DisplayName = "测试发送消息-当前聊天窗口")]
@@ -88,6 +89,7 @@ namespace WxAutoCore.Tests.Components
             var window = client.WxMainWindow;
             await window.SendWho(WeChatConfig.TestFriendNickName, "你好，世界222！");
             Assert.True(true);
+            await Task.Delay(60000);
         }
         [Fact(DisplayName = "测试发送消息-非当前聊天窗口,但是在会话列表中")]
         public async Task Test_SendWho_NotCurrentChat_InConversationList()
@@ -97,6 +99,7 @@ namespace WxAutoCore.Tests.Components
             var window = client.WxMainWindow;
             await window.SendWho(WeChatConfig.TestFriendNickName, "你好，世界333！");
             Assert.True(true);
+            await Task.Delay(60000);
         }
 
         [Fact(DisplayName = "测试发送消息-非当前聊天窗口,但是在会话列表中,并打开聊天窗口")]
@@ -107,6 +110,7 @@ namespace WxAutoCore.Tests.Components
             var window = client.WxMainWindow;
             await window.SendWhoAndOpenChat(WeChatConfig.TestFriendNickName, "你好，世界333222！");
             Assert.True(true);
+            await Task.Delay(60000);
         }
 
         [Fact(DisplayName = "测试发送消息-非当前聊天窗口,不在会话列表中")]
@@ -117,6 +121,7 @@ namespace WxAutoCore.Tests.Components
             var window = client.WxMainWindow;
             await window.SendWho(WeChatConfig.TestFriendNickName, "你好，世界444！");
             Assert.True(true);
+            await Task.Delay(60000);
         }
 
         [Fact(DisplayName = "测试发送消息-不存在的人")]
@@ -127,6 +132,7 @@ namespace WxAutoCore.Tests.Components
             var window = client.WxMainWindow;
             await window.SendWho("不存在的人", "你好，世界555！");
             Assert.True(true);
+            await Task.Delay(60000);
         }
 
         [Fact(DisplayName = "测试发送消息")]
@@ -137,26 +143,29 @@ namespace WxAutoCore.Tests.Components
             var window = client.WxMainWindow;
             await window.SendWhoAndOpenChat(WeChatConfig.TestFriendNickName, "你好，世界666！");
             Assert.True(true);
+            await Task.Delay(60000);
         }
 
         [Fact(DisplayName = "测试发送消息-批量")]
-        public void Test_SendWhos()
+        public async Task Test_SendWhos()
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             window.SendWhos([WeChatConfig.TestFriendNickName, WeChatConfig.TestGroupNickName], "你好，世界777！");
             Assert.True(true);
+            await Task.Delay(60000);
         }
 
         [Fact(DisplayName = "测试发送消息-批量,并打开聊天窗口")]
-        public void Test_SendWhosAndOpenChat()
+        public async Task Test_SendWhosAndOpenChat()
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             window.SendWhosAndOpenChat([WeChatConfig.TestFriendNickName, WeChatConfig.TestGroupNickName], "你好，世界777！");
             Assert.True(true);
+            await Task.Delay(60000);
         }
     }
 }
