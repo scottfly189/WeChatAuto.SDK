@@ -2034,13 +2034,13 @@ namespace WxAutoCore.Components
                 return null;
             }
 
-            // 直接匹配“xxxx年xx月xx日 xx:xx”格式，直接返回
+            // 直接匹配"xxxx年xx月xx日 xx:xx"格式，直接返回
             if (Regex.IsMatch(date, @"^\d{4}年\d{1,2}月\d{1,2}日\s+\d{1,2}:\d{1,2}$"))
             {
                 return __ParseStringToDateTime(date);
             }
 
-            // 匹配“昨天 xx:xx”或“前天 xx:xx”
+            // 匹配"昨天 xx:xx"或"前天 xx:xx"
             var match = Regex.Match(date, @"^(昨天|前天)\s*(\d{1,2}:\d{1,2})$");
             if (match.Success)
             {
@@ -2050,7 +2050,7 @@ namespace WxAutoCore.Components
                 return __ParseStringToDateTime($"{ymd} {hm}");
             }
 
-            // 匹配“xx:xx”格式，补全为今天
+            // 匹配"xx:xx"格式，补全为今天
             if (Regex.IsMatch(date, @"^\d{1,2}:\d{1,2}$"))
             {
                 string ymd = DateTime.Now.ToString("yyyy年MM月dd日");
@@ -2063,7 +2063,7 @@ namespace WxAutoCore.Components
                 return refData;
             }
 
-            // 匹配“xxxx年xx月xx日”但无时间，补全为00:00
+            // 匹配"xxxx年xx月xx日"但无时间，补全为00:00
             match = Regex.Match(date, @"^(\d{4}年\d{1,2}月\d{1,2}日)$");
             if (match.Success)
             {
@@ -2087,9 +2087,7 @@ namespace WxAutoCore.Components
                 { "六", DayOfWeek.Saturday },
                 { "天", DayOfWeek.Sunday }
             };
-            DateTime now = DateTime.Now;
-            int diff = (7 + (now.DayOfWeek - DayOfWeek.Monday)) % 7;
-            DateTime monday = now.Date.AddDays(-diff);
+            
             var match = regex.Match(date);
             if (match.Success)
             {
@@ -2098,10 +2096,28 @@ namespace WxAutoCore.Components
                 int minute = int.Parse(match.Groups["minute"].Value);
 
                 DayOfWeek targetDay = dayMap[dayStr];
-
-                // 本周对应的日期
-                int offset = (7 + (targetDay - DayOfWeek.Monday)) % 7;
-                refData = monday.AddDays(offset).AddHours(hour).AddMinutes(minute);
+                DateTime now = DateTime.Now;
+                
+                // 计算本周目标日期的日期
+                int currentDayOfWeek = (int)now.DayOfWeek;
+                int targetDayOfWeek = (int)targetDay;
+                
+                // 计算本周目标日期
+                int daysToAdd = (targetDayOfWeek - currentDayOfWeek + 7) % 7;
+                DateTime thisWeekTarget = now.Date.AddDays(daysToAdd).AddHours(hour).AddMinutes(minute);
+                
+                // 如果本周的目标日期还没有到（即目标日期在未来），则认为是上周的日期
+                if (thisWeekTarget > now)
+                {
+                    // 使用上周的日期
+                    refData = thisWeekTarget.AddDays(-7);
+                }
+                else
+                {
+                    // 使用本周的日期
+                    refData = thisWeekTarget;
+                }
+                
                 return true;
             }
             return false;
