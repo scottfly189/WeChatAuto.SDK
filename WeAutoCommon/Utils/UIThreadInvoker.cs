@@ -24,7 +24,7 @@ namespace WxAutoCommon.Utils
             _uiThread = new Thread(ThreadMain);
             _uiThread.SetApartmentState(ApartmentState.STA);
             _uiThread.Priority = ThreadPriority.Normal;
-            _uiThread.IsBackground = false; // 确保线程不会在后台被终止
+            _uiThread.IsBackground = false;
             _uiThread.Start();
             _started.Task.Wait();
         }
@@ -69,7 +69,7 @@ namespace WxAutoCommon.Utils
                 throw new ObjectDisposedException(nameof(UIThreadInvoker));
 
             var tcs = new TaskCompletionSource<T>();
-            _queue.Add(async automation =>
+            _queue.Add(automation =>
             {
                 try
                 {
@@ -80,7 +80,7 @@ namespace WxAutoCommon.Utils
                 {
                     tcs.SetException(ex);
                 }
-                await Task.CompletedTask;
+                return Task.CompletedTask;
             });
             return tcs.Task;
         }

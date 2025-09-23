@@ -2076,7 +2076,7 @@ namespace WxAutoCore.Components
 
         private bool MatchWeekFormat(string date, ref DateTime? refData)
         {
-            var regex = new Regex(@"星期(?<day>[一二三四五六日])\s+(?<hour>\d{1,2}):(?<minute>\d{2})");
+            var regex = new Regex(@"星期(?<day>[一二三四五六天])\s+(?<hour>\d{1,2}):(?<minute>\d{2})");
             var dayMap = new Dictionary<string, DayOfWeek>
             {
                 { "一", DayOfWeek.Monday },
@@ -2085,7 +2085,7 @@ namespace WxAutoCore.Components
                 { "四", DayOfWeek.Thursday },
                 { "五", DayOfWeek.Friday },
                 { "六", DayOfWeek.Saturday },
-                { "日", DayOfWeek.Sunday }
+                { "天", DayOfWeek.Sunday }
             };
             DateTime now = DateTime.Now;
             int diff = (7 + (now.DayOfWeek - DayOfWeek.Monday)) % 7;
