@@ -70,18 +70,36 @@ namespace WxAutoCore.Components
         public void ClickConversation(string title)
         {
             var root = _GetConversationRoot();
-            var items = _uiThreadInvoker.Run(automation=>root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
+            var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
             var item = items.FirstOrDefault(c => c.Name.Contains(title));
             if (item != null)
             {
-                var xPath = "/Pane/Button";
-                var retryElement = _uiThreadInvoker.Run(automation=>Retry.WhileNull(() => item.FindFirstByXPath(xPath))).Result;
-                if (retryElement.Success)
-                {
-                    var button = retryElement.Result.AsButton();
-                    DrawHightlightHelper.DrawHightlight(button, _uiThreadInvoker);
-                    _WxWindow.SilenceClickExt(button);
-                }
+                DoConversionClick(item);
+            }
+        }
+
+        private void DoConversionClick(AutomationElement item)
+        {
+            var xPath = "/Pane/Button";
+            var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindFirstByXPath(xPath))).Result;
+            if (retryElement.Success)
+            {
+                var button = retryElement.Result.AsButton();
+                DrawHightlightHelper.DrawHightlight(button, _uiThreadInvoker);
+                _WxWindow.SilenceClickExt(button);
+            }
+        }
+        /// <summary>
+        /// 点击第一个会话
+        /// </summary>
+        public void ClickFirstConversation()
+        {
+            var root = _GetConversationRoot();
+            var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
+            var item = items.FirstOrDefault();
+            if (item != null)
+            {
+                DoConversionClick(item);
             }
         }
         /// <summary>
@@ -91,12 +109,12 @@ namespace WxAutoCore.Components
         public void DoubleClickConversation(string title)
         {
             var root = _GetConversationRoot();
-            var items = _uiThreadInvoker.Run(automation=>root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
+            var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
             var item = items.FirstOrDefault(c => c.Name.Contains(title));
             if (item != null)
             {
                 var xPath = "/Pane/Button";
-                var retryElement = _uiThreadInvoker.Run(automation=>Retry.WhileNull(() => item.FindFirstByXPath(xPath))).Result;
+                var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindFirstByXPath(xPath))).Result;
                 if (retryElement.Success)
                 {
                     var button = retryElement.Result.AsButton();
@@ -112,7 +130,7 @@ namespace WxAutoCore.Components
         public List<string> GetConversationTitles()
         {
             var root = _GetConversationRoot();
-            var items = _uiThreadInvoker.Run(automation=>root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
+            var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
             return items.Select(item => item.Name.Replace(WeChatConstant.WECHAT_SESSION_BOX_HAS_TOP, "")).ToList();
         }
 
@@ -124,7 +142,7 @@ namespace WxAutoCore.Components
         private string _GetConversationTitle(ListBoxItem item, Conversation conversation)
         {
             var xPath = "/Pane/Button";
-            var retryElement = _uiThreadInvoker.Run(automation=>Retry.WhileNull(() => item.FindFirstByXPath(xPath))).Result;
+            var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindFirstByXPath(xPath))).Result;
             if (retryElement.Success)
             {
                 var button = retryElement.Result.AsButton();
@@ -161,7 +179,7 @@ namespace WxAutoCore.Components
         private List<ListBoxItem> _GetVisibleConversatItem()
         {
             var root = _GetConversationRoot();
-            var items = _uiThreadInvoker.Run(automation=>root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))).Result;
+            var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))).Result;
             return items.Select(item => item.AsListBoxItem()).ToList();
         }
         /// <summary>
@@ -189,7 +207,7 @@ namespace WxAutoCore.Components
         private bool _IsCompanyGroup(ListBoxItem item)
         {
             var xPath = "/Pane/Pane/Pane[1]/Pane[2]";
-            var retryElement = _uiThreadInvoker.Run(automation=>Retry.WhileNull(() => item.FindFirstByXPath(xPath))).Result;
+            var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindFirstByXPath(xPath))).Result;
             return retryElement.Success;
         }
         /// <summary>
@@ -200,7 +218,7 @@ namespace WxAutoCore.Components
         private string _GetConversationContent(ListBoxItem item)
         {
             var xPath = "/Pane/Pane[1]/Pane[2]/Text";
-            var retryElement = _uiThreadInvoker.Run(automation=>Retry.WhileNull(() => item.FindFirstByXPath(xPath))).Result;
+            var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindFirstByXPath(xPath))).Result;
             if (retryElement.Success)
             {
                 var lable = retryElement.Result.AsLabel();
@@ -215,7 +233,7 @@ namespace WxAutoCore.Components
         /// <returns></returns>
         private Button _GetConversationImageButton(ListBoxItem item)
         {
-            return _uiThreadInvoker.Run(automation=>item.FindFirstByXPath("/Pane/Button").AsButton()).Result;
+            return _uiThreadInvoker.Run(automation => item.FindFirstByXPath("/Pane/Button").AsButton()).Result;
         }
         /// <summary>
         /// 获取会话是否有未读消息
@@ -225,7 +243,7 @@ namespace WxAutoCore.Components
         private bool _GetConversationHasNotRead(ListBoxItem item)
         {
             var xPath = "/Pane/Pane[2] | /Pane/Text";
-            var retryElement = _uiThreadInvoker.Run(automation=>Retry.WhileNull(() => item.FindFirstByXPath(xPath))).Result;
+            var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindFirstByXPath(xPath))).Result;
             return retryElement.Success;
         }
         /// <summary>
@@ -236,7 +254,7 @@ namespace WxAutoCore.Components
         private string _GetConversationTime(ListBoxItem item)
         {
             var xPath = "/Pane/Pane[1]/Pane[1]/Text";
-            var retryElement = _uiThreadInvoker.Run(automation=>Retry.WhileNull(() => item.FindAllByXPath(xPath))).Result;
+            var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindAllByXPath(xPath))).Result;
             if (retryElement.Success)
             {
                 AutomationElement[] elements = retryElement.Result;
