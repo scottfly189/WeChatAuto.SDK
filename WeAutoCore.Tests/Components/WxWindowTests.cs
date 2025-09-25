@@ -66,7 +66,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendMessage("你好，世界！");
+            window.SendCurrentMessage("你好，世界！");
             Assert.True(true);
         }
         //要先打开测试人的聊天窗口

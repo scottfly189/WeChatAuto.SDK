@@ -2071,7 +2071,7 @@ namespace WxAutoCore.Components
             }
 
             // 其他情况直接返回原字符串
-            throw new Exception("日期字符串解析失败");
+            throw new Exception("日期字符串解析失败,收到的日期字符串为:"+date);
         }
 
         private bool MatchWeekFormat(string date, ref DateTime? refData)

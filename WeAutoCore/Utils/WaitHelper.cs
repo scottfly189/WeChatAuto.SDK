@@ -30,6 +30,12 @@ namespace WxAutoCore.Utils
             }).Result.Success;
         }
 
-        public static bool WaitWindowReady(AutomationElement window, TimeSpan timeout) => Wait.UntilResponsive(window, timeout);
+        public static bool WaitWindowReady(AutomationElement window, TimeSpan timeout, UIThreadInvoker uiThreadInvoker)
+        {
+            return uiThreadInvoker.Run(automation =>
+            {
+                return Wait.UntilResponsive(window, timeout);
+            }).Result;
+        }
     }
 }

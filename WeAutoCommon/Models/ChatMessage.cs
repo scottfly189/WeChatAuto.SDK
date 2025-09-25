@@ -22,7 +22,7 @@ namespace WxAutoCommon.Models
         /// <summary>
         /// 消息负载
         /// </summary>
-        public string Payload { get; set; }
+        public object Payload { get; set; }
         /// <summary>
         /// 是否打开聊天窗口
         /// </summary>

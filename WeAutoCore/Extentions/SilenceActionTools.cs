@@ -1,10 +1,12 @@
 using System;
+using System.Windows;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
 using FlaUI.Core.WindowsAPI;
 using WxAutoCommon.Interface;
 using WxAutoCore.Components;
+using WxAutoCore.Utils;
 
 namespace WxAutoCore.Extentions
 {
@@ -23,8 +25,6 @@ namespace WxAutoCore.Extentions
         public static void SilenceClickExt(this IWeChatWindow wxWindow, AutomationElement element)
         {
             Wait.UntilInputIsProcessed();
-            var lastWindow = wxWindow.SelfWindow.Automation.GetDesktop().FindFirstChild(cf => cf.ByControlType(ControlType.Window)
-                .And(cf.ByProcessId(wxWindow.ProcessId)));
             var windowHandle = wxWindow.SelfWindow.Properties.NativeWindowHandle.Value;
             var elementRectangle = element.BoundingRectangle;
 
@@ -84,6 +84,43 @@ namespace WxAutoCore.Extentions
             int y = (int)((rect.Top + rect.Bottom) / 2 - wxWindow.SelfWindow.BoundingRectangle.Top);
             IntPtr lParam = (IntPtr)((y << 16) | (x & 0xFFFF));
             User32.SendMessage(hwnd, WindowsMessages.WM_KEYDOWN, (IntPtr)VirtualKeyShort.RETURN, lParam);
+        }
+
+        /// <summary>
+        /// 静默粘贴
+        /// </summary>
+        /// <param name="wxWindow">微信窗口封装<see cref="IWeChatWindow"/></param>
+        /// <param name="filePath">文件路径数组</param>
+        /// <param name="edit"></param>
+        public static void SilencePaste(this IWeChatWindow wxWindow, string[] filePath, TextBox edit)
+        {
+            // 1. 先点击输入框获取焦点
+            wxWindow.SilenceClickExt(edit);
+            Wait.UntilInputIsProcessed();
+
+            // 2. 复制文件到剪贴板
+            var result = ClipboardApi.CopyFilesToClipboard(filePath);
+            if (!result)
+            {
+                throw new Exception($"复制文件到剪贴板失败: {string.Join(", ", filePath)}");
+            }
+            
+            // 3. 等待剪贴板操作完成
+            Wait.UntilInputIsProcessed();
+            System.Threading.Thread.Sleep(100); // 额外等待确保剪贴板数据就绪
+            
+            // 4. 发送粘贴消息
+            var hwnd = wxWindow.SelfWindow.Properties.NativeWindowHandle.Value;
+            var rect = edit.BoundingRectangle;
+            int x = (int)((rect.Left + rect.Right) / 2 - wxWindow.SelfWindow.BoundingRectangle.Left);
+            int y = (int)((rect.Top + rect.Bottom) / 2 - wxWindow.SelfWindow.BoundingRectangle.Top);
+            IntPtr lParam = (IntPtr)((y << 16) | (x & 0xFFFF));
+            
+            // 5. 发送粘贴消息
+            var pasteResult = User32.SendMessage(hwnd, WindowsMessages.WM_PASTE, IntPtr.Zero, lParam);
+            
+            // 6. 等待粘贴操作完成
+            Wait.UntilInputIsProcessed();
         }
     }
 }

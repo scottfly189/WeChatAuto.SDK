@@ -22,6 +22,7 @@ namespace WxAutoCore.Components
         private UIThreadInvoker _uiThreadInvoker;
         private readonly Dictionary<string, WeChatClient> _wxClientList = new Dictionary<string, WeChatClient>();
         public UIThreadInvoker UiThreadInvoker => _uiThreadInvoker;
+        private bool _disposed = false;
         /// <summary>
         /// 微信客户端列表
         /// </summary>
@@ -67,6 +68,10 @@ namespace WxAutoCore.Components
         /// </summary>
         public void ClearAllEvent()
         {
+            if (_disposed)
+            {
+                return;
+            }
             _uiThreadInvoker.Run(automation => automation.UnregisterAllEvents()).Wait();
         }
         /// <summary>
@@ -101,6 +106,10 @@ namespace WxAutoCore.Components
         /// </summary>
         public void RefreshWxWindows()
         {
+            if (_disposed)
+            {
+                return;
+            }
             _wxClientList.Clear();
             var taskBarRoot = _uiThreadInvoker.Run(automation =>
                 automation.GetDesktop().FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd")))
@@ -146,6 +155,11 @@ namespace WxAutoCore.Components
 
         public void Dispose()
         {
+            if (_disposed)
+            {
+                return;
+            }
+            _disposed = true;   
             if (_uiThreadInvoker != null)
             {
                 ClearAllEvent();
