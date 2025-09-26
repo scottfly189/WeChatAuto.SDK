@@ -3,20 +3,20 @@ using System.Collections.Generic;
 namespace WeAutoCommon.Classes
 {
     /// <summary>
-    /// 表情列表
+    /// 表情列表帮助类
     /// </summary>
-    public static class EmojiList
+    public static class EmojiListHelper
     {
         private static List<EmojiItem> _Items = new List<EmojiItem>();
-        public static List<EmojiItem> Items { get => _Items; set => _Items = value; }
+        public static List<EmojiItem> Items { get => _Items; }
 
-        static EmojiList()
+        static EmojiListHelper()
         {
             Init();
         }
         public static void Init()
         {
-            Items = new List<EmojiItem>()
+            _Items = new List<EmojiItem>()
             {
                 new EmojiItem { Index = 1, Description = "微笑", Value = "[微笑]" },
                 new EmojiItem { Index = 2, Description = "撇嘴", Value = "[撇嘴]" },

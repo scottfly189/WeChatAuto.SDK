@@ -24,8 +24,8 @@ namespace WxAutoCommon.Models
         /// </summary>
         public object Payload { get; set; }
         /// <summary>
-        /// 是否打开聊天窗口
+        /// 是否打开聊天子窗口
         /// </summary>
-        public bool IsOpenChat { get; set; } = true;
+        public bool IsOpenSubWin { get; set; } = true;
     }
 }

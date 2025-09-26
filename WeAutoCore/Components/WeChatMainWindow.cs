@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using OneOf;
 using WxAutoCommon.Models;
 using System;
+using WeAutoCommon.Classes;
 
 
 
@@ -69,23 +70,24 @@ namespace WxAutoCore.Components
                 while (await _actionQueueChannel.WaitToReadAsync())
                 {
                     var msg = await _actionQueueChannel.ReadAsync();
-                    await _SendMessageCore(msg);
+                    await _DispatchMessage(msg);
                 }
             });
         }
         /// <summary>
-        /// 发送消息核心方法
+        /// 消息分发
         /// <see cref="ChatMessage"/>
         /// </summary>
         /// <param name="msg"></param>
-        private async Task _SendMessageCore(ChatMessage msg)
+        private async Task _DispatchMessage(ChatMessage msg)
         {
             switch (msg.Type)
             {
                 case ChatMsgType.发送消息:
-                    await this.SendWhoCore(msg.ToUser, msg.Message, msg.IsOpenChat);
+                    await this.SendMessageCore(msg.ToUser, msg.Message, msg.IsOpenSubWin);
                     break;
                 case ChatMsgType.自定义表情:
+                    await this.SendEmojiCore(msg);
                     break;
                 case ChatMsgType.发送文件:
                     await this.SendFileCore(msg);
@@ -195,7 +197,7 @@ namespace WxAutoCore.Components
                 Type = ChatMsgType.发送消息,
                 ToUser = who,
                 Message = message,
-                IsOpenChat = false
+                IsOpenSubWin = false
             });
             await Task.CompletedTask;
         }
@@ -245,7 +247,7 @@ namespace WxAutoCore.Components
                 Type = ChatMsgType.发送消息,
                 ToUser = who,
                 Message = message,
-                IsOpenChat = true
+                IsOpenSubWin = true
             });
             await Task.CompletedTask;
         }
@@ -272,7 +274,7 @@ namespace WxAutoCore.Components
                 Type = ChatMsgType.发送消息,
                 ToUser = null,
                 Message = message,
-                IsOpenChat = false
+                IsOpenSubWin = false
             });
         }
 
@@ -349,7 +351,7 @@ namespace WxAutoCore.Components
                     this.Conversations.DoubleClickConversation(who);
                     Wait.UntilInputIsProcessed();
                     this.Conversations.ClickFirstConversation();
-                    await SendWhoCore(who, message, isOpenChat); // 由于是双击会话,弹出窗口实例已经存在，所以需要从弹出窗口重新发送消息
+                    await SendMessageCore(who, message, isOpenChat); // 由于是双击会话,弹出窗口实例已经存在，所以需要从弹出窗口重新发送消息
                     return true;
                 }
                 else
@@ -399,7 +401,7 @@ namespace WxAutoCore.Components
                     this.Conversations.DoubleClickConversation(who);
                     Wait.UntilInputIsProcessed();
                     this.Conversations.ClickFirstConversation();
-                    await SendWhoCore(who, message, isOpenChat); // 由于是双击会话,弹出窗口实例已经存在，所以需要从弹出窗口重新发送消息
+                    await SendMessageCore(who, message, isOpenChat); // 由于是双击会话,弹出窗口实例已经存在，所以需要从弹出窗口重新发送消息
                     return true;
                 }
                 else
@@ -455,7 +457,7 @@ namespace WxAutoCore.Components
             msg.Type = ChatMsgType.发送文件;
             msg.ToUser = who;
             msg.Payload = file.Value;
-            msg.IsOpenChat = isOpenChat;
+            msg.IsOpenSubWin = isOpenChat;
             _actionQueueChannel.Put(msg);
         }
         /// <summary>
@@ -475,10 +477,28 @@ namespace WxAutoCore.Components
         /// <summary>
         /// 发送表情
         /// </summary>
+        /// <param name="who">好友名称</param>
         /// <param name="emoji">表情名称</param>
-        public void SendEmoji(int emojiId)
+        /// <param name="isOpenChat">是否打开子聊天窗口</param>
+        public void SendEmoji(string who, OneOf<int, string> emoji, bool isOpenChat = false)
         {
+            ChatMessage msg = new ChatMessage();
+            msg.Type = ChatMsgType.自定义表情;
+            msg.ToUser = who;
+            msg.Payload = emoji.Value;
+            msg.IsOpenSubWin = isOpenChat;
+            _actionQueueChannel.Put(msg);
+        }
 
+        /// <summary>
+        /// 发送表情
+        /// </summary>
+        /// <param name="whos">好友名称列表</param>
+        /// <param name="emoji">表情名称</param>
+        /// <param name="isOpenChat">是否打开子聊天窗口</param>
+        public void SendEmojis(string[] whos, OneOf<int, string> emoji, bool isOpenChat = false)
+        {
+            whos.ToList().ForEach(who => SendEmoji(who, emoji, isOpenChat));
         }
         #endregion
 
@@ -489,7 +509,7 @@ namespace WxAutoCore.Components
         /// <param name="who">好友名称</param>
         /// <param name="message">消息内容</param>
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
-        private async Task SendWhoCore(string who, string message, bool isOpenChat = false)
+        private async Task SendMessageCore(string who, string message, bool isOpenChat = false)
         {
             if (string.IsNullOrEmpty(who))
             {
@@ -546,7 +566,7 @@ namespace WxAutoCore.Components
             {
                 files = file.AsT1;
             }
-            await this._SendFileCore(files, msg.ToUser, msg.IsOpenChat);
+            await this._SendFileCore(files, msg.ToUser, msg.IsOpenSubWin);
         }
         //发送文件核心方法
         private async Task _SendFileCore(string[] files, string who, bool isOpenChat)
@@ -572,6 +592,30 @@ namespace WxAutoCore.Components
                 "错误",
                 System.Windows.MessageBoxButton.OK,
                 System.Windows.MessageBoxImage.Error);
+        }
+        // 发送表情核心方法
+        private async Task SendEmojiCore(ChatMessage msg)
+        {
+            OneOf<int, string> emoji = (OneOf<int, string>)msg.Payload;
+            msg.Type = ChatMsgType.发送消息;
+            var message = "";
+            emoji.Switch(
+                (int emojiId) =>
+                {
+                    message = EmojiListHelper.Items.FirstOrDefault(item => item.Index == emojiId)?.Value ?? EmojiListHelper.Items[0].Value;
+                },
+                (string emojiName) =>
+                {
+                    message = emojiName;
+                    if (!(message.StartsWith("[") && message.EndsWith("]")))
+                    {
+                        message = EmojiListHelper.Items.FirstOrDefault(item => item.Description == emojiName)?.Value ?? message;
+                    }
+                }
+            );
+
+            msg.Message = message;
+            await SendMessageCore(msg.ToUser, message, msg.IsOpenSubWin);
         }
         #endregion
 
