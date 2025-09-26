@@ -11,6 +11,7 @@ using FlaUI.Core.Conditions;
 using System.Text.RegularExpressions;
 using WxAutoCore.Utils;
 using WxAutoCore.Extentions;
+using System.Threading;
 
 namespace WxAutoCore.Components
 {
@@ -45,7 +46,7 @@ namespace WxAutoCore.Components
         /// <returns></returns>
         public List<Conversation> GetVisibleConversations()
         {
-            var items = GetVisibleConversatItems();
+            var items = _GetVisibleConversatItems();
             List<Conversation> conversations = new List<Conversation>();
             foreach (var item in items)
             {
@@ -63,6 +64,31 @@ namespace WxAutoCore.Components
             }
             return conversations;
         }
+        /// <summary>
+        /// 获取会话列表所有会话
+        /// </summary>
+        /// <returns></returns>
+        public List<Conversation> GetAllConversations()
+        {
+            var items = _GetAllConversatItems();
+            List<Conversation> conversations = new List<Conversation>();
+            foreach (var item in items)
+            {
+                Conversation conversation = new Conversation();
+                conversation.ConversationTitle = _GetConversationTitle(item, conversation);
+                conversation.IsTop = _GetConversationIsTop(item);
+                conversation.ConversationType = _GetConversationType(conversation.ConversationTitle);
+                conversation.ConversationContent = _GetConversationContent(item);
+                conversation.IsCompanyGroup = _IsCompanyGroup(item);
+                conversation.ImageButton = _GetConversationImageButton(item);
+                conversation.HasNotRead = _GetConversationHasNotRead(item);
+                conversation.Time = _GetConversationTime(item);
+                conversation.IsDoNotDisturb = _IsDoNotDisturb(item);
+                conversations.Add(conversation);
+            }
+            return conversations;
+        }
+
         /// <summary>
         /// 点击会话
         /// </summary>
@@ -124,10 +150,10 @@ namespace WxAutoCore.Components
             }
         }
         /// <summary>
-        /// 获取会话列表所有会话标题
+        /// 获取会话列表可见会话标题
         /// </summary>
         /// <returns></returns>
-        public List<string> GetConversationTitles()
+        public List<string> GetVisibleConversationTitles()
         {
             var root = GetConversationRoot();
             var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
@@ -176,11 +202,63 @@ namespace WxAutoCore.Components
         /// 获取会话列表可见项
         /// </summary>
         /// <returns></returns>
-        public List<ListBoxItem> GetVisibleConversatItems()
+        private List<ListBoxItem> _GetVisibleConversatItems()
         {
             var root = GetConversationRoot();
             var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))).Result;
             return items.Select(item => item.AsListBoxItem()).ToList();
+        }
+        private List<ListBoxItem> _GetAllConversatItems()
+        {
+            var listBox = GetConversationRoot();
+
+            List<ListBoxItem> list = _uiThreadInvoker.Run(automation =>
+            {
+                var subList = new List<ListBoxItem>();
+                var scrollPattern = listBox.Patterns.Scroll.Pattern;
+                if (scrollPattern != null && scrollPattern.VerticallyScrollable)
+                {
+                    scrollPattern.SetScrollPercent(0, 0);
+                    // while (scrollPattern.VerticalScrollPercent < 1)
+                    // {
+                    //     var items = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
+                    //     foreach (var item in items)
+                    //     {
+                    //         if (!subList.Any(u => u.Name == item.Name))
+                    //         {
+                    //             subList.Add(item.AsListBoxItem());
+                    //         }
+                    //     }
+                    //     scrollPattern.Scroll(ScrollAmount.NoAmount, ScrollAmount.LargeIncrement);
+                    //     Thread.Sleep(600); // 给 UI 反应时间
+                    // }
+                    // return subList;
+                    for (double p = 0; p <= 1; p += 0.015)
+                    {
+                        scrollPattern.SetScrollPercent(0, p);
+                        Thread.Sleep(600);
+                        var i = scrollPattern.VerticalScrollPercent;
+
+                        var items = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
+                        foreach (var item in items)
+                        {
+                            if (!subList.Any(u => u.Name == item.Name))
+                            {
+                                subList.Add(item.AsListBoxItem());
+                            }
+                        }
+                    }
+                    return subList;
+                }
+                else
+                {
+                    var items = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
+                    subList.AddRange(items.Select(item => item.AsListBoxItem()).ToList());
+                    return subList;
+                }
+            }).Result;
+
+            return list;
         }
         /// <summary>
         /// 获取会话类型

@@ -54,19 +54,34 @@ namespace WxAutoCore.Tests.Components
             conversations.DoubleClickConversation(WeChatConfig.TestGroupNickName);
         }
 
-        [Fact(DisplayName = "测试获取会话列表所有会话标题")]
+        [Fact(DisplayName = "获取会话列表可见会话标题")]
         public void TestGetConversationTitles()
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
-            var titles = conversations.GetConversationTitles();
+            var titles = conversations.GetVisibleConversationTitles();
             foreach (var title in titles)
             {
                 _output.WriteLine(title);
             }
             Assert.True(titles.Count > 0);
+        }
+
+        [Fact(DisplayName = "获取会话列表所有会话")]
+        public void TestGetAllConversations()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var conversations = window.Conversations;
+            var list = conversations.GetAllConversations();
+            foreach (var conversation in list)
+            {
+                _output.WriteLine(conversation.ToString());
+            }
+            Assert.True(list.Count > 0);
         }
     }
 }

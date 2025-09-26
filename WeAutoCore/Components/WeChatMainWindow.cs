@@ -353,7 +353,7 @@ namespace WxAutoCore.Components
         //此用户是否在会话列表中，如果存在，则打开或者点击此会话，并且发送消息
         private async Task<bool> _IsInConversation(string who, string message, bool isOpenChat)
         {
-            var conversations = this.Conversations.GetConversationTitles();
+            var conversations = this.Conversations.GetVisibleConversationTitles();
             if (conversations.Contains(who))
             {
                 if (isOpenChat)
@@ -377,7 +377,7 @@ namespace WxAutoCore.Components
         //此用户是否在会话列表中，如果存在，则打开或者点击此会话，并且发送文件
         private async Task<bool> _IsInConversationFile(string who, string[] files, bool isOpenChat)
         {
-            var conversations = this.Conversations.GetConversationTitles();
+            var conversations = this.Conversations.GetVisibleConversationTitles();
             if (conversations.Contains(who))
             {
                 if (isOpenChat)
@@ -403,7 +403,7 @@ namespace WxAutoCore.Components
         {
             this.Search.SearchChat(who);
             await Task.Delay(1000);
-            var conversations = this.Conversations.GetConversationTitles();
+            var conversations = this.Conversations.GetVisibleConversationTitles();
             if (conversations.Contains(who))
             {
                 if (isOpenChat)
@@ -430,7 +430,7 @@ namespace WxAutoCore.Components
         {
             this.Search.SearchChat(who);
             await Task.Delay(1000);
-            var conversations = this.Conversations.GetConversationTitles();
+            var conversations = this.Conversations.GetVisibleConversationTitles();
             if (conversations.Contains(who))
             {
                 if (isOpenChat)
