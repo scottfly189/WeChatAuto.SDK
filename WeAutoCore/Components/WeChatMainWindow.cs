@@ -324,7 +324,7 @@ namespace WxAutoCore.Components
                 {
                     this.Conversations.DoubleClickConversation(who);
                     Wait.UntilInputIsProcessed();
-                    this.Conversations.ClickFirstConversation();
+                    // this.Conversations.ClickFirstConversation();
                     this.SendMessageCore(who, message, isOpenChat).Wait();
                 }
                 else
@@ -360,7 +360,7 @@ namespace WxAutoCore.Components
                 {
                     this.Conversations.DoubleClickConversation(who);
                     Wait.UntilInputIsProcessed();
-                    this.Conversations.ClickFirstConversation();
+                    // this.Conversations.ClickFirstConversation();
                     await SendMessageCore(who, message, isOpenChat); // 由于是双击会话,弹出窗口实例已经存在，所以需要从弹出窗口重新发送消息
                     return true;
                 }
@@ -384,7 +384,7 @@ namespace WxAutoCore.Components
                 {
                     this.Conversations.DoubleClickConversation(who);
                     Wait.UntilInputIsProcessed();
-                    this.Conversations.ClickFirstConversation();
+                    // this.Conversations.ClickFirstConversation();
                     await _SendFileCore(files, who, isOpenChat); // 由于是双击会话,弹出窗口实例已经存在，所以需要从弹出窗口重新发送消息
                     return true;
                 }
@@ -410,7 +410,7 @@ namespace WxAutoCore.Components
                 {
                     this.Conversations.DoubleClickConversation(who);
                     Wait.UntilInputIsProcessed();
-                    this.Conversations.ClickFirstConversation();
+                    // this.Conversations.ClickFirstConversation();
                     await SendMessageCore(who, message, isOpenChat); // 由于是双击会话,弹出窗口实例已经存在，所以需要从弹出窗口重新发送消息
                     return true;
                 }
@@ -437,7 +437,7 @@ namespace WxAutoCore.Components
                 {
                     this.Conversations.DoubleClickConversation(who);
                     Wait.UntilInputIsProcessed();
-                    this.Conversations.ClickFirstConversation();
+                    // this.Conversations.ClickFirstConversation();
                     await _SendFileCore(files, who, isOpenChat); // 由于是双击会话,弹出窗口实例已经存在，所以需要从弹出窗口重新发送消息
                     return true;
                 }

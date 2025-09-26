@@ -45,7 +45,7 @@ namespace WxAutoCore.Components
         /// <returns></returns>
         public List<Conversation> GetVisibleConversations()
         {
-            var items = _GetVisibleConversatItem();
+            var items = GetVisibleConversatItems();
             List<Conversation> conversations = new List<Conversation>();
             foreach (var item in items)
             {
@@ -69,7 +69,7 @@ namespace WxAutoCore.Components
         /// <param name="title">会话标题</param>
         public void ClickConversation(string title)
         {
-            var root = _GetConversationRoot();
+            var root = GetConversationRoot();
             var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
             var item = items.FirstOrDefault(c => c.Name.Contains(title));
             if (item != null)
@@ -94,7 +94,7 @@ namespace WxAutoCore.Components
         /// </summary>
         public void ClickFirstConversation()
         {
-            var root = _GetConversationRoot();
+            var root = GetConversationRoot();
             var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
             var item = items.FirstOrDefault();
             if (item != null)
@@ -108,7 +108,7 @@ namespace WxAutoCore.Components
         /// <param name="title">会话标题</param>
         public void DoubleClickConversation(string title)
         {
-            var root = _GetConversationRoot();
+            var root = GetConversationRoot();
             var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
             var item = items.FirstOrDefault(c => c.Name.Contains(title));
             if (item != null)
@@ -129,7 +129,7 @@ namespace WxAutoCore.Components
         /// <returns></returns>
         public List<string> GetConversationTitles()
         {
-            var root = _GetConversationRoot();
+            var root = GetConversationRoot();
             var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
             return items.Select(item => item.Name.Replace(WeChatConstant.WECHAT_SESSION_BOX_HAS_TOP, "")).ToList();
         }
@@ -163,7 +163,7 @@ namespace WxAutoCore.Components
         /// 获取会话列表根节点
         /// </summary>
         /// <returns></returns>
-        private ListBox _GetConversationRoot()
+        public ListBox GetConversationRoot()
         {
             return _uiThreadInvoker.Run(automation =>
             {
@@ -176,9 +176,9 @@ namespace WxAutoCore.Components
         /// 获取会话列表可见项
         /// </summary>
         /// <returns></returns>
-        private List<ListBoxItem> _GetVisibleConversatItem()
+        public List<ListBoxItem> GetVisibleConversatItems()
         {
-            var root = _GetConversationRoot();
+            var root = GetConversationRoot();
             var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))).Result;
             return items.Select(item => item.AsListBoxItem()).ToList();
         }
