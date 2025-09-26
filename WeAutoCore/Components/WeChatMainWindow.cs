@@ -311,7 +311,7 @@ namespace WxAutoCore.Components
             return false;
         }
         //此用户是否是当前聊天窗口,如果当前聊天窗口是此用户，则发送消息
-        private bool _IsCurrentChat(string who, string message)
+        private bool _IsCurrentChat(string who, string message, bool isOpenChat)
         {
             var currentChatTitle = this.GetCurrentChatTitle();
             if (string.IsNullOrEmpty(currentChatTitle))
@@ -320,7 +320,17 @@ namespace WxAutoCore.Components
             }
             if (currentChatTitle == who)
             {
-                this.__SendCurrentMessage(message);
+                if (isOpenChat)
+                {
+                    this.Conversations.DoubleClickConversation(who);
+                    Wait.UntilInputIsProcessed();
+                    this.Conversations.ClickFirstConversation();
+                    this.SendMessageCore(who, message, isOpenChat).Wait();
+                }
+                else
+                {
+                    this.__SendCurrentMessage(message);
+                }
                 return true;
             }
             return false;
@@ -456,7 +466,7 @@ namespace WxAutoCore.Components
             ChatMessage msg = new ChatMessage();
             msg.Type = ChatMsgType.发送文件;
             msg.ToUser = who;
-            msg.Payload = file.Value;
+            msg.Payload = file;
             msg.IsOpenSubWin = isOpenChat;
             _actionQueueChannel.Put(msg);
         }
@@ -485,7 +495,7 @@ namespace WxAutoCore.Components
             ChatMessage msg = new ChatMessage();
             msg.Type = ChatMsgType.自定义表情;
             msg.ToUser = who;
-            msg.Payload = emoji.Value;
+            msg.Payload = emoji;
             msg.IsOpenSubWin = isOpenChat;
             _actionQueueChannel.Put(msg);
         }
@@ -511,62 +521,76 @@ namespace WxAutoCore.Components
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
         private async Task SendMessageCore(string who, string message, bool isOpenChat = false)
         {
-            if (string.IsNullOrEmpty(who))
+            try
             {
-                //发送给当前聊天窗口
-                this.__SendCurrentMessage(message);
-                return;
+                if (string.IsNullOrEmpty(who))
+                {
+                    //发送给当前聊天窗口
+                    this.__SendCurrentMessage(message);
+                    return;
+                }
+                else
+                {
+                    //发送给指定好友
+                    //步骤：
+                    //1.首先查询此用户是否在弹出窗口列表中
+                    //2.如果存在，则用弹出窗口发出消息
+                    if (_SubWindowIsOpen(who, message, subWin => subWin.ChatContent.ChatBody.Sender.SendMessage(message)))
+                    {
+                        return;
+                    }
+                    //3.如果不存在，则查询当前聊天窗口是否是此用户(即who)
+                    //4.如果是，则发送消息
+                    if (_IsCurrentChat(who, message, isOpenChat))
+                    {
+                        return;
+                    }
+                    //5.如果不是，则查询此用户是否在会话列表中
+                    //6.如果存在，则打开或者点击此会话，并且发送消息
+                    if (await _IsInConversation(who, message, isOpenChat))
+                    {
+                        return;
+                    }
+                    //7.如果不存在，则进行查询,如果查询到有此用户，则打开或者点击此会话，并且发送消息
+                    //8.如果查询不到，则提示用户不存在.
+                    if (await _IsSearch(who, message, isOpenChat))
+                    {
+                        return;
+                    }
+
+                    System.Windows.MessageBox.Show($"错误：用户[{who}]不存在,请检查您的输入是否正确",
+                        "错误",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Error);
+
+                }
             }
-            else
+            catch (Exception ex)
             {
-                //发送给指定好友
-                //步骤：
-                //1.首先查询此用户是否在弹出窗口列表中
-                //2.如果存在，则用弹出窗口发出消息
-                if (_SubWindowIsOpen(who, message, subWin => subWin.ChatContent.ChatBody.Sender.SendMessage(message)))
-                {
-                    return;
-                }
-                //3.如果不存在，则查询当前聊天窗口是否是此用户(即who)
-                //4.如果是，则发送消息
-                if (_IsCurrentChat(who, message))
-                {
-                    return;
-                }
-                //5.如果不是，则查询此用户是否在会话列表中
-                //6.如果存在，则打开或者点击此会话，并且发送消息
-                if (await _IsInConversation(who, message, isOpenChat))
-                {
-                    return;
-                }
-                //7.如果不存在，则进行查询,如果查询到有此用户，则打开或者点击此会话，并且发送消息
-                //8.如果查询不到，则提示用户不存在.
-                if (await _IsSearch(who, message, isOpenChat))
-                {
-                    return;
-                }
-
-                System.Windows.MessageBox.Show($"用户{who}不存在,请检查您的输入是否正确",
-                    "错误",
-                    System.Windows.MessageBoxButton.OK,
-                    System.Windows.MessageBoxImage.Error);
-
+                Console.WriteLine("发送消息失败：" + ex.Message);
             }
         }
         //发送文件核心方法
         private async Task SendFileCore(ChatMessage msg)
         {
-            OneOf<string, string[]> file = (OneOf<string, string[]>)msg.Payload;
-            string[] files = null;
-            if (file.IsT0)
+            try
             {
-                files = new string[] { file.AsT0 };
+                OneOf<string, string[]> file = (OneOf<string, string[]>)msg.Payload;
+                string[] files = null;
+                if (file.IsT0)
+                {
+                    files = new string[] { file.AsT0 };
+                }
+                else
+                {
+                    files = file.AsT1;
+                }
+                await this._SendFileCore(files, msg.ToUser, msg.IsOpenSubWin);
             }
-            else
+            catch (Exception ex)
             {
-                files = file.AsT1;
+                Console.WriteLine("发送文件失败：" + ex.Message);
             }
-            await this._SendFileCore(files, msg.ToUser, msg.IsOpenSubWin);
         }
         //发送文件核心方法
         private async Task _SendFileCore(string[] files, string who, bool isOpenChat)
@@ -596,26 +620,33 @@ namespace WxAutoCore.Components
         // 发送表情核心方法
         private async Task SendEmojiCore(ChatMessage msg)
         {
-            OneOf<int, string> emoji = (OneOf<int, string>)msg.Payload;
-            msg.Type = ChatMsgType.发送消息;
-            var message = "";
-            emoji.Switch(
-                (int emojiId) =>
-                {
-                    message = EmojiListHelper.Items.FirstOrDefault(item => item.Index == emojiId)?.Value ?? EmojiListHelper.Items[0].Value;
-                },
-                (string emojiName) =>
-                {
-                    message = emojiName;
-                    if (!(message.StartsWith("[") && message.EndsWith("]")))
+            try
+            {
+                OneOf<int, string> emoji = (OneOf<int, string>)msg.Payload;
+                msg.Type = ChatMsgType.发送消息;
+                var message = "";
+                emoji.Switch(
+                    (int emojiId) =>
                     {
-                        message = EmojiListHelper.Items.FirstOrDefault(item => item.Description == emojiName)?.Value ?? message;
+                        message = EmojiListHelper.Items.FirstOrDefault(item => item.Index == emojiId)?.Value ?? EmojiListHelper.Items[0].Value;
+                    },
+                    (string emojiName) =>
+                    {
+                        message = emojiName;
+                        if (!(message.StartsWith("[") && message.EndsWith("]")))
+                        {
+                            message = EmojiListHelper.Items.FirstOrDefault(item => item.Description == emojiName)?.Value ?? message;
+                        }
                     }
-                }
-            );
+                );
 
-            msg.Message = message;
-            await SendMessageCore(msg.ToUser, message, msg.IsOpenSubWin);
+                msg.Message = message;
+                await SendMessageCore(msg.ToUser, message, msg.IsOpenSubWin);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("发送表情失败：" + ex.Message);
+            }
         }
         #endregion
 

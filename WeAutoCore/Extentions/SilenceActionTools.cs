@@ -1,10 +1,13 @@
 using System;
+using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
 using FlaUI.Core.WindowsAPI;
 using WxAutoCommon.Interface;
+using WxAutoCommon.Utils;
 using WxAutoCore.Components;
 using WxAutoCore.Utils;
 
@@ -86,17 +89,29 @@ namespace WxAutoCore.Extentions
             User32.SendMessage(hwnd, WindowsMessages.WM_KEYDOWN, (IntPtr)VirtualKeyShort.RETURN, lParam);
         }
 
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("kernel32.dll")]
+        static extern uint GetCurrentThreadId();
+
+        private const int WM_KEYDOWN = 0x0100;
+        private const int WM_KEYUP = 0x0101;
+        private const int VK_CONTROL = 0x11;
+        private const int VK_V = 0x56;
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
         /// <summary>
-        /// 静默粘贴
+        /// 使用SendKeys的简单方法
         /// </summary>
-        /// <param name="wxWindow">微信窗口封装<see cref="IWeChatWindow"/></param>
-        /// <param name="filePath">文件路径数组</param>
-        /// <param name="edit"></param>
-        public static void SilencePaste(this IWeChatWindow wxWindow, string[] filePath, TextBox edit)
+        public static void SilencePasteSimple(this IWeChatWindow wxWindow, string[] filePath, TextBox edit)
         {
             // 1. 先点击输入框获取焦点
             wxWindow.SilenceClickExt(edit);
             Wait.UntilInputIsProcessed();
+            System.Threading.Thread.Sleep(200);
 
             // 2. 复制文件到剪贴板
             var result = ClipboardApi.CopyFilesToClipboard(filePath);
@@ -104,23 +119,31 @@ namespace WxAutoCore.Extentions
             {
                 throw new Exception($"复制文件到剪贴板失败: {string.Join(", ", filePath)}");
             }
-            
+
             // 3. 等待剪贴板操作完成
             Wait.UntilInputIsProcessed();
-            System.Threading.Thread.Sleep(100); // 额外等待确保剪贴板数据就绪
-            
-            // 4. 发送粘贴消息
-            var hwnd = wxWindow.SelfWindow.Properties.NativeWindowHandle.Value;
-            var rect = edit.BoundingRectangle;
-            int x = (int)((rect.Left + rect.Right) / 2 - wxWindow.SelfWindow.BoundingRectangle.Left);
-            int y = (int)((rect.Top + rect.Bottom) / 2 - wxWindow.SelfWindow.BoundingRectangle.Top);
-            IntPtr lParam = (IntPtr)((y << 16) | (x & 0xFFFF));
-            
-            // 5. 发送粘贴消息
-            var pasteResult = User32.SendMessage(hwnd, WindowsMessages.WM_PASTE, IntPtr.Zero, lParam);
-            
-            // 6. 等待粘贴操作完成
+            System.Threading.Thread.Sleep(600);
+
+            // 4. 使用SendKeys发送Ctrl+V
+            try
+            {
+                edit.Focus();
+                System.Threading.Thread.Sleep(500);
+                // System.Windows.Forms.SendKeys.SendWait("^v"); // ^v 表示 Ctrl+V
+                Keyboard.Press(VirtualKeyShort.CONTROL);
+                Keyboard.Press(VirtualKeyShort.KEY_V);
+                Keyboard.Release(VirtualKeyShort.KEY_V);
+                Keyboard.Release(VirtualKeyShort.CONTROL);
+            }
+            catch
+            {
+                // 如果SendKeys失败，回退到Windows消息方式
+                var hwnd = wxWindow.SelfWindow.Properties.NativeWindowHandle.Value;
+                User32.SendMessage(hwnd, WindowsMessages.WM_PASTE, IntPtr.Zero, IntPtr.Zero);
+            }
+
             Wait.UntilInputIsProcessed();
+            System.Threading.Thread.Sleep(500);
         }
     }
 }

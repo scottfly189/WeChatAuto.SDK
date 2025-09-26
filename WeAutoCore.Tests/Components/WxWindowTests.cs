@@ -3,6 +3,7 @@ using WxAutoCore.Services;
 using WxAutoCore.Utils;
 using Xunit.Abstractions;
 using WxAutoCommon.Configs;
+using WeAutoCommon.Classes;
 
 namespace WxAutoCore.Tests.Components
 {
@@ -25,9 +26,9 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             window.WindowMax();
-            DrawHightlightHelper.DrawHightlight(window.Window,framework.UiThreadInvoker);
+            DrawHightlightHelper.DrawHightlight(window.Window, framework.UiThreadInvoker);
             window.WindowRestore();
-            DrawHightlightHelper.DrawHightlight(window.Window,framework.UiThreadInvoker);
+            DrawHightlightHelper.DrawHightlight(window.Window, framework.UiThreadInvoker);
             window.WindowMin();
             await WeAutomation.Wait(2);
             window.WinMinRestore();
@@ -60,14 +61,15 @@ namespace WxAutoCore.Tests.Components
             Assert.True(title != null);
         }
 
-        [Fact(DisplayName = "测试发送消息")]
-        public void Test_SendMessage()
+        [Fact(DisplayName = "测试发送当前窗口消息-确保当前窗口是聊天窗口")]
+        public async Task Test_SendMessage()
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             window.SendCurrentMessage("你好，世界！");
             Assert.True(true);
+            await Task.Delay(60000);
         }
         //要先打开测试人的聊天窗口
         [Fact(DisplayName = "测试发送消息-已打开聊天窗口")]
@@ -81,7 +83,7 @@ namespace WxAutoCore.Tests.Components
             await Task.Delay(60000);
         }
 
-        [Fact(DisplayName = "测试发送消息-当前聊天窗口")]
+        [Fact(DisplayName = "测试发送消息-当前聊天窗口-确保打开是测试人的聊天窗口")]
         public async Task Test_SendWho_CurrentChat()
         {
             var framework = _globalFixture.wxFramwork;
@@ -121,7 +123,7 @@ namespace WxAutoCore.Tests.Components
             var window = client.WxMainWindow;
             await window.SendWho(WeChatConfig.TestFriendNickName, "你好，世界444！");
             Assert.True(true);
-            await Task.Delay(60000);
+            await Task.Delay(30000);
         }
 
         [Fact(DisplayName = "测试发送消息-不存在的人")]
@@ -132,7 +134,7 @@ namespace WxAutoCore.Tests.Components
             var window = client.WxMainWindow;
             await window.SendWho("不存在的人", "你好，世界555！");
             Assert.True(true);
-            await Task.Delay(60000);
+            await Task.Delay(30000);
         }
 
         [Fact(DisplayName = "测试发送消息")]
@@ -143,7 +145,7 @@ namespace WxAutoCore.Tests.Components
             var window = client.WxMainWindow;
             await window.SendWhoAndOpenChat(WeChatConfig.TestFriendNickName, "你好，世界666！");
             Assert.True(true);
-            await Task.Delay(60000);
+            await Task.Delay(30000);
         }
 
         [Fact(DisplayName = "测试发送消息-批量")]
@@ -154,7 +156,7 @@ namespace WxAutoCore.Tests.Components
             var window = client.WxMainWindow;
             window.SendWhos([WeChatConfig.TestFriendNickName, WeChatConfig.TestGroupNickName], "你好，世界777！");
             Assert.True(true);
-            await Task.Delay(60000);
+            await Task.Delay(30000);
         }
 
         [Fact(DisplayName = "测试发送消息-批量,并打开聊天窗口")]
@@ -164,6 +166,92 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             window.SendWhosAndOpenChat([WeChatConfig.TestFriendNickName, WeChatConfig.TestGroupNickName], "你好，世界777！");
+            Assert.True(true);
+            await Task.Delay(60000);
+        }
+        [Fact(DisplayName = "测试发送表情-发送索引给指定好友")]
+        public async Task Test_SendEmoji_Index()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            window.SendEmoji(WeChatConfig.TestFriendNickName, EmojiListHelper.Items[0].Index, false);
+            Assert.True(true);
+            await Task.Delay(60000);
+        }
+        [Fact(DisplayName = "测试发送表情-发送名称给指定好友")]
+        public async Task Test_SendEmoji_Name()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            window.SendEmoji(WeChatConfig.TestFriendNickName, "微笑", false);
+            Assert.True(true);
+            await Task.Delay(60000);
+        }
+        [Fact(DisplayName = "测试发送表情-发送值给指定好友")]
+        public async Task Test_SendEmoji_value()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            window.SendEmoji(WeChatConfig.TestFriendNickName, "[微笑]", false);
+            Assert.True(true);
+            await Task.Delay(60000);
+        }
+
+        [Fact(DisplayName = "测试发送表情-发送索引给指定好友-打开子窗口")]
+        public async Task Test_SendEmoji_open_subwin()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            window.SendEmoji(WeChatConfig.TestFriendNickName, EmojiListHelper.Items[0].Index, true);
+            Assert.True(true);
+            await Task.Delay(60000);
+        }
+
+        [Fact(DisplayName = "测试发送表情-发送索引给指定好友-发送给多个好友-打开多个子窗口")]
+        public async Task Test_SendEmoji_multi_open_subwin()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            window.SendEmojis([WeChatConfig.TestFriendNickName, WeChatConfig.TestGroupNickName], EmojiListHelper.Items[0].Index, true);
+            Assert.True(true);
+            await Task.Delay(60000);
+        }
+
+        [Fact(DisplayName = "测试发送文件-发送图片")]
+        public async Task Test_File_image()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            window.SendFile(WeChatConfig.TestFriendNickName, @"C:\Users\Administrator\Desktop\ssss\logo.png", false);
+            Assert.True(true);
+            await Task.Delay(60000);
+        }
+
+        [Fact(DisplayName = "测试发送文件-发送视频")]
+        public async Task Test_File_vedio()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            window.SendFile(WeChatConfig.TestFriendNickName, @"C:\Users\Administrator\Desktop\ssss\4.mp4", false);
+            Assert.True(true);
+            await Task.Delay(60000);
+        }
+
+
+        [Fact(DisplayName = "测试发送文件-发送多个文件")]
+        public async Task Test_File_Multi_File()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            window.SendFile(WeChatConfig.TestFriendNickName, new string[] { @"C:\Users\Administrator\Desktop\ssss\4.mp4", @"C:\Users\Administrator\Desktop\ssss\logo.png", @"C:\Users\Administrator\Desktop\ssss\3.pdf" }, false);
             Assert.True(true);
             await Task.Delay(60000);
         }

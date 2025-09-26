@@ -25,7 +25,6 @@ namespace WxAutoCore.Components
     {
         private Window _Window;
         private IWeChatWindow _WxWindow;
-        private string _Title;
         private AutomationElement _SenderRoot;
         private UIThreadInvoker _uiThreadInvoker;
         public TextBox ContentArea => GetContentArea();
@@ -134,10 +133,8 @@ namespace WxAutoCore.Components
         /// <param name="files">文件路径列表</param>
         public void SendFile(string[] files)
         {
-            _uiThreadInvoker.Run(automation =>
-            {
-                _WxWindow.SilencePaste(files, ContentArea);
-            });
+            _WxWindow.SilencePasteSimple(files, ContentArea);
+
             var button = SendButton;
             _WxWindow.SilenceClickExt(button);
         }
