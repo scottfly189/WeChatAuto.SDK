@@ -74,6 +74,13 @@ namespace WxAutoCore.Components
             var items = _GetAllConversatItems();
             return items;
         }
+        /// <summary>
+        /// 定位会话
+        /// 定位会话的用途：可以将会话列表滚动到指定会话的位置，使指定会话可见
+        /// </summary>
+        /// <param name="title">会话标题</param>
+        /// <returns>如果找到会话，则返回true，否则返回false</returns>
+        public bool LocateConversation(string title) => _LocateConversation(title);
 
         /// <summary>
         /// 点击会话
@@ -210,7 +217,6 @@ namespace WxAutoCore.Components
                     {
                         scrollPattern.SetScrollPercent(0, p);
                         Thread.Sleep(600);
-                        var i = scrollPattern.VerticalScrollPercent;
 
                         var items = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
                         foreach (var item in items)
@@ -232,6 +238,43 @@ namespace WxAutoCore.Components
             }).Result;
 
             return list;
+        }
+        private bool _LocateConversation(string title)
+        {
+            var listBox = GetConversationRoot();
+            listBox.Focus();
+            bool result = _uiThreadInvoker.Run(automation =>
+            {
+                var existTag = false;
+                var scrollPattern = listBox.Patterns.Scroll.Pattern;
+                if (scrollPattern != null && scrollPattern.VerticallyScrollable)
+                {
+                    for (double p = 0; p <= 1; p += scrollPattern.VerticalViewSize)
+                    {
+                        scrollPattern.SetScrollPercent(0, p);
+                        Thread.Sleep(600);
+                        var items = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
+                        var item = items.FirstOrDefault(c => c.Name.Contains(title));
+                        if (item != null)
+                        {
+                            existTag = true;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    var items = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
+                    var item = items.FirstOrDefault(c => c.Name.Contains(title));
+                    if (item != null)
+                    {
+                        existTag = true;
+                    }
+                }
+                return existTag;
+            }).Result;
+
+            return result;
         }
         /// <summary>
         /// 获取会话类型

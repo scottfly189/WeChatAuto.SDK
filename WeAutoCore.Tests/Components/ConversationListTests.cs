@@ -83,5 +83,19 @@ namespace WxAutoCore.Tests.Components
             }
             Assert.True(list.Count > 0);
         }
+
+        [Fact(DisplayName = "测试定位会话")]
+        public void TestLocateConversation()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var conversations = window.Conversations;
+            var result = conversations.LocateConversation(WeChatConfig.TestGroupNickName);
+            _output.WriteLine($"定位会话结果: {result}");
+            result = conversations.LocateConversation("哈哈");
+            _output.WriteLine($"定位会话结果: {result}");
+            Assert.True(result);    
+        }
     }
 }
