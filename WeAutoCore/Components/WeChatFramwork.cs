@@ -19,10 +19,15 @@ namespace WxAutoCore.Components
     public class WeChatFramwork : IDisposable
     {
         private bool _IsInit = false;
-        private UIThreadInvoker _uiThreadInvoker;
         private readonly Dictionary<string, WeChatClient> _wxClientList = new Dictionary<string, WeChatClient>();
-        public UIThreadInvoker UiThreadInvoker => _uiThreadInvoker;
         private bool _disposed = false;
+        /// <summary>
+        /// 微信自动化框架构造函数
+        /// </summary>
+        public WeChatFramwork()
+        {
+
+        }
         /// <summary>
         /// 微信客户端列表
         /// </summary>
@@ -42,13 +47,6 @@ namespace WxAutoCore.Components
         {
             Init();
             return _wxClientList.Keys.ToList();
-        }
-        /// <summary>
-        /// 微信自动化框架构造函数
-        /// </summary>
-        public WeChatFramwork()
-        {
-            _uiThreadInvoker = new UIThreadInvoker();
         }
 
         /// <summary>
@@ -72,7 +70,10 @@ namespace WxAutoCore.Components
             {
                 return;
             }
-            _uiThreadInvoker.Run(automation => automation.UnregisterAllEvents()).Wait();
+            foreach (var client in _wxClientList)
+            {
+                client.Value.WxMainWindow.ClearAllEvent();
+            }
         }
         /// <summary>
         /// 获取微信客户端
@@ -111,6 +112,7 @@ namespace WxAutoCore.Components
                 return;
             }
             _wxClientList.Clear();
+            UIThreadInvoker _uiThreadInvoker = new UIThreadInvoker();
             var taskBarRoot = _uiThreadInvoker.Run(automation =>
                 automation.GetDesktop().FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd")))
             ).Result;
@@ -135,9 +137,10 @@ namespace WxAutoCore.Components
                     ).Result;
                     DrawHightlightHelper.DrawHightlight(wxInstances, _uiThreadInvoker);
                     WeChatNotifyIcon wxNotifyIcon = new WeChatNotifyIcon(wxNotify.AsButton());
-                    WeChatMainWindow wxWindow = new WeChatMainWindow(wxInstances, wxNotifyIcon, _uiThreadInvoker);
+                    WeChatMainWindow wxWindow = new WeChatMainWindow(wxInstances, wxNotifyIcon);
 
                     var client = new WeChatClient(wxNotifyIcon, wxWindow);
+                    wxWindow.Client = client;
                     var NickNameButton = wxInstances.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]").AsButton();
                     _wxClientList.Add(NickNameButton.Name, client);
                 }
@@ -159,12 +162,8 @@ namespace WxAutoCore.Components
             {
                 return;
             }
-            _disposed = true;   
-            if (_uiThreadInvoker != null)
-            {
-                ClearAllEvent();
-                _uiThreadInvoker.Dispose();
-            }
+            _disposed = true;
+            ClearAllEvent();
         }
     }
 }

@@ -14,6 +14,8 @@ using OneOf;
 using WxAutoCommon.Models;
 using System;
 using WeAutoCommon.Classes;
+using WxAutoCore.Utils;
+using System.Threading;
 
 
 
@@ -24,7 +26,6 @@ namespace WxAutoCore.Components
     /// </summary>
     public class WeChatMainWindow : IWeChatWindow, IDisposable
     {
-        private UIThreadInvoker _uiThreadInvoker;
         private readonly ActionQueueChannel<ChatMessage> _actionQueueChannel = new ActionQueueChannel<ChatMessage>();
         private Window _Window;
         private ToolBar _ToolBar;  // 工具栏
@@ -44,7 +45,10 @@ namespace WxAutoCore.Components
         public int ProcessId { get; private set; }
         public string NickName => _uiThreadInvoker.Run(automation => _Window.FindFirstByXPath($"/Pane/Pane/ToolBar[@Name='{WeChatConstant.WECHAT_NAVIGATION_NAVIGATION}'][@IsEnabled='true']").FindFirstChild().Name).Result;
         public Window Window => _Window;
-
+        public WeChatClient Client { get; set; }
+        private UIThreadInvoker _uiThreadInvoker;   //每个微信窗口一个单独的UI线程
+        public UIThreadInvoker UiThreadInvoker => _uiThreadInvoker;
+        private volatile bool _disposed = false;
         public Window SelfWindow { get => _Window; set => _Window = value; }
 
         /// <summary>
@@ -52,13 +56,20 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="window">微信窗口<see cref="Window"/></param>
         /// <param name="notifyIcon">微信通知图标<see cref="WeChatNotifyIcon"/></param>
-        public WeChatMainWindow(Window window, WeChatNotifyIcon notifyIcon, UIThreadInvoker uiThreadInvoker)
+        public WeChatMainWindow(Window window, WeChatNotifyIcon notifyIcon)
         {
-            _uiThreadInvoker = uiThreadInvoker;
+            _uiThreadInvoker = new UIThreadInvoker();
             _InitSubscription();
             _Window = window;
             ProcessId = window.Properties.ProcessId;
             _InitWxWindow(notifyIcon);
+        }
+        /// <summary>
+        /// 清除所有事件
+        /// </summary>
+        public void ClearAllEvent()
+        {
+            _uiThreadInvoker.Run(automation => automation.UnregisterAllEvents()).Wait();
         }
         /// <summary>
         /// 初始化微信窗口的各种组件
@@ -69,7 +80,7 @@ namespace WxAutoCore.Components
             _Navigation = new Navigation(_Window, this, _uiThreadInvoker);  // 导航栏
             _Search = new Search(this, _uiThreadInvoker, _Window);  // 搜索
             _Conversations = new ConversationList(_Window, this, _uiThreadInvoker);  // 会话列表
-            _AddressBook = new AddressBookList(_Window, this,_uiThreadInvoker);  // 通讯录
+            _AddressBook = new AddressBookList(_Window, this, _uiThreadInvoker);  // 通讯录
             _SubWinList = new SubWinList(_Window, this, _uiThreadInvoker);
             _WxChatContent = new ChatContent(_Window, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane", this, _uiThreadInvoker);
         }
@@ -650,9 +661,25 @@ namespace WxAutoCore.Components
         }
         #endregion
 
+        #region 监听消息
+        public void AddListener(string nickName, Action<MessageBubble, List<MessageBubble>, Planner> callBack)
+        {
+
+        }
+        public void RemoveListener(string nickName)
+        {
+
+        }
+        #endregion
         public void Dispose()
         {
+            if (_disposed)
+            {
+                return;
+            }
+            _disposed = true;
             _actionQueueChannel.Close();
+            _uiThreadInvoker.Dispose();
         }
     }
 }

@@ -36,5 +36,22 @@ namespace WxAutoCore.Components
         {
             WxNotifyIcon.Click();
         }
+
+        /// <summary>
+        /// 出错后捕获UI
+        /// </summary>
+        /// <param name="path">保存路径</param>
+        public void CaptureUI(string path)
+        {
+
+        }
+        /// <summary>
+        /// 视频录制
+        /// </summary>
+        /// <param name="path">保存路径</param>
+        public void VideoRecord(string path)
+        {
+
+        }
     }
 }

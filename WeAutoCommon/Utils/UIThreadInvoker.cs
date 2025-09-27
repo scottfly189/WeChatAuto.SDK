@@ -62,7 +62,12 @@ namespace WxAutoCommon.Utils
                 _started.TrySetException(ex);
             }
         }
-
+        /// <summary>
+        /// 在UI线程中执行操作，返回结果
+        /// </summary>
+        /// <typeparam name="T">返回类型</typeparam>
+        /// <param name="func">要执行的操作</param>
+        /// <returns>返回结果</returns>
         public Task<T> Run<T>(Func<UIA3Automation, T> func)
         {
             if (_disposed)
@@ -84,7 +89,11 @@ namespace WxAutoCommon.Utils
             });
             return tcs.Task;
         }
-
+        /// <summary>
+        /// 在UI线程中执行操作，不返回结果
+        /// </summary>
+        /// <param name="action">要执行的操作</param>
+        /// <returns>返回结果</returns>
         public Task Run(Action<UIA3Automation> action)
         {
             return Run<object>(automation =>
@@ -93,6 +102,7 @@ namespace WxAutoCommon.Utils
                 return null;
             });
         }
+
 
         public void Dispose()
         {
