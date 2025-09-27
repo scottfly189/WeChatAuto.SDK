@@ -65,28 +65,14 @@ namespace WxAutoCore.Components
             return conversations;
         }
         /// <summary>
-        /// 获取会话列表所有会话
+        /// 获取会话列表所有会话的名称
+        /// 考虑到效率，只返回名称列表
         /// </summary>
         /// <returns></returns>
-        public List<Conversation> GetAllConversations()
+        public List<string> GetAllConversations()
         {
             var items = _GetAllConversatItems();
-            List<Conversation> conversations = new List<Conversation>();
-            foreach (var item in items)
-            {
-                Conversation conversation = new Conversation();
-                conversation.ConversationTitle = _GetConversationTitle(item, conversation);
-                conversation.IsTop = _GetConversationIsTop(item);
-                conversation.ConversationType = _GetConversationType(conversation.ConversationTitle);
-                conversation.ConversationContent = _GetConversationContent(item);
-                conversation.IsCompanyGroup = _IsCompanyGroup(item);
-                conversation.ImageButton = _GetConversationImageButton(item);
-                conversation.HasNotRead = _GetConversationHasNotRead(item);
-                conversation.Time = _GetConversationTime(item);
-                conversation.IsDoNotDisturb = _IsDoNotDisturb(item);
-                conversations.Add(conversation);
-            }
-            return conversations;
+            return items;
         }
 
         /// <summary>
@@ -208,32 +194,19 @@ namespace WxAutoCore.Components
             var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))).Result;
             return items.Select(item => item.AsListBoxItem()).ToList();
         }
-        private List<ListBoxItem> _GetAllConversatItems()
+        //获取所有会话列表核心方法
+        private List<string> _GetAllConversatItems()
         {
             var listBox = GetConversationRoot();
+            listBox.Focus();
 
-            List<ListBoxItem> list = _uiThreadInvoker.Run(automation =>
+            List<string> list = _uiThreadInvoker.Run(automation =>
             {
-                var subList = new List<ListBoxItem>();
+                var subList = new List<string>();
                 var scrollPattern = listBox.Patterns.Scroll.Pattern;
                 if (scrollPattern != null && scrollPattern.VerticallyScrollable)
                 {
-                    scrollPattern.SetScrollPercent(0, 0);
-                    // while (scrollPattern.VerticalScrollPercent < 1)
-                    // {
-                    //     var items = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
-                    //     foreach (var item in items)
-                    //     {
-                    //         if (!subList.Any(u => u.Name == item.Name))
-                    //         {
-                    //             subList.Add(item.AsListBoxItem());
-                    //         }
-                    //     }
-                    //     scrollPattern.Scroll(ScrollAmount.NoAmount, ScrollAmount.LargeIncrement);
-                    //     Thread.Sleep(600); // 给 UI 反应时间
-                    // }
-                    // return subList;
-                    for (double p = 0; p <= 1; p += 0.015)
+                    for (double p = 0; p <= 1; p += scrollPattern.VerticalViewSize)
                     {
                         scrollPattern.SetScrollPercent(0, p);
                         Thread.Sleep(600);
@@ -242,10 +215,9 @@ namespace WxAutoCore.Components
                         var items = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
                         foreach (var item in items)
                         {
-                            var index = subList.FindIndex(u => u.Name == item.Name);
-                            if (index < 0)
+                            if (!subList.Contains(item.Name))
                             {
-                                subList.Add(item.AsListBoxItem());
+                                subList.Add(item.Name.Replace(WeChatConstant.WECHAT_SESSION_BOX_HAS_TOP, ""));
                             }
                         }
                     }
@@ -254,7 +226,7 @@ namespace WxAutoCore.Components
                 else
                 {
                     var items = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
-                    subList.AddRange(items.Select(item => item.AsListBoxItem()).ToList());
+                    subList.AddRange(items.Select(item => item.Name.Replace(WeChatConstant.WECHAT_SESSION_BOX_HAS_TOP, "")).ToList());
                     return subList;
                 }
             }).Result;
