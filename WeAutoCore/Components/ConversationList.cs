@@ -242,7 +242,8 @@ namespace WxAutoCore.Components
                         var items = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
                         foreach (var item in items)
                         {
-                            if (!subList.Any(u => u.Name == item.Name))
+                            var index = subList.FindIndex(u => u.Name == item.Name);
+                            if (index < 0)
                             {
                                 subList.Add(item.AsListBoxItem());
                             }
