@@ -104,13 +104,25 @@ namespace WxAutoCore.Components
         {
             var result = this.LocateFriend("公众号");
             List<string> list = null;
-            if (result)
+            try
             {
-                list = _GetAllOfficialAccountCore();
+                if (result)
+                {
+                    list = _GetAllOfficialAccountCore();
+                }
+                else
+                {
+                    throw new Exception("公众号不存在");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                throw new Exception("公众号不存在");
+                Console.WriteLine("获取公众号发生错误:" + ex.ToString());
+                throw new Exception("获取公众号发生错误:" + ex.ToString());
+            }
+            finally
+            {
+                _MainWin.Navigation.SwitchNavigation(WxAutoCommon.Enums.NavigationType.通讯录);
             }
             return list;
         }
