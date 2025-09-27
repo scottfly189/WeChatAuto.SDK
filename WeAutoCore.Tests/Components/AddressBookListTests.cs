@@ -43,5 +43,20 @@ namespace WxAutoCore.Tests.Components
             var result = addressBookList.LocateFriend("陈建华");
             Assert.True(result);
         }
+
+        [Fact(DisplayName = "测试获取所有公众号")]
+        public void TestGetAllOfficialAccount()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var addressBookList = window.AddressBook;
+            var officialAccounts = addressBookList.GetAllOfficialAccount();
+            foreach (var officialAccount in officialAccounts)
+            {
+                _output.WriteLine(officialAccount);
+            }
+            Assert.True(officialAccounts.Count > 0);
+        }
     }
 }
