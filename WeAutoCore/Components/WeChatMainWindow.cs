@@ -669,14 +669,27 @@ namespace WxAutoCore.Components
         /// 2.包含新消息气泡的列表<see cref="List{MessageBubble}"/>，适用于给LLM大模型提供上下文
         /// 3.发送者<see cref="Sender"/>，适用于本子窗口操作，如发送消息、发送文件、发送表情等
         /// 4.当前微信窗口对象<see cref="WeChatMainWindow"/>，适用于全部操作，如给指定好友发送消息、发送文件、发送表情等
-        /// 5.计划器<see cref="Planner"/>,适用于设定计划任务的场合
         /// </summary>
         /// <param name="nickName">好友名称</param>
         /// <param name="callBack">回调函数</param>
         /// <param name="monitor">是否启用子窗口监听，如果子窗口被误关，监听器会自动重新打开子窗口</param>
-        public void AddListener(string nickName, Action<MessageBubble, List<MessageBubble>, Sender, WeChatMainWindow, Planner> callBack, bool monitor = true)
+        public void AddListener(string nickName, Action<MessageBubble, List<MessageBubble>, Sender, WeChatMainWindow> callBack, bool monitor = true)
         {
-            
+
+        }
+        /// <summary>
+        /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会调用回调函数
+        /// callBack回调函数参数：
+        /// 1.新用户气泡<see cref="MessageBubble"/>
+        /// 2.包含新用户气泡的列表<see cref="List{MessageBubble}"/>，适用于给LLM大模型提供上下文
+        /// 3.发送者<see cref="Sender"/>，适用于本子窗口操作，如发送消息、发送文件、发送表情等
+        /// 4.当前微信窗口对象<see cref="WeChatMainWindow"/>，适用于全部操作，如给指定好友发送消息、发送文件、发送表情等
+        /// </summary>
+        /// <param name="nickName">好友名称</param>
+        /// <param name="callBack">回调函数</param>
+        public void AddNewUserListener(string nickName, Action<MessageBubble, List<MessageBubble>, Sender, WeChatMainWindow> callBack)
+        {
+
         }
         /// <summary>
         /// 移除监听消息
