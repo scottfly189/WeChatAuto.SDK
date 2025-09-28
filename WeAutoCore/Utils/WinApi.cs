@@ -40,10 +40,16 @@ namespace WxAutoCore.Utils
         const uint GW_HWNDNEXT = 2;
         const uint GW_HWNDFIRST = 0;
         const uint GW_HWNDLAST = 1;
-        public const uint WM_KEYDOWN = 0x0100;
-        public const uint WM_KEYUP = 0x0101;
-        public const uint WM_CHAR = 0x0102;
-        public const int VK_RETURN = 0x0D;
+
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("kernel32.dll")]
+        static extern uint GetCurrentThreadId();
+
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
         /// <summary>
         /// 查找所有包含指定类名的窗口句柄

@@ -73,7 +73,7 @@ namespace WxAutoCore.Tests.Components
             }
             Assert.True(true);
         }
-        
+
         [Theory(DisplayName = "测试获取所有待添加好友，加关键字")]
         [InlineData("test")]
         public void TestGetAllWillAddFriendsWithKeyWord(string keyWord)
@@ -83,6 +83,23 @@ namespace WxAutoCore.Tests.Components
             var window = client.WxMainWindow;
             var addressBookList = window.AddressBook;
             var willAddFriends = addressBookList.GetAllWillAddFriends(keyWord);
+            foreach (var willAddFriend in willAddFriends)
+            {
+                _output.WriteLine(willAddFriend);
+            }
+            Assert.True(true);
+        }
+
+        [Theory(DisplayName = "测试通过所有新好友")]
+        // [InlineData("test", "test", "test")]
+        [InlineData("","test","test")]
+        public void TestPassedAllNewFriend(string keyWord, string suffix, string label)
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var addressBookList = window.AddressBook;
+            var willAddFriends = addressBookList.PassedAllNewFriend(keyWord, suffix, label);
             foreach (var willAddFriend in willAddFriends)
             {
                 _output.WriteLine(willAddFriend);

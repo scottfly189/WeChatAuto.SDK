@@ -1,7 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Windows;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
@@ -10,6 +9,8 @@ using WxAutoCommon.Interface;
 using WxAutoCommon.Utils;
 using WxAutoCore.Components;
 using WxAutoCore.Utils;
+using FlaUI.Core;
+using FlaUI.UIA3;
 
 namespace WxAutoCore.Extentions
 {
@@ -17,18 +18,18 @@ namespace WxAutoCore.Extentions
     /// <summary>
     /// 静默操作的扩展
     /// </summary>
-    public static class SilenceActionTools
+    public static class WindowSlienceAction
     {
         /// <summary>
         /// 静默点击
         /// 最好保证是最近刷新的元素，这样支持窗口移动.
         /// </summary>
-        /// <param name="wxWindow">微信窗口封装<see cref="IWeChatWindow"/></param>
+        /// <param name="window">窗口Window</param>
         /// <param name="element">要点击的元素<see cref="AutomationElement"/>最好保证是最近刷新的元素</param>
-        public static void SilenceClickExt(this IWeChatWindow wxWindow, AutomationElement element)
+        public static void SilenceClickExt(this Window window, AutomationElement element)
         {
             Wait.UntilInputIsProcessed();
-            var windowHandle = wxWindow.SelfWindow.Properties.NativeWindowHandle.Value;
+            var windowHandle = window.Properties.NativeWindowHandle.Value;
             var elementRectangle = element.BoundingRectangle;
 
             // 计算按钮中心点相对于窗口的坐标
@@ -36,7 +37,7 @@ namespace WxAutoCore.Extentions
             int y = elementRectangle.Y + (elementRectangle.Height / 2);
 
             // 转换为窗口客户区坐标
-            var windowRectangle = wxWindow.SelfWindow.BoundingRectangle;
+            var windowRectangle = window.BoundingRectangle;
             int clientX = x - windowRectangle.X;
             int clientY = y - windowRectangle.Y;
 
@@ -55,14 +56,14 @@ namespace WxAutoCore.Extentions
         /// </summary>
         /// <param name="element">输入框<see cref="TextBox"/></param>
         /// <param name="text">文本</param>
-        public static void SilenceEnterText(this IWeChatWindow wxWindow, TextBox edit, string text)
+        public static void SilenceEnterText(this Window wxWindow, TextBox edit, string text)
         {
             wxWindow.SilenceClickExt(edit);
 
-            var hwnd = wxWindow.SelfWindow.Properties.NativeWindowHandle.Value;
+            var hwnd = wxWindow.Properties.NativeWindowHandle.Value;
             var rect = edit.BoundingRectangle;
-            int x = (int)((rect.Left + rect.Right) / 2 - wxWindow.SelfWindow.BoundingRectangle.Left);
-            int y = (int)((rect.Top + rect.Bottom) / 2 - wxWindow.SelfWindow.BoundingRectangle.Top);
+            int x = (int)((rect.Left + rect.Right) / 2 - wxWindow.BoundingRectangle.Left);
+            int y = (int)((rect.Top + rect.Bottom) / 2 - wxWindow.BoundingRectangle.Top);
             IntPtr lParam = (IntPtr)((y << 16) | (x & 0xFFFF));
             foreach (char c in text)
             {
@@ -76,15 +77,15 @@ namespace WxAutoCore.Extentions
         /// </summary>
         /// <param name="wxWindow">微信窗口封装<see cref="IWeChatWindow"/></param>
         /// <param name="edit">输入框<see cref="TextBox"/></param>
-        public static void SilenceReturn(this IWeChatWindow wxWindow, TextBox edit)
+        public static void SilenceReturn(this Window wxWindow, TextBox edit)
         {
             wxWindow.SilenceClickExt(edit);
             Wait.UntilInputIsProcessed();
 
-            var hwnd = wxWindow.SelfWindow.Properties.NativeWindowHandle.Value;
+            var hwnd = wxWindow.Properties.NativeWindowHandle.Value;
             var rect = edit.BoundingRectangle;
-            int x = (int)((rect.Left + rect.Right) / 2 - wxWindow.SelfWindow.BoundingRectangle.Left);
-            int y = (int)((rect.Top + rect.Bottom) / 2 - wxWindow.SelfWindow.BoundingRectangle.Top);
+            int x = (int)((rect.Left + rect.Right) / 2 - wxWindow.BoundingRectangle.Left);
+            int y = (int)((rect.Top + rect.Bottom) / 2 - wxWindow.BoundingRectangle.Top);
             IntPtr lParam = (IntPtr)((y << 16) | (x & 0xFFFF));
             User32.SendMessage(hwnd, WindowsMessages.WM_KEYDOWN, (IntPtr)VirtualKeyShort.RETURN, lParam);
         }
@@ -94,7 +95,7 @@ namespace WxAutoCore.Extentions
         /// <summary>
         /// 使用SendKeys的简单方法
         /// </summary>
-        public static void SilencePasteSimple(this IWeChatWindow wxWindow, string[] filePath, TextBox edit)
+        public static void SilencePasteSimple(this Window wxWindow, string[] filePath, TextBox edit)
         {
             // 1. 先点击输入框获取焦点
             wxWindow.SilenceClickExt(edit);
@@ -126,7 +127,7 @@ namespace WxAutoCore.Extentions
             catch
             {
                 // 如果SendKeys失败，回退到Windows消息方式
-                var hwnd = wxWindow.SelfWindow.Properties.NativeWindowHandle.Value;
+                var hwnd = wxWindow.Properties.NativeWindowHandle.Value;
                 User32.SendMessage(hwnd, WindowsMessages.WM_PASTE, IntPtr.Zero, IntPtr.Zero);
             }
 

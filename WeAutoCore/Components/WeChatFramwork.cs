@@ -26,7 +26,7 @@ namespace WxAutoCore.Components
         /// </summary>
         public WeChatFramwork()
         {
-
+            IMEHelper.DisableImeForCurrentThread();
         }
         /// <summary>
         /// 微信客户端列表
