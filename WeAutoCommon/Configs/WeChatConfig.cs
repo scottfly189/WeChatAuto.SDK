@@ -34,16 +34,16 @@ namespace WxAutoCommon.Configs
         /// </summary>
         public static bool MessageHash { get; set; } = false;
 
-        /// <summary>
-        /// 头像到消息X偏移量，用于消息定位，点击消息等操作
-        /// </summary>
-        public static int DefaultMessageXbias { get; set; } = 51;
-
 
         /// <summary>
         /// 监听消息时间间隔，单位秒
         /// </summary>
         public static int ListenInterval { get; set; } = 1;
+
+        /// <summary>
+        /// 新用户监听时间间隔，单位秒
+        /// </summary>
+        public static int NewUserListenerInterval { get; set; } = 5;
 
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace WxAutoCommon.Configs
         /// <summary>
         /// 测试好友,要改成自己的才能正确运行单元测试
         /// </summary>
-        public static string TestFriendNickName { get; set; } = "梁工";
+        public static string TestFriendNickName { get; set; } = "AI.Net";
 
         /// <summary>
         /// 备选测试好友,要改成自己的才能正确运行单元测试

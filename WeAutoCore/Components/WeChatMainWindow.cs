@@ -16,6 +16,7 @@ using System;
 using WeAutoCommon.Classes;
 using WxAutoCore.Utils;
 using System.Threading;
+using WxAutoCommon.Configs;
 
 
 
@@ -49,6 +50,10 @@ namespace WxAutoCore.Components
         private UIThreadInvoker _uiThreadInvoker;   //每个微信窗口一个单独的UI线程
         public UIThreadInvoker UiThreadInvoker => _uiThreadInvoker;
         private volatile bool _disposed = false;
+        private Thread _newUserListenerThread;
+        private CancellationTokenSource _newUserListenerCancellationTokenSource = new CancellationTokenSource();
+        private TaskCompletionSource<bool> _newUserListenerStarted = new TaskCompletionSource<bool>();
+        private List<Action> _newUserActionList = new List<Action>();
         public Window SelfWindow { get => _Window; set => _Window = value; }
 
         /// <summary>
@@ -63,12 +68,48 @@ namespace WxAutoCore.Components
             _Window = window;
             ProcessId = window.Properties.ProcessId;
             _InitWxWindow(notifyIcon);
+            _InitNewUserListener();
+            _newUserListenerStarted.Task.Wait();
         }
         /// <summary>
-        /// 清除所有事件
+        /// 初始化新用户监听
+        /// </summary>
+        private void _InitNewUserListener()
+        {
+            _newUserListenerThread = new Thread(() =>
+            {
+                try
+                {
+                    _newUserListenerStarted.SetResult(true);
+                    while (!_newUserListenerCancellationTokenSource.IsCancellationRequested)
+                    {
+                        _newUserActionList.ForEach(action => action());
+                        Thread.Sleep(WeChatConfig.NewUserListenerInterval * 1000);
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    Console.WriteLine("新用户监听线程已停止，正常取消,不做处理");
+                }
+                catch (Exception e)
+                {
+                    _newUserListenerStarted.SetException(e);
+                    Console.WriteLine("新用户监听线程异常，异常信息：" + e.Message);
+                }
+            });
+            _newUserListenerThread.Priority = ThreadPriority.Lowest;
+            _newUserListenerThread.IsBackground = true;
+            _newUserListenerThread.Start();
+        }
+        /// <summary>
+        /// 清除所有事件及其他
         /// </summary>
         public void ClearAllEvent()
         {
+            if (_disposed)
+            {
+                return;
+            }
             _uiThreadInvoker.Run(automation => automation.UnregisterAllEvents()).Wait();
         }
         /// <summary>
@@ -679,17 +720,11 @@ namespace WxAutoCore.Components
         }
         /// <summary>
         /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会调用回调函数
-        /// callBack回调函数参数：
-        /// 1.新用户气泡<see cref="MessageBubble"/>
-        /// 2.包含新用户气泡的列表<see cref="List{MessageBubble}"/>，适用于给LLM大模型提供上下文
-        /// 3.发送者<see cref="Sender"/>，适用于本子窗口操作，如发送消息、发送文件、发送表情等
-        /// 4.当前微信窗口对象<see cref="WeChatMainWindow"/>，适用于全部操作，如给指定好友发送消息、发送文件、发送表情等
         /// </summary>
-        /// <param name="nickName">好友名称</param>
         /// <param name="callBack">回调函数</param>
-        public void AddNewUserListener(string nickName, Action<MessageBubble, List<MessageBubble>, Sender, WeChatMainWindow> callBack)
+        public void AddNewUserListener(Action callBack)
         {
-
+            _newUserActionList.Add(callBack);
         }
         /// <summary>
         /// 移除监听消息
@@ -698,6 +733,13 @@ namespace WxAutoCore.Components
         public void RemoveListener(string nickName)
         {
 
+        }
+        /// <summary>
+        /// 移除添加新用户监听
+        /// </summary>
+        public void RemoveNewUserListener()
+        {
+            _newUserActionList.Clear();
         }
         #endregion
         public void Dispose()
@@ -709,6 +751,12 @@ namespace WxAutoCore.Components
             _disposed = true;
             _actionQueueChannel.Close();
             _uiThreadInvoker.Dispose();
+            _newUserListenerCancellationTokenSource.Cancel();
+            if (_newUserListenerThread.IsAlive)
+            {
+                _newUserListenerThread.Join(1000);
+            }
+            _newUserListenerCancellationTokenSource.Dispose();
         }
     }
 }

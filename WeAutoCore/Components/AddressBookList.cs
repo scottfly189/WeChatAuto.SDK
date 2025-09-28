@@ -127,6 +127,86 @@ namespace WxAutoCore.Components
             return list;
         }
         /// <summary>
+        /// 获取所有待添加好友
+        /// </summary>
+        /// <param name="keyWord">关键字,如果设置关键字，则返回包含关键字的新好友，如果没有设置，则返回所有新好友</param>
+        /// <returns>待添加好友昵称列表</returns>
+        public List<string> GetAllWillAddFriends(string keyWord = null)
+        {
+            _MainWin.Navigation.SwitchNavigation(WxAutoCommon.Enums.NavigationType.通讯录);
+            try
+            {
+                List<string> list = _GetAllWillAddFriendsCore(keyWord);
+                return list;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("获取待添加好友发生错误:" + ex.ToString());
+                throw new Exception("获取待添加好友发生错误:" + ex.ToString());
+            }
+            finally
+            {
+                _MainWin.Navigation.SwitchNavigation(WxAutoCommon.Enums.NavigationType.聊天);
+            }
+        }
+        /// <summary>
+        /// 获取所有待添加好友的核心方法
+        /// </summary>
+        /// <returns>待添加好友昵称列表</returns>
+        /// <param name="keyWord">关键字,如果设置关键字，则返回包含关键字的新好友，如果没有设置，则返回所有新好友</param>
+        private List<string> _GetAllWillAddFriendsCore(string keyWord = null)
+        {
+            List<string> list = _uiThreadInvoker.Run(automation =>
+            {
+                var root = _Window.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/List[@Name='联系人'][@IsOffscreen='false']")?.AsListBox();
+                var scrollPattern = root.Patterns.Scroll.Pattern;
+                scrollPattern.SetScrollPercent(0, 0);
+                var rList = new List<string>();
+                var newFriendItem = root.FindFirstChild(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByText("新的朋友"))).AsListBoxItem();
+                var button = newFriendItem.FindFirstByXPath("//Button[@Name='ContactListItem'][@IsOffscreen='false']").AsButton();
+                button.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                button.Click();
+                Thread.Sleep(600);
+                var panelRoot = _Window.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/Pane/List[@Name='新的朋友'][@IsOffscreen='false']")?.AsListBox();
+                var subList = panelRoot?.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
+                foreach (var item in subList)
+                {
+                    button = item.FindFirstByXPath("//Button[@Name='接受'][@IsOffscreen='false']").AsButton();
+                    if (button != null)
+                    {
+                        if (keyWord == null)
+                        {
+                            button = item.FindFirstByXPath("(//Button)[1]").AsButton();
+                            rList.Add(button.Name.Trim());
+                        }
+                        else
+                        {
+                            var labels = item.FindAllDescendants(cf => cf.ByControlType(ControlType.Text)).ToList();
+                            var query = labels.FirstOrDefault(u => u.Name.Contains(keyWord));
+                            if (query != null)
+                            {
+                                button = item.FindFirstByXPath("(//Button)[1]").AsButton();
+                                rList.Add(button.Name.Trim());
+                            }
+                        }
+                    }
+                }
+
+                return rList;
+            }).Result;
+            return list;
+        }
+
+        /// <summary>
+        /// 移除好友
+        /// </summary>
+        /// <param name="friendName">好友名称</param>
+        /// <returns>是否成功</returns>
+        public bool RemoveFriend(string friendName)
+        {
+            return false;
+        }
+        /// <summary>
         /// 获取所有好友
         /// </summary>
         /// <returns>好友列表</returns>

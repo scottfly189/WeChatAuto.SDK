@@ -72,7 +72,7 @@ namespace WxAutoCore.Components
             }
             foreach (var client in _wxClientList)
             {
-                client.Value.WxMainWindow.ClearAllEvent();
+                client.Value.WxMainWindow.Dispose();
             }
         }
         /// <summary>

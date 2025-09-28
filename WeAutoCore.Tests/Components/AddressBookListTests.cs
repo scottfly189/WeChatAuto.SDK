@@ -58,5 +58,36 @@ namespace WxAutoCore.Tests.Components
             }
             Assert.True(officialAccounts.Count > 0);
         }
+
+        [Fact(DisplayName = "测试获取所有待添加好友，不加关键字")]
+        public void TestGetAllWillAddFriends()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var addressBookList = window.AddressBook;
+            var willAddFriends = addressBookList.GetAllWillAddFriends();
+            foreach (var willAddFriend in willAddFriends)
+            {
+                _output.WriteLine(willAddFriend);
+            }
+            Assert.True(true);
+        }
+        
+        [Theory(DisplayName = "测试获取所有待添加好友，加关键字")]
+        [InlineData("test")]
+        public void TestGetAllWillAddFriendsWithKeyWord(string keyWord)
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var addressBookList = window.AddressBook;
+            var willAddFriends = addressBookList.GetAllWillAddFriends(keyWord);
+            foreach (var willAddFriend in willAddFriends)
+            {
+                _output.WriteLine(willAddFriend);
+            }
+            Assert.True(true);
+        }
     }
 }
