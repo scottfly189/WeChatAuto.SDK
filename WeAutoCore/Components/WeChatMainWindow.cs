@@ -17,6 +17,8 @@ using WeAutoCommon.Classes;
 using WxAutoCore.Utils;
 using System.Threading;
 using WxAutoCommon.Configs;
+using WxAutoCommon.Classes;
+using System.Windows.Documents;
 
 
 
@@ -27,7 +29,7 @@ namespace WxAutoCore.Components
     /// </summary>
     public class WeChatMainWindow : IWeChatWindow, IDisposable
     {
-        private readonly ActionQueueChannel<ChatMessage> _actionQueueChannel = new ActionQueueChannel<ChatMessage>();
+        private readonly ActionQueueChannel<ChatActionMessage> _actionQueueChannel = new ActionQueueChannel<ChatActionMessage>();
         private Window _Window;
         private ToolBar _ToolBar;  // 工具栏
         private SubWinList _SubWinList;  // 弹出窗口列表
@@ -53,7 +55,7 @@ namespace WxAutoCore.Components
         private Thread _newUserListenerThread;
         private CancellationTokenSource _newUserListenerCancellationTokenSource = new CancellationTokenSource();
         private TaskCompletionSource<bool> _newUserListenerStarted = new TaskCompletionSource<bool>();
-        private List<Action> _newUserActionList = new List<Action>();
+        private List<(Action<List<string>> callBack, FriendListenerOptions options)> _newUserActionList = new List<(Action<List<string>> callBack, FriendListenerOptions options)>();
         public Window SelfWindow { get => _Window; set => _Window = value; }
 
         /// <summary>
@@ -83,7 +85,10 @@ namespace WxAutoCore.Components
                     _newUserListenerStarted.SetResult(true);
                     while (!_newUserListenerCancellationTokenSource.IsCancellationRequested)
                     {
-                        _newUserActionList.ForEach(action => action());
+                        if (_newUserActionList.Count > 0)
+                        {
+                            _FetchNewUserNoticeAction();
+                        }
                         Thread.Sleep(WeChatConfig.NewUserListenerInterval * 1000);
                     }
                 }
@@ -100,6 +105,17 @@ namespace WxAutoCore.Components
             _newUserListenerThread.Priority = ThreadPriority.Lowest;
             _newUserListenerThread.IsBackground = true;
             _newUserListenerThread.Start();
+        }
+        private void _FetchNewUserNoticeAction()
+        {
+            var resultFlag = _uiThreadInvoker.Run(automation =>
+            {
+                return false;
+            }).Result;
+            if (resultFlag)
+            {
+                _newUserActionList.ForEach(action => action.callBack(new List<string>()));
+            }
         }
         /// <summary>
         /// 清除所有事件及其他
@@ -141,20 +157,20 @@ namespace WxAutoCore.Components
         }
         /// <summary>
         /// 消息分发
-        /// <see cref="ChatMessage"/>
+        /// <see cref="ChatActionMessage"/>
         /// </summary>
         /// <param name="msg"></param>
-        private async Task _DispatchMessage(ChatMessage msg)
+        private async Task _DispatchMessage(ChatActionMessage msg)
         {
             switch (msg.Type)
             {
-                case ChatMsgType.发送消息:
+                case ActionType.发送消息:
                     await this.SendMessageCore(msg.ToUser, msg.Message, msg.IsOpenSubWin);
                     break;
-                case ChatMsgType.自定义表情:
+                case ActionType.自定义表情:
                     await this.SendEmojiCore(msg);
                     break;
-                case ChatMsgType.发送文件:
+                case ActionType.发送文件:
                     await this.SendFileCore(msg);
                     break;
                 default:
@@ -244,9 +260,9 @@ namespace WxAutoCore.Components
                     }
                 );
             }
-            _actionQueueChannel.Put(new ChatMessage()
+            _actionQueueChannel.Put(new ChatActionMessage()
             {
-                Type = ChatMsgType.发送消息,
+                Type = ActionType.发送消息,
                 ToUser = who,
                 Message = message,
                 IsOpenSubWin = false
@@ -294,9 +310,9 @@ namespace WxAutoCore.Components
                     }
                 );
             }
-            _actionQueueChannel.Put(new ChatMessage()
+            _actionQueueChannel.Put(new ChatActionMessage()
             {
-                Type = ChatMsgType.发送消息,
+                Type = ActionType.发送消息,
                 ToUser = who,
                 Message = message,
                 IsOpenSubWin = true
@@ -321,9 +337,9 @@ namespace WxAutoCore.Components
         /// <param name="atUser">被@的用户</param>
         public void SendCurrentMessage(string message, string atUser = null)
         {
-            _actionQueueChannel.Put(new ChatMessage()
+            _actionQueueChannel.Put(new ChatActionMessage()
             {
-                Type = ChatMsgType.发送消息,
+                Type = ActionType.发送消息,
                 ToUser = null,
                 Message = message,
                 IsOpenSubWin = false
@@ -515,8 +531,8 @@ namespace WxAutoCore.Components
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
         public void SendFile(string who, OneOf<string, string[]> file, bool isOpenChat = false)
         {
-            ChatMessage msg = new ChatMessage();
-            msg.Type = ChatMsgType.发送文件;
+            ChatActionMessage msg = new ChatActionMessage();
+            msg.Type = ActionType.发送文件;
             msg.ToUser = who;
             msg.Payload = file;
             msg.IsOpenSubWin = isOpenChat;
@@ -544,8 +560,8 @@ namespace WxAutoCore.Components
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
         public void SendEmoji(string who, OneOf<int, string> emoji, bool isOpenChat = false)
         {
-            ChatMessage msg = new ChatMessage();
-            msg.Type = ChatMsgType.自定义表情;
+            ChatActionMessage msg = new ChatActionMessage();
+            msg.Type = ActionType.自定义表情;
             msg.ToUser = who;
             msg.Payload = emoji;
             msg.IsOpenSubWin = isOpenChat;
@@ -623,7 +639,7 @@ namespace WxAutoCore.Components
             }
         }
         //发送文件核心方法
-        private async Task SendFileCore(ChatMessage msg)
+        private async Task SendFileCore(ChatActionMessage msg)
         {
             try
             {
@@ -670,12 +686,12 @@ namespace WxAutoCore.Components
                 System.Windows.MessageBoxImage.Error);
         }
         // 发送表情核心方法
-        private async Task SendEmojiCore(ChatMessage msg)
+        private async Task SendEmojiCore(ChatActionMessage msg)
         {
             try
             {
                 OneOf<int, string> emoji = (OneOf<int, string>)msg.Payload;
-                msg.Type = ChatMsgType.发送消息;
+                msg.Type = ActionType.发送消息;
                 var message = "";
                 emoji.Switch(
                     (int emojiId) =>
@@ -720,11 +736,33 @@ namespace WxAutoCore.Components
         }
         /// <summary>
         /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会调用回调函数
+        /// 此方法需要自行处理好友是否通过，如果需要自动通过，请使用<see cref="AddNewFriendAutoPassedListener"/>
         /// </summary>
         /// <param name="callBack">回调函数</param>
-        public void AddNewUserListener(Action callBack)
+        public void AddNewFriendCustomPassedListener(Action<List<string>> callBack)
         {
-            _newUserActionList.Add(callBack);
+            AddNewFriendListener(callBack, null);
+        }
+        /// <summary>
+        /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会调用回调函数
+        /// </summary>
+        /// <param name="callBack">回调函数</param>
+        /// <param name="keyWord">关键字</param>
+        /// <param name="suffix">后缀</param>
+        /// <param name="label">标签</param>
+        public void AddNewFriendAutoPassedListener(Action<List<string>> callBack, string keyWord = null, string suffix = null, string label = null)
+        {
+            AddNewFriendListener(callBack, new FriendListenerOptions() { KeyWord = keyWord, Suffix = suffix, Label = label });
+        }
+
+        /// <summary>
+        /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会调用回调函数
+        /// </summary>
+        /// <param name="callBack">回调函数</param>
+        /// <param name="options">监听选项</param>
+        private void AddNewFriendListener(Action<List<string>> callBack, FriendListenerOptions options)
+        {
+            _newUserActionList.Add((callBack, options));
         }
         /// <summary>
         /// 移除监听消息

@@ -179,6 +179,25 @@ namespace WxAutoCore.Components
             }
         }
         /// <summary>
+        /// 移除单个好友
+        /// </summary>
+        /// <param name="friendName">好友名称</param>
+        /// <returns>是否成功</returns>
+        public bool RemoveFriend(string friendName)
+        {
+            return false;
+        }
+        /// <summary>
+        /// 移除特定后缀好友
+        /// 注意：<b>一次删除太多好友，可能会触发微信的风控机制，导致无法正常使用</b>
+        /// </summary>
+        /// <param name="suffix">后缀</param>
+        /// <returns>是否成功</returns>
+        public bool RemoveSuffixFriend(string suffix)
+        {
+            return false;
+        }
+        /// <summary>
         /// 通过所有新好友的核心方法
         /// </summary>
         /// <param name="keyWord">关键字,如果设置关键字，则返回包含关键字的新好友，如果没有设置，则返回所有新好友</param>
@@ -344,24 +363,7 @@ namespace WxAutoCore.Components
             return list;
         }
 
-        /// <summary>
-        /// 移除单个好友
-        /// </summary>
-        /// <param name="friendName">好友名称</param>
-        /// <returns>是否成功</returns>
-        public bool RemoveFriend(string friendName)
-        {
-            return false;
-        }
-        /// <summary>
-        /// 移除特定后缀好友
-        /// </summary>
-        /// <param name="suffix">后缀</param>
-        /// <returns>是否成功</returns>
-        public bool RemoveSuffixFriend(string suffix)
-        {
-            return false;
-        }
+
         /// <summary>
         /// 获取所有好友
         /// </summary>

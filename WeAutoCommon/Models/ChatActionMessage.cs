@@ -3,14 +3,14 @@ using WxAutoCommon.Enums;
 namespace WxAutoCommon.Models
 {
     /// <summary>
-    /// 聊天消息
+    /// 聊天消息或者操作类型
     /// </summary>
-    public class ChatMessage
+    public class ChatActionMessage
     {
         /// <summary>
         /// 消息类型
         /// </summary>
-        public ChatMsgType Type { get; set; }
+        public ActionType Type { get; set; }
         /// <summary>
         /// 发送给谁
         /// </summary>
