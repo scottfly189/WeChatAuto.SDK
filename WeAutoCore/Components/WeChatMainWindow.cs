@@ -78,7 +78,7 @@ namespace WxAutoCore.Components
         /// </summary>
         private void _InitNewUserListener()
         {
-            _newUserListenerThread = new Thread(() =>
+            _newUserListenerThread = new Thread(async () =>
             {
                 try
                 {
@@ -87,7 +87,7 @@ namespace WxAutoCore.Components
                     {
                         if (_newUserActionList.Count > 0)
                         {
-                            _FetchNewUserNoticeAction();
+                            await _FetchNewUserNoticeAction(_newUserListenerCancellationTokenSource.Token);
                         }
                         Thread.Sleep(WeChatConfig.NewUserListenerInterval * 1000);
                     }
@@ -106,16 +106,51 @@ namespace WxAutoCore.Components
             _newUserListenerThread.IsBackground = true;
             _newUserListenerThread.Start();
         }
-        private void _FetchNewUserNoticeAction()
+        private async Task _FetchNewUserNoticeAction(CancellationToken cancellationToken)
         {
             var resultFlag = _uiThreadInvoker.Run(automation =>
             {
+                var xPath = "//ToolBar[@Name='导航']/Button[@Name='通讯录']";
+                var button = _Window.FindFirstByXPath(xPath).AsButton();
+                if (button != null)
+                {
+                    var result = button.Patterns.Value.IsSupported;
+                    if (result)
+                    {
+                        var pattern = button.Patterns.Value.Pattern;
+                        if (pattern != null)
+                        {
+                            var value = pattern.Value;
+                            if (!string.IsNullOrEmpty(value.Value))
+                            {
+                                return true;
+                            }
+                        }
+                    }
+
+                }
                 return false;
             }).Result;
             if (resultFlag)
             {
-                _newUserActionList.ForEach(action => action.callBack(new List<string>()));
+                _newUserActionList.ForEach(async item =>
+                {
+                    ChatActionMessage msg = new ChatActionMessage()
+                    {
+                        Type = ActionType.添加好友,
+                        ToUser = "",
+                        Message = "",
+                        Payload = item.options,
+                        IsOpenSubWin = false,
+                    };
+                    var result = await _actionQueueChannel.PutAndWaitAsync(msg, cancellationToken);
+                    if (result != null && result is List<string> list)
+                    {
+                        item.callBack(list);
+                    }
+                });
             }
+            await Task.CompletedTask;
         }
         /// <summary>
         /// 清除所有事件及其他
@@ -172,6 +207,9 @@ namespace WxAutoCore.Components
                     break;
                 case ActionType.发送文件:
                     await this.SendFileCore(msg);
+                    break;
+                case ActionType.添加好友:
+                    await this.AddFriendCore(msg);
                     break;
                 default:
                     break;
@@ -716,6 +754,10 @@ namespace WxAutoCore.Components
                 Console.WriteLine("发送表情失败：" + ex.Message);
             }
         }
+        private async Task AddFriendCore(ChatActionMessage msg)
+        {
+            await Task.CompletedTask;
+        }
         #endregion
 
         #region 监听消息
@@ -741,7 +783,7 @@ namespace WxAutoCore.Components
         /// <param name="callBack">回调函数</param>
         public void AddNewFriendCustomPassedListener(Action<List<string>> callBack)
         {
-            AddNewFriendListener(callBack, null);
+            _AddNewFriendListener(callBack, null);
         }
         /// <summary>
         /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会调用回调函数
@@ -752,7 +794,7 @@ namespace WxAutoCore.Components
         /// <param name="label">标签</param>
         public void AddNewFriendAutoPassedListener(Action<List<string>> callBack, string keyWord = null, string suffix = null, string label = null)
         {
-            AddNewFriendListener(callBack, new FriendListenerOptions() { KeyWord = keyWord, Suffix = suffix, Label = label });
+            _AddNewFriendListener(callBack, new FriendListenerOptions() { KeyWord = keyWord, Suffix = suffix, Label = label });
         }
 
         /// <summary>
@@ -760,7 +802,7 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="callBack">回调函数</param>
         /// <param name="options">监听选项</param>
-        private void AddNewFriendListener(Action<List<string>> callBack, FriendListenerOptions options)
+        private void _AddNewFriendListener(Action<List<string>> callBack, FriendListenerOptions options)
         {
             _newUserActionList.Add((callBack, options));
         }

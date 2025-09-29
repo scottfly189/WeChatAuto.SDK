@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using WxAutoCommon.Enums;
 
 namespace WxAutoCommon.Models
@@ -23,6 +24,10 @@ namespace WxAutoCommon.Models
         /// 消息负载
         /// </summary>
         public object Payload { get; set; }
+        /// <summary>
+        /// 任务完成源
+        /// </summary>
+        public TaskCompletionSource<object> Tcs { get; set; }
         /// <summary>
         /// 是否打开聊天子窗口
         /// </summary>

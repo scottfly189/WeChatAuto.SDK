@@ -8,7 +8,7 @@ namespace WxAutoCommon.Models
     /// 动作队列通道
     /// </summary>
     /// <typeparam name="T">动作类型</typeparam>
-    public class ActionQueueChannel<T>
+    public class ActionQueueChannel<T> where T : ChatActionMessage
     {
         private readonly Channel<T> _channel = Channel.CreateBounded<T>(new BoundedChannelOptions(100)
         {
@@ -25,6 +25,19 @@ namespace WxAutoCommon.Models
         public bool Put(T item, CancellationToken cancellationToken = default)
         {
             return _channel.Writer.TryWrite(item);
+        }
+        /// <summary>
+        /// 写入动作并等待
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<object> PutAndWaitAsync(T item, CancellationToken cancellationToken = default)
+        {
+            TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
+            item.Tcs = tcs;
+            await _channel.Writer.WriteAsync(item, cancellationToken);
+            return await tcs.Task;
         }
         /// <summary>
         /// 读取动作

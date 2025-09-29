@@ -255,5 +255,19 @@ namespace WxAutoCore.Tests.Components
             Assert.True(true);
             await Task.Delay(60000);
         }
+
+        [Fact(DisplayName = "测试添加新好友监听-自定义通过")]
+        public async Task Test_AddNewFriendCustomPassedListener()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            window.AddNewFriendCustomPassedListener(list =>
+            {
+                _output.WriteLine($"添加好友: {list.Count}");
+            });
+            Assert.True(true);
+            await Task.Delay(600000000);
+        }
     }
 }
