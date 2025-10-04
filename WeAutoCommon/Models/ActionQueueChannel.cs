@@ -34,7 +34,7 @@ namespace WxAutoCommon.Models
         /// <returns></returns>
         public async Task<object> PutAndWaitAsync(T item, CancellationToken cancellationToken = default)
         {
-            TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
+            TaskCompletionSource<object> tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
             item.Tcs = tcs;
             await _channel.Writer.WriteAsync(item, cancellationToken);
             return await tcs.Task;

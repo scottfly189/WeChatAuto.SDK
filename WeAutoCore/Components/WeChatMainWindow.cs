@@ -98,7 +98,7 @@ namespace WxAutoCore.Components
                 }
                 catch (Exception e)
                 {
-                    _newUserListenerStarted.SetException(e);
+                    //_newUserListenerStarted.SetException(e);
                     Console.WriteLine("新用户监听线程异常，异常信息：" + e.Message);
                 }
             });
@@ -110,6 +110,7 @@ namespace WxAutoCore.Components
         {
             var resultFlag = _uiThreadInvoker.Run(automation =>
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 var xPath = "//ToolBar[@Name='导航']/Button[@Name='通讯录']";
                 var button = _Window.FindFirstByXPath(xPath).AsButton();
                 if (button != null)
@@ -121,13 +122,12 @@ namespace WxAutoCore.Components
                         if (pattern != null)
                         {
                             var value = pattern.Value;
-                            if (!string.IsNullOrEmpty(value.Value))
+                            if (!string.IsNullOrEmpty(value.Value) && int.Parse(value.Value) > 0)
                             {
                                 return true;
                             }
                         }
                     }
-
                 }
                 return false;
             }).Result;
@@ -194,7 +194,7 @@ namespace WxAutoCore.Components
         /// 消息分发
         /// <see cref="ChatActionMessage"/>
         /// </summary>
-        /// <param name="msg"></param>
+        /// <param name="msg">消息<see cref="ChatActionMessage"/></param>
         private async Task _DispatchMessage(ChatActionMessage msg)
         {
             switch (msg.Type)
@@ -756,7 +756,31 @@ namespace WxAutoCore.Components
         }
         private async Task AddFriendCore(ChatActionMessage msg)
         {
-            await Task.CompletedTask;
+            TaskCompletionSource<object> tcs = (TaskCompletionSource<object>)msg.Tcs;
+            FriendListenerOptions options = (FriendListenerOptions)msg.Payload;
+            try
+            {
+                if (options != null)
+                {
+                    //自动通过新好友后返回
+                    var list = _AddressBook.PassedAllNewFriend(options.KeyWord, options.Suffix, options.Label);
+                    tcs.SetResult(list);
+                }
+                else
+                {
+                    //仅获取所有新加好友列表，不自动通过，需要用户手动通过
+                    var list = _AddressBook.GetAllFriends();
+                    tcs.SetResult(list);
+                }
+
+                await tcs.Task;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("添加好友失败：" + ex.Message);
+                tcs.SetException(ex);
+                throw;
+            }
         }
         #endregion
 
