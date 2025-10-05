@@ -196,7 +196,7 @@ namespace WxAutoCore.Components
             _Conversations = new ConversationList(_Window, this, _uiThreadInvoker);  // 会话列表
             _AddressBook = new AddressBookList(_Window, this, _uiThreadInvoker);  // 通讯录
             _SubWinList = new SubWinList(_Window, this, _uiThreadInvoker);
-            _WxChatContent = new ChatContent(_Window, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane", this, _uiThreadInvoker);
+            _WxChatContent = new ChatContent(_Window, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane", this, _uiThreadInvoker, this);
         }
         /// <summary>
         /// 初始化订阅
@@ -875,10 +875,18 @@ namespace WxAutoCore.Components
         /// 4.当前微信窗口对象<see cref="WeChatMainWindow"/>，适用于全部操作，如给指定好友发送消息、发送文件、发送表情等
         /// </summary>
         /// <param name="nickName">好友名称</param>
-        /// <param name="callBack">回调函数</param>
+        /// <param name="callBack">回调函数,由好友提供</param>
         /// <param name="monitor">是否启用子窗口监听，如果子窗口被误关，监听器会自动重新打开子窗口</param>
-        public void AddListener(string nickName, Action<MessageBubble, List<MessageBubble>, Sender, WeChatMainWindow> callBack, bool monitor = true)
+        public async Task AddMessageListener(string nickName, Action<MessageBubble, List<MessageBubble>, Sender, WeChatMainWindow> callBack, bool monitor = true)
         {
+            await _SubWinList.CheckSubWinExistAndOpen(nickName);
+            await Task.Delay(1000);
+            if (monitor)
+            {
+                _SubWinList.RegisterMonitorSubWin(nickName);
+            }
+            var subWin = _SubWinList.GetSubWin(nickName);
+            subWin.AddMessageListener(callBack);
 
         }
         /// <summary>
@@ -913,14 +921,9 @@ namespace WxAutoCore.Components
         {
             _AddNewFriendListener(nickNameList =>
             {
-                nickNameList.ForEach(nickName =>
+                nickNameList.ForEach(async nickName =>
                 {
-
-                    var subWin = _SubWinList.GetSubWin(nickName);
-                    if (subWin != null)
-                    {
-                        this.AddListener(nickName, callBack, true);
-                    }
+                    await this.AddMessageListener(nickName, callBack, true);
                 });
             }, new FriendListenerOptions() { KeyWord = keyWord, Suffix = suffix, Label = label });
         }

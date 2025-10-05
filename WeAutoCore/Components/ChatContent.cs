@@ -18,6 +18,7 @@ namespace WxAutoCore.Components
         private string _XPath;
         private AutomationElement _ChatContentRoot;
         private UIThreadInvoker _uiThreadInvoker;
+        private WeChatMainWindow _MainWxWindow;    //主窗口对象
         public AutomationElement ChatContentRoot
         {
             get
@@ -31,13 +32,14 @@ namespace WxAutoCore.Components
         }
         public ChatHeader ChatHeader => GetChatHeader();
         public ChatBody ChatBody => GetChatBody();
-        public ChatContent(Window window, ChatContentType chatContentType, string xPath, IWeChatWindow wxWindow, UIThreadInvoker uiThreadInvoker)
+        public ChatContent(Window window, ChatContentType chatContentType, string xPath, IWeChatWindow wxWindow, UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow)
         {
             _uiThreadInvoker = uiThreadInvoker;
             _Window = window;
             _ChatContentType = chatContentType;
             _XPath = xPath;
             _WxWindow = wxWindow;
+            _MainWxWindow = mainWxWindow;
         }
         /// <summary>
         /// 获取聊天标题
@@ -92,7 +94,7 @@ namespace WxAutoCore.Components
             var title = GetFullTitle();
             var chatBodyRoot = _uiThreadInvoker.Run(automation => ChatContentRoot.FindFirstByXPath("/Pane[2]")).Result;
             DrawHightlightHelper.DrawHightlight(chatBodyRoot, _uiThreadInvoker);
-            var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow,title, _uiThreadInvoker);
+            var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow, title, _uiThreadInvoker,this._MainWxWindow);
             return chatBody;
         }
     }

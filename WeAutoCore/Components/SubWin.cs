@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using FlaUI.Core.AutomationElements;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Interface;
@@ -36,10 +38,18 @@ namespace WxAutoCore.Components
             NickName = title;
             _SelfWindow = window;
             _MainWxWindow = wxWindow;
-            _ChatContent = new ChatContent(_SelfWindow, ChatContentType.SubWindow, "/Pane[2]/Pane/Pane[2]/Pane/Pane", this, uiThreadInvoker);
+            _ChatContent = new ChatContent(_SelfWindow, ChatContentType.SubWindow, "/Pane[2]/Pane/Pane[2]/Pane/Pane", this, uiThreadInvoker,this._MainWxWindow);
             _ProcessId = _SelfWindow.Properties.ProcessId.Value;
         }
 
+        /// <summary>
+        /// 添加消息监听
+        /// </summary>
+        /// <param name="callBack"></param>
+        public void AddMessageListener(Action<MessageBubble, List<MessageBubble>, Sender, WeChatMainWindow> callBack)
+        {
+            _ChatContent.ChatBody.AddListener(callBack);
+        }
         public void Close()
         {
             _SelfWindow.Close();

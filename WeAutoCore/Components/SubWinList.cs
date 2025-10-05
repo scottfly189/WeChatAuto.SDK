@@ -24,8 +24,8 @@ namespace WxAutoCore.Components
         private CancellationTokenSource _MonitorSubWinCancellationTokenSource = new CancellationTokenSource();
         private TaskCompletionSource<bool> _MonitorSubWinTaskCompletionSource = new TaskCompletionSource<bool>();
         private Thread _MonitorSubWinThread;
-        private WeChatMainWindow _MainWxWindow;
-        private Window _MainFlaUIWindow;
+        private WeChatMainWindow _MainWxWindow;   //主窗口对象
+        private Window _MainFlaUIWindow;   //主窗口FlaUI的window
         private UIThreadInvoker _uiThreadInvoker;
         /// <summary>
         /// 子窗口列表构造函数
