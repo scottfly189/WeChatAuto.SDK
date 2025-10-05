@@ -45,6 +45,11 @@ namespace WxAutoCommon.Configs
         /// </summary>
         public static int NewUserListenerInterval { get; set; } = 5;
 
+        /// <summary>
+        /// 监听子窗口时间间隔，单位秒
+        /// </summary>
+        public static int MonitorSubWinInterval { get; set; } = 5;
+
 
         /// <summary>
         /// 是否启用调试模式

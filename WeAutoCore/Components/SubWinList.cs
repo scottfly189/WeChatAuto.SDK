@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.Core;
@@ -6,6 +7,11 @@ using System.Linq;
 using FlaUI.Core.Tools;
 using System;
 using WxAutoCommon.Utils;
+using System.Threading;
+using System.Threading.Tasks;
+using WxAutoCommon.Configs;
+using WxAutoCommon.Enums;
+using WxAutoCommon.Models;
 
 namespace WxAutoCore.Components
 {
@@ -14,6 +20,10 @@ namespace WxAutoCore.Components
     /// </summary>
     public class SubWinList
     {
+        private ConcurrentBag<string> _MonitorSubWinNames = new ConcurrentBag<string>();
+        private CancellationTokenSource _MonitorSubWinCancellationTokenSource = new CancellationTokenSource();
+        private TaskCompletionSource<bool> _MonitorSubWinTaskCompletionSource = new TaskCompletionSource<bool>();
+        private Thread _MonitorSubWinThread;
         private WeChatMainWindow _MainWxWindow;
         private Window _MainFlaUIWindow;
         private UIThreadInvoker _uiThreadInvoker;
@@ -27,6 +37,37 @@ namespace WxAutoCore.Components
             _uiThreadInvoker = uiThreadInvoker;
             _MainWxWindow = wxWindow;
             _MainFlaUIWindow = window;
+            _InitMonitorSubWinThread();
+            _MonitorSubWinTaskCompletionSource.Task.Wait();
+        }
+        /// <summary>
+        /// 初始化监听子窗口线程
+        /// </summary>
+        private void _InitMonitorSubWinThread()
+        {
+            _MonitorSubWinThread = new Thread(async () =>
+            {
+                _MonitorSubWinTaskCompletionSource.SetResult(true);
+                while (!_MonitorSubWinCancellationTokenSource.IsCancellationRequested)
+                {
+                    var subWinNames = GetAllSubWinNames();
+                    if (!_MonitorSubWinNames.IsEmpty)
+                    {
+                        var notExistSubWinNames = _MonitorSubWinNames.Except(subWinNames);
+                        if (notExistSubWinNames.Any())
+                        {
+                            foreach (var notExistSubWinName in notExistSubWinNames)
+                            {
+                                await this.CheckSubWinExistAndOpen(notExistSubWinName);
+                            }
+                        }
+                    }
+                    await Task.Delay(WeChatConfig.MonitorSubWinInterval * 1000);
+                }
+            });
+            _MonitorSubWinThread.IsBackground = true;
+            _MonitorSubWinThread.Priority = ThreadPriority.Lowest;
+            _MonitorSubWinThread.Start();
         }
         /// <summary>
         /// 得到所有子窗口名称
@@ -45,6 +86,7 @@ namespace WxAutoCore.Components
             }).Result;
             if (subWinRetry.Success)
             {
+                Thread.Sleep(1000);
                 return subWinRetry.Result.ToList().Select(subWin => subWin.Name).ToList();
             }
             return new List<string>();
@@ -56,8 +98,36 @@ namespace WxAutoCore.Components
         /// <returns></returns>
         public bool CheckSubWinIsOpen(string name)
         {
-            var subWin = GetSubWin(name);
-            return subWin != null;
+            var subWin = _uiThreadInvoker.Run(automation =>
+             {
+                 var desktop = automation.GetDesktop();
+                 return Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("ChatWnd")
+                         .And(cf.ByControlType(ControlType.Window)
+                         .And(cf.ByProcessId(_MainFlaUIWindow.Properties.ProcessId))
+                         .And(cf.ByName(name)))),
+                         timeout: TimeSpan.FromSeconds(5),
+                         interval: TimeSpan.FromMilliseconds(200));
+             }).Result;
+
+            return subWin.Success;
+        }
+
+        /// <summary>
+        /// 判断子窗口是否存在，如果未存在，则打开
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public async Task CheckSubWinExistAndOpen(string name)
+        {
+            if (!CheckSubWinIsOpen(name))
+            {
+                await _MainWxWindow.ActionQueueChannel.PutAndWaitAsync(new ChatActionMessage()
+                {
+                    Type = ActionType.打开子窗口,
+                    ToUser = name,
+                    IsOpenSubWin = true
+                });
+            }
         }
 
         /// <summary>
@@ -67,9 +137,9 @@ namespace WxAutoCore.Components
         /// <returns>子窗口对象<see cref="SubWin"/></returns>
         public SubWin GetSubWin(string name)
         {
-            var desktop = _uiThreadInvoker.Run(automation => automation.GetDesktop()).Result;
             var subWin = _uiThreadInvoker.Run(automation =>
             {
+                var desktop = automation.GetDesktop();
                 return Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("ChatWnd")
                         .And(cf.ByControlType(ControlType.Window)
                         .And(cf.ByProcessId(_MainFlaUIWindow.Properties.ProcessId))
@@ -79,7 +149,7 @@ namespace WxAutoCore.Components
             }).Result;
             if (subWin.Success)
             {
-                return new SubWin(subWin.Result.AsWindow(), _MainWxWindow, _uiThreadInvoker);
+                return new SubWin(subWin.Result.AsWindow(), _MainWxWindow, _uiThreadInvoker, name);
             }
             return null;
         }
@@ -102,6 +172,26 @@ namespace WxAutoCore.Components
         public void CloseSubWin(string name)
         {
             GetSubWin(name).Close();
+        }
+        /// <summary>
+        /// 注册监听子窗口
+        /// </summary>
+        /// <param name="name"></param>
+        public void RegisterMonitorSubWin(string name)
+        {
+            if (!_MonitorSubWinNames.Contains(name))
+            {
+                _MonitorSubWinNames.Add(name);
+            }
+        }
+
+        /// <summary>
+        /// 取消监听子窗口
+        /// </summary>
+        /// <param name="name"></param>
+        public void UnregisterMonitorSubWin(string name)
+        {
+            _MonitorSubWinNames = new ConcurrentBag<string>(_MonitorSubWinNames.Where(item => item != name));
         }
     }
 }

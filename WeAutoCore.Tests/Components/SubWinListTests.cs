@@ -68,5 +68,34 @@ namespace WxAutoCore.Tests.Components
             isOpen = subWinList.CheckSubWinIsOpen(subWinName);
             Assert.False(isOpen);
         }
+
+        [Theory(DisplayName = "测试判断子窗口是否存在，如果不存在，则打开")]
+        [InlineData(".NET-AI实时快讯3群")]
+        public async Task TestCheckSubWinExistAndOpen(string subWinName)
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var subWinList = window.SubWinList;
+            await subWinList.CheckSubWinExistAndOpen(subWinName);
+            _output.WriteLine($"子窗口{subWinName}已打开");
+
+            Assert.True(true);
+        }
+
+
+        [Theory(DisplayName = "测试监听子窗口")]
+        [InlineData(".NET-AI实时快讯3群")]
+        public async Task TestCheckSubWinMonitor(string subWinName)
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var subWinList = window.SubWinList;
+            subWinList.RegisterMonitorSubWin(subWinName);
+
+            Assert.True(true);
+            await WeAutomation.Wait(TimeSpan.FromSeconds(50000));
+        }
     }
 }

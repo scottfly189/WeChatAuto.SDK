@@ -92,9 +92,9 @@ namespace WxAutoCore.Tests.Components
 
         [Theory(DisplayName = "测试通过所有新好友")]
         // [InlineData("test", "test", "test")]
-        [InlineData("","test","test")]
+        [InlineData("","test","测试")]
         public void TestPassedAllNewFriend(string keyWord, string suffix, string label)
-        {
+         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;

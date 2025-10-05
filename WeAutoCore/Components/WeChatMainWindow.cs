@@ -19,6 +19,7 @@ using System.Threading;
 using WxAutoCommon.Configs;
 using WxAutoCommon.Classes;
 using System.Windows.Documents;
+using FlaUI.Core.Tools;
 
 
 
@@ -54,9 +55,11 @@ namespace WxAutoCore.Components
         private volatile bool _disposed = false;
         private Thread _newUserListenerThread;
         private CancellationTokenSource _newUserListenerCancellationTokenSource = new CancellationTokenSource();
-        private TaskCompletionSource<bool> _newUserListenerStarted = new TaskCompletionSource<bool>();
         private List<(Action<List<string>> callBack, FriendListenerOptions options)> _newUserActionList = new List<(Action<List<string>> callBack, FriendListenerOptions options)>();
+        private TaskCompletionSource<bool> _newUserListenerStarted = new TaskCompletionSource<bool>();
         public Window SelfWindow { get => _Window; set => _Window = value; }
+
+        public ActionQueueChannel<ChatActionMessage> ActionQueueChannel => _actionQueueChannel;
 
         /// <summary>
         /// 微信客户端窗口构造函数
@@ -82,6 +85,7 @@ namespace WxAutoCore.Components
             {
                 try
                 {
+                    IMEHelper.DisableImeForCurrentThread();
                     _newUserListenerStarted.SetResult(true);
                     while (!_newUserListenerCancellationTokenSource.IsCancellationRequested)
                     {
@@ -98,8 +102,8 @@ namespace WxAutoCore.Components
                 }
                 catch (Exception e)
                 {
-                    //_newUserListenerStarted.SetException(e);
                     Console.WriteLine("新用户监听线程异常，异常信息：" + e.Message);
+                    throw;
                 }
             });
             _newUserListenerThread.Priority = ThreadPriority.Lowest;
@@ -110,26 +114,44 @@ namespace WxAutoCore.Components
         {
             var resultFlag = _uiThreadInvoker.Run(automation =>
             {
-                cancellationToken.ThrowIfCancellationRequested();
-                var xPath = "//ToolBar[@Name='导航']/Button[@Name='通讯录']";
-                var button = _Window.FindFirstByXPath(xPath).AsButton();
-                if (button != null)
+                try
                 {
-                    var result = button.Patterns.Value.IsSupported;
-                    if (result)
+                    IMEHelper.DisableImeForCurrentThread();
+                    var xPath = "//ToolBar[@Name='导航']/Button[@Name='通讯录']";
+                    if (!AutomationValid.IsValid(_Window))
                     {
-                        var pattern = button.Patterns.Value.Pattern;
-                        if (pattern != null)
+                        var winResult = Retry.WhileNull(() => automation.GetDesktop().FindFirstChild(cf => cf.ByName("微信").And(cf.ByClassName("WeChatMainWndForPC")).And(cf.ByProcessId(_Window.Properties.ProcessId))).AsWindow(),
+                            timeout: TimeSpan.FromSeconds(5),
+                            interval: TimeSpan.FromMilliseconds(200));
+                        if (winResult.Success)
                         {
-                            var value = pattern.Value;
-                            if (!string.IsNullOrEmpty(value.Value) && int.Parse(value.Value) > 0)
+                            _Window = winResult.Result;
+                        }
+                    }
+                    var button = _Window.FindFirstByXPath(xPath)?.AsButton();
+                    if (button != null)
+                    {
+                        var result = button.Patterns.Value.IsSupported;
+                        if (result)
+                        {
+                            var pattern = button.Patterns.Value.Pattern;
+                            if (pattern != null)
                             {
-                                return true;
+                                var value = pattern.Value;
+                                if (!string.IsNullOrEmpty(value.Value) && int.Parse(value.Value) > 0)
+                                {
+                                    return true;
+                                }
                             }
                         }
                     }
+                    return false;
                 }
-                return false;
+                catch (Exception ex)
+                {
+                    Console.WriteLine("新用户监听线程异常，异常信息：" + ex.Message);
+                    return false;
+                }
             }).Result;
             if (resultFlag)
             {
@@ -210,6 +232,9 @@ namespace WxAutoCore.Components
                     break;
                 case ActionType.添加好友:
                     await this.AddFriendCore(msg);
+                    break;
+                case ActionType.打开子窗口:
+                    await this.OpenSubWinCore(msg);
                     break;
                 default:
                     break;
@@ -480,6 +505,20 @@ namespace WxAutoCore.Components
             }
             return false;
         }
+        //此用户是否在会话列表中，如果存在，则打开或者点击此会话，并且发送消息
+        private async Task<bool> _IsInConversation(string who)
+        {
+            var conversations = this.Conversations.GetVisibleConversationTitles();
+            if (conversations.Contains(who))
+            {
+                this.Conversations.DoubleClickConversation(who);
+                Wait.UntilInputIsProcessed();
+                return true;
+
+            }
+            await Task.CompletedTask;
+            return false;
+        }
         //此用户是否在会话列表中，如果存在，则打开或者点击此会话，并且发送文件
         private async Task<bool> _IsInConversationFile(string who, string[] files, bool isOpenChat)
         {
@@ -529,6 +568,22 @@ namespace WxAutoCore.Components
                 }
             }
             this.Search.ClearText();
+            return false;
+        }
+        //此用户是否在搜索结果中
+        private async Task<bool> _IsSearch(string who)
+        {
+            this.Search.SearchChat(who);
+            await Task.Delay(1000);
+            var conversations = this.Conversations.GetVisibleConversationTitles();
+            if (conversations.Contains(who))
+            {
+                this.Conversations.DoubleClickConversation(who);
+                Wait.UntilInputIsProcessed();
+                this.Search.ClearText();
+                return true;
+
+            }
             return false;
         }
         //此用户是否在搜索结果中，如果存在，则打开或者点击此会话，并且发送文件
@@ -754,6 +809,32 @@ namespace WxAutoCore.Components
                 Console.WriteLine("发送表情失败：" + ex.Message);
             }
         }
+        private async Task OpenSubWinCore(ChatActionMessage msg)
+        {
+            TaskCompletionSource<object> tcs = (TaskCompletionSource<object>)msg.Tcs;
+            try
+            {
+                _Navigation.SwitchNavigation(NavigationType.聊天);
+                string who = msg.ToUser;
+                if (await _IsInConversation(who))
+                {
+                    tcs.SetResult(true);
+                    return;
+                }
+                if (await _IsSearch(who))
+                {
+                    tcs.SetResult(true);
+                    return;
+                }
+                tcs.SetResult(false);
+            }
+            catch (Exception ex)
+            {
+                tcs.SetException(ex);
+            }
+
+            await tcs.Task;
+        }
         private async Task AddFriendCore(ChatActionMessage msg)
         {
             TaskCompletionSource<object> tcs = (TaskCompletionSource<object>)msg.Tcs;
@@ -819,6 +900,29 @@ namespace WxAutoCore.Components
         public void AddNewFriendAutoPassedListener(Action<List<string>> callBack, string keyWord = null, string suffix = null, string label = null)
         {
             _AddNewFriendListener(callBack, new FriendListenerOptions() { KeyWord = keyWord, Suffix = suffix, Label = label });
+        }
+
+        /// <summary>
+        /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会自动通过此用户，并且将此用户打开到子窗口，当有新消息时，会调用回调函数
+        /// </summary>
+        /// <param name="callBack">回调函数</param>
+        /// <param name="keyWord">关键字</param>
+        /// <param name="suffix">后缀</param>
+        /// <param name="label">标签</param>
+        public void AddNewFriendAutoPassedAndOpenSubWinListener(Action<MessageBubble, List<MessageBubble>, Sender, WeChatMainWindow> callBack, string keyWord = null, string suffix = null, string label = null)
+        {
+            _AddNewFriendListener(nickNameList =>
+            {
+                nickNameList.ForEach(nickName =>
+                {
+
+                    var subWin = _SubWinList.GetSubWin(nickName);
+                    if (subWin != null)
+                    {
+                        this.AddListener(nickName, callBack, true);
+                    }
+                });
+            }, new FriendListenerOptions() { KeyWord = keyWord, Suffix = suffix, Label = label });
         }
 
         /// <summary>

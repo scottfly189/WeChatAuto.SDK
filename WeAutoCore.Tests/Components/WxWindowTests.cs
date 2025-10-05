@@ -270,6 +270,7 @@ namespace WxAutoCore.Tests.Components
             await Task.Delay(600000000);
         }
 
+        //实际测试好象长时间放置线程有问题.
         [Fact(DisplayName = "测试添加新好友监听-自动通过")]
         public async Task Test_AddNewFriendAutoPassedListener()
         {
@@ -279,7 +280,7 @@ namespace WxAutoCore.Tests.Components
             window.AddNewFriendAutoPassedListener(list =>
             {
                 _output.WriteLine($"添加好友: {list.Count}");
-            });
+            }, null, "test", "测试");
             Assert.True(true);
             await Task.Delay(600000000);
         }
