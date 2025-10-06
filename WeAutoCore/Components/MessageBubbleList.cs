@@ -34,17 +34,7 @@ namespace WxAutoCore.Components
             _uiThreadInvoker = uiThreadInvoker;
         }
 
-        public void AddListener(Action<MessageBubble, List<MessageBubble>, Sender, WeChatMainWindow> callBack)
-        {
-            _BubbleListRoot.RegisterStructureChangedEvent(TreeScope.Children, (element, changeType, changeIds) =>
-            {
-                if (changeType == StructureChangeType.ChildAdded)
-                {
-                    var bubbles = GetBubbles();
-                    // callBack(element, bubbles, _WxWindow.Sender, _WxWindow);
-                }
-            });
-        }
+
         /// <summary>
         /// 获取聊天类型
         /// </summary>

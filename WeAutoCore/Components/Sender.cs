@@ -15,6 +15,8 @@ using System;
 using WxAutoCore.Extentions;
 using WxAutoCommon.Interface;
 using System.Text;
+using OneOf;
+using WeAutoCommon.Classes;
 
 namespace WxAutoCore.Components
 {
@@ -128,6 +130,34 @@ namespace WxAutoCore.Components
             _WxWindow.SilenceClickExt(button);
         }
         /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <param name="message">消息内容</param>
+        /// <param name="atUser">被@的用户</param>
+        public void SendMessage(string message, OneOf<string, string[]> atUser = default)
+        {
+            if (atUser.Value != default)
+            {
+                atUser.Switch(
+                    (string user) =>
+                    {
+                        message = $"@{user} {message}";
+                    },
+                    (string[] atUsers) =>
+                    {
+                        var atUserList = atUsers.ToList();
+                        var atUserString = "";
+                        atUserList.ForEach(user =>
+                        {
+                            atUserString += $"@{user} ";
+                        });
+                        message = $"{atUserString} {message}";
+                    }
+                );
+            }
+            this.SendMessage(message);
+        }
+        /// <summary>
         /// 发送文件
         /// </summary>
         /// <param name="files">文件路径列表</param>
@@ -137,6 +167,29 @@ namespace WxAutoCore.Components
 
             var button = SendButton;
             _WxWindow.SilenceClickExt(button);
+        }
+        /// <summary>
+        /// 发送表情
+        /// </summary>
+        /// <param name="emoji">表情名称或者描述或者索引</param>
+        public void SendEmoji(OneOf<int, string> emoji)
+        {
+            var message = "";
+            emoji.Switch(
+                (int emojiId) =>
+                {
+                    message = EmojiListHelper.Items.FirstOrDefault(item => item.Index == emojiId)?.Value ?? EmojiListHelper.Items[0].Value;
+                },
+                (string emojiName) =>
+                {
+                    message = emojiName;
+                    if (!(message.StartsWith("[") && message.EndsWith("]")))
+                    {
+                        message = EmojiListHelper.Items.FirstOrDefault(item => item.Description == emojiName)?.Value ?? message;
+                    }
+                }
+            );
+            this.SendMessage(message);
         }
     }
 }

@@ -304,7 +304,7 @@ namespace WxAutoCore.Components
         /// <param name="atUser">被@的用户</param>
         public async Task SendWho(string who, string message, OneOf<string, string[]> atUser = default)
         {
-            if (atUser.Value != null)
+            if (atUser.Value != default)
             {
                 atUser.Switch(
                     (string user) =>
