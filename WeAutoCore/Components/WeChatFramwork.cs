@@ -116,7 +116,7 @@ namespace WxAutoCore.Components
             var taskBarRoot = _uiThreadInvoker.Run(automation =>
                 automation.GetDesktop().FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd")))
             ).Result;
-            var wxNotifyList = _uiThreadInvoker.Run(automation =>
+            var wxNotifyList = _uiThreadInvoker.Run(automation => 
                 Retry.WhileNull(() => taskBarRoot.FindFirstDescendant(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NOTIFY_ICON)
                     .And(cf.ByClassName("ToolbarWindow32").And(cf.ByControlType(ControlType.ToolBar))))
                     .FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME).And(cf.ByControlType(ControlType.Button))),

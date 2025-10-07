@@ -138,6 +138,7 @@ namespace WxAutoCore.Components
                 {
                     var button = retryElement.Result.AsButton();
                     DrawHightlightHelper.DrawHightlight(button, _uiThreadInvoker);
+                    _Window.SetForeground();
                     button.DoubleClick();
                 }
             }

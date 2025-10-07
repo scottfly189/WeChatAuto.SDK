@@ -50,19 +50,27 @@ namespace WxAutoCore.Components
                 _MonitorSubWinTaskCompletionSource.SetResult(true);
                 while (!_MonitorSubWinCancellationTokenSource.IsCancellationRequested)
                 {
-                    var subWinNames = GetAllSubWinNames();
-                    if (!_MonitorSubWinNames.IsEmpty)
+                    try
                     {
-                        var notExistSubWinNames = _MonitorSubWinNames.Except(subWinNames);
-                        if (notExistSubWinNames.Any())
+                        var subWinNames = GetAllSubWinNames();
+                        if (!_MonitorSubWinNames.IsEmpty)
                         {
-                            foreach (var notExistSubWinName in notExistSubWinNames)
+                            var notExistSubWinNames = _MonitorSubWinNames.Except(subWinNames);
+                            if (notExistSubWinNames.Any())
                             {
-                                await this.CheckSubWinExistAndOpen(notExistSubWinName);
+                                foreach (var notExistSubWinName in notExistSubWinNames)
+                                {
+                                    await this.CheckSubWinExistAndOpen(notExistSubWinName);
+                                }
                             }
                         }
+                        await Task.Delay(WeChatConfig.MonitorSubWinInterval * 1000);
                     }
-                    await Task.Delay(WeChatConfig.MonitorSubWinInterval * 1000);
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("线程发生错误:" + ex.ToString());
+                        throw ex;
+                    }
                 }
             });
             _MonitorSubWinThread.IsBackground = true;
@@ -75,19 +83,21 @@ namespace WxAutoCore.Components
         /// <returns></returns>
         public List<string> GetAllSubWinNames()
         {
-            var desktop = _uiThreadInvoker.Run(automation => automation.GetDesktop()).Result;
             var subWinRetry = _uiThreadInvoker.Run(automation =>
             {
-                return Retry.WhileNull(() => desktop.FindAllChildren(cf => cf.ByClassName("ChatWnd")
+                var desktop = automation.GetDesktop();
+                var list = Retry.WhileNull(() => desktop.FindAllChildren(cf => cf.ByClassName("ChatWnd")
                         .And(cf.ByControlType(ControlType.Window)
                         .And(cf.ByProcessId(_MainFlaUIWindow.Properties.ProcessId)))),
                         timeout: TimeSpan.FromSeconds(10),
                         interval: TimeSpan.FromMilliseconds(200));
+
+                return list.Result.ToList().Select(subWin => subWin.Name).ToList();
             }).Result;
-            if (subWinRetry.Success)
+            if (subWinRetry != null)
             {
                 Thread.Sleep(1000);
-                return subWinRetry.Result.ToList().Select(subWin => subWin.Name).ToList();
+                return subWinRetry;
             }
             return new List<string>();
         }
