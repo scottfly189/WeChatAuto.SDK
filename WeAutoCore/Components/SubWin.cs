@@ -46,9 +46,16 @@ namespace WxAutoCore.Components
         /// 添加消息监听
         /// </summary>
         /// <param name="callBack"></param>
-        public void AddMessageListener(Action<MessageBubble, List<MessageBubble>, Sender, WeChatMainWindow> callBack)
+        public void AddMessageListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow> callBack)
         {
             _ChatContent.ChatBody.AddListener(callBack);
+        }
+        /// <summary>
+        /// 停止消息监听
+        /// </summary>
+        public void StopListener()
+        {
+            _ChatContent.ChatBody.StopListener();
         }
         public void Close()
         {

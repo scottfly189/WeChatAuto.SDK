@@ -23,8 +23,8 @@ namespace WxAutoCore.Components
         private string _Title;
         private AutomationElement _BubbleListRoot;
         private UIThreadInvoker _uiThreadInvoker;
-        public List<MessageBubble> Bubbles => GetBubbles();
-        public ListBox BubbleListRoot => _BubbleListRoot.AsListBox();   //用于订阅事件
+        public List<MessageBubble> Bubbles => GetVisibleBubbles();
+        public ListBox BubbleListRoot => _BubbleListRoot.AsListBox();
         public MessageBubbleList(Window selfWindow, AutomationElement bubbleListRoot, IWeChatWindow wxWindow, string title, UIThreadInvoker uiThreadInvoker)
         {
             _SelfWindow = selfWindow;
@@ -33,7 +33,6 @@ namespace WxAutoCore.Components
             _Title = title;
             _uiThreadInvoker = uiThreadInvoker;
         }
-
 
         /// <summary>
         /// 获取聊天类型
@@ -56,7 +55,7 @@ namespace WxAutoCore.Components
         /// <returns>最后一个气泡</returns>
         public MessageBubble GetLastBubble()
         {
-            MessageBubble[] bubbles = GetBubbles().ToArray();
+            MessageBubble[] bubbles = GetVisibleBubbles().ToArray();
             return bubbles.Count() > 0 ? bubbles.Last() : null;
         }
 
@@ -83,9 +82,20 @@ namespace WxAutoCore.Components
         }
 
         /// <summary>
-        /// 获取气泡列表
+        /// 获取气泡列表,不包括系统消息
+        /// 注意：可能速度比较慢,但是信息比较全
         /// </summary>
-        public List<MessageBubble> GetBubbles()
+        public List<MessageBubble> GetVisibleBubbles()
+        {
+            var bubbles = GetVisibleNativeBubbles();
+            return bubbles.Where(item=>item.MessageSource != MessageSourceType.系统消息).ToList();
+        }
+        /// <summary>
+        /// 获取气泡列表,包括系统消息
+        /// 注意：速度比较慢，但是信息比较全
+        /// </summary>
+        /// <returns>气泡列表<see cref="MessageBubble"/></returns>
+        public List<MessageBubble> GetVisibleNativeBubbles()
         {
             var listItemList = _uiThreadInvoker.Run(automation => _BubbleListRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
             List<MessageBubble> bubbles = new List<MessageBubble>();
@@ -139,6 +149,8 @@ namespace WxAutoCore.Components
 
             throw new Exception("气泡解析失败");
         }
+
+        #region 解释消息各类私有方法
         /// <summary>
         /// 解析除消息以外的气泡
         /// </summary>
@@ -290,8 +302,6 @@ namespace WxAutoCore.Components
             return bubble;
         }
 
-
-
         /// <summary>
         /// 解析文本消息
         /// </summary>
@@ -429,8 +439,6 @@ namespace WxAutoCore.Components
             _ParseReferencedMessage(children[1], listItem.Name, bubble);
             return bubble;
         }
-
-
 
         /// <summary>
         /// 解析引用消息
@@ -1742,9 +1750,6 @@ namespace WxAutoCore.Components
             return bubble;
         }
 
-
-
-
         /// <summary>
         /// 解析文件消息
         /// </summary>
@@ -2073,7 +2078,7 @@ namespace WxAutoCore.Components
             }
 
             // 其他情况直接返回原字符串
-            throw new Exception("日期字符串解析失败,收到的日期字符串为:"+date);
+            throw new Exception("日期字符串解析失败,收到的日期字符串为:" + date);
         }
 
         private bool MatchWeekFormat(string date, ref DateTime? refData)
@@ -2089,7 +2094,7 @@ namespace WxAutoCore.Components
                 { "六", DayOfWeek.Saturday },
                 { "天", DayOfWeek.Sunday }
             };
-            
+
             var match = regex.Match(date);
             if (match.Success)
             {
@@ -2099,15 +2104,15 @@ namespace WxAutoCore.Components
 
                 DayOfWeek targetDay = dayMap[dayStr];
                 DateTime now = DateTime.Now;
-                
+
                 // 计算本周目标日期的日期
                 int currentDayOfWeek = (int)now.DayOfWeek;
                 int targetDayOfWeek = (int)targetDay;
-                
+
                 // 计算本周目标日期
                 int daysToAdd = (targetDayOfWeek - currentDayOfWeek + 7) % 7;
                 DateTime thisWeekTarget = now.Date.AddDays(daysToAdd).AddHours(hour).AddMinutes(minute);
-                
+
                 // 如果本周的目标日期还没有到（即目标日期在未来），则认为是上周的日期
                 if (thisWeekTarget > now)
                 {
@@ -2119,10 +2124,11 @@ namespace WxAutoCore.Components
                     // 使用本周的日期
                     refData = thisWeekTarget;
                 }
-                
+
                 return true;
             }
             return false;
         }
+        #endregion 解释消息各类私有方法
     }
 }

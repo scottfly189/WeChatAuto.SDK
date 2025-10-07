@@ -69,6 +69,19 @@ namespace WxAutoCore.Components
         /// </summary>
         public string BeClapPerson { get; set; } = "";
 
+        public string BubbleHash
+        {
+            get
+            {
+                using (var sha256 = System.Security.Cryptography.SHA256.Create())
+                {
+                    var content = $"{this.MessageType.ToString()}|{this.MessageSource.ToString()}|{this.Sender}|{this.MessageContent}";
+                    var hashBytes = sha256.ComputeHash(System.Text.Encoding.UTF8.GetBytes(content));
+                    return Convert.ToBase64String(hashBytes);
+                }
+            }
+        }
+
         public override string ToString()
         {
             var serializableObject = new
@@ -83,6 +96,7 @@ namespace WxAutoCore.Components
                 this.BeReferencedPersion,
                 this.BeReferencedMessage,
                 MessageTime = this.MessageTime.HasValue ? this.MessageTime.Value.ToString() : "",
+                BubbleHash = this.BubbleHash,
             };
             return JsonConvert.SerializeObject(serializableObject, Formatting.Indented);
         }

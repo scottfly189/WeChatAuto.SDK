@@ -878,7 +878,7 @@ namespace WxAutoCore.Components
         /// <param name="nickName">好友名称</param>
         /// <param name="callBack">回调函数,由好友提供</param>
         /// <param name="monitor">是否启用子窗口监听，如果子窗口被误关，监听器会自动重新打开子窗口</param>
-        public async Task AddMessageListener(string nickName, Action<MessageBubble, List<MessageBubble>, Sender, WeChatMainWindow> callBack, bool monitor = true)
+        public async Task AddMessageListener(string nickName, Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow> callBack, bool monitor = true)
         {
             await _SubWinList.CheckSubWinExistAndOpen(nickName);
             await Task.Delay(1000);
@@ -918,7 +918,7 @@ namespace WxAutoCore.Components
         /// <param name="keyWord">关键字</param>
         /// <param name="suffix">后缀</param>
         /// <param name="label">标签</param>
-        public void AddNewFriendAutoPassedAndOpenSubWinListener(Action<MessageBubble, List<MessageBubble>, Sender, WeChatMainWindow> callBack, string keyWord = null, string suffix = null, string label = null)
+        public void AddNewFriendAutoPassedAndOpenSubWinListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow> callBack, string keyWord = null, string suffix = null, string label = null)
         {
             _AddNewFriendListener(nickNameList =>
             {
@@ -942,9 +942,9 @@ namespace WxAutoCore.Components
         /// 移除监听消息
         /// </summary>
         /// <param name="nickName">好友名称</param>
-        public void RemoveListener(string nickName)
+        public void StopMessageListener(string nickName)
         {
-
+            _SubWinList.GetSubWin(nickName)?.StopListener();
         }
         /// <summary>
         /// 移除添加新用户监听

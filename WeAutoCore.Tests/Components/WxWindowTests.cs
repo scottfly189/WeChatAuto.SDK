@@ -285,14 +285,14 @@ namespace WxAutoCore.Tests.Components
             Assert.True(true);
             await Task.Delay(600000000);
         }
-        
+
         [Fact(DisplayName = "测试添加消息监听")]
         public async Task Test_AddMessageListener()
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.AddMessageListener(WeChatConfig.TestFriendNickName, (message, bubbles, sender, mainWindow) =>
+            await window.AddMessageListener(WeChatConfig.TestFriendNickName, (newBubbles, bubblesList, sender, mainWindow) =>
             {
                 Trace.WriteLine($"消息: 测试");
             });
