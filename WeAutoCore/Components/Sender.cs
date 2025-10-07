@@ -99,10 +99,6 @@ namespace WxAutoCore.Components
         /// <returns>输入框</returns>
         public TextBox GetContentArea()
         {
-            ///Pane[2]/Pane/Pane[1]/Edit
-            // var xPath = "/Pane[2]/Pane/Pane[1]/Edit";
-            // var contentAreaRoot = _SenderRoot.FindFirstByXPath(xPath);
-            // var contentArea = contentAreaRoot.AsTextBox();
             var contentArea = _uiThreadInvoker.Run(automation => _SenderRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit))).Result.AsTextBox();
             return contentArea;
         }
@@ -112,9 +108,6 @@ namespace WxAutoCore.Components
         /// <returns>发送按钮</returns>
         public Button GetSendButton()
         {
-            // var xPath = "/Pane/Pane/Pane/Pane/Pane/Button";
-            // var senderBotton = _SenderRoot.FindAllByXPath(xPath);
-            // var sendButton = senderBotton.ToList().Select(btn => btn.AsButton()).FirstOrDefault(btn => btn.Name.Contains(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_SEND));
             var sendButton = _uiThreadInvoker.Run(automation => _SenderRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByText(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_SEND)))).Result.AsButton();
             DrawHightlightHelper.DrawHightlight(sendButton, _uiThreadInvoker);
             return sendButton;

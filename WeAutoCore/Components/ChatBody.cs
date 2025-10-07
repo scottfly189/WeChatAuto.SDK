@@ -24,7 +24,7 @@ namespace WxAutoCore.Components
         private AutomationElement _ChatBodyRoot;
         private WeChatMainWindow _MainWxWindow;
         private UIThreadInvoker _uiThreadInvoker;
-        public MessageBubbleList BubbleList => GetBubbleList();
+        public MessageBubbleList BubbleList => GetVisibleBubbleList();
         public Sender Sender => GetSender();
         public ChatBody(Window window, AutomationElement chatBodyRoot, IWeChatWindow wxWindow, string title, UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow)
         {
@@ -45,17 +45,17 @@ namespace WxAutoCore.Components
             _uiThreadInvoker.Run(automation =>
             {
                 var bubbleListRoot = _ChatBodyRoot.FindFirstByXPath(xPath);
-                
+
                 // 方案1：使用轮询检测（推荐）
                 StartMessagePolling(callBack, bubbleListRoot);
-                
+
                 // 方案2：保留原有事件监听作为补充
                 bubbleListRoot.RegisterStructureChangedEvent(TreeScope.Descendants, (element, changeType, changeIds) =>
                 {
                     Trace.WriteLine("StructureChanged - changeType:" + changeType.ToString());
                     Trace.WriteLine("StructureChanged - changeIds:" + changeIds.ToString());
                     Trace.WriteLine("StructureChanged - element:" + element.Name ?? "没有名字");
-                    
+
                     // 即使事件触发，也使用轮询来确保捕获到新消息
                     if (changeType == StructureChangeType.ChildAdded)
                     {
@@ -65,11 +65,11 @@ namespace WxAutoCore.Components
                 });
             });
         }
-        
+
         private System.Threading.Timer _pollingTimer;
         private int _lastMessageCount = 0;
         private string _lastContentHash = "";
-        
+
         /// <summary>
         /// 启动消息轮询检测
         /// </summary>
@@ -78,7 +78,7 @@ namespace WxAutoCore.Components
             // 初始化消息数量和内容哈希
             _lastMessageCount = GetCurrentMessageCount();
             _lastContentHash = GetCurrentContentHash();
-            
+
             // 启动定时器，每300ms检查一次
             _pollingTimer = new System.Threading.Timer(_ =>
             {
@@ -95,7 +95,7 @@ namespace WxAutoCore.Components
                         _lastContentHash = GetCurrentContentHash();
                         return;
                     }
-                    
+
                     // 方法2：检查内容哈希变化（更精确）
                     string currentHash = GetCurrentContentHash();
                     if (!string.IsNullOrEmpty(currentHash) && currentHash != _lastContentHash)
@@ -113,7 +113,7 @@ namespace WxAutoCore.Components
                 }
             }, null, 300, 300); // 300ms后开始，每300ms执行一次
         }
-        
+
         /// <summary>
         /// 获取当前消息数量
         /// </summary>
@@ -131,7 +131,7 @@ namespace WxAutoCore.Components
                 return _lastMessageCount; // 出错时返回上次的值
             }
         }
-        
+
         /// <summary>
         /// 获取当前内容哈希值（用于检测内容变化）
         /// </summary>
@@ -142,17 +142,17 @@ namespace WxAutoCore.Components
                 var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
                 var bubbleListRoot = _ChatBodyRoot.FindFirstByXPath(xPath);
                 var listItems = bubbleListRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
-                
+
                 // 只取最后几条消息的内容作为哈希依据，避免计算量过大
                 var recentItems = listItems.Skip(Math.Max(0, listItems.Length - 5));
                 var contentBuilder = new System.Text.StringBuilder();
-                
+
                 foreach (var item in recentItems)
                 {
                     contentBuilder.Append(item.Name ?? "");
                     contentBuilder.Append("|");
                 }
-                
+
                 // 计算哈希值
                 using (var sha256 = System.Security.Cryptography.SHA256.Create())
                 {
@@ -165,7 +165,7 @@ namespace WxAutoCore.Components
                 return _lastContentHash; // 出错时返回上次的值
             }
         }
-        
+
         /// <summary>
         /// 处理新消息
         /// </summary>
@@ -186,7 +186,7 @@ namespace WxAutoCore.Components
                 Trace.WriteLine($"处理新消息异常: {ex.Message}");
             }
         }
-        
+
         /// <summary>
         /// 停止消息监听
         /// </summary>
@@ -196,16 +196,57 @@ namespace WxAutoCore.Components
             _pollingTimer = null;
         }
         /// <summary>
-        /// 获取聊天内容区气泡列表
+        /// 获取聊天内容区可见气泡列表
         /// </summary>
-        /// <returns>聊天内容区气泡列表<see cref="BubbleList"/></returns>
-        public MessageBubbleList GetBubbleList()
+        /// <returns>聊天内容区可见气泡列表<see cref="BubbleList"/></returns>
+        public MessageBubbleList GetVisibleBubbleList()
         {
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
             var bubbleListRoot = _uiThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).Result;
             DrawHightlightHelper.DrawHightlight(bubbleListRoot, _uiThreadInvoker);
             MessageBubbleList bubbleList = new MessageBubbleList(_Window, bubbleListRoot, _WxWindow, _Title, _uiThreadInvoker);
             return bubbleList;
+        }
+        /// <summary>
+        /// 获取聊天内容区所有气泡列表
+        /// </summary>
+        /// <returns>聊天内容区所有气泡列表,仅返回气泡标题</returns>
+        public List<string> GetAllBubbleList()
+        {
+            var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
+            var rList = _uiThreadInvoker.Run(automation =>
+            {
+                var listBox = _ChatBodyRoot.FindFirstByXPath(xPath);
+                var list = new List<string>();
+                Button moreButton = listBox.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("查看更多消息"))).AsButton();
+                //显示全部消息
+                while (moreButton != null)
+                {
+                    var pattern = listBox.Patterns.Scroll.Pattern;
+                    if (pattern != null)
+                    {
+                        pattern.SetScrollPercent(0, 0);
+                    }
+                    moreButton.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                    moreButton.Click();
+                    Thread.Sleep(600);
+                    moreButton = listBox.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("查看更多消息"))).AsButton();
+                }
+                var listItems = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
+                foreach (var item in listItems)
+                {
+                    xPath = @"/Pane/Button";
+                    var subButton = item.FindFirstByXPath(xPath);
+                    if (subButton != null)
+                    {
+                        list.Add(item.Name ?? "未读取到气泡标题");
+                    }
+                }
+
+                return list;
+            }).Result;
+
+            return rList;
         }
         /// <summary>
         /// 获取聊天内容区发送者

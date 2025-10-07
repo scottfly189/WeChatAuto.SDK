@@ -189,6 +189,7 @@ namespace WxAutoCore.Components
             {
                 string xPath = $"/Pane/Pane/Pane/Pane/Pane/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_SESSION_BOX_CONVERSATION}'][@IsOffscreen='false']";
                 var root = _Window.FindFirstByXPath(xPath).AsListBox();
+                root.Focus();
                 return root;
             }).Result;
         }
@@ -206,8 +207,6 @@ namespace WxAutoCore.Components
         private List<string> _GetAllConversatItems()
         {
             var listBox = GetConversationRoot();
-            listBox.Focus();
-
             List<string> list = _uiThreadInvoker.Run(automation =>
             {
                 var subList = new List<string>();
