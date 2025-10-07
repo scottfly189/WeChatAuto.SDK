@@ -20,6 +20,7 @@ using WxAutoCommon.Configs;
 using WxAutoCommon.Classes;
 using System.Windows.Documents;
 using FlaUI.Core.Tools;
+using System.Diagnostics;
 
 
 
@@ -98,11 +99,11 @@ namespace WxAutoCore.Components
                 }
                 catch (OperationCanceledException)
                 {
-                    Console.WriteLine("新用户监听线程已停止，正常取消,不做处理");
+                    Trace.WriteLine("新用户监听线程已停止，正常取消,不做处理");
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("新用户监听线程异常，异常信息：" + e.Message);
+                    Trace.WriteLine("新用户监听线程异常，异常信息：" + e.Message);
                     throw;
                 }
             });
@@ -149,7 +150,7 @@ namespace WxAutoCore.Components
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("新用户监听线程异常，异常信息：" + ex.Message);
+                    Trace.WriteLine("新用户监听线程异常，异常信息：" + ex.Message);
                     return false;
                 }
             }).Result;
@@ -728,7 +729,7 @@ namespace WxAutoCore.Components
             }
             catch (Exception ex)
             {
-                Console.WriteLine("发送消息失败：" + ex.Message);
+                Trace.WriteLine("发送消息失败：" + ex.Message);
             }
         }
         //发送文件核心方法
@@ -750,7 +751,7 @@ namespace WxAutoCore.Components
             }
             catch (Exception ex)
             {
-                Console.WriteLine("发送文件失败：" + ex.Message);
+                Trace.WriteLine("发送文件失败：" + ex.Message);
             }
         }
         //发送文件核心方法
@@ -806,7 +807,7 @@ namespace WxAutoCore.Components
             }
             catch (Exception ex)
             {
-                Console.WriteLine("发送表情失败：" + ex.Message);
+                Trace.WriteLine("发送表情失败：" + ex.Message);
             }
         }
         private async Task OpenSubWinCore(ChatActionMessage msg)
@@ -858,7 +859,7 @@ namespace WxAutoCore.Components
             }
             catch (Exception ex)
             {
-                Console.WriteLine("添加好友失败：" + ex.Message);
+                Trace.WriteLine("添加好友失败：" + ex.Message);
                 tcs.SetException(ex);
                 throw;
             }

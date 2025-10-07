@@ -13,6 +13,7 @@ using System;
 using System.Linq;
 using System.Diagnostics;
 using System.Threading;
+using WxAutoCommon.Configs;
 
 namespace WxAutoCore.Components
 {
@@ -26,6 +27,9 @@ namespace WxAutoCore.Components
         private UIThreadInvoker _uiThreadInvoker;
         public MessageBubbleList BubbleList => GetVisibleBubbleList();
         public Sender Sender => GetSender();
+        private System.Threading.Timer _pollingTimer;
+        private int _lastMessageCount = 0;
+        private string _lastContentHash = "";
         public ChatBody(Window window, AutomationElement chatBodyRoot, IWeChatWindow wxWindow, string title, UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow)
         {
             _Window = window;
@@ -44,31 +48,26 @@ namespace WxAutoCore.Components
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
             _uiThreadInvoker.Run(automation =>
             {
-                var bubbleListRoot = _ChatBodyRoot.FindFirstByXPath(xPath);
+                var bubbleListBox = _ChatBodyRoot.FindFirstByXPath(xPath);
 
-                // 方案1：使用轮询检测（推荐）
-                StartMessagePolling(callBack, bubbleListRoot);
+                StartMessagePolling(callBack, bubbleListBox);
 
-                // 方案2：保留原有事件监听作为补充
-                bubbleListRoot.RegisterStructureChangedEvent(TreeScope.Descendants, (element, changeType, changeIds) =>
-                {
-                    Trace.WriteLine("StructureChanged - changeType:" + changeType.ToString());
-                    Trace.WriteLine("StructureChanged - changeIds:" + changeIds.ToString());
-                    Trace.WriteLine("StructureChanged - element:" + element.Name ?? "没有名字");
+                // // 方案2：保留原有事件监听作为补充
+                // bubbleListBox.RegisterStructureChangedEvent(TreeScope.Descendants, (element, changeType, changeIds) =>
+                // {
+                //     Trace.WriteLine("StructureChanged - changeType:" + changeType.ToString());
+                //     Trace.WriteLine("StructureChanged - changeIds:" + changeIds.ToString());
+                //     Trace.WriteLine("StructureChanged - element:" + element.Name ?? "没有名字");
 
-                    // 即使事件触发，也使用轮询来确保捕获到新消息
-                    if (changeType == StructureChangeType.ChildAdded)
-                    {
-                        System.Threading.Thread.Sleep(100); // 等待元素完全构建
-                        ProcessNewMessages(callBack);
-                    }
-                });
+                //     // 即使事件触发，也使用轮询来确保捕获到新消息
+                //     if (changeType == StructureChangeType.ChildAdded)
+                //     {
+                //         System.Threading.Thread.Sleep(100); // 等待元素完全构建
+                //         ProcessNewMessages(callBack);
+                //     }
+                // });
             });
         }
-
-        private System.Threading.Timer _pollingTimer;
-        private int _lastMessageCount = 0;
-        private string _lastContentHash = "";
 
         /// <summary>
         /// 启动消息轮询检测
@@ -79,7 +78,7 @@ namespace WxAutoCore.Components
             _lastMessageCount = GetCurrentMessageCount();
             _lastContentHash = GetCurrentContentHash();
 
-            // 启动定时器，每300ms检查一次
+            // 启动定时器
             _pollingTimer = new System.Threading.Timer(_ =>
             {
                 try
@@ -111,7 +110,7 @@ namespace WxAutoCore.Components
                 {
                     Trace.WriteLine($"轮询检测异常: {ex.Message}");
                 }
-            }, null, 300, 300); // 300ms后开始，每300ms执行一次
+            }, null, WeChatConfig.ListenInterval * 1000, WeChatConfig.ListenInterval * 1000);
         }
 
         /// <summary>
@@ -208,7 +207,7 @@ namespace WxAutoCore.Components
             return bubbleList;
         }
         /// <summary>
-        /// 获取聊天内容区所有气泡列表
+        /// 获取聊天内容区所有气泡列表,如果消息没有显示全，则会滚动消息至最顶部，然后获取所有气泡标题
         /// </summary>
         /// <returns>聊天内容区所有气泡列表,仅返回气泡标题</returns>
         public List<string> GetAllBubbleList()

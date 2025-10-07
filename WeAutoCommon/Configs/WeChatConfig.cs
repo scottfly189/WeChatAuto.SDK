@@ -38,7 +38,7 @@ namespace WxAutoCommon.Configs
         /// <summary>
         /// 监听消息时间间隔，单位秒
         /// </summary>
-        public static int ListenInterval { get; set; } = 1;
+        public static int ListenInterval { get; set; } = 3;
 
         /// <summary>
         /// 新用户监听时间间隔，单位秒

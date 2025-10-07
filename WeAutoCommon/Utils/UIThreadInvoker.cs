@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FlaUI.UIA3;
 using FlaUI.Core.AutomationElements;
+using System.Diagnostics;
 
 namespace WxAutoCommon.Utils
 {
@@ -47,7 +48,7 @@ namespace WxAutoCommon.Utils
                         catch (Exception ex)
                         {
                             // 记录异常，但不中断整个线程
-                            Console.WriteLine($"Action execution failed: {ex}");
+                            Trace.WriteLine($"Action execution failed: {ex}");
                         }
                     }
                 }
@@ -58,7 +59,7 @@ namespace WxAutoCommon.Utils
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"UIThreadInvoker thread failed: {ex}");
+                Trace.WriteLine($"UIThreadInvoker thread failed: {ex}");
                 _started.TrySetException(ex);
             }
         }

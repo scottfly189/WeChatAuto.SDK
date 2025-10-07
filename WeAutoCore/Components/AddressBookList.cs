@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using FlaUI.Core.AutomationElements;
@@ -42,7 +43,7 @@ namespace WxAutoCore.Components
             }
             catch (Exception ex)
             {
-                Console.WriteLine("获取通讯录发生错误:" + ex.ToString());
+                Trace.WriteLine("获取通讯录发生错误:" + ex.ToString());
                 throw;
             }
             finally
@@ -120,7 +121,7 @@ namespace WxAutoCore.Components
             }
             catch (Exception ex)
             {
-                Console.WriteLine("获取公众号发生错误:" + ex.ToString());
+                Trace.WriteLine("获取公众号发生错误:" + ex.ToString());
                 throw new Exception("获取公众号发生错误:" + ex.ToString());
             }
             finally
@@ -144,7 +145,7 @@ namespace WxAutoCore.Components
             }
             catch (Exception ex)
             {
-                Console.WriteLine("获取待添加好友发生错误:" + ex.ToString());
+                Trace.WriteLine("获取待添加好友发生错误:" + ex.ToString());
                 throw new Exception("获取待添加好友发生错误:" + ex.ToString());
             }
             finally
@@ -170,7 +171,7 @@ namespace WxAutoCore.Components
             }
             catch (Exception ex)
             {
-                Console.WriteLine("添加好友发生错误:" + ex.ToString());
+                Trace.WriteLine("添加好友发生错误:" + ex.ToString());
                 throw new Exception("添加好友发生错误:" + ex.ToString());
             }
             finally

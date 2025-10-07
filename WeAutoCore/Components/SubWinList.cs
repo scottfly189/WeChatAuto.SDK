@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using WxAutoCommon.Configs;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Models;
+using System.Diagnostics;
 
 namespace WxAutoCore.Components
 {
@@ -68,8 +69,8 @@ namespace WxAutoCore.Components
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine("线程发生错误:" + ex.ToString());
-                        throw ex;
+                        Trace.WriteLine("线程发生错误:" + ex.ToString());
+                        throw;
                     }
                 }
             });

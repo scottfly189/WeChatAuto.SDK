@@ -4,6 +4,7 @@ using WxAutoCore.Utils;
 using Xunit.Abstractions;
 using WxAutoCommon.Configs;
 using WeAutoCommon.Classes;
+using System.Diagnostics;
 
 namespace WxAutoCore.Tests.Components
 {
@@ -293,7 +294,7 @@ namespace WxAutoCore.Tests.Components
             var window = client.WxMainWindow;
             await window.AddMessageListener(WeChatConfig.TestFriendNickName, (message, bubbles, sender, mainWindow) =>
             {
-                Console.WriteLine($"消息: 测试");
+                Trace.WriteLine($"消息: 测试");
             });
             Assert.True(true);
             await Task.Delay(6000000);
