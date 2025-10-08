@@ -32,6 +32,7 @@ namespace WxAutoCore.Components
     public class WeChatMainWindow : IWeChatWindow, IDisposable
     {
         private readonly ActionQueueChannel<ChatActionMessage> _actionQueueChannel = new ActionQueueChannel<ChatActionMessage>();
+        private WeChatFramwork _WeChatFramwork;
         private Window _Window;
         private ToolBar _ToolBar;  // 工具栏
         private SubWinList _SubWinList;  // 弹出窗口列表
@@ -59,6 +60,8 @@ namespace WxAutoCore.Components
         private List<(Action<List<string>> callBack, FriendListenerOptions options)> _newUserActionList = new List<(Action<List<string>> callBack, FriendListenerOptions options)>();
         private TaskCompletionSource<bool> _newUserListenerStarted = new TaskCompletionSource<bool>();
         public Window SelfWindow { get => _Window; set => _Window = value; }
+        public WeChatFramwork WeChatFramwork => _WeChatFramwork;
+    
 
         public ActionQueueChannel<ChatActionMessage> ActionQueueChannel => _actionQueueChannel;
 
@@ -67,9 +70,10 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="window">微信窗口<see cref="Window"/></param>
         /// <param name="notifyIcon">微信通知图标<see cref="WeChatNotifyIcon"/></param>
-        public WeChatMainWindow(Window window, WeChatNotifyIcon notifyIcon)
+        public WeChatMainWindow(Window window, WeChatNotifyIcon notifyIcon, WeChatFramwork weChatFramwork)
         {
             _uiThreadInvoker = new UIThreadInvoker();
+            _WeChatFramwork = weChatFramwork;
             _InitSubscription();
             _Window = window;
             ProcessId = window.Properties.ProcessId;
@@ -878,7 +882,7 @@ namespace WxAutoCore.Components
         /// <param name="nickName">好友名称</param>
         /// <param name="callBack">回调函数,由好友提供</param>
         /// <param name="monitor">是否启用子窗口监听，如果子窗口被误关，监听器会自动重新打开子窗口</param>
-        public async Task AddMessageListener(string nickName, Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow> callBack, bool monitor = true)
+        public async Task AddMessageListener(string nickName, Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork> callBack, bool monitor = true)
         {
             await _SubWinList.CheckSubWinExistAndOpen(nickName);
             await Task.Delay(1000);
@@ -918,7 +922,7 @@ namespace WxAutoCore.Components
         /// <param name="keyWord">关键字</param>
         /// <param name="suffix">后缀</param>
         /// <param name="label">标签</param>
-        public void AddNewFriendAutoPassedAndOpenSubWinListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow> callBack, string keyWord = null, string suffix = null, string label = null)
+        public void AddNewFriendAutoPassedAndOpenSubWinListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork> callBack, string keyWord = null, string suffix = null, string label = null)
         {
             _AddNewFriendListener(nickNameList =>
             {

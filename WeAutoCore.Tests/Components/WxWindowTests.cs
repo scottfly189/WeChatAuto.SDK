@@ -292,7 +292,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.AddMessageListener(WeChatConfig.TestFriendNickName, (newBubbles, bubblesList, sender, mainWindow) =>
+            await window.AddMessageListener(WeChatConfig.TestFriendNickName, (newBubbles, bubblesList, sender, mainWindow, framework) =>
             {
                 Trace.WriteLine($"消息: 测试");
             });
