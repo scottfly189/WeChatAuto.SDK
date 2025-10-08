@@ -186,7 +186,80 @@ namespace WxAutoCore.Components
         /// <returns>是否成功</returns>
         public bool RemoveFriend(string nickName)
         {
-            return false;
+            try
+            {
+                var result = this.LocateFriend(nickName);
+                if (result)
+                {
+                    result = _uiThreadInvoker.Run(automation =>
+                    {
+                        var listBox = _Window.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/List[@Name='联系人'][@IsOffscreen='false']")?.AsListBox();
+                        var listItems = listBox.FindFirstChild(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(nickName))).AsListBoxItem();
+                        if (listItems != null)
+                        {
+                            listItems.Focus();
+                            listItems.Click();
+                            Thread.Sleep(600);
+                            var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Button[@Name='更多']";
+                            var moreButton = _Window.FindFirstByXPath(xPath)?.AsButton();
+                            if (moreButton != null)
+                            {
+                                moreButton.Focus();
+                                moreButton.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                                moreButton.Click();
+                                Thread.Sleep(600);
+                                var menu = _Window.FindFirstChild(cf => cf.Menu()).AsMenu();
+                                if (menu != null)
+                                {
+                                    var deleItem = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("删除联系人"))).AsListBoxItem();
+                                    if (deleItem != null)
+                                    {
+                                        deleItem.Focus();
+                                        deleItem.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                                        deleItem.Click();
+                                        Thread.Sleep(600);
+                                        var conformButton = _Window.FindFirstByXPath("/Pane[1]/Pane/Pane/Button[@Name='删除']")?.AsButton();
+                                        conformButton.Focus();
+                                        conformButton.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                                        conformButton.Click();
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        return false;
+                                    }
+                                }
+                                else
+                                {
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }).Result;
+                }
+                else
+                {
+                    return false;
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("删除好友发生错误:" + ex.ToString());
+                return false;
+            }
+            finally
+            {
+                _MainWin.Navigation.SwitchNavigation(WxAutoCommon.Enums.NavigationType.聊天);
+            }
         }
 
 
@@ -307,7 +380,7 @@ namespace WxAutoCore.Components
                                 }
                                 else
                                 {
-                                    rList.Add((nickName, false, "此用户可能已经添加过"));
+                                    rList.Add((item, false, "此用户可能已经添加过"));
                                 }
                             }
                             else

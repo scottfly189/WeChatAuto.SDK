@@ -115,12 +115,25 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var addressBookList = window.AddressBook;
-            var result = addressBookList.AddFriends(new List<string> { "1371923855711111111444" },"测试");
+            var result = addressBookList.AddFriends(new List<string> { "13719238557", "13719238558" }, "测试");
             foreach (var item in result)
             {
                 _output.WriteLine(item.friendName + " " + item.isSuccess + " " + item.errMessage);
             }
             Assert.True(true);
         }
+
+        [Theory(DisplayName = "测试移除好友")]
+        [InlineData("AI.Net")]
+        public void TestRemoveFriend(string nickName)
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var addressBookList = window.AddressBook;
+            var result = addressBookList.RemoveFriend(nickName);
+            Assert.True(result);
+        }
+
     }
 }
