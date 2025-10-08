@@ -92,9 +92,9 @@ namespace WxAutoCore.Tests.Components
 
         [Theory(DisplayName = "测试通过所有新好友")]
         // [InlineData("test", "test", "test")]
-        [InlineData("","test","测试")]
+        [InlineData("", "test", "测试")]
         public void TestPassedAllNewFriend(string keyWord, string suffix, string label)
-         {
+        {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
@@ -103,6 +103,22 @@ namespace WxAutoCore.Tests.Components
             foreach (var willAddFriend in willAddFriends)
             {
                 _output.WriteLine(willAddFriend);
+            }
+            Assert.True(true);
+        }
+
+
+        [Fact(DisplayName = "测试添加好友")]
+        public void TestAddFriends()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var addressBookList = window.AddressBook;
+            var result = addressBookList.AddFriends(new List<string> { "1371923855711111111444" },"测试");
+            foreach (var item in result)
+            {
+                _output.WriteLine(item.friendName + " " + item.isSuccess + " " + item.errMessage);
             }
             Assert.True(true);
         }

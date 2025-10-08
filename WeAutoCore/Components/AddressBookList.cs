@@ -180,24 +180,189 @@ namespace WxAutoCore.Components
             }
         }
         /// <summary>
-        /// 移除单个好友
+        /// 移除好友
         /// </summary>
-        /// <param name="friendName">好友名称</param>
+        /// <param name="nickName">好友昵称</param>
         /// <returns>是否成功</returns>
-        public bool RemoveFriend(string friendName)
+        public bool RemoveFriend(string nickName)
         {
             return false;
+        }
+
+
+        /// <summary>
+        /// 添加好友
+        /// </summary>
+        /// <param name="friendNames">微信号/手机号列表</param>
+        /// <param name="label">用户标签</param>
+        /// <returns>好友名称列表和是否成功</returns>
+        public List<(string friendName, bool isSuccess, string errMessage)> AddFriends(List<string> friendNames, string label = "")
+        {
+            List<(string friendName, bool isSuccess, string errMessage)> resultList = new List<(string friendName, bool isSuccess, string errMessage)>();
+            _MainWin.Navigation.SwitchNavigation(WxAutoCommon.Enums.NavigationType.通讯录);
+            try
+            {
+                resultList = _uiThreadInvoker.Run(automation =>
+                {
+                    var rList = new List<(string friendName, bool isSuccess, string errMessage)>();
+                    var sButton = _Window.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/Button[@Name='添加朋友'][@IsOffscreen='false']")?.AsButton();
+                    if (sButton == null)
+                    {
+                        return rList;
+                    }
+                    sButton.Focus();
+                    sButton.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                    sButton.Click();
+                    Thread.Sleep(600);
+                    var xPath = "";
+                    var cancelButton = Retry.WhileNull(() =>
+                    {
+                        xPath = "/Pane/Pane/Pane/Pane/Button[@Name='取消'][@IsOffscreen='false']";
+                        return _Window.FindFirstByXPath(xPath)?.AsButton();
+                    }, TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200)).Result;
+                    var searchEdit = Retry.WhileNull(() =>
+                    {
+                        xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='微信号/手机号']";
+                        return _Window.FindFirstByXPath(xPath)?.AsTextBox();
+                    }, TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200)).Result;
+
+                    if (cancelButton == null || searchEdit == null)
+                    {
+                        return rList;
+                    }
+
+                    foreach (var item in friendNames)
+                    {
+                        searchEdit.Focus();
+                        searchEdit.Click();
+                        Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                        Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                        Keyboard.Type(item);
+                        Keyboard.Press(VirtualKeyShort.RETURN);
+                        Thread.Sleep(300);
+                        xPath = $"/Pane/Pane/Pane/Pane/Pane/List/ListItem[@Name='搜索：{item}']";
+                        var listItem = _Window.FindFirstByXPath(xPath)?.AsListBoxItem();
+                        if (listItem != null)
+                        {
+                            listItem.Focus();
+                            listItem.Click();
+                            var deskTop = automation.GetDesktop();
+                            var paneResult = Retry.WhileNull(() =>
+                            {
+                                return deskTop.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByProcessId(_MainWin.ProcessId)).
+                                    And(cf.ByClassName("ContactProfileWnd")));
+                            }, TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
+                            if (paneResult.Success)
+                            {
+                                //打开弹窗
+                                var pane = paneResult.Result;
+                                var nickName = pane.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text))?.AsLabel()?.Name?.Trim();
+                                xPath = "//Button[@Name='添加到通讯录'][1]";
+                                var addToAddressBookButton = pane.FindFirstByXPath(xPath)?.AsButton();
+                                if (addToAddressBookButton != null)
+                                {
+                                    addToAddressBookButton.Focus();
+                                    addToAddressBookButton.Click();
+                                    Thread.Sleep(600);
+                                    var dialog = Retry.WhileNull(() =>
+                                    {
+                                        return _Window.FindFirstByXPath("/Window[@Name='添加朋友请求'][@IsOffscreen='false']")?.AsWindow();
+                                    }, TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
+                                    if (dialog.Success)
+                                    {
+                                        if (!String.IsNullOrWhiteSpace(label))
+                                        {
+                                            xPath = "/Pane[2]/Pane[1]/Pane/Pane/Pane[3]/Pane[1]/Pane/Edit";
+                                            var labelEdit = dialog.Result.FindFirstByXPath(xPath)?.AsTextBox();
+                                            if (labelEdit != null)
+                                            {
+                                                labelEdit.Focus();
+                                                labelEdit.Click();
+                                                Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                                                Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                                                Keyboard.Type(label);
+                                                labelEdit.Click();
+                                                Keyboard.Press(VirtualKeyShort.RETURN);
+                                            }
+                                        }
+                                        xPath = "//Button[@Name='确定']";
+                                        var confirmButton = dialog.Result.FindFirstByXPath(xPath)?.AsButton();
+                                        if (confirmButton != null)
+                                        {
+                                            confirmButton.Focus();
+                                            confirmButton.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                                            confirmButton.Click();
+                                            Thread.Sleep(600);
+                                            rList.Add((item, true, "添加成功，待对方验证"));
+                                        }
+                                        else
+                                        {
+                                            rList.Add((item, true, "可能以前有添加过"));
+                                        }
+                                    }
+                                    else
+                                    {
+                                        rList.Add((item, true, "此用户可能以前添加过，所以直接通过"));
+                                    }
+                                }
+                                else
+                                {
+                                    rList.Add((nickName, false, "此用户可能已经添加过"));
+                                }
+                            }
+                            else
+                            {
+                                //增加用户可能腾迅返回问题,如：手机号或者微信号无效、不存在等问题
+                                xPath = "/Pane[2]/Pane/Pane[1]/Pane[2]/Pane/List";
+                                var listBox = _Window.FindFirstByXPath(xPath)?.AsListBox();
+                                var firstChild = listBox.FindFirstChild()?.AsListBoxItem();
+                                if (firstChild != null)
+                                {
+                                    if (!firstChild.Name.StartsWith("搜索"))
+                                    {
+                                        var err = firstChild.Name.Trim();
+                                        rList.Add((item, false, err));
+                                    }
+                                    else
+                                    {
+                                        rList.Add((item, false, "发生未知错误"));
+                                    }
+                                }
+                                else
+                                {
+                                    rList.Add((item, false, "发生未知错误"));
+                                }
+                            }
+                        }
+                    }
+
+                    return rList;
+                }).Result;
+
+                return resultList;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("添加好友发生错误:" + ex.ToString());
+                throw new Exception("添加好友发生错误:" + ex.ToString());
+            }
+            finally
+            {
+                _MainWin.Navigation.SwitchNavigation(WxAutoCommon.Enums.NavigationType.聊天);
+            }
         }
         /// <summary>
-        /// 移除特定后缀好友
-        /// 注意：<b>一次删除太多好友，可能会触发微信的风控机制，导致无法正常使用</b>
+        /// 添加好友
+        /// 注意：不能添加太频繁，否则可能会触发微信的风控机制，导致加好友失败
         /// </summary>
-        /// <param name="suffix">后缀</param>
+        /// <param name="friendName">微信号/手机号</param>
+        /// <param name="label">用户标签</param>
         /// <returns>是否成功</returns>
-        public bool RemoveSuffixFriend(string suffix)
+        public bool AddFriend(string friendName, string label = "")
         {
-            return false;
+            return this.AddFriends(new List<string> { friendName }, label).FirstOrDefault(u => u.friendName == friendName).isSuccess;
         }
+
         /// <summary>
         /// 通过所有新好友的核心方法
         /// </summary>
