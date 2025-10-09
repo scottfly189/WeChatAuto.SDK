@@ -30,6 +30,7 @@ namespace WxAutoCore.Components
         private System.Threading.Timer _pollingTimer;
         private int _lastMessageCount = 0;
         private List<MessageBubble> _lastBubbles = new List<MessageBubble>();
+        private volatile bool _isProcessing = false; // 标记是否正在处理消息
         public ChatBody(Window window, AutomationElement chatBodyRoot, IWeChatWindow wxWindow, string title, UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow)
         {
             _Window = window;
@@ -41,6 +42,7 @@ namespace WxAutoCore.Components
         }
         /// <summary>
         /// 添加消息监听
+        /// 注意：消息回调函数会在新线程中执行，请注意线程安全，如果在回调函数中操作UI，请用InvokeRequired等方法切换到UI线程.
         /// </summary>
         /// <param name="callBack">回调函数,参数：新消息气泡<see cref="MessageBubble"/>,包含新消息气泡的列表<see cref="List{MessageBubble}"/>,当前窗口发送者<see cref="Sender"/>,当前微信窗口对象<see cref="WeChatMainWindow"/></param>
         public void AddListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork> callBack)
@@ -66,8 +68,16 @@ namespace WxAutoCore.Components
             // 启动定时器
             _pollingTimer = new System.Threading.Timer(_ =>
             {
+                // 如果正在处理中，跳过本次执行
+                if (_isProcessing)
+                {
+                    Trace.WriteLine("上一次消息处理尚未完成，跳过本次检测");
+                    return;
+                }
+
                 try
                 {
+                    _isProcessing = true; // 标记开始处理
                     (int currentCount, List<MessageBubble> currentBubbles) = GetCurrentMessage();
                     if (currentCount != _lastMessageCount)
                     {
@@ -83,6 +93,10 @@ namespace WxAutoCore.Components
                 {
                     Trace.WriteLine($"轮询检测异常: {ex.Message}");
                 }
+                finally
+                {
+                    _isProcessing = false; // 标记处理完成
+                }
             }, null, WeChatConfig.ListenInterval * 1000, WeChatConfig.ListenInterval * 1000);
         }
 
@@ -92,7 +106,6 @@ namespace WxAutoCore.Components
         private (int count, List<MessageBubble> bubbles) GetCurrentMessage()
         {
             var bubbles = BubbleList.GetVisibleBubbles();
-            _lastBubbles = bubbles;
             return (bubbles.Count, bubbles);
         }
 
@@ -125,6 +138,7 @@ namespace WxAutoCore.Components
         /// </summary>
         public void StopListener()
         {
+            _isProcessing = false; // 重置处理标志
             _pollingTimer?.Dispose();
             _pollingTimer = null;
         }
@@ -136,7 +150,7 @@ namespace WxAutoCore.Components
         {
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
             var bubbleListRoot = _uiThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).Result;
-            DrawHightlightHelper.DrawHightlight(bubbleListRoot, _uiThreadInvoker);
+            //DrawHightlightHelper.DrawHightlight(bubbleListRoot, _uiThreadInvoker);
             MessageBubbleList bubbleList = new MessageBubbleList(_Window, bubbleListRoot, _WxWindow, _Title, _uiThreadInvoker);
             return bubbleList;
         }

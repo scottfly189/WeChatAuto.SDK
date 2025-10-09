@@ -294,7 +294,24 @@ namespace WxAutoCore.Tests.Components
             var window = client.WxMainWindow;
             await window.AddMessageListener(WeChatConfig.TestFriendNickName, (newBubbles, bubblesList, sender, mainWindow, framework) =>
             {
-                Trace.WriteLine($"消息: 测试");
+                Trace.WriteLine($"消息: 收到新消息数量:{newBubbles.Count},当前可见消息数量:{bubblesList.Count}");
+            });
+            Assert.True(true);
+            await Task.Delay(6000000);
+        }
+        [Fact(DisplayName = "测试添加消息监听,并返回新消息")]
+        public async Task Test_AddMessageListener_Reback()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            await window.AddMessageListener(WeChatConfig.TestFriendNickName, (newBubbles, bubblesList, sender, mainWindow, framework) =>
+            {
+                Trace.WriteLine($"消息: 收到新消息数量:{newBubbles.Count},当前可见消息数量:{bubblesList.Count}");
+                foreach (var bubble in newBubbles)
+                {
+                    Trace.WriteLine($"消息: 新消息内容:{bubble.MessageContent}");
+                }
             });
             Assert.True(true);
             await Task.Delay(6000000);
