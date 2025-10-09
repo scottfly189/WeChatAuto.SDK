@@ -109,11 +109,11 @@ namespace WxAutoCore.Components
         {
             var currentHashList = currentBubbles.Skip(Math.Max(0, currentBubbles.Count - 5)).Select(item => item.BubbleHash).ToList();
             var lastHashList = lastBubbles.Skip(Math.Max(0, lastBubbles.Count - 5)).Select(item => item.BubbleHash).ToList();
-            //测试
-            Trace.WriteLine($"当前气泡列表打印:");
-            currentBubbles.Skip(Math.Max(0, currentBubbles.Count - 5)).ToList().ForEach(item => Trace.WriteLine(item.ToString()));
-            Trace.WriteLine($"上次气泡列表打印:");
-            lastBubbles.Skip(Math.Max(0, lastBubbles.Count - 5)).ToList().ForEach(item => Trace.WriteLine(item.ToString()));
+            // //测试
+            // Trace.WriteLine($"当前气泡列表打印:");
+            // currentBubbles.Skip(Math.Max(0, currentBubbles.Count - 5)).ToList().ForEach(item => Trace.WriteLine(item.ToString()));
+            // Trace.WriteLine($"上次气泡列表打印:");
+            // lastBubbles.Skip(Math.Max(0, lastBubbles.Count - 5)).ToList().ForEach(item => Trace.WriteLine(item.ToString()));
             return currentHashList.SequenceEqual(lastHashList);
         }
 
@@ -140,26 +140,60 @@ namespace WxAutoCore.Components
         {
             try
             {
-                var lastHashList = _lastBubbles.Select(item => item.BubbleHash).ToList();
-                var currentHashList = currentBubbles.Select(item => item.BubbleHash).ToList();
-                var exceptList = currentHashList.Except(lastHashList).ToList();
-                if (exceptList.Count > 0)
+                // var lastHashList = _lastBubbles.Select(item => item.BubbleHash).ToList();
+                // var currentHashList = currentBubbles.Select(item => item.BubbleHash).ToList();
+                // var exceptList = currentHashList.Except(lastHashList).ToList();
+                // if (exceptList.Count > 0)
+                // {
+                //     List<MessageBubble> newBubbles = currentBubbles.Where(item => exceptList.Contains(item.BubbleHash)).ToList();
+                //     newBubbles.ForEach(item => { item.IsNew = true; item.MessageTime = DateTime.Now; });
+                //     newBubbles = newBubbles.Where(item => item.MessageSource != MessageSourceType.系统消息 &&
+                //         item.MessageSource != MessageSourceType.其他消息 &&
+                //         item.MessageSource != MessageSourceType.自己发送消息).ToList();
+                //     if (newBubbles.Count > 0)
+                //     {
+                //         callBack(newBubbles, currentBubbles, Sender, _MainWxWindow, _MainWxWindow.WeChatFramwork);
+                //     }
+                // }
+                var lastFriendMessageList = GetFirendMessageList(_lastBubbles);
+                var currentFriendMessageList = GetFirendMessageList(currentBubbles);
+                List<MessageBubble> newBubbles = new List<MessageBubble>();
+                if (lastFriendMessageList.Count <= 3)
                 {
-                    List<MessageBubble> newBubbles = currentBubbles.Where(item => exceptList.Contains(item.BubbleHash)).ToList();
-                    newBubbles.ForEach(item => { item.IsNew = true; item.MessageTime = DateTime.Now; });
-                    newBubbles = newBubbles.Where(item => item.MessageSource != MessageSourceType.系统消息 &&
-                        item.MessageSource != MessageSourceType.其他消息 &&
-                        item.MessageSource != MessageSourceType.自己发送消息).ToList();
-                    if (newBubbles.Count > 0)
+                    newBubbles = currentFriendMessageList.Skip(lastFriendMessageList.Count).ToList();
+                }
+                else
+                {
+                    var currentCompareList = currentFriendMessageList.Take(3).Select(item=>item.MessageContent).ToList();
+                    var index = 0;
+                    for (int i = 0; i < lastFriendMessageList.Count; i++)
                     {
-                        callBack(newBubbles, currentBubbles, Sender, _MainWxWindow, _MainWxWindow.WeChatFramwork);
+                        var tempBubbles = lastFriendMessageList.Skip(i).Take(3).Select(item=>item.MessageContent).ToList();
+                        if (tempBubbles.SequenceEqual(currentCompareList))
+                        {
+                            index = i;
+                            break;
+                        }
                     }
+                    var skip = lastFriendMessageList.Count - index;
+                    newBubbles = currentFriendMessageList.Skip(skip).ToList();
+                }
+                if (newBubbles.Count > 0)
+                {
+                    callBack(newBubbles, currentBubbles, Sender, _MainWxWindow, _MainWxWindow.WeChatFramwork);
                 }
             }
             catch (Exception ex)
             {
                 Trace.WriteLine($"处理新消息异常: {ex.Message}");
             }
+        }
+
+        private List<MessageBubble> GetFirendMessageList(List<MessageBubble> bubbles)
+        {
+            return bubbles.Where(item => item.MessageSource != MessageSourceType.系统消息 &&
+                                               item.MessageSource != MessageSourceType.其他消息 &&
+                                               item.MessageSource != MessageSourceType.自己发送消息).ToList();
         }
 
         /// <summary>
