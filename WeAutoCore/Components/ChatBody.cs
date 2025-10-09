@@ -14,6 +14,7 @@ using System.Linq;
 using System.Diagnostics;
 using System.Threading;
 using WxAutoCommon.Configs;
+using WxAutoCommon.Enums;
 
 namespace WxAutoCore.Components
 {
@@ -79,9 +80,8 @@ namespace WxAutoCore.Components
                 {
                     _isProcessing = true; // 标记开始处理
                     (int currentCount, List<MessageBubble> currentBubbles) = GetCurrentMessage();
-                    if (currentCount != _lastMessageCount)
+                    if (currentCount != _lastMessageCount || !_CompareBabbleHash(currentBubbles, _lastBubbles))
                     {
-                        Trace.WriteLine($"检测到新消息(数量变化): 上次{_lastMessageCount}条，现在{currentCount}条");
                         System.Threading.Thread.Sleep(200); // 等待消息完全加载
                         ProcessNewMessages(callBack, currentBubbles);
                         _lastMessageCount = currentCount;
@@ -99,17 +99,35 @@ namespace WxAutoCore.Components
                 }
             }, null, WeChatConfig.ListenInterval * 1000, WeChatConfig.ListenInterval * 1000);
         }
+        /// <summary>
+        /// 比较两个气泡列表的哈希值是否相同
+        /// </summary>
+        /// <param name="currentBubbles">当前气泡列表</param>
+        /// <param name="lastBubbles">上次气泡列表</param>
+        /// <returns>是否相同</returns>
+        private bool _CompareBabbleHash(List<MessageBubble> currentBubbles, List<MessageBubble> lastBubbles)
+        {
+            var currentHashList = currentBubbles.Skip(Math.Max(0, currentBubbles.Count - 5)).Select(item => item.BubbleHash).ToList();
+            var lastHashList = lastBubbles.Skip(Math.Max(0, lastBubbles.Count - 5)).Select(item => item.BubbleHash).ToList();
+            return currentHashList.SequenceEqual(lastHashList);
+        }
 
         /// <summary>
         /// 获取当前消息数量
         /// </summary>
         private (int count, List<MessageBubble> bubbles) GetCurrentMessage()
         {
-            var bubbles = BubbleList.GetVisibleBubbles();
-            return (bubbles.Count, bubbles);
+            try
+            {
+                var bubbles = BubbleList.GetVisibleBubbles();
+                return (bubbles.Count, bubbles);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine($"获取当前消息异常: {ex.Message}");
+                return (_lastMessageCount, _lastBubbles);
+            }
         }
-
-
         /// <summary>
         /// 处理新消息
         /// </summary>
@@ -124,7 +142,13 @@ namespace WxAutoCore.Components
                 {
                     List<MessageBubble> newBubbles = currentBubbles.Where(item => exceptList.Contains(item.BubbleHash)).ToList();
                     newBubbles.ForEach(item => { item.IsNew = true; item.MessageTime = DateTime.Now; });
-                    callBack(newBubbles, currentBubbles, Sender, _MainWxWindow, _MainWxWindow.WeChatFramwork);
+                    newBubbles = newBubbles.Where(item => item.MessageSource != MessageSourceType.系统消息 &&
+                        item.MessageSource != MessageSourceType.其他消息 &&
+                        item.MessageSource != MessageSourceType.自己发送消息).ToList();
+                    if (newBubbles.Count > 0)
+                    {
+                        callBack(newBubbles, currentBubbles, Sender, _MainWxWindow, _MainWxWindow.WeChatFramwork);
+                    }
                 }
             }
             catch (Exception ex)
@@ -138,9 +162,9 @@ namespace WxAutoCore.Components
         /// </summary>
         public void StopListener()
         {
-            _isProcessing = false; // 重置处理标志
             _pollingTimer?.Dispose();
             _pollingTimer = null;
+            _isProcessing = false; // 重置处理标志
         }
         /// <summary>
         /// 获取聊天内容区可见气泡列表

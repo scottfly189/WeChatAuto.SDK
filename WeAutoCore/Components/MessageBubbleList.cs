@@ -88,7 +88,8 @@ namespace WxAutoCore.Components
         public List<MessageBubble> GetVisibleBubbles()
         {
             var bubbles = GetVisibleNativeBubbles();
-            return bubbles.Where(item=>item.MessageSource != MessageSourceType.系统消息).ToList();
+            return bubbles.Where(item=>item.MessageSource != MessageSourceType.系统消息 &&
+                                       item.MessageSource != MessageSourceType.其他消息).ToList();
         }
         /// <summary>
         /// 获取气泡列表,包括系统消息

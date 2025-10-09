@@ -311,6 +311,8 @@ namespace WxAutoCore.Tests.Components
                 foreach (var bubble in newBubbles)
                 {
                     Trace.WriteLine($"消息: 新消息内容:{bubble.MessageContent}");
+                    sender.SendMessage($"收到消息:{bubble.MessageContent}");
+
                 }
             });
             Assert.True(true);
