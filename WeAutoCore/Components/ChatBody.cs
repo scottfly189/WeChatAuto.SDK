@@ -109,6 +109,11 @@ namespace WxAutoCore.Components
         {
             var currentHashList = currentBubbles.Skip(Math.Max(0, currentBubbles.Count - 5)).Select(item => item.BubbleHash).ToList();
             var lastHashList = lastBubbles.Skip(Math.Max(0, lastBubbles.Count - 5)).Select(item => item.BubbleHash).ToList();
+            //测试
+            Trace.WriteLine($"当前气泡列表打印:");
+            currentBubbles.Skip(Math.Max(0, currentBubbles.Count - 5)).ToList().ForEach(item => Trace.WriteLine(item.ToString()));
+            Trace.WriteLine($"上次气泡列表打印:");
+            lastBubbles.Skip(Math.Max(0, lastBubbles.Count - 5)).ToList().ForEach(item => Trace.WriteLine(item.ToString()));
             return currentHashList.SequenceEqual(lastHashList);
         }
 
