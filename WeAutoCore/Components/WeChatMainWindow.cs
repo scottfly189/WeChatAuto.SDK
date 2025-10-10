@@ -287,7 +287,6 @@ namespace WxAutoCore.Components
             ToolBar.Restore();
         }
         #endregion
-
         #region 导航栏操作
         /// <summary>
         /// 切换导航栏
@@ -298,7 +297,6 @@ namespace WxAutoCore.Components
             Navigation.SwitchNavigation(navigationType);
         }
         #endregion
-
         #region 发送消息操作
         /// <summary>
         /// 单个查询，查询单个好友
@@ -619,7 +617,6 @@ namespace WxAutoCore.Components
             return false;
         }
         #endregion
-
         #region 发送文件操作
         /// <summary>
         /// 给指定好友发送文件
@@ -677,7 +674,6 @@ namespace WxAutoCore.Components
             whos.ToList().ForEach(who => SendEmoji(who, emoji, isOpenChat));
         }
         #endregion
-
         #region 实际发送消息、文件、表情操作
         /// <summary>
         /// 发送消息核心方法
@@ -957,6 +953,9 @@ namespace WxAutoCore.Components
         {
             _newUserActionList.Clear();
         }
+        #endregion
+
+        #region 群聊操作
         #endregion
         public void Dispose()
         {
