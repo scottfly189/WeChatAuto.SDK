@@ -49,7 +49,7 @@ namespace WxAutoCore.Components
             _MonitorSubWinThread = new Thread(async () =>
             {
                 _MonitorSubWinTaskCompletionSource.SetResult(true);
-                while (!_MonitorSubWinCancellationTokenSource.IsCancellationRequested)
+                while (!_MonitorSubWinCancellationTokenSource.Token.IsCancellationRequested)
                 {
                     try
                     {

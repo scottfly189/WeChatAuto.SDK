@@ -9,19 +9,20 @@ namespace WxAutoCore.Services
     public static class WeAutomation
     {
         private static IServiceProvider _internalProvider = null;
+        private static IServiceCollection _internalServices = null;
 
         /// <summary>
         /// 如果用户端已经有依赖注入框架，则直接注入
-        /// 注意：此方法与Init方法不能同时使用
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
         public static IServiceCollection AddWxAutomation(this IServiceCollection services)
         {
+            _internalServices = services;
             //这里增加服务.
             services.AddSingleton<WeChatFramwork>();
             services.AddSingleton<WeChatDesktop>();
-            
+
             return services;
         }
         /// <summary>
@@ -31,8 +32,12 @@ namespace WxAutoCore.Services
         /// <returns></returns>
         public static IServiceProvider GetServiceProvider()
         {
+            if (_internalServices == null)
+            {
+                _internalServices = new ServiceCollection();
+            }
             if (_internalProvider == null)
-                _internalProvider = new ServiceCollection().AddWxAutomation().BuildServiceProvider();
+                _internalProvider = _internalServices.AddWxAutomation().BuildServiceProvider();
             return _internalProvider;
         }
 

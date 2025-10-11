@@ -10,9 +10,7 @@ public class UiTestFixture : IDisposable
     public WeChatFramwork wxFramwork => _framework;
     public UiTestFixture()
     {
-        var services = new ServiceCollection();
-        services.AddWxAutomation();
-        _serviceProvider = services.BuildServiceProvider();
+        _serviceProvider = WeAutomation.GetServiceProvider();
         _framework = _serviceProvider.GetRequiredService<WeChatFramwork>();
 
     }

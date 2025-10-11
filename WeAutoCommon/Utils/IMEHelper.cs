@@ -4,7 +4,7 @@ using FlaUI.Core;
 using FlaUI.Core.AutomationElements;
 using FlaUI.UIA3;
 
-namespace WxAutoCore.Utils
+namespace WxAutoCommon.Utils
 {
 
     public class IMEHelper

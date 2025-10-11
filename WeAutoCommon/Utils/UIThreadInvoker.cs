@@ -37,6 +37,7 @@ namespace WxAutoCommon.Utils
                 using (_automation = new UIA3Automation())
                 {
                     _started.SetResult(true);
+                    IMEHelper.DisableImeForCurrentThread();
 
                     foreach (var action in _queue.GetConsumingEnumerable(_cts.Token))
                     {
