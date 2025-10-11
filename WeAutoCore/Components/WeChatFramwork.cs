@@ -19,14 +19,16 @@ namespace WxAutoCore.Components
     public class WeChatFramwork : IDisposable
     {
         private bool _IsInit = false;
+        private IServiceProvider _serviceProvider;
         private readonly Dictionary<string, WeChatClient> _wxClientList = new Dictionary<string, WeChatClient>();
         private bool _disposed = false;
         /// <summary>
         /// 微信自动化框架构造函数
         /// </summary>
-        public WeChatFramwork()
+        public WeChatFramwork(IServiceProvider serviceProvider)
         {
             IMEHelper.DisableImeForCurrentThread();
+            _serviceProvider = serviceProvider;
         }
         /// <summary>
         /// 微信客户端列表

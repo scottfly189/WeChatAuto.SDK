@@ -2,7 +2,9 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using WxAutoCommon.Configs;
 using WxAutoCore.Components;
+using WxAutoCore.Extentions;
 
 namespace WxAutoCore.Services
 {
@@ -21,13 +23,13 @@ namespace WxAutoCore.Services
             _internalServices = services;
             //这里增加服务.
             services.AddSingleton<WeChatFramwork>();
-            services.AddSingleton<WeChatDesktop>();
+            services.AddAutoLogger();
 
             return services;
         }
         /// <summary>
         /// 如果用户端没有依赖注入框架，则初始化
-        /// 注意：此方法与AddWxAutomation方法不能同时使用
+        /// 注意：此方法与AddWxAutomation()方法不能同时使用
         /// </summary>
         /// <returns></returns>
         public static IServiceProvider GetServiceProvider()

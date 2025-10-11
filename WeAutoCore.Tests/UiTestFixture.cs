@@ -1,6 +1,6 @@
 using Xunit;
-using WxAutoCore.Components;
 using Microsoft.Extensions.DependencyInjection;
+using WxAutoCore.Components;
 using WxAutoCore.Services;
 public class UiTestFixture : IDisposable
 {
