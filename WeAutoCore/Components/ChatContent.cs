@@ -11,7 +11,7 @@ using System;
 
 namespace WxAutoCore.Components
 {
-    public class ChatContent
+    public class ChatContent:IDisposable
     {
         private Window _Window;
         private IWeChatWindow _WxWindow;
@@ -21,6 +21,7 @@ namespace WxAutoCore.Components
         private UIThreadInvoker _uiThreadInvoker;
         private readonly IServiceProvider _serviceProvider;
         private WeChatMainWindow _MainWxWindow;    //主窗口对象
+        private volatile bool _disposed = false;
         public AutomationElement ChatContentRoot
         {
             get
@@ -78,6 +79,10 @@ namespace WxAutoCore.Components
         /// <returns></returns>
         public string GetFullTitle()
         {
+            if (_disposed)
+            {
+                return "";
+            }
             var header = _uiThreadInvoker.Run(automation => ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
             DrawHightlightHelper.DrawHightlight(header, _uiThreadInvoker);
             var titles = _uiThreadInvoker.Run(automation => header.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text))).Result;
@@ -94,11 +99,24 @@ namespace WxAutoCore.Components
         /// <returns>聊天内容组件</returns>
         public ChatBody GetChatBody()
         {
+            if (_disposed)
+            {
+                return null;
+            }
             var title = GetFullTitle();
             var chatBodyRoot = _uiThreadInvoker.Run(automation => ChatContentRoot.FindFirstByXPath("/Pane[2]")).Result;
             DrawHightlightHelper.DrawHightlight(chatBodyRoot, _uiThreadInvoker);
             var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow, title, _uiThreadInvoker,this._MainWxWindow, _serviceProvider);
             return chatBody;
+        }
+
+        public void Dispose()
+        {
+            if (_disposed)
+            {
+                return;
+            }
+            _disposed = true;
         }
     }
 }

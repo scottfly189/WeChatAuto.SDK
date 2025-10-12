@@ -893,18 +893,12 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="nickName">好友名称</param>
         /// <param name="callBack">回调函数,由好友提供</param>
-        /// <param name="monitor">是否启用子窗口监听，如果子窗口被误关，监听器会自动重新打开子窗口</param>
-        public async Task AddMessageListener(string nickName, Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider> callBack, bool monitor = true)
+        public async Task AddMessageListener(string nickName, Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider> callBack)
         {
             await _SubWinList.CheckSubWinExistAndOpen(nickName);
-            await Task.Delay(1000);
-            if (monitor)
-            {
-                _SubWinList.RegisterMonitorSubWin(nickName);
-            }
-            var subWin = _SubWinList.GetSubWin(nickName);
-            subWin.AddMessageListener(callBack);
-
+            await Task.Delay(500);
+            _SubWinList.RegisterMonitorSubWin(nickName);
+            await _SubWinList.AddMessageListener(callBack, nickName);
         }
         /// <summary>
         /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会调用回调函数
@@ -940,7 +934,7 @@ namespace WxAutoCore.Components
             {
                 nickNameList.ForEach(async nickName =>
                 {
-                    await this.AddMessageListener(nickName, callBack, true);
+                    await this.AddMessageListener(nickName, callBack);
                 });
             }, new FriendListenerOptions() { KeyWord = keyWord, Suffix = suffix, Label = label });
         }
@@ -960,7 +954,7 @@ namespace WxAutoCore.Components
         /// <param name="nickName">好友名称</param>
         public void StopMessageListener(string nickName)
         {
-            _SubWinList.GetSubWin(nickName)?.StopListener();
+            _SubWinList.StopMessageListener(nickName);
         }
         /// <summary>
         /// 移除添加新用户监听

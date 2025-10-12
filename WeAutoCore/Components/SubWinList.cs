@@ -22,9 +22,9 @@ namespace WxAutoCore.Components
     /// </summary>
     public class SubWinList
     {
-        private ConcurrentBag<string> _MonitorSubWinNames = new ConcurrentBag<string>();
-        private ConcurrentBag<Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider>> _MonitorSubWinActionList
-            = new ConcurrentBag<Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider>>();
+        private ConcurrentBag<string> _MonitorSubWinNames = new ConcurrentBag<string>();   //守护子窗口名称列表
+        private Dictionary<string, SubWin> _SubWins = new Dictionary<string, SubWin>();      //所有子窗口列表,事实上手动关闭子窗口，这里并不会变化.
+        private Dictionary<string, Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider>> _SubWinMessageListeners = new Dictionary<string, Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider>>();  //所有子窗口消息监听器列表
         private CancellationTokenSource _MonitorSubWinCancellationTokenSource = new CancellationTokenSource();
         private TaskCompletionSource<bool> _MonitorSubWinTaskCompletionSource = new TaskCompletionSource<bool>();
         private Thread _MonitorSubWinThread;
@@ -68,8 +68,21 @@ namespace WxAutoCore.Components
                             {
                                 foreach (var notExistSubWinName in notExistSubWinNames)
                                 {
+                                    //取消监听子窗口
+                                    var subWin = this.GetSubWin(notExistSubWinName);
+                                    subWin.Dispose();
+                                    _SubWins.Remove(notExistSubWinName);
+                                }
+                                foreach (var notExistSubWinName in notExistSubWinNames)
+                                {
+                                    //重新打开前将监听子窗口取消
                                     //如果子窗口不存在，则打开
                                     await this.CheckSubWinExistAndOpen(notExistSubWinName);
+                                    var subWin = this.GetSubWin(notExistSubWinName);
+                                    if (_SubWinMessageListeners.ContainsKey(notExistSubWinName))
+                                    {
+                                        subWin.AddMessageListener(_SubWinMessageListeners[notExistSubWinName]);
+                                    }
                                 }
                             }
                         }
@@ -156,6 +169,10 @@ namespace WxAutoCore.Components
         /// <returns>子窗口对象<see cref="SubWin"/></returns>
         public SubWin GetSubWin(string name)
         {
+            if (_SubWins.ContainsKey(name))
+            {
+                return _SubWins[name];
+            }
             var subWin = _uiThreadInvoker.Run(automation =>
             {
                 var desktop = automation.GetDesktop();
@@ -168,7 +185,9 @@ namespace WxAutoCore.Components
             }).Result;
             if (subWin.Success)
             {
-                return new SubWin(subWin.Result.AsWindow(), _MainWxWindow, _uiThreadInvoker, name, this, _serviceProvider);
+                var subWinObject = new SubWin(subWin.Result.AsWindow(), _MainWxWindow, _uiThreadInvoker, name, this, _serviceProvider);
+                _SubWins.Add(name, subWinObject);
+                return subWinObject;
             }
             return null;
         }
@@ -182,6 +201,11 @@ namespace WxAutoCore.Components
             foreach (var subWinName in subWinNames)
             {
                 GetSubWin(subWinName).Close();
+                foreach (var subWin in _SubWins)
+                {
+                    subWin.Value.Dispose();
+                }
+                _SubWins.Clear();
             }
         }
         /// <summary>
@@ -191,9 +215,11 @@ namespace WxAutoCore.Components
         public void CloseSubWin(string name)
         {
             GetSubWin(name).Close();
+            _SubWins[name].Dispose();
+            _SubWins.Remove(name);
         }
         /// <summary>
-        /// 注册监听子窗口
+        /// 注册守护子窗口监听
         /// </summary>
         /// <param name="name"></param>
         public void RegisterMonitorSubWin(string name)
@@ -205,12 +231,35 @@ namespace WxAutoCore.Components
         }
 
         /// <summary>
-        /// 取消监听子窗口
+        /// 取消守护子窗口监听
         /// </summary>
         /// <param name="name"></param>
         public void UnregisterMonitorSubWin(string name)
         {
             _MonitorSubWinNames = new ConcurrentBag<string>(_MonitorSubWinNames.Where(item => item != name));
+        }
+
+        /// <summary>
+        /// 添加消息监听
+        /// </summary>
+        /// <param name="callBack">回调函数</param>
+        /// <param name="nickName">好友名称</param>
+        public async Task AddMessageListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider> callBack, string nickName)
+        {
+            await this.CheckSubWinExistAndOpen(nickName);
+            await Task.Delay(500);
+            var subWin = this.GetSubWin(nickName);
+            subWin.AddMessageListener(callBack);
+            _SubWinMessageListeners.Add(nickName, callBack);
+        }
+        /// <summary>
+        /// 停止消息监听
+        /// </summary>
+        /// <param name="nickName">好友名称</param>
+        public void StopMessageListener(string nickName)
+        {
+            _SubWinMessageListeners.Remove(nickName);
+            GetSubWin(nickName).StopListener();
         }
     }
 }

@@ -20,7 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace WxAutoCore.Components
 {
-    public class ChatBody
+    public class ChatBody : IDisposable
     {
         private readonly AutoLogger<ChatBody> _logger;
         private readonly IServiceProvider _serviceProvider;
@@ -35,6 +35,7 @@ namespace WxAutoCore.Components
         private System.Threading.Timer _pollingTimer;
         private int _lastMessageCount = 0;
         private List<MessageBubble> _lastBubbles = new List<MessageBubble>();
+        private volatile bool _disposed = false;
         private volatile bool _isProcessing = false; // 标记是否正在处理消息
         public ChatBody(Window window, AutomationElement chatBodyRoot, IWeChatWindow wxWindow, string title, UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow, IServiceProvider serviceProvider)
         {
@@ -75,6 +76,10 @@ namespace WxAutoCore.Components
             // 启动定时器
             _pollingTimer = new System.Threading.Timer(_ =>
             {
+                if (_disposed)
+                {
+                    return;
+                }
                 // 如果正在处理中，跳过本次执行
                 if (_isProcessing)
                 {
@@ -217,6 +222,10 @@ namespace WxAutoCore.Components
         /// </summary>
         public void StopListener()
         {
+            if (_disposed)
+            {
+                return;
+            }
             _isProcessing = true;
             _pollingTimer?.Dispose();
             _pollingTimer = null;
@@ -288,5 +297,16 @@ namespace WxAutoCore.Components
             var sender = new Sender(_Window, senderRoot, _WxWindow, _Title, _uiThreadInvoker);
             return sender;
         }
+
+        public void Dispose()
+        {
+            if (_disposed)
+            {
+                return;
+            }
+            StopListener();
+            _disposed = true;
+        }
+
     }
 }
