@@ -20,14 +20,16 @@ namespace WxAutoCore.Components
     /// </summary>
     public class AddressBookList
     {
+        private readonly IServiceProvider _serviceProvider;
         private UIThreadInvoker _uiThreadInvoker;
         private Window _Window;
         private WeChatMainWindow _MainWin;
-        public AddressBookList(Window window, WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker)
+        public AddressBookList(Window window, WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker, IServiceProvider serviceProvider)
         {
             _uiThreadInvoker = uiThreadInvoker;
             _Window = window;
             _MainWin = wxWindow;
+            _serviceProvider = serviceProvider;
         }
         /// <summary>
         /// 获取所有好友

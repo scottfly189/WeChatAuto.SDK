@@ -6,6 +6,7 @@ using FlaUI.Core.WindowsAPI;
 using System.Collections.Generic;
 using System.Linq;
 using WxAutoCommon.Utils;
+using System;
 
 
 namespace WxAutoCore.Components
@@ -15,6 +16,7 @@ namespace WxAutoCore.Components
     /// </summary>
     public class WeChatClient
     {
+        private IServiceProvider _serviceProvider;
         public WeChatNotifyIcon WxNotifyIcon { get; private set; }  // 微信客户端通知图标
         public WeChatMainWindow WxMainWindow { get; private set; }  // 微信客户端窗口
 
@@ -26,10 +28,11 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="wxNotifyIcon">微信客户端通知图标类</param>
         /// <param name="wxWindow">微信客户端窗口类</param>
-        public WeChatClient(WeChatNotifyIcon wxNotifyIcon, WeChatMainWindow wxWindow)
+        public WeChatClient(WeChatNotifyIcon wxNotifyIcon, WeChatMainWindow wxWindow, IServiceProvider serviceProvider)
         {
             WxNotifyIcon = wxNotifyIcon;
             WxMainWindow = wxWindow;
+            _serviceProvider = serviceProvider;
         }
 
         public void ClickNotifyIcon()

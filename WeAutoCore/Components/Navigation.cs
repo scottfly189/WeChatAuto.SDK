@@ -15,16 +15,25 @@ namespace WxAutoCore.Components
 {
     public class Navigation
     {
+        private readonly IServiceProvider _serviceProvider;
         private UIThreadInvoker _uiThreadInvoker;
         private IWeChatWindow _WxWindow;
         public WxLocationCaches _wxLocationCaches = new WxLocationCaches();
         public AutomationElement CurrentNavigationElement { get; private set; }
         private Window _Window;
-        public Navigation(Window window, IWeChatWindow wxWindow, UIThreadInvoker uiThreadInvoker)
+        /// <summary>
+        /// 导航栏构造函数
+        /// </summary>
+        /// <param name="window">窗口</param>
+        /// <param name="wxWindow">微信窗口</param>
+        /// <param name="uiThreadInvoker">UI线程执行器</param>
+        /// <param name="serviceProvider">服务提供者</param>
+        public Navigation(Window window, IWeChatWindow wxWindow, UIThreadInvoker uiThreadInvoker, IServiceProvider serviceProvider)
         {
             _uiThreadInvoker = uiThreadInvoker;
             _Window = window;
             _WxWindow = wxWindow;
+            _serviceProvider = serviceProvider;
             _InitNavigation();
         }
         private void _InitNavigation()

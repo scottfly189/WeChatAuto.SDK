@@ -34,6 +34,7 @@ namespace WxAutoCore.Components
     public class WeChatMainWindow : IWeChatWindow, IDisposable
     {
         private readonly ActionQueueChannel<ChatActionMessage> _actionQueueChannel = new ActionQueueChannel<ChatActionMessage>();
+        private readonly AutoLogger<WeChatMainWindow> _logger;
         private WeChatFramwork _WeChatFramwork;
         private Window _Window;
         private ToolBar _ToolBar;  // 工具栏
@@ -64,7 +65,7 @@ namespace WxAutoCore.Components
         private TaskCompletionSource<bool> _newUserListenerStarted = new TaskCompletionSource<bool>();
         public Window SelfWindow { get => _Window; set => _Window = value; }
         public WeChatFramwork WeChatFramwork => _WeChatFramwork;
-    
+
 
         public ActionQueueChannel<ChatActionMessage> ActionQueueChannel => _actionQueueChannel;
 
@@ -78,15 +79,13 @@ namespace WxAutoCore.Components
             _serviceProvider = serviceProvider;
             _uiThreadInvoker = new UIThreadInvoker();
             _WeChatFramwork = weChatFramwork;
-            _InitSubscription();
             _Window = window;
             ProcessId = window.Properties.ProcessId;
-            _InitWxWindow(notifyIcon);
+            _logger = _serviceProvider.GetRequiredService<AutoLogger<WeChatMainWindow>>();
+            _InitStaticWxWindowComponents(notifyIcon);
+            _InitSubscription();
             _InitNewUserListener();
             _newUserListenerStarted.Task.Wait();
-
-            //测试一下:
-            _serviceProvider.GetRequiredService<AutoLogger<WeChatMainWindow>>().Info("hello,hello,hello,hello,hello,hello,hello,hello,hello,");
         }
         /// <summary>
         /// 初始化新用户监听
@@ -111,10 +110,12 @@ namespace WxAutoCore.Components
                 catch (OperationCanceledException)
                 {
                     Trace.WriteLine("新用户监听线程已停止，正常取消,不做处理");
+                    _logger.Info("新用户监听线程已停止，正常取消,不做处理");
                 }
                 catch (Exception e)
                 {
                     Trace.WriteLine("新用户监听线程异常，异常信息：" + e.Message);
+                    _logger.Error("新用户监听线程异常，异常信息：" + e.Message);
                     throw;
                 }
             });
@@ -162,6 +163,7 @@ namespace WxAutoCore.Components
                 catch (Exception ex)
                 {
                     Trace.WriteLine("新用户监听线程异常，异常信息：" + ex.Message);
+                    _logger.Error("新用户监听线程异常，异常信息：" + ex.Message);
                     return false;
                 }
             }).Result;
@@ -198,17 +200,17 @@ namespace WxAutoCore.Components
             _uiThreadInvoker.Run(automation => automation.UnregisterAllEvents()).Wait();
         }
         /// <summary>
-        /// 初始化微信窗口的各种组件
+        /// 初始化微信窗口的各种组件,这些组件在微信窗口中是静态的，不会随着微信窗口的变化而变化
         /// </summary>
-        private void _InitWxWindow(WeChatNotifyIcon notifyIcon)
+        private void _InitStaticWxWindowComponents(WeChatNotifyIcon notifyIcon)
         {
-            _ToolBar = new ToolBar(_Window, notifyIcon, _uiThreadInvoker);  // 工具栏
-            _Navigation = new Navigation(_Window, this, _uiThreadInvoker);  // 导航栏
-            _Search = new Search(this, _uiThreadInvoker, _Window);  // 搜索
-            _Conversations = new ConversationList(_Window, this, _uiThreadInvoker);  // 会话列表
-            _AddressBook = new AddressBookList(_Window, this, _uiThreadInvoker);  // 通讯录
-            _SubWinList = new SubWinList(_Window, this, _uiThreadInvoker);
-            _WxChatContent = new ChatContent(_Window, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane", this, _uiThreadInvoker, this);
+            _ToolBar = new ToolBar(_Window, notifyIcon, _uiThreadInvoker, _serviceProvider);  // 工具栏
+            _Navigation = new Navigation(_Window, this, _uiThreadInvoker, _serviceProvider);  // 导航栏
+            _Search = new Search(this, _uiThreadInvoker, _Window, _serviceProvider);  // 搜索
+            _Conversations = new ConversationList(_Window, this, _uiThreadInvoker, _serviceProvider);  // 会话列表
+            _AddressBook = new AddressBookList(_Window, this, _uiThreadInvoker, _serviceProvider);  // 通讯录
+            _SubWinList = new SubWinList(_Window, this, _uiThreadInvoker, _serviceProvider);
+            _WxChatContent = new ChatContent(_Window, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane", this, _uiThreadInvoker, this, _serviceProvider);
         }
         /// <summary>
         /// 初始化订阅
@@ -737,6 +739,7 @@ namespace WxAutoCore.Components
             catch (Exception ex)
             {
                 Trace.WriteLine("发送消息失败：" + ex.Message);
+                _logger.Error("发送消息失败：" + ex.Message);
             }
         }
         //发送文件核心方法
@@ -759,6 +762,7 @@ namespace WxAutoCore.Components
             catch (Exception ex)
             {
                 Trace.WriteLine("发送文件失败：" + ex.Message);
+                _logger.Error("发送文件失败：" + ex.Message);
             }
         }
         //发送文件核心方法
@@ -815,6 +819,7 @@ namespace WxAutoCore.Components
             catch (Exception ex)
             {
                 Trace.WriteLine("发送表情失败：" + ex.Message);
+                _logger.Error("发送表情失败：" + ex.Message);
             }
         }
         private async Task OpenSubWinCore(ChatActionMessage msg)
@@ -838,6 +843,7 @@ namespace WxAutoCore.Components
             }
             catch (Exception ex)
             {
+                _logger.Error("添加好友失败：" + ex.Message);
                 tcs.SetException(ex);
             }
 
@@ -866,6 +872,7 @@ namespace WxAutoCore.Components
             }
             catch (Exception ex)
             {
+                _logger.Error("添加好友失败：" + ex.Message);
                 Trace.WriteLine("添加好友失败：" + ex.Message);
                 tcs.SetException(ex);
                 throw;
@@ -881,11 +888,12 @@ namespace WxAutoCore.Components
         /// 2.包含新消息气泡的列表<see cref="List{MessageBubble}"/>，适用于给LLM大模型提供上下文
         /// 3.发送者<see cref="Sender"/>，适用于本子窗口操作，如发送消息、发送文件、发送表情等
         /// 4.当前微信窗口对象<see cref="WeChatMainWindow"/>，适用于全部操作，如给指定好友发送消息、发送文件、发送表情等
+        /// 5.服务提供者<see cref="IServiceProvider"/>，适用于使用者传入服务提供者，用于有户获取自己注入的服务
         /// </summary>
         /// <param name="nickName">好友名称</param>
         /// <param name="callBack">回调函数,由好友提供</param>
         /// <param name="monitor">是否启用子窗口监听，如果子窗口被误关，监听器会自动重新打开子窗口</param>
-        public async Task AddMessageListener(string nickName, Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork> callBack, bool monitor = true)
+        public async Task AddMessageListener(string nickName, Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider> callBack, bool monitor = true)
         {
             await _SubWinList.CheckSubWinExistAndOpen(nickName);
             await Task.Delay(1000);
@@ -925,7 +933,7 @@ namespace WxAutoCore.Components
         /// <param name="keyWord">关键字</param>
         /// <param name="suffix">后缀</param>
         /// <param name="label">标签</param>
-        public void AddNewFriendAutoPassedAndOpenSubWinListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork> callBack, string keyWord = null, string suffix = null, string label = null)
+        public void AddNewFriendAutoPassedAndOpenSubWinListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider> callBack, string keyWord = null, string suffix = null, string label = null)
         {
             _AddNewFriendListener(nickNameList =>
             {
@@ -956,7 +964,7 @@ namespace WxAutoCore.Components
         /// <summary>
         /// 移除添加新用户监听
         /// </summary>
-        public void RemoveNewUserListener()
+        public void StopNewUserListener()
         {
             _newUserActionList.Clear();
         }

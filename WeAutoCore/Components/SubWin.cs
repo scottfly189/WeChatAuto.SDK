@@ -12,19 +12,19 @@ namespace WxAutoCore.Components
     /// </summary>
     public class SubWin : IWeChatWindow
     {
+        private readonly IServiceProvider _serviceProvider;
         private ChatContent _ChatContent;
         private WeChatMainWindow _MainWxWindow;    //主窗口对象
         private Window _SelfWindow;        //子窗口FlaUI的window
         private int _ProcessId;
         private UIThreadInvoker _uiThreadInvoker;
+        private SubWinList _SubWinList;
         public Window SelfWindow { get => _SelfWindow; set => _SelfWindow = value; }
         /// <summary>
         /// 昵称
         /// </summary>
         public string NickName { get; set; }
-
         public ChatContent ChatContent => _ChatContent;
-
         public int ProcessId => _ProcessId;
 
         /// <summary>
@@ -32,13 +32,17 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="window">子窗口FlaUI的window</param>
         /// <param name="wxWindow">主窗口的微信窗口对象</param>
-        public SubWin(Window window, WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker, string title)
+        /// <param name="subWinList">子窗口列表</param>
+        /// <param name="serviceProvider">服务提供者</param>
+        public SubWin(Window window, WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker, string title, SubWinList subWinList, IServiceProvider serviceProvider)
         {
+            _serviceProvider = serviceProvider;
             _uiThreadInvoker = uiThreadInvoker;
+            _SubWinList = subWinList;
             NickName = title;
             _SelfWindow = window;
             _MainWxWindow = wxWindow;
-            _ChatContent = new ChatContent(_SelfWindow, ChatContentType.SubWindow, "/Pane[2]/Pane/Pane[2]/Pane/Pane", this, uiThreadInvoker,this._MainWxWindow);
+            _ChatContent = new ChatContent(_SelfWindow, ChatContentType.SubWindow, "/Pane[2]/Pane/Pane[2]/Pane/Pane", this, uiThreadInvoker,this._MainWxWindow, _serviceProvider);
             _ProcessId = _SelfWindow.Properties.ProcessId.Value;
         }
 
@@ -46,7 +50,7 @@ namespace WxAutoCore.Components
         /// 添加消息监听
         /// </summary>
         /// <param name="callBack"></param>
-        public void AddMessageListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork> callBack)
+        public void AddMessageListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork,IServiceProvider> callBack)
         {
             _ChatContent.ChatBody.AddListener(callBack);
         }

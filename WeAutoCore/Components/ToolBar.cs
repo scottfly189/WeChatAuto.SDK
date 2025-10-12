@@ -1,6 +1,8 @@
+using System;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Input;
 using WxAutoCommon.Utils;
+using WxAutoCore.Utils;
 
 namespace WxAutoCore.Components
 {
@@ -9,6 +11,7 @@ namespace WxAutoCore.Components
     /// </summary>
     public class ToolBar
     {
+        private readonly IServiceProvider _serviceProvider;
         private UIThreadInvoker _uiThreadInvoker;
         private WeChatNotifyIcon _NotifyIcon;
         private AutomationElement _ToolBar;
@@ -19,11 +22,20 @@ namespace WxAutoCore.Components
         private Button _CloseButton;
 
         public AutomationElement ToolBarInfo => _ToolBar;
-        public ToolBar(Window window, WeChatNotifyIcon notifyIcon, UIThreadInvoker uiThreadInvoker)
+        /// <summary>
+        /// 工具栏构造函数
+        /// </summary>
+        /// <param name="window">窗口</param>
+        /// <param name="notifyIcon">通知图标</param>
+        /// <param name="uiThreadInvoker">UI线程执行器</param>
+        /// <param name="serviceProvider">服务提供者</param>
+        /// <param name="serviceProvider">服务提供者</param>
+        public ToolBar(Window window, WeChatNotifyIcon notifyIcon, UIThreadInvoker uiThreadInvoker, IServiceProvider serviceProvider)
         {
             _Window = window;
             _NotifyIcon = notifyIcon;
             _uiThreadInvoker = uiThreadInvoker;
+            _serviceProvider = serviceProvider;
         }
 
         private void RefreshToolBar()

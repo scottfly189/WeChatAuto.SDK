@@ -1,3 +1,4 @@
+using System;
 using FlaUI.Core.AutomationElements;
 
 namespace WxAutoCore.Components
@@ -8,11 +9,13 @@ namespace WxAutoCore.Components
     public class WeChatNotifyIcon
     {
         private Button _NotifyIcon;
+        private IServiceProvider _serviceProvider;
         public Button NotifyIcon => _NotifyIcon;
 
-        public WeChatNotifyIcon(Button notifyIcon)
+        public WeChatNotifyIcon(Button notifyIcon, IServiceProvider serviceProvider)
         {
             _NotifyIcon = notifyIcon;
+            _serviceProvider = serviceProvider;
         }
         /// <summary>
         /// 点击通知图标

@@ -7,6 +7,7 @@ using WxAutoCommon.Enums;
 using WxAutoCommon.Interface;
 using WxAutoCore.Utils;
 using WxAutoCommon.Utils;
+using System;
 
 namespace WxAutoCore.Components
 {
@@ -18,6 +19,7 @@ namespace WxAutoCore.Components
         private string _XPath;
         private AutomationElement _ChatContentRoot;
         private UIThreadInvoker _uiThreadInvoker;
+        private readonly IServiceProvider _serviceProvider;
         private WeChatMainWindow _MainWxWindow;    //主窗口对象
         public AutomationElement ChatContentRoot
         {
@@ -32,7 +34,7 @@ namespace WxAutoCore.Components
         }
         public ChatHeader ChatHeader => GetChatHeader();
         public ChatBody ChatBody => GetChatBody();
-        public ChatContent(Window window, ChatContentType chatContentType, string xPath, IWeChatWindow wxWindow, UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow)
+        public ChatContent(Window window, ChatContentType chatContentType, string xPath, IWeChatWindow wxWindow, UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow, IServiceProvider serviceProvider)
         {
             _uiThreadInvoker = uiThreadInvoker;
             _Window = window;
@@ -40,6 +42,7 @@ namespace WxAutoCore.Components
             _XPath = xPath;
             _WxWindow = wxWindow;
             _MainWxWindow = mainWxWindow;
+            _serviceProvider = serviceProvider;
         }
         /// <summary>
         /// 获取聊天标题
@@ -94,7 +97,7 @@ namespace WxAutoCore.Components
             var title = GetFullTitle();
             var chatBodyRoot = _uiThreadInvoker.Run(automation => ChatContentRoot.FindFirstByXPath("/Pane[2]")).Result;
             DrawHightlightHelper.DrawHightlight(chatBodyRoot, _uiThreadInvoker);
-            var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow, title, _uiThreadInvoker,this._MainWxWindow);
+            var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow, title, _uiThreadInvoker,this._MainWxWindow, _serviceProvider);
             return chatBody;
         }
     }

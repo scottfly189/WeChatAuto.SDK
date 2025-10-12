@@ -13,12 +13,14 @@ namespace WxAutoCore.Components
 {
     public class Search
     {
+        private readonly IServiceProvider _serviceProvider;
         private UIThreadInvoker _uiThreadInvoker;
         private WeChatMainWindow _WxWindow;
-        public Search(WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker, Window window)
+        public Search(WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker, Window window, IServiceProvider serviceProvider)
         {
             _uiThreadInvoker = uiThreadInvoker;
             _WxWindow = wxWindow;
+            _serviceProvider = serviceProvider;
         }
 
 

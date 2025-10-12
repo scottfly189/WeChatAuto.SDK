@@ -293,7 +293,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.AddMessageListener(WeChatConfig.TestFriendNickName, (newBubbles, bubblesList, sender, mainWindow, framework) =>
+            await window.AddMessageListener(WeChatConfig.TestFriendNickName, (newBubbles, bubblesList, sender, mainWindow, framework, serviceProvider) =>
             {
                 Trace.WriteLine($"消息: 收到新消息数量:{newBubbles.Count},当前可见消息数量:{bubblesList.Count}");
             });
@@ -306,7 +306,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.AddMessageListener(WeChatConfig.TestFriendNickName, (newBubbles, bubblesList, sender, mainWindow, framework) =>
+            await window.AddMessageListener(WeChatConfig.TestFriendNickName, (newBubbles, bubblesList, sender, mainWindow, framework, serviceProvider) =>
             {
                 Trace.WriteLine($"消息: 收到新消息数量:{newBubbles.Count},当前可见消息数量:{bubblesList.Count}");
                 foreach (var bubble in newBubbles)

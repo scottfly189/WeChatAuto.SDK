@@ -20,6 +20,7 @@ namespace WxAutoCore.Components
     /// </summary>
     public class ConversationList
     {
+        private readonly IServiceProvider _serviceProvider;
         private UIThreadInvoker _uiThreadInvoker;
         private Window _Window;
         private WeChatMainWindow _WxWindow;
@@ -33,11 +34,12 @@ namespace WxAutoCore.Components
         };
         private readonly string _titleSuffix = WeChatConstant.WECHAT_SESSION_BOX_HAS_TOP;
         private List<ListBoxItem> _Conversations = new List<ListBoxItem>();
-        public ConversationList(Window window, WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker)
+        public ConversationList(Window window, WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker, IServiceProvider serviceProvider)
         {
             _uiThreadInvoker = uiThreadInvoker;
             _Window = window;
             _WxWindow = wxWindow;
+            _serviceProvider = serviceProvider;
         }
         /// <summary>
         /// 获取会话列表可见会话

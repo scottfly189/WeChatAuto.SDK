@@ -138,10 +138,10 @@ namespace WxAutoCore.Components
                                 .And(cf.ByProcessId(topWindowProcessId.Result)))).AsWindow()
                     ).Result;
                     DrawHightlightHelper.DrawHightlight(wxInstances, _uiThreadInvoker);
-                    WeChatNotifyIcon wxNotifyIcon = new WeChatNotifyIcon(wxNotify.AsButton());
+                    WeChatNotifyIcon wxNotifyIcon = new WeChatNotifyIcon(wxNotify.AsButton(),_serviceProvider);
                     WeChatMainWindow wxWindow = new WeChatMainWindow(wxInstances, wxNotifyIcon, this,_serviceProvider);
 
-                    var client = new WeChatClient(wxNotifyIcon, wxWindow);
+                    var client = new WeChatClient(wxNotifyIcon, wxWindow,_serviceProvider);
                     wxWindow.Client = client;
                     var NickNameButton = wxInstances.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]").AsButton();
                     _wxClientList.Add(NickNameButton.Name, client);
