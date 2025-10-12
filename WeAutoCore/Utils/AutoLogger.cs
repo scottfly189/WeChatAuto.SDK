@@ -6,10 +6,10 @@ namespace WxAutoCore.Utils
     /// <summary>
     /// 自动化日志类
     /// </summary>
-    public class AutoLogger
+    public class AutoLogger<T>
     {
-        private readonly ILogger<AutoLogger> _logger;
-        public AutoLogger(ILogger<AutoLogger> logger)
+        private readonly ILogger<T> _logger;
+        public AutoLogger(ILogger<T> logger)
         {
             _logger = logger;
         }

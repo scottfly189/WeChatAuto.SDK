@@ -14,12 +14,13 @@ namespace WxAutoCore.Extentions
         /// <returns></returns>
         public static IServiceCollection AddAutoLogger(this IServiceCollection services)
         {
-            services.AddTransient<AutoLogger>();
+            services.AddTransient(typeof(AutoLogger<>));
             var hasLoggerFactory = services.Any(s => s.ServiceType == typeof(ILoggerFactory));
             if (!hasLoggerFactory)
             {
                 services.AddLogging(builder =>
                 {
+                    builder.ClearProviders();
                     builder.AddConsole();
                     builder.SetMinimumLevel(LogLevel.Trace);
                 });

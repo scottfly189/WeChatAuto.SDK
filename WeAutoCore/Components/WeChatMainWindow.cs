@@ -21,6 +21,8 @@ using WxAutoCommon.Classes;
 using System.Windows.Documents;
 using FlaUI.Core.Tools;
 using System.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 
 
@@ -41,6 +43,7 @@ namespace WxAutoCore.Components
         private ConversationList _Conversations;  // 会话列表
         private AddressBookList _AddressBook;  // 通讯录
         private ChatContent _WxChatContent;  // 聊天窗口
+        private IServiceProvider _serviceProvider;
         public ToolBar ToolBar => _ToolBar;  // 工具栏
         public Navigation Navigation => _Navigation;  // 导航栏
         public ConversationList Conversations => _Conversations;  // 会话列表
@@ -70,8 +73,9 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="window">微信窗口<see cref="Window"/></param>
         /// <param name="notifyIcon">微信通知图标<see cref="WeChatNotifyIcon"/></param>
-        public WeChatMainWindow(Window window, WeChatNotifyIcon notifyIcon, WeChatFramwork weChatFramwork)
+        public WeChatMainWindow(Window window, WeChatNotifyIcon notifyIcon, WeChatFramwork weChatFramwork, IServiceProvider serviceProvider)
         {
+            _serviceProvider = serviceProvider;
             _uiThreadInvoker = new UIThreadInvoker();
             _WeChatFramwork = weChatFramwork;
             _InitSubscription();
@@ -80,6 +84,9 @@ namespace WxAutoCore.Components
             _InitWxWindow(notifyIcon);
             _InitNewUserListener();
             _newUserListenerStarted.Task.Wait();
+
+            //测试一下:
+            _serviceProvider.GetRequiredService<AutoLogger<WeChatMainWindow>>().Info("hello,hello,hello,hello,hello,hello,hello,hello,hello,");
         }
         /// <summary>
         /// 初始化新用户监听

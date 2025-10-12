@@ -139,7 +139,7 @@ namespace WxAutoCore.Components
                     ).Result;
                     DrawHightlightHelper.DrawHightlight(wxInstances, _uiThreadInvoker);
                     WeChatNotifyIcon wxNotifyIcon = new WeChatNotifyIcon(wxNotify.AsButton());
-                    WeChatMainWindow wxWindow = new WeChatMainWindow(wxInstances, wxNotifyIcon, this);
+                    WeChatMainWindow wxWindow = new WeChatMainWindow(wxInstances, wxNotifyIcon, this,_serviceProvider);
 
                     var client = new WeChatClient(wxNotifyIcon, wxWindow);
                     wxWindow.Client = client;
