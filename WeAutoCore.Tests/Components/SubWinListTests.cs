@@ -12,7 +12,7 @@ namespace WxAutoCore.Tests.Components
     [Collection("UiTestCollection")]
     public class SubWinListTests
     {
-        private readonly string _wxClientName = WeChatConfig.TestClientName;
+        private readonly string _wxClientName = WeAutomation.Config.TestClientName;
         private readonly ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public SubWinListTests(ITestOutputHelper output, UiTestFixture globalFixture)

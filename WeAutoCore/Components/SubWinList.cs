@@ -13,6 +13,7 @@ using WxAutoCommon.Configs;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Models;
 using System.Diagnostics;
+using WxAutoCore.Services;
 
 namespace WxAutoCore.Components
 {
@@ -70,7 +71,7 @@ namespace WxAutoCore.Components
                                 }
                             }
                         }
-                        await Task.Delay(WeChatConfig.MonitorSubWinInterval * 1000);
+                        await Task.Delay(WeAutomation.Config.MonitorSubWinInterval * 1000);
                     }
                     catch (Exception ex)
                     {

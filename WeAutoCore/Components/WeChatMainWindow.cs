@@ -23,6 +23,7 @@ using FlaUI.Core.Tools;
 using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using WxAutoCore.Services;
 
 
 
@@ -104,7 +105,7 @@ namespace WxAutoCore.Components
                         {
                             await _FetchNewUserNoticeAction(_newUserListenerCancellationTokenSource.Token);
                         }
-                        Thread.Sleep(WeChatConfig.NewUserListenerInterval * 1000);
+                        Thread.Sleep(WeAutomation.Config.NewUserListenerInterval * 1000);
                     }
                 }
                 catch (OperationCanceledException)

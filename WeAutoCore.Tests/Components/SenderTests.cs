@@ -10,7 +10,7 @@ namespace WxAutoCore.Tests.Components;
 [Collection("UiTestCollection")]
 public class SenderTests
 {
-    private readonly string _wxClientName = WeChatConfig.TestClientName;
+    private readonly string _wxClientName = WeAutomation.Config.TestClientName;
     private readonly ITestOutputHelper _output;
     private UiTestFixture _globalFixture;
     public SenderTests(ITestOutputHelper output, UiTestFixture globalFixture)
@@ -37,8 +37,8 @@ public class SenderTests
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
         var mainWindow = client.WxMainWindow;
-        mainWindow.Conversations.DoubleClickConversation(WeChatConfig.TestGroupNickName);
-        var subWin = mainWindow.SubWinList.GetSubWin(WeChatConfig.TestGroupNickName);
+        mainWindow.Conversations.DoubleClickConversation(WeAutomation.Config.TestGroupNickName);
+        var subWin = mainWindow.SubWinList.GetSubWin(WeAutomation.Config.TestGroupNickName);
         var sender = subWin.ChatContent.ChatBody.Sender;
         sender.SendMessage("你好，世界！");
         Assert.True(true);
@@ -52,8 +52,8 @@ public class SenderTests
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
         var mainWindow = client.WxMainWindow;
-        mainWindow.Conversations.DoubleClickConversation(WeChatConfig.TestGroupNickName);
-        var subWin = mainWindow.SubWinList.GetSubWin(WeChatConfig.TestGroupNickName);
+        mainWindow.Conversations.DoubleClickConversation(WeAutomation.Config.TestGroupNickName);
+        var subWin = mainWindow.SubWinList.GetSubWin(WeAutomation.Config.TestGroupNickName);
         var sender = subWin.ChatContent.ChatBody.Sender;
         sender.SendMessage("你好，世界！", "秋歌");
         Assert.True(true);
@@ -67,8 +67,8 @@ public class SenderTests
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
         var mainWindow = client.WxMainWindow;
-        mainWindow.Conversations.DoubleClickConversation(WeChatConfig.TestGroupNickName);
-        var subWin = mainWindow.SubWinList.GetSubWin(WeChatConfig.TestGroupNickName);
+        mainWindow.Conversations.DoubleClickConversation(WeAutomation.Config.TestGroupNickName);
+        var subWin = mainWindow.SubWinList.GetSubWin(WeAutomation.Config.TestGroupNickName);
         var sender = subWin.ChatContent.ChatBody.Sender;
         sender.SendEmoji(11);
         sender.SendEmoji("微笑");
@@ -83,8 +83,8 @@ public class SenderTests
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
         var mainWindow = client.WxMainWindow;
-        mainWindow.Conversations.DoubleClickConversation(WeChatConfig.TestGroupNickName);
-        var subWin = mainWindow.SubWinList.GetSubWin(WeChatConfig.TestGroupNickName);
+        mainWindow.Conversations.DoubleClickConversation(WeAutomation.Config.TestGroupNickName);
+        var subWin = mainWindow.SubWinList.GetSubWin(WeAutomation.Config.TestGroupNickName);
         var sender = subWin.ChatContent.ChatBody.Sender;
         sender.SendFile(new string[] { @"C:\Users\Administrator\Desktop\ssss\logo.png" });
         Assert.True(true);
@@ -98,8 +98,8 @@ public class SenderTests
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
         var mainWindow = client.WxMainWindow;
-        mainWindow.Conversations.DoubleClickConversation(WeChatConfig.TestGroupNickName);
-        var subWin = mainWindow.SubWinList.GetSubWin(WeChatConfig.TestGroupNickName);
+        mainWindow.Conversations.DoubleClickConversation(WeAutomation.Config.TestGroupNickName);
+        var subWin = mainWindow.SubWinList.GetSubWin(WeAutomation.Config.TestGroupNickName);
         var sender = subWin.ChatContent.ChatBody.Sender;
         sender.SendFile(new string[] { @"C:\Users\Administrator\Desktop\ssss\logo.png", @"C:\Users\Administrator\Desktop\ssss\4.mp4", @"C:\Users\Administrator\Desktop\ssss\3.pdf" });
         Assert.True(true);

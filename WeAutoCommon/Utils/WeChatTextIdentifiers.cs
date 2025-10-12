@@ -13,13 +13,13 @@ namespace WxAutoCommon.Utils
         {
             if (textIdentifiers.TryGetValue(key, out var textIdentifier))
             {
-                switch (WeChatConfig.CurrentLanguage)
+                switch (Language.CurrentLanguage)
                 {
-                    case WeChatConfig.Language.Chinese:
+                    case Language.Chinese:
                         return textIdentifier.Cn;
-                    case WeChatConfig.Language.ChineseTraditional:
+                    case Language.ChineseTraditional:
                         return textIdentifier.CnT;
-                    case WeChatConfig.Language.English:
+                    case Language.English:
                         return textIdentifier.En;
                     default:
                         return textIdentifier.Cn;

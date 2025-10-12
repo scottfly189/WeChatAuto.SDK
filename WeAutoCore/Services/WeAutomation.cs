@@ -12,18 +12,20 @@ namespace WxAutoCore.Services
     {
         private static IServiceProvider _internalProvider = null;
         private static IServiceCollection _internalServices = null;
+        private static WeChatConfig _config = new WeChatConfig();
+        public static WeChatConfig Config => _config;
 
         /// <summary>
         /// 如果用户端已经有依赖注入框架，则直接注入
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddWxAutomation(this IServiceCollection services)
+        public static IServiceCollection AddWxAutomation(this IServiceCollection services, Action<WeChatConfig> configAction = default)
         {
-            _internalServices = services;
             //这里增加服务.
             services.AddSingleton<WeChatFramwork>();
             services.AddAutoLogger();
+            configAction?.Invoke(_config);
 
             return services;
         }
@@ -32,14 +34,14 @@ namespace WxAutoCore.Services
         /// 注意：此方法与AddWxAutomation()方法不能同时使用
         /// </summary>
         /// <returns></returns>
-        public static IServiceProvider GetServiceProvider()
+        public static IServiceProvider GetServiceProvider(Action<WeChatConfig> configAction = default)
         {
             if (_internalServices == null)
             {
                 _internalServices = new ServiceCollection();
             }
             if (_internalProvider == null)
-                _internalProvider = _internalServices.AddWxAutomation().BuildServiceProvider();
+                _internalProvider = _internalServices.AddWxAutomation(configAction).BuildServiceProvider();
             return _internalProvider;
         }
 

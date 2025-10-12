@@ -11,7 +11,7 @@ namespace WxAutoCore.Tests.Components
     [Collection("UiTestCollection")]
     public class WxWindowTests
     {
-        private readonly string _wxClientName = WeChatConfig.TestClientName;
+        private readonly string _wxClientName = WeAutomation.Config.TestClientName;
         private readonly ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public WxWindowTests(ITestOutputHelper output, UiTestFixture globalFixture)
@@ -80,7 +80,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.SendWho(WeChatConfig.TestFriendNickName, "你好，世界111！");
+            await window.SendWho(WeAutomation.Config.TestFriendNickName, "你好，世界111！");
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -91,7 +91,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.SendWho(WeChatConfig.TestFriendNickName, "你好，世界222！");
+            await window.SendWho(WeAutomation.Config.TestFriendNickName, "你好，世界222！");
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -101,7 +101,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.SendWho(WeChatConfig.TestFriendNickName, "你好，世界333！");
+            await window.SendWho(WeAutomation.Config.TestFriendNickName, "你好，世界333！");
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -112,7 +112,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.SendWhoAndOpenChat(WeChatConfig.TestFriendNickName, "你好，世界333222！");
+            await window.SendWhoAndOpenChat(WeAutomation.Config.TestFriendNickName, "你好，世界333222！");
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -123,7 +123,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.SendWho(WeChatConfig.TestFriendNickName, "你好，世界444！");
+            await window.SendWho(WeAutomation.Config.TestFriendNickName, "你好，世界444！");
             Assert.True(true);
             await Task.Delay(30000);
         }
@@ -145,7 +145,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.SendWhoAndOpenChat(WeChatConfig.TestFriendNickName, "你好，世界666！");
+            await window.SendWhoAndOpenChat(WeAutomation.Config.TestFriendNickName, "你好，世界666！");
             Assert.True(true);
             await Task.Delay(30000);
         }
@@ -156,7 +156,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendWhos([WeChatConfig.TestFriendNickName, WeChatConfig.TestGroupNickName], "你好，世界777！");
+            window.SendWhos([WeAutomation.Config.TestFriendNickName, WeAutomation.Config.TestGroupNickName], "你好，世界777！");
             Assert.True(true);
             await Task.Delay(30000);
         }
@@ -167,7 +167,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendWhosAndOpenChat([WeChatConfig.TestFriendNickName, WeChatConfig.TestGroupNickName], "你好，世界777！");
+            window.SendWhosAndOpenChat([WeAutomation.Config.TestFriendNickName, WeAutomation.Config.TestGroupNickName], "你好，世界777！");
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -177,7 +177,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendEmoji(WeChatConfig.TestFriendNickName, EmojiListHelper.Items[0].Index, false);
+            window.SendEmoji(WeAutomation.Config.TestFriendNickName, EmojiListHelper.Items[0].Index, false);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -187,7 +187,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendEmoji(WeChatConfig.TestFriendNickName, "微笑", false);
+            window.SendEmoji(WeAutomation.Config.TestFriendNickName, "微笑", false);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -197,7 +197,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendEmoji(WeChatConfig.TestFriendNickName, "[微笑]", false);
+            window.SendEmoji(WeAutomation.Config.TestFriendNickName, "[微笑]", false);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -208,7 +208,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendEmoji(WeChatConfig.TestFriendNickName, EmojiListHelper.Items[0].Index, true);
+            window.SendEmoji(WeAutomation.Config.TestFriendNickName, EmojiListHelper.Items[0].Index, true);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -219,7 +219,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendEmojis([WeChatConfig.TestFriendNickName, WeChatConfig.TestGroupNickName], EmojiListHelper.Items[0].Index, true);
+            window.SendEmojis([WeAutomation.Config.TestFriendNickName, WeAutomation.Config.TestGroupNickName], EmojiListHelper.Items[0].Index, true);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -230,7 +230,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendFile(WeChatConfig.TestFriendNickName, @"C:\Users\Administrator\Desktop\ssss\logo.png", false);
+            window.SendFile(WeAutomation.Config.TestFriendNickName, @"C:\Users\Administrator\Desktop\ssss\logo.png", false);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -241,7 +241,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendFile(WeChatConfig.TestFriendNickName, @"C:\Users\Administrator\Desktop\ssss\4.mp4", false);
+            window.SendFile(WeAutomation.Config.TestFriendNickName, @"C:\Users\Administrator\Desktop\ssss\4.mp4", false);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -253,7 +253,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendFile(WeChatConfig.TestGroupNickName, new string[] { @"C:\Users\Administrator\Desktop\ssss\4.mp4", @"C:\Users\Administrator\Desktop\ssss\logo.png", @"C:\Users\Administrator\Desktop\ssss\3.pdf" }, false);
+            window.SendFile(WeAutomation.Config.TestGroupNickName, new string[] { @"C:\Users\Administrator\Desktop\ssss\4.mp4", @"C:\Users\Administrator\Desktop\ssss\logo.png", @"C:\Users\Administrator\Desktop\ssss\3.pdf" }, false);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -293,7 +293,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.AddMessageListener(WeChatConfig.TestFriendNickName, (newBubbles, bubblesList, sender, mainWindow, framework, serviceProvider) =>
+            await window.AddMessageListener(WeAutomation.Config.TestFriendNickName, (newBubbles, bubblesList, sender, mainWindow, framework, serviceProvider) =>
             {
                 Trace.WriteLine($"消息: 收到新消息数量:{newBubbles.Count},当前可见消息数量:{bubblesList.Count}");
             });
@@ -306,7 +306,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.AddMessageListener(WeChatConfig.TestFriendNickName, (newBubbles, bubblesList, sender, mainWindow, framework, serviceProvider) =>
+            await window.AddMessageListener(WeAutomation.Config.TestFriendNickName, (newBubbles, bubblesList, sender, mainWindow, framework, serviceProvider) =>
             {
                 Trace.WriteLine($"消息: 收到新消息数量:{newBubbles.Count},当前可见消息数量:{bubblesList.Count}");
                 foreach (var bubble in newBubbles)

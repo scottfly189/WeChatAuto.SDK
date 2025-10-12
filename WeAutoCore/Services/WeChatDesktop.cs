@@ -67,7 +67,7 @@ namespace WxAutoCore.Services
                 var wxMainWindow = wxClient.WxMainWindow;
                 if (!string.IsNullOrEmpty(message.ApiKey))
                 {
-                    WeChatConfig.ApiKey = message.ApiKey;
+                    WeAutomation.Config.ApiKey = message.ApiKey;
                 }
 
                 if (message.IsNewWindow)

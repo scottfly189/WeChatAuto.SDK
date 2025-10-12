@@ -4,13 +4,14 @@ using Xunit;
 using Xunit.Abstractions;
 using WxAutoCommon.Models;
 using WxAutoCommon.Configs;
+using WxAutoCore.Services;
 
 namespace WxAutoCore.Tests.Components
 {
     [Collection("UiTestCollection")]
     public class AddressBookListTests
     {
-        private readonly string _wxClientName = WeChatConfig.TestClientName;
+        private readonly string _wxClientName = WeAutomation.Config.TestClientName;
         private readonly ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public AddressBookListTests(ITestOutputHelper output, UiTestFixture globalFixture)

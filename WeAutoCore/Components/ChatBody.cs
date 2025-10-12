@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.Threading;
 using WxAutoCommon.Configs;
 using WxAutoCommon.Enums;
+using WxAutoCore.Services;
 
 namespace WxAutoCore.Components
 {
@@ -99,7 +100,7 @@ namespace WxAutoCore.Components
                 {
                     _isProcessing = false; // 标记处理完成
                 }
-            }, null, WeChatConfig.ListenInterval * 1000, WeChatConfig.ListenInterval * 1000);
+            }, null, WeAutomation.Config.ListenInterval * 1000, WeAutomation.Config.ListenInterval * 1000);
         }
         /// <summary>
         /// 比较两个气泡列表的哈希值是否相同

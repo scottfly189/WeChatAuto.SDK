@@ -4,13 +4,14 @@ using Xunit;
 using Xunit.Abstractions;
 using WxAutoCommon.Models;
 using WxAutoCommon.Configs;
+using WxAutoCore.Services;
 
 namespace WxAutoCore.Tests.Components
 {
     [Collection("UiTestCollection")]
     public class ConversationListTests
     {
-        private readonly string _wxClientName = WeChatConfig.TestClientName;
+        private readonly string _wxClientName = WeAutomation.Config.TestClientName;
         private readonly ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public ConversationListTests(ITestOutputHelper output, UiTestFixture globalFixture)
@@ -41,7 +42,7 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
-            conversations.ClickConversation(WeChatConfig.TestGroupNickName);
+            conversations.ClickConversation(WeAutomation.Config.TestGroupNickName);
         }
 
         [Fact(DisplayName = "测试双击会话")]
@@ -51,7 +52,7 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
-            conversations.DoubleClickConversation(WeChatConfig.TestGroupNickName);
+            conversations.DoubleClickConversation(WeAutomation.Config.TestGroupNickName);
         }
 
         [Fact(DisplayName = "获取会话列表可见会话标题")]
@@ -91,7 +92,7 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
-            var result = conversations.LocateConversation(WeChatConfig.TestGroupNickName);
+            var result = conversations.LocateConversation(WeAutomation.Config.TestGroupNickName);
             _output.WriteLine($"定位会话结果: {result}");
             result = conversations.LocateConversation("哈哈");
             _output.WriteLine($"定位会话结果: {result}");

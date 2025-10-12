@@ -1,13 +1,14 @@
 using WxAutoCommon.Models;
 using Xunit.Abstractions;
 using WxAutoCommon.Configs;
+using WxAutoCore.Services;
 
 namespace WxAutoCore.Tests.Components
 {
     [Collection("UiTestCollection")]
     public class SearchTests
     {
-        private readonly string _wxClientName = WeChatConfig.TestClientName;
+        private readonly string _wxClientName = WeAutomation.Config.TestClientName;
         private readonly ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public SearchTests(ITestOutputHelper output, UiTestFixture globalFixture)
@@ -23,7 +24,7 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var search = window.Search;
-            search.SearchChat(WeChatConfig.TestFriendNickName);
+            search.SearchChat(WeAutomation.Config.TestFriendNickName);
             Assert.True(true);
         }
 
@@ -34,7 +35,7 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var search = window.Search;
-            search.SearchContact(WeChatConfig.TestFriendNickName);
+            search.SearchContact(WeAutomation.Config.TestFriendNickName);
             Assert.True(true);
         }
 
@@ -45,7 +46,7 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var search = window.Search;
-            search.SearchCollection(WeChatConfig.TestFriendNickName);
+            search.SearchCollection(WeAutomation.Config.TestFriendNickName);
             Assert.True(true);
         }
     }

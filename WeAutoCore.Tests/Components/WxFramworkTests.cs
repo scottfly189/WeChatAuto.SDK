@@ -2,13 +2,14 @@ using WxAutoCommon.Models;
 using WxAutoCore.Components;
 using Xunit.Abstractions;
 using WxAutoCommon.Configs;
+using WxAutoCore.Services;
 
 namespace WxAutoCore.Tests.Components
 {
     [Collection("UiTestCollection")]
     public class WxFramworkTests
     {
-        private readonly string _wxClientName = WeChatConfig.TestClientName;
+        private readonly string _wxClientName = WeAutomation.Config.TestClientName;
         private ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public WxFramworkTests(ITestOutputHelper output, UiTestFixture globalFixture)

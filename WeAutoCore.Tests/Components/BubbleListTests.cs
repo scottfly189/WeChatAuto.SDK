@@ -10,7 +10,7 @@ namespace WxAutoCore.Tests.Components;
 [Collection("UiTestCollection")]
 public class BubbleListTests
 {
-    private readonly string _wxClientName = WeChatConfig.TestClientName;
+    private readonly string _wxClientName = WeAutomation.Config.TestClientName;
     private readonly ITestOutputHelper _output;
     private UiTestFixture _globalFixture;
     public BubbleListTests(ITestOutputHelper output, UiTestFixture globalFixture)
@@ -44,7 +44,7 @@ public class BubbleListTests
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
         var window = client.WxMainWindow;
-        var subWin = window.SubWinList.GetSubWin(WeChatConfig.TestFriendNickName);
+        var subWin = window.SubWinList.GetSubWin(WeAutomation.Config.TestFriendNickName);
         if (subWin == null)
         {
             _output.WriteLine("子窗口不存在");
@@ -70,7 +70,7 @@ public class BubbleListTests
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
         var window = client.WxMainWindow;
-        var subWin = window.SubWinList.GetSubWin(WeChatConfig.TestGroupNickName);
+        var subWin = window.SubWinList.GetSubWin(WeAutomation.Config.TestGroupNickName);
         if (subWin == null)
         {
             _output.WriteLine("子窗口不存在");
@@ -96,10 +96,10 @@ public class BubbleListTests
         var framework = _globalFixture.wxFramwork;
         var client = framework.GetWxClient(_wxClientName);
         var window = client.WxMainWindow;
-        await window.SendWho(WeChatConfig.TestFriendNickName, "hello world!");
+        await window.SendWho(WeAutomation.Config.TestFriendNickName, "hello world!");
         _output.WriteLine(window.ChatContent.ChatBody.BubbleList.GetChatType().ToString());
         Assert.Equal(ChatType.好友, window.ChatContent.ChatBody.BubbleList.GetChatType());
-        await window.SendWho(WeChatConfig.TestGroupNickName, "hello world!");
+        await window.SendWho(WeAutomation.Config.TestGroupNickName, "hello world!");
         _output.WriteLine(window.ChatContent.ChatBody.BubbleList.GetChatType().ToString());
         Assert.Equal(ChatType.群聊, window.ChatContent.ChatBody.BubbleList.GetChatType());
     }
