@@ -22,6 +22,7 @@ namespace WxAutoCore.Components
     public class SubWinList
     {
         private ConcurrentBag<string> _MonitorSubWinNames = new ConcurrentBag<string>();
+        private ConcurrentBag<Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider>> _MonitorSubWinActionList = new ConcurrentBag<Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider>>();
         private CancellationTokenSource _MonitorSubWinCancellationTokenSource = new CancellationTokenSource();
         private TaskCompletionSource<bool> _MonitorSubWinTaskCompletionSource = new TaskCompletionSource<bool>();
         private Thread _MonitorSubWinThread;
