@@ -37,6 +37,7 @@ namespace WxAutoCore.Components
             {
                 WaitHelper.WaitTextBoxReady(searchEdit.Result, TimeSpan.FromSeconds(5), _uiThreadInvoker);
                 var textBox = searchEdit.Result.AsTextBox();
+                textBox.Focus();
                 DrawHightlightHelper.DrawHightlight(textBox, _uiThreadInvoker);
                 if (isClear)
                 {

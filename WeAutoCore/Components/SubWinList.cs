@@ -23,7 +23,8 @@ namespace WxAutoCore.Components
     public class SubWinList
     {
         private ConcurrentBag<string> _MonitorSubWinNames = new ConcurrentBag<string>();
-        private ConcurrentBag<Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider>> _MonitorSubWinActionList = new ConcurrentBag<Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider>>();
+        private ConcurrentBag<Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider>> _MonitorSubWinActionList
+            = new ConcurrentBag<Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider>>();
         private CancellationTokenSource _MonitorSubWinCancellationTokenSource = new CancellationTokenSource();
         private TaskCompletionSource<bool> _MonitorSubWinTaskCompletionSource = new TaskCompletionSource<bool>();
         private Thread _MonitorSubWinThread;
@@ -59,7 +60,7 @@ namespace WxAutoCore.Components
                 {
                     try
                     {
-                        var subWinNames = GetAllSubWinNames();
+                        var subWinNames = GetAllSubWinNames();   //获取所有打开的子窗口名称
                         if (!_MonitorSubWinNames.IsEmpty)
                         {
                             var notExistSubWinNames = _MonitorSubWinNames.Except(subWinNames);
@@ -67,6 +68,7 @@ namespace WxAutoCore.Components
                             {
                                 foreach (var notExistSubWinName in notExistSubWinNames)
                                 {
+                                    //如果子窗口不存在，则打开
                                     await this.CheckSubWinExistAndOpen(notExistSubWinName);
                                 }
                             }

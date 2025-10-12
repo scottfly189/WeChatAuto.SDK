@@ -65,29 +65,5 @@ namespace WxAutoCore.Components
         {
             _SelfWindow.Close();
         }
-
-        public void Minimize()
-        {
-
-        }
-        public void WindowMin()
-        {
-
-        }
-
-        public void Maximize()
-        {
-
-        }
-
-        public void Restore()
-        {
-
-        }
-
-        public void WindowTop()
-        {
-
-        }
     }
 }

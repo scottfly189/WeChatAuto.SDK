@@ -53,7 +53,7 @@ namespace WxAutoCore.Components
             var title = GetFullTitle();
             if (string.IsNullOrEmpty(title))
             {
-                return new ChatHeader(string.Empty, null);
+                return new ChatHeader(string.Empty, null,_serviceProvider);
             }
             if (Regex.IsMatch(title, @"^([^\(]+) \("))
             {
@@ -70,7 +70,7 @@ namespace WxAutoCore.Components
             {
                 chatInfoButton = buttons.ToList().First().AsButton();
             }
-            return new ChatHeader(title, chatInfoButton);
+            return new ChatHeader(title, chatInfoButton,_serviceProvider);
         }
         /// <summary>
         /// 获取聊天标题(不做处理，直接返回)

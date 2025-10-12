@@ -16,11 +16,13 @@ using System.Threading;
 using WxAutoCommon.Configs;
 using WxAutoCommon.Enums;
 using WxAutoCore.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WxAutoCore.Components
 {
     public class ChatBody
     {
+        private readonly AutoLogger<ChatBody> _logger;
         private readonly IServiceProvider _serviceProvider;
         private Window _Window;
         private IWeChatWindow _WxWindow;
@@ -37,6 +39,7 @@ namespace WxAutoCore.Components
         public ChatBody(Window window, AutomationElement chatBodyRoot, IWeChatWindow wxWindow, string title, UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow, IServiceProvider serviceProvider)
         {
             _Window = window;
+            _logger = serviceProvider.GetRequiredService<AutoLogger<ChatBody>>();
             _ChatBodyRoot = chatBodyRoot;
             _WxWindow = wxWindow;
             _Title = title;
@@ -75,7 +78,7 @@ namespace WxAutoCore.Components
                 // 如果正在处理中，跳过本次执行
                 if (_isProcessing)
                 {
-                    Trace.WriteLine("上一次消息处理尚未完成，跳过本次检测");
+                    _logger.Trace("上一次消息处理尚未完成，跳过本次检测");
                     return;
                 }
 
@@ -94,7 +97,7 @@ namespace WxAutoCore.Components
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine($"轮询检测异常: {ex.Message}");
+                    _logger.Trace($"轮询检测异常: {ex.Message}");
                 }
                 finally
                 {
@@ -127,7 +130,7 @@ namespace WxAutoCore.Components
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"获取当前消息异常: {ex.Message}");
+                _logger.Trace($"获取当前消息异常: {ex.Message}");
                 return (_lastMessageCount, _lastBubbles);
             }
         }
@@ -168,7 +171,7 @@ namespace WxAutoCore.Components
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"处理新消息异常: {ex.Message}");
+                _logger.Trace($"处理新消息异常: {ex.Message}");
             }
         }
 
@@ -184,6 +187,7 @@ namespace WxAutoCore.Components
         /// </summary>
         public void StopListener()
         {
+            _isProcessing = true;
             _pollingTimer?.Dispose();
             _pollingTimer = null;
             _isProcessing = false; // 重置处理标志
