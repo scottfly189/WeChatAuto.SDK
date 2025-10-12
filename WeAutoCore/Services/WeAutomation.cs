@@ -20,12 +20,12 @@ namespace WxAutoCore.Services
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddWxAutomation(this IServiceCollection services, Action<WeChatConfig> configAction = default)
+        public static IServiceCollection AddWxAutomation(this IServiceCollection services, Action<WeChatConfig> options = default)
         {
             //这里增加服务.
             services.AddSingleton<WeChatFramwork>();
             services.AddAutoLogger();
-            configAction?.Invoke(_config);
+            options?.Invoke(_config);
 
             return services;
         }
@@ -34,14 +34,14 @@ namespace WxAutoCore.Services
         /// 注意：此方法与AddWxAutomation()方法不能同时使用
         /// </summary>
         /// <returns></returns>
-        public static IServiceProvider GetServiceProvider(Action<WeChatConfig> configAction = default)
+        public static IServiceProvider GetServiceProvider(Action<WeChatConfig> options = default)
         {
             if (_internalServices == null)
             {
                 _internalServices = new ServiceCollection();
             }
             if (_internalProvider == null)
-                _internalProvider = _internalServices.AddWxAutomation(configAction).BuildServiceProvider();
+                _internalProvider = _internalServices.AddWxAutomation(options).BuildServiceProvider();
             return _internalProvider;
         }
 

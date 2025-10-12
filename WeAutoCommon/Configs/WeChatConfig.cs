@@ -8,12 +8,6 @@ namespace WxAutoCommon.Configs
     /// </summary>
     public class WeChatConfig
     {
-
-        /// <summary>
-        /// 是否启用日志文件
-        /// </summary>
-        public bool EnableFileLogger { get; set; } = true;
-
         /// <summary>
         /// 接口KEY
         /// </summary>
@@ -49,33 +43,32 @@ namespace WxAutoCommon.Configs
         /// <summary>
         /// 是否启用调试模式
         /// </summary>
-        public bool DebugMode { get; set; } = true;
+        public bool DebugMode { get; set; } = false;
 
         /// <summary>
         /// 测试好友,要改成自己的才能正确运行单元测试
         /// </summary>
-        public string TestFriendNickName { get; set; } = "AI.Net";
+        public string TestFriendNickName { get; set; }
 
         /// <summary>
         /// 备选测试好友,要改成自己的才能正确运行单元测试
         /// </summary>
-        public string TestAlternativeFriendNickName { get; set; } = "文件传输助手";
+        public string TestAlternativeFriendNickName { get; set; }
 
         /// <summary>
         /// 测试客户端,要改成自己的才能正确运行单元测试
         /// </summary>
-        public string TestClientName { get; set; } = "Alex Zhao";
+        public string TestClientName { get; set; }
 
         /// <summary>
         /// 测试群组,要改成自己的才能正确运行单元测试
         /// </summary>
-        public string TestGroupNickName { get; set; } = ".NET-AI实时快讯3群";
+        public string TestGroupNickName { get; set; }
 
         /// <summary>
         /// 备选测试群组,要改成自己的才能正确运行单元测试
         /// </summary>
-        public string TestAlternativeGroupNickName { get; set; } = "备选测试群";
-
+        public string TestAlternativeGroupNickName { get; set; }
         /// <summary>
         /// 语言设置
         /// </summary>

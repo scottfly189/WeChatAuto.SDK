@@ -49,7 +49,6 @@ namespace WxAutoCore.Tests.Components
             var nickName = window.NickName;
             _output.WriteLine($"昵称: {nickName}");
             Assert.Equal(_wxClientName, nickName);
-            Thread.Sleep(5000);
         }
 
         [Fact(DisplayName = "测试获取当前聊天窗口的标题")]
