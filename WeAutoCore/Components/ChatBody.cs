@@ -52,7 +52,7 @@ namespace WxAutoCore.Components
         /// 注意：消息回调函数会在新线程中执行，请注意线程安全，如果在回调函数中操作UI，请用InvokeRequired等方法切换到UI线程.
         /// </summary>
         /// <param name="callBack">回调函数,参数：新消息气泡<see cref="MessageBubble"/>,包含新消息气泡的列表<see cref="List{MessageBubble}"/>,当前窗口发送者<see cref="Sender"/>,当前微信窗口对象<see cref="WeChatMainWindow"/></param>
-        public void AddListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork,IServiceProvider> callBack)
+        public void AddListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider> callBack)
         {
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
             var bubbleListBox = _uiThreadInvoker.Run(automation =>
@@ -66,7 +66,7 @@ namespace WxAutoCore.Components
         /// <summary>
         /// 启动消息轮询检测
         /// </summary>
-        private void StartMessagePolling(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork,IServiceProvider> callBack, AutomationElement bubbleListRoot)
+        private void StartMessagePolling(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider> callBack, AutomationElement bubbleListRoot)
         {
             // 初始化消息数量和内容哈希
             (int count, List<MessageBubble> bubbles) = GetCurrentMessage();
@@ -85,6 +85,11 @@ namespace WxAutoCore.Components
                 try
                 {
                     _isProcessing = true; // 标记开始处理
+                    if (!_subWinIsOpen())
+                    {
+                        _logger.Trace("子窗口未打开，跳过本次检测");
+                        return;
+                    }
                     (int currentCount, List<MessageBubble> currentBubbles) = GetCurrentMessage();
                     if (currentCount != _lastMessageCount || !_CompareBabbleHash(currentBubbles, _lastBubbles))
                     {
@@ -137,7 +142,7 @@ namespace WxAutoCore.Components
         /// <summary>
         /// 处理新消息
         /// </summary>
-        private void ProcessNewMessages(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork,IServiceProvider> callBack, List<MessageBubble> currentBubbles)
+        private void ProcessNewMessages(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider> callBack, List<MessageBubble> currentBubbles)
         {
             try
             {
@@ -150,11 +155,11 @@ namespace WxAutoCore.Components
                 }
                 else
                 {
-                    var currentCompareList = currentFriendMessageList.Take(3).Select(item=>item.MessageContent).ToList();
+                    var currentCompareList = currentFriendMessageList.Take(3).Select(item => item.MessageContent).ToList();
                     var index = 0;
                     for (int i = 0; i < lastFriendMessageList.Count; i++)
                     {
-                        var tempBubbles = lastFriendMessageList.Skip(i).Take(3).Select(item=>item.MessageContent).ToList();
+                        var tempBubbles = lastFriendMessageList.Skip(i).Take(3).Select(item => item.MessageContent).ToList();
                         if (tempBubbles.SequenceEqual(currentCompareList))
                         {
                             index = i;
@@ -173,6 +178,31 @@ namespace WxAutoCore.Components
             {
                 _logger.Trace($"处理新消息异常: {ex.Message}");
             }
+        }
+
+        private bool _subWinIsOpen()
+        {
+            var subWinIsOpen = _uiThreadInvoker.Run(automation =>
+            {
+                try
+                {
+                    var desktop = automation.GetDesktop();
+                    var isOpen = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("ChatWnd")
+                            .And(cf.ByControlType(ControlType.Window)
+                            .And(cf.ByProcessId(_WxWindow.ProcessId))
+                            .And(cf.ByName(_Title)))),
+                            timeout: TimeSpan.FromSeconds(5),
+                            interval: TimeSpan.FromMilliseconds(200));
+                    return isOpen.Success && isOpen.Result != null;
+                }
+                catch (Exception ex)
+                {
+                    _logger.Trace($"判断子窗口是否打开异常: {ex.Message}");
+                    return false;
+                }
+            }).Result;
+
+            return subWinIsOpen;
         }
 
         private List<MessageBubble> GetFirendMessageList(List<MessageBubble> bubbles)
