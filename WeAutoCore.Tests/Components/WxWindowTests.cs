@@ -305,7 +305,7 @@ namespace WxAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.AddMessageListener(WeAutomation.Config.TestFriendNickName, (newBubbles, bubblesList, sender, mainWindow, framework, serviceProvider) =>
+            await window.AddMessageListener("歪脖子的模版交流群", (newBubbles, bubblesList, sender, mainWindow, framework, serviceProvider) =>
             {
                 Trace.WriteLine($"消息: 收到新消息数量:{newBubbles.Count},当前可见消息数量:{bubblesList.Count}");
                 foreach (var bubble in newBubbles)

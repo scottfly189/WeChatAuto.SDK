@@ -965,8 +965,6 @@ namespace WxAutoCore.Components
         }
         #endregion
 
-        #region 群聊操作
-        #endregion
         public void Dispose()
         {
             if (_disposed)
