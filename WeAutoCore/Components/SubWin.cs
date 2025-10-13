@@ -146,7 +146,7 @@ namespace WxAutoCore.Components
         {
             if (element == null)
                 return;
-            var xPath = "/Pane/CheckBox[@Name='保存到通讯录']";
+            var xPath = "//CheckBox[@Name='保存到通讯录']";
             var checkBox = element.FindFirstByXPath(xPath)?.AsCheckBox();
             options.SaveToAddressBook = checkBox.ToggleState == ToggleState.On ? true : false;
         }
@@ -155,7 +155,7 @@ namespace WxAutoCore.Components
         {
             if (element == null)
                 return;
-            var xPath = "/Pane/CheckBox[@Name='置顶聊天']";
+            var xPath = "//CheckBox[@Name='置顶聊天']";
             var checkBox = element.FindFirstByXPath(xPath)?.AsCheckBox();
             options.Top = checkBox.ToggleState == ToggleState.On ? true : false;
         }
@@ -164,7 +164,7 @@ namespace WxAutoCore.Components
         {
             if (element == null)
                 return;
-            var xPath = "/Pane/CheckBox[@Name='消息免打扰']";
+            var xPath = "//CheckBox[@Name='消息免打扰']";
             var checkBox = element.FindFirstByXPath(xPath)?.AsCheckBox();
             options.NoDisturb = checkBox.ToggleState == ToggleState.On ? true : false;
         }
@@ -173,7 +173,7 @@ namespace WxAutoCore.Components
         {
             if (element == null)
                 return;
-            var xPath = "/Pane/CheckBox[@Name='显示群成员昵称']";
+            var xPath = "//CheckBox[@Name='显示群成员昵称']";
             var checkBox = element.FindFirstByXPath(xPath)?.AsCheckBox();
             options.ShowGroupNickName = checkBox.ToggleState == ToggleState.On ? true : false;
         }
@@ -182,7 +182,7 @@ namespace WxAutoCore.Components
         {
             if (element == null)
                 return;
-            var xPath = "/Pane/Button[@Name='我在本群的昵称']";
+            var xPath = "//Button[@Name='我在本群的昵称']";
             var button = element.FindFirstByXPath(xPath)?.AsButton();
             if (button.Patterns.Value.IsSupported)
             {
