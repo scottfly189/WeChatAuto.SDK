@@ -964,7 +964,6 @@ namespace WxAutoCore.Components
             _newUserActionList.Clear();
         }
         #endregion
-
         public void Dispose()
         {
             if (_disposed)
@@ -981,5 +980,23 @@ namespace WxAutoCore.Components
             }
             _newUserListenerCancellationTokenSource.Dispose();
         }
+
+        #region 群聊操作
+        #region 群基础操作，适用于自有群与他有群
+        /// <summary>
+        /// 更新群聊选项
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        /// <param name="action">更新群聊选项的Action</param>
+        /// <returns>微信响应结果</returns>
+        public async Task<ChatResponse> UpdateChatGroupOptions(string groupName, Action<ChatGroupOptions> action)
+        {
+            await _SubWinList.CheckSubWinExistAndOpen(groupName);
+            await Task.Delay(500);
+            var subWin = _SubWinList.GetSubWin(groupName);
+            return subWin.UpdateChatGroupOptions(action);
+        }
+        #endregion
+        #endregion
     }
 }

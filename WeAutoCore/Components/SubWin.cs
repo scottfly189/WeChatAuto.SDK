@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
 using FlaUI.Core.AutomationElements;
+using FlaUI.Core.Definitions;
 using OneOf;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Interface;
 using WxAutoCommon.Models;
 using WxAutoCommon.Utils;
+using WxAutoCore.Utils;
 
 namespace WxAutoCore.Components
 {
@@ -87,39 +91,235 @@ namespace WxAutoCore.Components
         /// 更新群聊选项
         /// </summary>
         /// <param name="action">更新群聊选项的Action</param>
-        /// <param name="groupName">群聊名称</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse UpdateChatGroupOptions(Action<ChatGroupOptions> action, string groupName)
+        public ChatResponse UpdateChatGroupOptions(Action<ChatGroupOptions> action)
         {
-            return new ChatResponse
+            ChatResponse result = new ChatResponse();
+            if (!_IsSidebarOpen())
             {
-                IsSuccess = true,
-                Message = "更新群聊选项成功"
-            };
+                _OpenSidebar();
+            }
+            Thread.Sleep(500);
+            _FocuseSearchText();
+            ChatGroupOptions options = _InitChatGroupOptions();
+            options.Reset();
+            Trace.WriteLine(options.ToString());
+
+            //action(options);
+            //_UpdateChatGroupOptions(options);
+            return result;
+        }
+        /// <summary>
+        /// 初始化群聊选项
+        /// </summary>
+        /// <returns></returns>
+        private ChatGroupOptions _InitChatGroupOptions()
+        {
+            ChatGroupOptions options = new ChatGroupOptions();
+            _uiThreadInvoker.Run(automation =>
+            {
+                var rootXPath = "/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane";
+                var root = _SelfWindow.FindFirstByXPath(rootXPath);   //根节点
+                var button = root.FindFirstByXPath("/Pane/Pane/Pane/Button[@Name='群聊名称']")?.AsButton();
+                _FetchGroupName(options, button);
+                var element = button.GetParent().GetParent().GetSibling(1);
+                _FetchGroupNotice(options, element);
+                element = element.GetSibling(1); //获取群聊备注
+                _FetchGroupMemo(options, element);
+                element = element.GetSibling(1); //群昵称
+                _FetchMyGroupNickName(options, element);
+                element = element.GetSibling(2); //是否显示群昵称
+                _FetchShowGroupNickName(options, element);
+                element = element.GetSibling(1); //是否免打扰
+                _FetchNoDisturb(options, element);
+                element = element.GetSibling(1); //是否置顶
+                _FetchTop(options, element);
+                element = element.GetSibling(1); //是否保存至通讯录
+                _FetchSaveToAddressBook(options, element);
+
+            }).Wait();
+            return options;
+        }
+
+        //获取是否保存至通讯录
+        private void _FetchSaveToAddressBook(ChatGroupOptions options, AutomationElement element)
+        {
+            if (element == null)
+                return;
+            var xPath = "/Pane/CheckBox[@Name='保存到通讯录']";
+            var checkBox = element.FindFirstByXPath(xPath)?.AsCheckBox();
+            options.SaveToAddressBook = checkBox.ToggleState == ToggleState.On ? true : false;
+        }
+        //获取是否置顶
+        private void _FetchTop(ChatGroupOptions options, AutomationElement element)
+        {
+            if (element == null)
+                return;
+            var xPath = "/Pane/CheckBox[@Name='置顶聊天']";
+            var checkBox = element.FindFirstByXPath(xPath)?.AsCheckBox();
+            options.Top = checkBox.ToggleState == ToggleState.On ? true : false;
+        }
+        //获取是否免打扰
+        private void _FetchNoDisturb(ChatGroupOptions options, AutomationElement element)
+        {
+            if (element == null)
+                return;
+            var xPath = "/Pane/CheckBox[@Name='消息免打扰']";
+            var checkBox = element.FindFirstByXPath(xPath)?.AsCheckBox();
+            options.NoDisturb = checkBox.ToggleState == ToggleState.On ? true : false;
+        }
+        //获取是否显示群昵称
+        private void _FetchShowGroupNickName(ChatGroupOptions options, AutomationElement element)
+        {
+            if (element == null)
+                return;
+            var xPath = "/Pane/CheckBox[@Name='显示群成员昵称']";
+            var checkBox = element.FindFirstByXPath(xPath)?.AsCheckBox();
+            options.ShowGroupNickName = checkBox.ToggleState == ToggleState.On ? true : false;
+        }
+        //获取群聊昵称
+        private void _FetchMyGroupNickName(ChatGroupOptions options, AutomationElement element)
+        {
+            if (element == null)
+                return;
+            var xPath = "/Pane/Button[@Name='我在本群的昵称']";
+            var button = element.FindFirstByXPath(xPath)?.AsButton();
+            if (button.Patterns.Value.IsSupported)
+            {
+                var pattern = button.Patterns.Value.Pattern;
+                options.MyGroupNickName = pattern.Value.Value;
+            }
+        }
+        //获取群聊备注
+        private void _FetchGroupMemo(ChatGroupOptions options, AutomationElement element)
+        {
+            if (element == null)
+                return;
+            var xPath = "/Pane/Button[@Name='备注']";
+            var button = element.FindFirstByXPath(xPath)?.AsButton();
+            if (button.Patterns.Value.IsSupported)
+            {
+                var pattern = button.Patterns.Value.Pattern;
+                options.GroupMemo = pattern.Value.Value;
+                if (!string.IsNullOrWhiteSpace(options.GroupMemo))
+                {
+                    options.GroupMemo = options.GroupMemo == "群聊的备注仅自己可见" ? "" : options.GroupMemo;
+                }
+            }
+        }
+        //获取群聊公告
+        private void _FetchGroupNotice(ChatGroupOptions options, AutomationElement element)
+        {
+            if (element == null)
+                return;
+            var xPath = "/Pane/Text[@Name='群公告']";
+            var text = element.FindFirstByXPath(xPath)?.AsTextBox();
+            if (text.Patterns.Value.IsSupported)
+            {
+                var pattern = text.Patterns.Value.Pattern;
+                options.GroupNotice = pattern.Value.Value;
+            }
+        }
+
+        //获取群聊名称
+        private void _FetchGroupName(ChatGroupOptions options, Button button)
+        {
+            if (button != null)
+            {
+                if (button.Patterns.Value.IsSupported)
+                {
+                    var pattern = button.Patterns.Value.Pattern;
+                    options.GroupName = pattern.Value.Value;
+                }
+                else
+                {
+                    var element = button.GetSibling(-1);
+                    if (element != null && element.ControlType == ControlType.Text)
+                    {
+                        options.GroupName = element.AsLabel().Name;
+                    }
+                }
+            }
+        }
+
+        private void _UpdateChatGroupOptions(ChatGroupOptions options)
+        {
         }
         /// <summary>
         /// 获取群聊成员列表
         /// </summary>
-        /// <param name="groupName">群聊名称</param>
         /// <returns>群聊成员列表</returns>
-        /// <returns></returns>
-        public List<string> GetChatGroupMemberList(string groupName)
+        public List<string> GetChatGroupMemberList()
         {
             return new List<string>();
+        }
+        private void _FocuseSearchText()
+        {
+            var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='搜索群成员']";
+            _uiThreadInvoker.Run(automation =>
+            {
+                var edit = _SelfWindow.FindFirstByXPath(xPath)?.AsTextBox();
+                if (edit != null)
+                {
+                    edit.Focus();
+                    edit.Click();
+                }
+            }).Wait();
+        }
+        /// <summary>
+        /// 是否打开侧边栏
+        /// </summary>
+        /// <returns>是否打开侧边栏</returns>
+        private bool _IsSidebarOpen()
+        {
+            bool result = _uiThreadInvoker.Run(automation =>
+            {
+                var pane = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd"))
+                    .And(cf.ByName("SessionChatRoomDetailWnd")));
+                return pane != null;
+            }).Result;
+            return result;
+        }
+        private void _OpenSidebar()
+        {
+            var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Button[@Name='聊天信息']";
+            _uiThreadInvoker.Run(automation =>
+            {
+                var button = _SelfWindow.FindFirstByXPath(xPath)?.AsButton();
+                if (button != null)
+                {
+                    button.WaitUntilClickable();
+                    button.Focus();
+                    button.Click();
+                }
+            }).Wait();
+
         }
         /// <summary>
         /// 搜索群聊成员
         /// </summary>
-        /// <param name="groupName">群聊名称</param>
         /// <param name="memberName">成员名称</param>
         /// <returns>成员元素</returns>
-        private AutomationElement SearchChatGroupMember(string groupName, string memberName)
+        private AutomationElement SearchChatGroupMember(string memberName)
         {
             return null;
         }
-        private bool IsChatGroupMember(string groupName, string memberName)
+        /// <summary>
+        /// 是否是群聊成员
+        /// </summary>
+        /// <param name="memberName">成员名称</param>
+        /// <returns>是否是群聊成员</returns>
+        private bool IsChatGroupMember(string memberName)
         {
-            return SearchChatGroupMember(groupName, memberName) != null;
+            return SearchChatGroupMember(memberName) != null;
+        }
+        /// <summary>
+        /// 是否是自有群
+        /// </summary>
+        /// <returns>是否是自有群</returns>
+        private bool IsOwnerChatGroup()
+        {
+            return false;
         }
         #endregion
 
@@ -127,9 +327,8 @@ namespace WxAutoCore.Components
         /// <summary>
         /// 更新群聊名称
         /// </summary>
-        /// <param name="groupName"></param>
-        /// <param name="newGroupName"></param>
-        /// <returns></returns>
+        /// <param name="newGroupName">新群聊名称</param>
+        /// <returns>微信响应结果</returns>
         public ChatResponse UpdateOwnerChatGroupName(string groupName, string newGroupName)
         {
             return null;
@@ -157,25 +356,27 @@ namespace WxAutoCore.Components
         /// <summary>
         /// 发送群聊公告
         /// </summary>
-        /// <param name="groupName">群聊名称</param>
         /// <param name="notice">公告内容</param>
-        /// <returns></returns>
-        public ChatResponse SendOwnerChatGroupNotice(string groupName, string notice)
+        /// <returns>微信响应结果</returns>
+        public ChatResponse SendOwnerChatGroupNotice(string notice)
         {
             return null;
         }
         /// <summary>
         /// 添加群聊成员
         /// </summary>
-        /// <param name="groupName">群聊名称</param>
         /// <param name="memberName">成员名称</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse AddOwnerChatGroupMember(string groupName, OneOf<string, string[]> memberName)
+        public ChatResponse AddOwnerChatGroupMember(OneOf<string, string[]> memberName)
         {
             return null;
         }
-
-        public ChatResponse RemoveOwnerChatGroupMember(string groupName, OneOf<string, string[]> memberName)
+        /// <summary>
+        /// 移除群聊成员
+        /// </summary>
+        /// <param name="memberName">成员名称</param>
+        /// <returns>微信响应结果</returns>
+        public ChatResponse RemoveOwnerChatGroupMember(OneOf<string, string[]> memberName)
         {
             return null;
         }
@@ -185,20 +386,18 @@ namespace WxAutoCore.Components
         /// <summary>
         /// 邀请群聊成员,适用于他有群
         /// </summary>
-        /// <param name="groupName"></param>
         /// <param name="memberName">成员名称</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse InviteChatGroupMember(string groupName, OneOf<string, string[]> memberName)
+        public ChatResponse InviteChatGroupMember(OneOf<string, string[]> memberName)
         {
             return null;
         }
         /// <summary>
         /// 添加群聊成员,适用于他有群
         /// </summary>
-        /// <param name="groupName"></param>
         /// <param name="memberName">成员名称</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse AddChatGroupMember(string groupName, OneOf<string, string[]> memberName)
+        public ChatResponse AddChatGroupMember(OneOf<string, string[]> memberName)
         {
             return null;
         }

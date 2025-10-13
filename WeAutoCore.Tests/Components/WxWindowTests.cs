@@ -318,5 +318,17 @@ namespace WxAutoCore.Tests.Components
             Assert.True(true);
             await Task.Delay(6000000);
         }
+
+        [Fact(DisplayName = "测试更新群聊选项")]
+        public async Task Test_UpdateChatGroupOptions()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            await window.UpdateChatGroupOptions(WeAutomation.Config.TestGroupNickName, action =>
+            {
+                action.ShowGroupNickName = false;
+            });
+        }
     }
 }
