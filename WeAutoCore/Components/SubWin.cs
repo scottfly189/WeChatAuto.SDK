@@ -4,6 +4,9 @@ using System.Diagnostics;
 using System.Threading;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
+using FlaUI.Core.Input;
+using FlaUI.Core.Tools;
+using FlaUI.Core.WindowsAPI;
 using OneOf;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Interface;
@@ -95,19 +98,42 @@ namespace WxAutoCore.Components
         public ChatResponse UpdateChatGroupOptions(Action<ChatGroupOptions> action)
         {
             ChatResponse result = new ChatResponse();
-            if (!_IsSidebarOpen())
+            try
             {
-                _OpenSidebar();
+                if (!_IsSidebarOpen())
+                {
+                    _OpenSidebar();
+                }
+                Thread.Sleep(500);
+                _FocuseSearchText();
+                ChatGroupOptions options = _InitChatGroupOptions();
+                options.Reset();
+                action(options);
+                _UpdateChatGroupOptions(options);
+                return result;
             }
-            Thread.Sleep(500);
-            _FocuseSearchText();
-            ChatGroupOptions options = _InitChatGroupOptions();
-            options.Reset();
-            Trace.WriteLine(options.ToString());
-
-            //action(options);
-            //_UpdateChatGroupOptions(options);
-            return result;
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = ex.Message;
+                return result;
+            }
+            finally
+            {
+                //关闭侧边栏，只需要点击一下sender.
+                _SendEditFocus();
+            }
+        }
+        private void _SendEditFocus()
+        {
+            var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='输入']";
+            var edit = _SelfWindow.FindFirstByXPath(xPath)?.AsTextBox();
+            if (edit != null)
+            {
+                edit.Focus();
+                edit.WaitUntilClickable();
+                edit.Click();
+            }
         }
         /// <summary>
         /// 初始化群聊选项
@@ -241,9 +267,253 @@ namespace WxAutoCore.Components
                 }
             }
         }
-
+        //更新群聊选项
         private void _UpdateChatGroupOptions(ChatGroupOptions options)
         {
+            _uiThreadInvoker.Run(automation =>
+            {
+                if (options.GroupNameChanged)
+                {
+                    _UpdateGroupName(GetNewElement(), options.GroupName);
+                }
+                if (options.ShowGroupNickNameChanged)
+                {
+                    _UpdateShowGroupNickName(GetNewElement(), options.ShowGroupNickName);
+                }
+                if (options.NoDisturbChanged)
+                {
+                    _UpdateNoDisturb(GetNewElement(), options.NoDisturb);
+                }
+                if (options.TopChanged)
+                {
+                    _UpdateTop(GetNewElement(), options.Top);
+                }
+                if (options.SaveToAddressBookChanged)
+                {
+                    _UpdateSaveToAddressBook(GetNewElement(), options.SaveToAddressBook);
+                }
+                if (options.GroupNoticeChanged)
+                {
+                    _UpdateGroupNotice(GetNewElement(), options.GroupNotice);
+                }
+                if (options.MyGroupNickNameChanged)
+                {
+                    _UpdateMyGroupNickName(GetNewElement(), options.MyGroupNickName);
+                }
+                if (options.GroupMemoChanged)
+                {
+                    _UpdateGroupMemo(GetNewElement(), options.GroupMemo);
+                }
+            });
+        }
+        private AutomationElement GetNewElement()
+        {
+            if (!_IsSidebarOpen())
+            {
+                _OpenSidebar();
+            }
+            var chatGroupNamePath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Button[@Name='群聊名称']";
+            var button = _SelfWindow.FindFirstByXPath(chatGroupNamePath)?.AsButton();
+            var element = button.GetParent().GetParent();
+            return element;
+        }
+        //更新群聊名称
+        private void _UpdateGroupName(AutomationElement element, string groupName)
+        {
+            var xPath = "//Button[@Name='群聊名称']";
+            var button = element.FindFirstByXPath(xPath)?.AsButton();
+            if (button.Patterns.Value.IsSupported)
+            {
+                //可以修改
+                button.Focus();
+                button.WaitUntilClickable();
+                button.Click();
+                Thread.Sleep(300);
+                var edit = Retry.WhileNull(() => element.FindFirstByXPath("//Edit")?.AsTextBox(), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
+                if (edit != null)
+                {
+                    edit.Focus();
+                    edit.WaitUntilClickable();
+                    edit.Click();
+                    Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                    Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                    Keyboard.Type(groupName);
+                    Keyboard.Press(VirtualKeyShort.RETURN);
+                    Wait.UntilInputIsProcessed();
+                }
+            }
+            else
+            {
+                //不可以修改
+            }
+        }
+        //更新是否显示群昵称
+        private void _UpdateShowGroupNickName(AutomationElement element, bool showGroupNickName)
+        {
+            var rootElement = element.GetSibling(5);
+            var el = rootElement.FindFirstByXPath("//CheckBox[@Name='显示群成员昵称']")?.AsCheckBox();
+            if (el != null)
+            {
+                el.Focus();
+                var result = el.ToggleState == ToggleState.On ? true : false;
+                if (result != showGroupNickName)
+                {
+                    el.ToggleState = showGroupNickName ? ToggleState.On : ToggleState.Off;
+                }
+            }
+        }
+        //更新是否免打扰
+        private void _UpdateNoDisturb(AutomationElement element, bool noDisturb)
+        {
+            var rootElement = element.GetSibling(6);
+            var el = rootElement.FindFirstByXPath("//CheckBox[@Name='消息免打扰']")?.AsCheckBox();
+            if (el != null)
+            {
+                el.Focus();
+                var result = el.ToggleState == ToggleState.On ? true : false;
+                if (result != noDisturb)
+                {
+                    el.ToggleState = noDisturb ? ToggleState.On : ToggleState.Off;
+                }
+            }
+        }
+        //更新是否置顶
+        private void _UpdateTop(AutomationElement element, bool top)
+        {
+            var rootElement = element.GetSibling(7);
+            var el = rootElement.FindFirstByXPath("//CheckBox[@Name='置顶聊天']")?.AsCheckBox();
+            if (el != null)
+            {
+                el.Focus();
+                var result = el.ToggleState == ToggleState.On ? true : false;
+                if (result != top)
+                {
+                    el.ToggleState = top ? ToggleState.On : ToggleState.Off;
+                }
+            }
+        }
+        //更新是否保存至通讯录
+        private void _UpdateSaveToAddressBook(AutomationElement element, bool saveToAddressBook)
+        {
+            var rootElement = element.GetSibling(8);
+            var el = rootElement.FindFirstByXPath("//CheckBox[@Name='保存到通讯录']")?.AsCheckBox();
+            if (el != null)
+            {
+                el.Focus();
+                var result = el.ToggleState == ToggleState.On ? true : false;
+                if (result != saveToAddressBook)
+                {
+                    el.ToggleState = saveToAddressBook ? ToggleState.On : ToggleState.Off;
+                }
+            }
+        }
+        //更新群聊公告
+        private void _UpdateGroupNotice(AutomationElement element, string groupNotice)
+        {
+            var rootElement = element.GetSibling(1);
+            var el = rootElement.FindFirstByXPath("//Button[@Name='点击编辑群公告']")?.AsButton();
+            if (el != null)
+            {
+                el.Focus();
+                el.WaitUntilClickable();
+                el.Click();
+                Thread.Sleep(300);
+                var popWin = Retry.WhileNull(() =>
+                {
+                    var desktop = el.Automation.GetDesktop();
+                    var pWin = desktop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("群公告")).And(cf.ByProcessId(_MainWxWindow.ProcessId)).And(cf.ByClassName("ChatRoomAnnouncementWnd")))?.AsWindow();
+                    return pWin;
+                }, TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
+                if (popWin != null)
+                {
+                    var editButton = popWin.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/Button[@Name='编辑']")?.AsButton();
+                    if (editButton != null)
+                    {
+                        editButton.Focus();
+                        editButton.WaitUntilClickable();
+                        editButton.Click();
+
+                        var edit = popWin.FindFirstByXPath("//Edit")?.AsTextBox();
+                        edit.Focus();
+                        edit.WaitUntilClickable();
+                        edit.Click();
+                        Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                        Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                        Keyboard.Type(groupNotice);
+                        Wait.UntilInputIsProcessed();
+                        var finishButton = popWin.FindFirstByXPath("//Button[@Name='完成']")?.AsButton();
+                        finishButton.Focus();
+                        finishButton.WaitUntilClickable();
+                        finishButton.Click();
+
+                        var sendButton = Retry.WhileNull(() => popWin.FindFirstByXPath("//Button[@Name='发布']")?.AsButton(), TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
+                        if (sendButton != null)
+                        {
+                            sendButton.Focus();
+                            sendButton.WaitUntilClickable();
+                            sendButton.Click();
+                            Thread.Sleep(2000);
+                        }
+                    }
+                    else
+                    {
+                        //无权限编辑
+                        popWin.Close();
+                    }
+                }
+
+            }
+
+        }
+        //更新我自己在群聊中的昵称
+        private void _UpdateMyGroupNickName(AutomationElement element, string myGroupNickName)
+        {
+            var rootElement = element.GetSibling(3);
+            var el = rootElement.FindFirstByXPath("//Button[@Name='我在本群的昵称']")?.AsButton();
+            if (el != null)
+            {
+                el.Focus();
+                el.WaitUntilClickable();
+                el.Click();
+                Thread.Sleep(300);
+                var edit = Retry.WhileNull(() => element.FindFirstByXPath("//Edit")?.AsTextBox(), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
+                if (edit != null)
+                {
+                    edit.Focus();
+                    edit.WaitUntilClickable();
+                    edit.Click();
+                    Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                    Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                    Keyboard.Type(myGroupNickName);
+                    Keyboard.Press(VirtualKeyShort.RETURN);
+                    Wait.UntilInputIsProcessed();
+                }
+            }
+        }
+        //更新群聊备注
+        private void _UpdateGroupMemo(AutomationElement element, string groupMemo)
+        {
+            var rootElement = element.GetSibling(2);
+            var el = rootElement.FindFirstByXPath("//Button[@Name='备注']")?.AsButton();
+            if (el != null)
+            {
+                el.Focus();
+                el.WaitUntilClickable();
+                el.Click();
+                Thread.Sleep(300);
+                var edit = Retry.WhileNull(() => element.FindFirstByXPath("//Edit")?.AsTextBox(), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
+                if (edit != null)
+                {
+                    edit.Focus();
+                    edit.WaitUntilClickable();
+                    edit.Click();
+                    Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                    Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                    Keyboard.Type(groupMemo);
+                    Keyboard.Press(VirtualKeyShort.RETURN);
+                    Wait.UntilInputIsProcessed();
+                }
+            }
         }
         /// <summary>
         /// 获取群聊成员列表

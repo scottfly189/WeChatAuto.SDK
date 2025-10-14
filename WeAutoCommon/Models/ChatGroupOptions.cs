@@ -24,8 +24,11 @@ namespace WxAutoCommon.Models
                 this._GroupName = value;
             }
         }
+
+        public bool GroupNameChanged { get => this.__GroupNameChanged; }
         private bool _ShowGroupNickName;
         private bool __ShowGroupNickNameChanged = false;
+        public bool ShowGroupNickNameChanged { get => this.__ShowGroupNickNameChanged; }
         /// <summary>
         /// 是否显示群组昵称
         /// </summary>
@@ -47,7 +50,7 @@ namespace WxAutoCommon.Models
 
         private bool _NoDisturb;
         private bool __NoDisturbChanged = false;
-
+        public bool NoDisturbChanged { get => this.__NoDisturbChanged; }
         /// <summary>
         /// 是否免打扰
         /// </summary>
@@ -69,7 +72,7 @@ namespace WxAutoCommon.Models
 
         private bool _Top;
         private bool __TopChanged = false;
-
+        public bool TopChanged { get => this.__TopChanged; }
         /// <summary>
         /// 是否置顶
         /// </summary>
@@ -91,7 +94,7 @@ namespace WxAutoCommon.Models
 
         private bool _SaveToAddressBook;
         private bool __SaveToAddressBookChanged = false;
-
+        public bool SaveToAddressBookChanged { get => this.__SaveToAddressBookChanged; }
         /// <summary>
         /// 是否保存至通讯录
         /// </summary>
@@ -113,7 +116,7 @@ namespace WxAutoCommon.Models
 
         private string _GroupNotice;
         private bool __GroupNoticeChanged = false;
-
+        public bool GroupNoticeChanged { get => this.__GroupNoticeChanged; }
         /// <summary>
         /// 群公告
         /// </summary>
@@ -135,7 +138,7 @@ namespace WxAutoCommon.Models
 
         private string _MyGroupNickName;
         private bool __MyGroupNickNameChanged = false;
-
+        public bool MyGroupNickNameChanged { get => this.__MyGroupNickNameChanged; }
         /// <summary>
         /// 我在群里的昵称
         /// </summary>
@@ -157,7 +160,7 @@ namespace WxAutoCommon.Models
 
         private string _GroupMemo;
         private bool __GroupMemoChanged = false;
-
+        public bool GroupMemoChanged { get => this.__GroupMemoChanged; }
         /// <summary>
         /// 群备注
         /// </summary>

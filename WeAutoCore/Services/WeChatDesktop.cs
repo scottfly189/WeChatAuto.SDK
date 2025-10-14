@@ -101,14 +101,14 @@ namespace WxAutoCore.Services
             {
                 return new ChatResponse()
                 {
-                    IsSuccess = false,
+                    Success = false,
                     Message = $"发送失败:{ex.Message}"
                 };
             }
 
             return new ChatResponse()
             {
-                IsSuccess = true,
+                Success = true,
                 Message = "发送成功"
             };
         }

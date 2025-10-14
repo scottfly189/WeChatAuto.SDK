@@ -8,7 +8,7 @@ namespace WxAutoCommon.Models
         /// <summary>
         /// 是否成功
         /// </summary>
-        public bool IsSuccess { get; set; } = false;
+        public bool Success { get; set; } = false;
         /// <summary>
         /// 消息
         /// </summary>
