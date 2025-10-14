@@ -987,14 +987,217 @@ namespace WxAutoCore.Components
         /// 更新群聊选项
         /// </summary>
         /// <param name="groupName">群聊名称</param>
-        /// <param name="action">更新群聊选项的Action</param>
-        /// <returns>微信响应结果</returns>
+        /// <param name="action">更新群聊选项的Action<see cref="ChatGroupOptions"/></param>
+        /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
         public async Task<ChatResponse> UpdateChatGroupOptions(string groupName, Action<ChatGroupOptions> action)
         {
             await _SubWinList.CheckSubWinExistAndOpen(groupName);
             await Task.Delay(500);
             var subWin = _SubWinList.GetSubWin(groupName);
             return subWin.UpdateChatGroupOptions(action);
+        }
+        /// <summary>
+        /// 获取群聊成员列表
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        /// <returns>群聊成员列表</returns>
+        public async Task<List<string>> GetChatGroupMemberList(string groupName)
+        {
+            await _SubWinList.CheckSubWinExistAndOpen(groupName);
+            await Task.Delay(500);
+            var subWin = _SubWinList.GetSubWin(groupName);
+            return subWin.GetChatGroupMemberList();
+        }
+        /// <summary>
+        /// 是否是群聊成员
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        /// <param name="memberName">成员名称</param>
+        /// <returns>是否是群聊成员</returns>
+        public async Task<bool> IsChatGroupMember(string groupName, string memberName)
+        {
+            await _SubWinList.CheckSubWinExistAndOpen(groupName);
+            await Task.Delay(500);
+            var subWin = _SubWinList.GetSubWin(groupName);
+            return subWin.IsChatGroupMember(memberName);
+        }
+        /// <summary>
+        /// 是否是自有群
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        /// <returns>是否是群聊成员</returns>
+        /// <returns>是否是群主</returns>
+        public async Task<bool> IsOwnerChatGroup(string groupName)
+        {
+            await _SubWinList.CheckSubWinExistAndOpen(groupName);
+            await Task.Delay(500);
+            var subWin = _SubWinList.GetSubWin(groupName);
+            return subWin.IsOwnerChatGroup();
+        }
+        /// <summary>
+        /// 清空群聊历史
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        public async Task ClearChatGroupHistory(string groupName)
+        {
+            await _SubWinList.CheckSubWinExistAndOpen(groupName);
+            await Task.Delay(500);
+            var subWin = _SubWinList.GetSubWin(groupName);
+            subWin.ClearChatGroupHistory();
+        }
+        /// <summary>
+        /// 退出群聊
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        public async Task QuitChatGroup(string groupName)
+        {
+            await _SubWinList.CheckSubWinExistAndOpen(groupName);
+            await Task.Delay(500);
+            var subWin = _SubWinList.GetSubWin(groupName);
+            subWin.QuitChatGroup();
+        }
+        /// <summary>
+        /// 创建群聊
+        /// 如果存在，则打开
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        /// <param name="memberName">成员名称</param>
+        /// <returns>微信响应结果</returns>
+        public ChatResponse CreateOwnerChatGroup(string groupName, OneOf<string, string[]> memberName)
+        {
+            ChatResponse result = new ChatResponse();
+            try
+            {
+                var list = new List<string>();
+                if (memberName.IsT0)
+                {
+                    list.Add(memberName.AsT0);
+                }
+                else
+                {
+                    list.AddRange(memberName.AsT1);
+                }
+                var flag = this.AddressBook.LocateFriend(groupName);
+                if (flag)
+                {
+                    //打开群
+                    NavigationSwitch(NavigationType.聊天);
+                    result = this.AddOwnerChatGroupMember(groupName, memberName).Result;
+                }
+                else
+                {
+                    //新建
+                    NavigationSwitch(NavigationType.聊天);
+                    result = _CreateChatGroupCore(groupName, result, list);
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = ex.Message;
+                return result;
+            }
+        }
+
+        private ChatResponse _CreateChatGroupCore(string groupName, ChatResponse result, List<string> list)
+        {
+            result = _uiThreadInvoker.Run((automation) =>
+            {
+                var xPath = "/Pane/Pane/Pane/Pane/Pane/Button[Name='发起群聊']";
+                var button = Retry.WhileNull(() => _Window.FindFirstByXPath(xPath)?.AsButton(), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
+                if (button != null)
+                {
+                    button.Click();
+                    Thread.Sleep(600);
+                    var AddMemberWnd = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("AddMemberWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
+                    if (AddMemberWnd != null)
+                    {
+                        var searchTextBox = AddMemberWnd.FindFirstByXPath("//Edit[@Name='搜索']")?.AsTextBox();
+                        if (searchTextBox != null)
+                        {
+                            foreach (var member in list)
+                            {
+                                searchTextBox.Focus();
+                                searchTextBox.Click();
+                                Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                                Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                                Keyboard.Type(member);
+                                Keyboard.Press(VirtualKeyShort.RETURN);
+                                Wait.UntilInputIsProcessed();
+                                //选择的列表中打上勾
+                                var listItem = AddMemberWnd.FindFirstByXPath("//List[@Name='请勾选需要添加的联系人']")?.AsListBox();
+                                if (listItem != null)
+                                {
+                                    var subList = listItem.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
+                                    subList = subList.Where(item => !string.IsNullOrWhiteSpace(item.Name) && item.Name == member).ToList();
+                                    foreach (var subItem in subList)
+                                    {
+                                        var checkButton = subItem.FindFirstByXPath("//Button")?.AsButton();
+                                        checkButton?.WaitUntilClickable();
+                                        checkButton?.Click();
+                                        Thread.Sleep(300);
+                                    }
+                                    var finishButton = AddMemberWnd.FindFirstByXPath("//Button[@Name='完成']")?.AsButton();
+                                    if (finishButton != null)
+                                    {
+                                        finishButton.Focus();
+                                        finishButton.WaitUntilClickable();
+                                        finishButton.Click();
+                                        Thread.Sleep(600);
+                                        //修改名字
+                                        xPath = "//List[@Name='会话']";
+                                        var cListItemBox = _Window.FindFirstByXPath(xPath)?.AsListBox();
+                                        var cListItems = cListItemBox?.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))?.ToList();
+                                        cListItems = cListItems?.Where(item => !item.Name.EndsWith("已置顶"))?.ToList();
+                                        var firstItem = cListItems?.FirstOrDefault();
+                                        if (firstItem != null)
+                                        {
+                                            var tempName = firstItem.Name;
+                                            UpdateChatGroupOptions(tempName, options =>
+                                            {
+                                                options.GroupName = groupName;
+                                            }).Wait();
+
+                                            result.Success = true;
+                                            result.Message = "创建群聊成功";
+                                            return result;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return result;
+            }).Result;
+            return result;
+        }
+
+        /// <summary>
+        /// 添加群聊成员，适用于自有群
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        /// <param name="memberName">成员名称</param>
+        /// <returns>微信响应结果</returns>
+        public async Task<ChatResponse> AddOwnerChatGroupMember(string groupName, OneOf<string, string[]> memberName)
+        {
+            ChatResponse result = new ChatResponse();
+            try
+            {
+                await _SubWinList.CheckSubWinExistAndOpen(groupName);
+                await Task.Delay(500);
+                var subWin = _SubWinList.GetSubWin(groupName);
+                result = subWin.AddOwnerChatGroupMember(memberName);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = ex.Message;
+                return result;
+            }
+
         }
         #endregion
         #endregion

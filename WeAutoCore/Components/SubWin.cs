@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
@@ -12,6 +13,7 @@ using WxAutoCommon.Enums;
 using WxAutoCommon.Interface;
 using WxAutoCommon.Models;
 using WxAutoCommon.Utils;
+using WxAutoCore.Extentions;
 using WxAutoCore.Utils;
 
 namespace WxAutoCore.Components
@@ -110,6 +112,7 @@ namespace WxAutoCore.Components
                 options.Reset();
                 action(options);
                 _UpdateChatGroupOptions(options);
+                result.Success = true;
                 return result;
             }
             catch (Exception ex)
@@ -121,10 +124,13 @@ namespace WxAutoCore.Components
             finally
             {
                 //关闭侧边栏，只需要点击一下sender.
-                _SendEditFocus();
+                _SenderFocus();
             }
         }
-        private void _SendEditFocus()
+        /// <summary>
+        /// 发送编辑框聚焦，目的是关闭侧边栏
+        /// </summary>
+        private void _SenderFocus()
         {
             var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='输入']";
             var edit = _SelfWindow.FindFirstByXPath(xPath)?.AsTextBox();
@@ -132,7 +138,7 @@ namespace WxAutoCore.Components
             {
                 edit.Focus();
                 edit.WaitUntilClickable();
-                edit.Click();
+                _SelfWindow.SilenceClickExt(edit);
             }
         }
         /// <summary>
@@ -515,14 +521,6 @@ namespace WxAutoCore.Components
                 }
             }
         }
-        /// <summary>
-        /// 获取群聊成员列表
-        /// </summary>
-        /// <returns>群聊成员列表</returns>
-        public List<string> GetChatGroupMemberList()
-        {
-            return new List<string>();
-        }
         private void _FocuseSearchText()
         {
             var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='搜索群成员']";
@@ -532,7 +530,7 @@ namespace WxAutoCore.Components
                 if (edit != null)
                 {
                     edit.Focus();
-                    edit.Click();
+                    _SelfWindow.SilenceClickExt(edit);
                 }
             }).Wait();
         }
@@ -566,20 +564,104 @@ namespace WxAutoCore.Components
 
         }
         /// <summary>
+        /// 获取群聊成员列表
+        /// </summary>
+        /// <returns>群聊成员列表</returns>
+        public List<string> GetChatGroupMemberList()
+        {
+            if (!_IsSidebarOpen())
+            {
+                _OpenSidebar();
+            }
+            _FocuseSearchText();
+            Thread.Sleep(500);
+            List<string> list = _uiThreadInvoker.Run(automation =>
+            {
+                var memberList = new List<string>();
+                var xPath = "/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane/List[@Name='聊天成员']";
+                var listBox = _SelfWindow.FindFirstByXPath(xPath)?.AsListBox();
+                var rootPane = listBox.GetParent();
+                while (true)
+                {
+                    //反复点击“查看更多”按钮
+                    var moreButton = Retry.WhileNull(() =>
+                    {
+                        return rootPane.FindFirstByXPath("//Button[@Name='查看更多']")?.AsButton();
+                    }, TimeSpan.FromSeconds(1), TimeSpan.FromMilliseconds(200));
+                    if (moreButton.Success)
+                    {
+                        moreButton.Result.WaitUntilClickable();
+                        moreButton.Result.Click();
+                        Thread.Sleep(600);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                listBox = _SelfWindow.FindFirstByXPath(xPath)?.AsListBox();
+                var items = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
+                foreach (var item in items)
+                {
+                    if (item.Name != "添加" && item.Name != "移除")
+                    {
+                        memberList.Add(item.Name);
+                    }
+                }
+                return memberList;
+            }).Result;
+            return list;
+        }
+        /// <summary>
         /// 搜索群聊成员
         /// </summary>
         /// <param name="memberName">成员名称</param>
         /// <returns>成员元素</returns>
         private AutomationElement SearchChatGroupMember(string memberName)
         {
-            return null;
+            if (!_IsSidebarOpen())
+            {
+                _OpenSidebar();
+            }
+            _FocuseSearchText();
+            var element = _uiThreadInvoker.Run(automation =>
+            {
+                var edit = _SelfWindow.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='搜索群成员']")?.AsTextBox();
+                if (edit != null)
+                {
+                    edit.Focus();
+                    edit.WaitUntilClickable();
+                    edit.Click();
+                    Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                    Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                    Keyboard.Type(memberName);
+                    Keyboard.Press(VirtualKeyShort.RETURN);
+                    Wait.UntilInputIsProcessed();
+                    Thread.Sleep(600);
+                    var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/ListItem";
+                    var list = _SelfWindow.FindAllByXPath(xPath)?.ToList();
+                    if (list != null && list.Count > 0)
+                    {
+                        var item = list.FirstOrDefault(s => s.Name == memberName);
+                        return item;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+
+                return null;
+            }).Result;
+
+            return element;
         }
         /// <summary>
         /// 是否是群聊成员
         /// </summary>
         /// <param name="memberName">成员名称</param>
         /// <returns>是否是群聊成员</returns>
-        private bool IsChatGroupMember(string memberName)
+        public bool IsChatGroupMember(string memberName)
         {
             return SearchChatGroupMember(memberName) != null;
         }
@@ -587,32 +669,94 @@ namespace WxAutoCore.Components
         /// 是否是自有群
         /// </summary>
         /// <returns>是否是自有群</returns>
-        private bool IsOwnerChatGroup()
+        public bool IsOwnerChatGroup()
         {
-            return false;
+            if (!_IsSidebarOpen())
+            {
+                _OpenSidebar();
+            }
+            _FocuseSearchText();
+            Thread.Sleep(500);
+            bool result = _uiThreadInvoker.Run(automation =>
+            {
+                var memberList = new List<string>();
+                var xPath = "/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane/List[@Name='聊天成员']";
+                var listBox = _SelfWindow.FindFirstByXPath(xPath)?.AsListBox();
+                listBox = _SelfWindow.FindFirstByXPath(xPath)?.AsListBox();
+                var items = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
+                items = items.Where(item => item.Name != "添加" && item.Name != "移除").ToList();
+                var firstItem = items.First();   //群主
+
+                return firstItem.Name == _MainWxWindow.NickName ? true : false;
+            }).Result;
+            return result;
+        }
+        /// <summary>
+        /// 清空群聊历史
+        /// </summary>
+        public void ClearChatGroupHistory()
+        {
+            if (!_IsSidebarOpen())
+            {
+                _OpenSidebar();
+            }
+            _FocuseSearchText();
+            _uiThreadInvoker.Run(automation =>
+            {
+                var clearButton = _SelfWindow.FindFirstByXPath("//Button[@Name='清空聊天记录']")?.AsButton();
+                if (clearButton != null)
+                {
+                    clearButton.WaitUntilClickable();
+                    clearButton.Focus();
+                    clearButton.Click();
+                    var confirmButton = Retry.WhileNull(() =>
+                    {
+                        return _SelfWindow.FindFirstByXPath("/Pane[1]/Pane/Pane/Button[@Name='清空']")?.AsButton();
+                    }, TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
+                    if (confirmButton != null)
+                    {
+                        confirmButton.WaitUntilClickable();
+                        confirmButton.Focus();
+                        confirmButton.Click();
+                    }
+                }
+            }).Wait();
+        }
+        /// <summary>
+        /// 退出群聊
+        /// </summary>
+        public void QuitChatGroup()
+        {
+            if (!_IsSidebarOpen())
+            {
+                _OpenSidebar();
+            }
+            _FocuseSearchText();
+            _uiThreadInvoker.Run(automation =>
+            {
+                var clearButton = _SelfWindow.FindFirstByXPath("//Button[@Name='退出群聊']")?.AsButton();
+                if (clearButton != null)
+                {
+                    clearButton.WaitUntilClickable();
+                    clearButton.Focus();
+                    clearButton.Click();
+                    var confirmButton = Retry.WhileNull(() =>
+                    {
+                        return _SelfWindow.FindFirstByXPath("/Pane[1]/Pane/Pane/Button[@Name='退出']")?.AsButton();
+                    }, TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
+                    if (confirmButton != null)
+                    {
+                        confirmButton.WaitUntilClickable();
+                        confirmButton.Focus();
+                        confirmButton.Click();
+                    }
+                }
+            }).Wait();
         }
         #endregion
 
         #region 自有群操作
-        /// <summary>
-        /// 更新群聊名称
-        /// </summary>
-        /// <param name="newGroupName">新群聊名称</param>
-        /// <returns>微信响应结果</returns>
-        public ChatResponse UpdateOwnerChatGroupName(string groupName, string newGroupName)
-        {
-            return null;
-        }
-        /// <summary>
-        /// 创建群聊
-        /// </summary>
-        /// <param name="groupName">群聊名称</param>
-        /// <param name="memberName">成员名称</param>
-        /// <returns>微信响应结果</returns>
-        public ChatResponse CreateOwnerChatGroup(string groupName, OneOf<string, string[]> memberName)
-        {
-            return null;
-        }
+
 
         /// <summary>
         /// 删除群聊
@@ -628,9 +772,12 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="notice">公告内容</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse SendOwnerChatGroupNotice(string notice)
+        public ChatResponse PublishOwnerChatGroupNotice(string notice)
         {
-            return null;
+            return this.UpdateChatGroupOptions(options =>
+            {
+                options.GroupNotice = notice;
+            });
         }
         /// <summary>
         /// 添加群聊成员
