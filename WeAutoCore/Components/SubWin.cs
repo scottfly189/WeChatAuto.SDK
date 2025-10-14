@@ -759,13 +759,70 @@ namespace WxAutoCore.Components
 
 
         /// <summary>
-        /// 删除群聊
+        /// 删除群聊,与退出群聊不同，退出群聊是退出群聊，删除群聊会删除自有群的所有好友，然后退出群聊
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse DeleteOwnerChatGroup(string groupName)
+        public ChatResponse DeleteOwnerChatGroup()
         {
-            return null;
+            ChatResponse result = new ChatResponse();
+            try
+            {
+                this._RemoveAllChatGroupMember();
+                this.QuitChatGroup();
+                result.Success = true;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = ex.Message;
+                return result;
+            }
+        }
+        private void _RemoveAllChatGroupMember()
+        {
+            if (!_IsSidebarOpen())
+            {
+                _OpenSidebar();
+            }
+            _FocuseSearchText();
+            _uiThreadInvoker.Run(automation =>
+            {
+                var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/List[@Name='聊天成员']";
+                var listBox = _SelfWindow.FindFirstByXPath(xPath)?.AsListBox();
+                var revListItem = listBox?.FindFirstByXPath("//ListItem[@Name='移出']")?.AsButton();
+                if (revListItem != null)
+                {
+                    var revButton = revListItem.FindFirstByXPath("/Pane/Pane/Button")?.AsButton();
+                    if (revButton != null)
+                    {
+                        revButton.WaitUntilClickable();
+                        revButton.Focus();
+                        revButton.Click();
+                        var deleteMemberWin = Retry.WhileNull(() => _SelfWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("DeleteMemberWnd")).And(cf.ByClassName("DeleteMemberWnd")))?.AsWindow(),
+                        TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
+                        if (deleteMemberWin != null)
+                        {
+                            var listBoxRoot = deleteMemberWin.FindFirstByXPath("//List[@Name='请勾选需要添加的联系人']")?.AsListBox();
+                            var revList = listBoxRoot.FindAllChildren(cf => cf.ByControlType(ControlType.CheckBox)).ToList();
+                            foreach (var item in revList)
+                            {
+                                item.AsCheckBox().ToggleState = ToggleState.On;
+                                Thread.Sleep(500);
+                            }
+                            var confirmButton = deleteMemberWin.FindFirstByXPath("//Button[@Name='完成']")?.AsButton();
+                            if (confirmButton != null)
+                            {
+                                confirmButton.WaitUntilClickable();
+                                confirmButton.Focus();
+                                confirmButton.Click();
+                            }
+                        }
+                    }
+                }
+            }).Wait();
+            Thread.Sleep(100);
         }
         /// <summary>
         /// 发送群聊公告
@@ -792,10 +849,54 @@ namespace WxAutoCore.Components
         /// 移除群聊成员
         /// </summary>
         /// <param name="memberName">成员名称</param>
-        /// <returns>微信响应结果</returns>
+        /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
         public ChatResponse RemoveOwnerChatGroupMember(OneOf<string, string[]> memberName)
         {
-            return null;
+            ChatResponse result = new ChatResponse();
+            try
+            {
+                this._RemoveChatGroupMemberCore(memberName);
+                result.Success = true;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = ex.Message;
+                return result;
+            }
+        }
+
+        private void _RemoveChatGroupMemberCore(OneOf<string, string[]> memberName)
+        {
+            if (!_IsSidebarOpen())
+            {
+                _OpenSidebar();
+            }
+            _FocuseSearchText();
+            _uiThreadInvoker.Run(automation =>
+            {
+                var pane = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd"))
+                    .And(cf.ByName("SessionChatRoomDetailWnd")));
+                var revListItem = pane.FindFirstByXPath("//ListItem[@Name='移出']")?.AsListBoxItem();
+                var revButton = revListItem.FindFirstByXPath("/Pane/Pane/Button")?.AsButton();
+                if (revButton != null)
+                {
+                    revButton.WaitUntilClickable();
+                    revButton.Focus();
+                    revButton.Click();
+                    var deleteMemberWin = Retry.WhileNull(() => _SelfWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("DeleteMemberWnd")).And(cf.ByClassName("DeleteMemberWnd")))?.AsWindow(),
+                    TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
+                    if (deleteMemberWin != null)
+                    {
+                        var listBoxRoot = deleteMemberWin.FindFirstByXPath("//List[@Name='请勾选需要添加的联系人']")?.AsListBox();
+                        // if (listBoxRoot)
+                        // var revList = listBoxRoot.FindAllChildren(cf => cf.ByControlType(ControlType.CheckBox)).ToList();
+                    }
+
+                }
+            }).Wait();
+            Thread.Sleep(100);
         }
 
         #endregion

@@ -1126,44 +1126,43 @@ namespace WxAutoCore.Components
                                 Keyboard.Press(VirtualKeyShort.RETURN);
                                 Wait.UntilInputIsProcessed();
                                 //选择的列表中打上勾
-                                var listItem = AddMemberWnd.FindFirstByXPath("//List[@Name='请勾选需要添加的联系人']")?.AsListBox();
-                                if (listItem != null)
+                                var listBox = AddMemberWnd.FindFirstByXPath("//List[@Name='请勾选需要添加的联系人']")?.AsListBox();
+                                if (listBox != null)
                                 {
-                                    var subList = listItem.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
+                                    var subList = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.CheckBox)).ToList();
                                     subList = subList.Where(item => !string.IsNullOrWhiteSpace(item.Name) && item.Name == member).ToList();
                                     foreach (var subItem in subList)
                                     {
-                                        var checkButton = subItem.FindFirstByXPath("//Button")?.AsButton();
-                                        checkButton?.WaitUntilClickable();
-                                        checkButton?.Click();
+                                        var checkBox = subItem.AsCheckBox();
+                                        checkBox.ToggleState = ToggleState.On;
                                         Thread.Sleep(300);
                                     }
-                                    var finishButton = AddMemberWnd.FindFirstByXPath("//Button[@Name='完成']")?.AsButton();
-                                    if (finishButton != null)
+                                }
+                            }
+                            var finishButton = AddMemberWnd.FindFirstByXPath("//Button[@Name='完成']")?.AsButton();
+                            if (finishButton != null)
+                            {
+                                finishButton.Focus();
+                                finishButton.WaitUntilClickable();
+                                finishButton.Click();
+                                Thread.Sleep(600);
+                                //修改名字
+                                xPath = "//List[@Name='会话']";
+                                var cListItemBox = _Window.FindFirstByXPath(xPath)?.AsListBox();
+                                var cListItems = cListItemBox?.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))?.ToList();
+                                cListItems = cListItems?.Where(item => !item.Name.EndsWith("已置顶"))?.ToList();
+                                var firstItem = cListItems?.FirstOrDefault();
+                                if (firstItem != null)
+                                {
+                                    var tempName = firstItem.Name;
+                                    UpdateChatGroupOptions(tempName, options =>
                                     {
-                                        finishButton.Focus();
-                                        finishButton.WaitUntilClickable();
-                                        finishButton.Click();
-                                        Thread.Sleep(600);
-                                        //修改名字
-                                        xPath = "//List[@Name='会话']";
-                                        var cListItemBox = _Window.FindFirstByXPath(xPath)?.AsListBox();
-                                        var cListItems = cListItemBox?.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))?.ToList();
-                                        cListItems = cListItems?.Where(item => !item.Name.EndsWith("已置顶"))?.ToList();
-                                        var firstItem = cListItems?.FirstOrDefault();
-                                        if (firstItem != null)
-                                        {
-                                            var tempName = firstItem.Name;
-                                            UpdateChatGroupOptions(tempName, options =>
-                                            {
-                                                options.GroupName = groupName;
-                                            }).Wait();
+                                        options.GroupName = groupName;
+                                    }).Wait();
 
-                                            result.Success = true;
-                                            result.Message = "创建群聊成功";
-                                            return result;
-                                        }
-                                    }
+                                    result.Success = true;
+                                    result.Message = "创建群聊成功";
+                                    return result;
                                 }
                             }
                         }
@@ -1198,6 +1197,29 @@ namespace WxAutoCore.Components
                 return result;
             }
 
+        }
+        /// <summary>
+        /// 删除群聊，适用于自有群,与退出群聊不同，退出群聊是退出群聊，删除群聊会删除自有群的所有好友，然后退出群聊
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        /// <returns>微信响应结果</returns>
+        public async Task<ChatResponse> DeleteOwnerChatGroup(string groupName)
+        {
+            ChatResponse result = new ChatResponse();
+            try
+            {
+                await _SubWinList.CheckSubWinExistAndOpen(groupName);
+                await Task.Delay(500);
+                var subWin = _SubWinList.GetSubWin(groupName);
+                result = subWin.DeleteOwnerChatGroup();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = ex.Message;
+                return result;
+            }
         }
         #endregion
         #endregion
