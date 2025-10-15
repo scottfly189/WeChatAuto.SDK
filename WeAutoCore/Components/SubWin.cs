@@ -1122,6 +1122,56 @@ namespace WxAutoCore.Components
                 }
             }
         }
+        /// <summary>
+        /// 添加群聊里面的好友为自己的好友,适用于他有群
+        /// </summary>
+        /// <param name="memberName">成员名称</param>
+        /// <returns>微信响应结果</returns>
+        public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName)
+        {
+            ChatResponse result = new ChatResponse();
+            try
+            {
+                this._AddChatGroupFriendsCore(memberName);
+                result.Success = true;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = ex.Message;
+                return result;
+            }
+        }
+        private void _AddChatGroupFriendsCore(OneOf<string, string[]> memberName)
+        {
+            if (!_IsSidebarOpen())
+            {
+                _OpenSidebar();
+            }
+            _FocuseSearchText();
+        }
+        /// <summary>
+        /// 添加群聊里面的所有好友为自己的好友,适用于从他有群中添加所有好友为自己的好友
+        /// </summary>
+        /// <returns>微信响应结果</returns>
+        public ChatResponse AddAllChatGroupMemberToFriends()
+        {
+            ChatResponse result = new ChatResponse();
+            try
+            {
+                var memberList = this.GetChatGroupMemberList();
+                this.AddChatGroupMemberToFriends(memberList.ToArray());
+                result.Success = true;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = ex.Message;
+                return result;
+            }
+        }
         #endregion
         #endregion
 

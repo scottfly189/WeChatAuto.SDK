@@ -1274,6 +1274,20 @@ namespace WxAutoCore.Components
             return subWin.InviteChatGroupMember(memberName);
         }
 
+        /// <summary>
+        /// 添加群聊里面的好友为自己的好友,适用于从他有群中添加好友为自己的好友
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        /// <param name="memberName">成员名称</param>
+        /// <returns>微信响应结果</returns>
+        public async Task<ChatResponse> AddChatGroupMemberToFriends(string groupName, OneOf<string, string[]> memberName)
+        {
+            await _SubWinList.CheckSubWinExistAndOpen(groupName);
+            await Task.Delay(500);
+            var subWin = _SubWinList.GetSubWin(groupName);
+            return subWin.AddChatGroupMemberToFriends(memberName);
+        }
+
         #endregion
         #endregion
     }
