@@ -1035,6 +1035,18 @@ namespace WxAutoCore.Components
             return subWin.IsOwnerChatGroup();
         }
         /// <summary>
+        /// 获取群主
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        /// <returns>群主昵称</returns>
+        public async Task<string> GetGroupOwner(string groupName)
+        {
+            await _SubWinList.CheckSubWinExistAndOpen(groupName);
+            await Task.Delay(500);
+            var subWin = _SubWinList.GetSubWin(groupName);
+            return subWin.GetGroupOwner();
+        }
+        /// <summary>
         /// 清空群聊历史
         /// </summary>
         /// <param name="groupName">群聊名称</param>
@@ -1221,6 +1233,47 @@ namespace WxAutoCore.Components
                 return result;
             }
         }
+
+        /// <summary>
+        /// 发送群聊公告
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        /// <param name="notice">公告内容</param>
+        /// <returns>微信响应结果</returns>
+        public async Task<ChatResponse> PublishOwnerChatGroupNotice(string groupName, string notice)
+        {
+            await _SubWinList.CheckSubWinExistAndOpen(groupName);
+            await Task.Delay(500);
+            var subWin = _SubWinList.GetSubWin(groupName);
+            return subWin.PublishOwnerChatGroupNotice(notice);
+        }
+        /// <summary>
+        /// 移除群聊成员,适用于自有群
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        /// <param name="memberName">成员名称</param>
+        /// <returns>微信响应结果</returns>
+        public async Task<ChatResponse> RemoveOwnerChatGroupMember(string groupName, OneOf<string, string[]> memberName)
+        {
+            await _SubWinList.CheckSubWinExistAndOpen(groupName);
+            await Task.Delay(500);
+            var subWin = _SubWinList.GetSubWin(groupName);
+            return subWin.RemoveOwnerChatGroupMember(memberName);
+        }
+        /// <summary>
+        /// 邀请群聊成员,适用于他有群
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        /// <param name="memberName">成员名称</param>
+        /// <returns>微信响应结果</returns>
+        public async Task<ChatResponse> InviteChatGroupMember(string groupName, OneOf<string, string[]> memberName)
+        {
+            await _SubWinList.CheckSubWinExistAndOpen(groupName);
+            await Task.Delay(500);
+            var subWin = _SubWinList.GetSubWin(groupName);
+            return subWin.InviteChatGroupMember(memberName);
+        }
+
         #endregion
         #endregion
     }
