@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace WxAutoCommon.Models
 {
     /// <summary>
@@ -13,5 +15,9 @@ namespace WxAutoCommon.Models
         /// 消息
         /// </summary>
         public string Message { get; set; }
+        /// <summary>
+        /// 扩展数据,如果返回有需要额外返回的数据，可以在这里返回
+        /// </summary>
+        public object ExtendData { get; set; } = null;
     }
 }

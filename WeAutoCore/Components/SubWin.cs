@@ -1127,13 +1127,26 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="memberName">成员名称</param>
         /// <param name="intervalSecond">间隔时间</param>
+        /// <param name="helloText">打招呼文本</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName,int intervalSecond = 3)
+        public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "")
+        {
+            return this.AddChatGroupMemberToFriends(memberName, intervalSecond, helloText, "");
+        }
+        /// <summary>
+        /// 添加群聊里面的好友为自己的好友,适用于从他有群中添加好友为自己的好友
+        /// </summary>
+        /// <param name="memberName">成员名称</param>
+        /// <param name="intervalSecond">间隔时间</param>
+        /// <param name="helloText">打招呼文本</param>
+        /// <param name="label">好友标签,方便归类管理</param>
+        /// <returns>微信响应结果</returns>
+        public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", string label = "")
         {
             ChatResponse result = new ChatResponse();
             try
             {
-                this._AddChatGroupFriendsCore(memberName, intervalSecond);
+                this._AddChatGroupFriendsCore(memberName, intervalSecond, helloText, label);
                 result.Success = true;
                 return result;
             }
@@ -1144,26 +1157,188 @@ namespace WxAutoCore.Components
                 return result;
             }
         }
-        private void _AddChatGroupFriendsCore(OneOf<string, string[]> memberName,int intervalSecond = 3)
+        /// <summary>
+        /// 添加群聊里面的好友为自己的好友核心方法
+        /// </summary>
+        /// <param name="memberName">成员名称</param>
+        /// <param name="intervalSecond">间隔时间</param>
+        /// <param name="helloText">打招呼文本</param>
+        /// <param name="label">好友标签,方便归类管理</param>
+        private void _AddChatGroupFriendsCore(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", string label = "")
         {
-            if (!_IsSidebarOpen())
+            List<string> addList = new List<string>();
+            if (memberName.IsT0)
             {
-                _OpenSidebar();
+                addList.Add(memberName.AsT0);
             }
-            _FocuseSearchText();
+            else
+            {
+                addList.AddRange(memberName.AsT1);
+            }
+            var willAddList = _GetWillAddListFromContacts(addList);
+            _uiThreadInvoker.Run(automation =>
+            {
+                foreach (var item in willAddList)
+                {
+                    var paneRoot = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd"))
+                        .And(cf.ByName("SessionChatRoomDetailWnd")));
+                    if (paneRoot == null)
+                    {
+                        var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Button[@Name='聊天信息']";
+                        var button = _SelfWindow.FindFirstByXPath(xPath)?.AsButton();
+                        if (button != null)
+                        {
+                            button.WaitUntilClickable();
+                            button.Focus();
+                            button.Click();
+                            Thread.Sleep(600);
+                            xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='搜索群成员']";
+                            var edit = _SelfWindow.FindFirstByXPath(xPath)?.AsTextBox();
+                            if (edit != null)
+                            {
+                                edit.Focus();
+                                edit.Click();
+                                Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                                Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                                Keyboard.Type(item);
+                                Keyboard.Press(VirtualKeyShort.RETURN);
+                                Wait.UntilInputIsProcessed();
+                                Thread.Sleep(600);
+                                var listBox = paneRoot.FindFirstByXPath("//List[@Name='聊天成员']")?.AsListBox();
+                                var listItem = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(item))).Select(u => u.AsListBoxItem()).ToList();
+                                if (listItem != null && listItem.Count > 0)
+                                {
+                                    button = listItem.FirstOrDefault().FindFirstByXPath("/Pane/Pane/Button").AsButton();
+                                    if (button != null)
+                                    {
+                                        button.WaitUntilClickable();
+                                        button.Click();
+                                        Thread.Sleep(600);
+                                        var addPane = Retry.WhileNull(() => paneRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("添加好友")).And(cf.ByClassName("WeUIDialog"))),
+                                            TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
+                                        if (addPane != null)
+                                        {
+                                            //点击添加到通讯录按钮
+                                            var addButton = addPane.FindFirstByXPath("//Button[@Name='添加到通讯录']")?.AsButton();
+                                            addButton.WaitUntilClickable();
+                                            addButton.Click();
+                                            var addConfirmWinResult = Retry.WhileNull(() => _MainWxWindow.Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("添加朋友请求")).And(cf.ByClassName("WeUIDialog")))?.AsWindow(),
+                                                TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
+                                            if (addConfirmWinResult.Success && addConfirmWinResult.Result != null)
+                                            {
+                                                if (!string.IsNullOrWhiteSpace(helloText))
+                                                {
+                                                    var helloTextEdit = addConfirmWinResult.Result.FindFirstByXPath("/Pane[2]/Pane[1]/Pane/Pane/Pane[1]/Pane/Edit").AsTextBox();
+                                                    helloTextEdit.Focus();
+                                                    helloTextEdit.Click();
+                                                    Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                                                    Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                                                    Keyboard.Type(helloText);
+                                                    helloTextEdit.Click();
+                                                    Keyboard.Press(VirtualKeyShort.RETURN);
+                                                    Wait.UntilInputIsProcessed();
+                                                    Thread.Sleep(600);
+                                                }
+                                                if (!string.IsNullOrWhiteSpace(label))
+                                                {
+                                                    var labelEdit = addConfirmWinResult.Result.FindFirstByXPath("/Pane[2]/Pane[1]/Pane/Pane/Pane[3]/Pane[1]/Pane/Edit").AsTextBox();
+                                                    labelEdit.Focus();
+                                                    labelEdit.Click();
+                                                    Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                                                    Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                                                    Keyboard.Type(label);
+                                                    labelEdit.Click();
+                                                    Keyboard.Press(VirtualKeyShort.RETURN);
+                                                    Wait.UntilInputIsProcessed();
+                                                    Thread.Sleep(600);
+                                                }
+                                                button = addConfirmWinResult.Result.FindFirstByXPath("//Button[@Name='确定']")?.AsButton();
+                                                button.WaitUntilClickable();
+                                                button.Click();
+                                                Thread.Sleep(600);
+                                            }
+                                            else
+                                            {
+                                                edit.Focus();
+                                                edit.Click();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                Thread.Sleep(intervalSecond * 1000);  //停顿间隔时间
+            }).Wait();
+        }
+        /// <summary>
+        /// 从通讯录中获取待添加列表
+        /// </summary>
+        /// <param name="addList">待添加列表</param>
+        /// <returns>待添加列表</returns>
+        private List<string> _GetWillAddListFromContacts(List<string> addList)
+        {
+            var list = _uiThreadInvoker.Run(automation =>
+            {
+                var paneRoot = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd"))
+                    .And(cf.ByName("SessionChatRoomDetailWnd")));
+                _ExpndListBox(paneRoot);
+                var xPath = "//List[@Name='聊天成员']";
+                var listBox = paneRoot.FindFirstByXPath(xPath)?.AsListBox();
+                var listItem = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).Select(item => item.AsListBoxItem()).ToList();
+                var listItemValues = listItem.Select(item => item.Name).ToList();
+                listItemValues = listItemValues.Intersect(addList).ToList();
+                return listItemValues;
+            }).Result;
+            return list;
+        }
+
+
+        /// <summary>
+        /// 展开列表框
+        /// </summary>
+        /// <param name="pane">列表框</param>
+        private void _ExpndListBox(AutomationElement pane)
+        {
+            var xPath = "//Button[@Name='查看更多']";
+            var button = pane.FindFirstByXPath(xPath)?.AsButton();
+            if (button != null)
+            {
+                button.WaitUntilClickable();
+                button.Click();
+                Thread.Sleep(600);
+            }
         }
         /// <summary>
         /// 添加群聊里面的所有好友为自己的好友,适用于从他有群中添加所有好友为自己的好友
         /// </summary>
         /// <param name="intervalSecond">间隔时间</param>
+        /// <param name="exceptList">排除列表</param>
+        /// <param name="helloText">打招呼文本</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse AddAllChatGroupMemberToFriends(int intervalSecond = 3)
+        public ChatResponse AddAllChatGroupMemberToFriends(List<string> exceptList = null, int intervalSecond = 3, string helloText = "")
+        {
+            return this.AddAllChatGroupMemberToFriends(exceptList, intervalSecond, helloText, "");
+        }
+        /// <summary>
+        /// 添加群聊里面的所有好友为自己的好友,适用于从他有群中添加所有好友为自己的好友
+        /// </summary>
+        /// <param name="exceptList">排除列表</param>
+        /// <param name="intervalSecond">间隔时间</param>
+        /// <param name="helloText">打招呼文本</param>
+        /// <param name="label">好友标签,方便归类管理</param>
+        /// <returns>微信响应结果</returns>
+        public ChatResponse AddAllChatGroupMemberToFriends(List<string> exceptList = null, int intervalSecond = 3, string helloText = "", string label = "")
         {
             ChatResponse result = new ChatResponse();
             try
             {
                 var memberList = this.GetChatGroupMemberList();
-                this.AddChatGroupMemberToFriends(memberList.ToArray(), intervalSecond);
+                var myNickName = _MainWxWindow.NickName;
+                memberList.Remove(myNickName);
+                memberList = memberList.Except(exceptList).ToList();
+                this.AddChatGroupMemberToFriends(memberList.ToArray(), intervalSecond, helloText, label);
                 result.Success = true;
                 return result;
             }

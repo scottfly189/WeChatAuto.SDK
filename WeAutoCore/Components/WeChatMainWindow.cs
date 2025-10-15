@@ -1279,13 +1279,58 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <param name="memberName">成员名称</param>
+        /// <param name="intervalSecond">间隔时间</param>
+        /// <param name="helloText">打招呼文本</param>
         /// <returns>微信响应结果</returns>
-        public async Task<ChatResponse> AddChatGroupMemberToFriends(string groupName, OneOf<string, string[]> memberName)
+        public async Task<ChatResponse> AddChatGroupMemberToFriends(string groupName, OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "")
+        {
+            return await this.AddChatGroupMemberToFriends(groupName, memberName, intervalSecond, helloText, "");
+        }
+        /// <summary>
+        /// 添加群聊里面的好友为自己的好友,适用于从他有群中添加好友为自己的好友
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        /// <param name="memberName">成员名称</param>
+        /// <param name="intervalSecond">间隔时间</param>
+        /// <param name="helloText">打招呼文本</param>
+        /// <param name="label">好友标签,方便归类管理</param>
+        /// <returns>微信响应结果</returns>
+        public async Task<ChatResponse> AddChatGroupMemberToFriends(string groupName, OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", string label = "")
         {
             await _SubWinList.CheckSubWinExistAndOpen(groupName);
             await Task.Delay(500);
             var subWin = _SubWinList.GetSubWin(groupName);
-            return subWin.AddChatGroupMemberToFriends(memberName);
+            return subWin.AddChatGroupMemberToFriends(memberName, intervalSecond, helloText, label);
+        }
+
+        /// <summary>
+        /// 添加群聊里面的所有好友为自己的好友,适用于从他有群中添加所有好友为自己的好友
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        /// <param name="exceptList">排除列表</param>
+        /// <param name="intervalSecond">间隔时间</param>
+        /// <param name="helloText">打招呼文本</param>
+        /// <returns>微信响应结果</returns>
+        public async Task<ChatResponse> AddAllChatGroupMemberToFriends(string groupName, List<string> exceptList = null, int intervalSecond = 3, string helloText = "")
+        {
+            return await this.AddAllChatGroupMemberToFriends(groupName, exceptList, intervalSecond, helloText, "");
+        }
+
+        /// <summary>
+        /// 添加群聊里面的所有好友为自己的好友,适用于从他有群中添加所有好友为自己的好友
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        /// <param name="exceptList">排除列表</param>
+        /// <param name="intervalSecond">间隔时间</param>
+        /// <param name="helloText">打招呼文本</param>
+        /// <param name="label">好友标签,方便归类管理</param>
+        /// <returns>微信响应结果</returns>
+        public async Task<ChatResponse> AddAllChatGroupMemberToFriends(string groupName, List<string> exceptList = null, int intervalSecond = 3, string helloText = "", string label = "")
+        {
+            await _SubWinList.CheckSubWinExistAndOpen(groupName);
+            await Task.Delay(500);
+            var subWin = _SubWinList.GetSubWin(groupName);
+            return subWin.AddAllChatGroupMemberToFriends(exceptList, intervalSecond, helloText, label);
         }
 
         #endregion
