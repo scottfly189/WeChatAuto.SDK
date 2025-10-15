@@ -1126,13 +1126,14 @@ namespace WxAutoCore.Components
         /// 添加群聊里面的好友为自己的好友,适用于他有群
         /// </summary>
         /// <param name="memberName">成员名称</param>
+        /// <param name="intervalSecond">间隔时间</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName)
+        public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName,int intervalSecond = 3)
         {
             ChatResponse result = new ChatResponse();
             try
             {
-                this._AddChatGroupFriendsCore(memberName);
+                this._AddChatGroupFriendsCore(memberName, intervalSecond);
                 result.Success = true;
                 return result;
             }
@@ -1143,7 +1144,7 @@ namespace WxAutoCore.Components
                 return result;
             }
         }
-        private void _AddChatGroupFriendsCore(OneOf<string, string[]> memberName)
+        private void _AddChatGroupFriendsCore(OneOf<string, string[]> memberName,int intervalSecond = 3)
         {
             if (!_IsSidebarOpen())
             {
@@ -1154,14 +1155,15 @@ namespace WxAutoCore.Components
         /// <summary>
         /// 添加群聊里面的所有好友为自己的好友,适用于从他有群中添加所有好友为自己的好友
         /// </summary>
+        /// <param name="intervalSecond">间隔时间</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse AddAllChatGroupMemberToFriends()
+        public ChatResponse AddAllChatGroupMemberToFriends(int intervalSecond = 3)
         {
             ChatResponse result = new ChatResponse();
             try
             {
                 var memberList = this.GetChatGroupMemberList();
-                this.AddChatGroupMemberToFriends(memberList.ToArray());
+                this.AddChatGroupMemberToFriends(memberList.ToArray(), intervalSecond);
                 result.Success = true;
                 return result;
             }
