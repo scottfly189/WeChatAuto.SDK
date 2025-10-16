@@ -19,7 +19,6 @@ namespace WxAutoCore.Components
         private UIThreadInvoker _uiThreadInvoker;
         private IWeChatWindow _WxWindow;
         public WxLocationCaches _wxLocationCaches = new WxLocationCaches();
-        public AutomationElement CurrentNavigationElement { get; private set; }
         private Window _Window;
         /// <summary>
         /// 导航栏构造函数
@@ -85,9 +84,8 @@ namespace WxAutoCore.Components
                     parentElement: navigationRoot,
                     xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_SETTING}'][@IsEnabled='true']"
                 );
-                CurrentNavigationElement = _wxLocationCaches.GetElement(NavigationType.聊天.ToString());
             }).Wait();
-            _WxWindow.SilenceClickExt(CurrentNavigationElement);
+            SwitchNavigation(NavigationType.聊天);
         }
         /// <summary>
         /// 切换导航栏
@@ -104,11 +102,7 @@ namespace WxAutoCore.Components
                     if (Wait.UntilResponsive(button, timeout: TimeSpan.FromSeconds(5)))
                     {
                         DrawHightlightHelper.DrawHightlight(button, _uiThreadInvoker);
-                        if (CurrentNavigationElement.Name != button.Name)
-                        {
-                            _WxWindow.SilenceClickExt(button);
-                            CurrentNavigationElement = button;
-                        }
+                        button.Click();
                     }
                 }
             }).Wait();

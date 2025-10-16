@@ -346,7 +346,7 @@ namespace WeAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var flag = window.CheckFriendExist(groupName, doubleClick);
-            _output.WriteLine($"检查好友是否存在: {groupName}, 双击: {doubleClick}, 结果: {flag}");
+            _output.WriteLine($"检查好友是否存在: {groupName}, 双击: {doubleClick}, 结果: {flag} ");
             if (groupName != "不存在的人")
             {
                 Assert.True(flag);

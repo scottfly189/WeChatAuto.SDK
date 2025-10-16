@@ -1183,7 +1183,7 @@ namespace WxAutoCore.Components
                 {
                     return true;
                 }
-                var xPath = "/Pane[2]/Pane/Pane[1]/Pane[1]/Pane[1]/Pane/Edit[@Name='搜索']";
+                var xPath = "//Edit[@Name='搜索']";
                 var edit = _Window.FindFirstByXPath(xPath)?.AsTextBox();
                 if (edit != null)
                 {
@@ -1191,13 +1191,14 @@ namespace WxAutoCore.Components
                     edit.Click();
                     Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
                     Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
-                    edit.Click();
+                    Thread.Sleep(100);
                     Keyboard.Type(friendName);
                     edit.Click();
                     Thread.Sleep(300);
                     Wait.UntilInputIsProcessed();
                     Keyboard.Press(VirtualKeyShort.RETURN);
                     Thread.Sleep(1000);
+
                     return _CheckConversationExist(friendName, doubleClick);
                 }
                 return false;
