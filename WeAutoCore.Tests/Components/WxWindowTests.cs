@@ -338,7 +338,7 @@ namespace WeAutoCore.Tests.Components
         [InlineData("AI.Net", false)]
         [InlineData("AI.Net", true)]
         [InlineData(".NET-AI实时快讯3群", true)]
-        [InlineData("不存在的人", false)]     
+        [InlineData("不存在的人", false)]
         [InlineData("不存在的人", true)]
         public void Test_CheckFriendExist(string groupName, bool doubleClick = false)
         {
@@ -356,5 +356,16 @@ namespace WeAutoCore.Tests.Components
                 Assert.False(flag);
             }
         }   
+        
+        [Fact(DisplayName = "测试创建群聊")]
+        public void Test_CreateOwnerChatGroup()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var result = window.CreateOwnerChatGroup("测试01",new string[] { "AI.Net","秋歌"});
+            _output.WriteLine($"创建群聊结果: {result.Message}");
+            Assert.True(result.Success);
+        }
     }
 }

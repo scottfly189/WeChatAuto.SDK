@@ -1209,9 +1209,9 @@ namespace WxAutoCore.Components
 
         private ChatResponse _CreateChatGroupCore(string groupName, ChatResponse result, List<string> list)
         {
-            result = _uiThreadInvoker.Run((automation) =>
+            var tempName = _uiThreadInvoker.Run((automation) =>
             {
-                var xPath = "/Pane/Pane/Pane/Pane/Pane/Button[Name='发起群聊']";
+                var xPath = "//Button[@Name='发起群聊']";
                 var button = Retry.WhileNull(() => _Window.FindFirstByXPath(xPath)?.AsButton(), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
                 if (button != null)
                 {
@@ -1229,22 +1229,26 @@ namespace WxAutoCore.Components
                                 searchTextBox.Click();
                                 Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
                                 Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                                Thread.Sleep(200);
                                 Keyboard.Type(member);
+                                searchTextBox.Focus();
+                                searchTextBox.Click();
                                 Keyboard.Press(VirtualKeyShort.RETURN);
                                 Wait.UntilInputIsProcessed();
+                                Thread.Sleep(600);
                                 //选择的列表中打上勾
-                                var listBox = AddMemberWnd.FindFirstByXPath("//List[@Name='请勾选需要添加的联系人']")?.AsListBox();
-                                if (listBox != null)
-                                {
-                                    var subList = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.CheckBox)).ToList();
-                                    subList = subList.Where(item => !string.IsNullOrWhiteSpace(item.Name) && item.Name == member).ToList();
-                                    foreach (var subItem in subList)
-                                    {
-                                        var checkBox = subItem.AsCheckBox();
-                                        checkBox.ToggleState = ToggleState.On;
-                                        Thread.Sleep(300);
-                                    }
-                                }
+                                // var listBox = AddMemberWnd.FindFirstByXPath("//List[@Name='请勾选需要添加的联系人']")?.AsListBox();
+                                // if (listBox != null)
+                                // {
+                                //     var subList = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.CheckBox)).ToList();
+                                //     subList = subList.Where(item => !string.IsNullOrWhiteSpace(item.Name) && item.Name == member).ToList();
+                                //     foreach (var subItem in subList)
+                                //     {
+                                //         var checkBox = subItem.AsCheckBox();
+                                //         checkBox.ToggleState = ToggleState.On;
+                                //         Thread.Sleep(300);
+                                //     }
+                                // }
                             }
                             var finishButton = AddMemberWnd.FindFirstByXPath("//Button[@Name='完成']")?.AsButton();
                             if (finishButton != null)
@@ -1262,21 +1266,20 @@ namespace WxAutoCore.Components
                                 if (firstItem != null)
                                 {
                                     var tempName = firstItem.Name;
-                                    UpdateChatGroupOptions(tempName, options =>
-                                    {
-                                        options.GroupName = groupName;
-                                    }).Wait();
-
-                                    result.Success = true;
-                                    result.Message = "创建群聊成功";
-                                    return result;
+                                    return tempName;
                                 }
                             }
                         }
                     }
                 }
-                return result;
+                return "";
             }).Result;
+            UpdateChatGroupOptions(tempName, options =>
+            {
+                options.GroupName = groupName;
+            }).Wait();
+            result.Success = true;
+            result.Message = "创建群聊成功";
             return result;
         }
 
