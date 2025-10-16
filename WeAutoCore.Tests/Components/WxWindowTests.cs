@@ -6,7 +6,9 @@ using WxAutoCommon.Configs;
 using WeAutoCommon.Classes;
 using System.Diagnostics;
 
-namespace WxAutoCore.Tests.Components
+[assembly: CollectionBehavior(DisableTestParallelization = true)]
+
+namespace WeAutoCore.Tests.Components
 {
     [Collection("UiTestCollection")]
     public class WxWindowTests
@@ -332,11 +334,12 @@ namespace WxAutoCore.Tests.Components
         }
 
         [Theory(DisplayName = "测试检查好友是否存在")]
-        // [InlineData(".NET-AI实时快讯3群", false)]
-        // [InlineData("AI.Net", false)]
+        [InlineData(".NET-AI实时快讯3群", false)]
+        [InlineData("AI.Net", false)]
         [InlineData("AI.Net", true)]
-        // [InlineData(".NET-AI实时快讯3群", true)]
-        // [InlineData("不存在的人", false)]
+        [InlineData(".NET-AI实时快讯3群", true)]
+        [InlineData("不存在的人", false)]     
+        [InlineData("不存在的人", true)]
         public void Test_CheckFriendExist(string groupName, bool doubleClick = false)
         {
             var framework = _globalFixture.wxFramwork;

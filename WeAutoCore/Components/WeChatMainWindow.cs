@@ -1127,7 +1127,7 @@ namespace WxAutoCore.Components
                 var list = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))?.ToList();
                 if (list != null && list.Count > 0)
                 {
-                    var item = list.FirstOrDefault(cItem => cItem.Name == conversationName);
+                    var item = list.FirstOrDefault(cItem => cItem.Name.Contains(conversationName));
                     if (item != null)
                     {
                         if (doubleClick)
@@ -1135,7 +1135,6 @@ namespace WxAutoCore.Components
                             var button = item.FindFirstByXPath("//Button")?.AsButton();
                             if (button != null)
                             {
-                                DrawHightlightHelper.DrawHightlight(button, _uiThreadInvoker);
                                 button.Focus();
                                 button.WaitUntilClickable();
                                 button.DoubleClick();
@@ -1149,6 +1148,21 @@ namespace WxAutoCore.Components
             return false;
         }
         /// <summary>
+        /// 检查子窗口是否存在
+        /// </summary>
+        /// <param name="subWinName">子窗口名称</param>
+        /// <returns>是否存在,True:是,False:否</returns>
+        private bool _CheckSubWinExist(string subWinName)
+        {
+            var result = Retry.WhileNull(() => _Window.Automation.GetDesktop().FindFirstChild(cf => cf.ByClassName("ChatWnd")
+                         .And(cf.ByControlType(ControlType.Window)
+                         .And(cf.ByProcessId(this.ProcessId))
+                         .And(cf.ByName(subWinName)))),
+                         timeout: TimeSpan.FromSeconds(5),
+                         interval: TimeSpan.FromMilliseconds(200));
+            return result.Success && result.Result != null;
+        }
+        /// <summary>
         /// 检查好友是否存在,好友可以为群聊与普通好友
         /// </summary>
         /// <param name="friendName">好友名称</param>
@@ -1159,7 +1173,12 @@ namespace WxAutoCore.Components
             Navigation.SwitchNavigation(NavigationType.聊天);
             var result = _uiThreadInvoker.Run(automation =>
             {
-                //先检查会话列表，如果会话列表中存在，则直接返回true
+                //检查子窗口是否存在
+                if (_CheckSubWinExist(friendName))
+                {
+                    return true;
+                }
+                //检查会话列表，如果会话列表中存在，则直接返回true
                 if (_CheckConversationExist(friendName, doubleClick))
                 {
                     return true;
@@ -1168,54 +1187,18 @@ namespace WxAutoCore.Components
                 var edit = _Window.FindFirstByXPath(xPath)?.AsTextBox();
                 if (edit != null)
                 {
-                    if (!string.IsNullOrWhiteSpace(edit.Text))
-                    {
-                        this.SilenceClickExt(edit);
-                        xPath = "//Button[@Name='清空']";
-                        var clearButton = _Window.FindFirstByXPath(xPath)?.AsButton();
-                        if (clearButton != null)
-                        {
-                            clearButton.WaitUntilClickable();
-                            this.SilenceClickExt(clearButton);
-                            Thread.Sleep(300);
-                        }
-                    }
-
+                    edit.Focus();
+                    edit.Click();
+                    Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                    Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                    edit.Click();
+                    Keyboard.Type(friendName);
+                    edit.Click();
+                    Thread.Sleep(300);
                     Wait.UntilInputIsProcessed();
-                    this.SilenceClickExt(edit);
-                    this.SilenceEnterText(edit, friendName);
-                    this.SilenceReturn(edit);
+                    Keyboard.Press(VirtualKeyShort.RETURN);
                     Thread.Sleep(1000);
-                    var resultListBox = Retry.WhileNull(() => _Window.FindFirstByXPath("//List[@Name='@str:IDS_FAV_SEARCH_RESULT:3780']")?.AsListBox(), TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
-                    if (resultListBox.Success)
-                    {
-                        var resultList = resultListBox.Result.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))?.ToList();
-                        if (resultList != null && resultList.Count > 0)
-                        {
-                            if (resultList[0].Name.StartsWith("搜索"))
-                            {
-                                return false;
-                            }
-                            return _CheckConversationExist(friendName, doubleClick);
-                            // var resultItem = resultList.FirstOrDefault(item => item.Name == friendName);
-                            // if (resultItem != null)
-                            // {
-                            //     if (doubleClick)
-                            //     {
-                            //         xPath = "//Button";
-                            //         var button = resultItem.FindFirstByXPath(xPath)?.AsButton();
-                            //         if (button != null)
-                            //         {
-                            //             button.Focus();
-                            //             button.WaitUntilClickable();
-                            //             button.DoubleClick();
-                            //             Thread.Sleep(300);
-                            //         }
-                            //     }
-                            //     return true;
-                            // }
-                        }
-                    }
+                    return _CheckConversationExist(friendName, doubleClick);
                 }
                 return false;
             }).Result;
