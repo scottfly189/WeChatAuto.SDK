@@ -660,7 +660,7 @@ namespace WxAutoCore.Components
         /// 是否是群聊成员
         /// </summary>
         /// <param name="memberName">成员名称</param>
-        /// <returns>是否是群聊成员</returns>
+        /// <returns>是否是群聊成员,True:是,False:否</returns>
         public bool IsChatGroupMember(string memberName)
         {
             return SearchChatGroupMember(memberName) != null;
@@ -668,7 +668,7 @@ namespace WxAutoCore.Components
         /// <summary>
         /// 是否是自有群
         /// </summary>
-        /// <returns>是否是自有群</returns>
+        /// <returns>是否是自有群,True:是,False:否</returns>
         public bool IsOwnerChatGroup()
         {
             return GetGroupOwner() == _MainWxWindow.NickName;
@@ -1352,6 +1352,7 @@ namespace WxAutoCore.Components
         #endregion
         #endregion
 
+        #region 子窗口操作
         /// <summary>
         /// 关闭子窗口
         /// </summary>
@@ -1372,5 +1373,6 @@ namespace WxAutoCore.Components
                 _ChatBodyCache.Dispose();
             }
         }
+        #endregion
     }
 }

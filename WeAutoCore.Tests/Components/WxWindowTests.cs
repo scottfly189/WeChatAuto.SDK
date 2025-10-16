@@ -330,5 +330,28 @@ namespace WxAutoCore.Tests.Components
                 action.ShowGroupNickName = false;
             });
         }
+
+        [Theory(DisplayName = "测试检查好友是否存在")]
+        // [InlineData(".NET-AI实时快讯3群", false)]
+        // [InlineData("AI.Net", false)]
+        [InlineData("AI.Net", true)]
+        // [InlineData(".NET-AI实时快讯3群", true)]
+        // [InlineData("不存在的人", false)]
+        public void Test_CheckFriendExist(string groupName, bool doubleClick = false)
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var flag = window.CheckFriendExist(groupName, doubleClick);
+            _output.WriteLine($"检查好友是否存在: {groupName}, 双击: {doubleClick}, 结果: {flag}");
+            if (groupName != "不存在的人")
+            {
+                Assert.True(flag);
+            }
+            else
+            {
+                Assert.False(flag);
+            }
+        }   
     }
 }

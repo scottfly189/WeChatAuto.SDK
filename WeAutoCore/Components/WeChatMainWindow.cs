@@ -24,6 +24,7 @@ using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WxAutoCore.Services;
+using WxAutoCore.Extentions;
 
 
 
@@ -1070,7 +1071,7 @@ namespace WxAutoCore.Components
         }
         /// <summary>
         /// 创建群聊
-        /// 如果存在，则打开
+        /// 如果存在，则打开它，否则创建一个新群聊
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <param name="memberName">成员名称</param>
@@ -1089,7 +1090,7 @@ namespace WxAutoCore.Components
                 {
                     list.AddRange(memberName.AsT1);
                 }
-                var flag = this.AddressBook.LocateFriend(groupName);
+                var flag = this.CheckFriendExist(groupName, true);
                 if (flag)
                 {
                     //打开群
@@ -1110,6 +1111,116 @@ namespace WxAutoCore.Components
                 result.Message = ex.Message;
                 return result;
             }
+        }
+        /// <summary>
+        /// 检查会话是否存在
+        /// </summary>
+        /// <param name="conversationName">会话名称</param>
+        /// <param name="doubleClick">是否双击,True:是,False:否</param>
+        /// <returns>是否存在,True:是,False:否</returns>
+        private bool _CheckConversationExist(string conversationName, bool doubleClick = false)
+        {
+            var xPath = "//List[@Name='会话']";
+            var listBox = _Window.FindFirstByXPath(xPath)?.AsListBox();
+            if (listBox != null)
+            {
+                var list = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))?.ToList();
+                if (list != null && list.Count > 0)
+                {
+                    var item = list.FirstOrDefault(cItem => cItem.Name == conversationName);
+                    if (item != null)
+                    {
+                        if (doubleClick)
+                        {
+                            var button = item.FindFirstByXPath("//Button")?.AsButton();
+                            if (button != null)
+                            {
+                                DrawHightlightHelper.DrawHightlight(button, _uiThreadInvoker);
+                                button.Focus();
+                                button.WaitUntilClickable();
+                                button.DoubleClick();
+                                Thread.Sleep(300);
+                            }
+                        }
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        /// 检查好友是否存在,好友可以为群聊与普通好友
+        /// </summary>
+        /// <param name="friendName">好友名称</param>
+        /// <param name="doubleClick">是否双击,True:是,False:否</param>
+        /// <returns>是否存在,True:是,False:否</returns>
+        public bool CheckFriendExist(string friendName, bool doubleClick = false)
+        {
+            Navigation.SwitchNavigation(NavigationType.聊天);
+            var result = _uiThreadInvoker.Run(automation =>
+            {
+                //先检查会话列表，如果会话列表中存在，则直接返回true
+                if (_CheckConversationExist(friendName, doubleClick))
+                {
+                    return true;
+                }
+                var xPath = "/Pane[2]/Pane/Pane[1]/Pane[1]/Pane[1]/Pane/Edit[@Name='搜索']";
+                var edit = _Window.FindFirstByXPath(xPath)?.AsTextBox();
+                if (edit != null)
+                {
+                    if (!string.IsNullOrWhiteSpace(edit.Text))
+                    {
+                        this.SilenceClickExt(edit);
+                        xPath = "//Button[@Name='清空']";
+                        var clearButton = _Window.FindFirstByXPath(xPath)?.AsButton();
+                        if (clearButton != null)
+                        {
+                            clearButton.WaitUntilClickable();
+                            this.SilenceClickExt(clearButton);
+                            Thread.Sleep(300);
+                        }
+                    }
+
+                    Wait.UntilInputIsProcessed();
+                    this.SilenceClickExt(edit);
+                    this.SilenceEnterText(edit, friendName);
+                    this.SilenceReturn(edit);
+                    Thread.Sleep(1000);
+                    var resultListBox = Retry.WhileNull(() => _Window.FindFirstByXPath("//List[@Name='@str:IDS_FAV_SEARCH_RESULT:3780']")?.AsListBox(), TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
+                    if (resultListBox.Success)
+                    {
+                        var resultList = resultListBox.Result.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))?.ToList();
+                        if (resultList != null && resultList.Count > 0)
+                        {
+                            if (resultList[0].Name.StartsWith("搜索"))
+                            {
+                                return false;
+                            }
+                            return _CheckConversationExist(friendName, doubleClick);
+                            // var resultItem = resultList.FirstOrDefault(item => item.Name == friendName);
+                            // if (resultItem != null)
+                            // {
+                            //     if (doubleClick)
+                            //     {
+                            //         xPath = "//Button";
+                            //         var button = resultItem.FindFirstByXPath(xPath)?.AsButton();
+                            //         if (button != null)
+                            //         {
+                            //             button.Focus();
+                            //             button.WaitUntilClickable();
+                            //             button.DoubleClick();
+                            //             Thread.Sleep(300);
+                            //         }
+                            //     }
+                            //     return true;
+                            // }
+                        }
+                    }
+                }
+                return false;
+            }).Result;
+
+            return result;
         }
 
         private ChatResponse _CreateChatGroupCore(string groupName, ChatResponse result, List<string> list)
