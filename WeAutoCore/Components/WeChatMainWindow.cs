@@ -1215,6 +1215,7 @@ namespace WxAutoCore.Components
                 var button = Retry.WhileNull(() => _Window.FindFirstByXPath(xPath)?.AsButton(), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
                 if (button != null)
                 {
+                    button.DrawHighlightExt();
                     button.Click();
                     Thread.Sleep(600);
                     var AddMemberWnd = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("AddMemberWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
@@ -1223,6 +1224,7 @@ namespace WxAutoCore.Components
                         var searchTextBox = AddMemberWnd.FindFirstByXPath("//Edit[@Name='搜索']")?.AsTextBox();
                         if (searchTextBox != null)
                         {
+                            searchTextBox.DrawHighlightExt();
                             foreach (var member in list)
                             {
                                 searchTextBox.Focus();
@@ -1231,42 +1233,65 @@ namespace WxAutoCore.Components
                                 Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
                                 Thread.Sleep(200);
                                 Keyboard.Type(member);
-                                searchTextBox.Focus();
-                                searchTextBox.Click();
-                                Keyboard.Press(VirtualKeyShort.RETURN);
                                 Wait.UntilInputIsProcessed();
-                                Thread.Sleep(600);
+                                Thread.Sleep(1000);
                                 //选择的列表中打上勾
-                                // var listBox = AddMemberWnd.FindFirstByXPath("//List[@Name='请勾选需要添加的联系人']")?.AsListBox();
-                                // if (listBox != null)
-                                // {
-                                //     var subList = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.CheckBox)).ToList();
-                                //     subList = subList.Where(item => !string.IsNullOrWhiteSpace(item.Name) && item.Name == member).ToList();
-                                //     foreach (var subItem in subList)
-                                //     {
-                                //         var checkBox = subItem.AsCheckBox();
-                                //         checkBox.ToggleState = ToggleState.On;
-                                //         Thread.Sleep(300);
-                                //     }
-                                // }
+                                var listBox = AddMemberWnd.FindFirstByXPath("//List[@Name='请勾选需要添加的联系人']")?.AsListBox();
+                                if (listBox != null)
+                                {
+                                    var subList = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
+                                    subList = subList.Where(item => !string.IsNullOrWhiteSpace(item.Name) && item.Name == member).ToList();
+                                    foreach (var subItem in subList)
+                                    {
+                                        var listItem = subItem.AsListBoxItem();
+                                        xPath = "//Button";
+                                        var itemButton = listItem.FindFirstByXPath(xPath)?.AsButton();
+                                        if (itemButton != null)
+                                        {
+                                            itemButton.Focus();
+                                            itemButton.WaitUntilClickable();
+                                            itemButton.Click();
+                                        }
+                                        Thread.Sleep(300);
+                                    }
+                                }
                             }
                             var finishButton = AddMemberWnd.FindFirstByXPath("//Button[@Name='完成']")?.AsButton();
                             if (finishButton != null)
                             {
+                                finishButton.DrawHighlightExt();
                                 finishButton.Focus();
                                 finishButton.WaitUntilClickable();
                                 finishButton.Click();
-                                Thread.Sleep(600);
+                                Thread.Sleep(1000);
                                 //修改名字
-                                xPath = "//List[@Name='会话']";
-                                var cListItemBox = _Window.FindFirstByXPath(xPath)?.AsListBox();
-                                var cListItems = cListItemBox?.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))?.ToList();
-                                cListItems = cListItems?.Where(item => !item.Name.EndsWith("已置顶"))?.ToList();
-                                var firstItem = cListItems?.FirstOrDefault();
-                                if (firstItem != null)
+                                var checkAddWinRresult = Retry.WhileNotNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("AddMemberWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+                                if (checkAddWinRresult.Success)
                                 {
-                                    var tempName = firstItem.Name;
-                                    return tempName;
+                                    xPath = "//List[@Name='会话']";
+                                    var cListItemBox = _Window.FindFirstByXPath(xPath)?.AsListBox();
+                                    Thread.Sleep(300);
+                                    var cListItems = cListItemBox?.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))?.ToList();
+                                    cListItems = cListItems?.Where(item => !item.Name.EndsWith("已置顶"))?.ToList();
+                                    var firstItemName = list[0].ToString();
+                                    var firstItem = cListItems?.FirstOrDefault(item => item.Name.StartsWith(firstItemName));
+                                    if (firstItem != null)
+                                    {
+                                        firstItem.DrawHighlightExt();
+                                        xPath = "//Button";
+                                        var itemButton = firstItem.FindFirstByXPath(xPath)?.AsButton();
+                                        if (itemButton != null)
+                                        {
+                                            itemButton.DrawHighlightExt();
+                                            itemButton.Focus();
+                                            itemButton.WaitUntilClickable();
+                                            // itemButton.DoubleClick();
+                                            itemButton.RightClick();
+                                            this._OpenUpdateGroupNameWindow(groupName);
+                                        }
+                                        Thread.Sleep(300);
+                                        return firstItem.Name;
+                                    }
                                 }
                             }
                         }
@@ -1274,13 +1299,62 @@ namespace WxAutoCore.Components
                 }
                 return "";
             }).Result;
-            UpdateChatGroupOptions(tempName, options =>
-            {
-                options.GroupName = groupName;
-            }).Wait();
+            Trace.WriteLine("临时群名称：" + tempName);
             result.Success = true;
             result.Message = "创建群聊成功";
             return result;
+        }
+
+        private void _OpenUpdateGroupNameWindow(string groupName)
+        {
+            var winResult = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+            if (winResult.Success)
+            {
+                var menu = winResult.Result.AsMenu();
+                menu.DrawHighlightExt();
+                var item = menu.FindFirstDescendant(cf=>cf.ByControlType(ControlType.MenuItem).And(cf.ByName("修改群聊名称")))?.AsMenuItem();
+                if (item != null)
+                {
+                    item.DrawHighlightExt();
+                    item.Focus();
+                    item.WaitUntilClickable();
+                    item.Click();
+                    this._UpdateGroupName(groupName);
+                }
+                else
+                {
+                    Trace.WriteLine("没有找到修改群聊名称菜单项");
+                }
+            }
+        }
+
+        private void _UpdateGroupName(string groupName)
+        {
+            var modifyDialog = Retry.WhileNull(() => _Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("RoomInfoModifyDialog"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+            if (modifyDialog.Success)
+            {
+                var dialog = modifyDialog.Result.AsWindow();
+                dialog.DrawHighlightExt();
+                dialog.Focus();
+                var xPath = "//Edit";
+                var edit = dialog.FindFirstByXPath(xPath)?.AsTextBox();
+                edit.Focus();
+                edit.DrawHighlightExt();
+                edit.WaitUntilClickable();
+                edit.Click();
+                Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                Keyboard.Type(groupName);
+                Wait.UntilInputIsProcessed();
+                xPath = "//Button[@Name='确定']";
+                var confirmButton = dialog.FindFirstByXPath(xPath)?.AsButton();
+                confirmButton.DrawHighlightExt();
+                confirmButton.Focus();
+                confirmButton.WaitUntilClickable();
+                confirmButton.Click();
+                Thread.Sleep(1000);
+                Wait.UntilInputIsProcessed();
+            }
         }
 
         /// <summary>

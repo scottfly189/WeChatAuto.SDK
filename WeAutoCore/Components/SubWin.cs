@@ -314,9 +314,9 @@ namespace WxAutoCore.Components
         }
         private AutomationElement GetNewElement()
         {
-            if (!_IsSidebarOpen())
+            if (!_IsSidebarOpen(false))
             {
-                _OpenSidebar();
+                _OpenSidebar(false);
             }
             var chatGroupNamePath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Button[@Name='群聊名称']";
             var button = _SelfWindow.FindFirstByXPath(chatGroupNamePath)?.AsButton();
@@ -331,21 +331,27 @@ namespace WxAutoCore.Components
             if (button.Patterns.Value.IsSupported)
             {
                 //可以修改
-                button.Focus();
-                button.WaitUntilClickable();
-                button.Click();
-                Thread.Sleep(300);
+                // var point = button.GetClickablePoint();
+                // Mouse.Click(point);
+                // button.Focus();
+                // SelfWindow.SilenceClickExt(button);
                 var edit = Retry.WhileNull(() => element.FindFirstByXPath("//Edit")?.AsTextBox(), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
                 if (edit != null)
                 {
-                    edit.Focus();
-                    edit.WaitUntilClickable();
-                    edit.Click();
-                    Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
-                    Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
-                    Keyboard.Type(groupName);
-                    Keyboard.Press(VirtualKeyShort.RETURN);
+                    if (edit.Patterns.Value.IsSupported)
+                    {
+                        var pattern = edit.Patterns.Value.Pattern;
+                        pattern.SetValue(groupName);
+                    }
+
+                    // Keyboard.Type(groupName);
+                    // Keyboard.Press(VirtualKeyShort.RETURN);
+
                     Wait.UntilInputIsProcessed();
+                }
+                else
+                {
+                    Trace.WriteLine("没有找到Edit控件，无法修改群聊名称");
                 }
             }
             else
@@ -360,11 +366,19 @@ namespace WxAutoCore.Components
             var el = rootElement.FindFirstByXPath("//CheckBox[@Name='显示群成员昵称']")?.AsCheckBox();
             if (el != null)
             {
-                el.Focus();
+                // el.Focus();
+                // el.DrawHighlightExt();
                 var result = el.ToggleState == ToggleState.On ? true : false;
                 if (result != showGroupNickName)
                 {
-                    el.ToggleState = showGroupNickName ? ToggleState.On : ToggleState.Off;
+                    // el.ToggleState = showGroupNickName ? ToggleState.On : ToggleState.Off;
+                    // if (el.Patterns.Toggle.IsSupported)
+                    // {
+                    //     var pattern = el.Patterns.Toggle.Pattern;
+                    //     pattern.Toggle();   
+                    // }
+                    Mouse.MoveTo(el.GetClickablePoint());
+                    el.Click();
                 }
             }
         }
@@ -529,38 +543,57 @@ namespace WxAutoCore.Components
                 var edit = _SelfWindow.FindFirstByXPath(xPath)?.AsTextBox();
                 if (edit != null)
                 {
+                    edit.DrawHighlightExt();
                     edit.Focus();
-                    _SelfWindow.SilenceClickExt(edit);
+                    edit.Click();
                 }
             }).Wait();
         }
         /// <summary>
         /// 是否打开侧边栏
         /// </summary>
+        /// <param name="autoThread">是否使用线程执行</param>
         /// <returns>是否打开侧边栏</returns>
-        private bool _IsSidebarOpen()
+        private bool _IsSidebarOpen(bool autoThread = true)
         {
-            bool result = _uiThreadInvoker.Run(automation =>
+            Func<bool> func = () =>
             {
                 var pane = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd"))
                     .And(cf.ByName("SessionChatRoomDetailWnd")));
                 return pane != null;
-            }).Result;
-            return result;
-        }
-        private void _OpenSidebar()
-        {
-            var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Button[@Name='聊天信息']";
-            _uiThreadInvoker.Run(automation =>
+            };
+            if (autoThread)
             {
+                bool result = _uiThreadInvoker.Run(automation => func()).Result;
+                return result;
+            }
+            else
+            {
+                return func();
+            }
+        }
+        private void _OpenSidebar(bool autoThread = true)
+        {
+            Action action = () =>
+            {
+                var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Button[@Name='聊天信息']";
                 var button = _SelfWindow.FindFirstByXPath(xPath)?.AsButton();
                 if (button != null)
                 {
+                    button.DrawHighlightExt();
                     button.WaitUntilClickable();
                     button.Focus();
                     button.Click();
                 }
-            }).Wait();
+            };
+            if (autoThread)
+            {
+                _uiThreadInvoker.Run(automation => action()).Wait();
+            }
+            else
+            {
+                action();
+            }
 
         }
         /// <summary>

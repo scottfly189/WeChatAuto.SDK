@@ -327,9 +327,9 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.UpdateChatGroupOptions(WeAutomation.Config.TestGroupNickName, action =>
+            await window.UpdateChatGroupOptions("AI.Net、秋歌", action =>
             {
-                action.ShowGroupNickName = false;
+                action.ShowGroupNickName = true;
             });
         }
 
@@ -363,7 +363,7 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.CreateOwnerChatGroup("测试01",new string[] { "AI.Net","秋歌"});
+            var result = window.CreateOwnerChatGroup("测试03",new string[] { "AI.Net","秋歌"});
             _output.WriteLine($"创建群聊结果: {result.Message}");
             Assert.True(result.Success);
         }

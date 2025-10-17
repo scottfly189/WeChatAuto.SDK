@@ -101,7 +101,7 @@ namespace WxAutoCore.Components
                 {
                     if (Wait.UntilResponsive(button, timeout: TimeSpan.FromSeconds(5)))
                     {
-                        DrawHightlightHelper.DrawHightlight(button, _uiThreadInvoker);
+                        button.DrawHighlightExt();
                         button.Click();
                     }
                 }
