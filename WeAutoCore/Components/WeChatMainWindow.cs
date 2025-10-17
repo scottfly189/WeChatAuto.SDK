@@ -87,6 +87,8 @@ namespace WxAutoCore.Components
             _InitStaticWxWindowComponents(notifyIcon);
             _InitSubscription();
             _InitNewUserListener();
+            IMEHelper.DisableImeForProcess(ProcessId);
+            IMEHelper.DisableImeForWin11();
             _newUserListenerStarted.Task.Wait();
         }
         /// <summary>
@@ -98,7 +100,6 @@ namespace WxAutoCore.Components
             {
                 try
                 {
-                    IMEHelper.DisableImeForCurrentThread();
                     _newUserListenerStarted.SetResult(true);
                     while (!_newUserListenerCancellationTokenSource.IsCancellationRequested)
                     {
@@ -131,7 +132,6 @@ namespace WxAutoCore.Components
             {
                 try
                 {
-                    IMEHelper.DisableImeForCurrentThread();
                     var xPath = "//ToolBar[@Name='导航']/Button[@Name='通讯录']";
                     if (!AutomationValid.IsValid(_Window))
                     {
@@ -1171,6 +1171,7 @@ namespace WxAutoCore.Components
         public bool CheckFriendExist(string friendName, bool doubleClick = false)
         {
             Navigation.SwitchNavigation(NavigationType.聊天);
+            IMEHelper.DisableImeForWin11();
             var result = _uiThreadInvoker.Run(automation =>
             {
                 //检查子窗口是否存在
@@ -1209,6 +1210,7 @@ namespace WxAutoCore.Components
 
         private ChatResponse _CreateChatGroupCore(string groupName, ChatResponse result, List<string> list)
         {
+            IMEHelper.DisableImeForWin11();
             var tempName = _uiThreadInvoker.Run((automation) =>
             {
                 var xPath = "//Button[@Name='发起群聊']";
@@ -1312,7 +1314,7 @@ namespace WxAutoCore.Components
             {
                 var menu = winResult.Result.AsMenu();
                 menu.DrawHighlightExt();
-                var item = menu.FindFirstDescendant(cf=>cf.ByControlType(ControlType.MenuItem).And(cf.ByName("修改群聊名称")))?.AsMenuItem();
+                var item = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("修改群聊名称")))?.AsMenuItem();
                 if (item != null)
                 {
                     item.DrawHighlightExt();

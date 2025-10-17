@@ -27,7 +27,6 @@ namespace WxAutoCore.Components
         /// </summary>
         public WeChatFramwork(IServiceProvider serviceProvider)
         {
-            IMEHelper.DisableImeForCurrentThread();
             _serviceProvider = serviceProvider;
         }
         /// <summary>
