@@ -25,11 +25,18 @@ namespace WxAutoCore.Utils
         /// 高亮元素，适应有UI线程指定情况下使用
         /// </summary>
         /// <param name="element"></param>
-        public static void DrawHighlightExt(this AutomationElement element)
+        public static void DrawHighlightExt(this AutomationElement element, UIThreadInvoker uiThreadInvoker = null)
         {
             if (WeAutomation.Config.DebugMode && element != null)
             {
-                element.DrawHighlight();
+                if (uiThreadInvoker != null)
+                {
+                    uiThreadInvoker.Run(automation => element.DrawHighlight());
+                }
+                else
+                {
+                    element.DrawHighlight();
+                }
             }
         }
     }

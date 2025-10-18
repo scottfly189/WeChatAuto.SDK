@@ -87,8 +87,6 @@ namespace WxAutoCore.Components
             _InitStaticWxWindowComponents(notifyIcon);
             _InitSubscription();
             _InitNewUserListener();
-            IMEHelper.DisableImeForProcess(ProcessId);
-            IMEHelper.DisableImeForWin11();
             _newUserListenerStarted.Task.Wait();
         }
         /// <summary>
@@ -1070,6 +1068,128 @@ namespace WxAutoCore.Components
             subWin.QuitChatGroup();
         }
         /// <summary>
+        /// 改变自有群群备注
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        /// <param name="newMemo">新备注</param>
+        /// <returns></returns>
+        public ChatResponse ChageOwerChatGroupMemo(string groupName, string newMemo)
+        {
+            ChatResponse result = new ChatResponse();
+            try
+            {
+                //1.首先检查子窗口有没有旧群名，如果有，则关闭窗口
+                //2.检查会话列表有没有旧群名，如果有，则点击打开为当前聊天
+                //3.如果会话列表没有旧群名，则打开搜索框，输入旧群名搜索.
+                //4.执行改变群备注
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = ex.Message;
+                return result;
+            }
+        }
+        /// <summary>
+        /// 改变自有群群名
+        /// </summary>
+        /// <param name="oldGroupName">旧群名称</param>
+        /// <param name="newGroupName">新群名称</param>
+        /// <returns>微信响应结果</returns>
+        public ChatResponse ChangeOwerChatGroupName(string oldGroupName, string newGroupName)
+        {
+            ChatResponse result = new ChatResponse();
+            try
+            {
+                //1.首先检查子窗口有没有旧群名，如果有，则关闭窗口
+                var (success, window) = __CheckSubWinIsOpen(oldGroupName, false);
+                if (success)
+                {
+                    window.Close();
+                }
+                ListBoxItem listItem = null;
+                //2.检查会话列表有没有旧群名，如果有，则点击打开为当前聊天
+                var (success2, item) = __CheckConversationExist(oldGroupName, false);
+                if (success2)
+                {
+                    listItem = item;
+                    var xPath = "//Button";
+                    var button = item.FindFirstByXPath(xPath)?.AsButton();
+                    if (button != null)
+                    {
+                        button.DrawHighlightExt(_uiThreadInvoker);
+                        button.Click();
+                    }
+                }
+                else
+                {
+                    //3.如果会话列表没有旧群名，则打开搜索框，输入旧群名搜索.
+                }
+                //4.执行旧群名重命名新群名
+
+                result.Success = true;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = ex.Message;
+                return result;
+            }
+        }
+        /// <summary>
+        /// 检查会话是否存在
+        /// </summary>
+        /// <param name="friendName">会话名称</param>
+        /// <param name="inActionThread">是否在Action线程中执行，默认在Action线程中执行</param>
+        /// <returns>是否存在,True:是,False:否</returns>
+        private (bool success, ListBoxItem item) __CheckConversationExist(string friendName, bool inActionThread = true)
+        {
+            Func<(bool success, ListBoxItem item)> func = () =>
+            {
+                string xPath = $"/Pane/Pane/Pane/Pane/Pane/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_SESSION_BOX_CONVERSATION}'][@IsOffscreen='false']";
+                var root = Retry.WhileNull(() => _Window.FindFirstByXPath(xPath)?.AsListBox(), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
+                if (root != null)
+                {
+                    root.Focus();
+                }
+                var items = root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))?.ToList();
+                var item = items?.FirstOrDefault(u => u.Name.Contains(friendName));
+                return (item != null ? true : false, item?.AsListBoxItem());
+            };
+            if (inActionThread)
+            {
+                return func();
+            }
+            return _uiThreadInvoker.Run(automation => func()).Result;
+        }
+        /// <summary>
+        /// 判断子窗口是否打开
+        /// </summary>
+        /// <param name="name">子窗口名称</param>
+        /// <param name="notInActionThread">是否不在Action线程中执行，默认不在Action线程中执行</param>
+        /// <returns>如果子窗口存在，则返回true，否则返回false</returns>
+        private (bool success, Window window) __CheckSubWinIsOpen(string name, bool inActionThread = true)
+        {
+            Func<(bool success, Window window)> func = () =>
+            {
+                var desktop = _Window.Automation.GetDesktop();
+                var result = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("ChatWnd")
+                        .And(cf.ByControlType(ControlType.Window)
+                        .And(cf.ByProcessId(this.ProcessId))
+                        .And(cf.ByName(name)))),
+                        timeout: TimeSpan.FromSeconds(5),
+                        interval: TimeSpan.FromMilliseconds(200));
+                return (result.Success && result.Result != null ? true : false, result.Result?.AsWindow());
+            };
+            if (inActionThread)
+            {
+                return func();
+            }
+            return _uiThreadInvoker.Run(automation => func()).Result;
+        }
+        /// <summary>
         /// 创建群聊
         /// 如果存在，则打开它，否则创建一个新群聊
         /// </summary>
@@ -1171,7 +1291,6 @@ namespace WxAutoCore.Components
         public bool CheckFriendExist(string friendName, bool doubleClick = false)
         {
             Navigation.SwitchNavigation(NavigationType.聊天);
-            IMEHelper.DisableImeForWin11();
             var result = _uiThreadInvoker.Run(automation =>
             {
                 //检查子窗口是否存在
@@ -1210,7 +1329,6 @@ namespace WxAutoCore.Components
 
         private ChatResponse _CreateChatGroupCore(string groupName, ChatResponse result, List<string> list)
         {
-            IMEHelper.DisableImeForWin11();
             var tempName = _uiThreadInvoker.Run((automation) =>
             {
                 var xPath = "//Button[@Name='发起群聊']";
