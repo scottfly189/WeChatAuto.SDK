@@ -355,16 +355,38 @@ namespace WeAutoCore.Tests.Components
             {
                 Assert.False(flag);
             }
-        }   
-        
+        }
+
         [Fact(DisplayName = "测试创建群聊")]
         public void Test_CreateOwnerChatGroup()
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.CreateOwnerChatGroup("测试07",new string[] { "AI.Net","秋歌"});
+            var result = window.CreateOwnerChatGroup("测试07", new string[] { "AI.Net", "秋歌" });
             _output.WriteLine($"创建群聊结果: {result.Message}");
+            Assert.True(result.Success);
+        }
+
+        [Fact(DisplayName = "测试更新群聊备注")]
+        public void Test_UpdateGroupMemo()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var result = window.ChageOwerChatGroupMemo("测试07", "测试07新的备注");
+            _output.WriteLine($"更新群聊备注结果: {result.Message}");
+            Assert.True(result.Success);
+        }
+        
+        [Fact(DisplayName = "测试更新群聊名称")]
+        public void Test_UpdateGroupName()  
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var result = window.ChangeOwerChatGroupName("测试07新名称", "测试07");
+            _output.WriteLine($"更新群聊名称结果: {result.Message}");
             Assert.True(result.Success);
         }
     }

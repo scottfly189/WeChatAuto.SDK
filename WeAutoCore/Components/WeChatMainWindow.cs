@@ -1079,9 +1079,37 @@ namespace WxAutoCore.Components
             try
             {
                 //1.首先检查子窗口有没有旧群名，如果有，则关闭窗口
+                var (success, window) = __CheckSubWinIsOpen(groupName, false);
+                if (success)
+                {
+                    window.Close();
+                }
+                ListBoxItem listItem = null;
+                NavigationSwitch(NavigationType.聊天);
                 //2.检查会话列表有没有旧群名，如果有，则点击打开为当前聊天
-                //3.如果会话列表没有旧群名，则打开搜索框，输入旧群名搜索.
+                var (success2, item) = __CheckConversationExist(groupName, false);
+                if (success2)
+                {
+                    listItem = item;
+                }
+                else
+                {
+                    //3.如果会话列表没有旧群名，则打开搜索框，输入旧群名搜索.
+                    this.__SearchChat(groupName);
+                    var (success3, item3) = __CheckConversationExist(groupName, false);
+                    if (success3)
+                    {
+                        listItem = item3;
+                    }
+                    else
+                    {
+                        throw new Exception($"{groupName} 群聊不存在");
+                    }
+                }
                 //4.执行改变群备注
+                this._UpdateOnwerGroupMemo(groupName, newMemo, listItem);
+
+                result.Success = true;
                 return result;
             }
             catch (Exception ex)
@@ -1109,24 +1137,29 @@ namespace WxAutoCore.Components
                     window.Close();
                 }
                 ListBoxItem listItem = null;
+                NavigationSwitch(NavigationType.聊天);
                 //2.检查会话列表有没有旧群名，如果有，则点击打开为当前聊天
                 var (success2, item) = __CheckConversationExist(oldGroupName, false);
                 if (success2)
                 {
                     listItem = item;
-                    var xPath = "//Button";
-                    var button = item.FindFirstByXPath(xPath)?.AsButton();
-                    if (button != null)
-                    {
-                        button.DrawHighlightExt(_uiThreadInvoker);
-                        button.Click();
-                    }
                 }
                 else
                 {
                     //3.如果会话列表没有旧群名，则打开搜索框，输入旧群名搜索.
+                    this.__SearchChat(oldGroupName);
+                    var (success3, item3) = __CheckConversationExist(oldGroupName, false);
+                    if (success3)
+                    {
+                        listItem = item3;
+                    }
+                    else
+                    {
+                        throw new Exception($"{oldGroupName} 群聊不存在");
+                    }
                 }
                 //4.执行旧群名重命名新群名
+                this._UpdateOnwerGroupName(oldGroupName, newGroupName, listItem);
 
                 result.Success = true;
                 return result;
@@ -1137,6 +1170,40 @@ namespace WxAutoCore.Components
                 result.Message = ex.Message;
                 return result;
             }
+        }
+        private void _UpdateOnwerGroupName(string oldGroupName, string newGroupName, ListBoxItem firstItem)
+        {
+            firstItem.DrawHighlightExt();
+            var xPath = "//Button";
+            var itemButton = firstItem.FindFirstByXPath(xPath)?.AsButton();
+            if (itemButton != null)
+            {
+                itemButton.DrawHighlightExt();
+                itemButton.Focus();
+                itemButton.WaitUntilClickable();
+                itemButton.RightClick();
+                this._OpenUpdateGroupNameWindow(newGroupName);
+            }
+            Thread.Sleep(300);
+        }
+        private void _UpdateOnwerGroupMemo(string groupName, string newMemo, ListBoxItem firstItem)
+        {
+            firstItem.DrawHighlightExt();
+            var xPath = "//Button";
+            var itemButton = firstItem.FindFirstByXPath(xPath)?.AsButton();
+            if (itemButton != null)
+            {
+                itemButton.DrawHighlightExt();
+                itemButton.Focus();
+                itemButton.WaitUntilClickable();
+                itemButton.RightClick();
+                this._OpenUpdateGroupWin(groupName, newMemo);
+            }
+            Thread.Sleep(300);
+        }
+        private void __SearchChat(string chatName)
+        {
+            this.Search.SearchChat(chatName);
         }
         /// <summary>
         /// 检查会话是否存在
@@ -1445,6 +1512,57 @@ namespace WxAutoCore.Components
                 {
                     Trace.WriteLine("没有找到修改群聊名称菜单项");
                 }
+            }
+        }
+
+        private void _OpenUpdateGroupWin(string groupName, string newMemo)
+        {
+            var winResult = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+            if (winResult.Success)
+            {
+                var menu = winResult.Result.AsMenu();
+                menu.DrawHighlightExt();
+                var item = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("设置备注")))?.AsMenuItem();
+                if (item != null)
+                {
+                    item.DrawHighlightExt();
+                    item.Focus();
+                    item.WaitUntilClickable();
+                    item.Click();
+                    this._UpdateGroupMemoCore(newMemo);
+                }
+                else
+                {
+                    Trace.WriteLine("没有找到设置备注菜单项");
+                }
+            }
+        }
+        private void _UpdateGroupMemoCore(string newMemo)
+        {
+            var modifyDialog = Retry.WhileNull(() => _Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("RoomInfoModifyDialog"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+            if (modifyDialog.Success)
+            {
+                var dialog = modifyDialog.Result.AsWindow();
+                dialog.DrawHighlightExt();
+                dialog.Focus();
+                var xPath = "//Edit";
+                var edit = dialog.FindFirstByXPath(xPath)?.AsTextBox();
+                edit.Focus();
+                edit.DrawHighlightExt();
+                edit.WaitUntilClickable();
+                edit.Click();
+                Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                Keyboard.Type(newMemo);
+                Wait.UntilInputIsProcessed();
+                xPath = "//Button[@Name='确定']";
+                var confirmButton = dialog.FindFirstByXPath(xPath)?.AsButton();
+                confirmButton.DrawHighlightExt();
+                confirmButton.Focus();
+                confirmButton.WaitUntilClickable();
+                confirmButton.Click();
+                Thread.Sleep(1000);
+                Wait.UntilInputIsProcessed();
             }
         }
 
