@@ -22,6 +22,7 @@ namespace WxAutoCore.Extentions
                 {
                     builder.ClearProviders();
                     builder.AddConsole();
+                    builder.AddDebug();
                     builder.SetMinimumLevel(LogLevel.Trace);
                 });
             }
