@@ -323,6 +323,15 @@ namespace WxAutoCore.Components
             var element = button.GetParent().GetParent();
             return element;
         }
+        void NonBlockingDelay(int milliseconds)
+        {
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+            while (sw.ElapsedMilliseconds < milliseconds)
+            {
+                System.Windows.Forms.Application.DoEvents(); // 保持消息泵运行
+                Thread.Sleep(1); // 小步延迟
+            }
+        }
         //更新群聊名称
         private void _UpdateGroupName(AutomationElement element, string groupName)
         {
@@ -333,21 +342,18 @@ namespace WxAutoCore.Components
             if (button.Patterns.Value.IsSupported)
             {
                 //可以修改
-                var point = button.GetClickablePoint();
-                // Keyboard.Press(VirtualKeyShort.SPACE);
-                Mouse.LeftClick(point);
+                Keyboard.TypeSimultaneously(VirtualKeyShort.TAB);
+                Keyboard.TypeSimultaneously(VirtualKeyShort.TAB);
+                Keyboard.TypeSimultaneously(VirtualKeyShort.SPACE); // 空格触发点击
 
-                // button.Click();
                 var edit = Retry.WhileNull(() => element.FindFirstByXPath("//Edit")?.AsTextBox(), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
                 if (edit != null)
                 {
                     edit.Focus();
-                    edit.Text = groupName;
-
                     Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
-                    Keyboard.Type(groupName);
-
-                    label.Click();
+                    // Keyboard.Type(groupName);
+                    //Keyboard.TypeSimultaneously(VirtualKeyShort.RETURN);
+                    var i = 1;
                 }
                 else
                 {
@@ -357,7 +363,7 @@ namespace WxAutoCore.Components
             else
             {
                 //不可以修改
-                var test = "";
+                Trace.WriteLine("不支持此Pattern");
             }
         }
         //更新是否显示群昵称
