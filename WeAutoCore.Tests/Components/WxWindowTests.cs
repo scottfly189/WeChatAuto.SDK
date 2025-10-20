@@ -321,17 +321,6 @@ namespace WeAutoCore.Tests.Components
             await Task.Delay(6000000);
         }
 
-        [Fact(DisplayName = "测试更新群聊选项")]
-        public async Task Test_UpdateChatGroupOptions()
-        {
-            var framework = _globalFixture.wxFramwork;
-            var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxMainWindow;
-            await window.UpdateChatGroupOptions("AI.Net、秋歌", action =>
-            {
-                action.ShowGroupNickName = true;
-            });
-        }
 
         [Theory(DisplayName = "测试检查好友是否存在")]
         [InlineData(".NET-AI实时快讯3群", false)]
@@ -357,16 +346,61 @@ namespace WeAutoCore.Tests.Components
             }
         }
 
-        [Fact(DisplayName = "测试创建群聊")]
-        public void Test_CreateOwnerChatGroup()
+        [Fact(DisplayName = "测试创建群聊,群聊不存在的情况下")]
+        public void Test_CreateOwnerChatGroup_ChatGroup_NotExist()
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.CreateOwnerChatGroup("测试07", new string[] { "AI.Net", "秋歌" });
+            var result = window.CreateOrUpdateOwnerChatGroup("测试04", new string[] { "AI.Net", "秋歌" });
             _output.WriteLine($"创建群聊结果: {result.Message}");
             Assert.True(result.Success);
         }
+
+        [Fact(DisplayName = "测试创建群聊,群聊存在的情况下")]
+        public void Test_CreateOwnerChatGroup_ChatGroup_Exist()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var result = window.CreateOrUpdateOwnerChatGroup("测试04", new string[] { "阿恩-frankie", "阿恩" });
+            _output.WriteLine($"创建群聊结果: {result.Message}");
+            Assert.True(result.Success);
+        }
+
+        [Fact(DisplayName = "测试移除群聊成员")]
+        public async Task Test_RemoveOwnerChatGroupMember()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var result = await window.RemoveOwnerChatGroupMember("测试04", new string[] { "阿恩-frankie", "阿恩" });
+            _output.WriteLine($"移除群聊成员结果: {result.Message}");
+            Assert.True(result.Success);
+        }
+
+        [Fact(DisplayName = "测试删除群聊")]
+        public async Task Test_DeleteOwnerChatGroup()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            await window.DeleteOwnerChatGroup("测试04");
+            Assert.True(true);
+        }
+
+        [Fact(DisplayName = "测试更新群聊选项")]
+        public async Task Test_UpdateChatGroupOptions()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            await window.UpdateChatGroupOptions("测试04", action =>
+            {
+                action.GroupName = "测试06";
+            });
+        }
+
 
         [Fact(DisplayName = "测试更新群聊备注")]
         public void Test_UpdateGroupMemo()
@@ -374,20 +408,73 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.ChageOwerChatGroupMemo("测试07", "测试07新的备注");
+            var result = window.ChageOwerChatGroupMemo("测试07", "测试07新的备注6");
             _output.WriteLine($"更新群聊备注结果: {result.Message}");
             Assert.True(result.Success);
         }
-        
+
         [Fact(DisplayName = "测试更新群聊名称")]
-        public void Test_UpdateGroupName()  
+        public void Test_UpdateGroupName()
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.ChangeOwerChatGroupName("测试07新名称", "测试07");
+            var result = window.ChangeOwerChatGroupName("测试05", "测试05");
             _output.WriteLine($"更新群聊名称结果: {result.Message}");
             Assert.True(result.Success);
         }
+
+        [Fact(DisplayName = "测试清空群聊历史")]
+        public async Task Test_ClearChatGroupHistory()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            await window.ClearChatGroupHistory("测试03");
+            Assert.True(true);
+        }
+
+        [Fact(DisplayName = "测试退出群聊")]
+        public async Task Test_QuitChatGroup()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            await window.QuitChatGroup("测试03");
+            Assert.True(true);
+        }
+
+        [Theory(DisplayName = "测试获取群主")]
+        [InlineData(".NET-AI实时快讯3群")]
+        [InlineData(".NET AI和sk的爱情故事会")]
+        [InlineData("猫哥 VIP 学习二群")]
+        public async Task Test_GetGroupOwner(string groupName)
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var owner = await window.GetGroupOwner(groupName);
+            _output.WriteLine($"群主: {owner}");
+            Assert.True(true);
+        }
+
+        [Theory(DisplayName = "测试获取群聊成员列表")]
+        [InlineData(".NET-AI实时快讯3群")]
+        [InlineData(".NET AI和sk的爱情故事会")]
+        [InlineData("猫哥 VIP 学习二群")]
+        public async Task Test_GetChatGroupMemberList(string groupName)
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var list = await window.GetChatGroupMemberList(groupName);
+            foreach (var item in list)
+            {
+                _output.WriteLine(item);
+            }
+            Assert.True(true);
+        }
+
+
     }
 }

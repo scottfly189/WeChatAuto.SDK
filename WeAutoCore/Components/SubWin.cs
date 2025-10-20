@@ -327,27 +327,27 @@ namespace WxAutoCore.Components
         private void _UpdateGroupName(AutomationElement element, string groupName)
         {
             var xPath = "//Button[@Name='群聊名称']";
+            var xPath1 = "//Text[@Name='群聊名称']";
             var button = element.FindFirstByXPath(xPath)?.AsButton();
+            var label = element.FindFirstByXPath(xPath1)?.AsLabel();
             if (button.Patterns.Value.IsSupported)
             {
                 //可以修改
-                // var point = button.GetClickablePoint();
-                // Mouse.Click(point);
-                // button.Focus();
-                // SelfWindow.SilenceClickExt(button);
+                var point = button.GetClickablePoint();
+                // Keyboard.Press(VirtualKeyShort.SPACE);
+                Mouse.LeftClick(point);
+
+                // button.Click();
                 var edit = Retry.WhileNull(() => element.FindFirstByXPath("//Edit")?.AsTextBox(), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
                 if (edit != null)
                 {
-                    if (edit.Patterns.Value.IsSupported)
-                    {
-                        var pattern = edit.Patterns.Value.Pattern;
-                        pattern.SetValue(groupName);
-                    }
+                    edit.Focus();
+                    edit.Text = groupName;
 
-                    // Keyboard.Type(groupName);
-                    // Keyboard.Press(VirtualKeyShort.RETURN);
+                    Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                    Keyboard.Type(groupName);
 
-                    Wait.UntilInputIsProcessed();
+                    label.Click();
                 }
                 else
                 {
@@ -357,6 +357,7 @@ namespace WxAutoCore.Components
             else
             {
                 //不可以修改
+                var test = "";
             }
         }
         //更新是否显示群昵称
@@ -549,6 +550,33 @@ namespace WxAutoCore.Components
                 }
             }).Wait();
         }
+
+        private void _FocuseSearchTextExt(bool autoThread = true)
+        {
+            Action action = () =>
+            {
+                Thread.Sleep(500);
+                var poupPane = Retry.WhileNull(() => _SelfWindow.FindFirstDescendant(cf => cf.ByClassName("SessionChatRoomDetailWnd")
+                    .And(cf.ByControlType(ControlType.Pane))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
+                var edit = poupPane.FindFirstDescendant(cf => cf.ByName("搜索群成员"))?.AsTextBox();
+                if (edit != null)
+                {
+                    edit.DrawHighlightExt();
+                    edit.Focus();
+                    edit.Click();
+                }
+            };
+            if (autoThread)
+            {
+                _uiThreadInvoker.Run(automation => action()).Wait();
+            }
+            else
+            {
+                action();
+            }
+        }
+
+
         /// <summary>
         /// 是否打开侧边栏
         /// </summary>
@@ -558,8 +586,7 @@ namespace WxAutoCore.Components
         {
             Func<bool> func = () =>
             {
-                var pane = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd"))
-                    .And(cf.ByName("SessionChatRoomDetailWnd")));
+                var pane = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd")));
                 return pane != null;
             };
             if (autoThread)
@@ -606,7 +633,7 @@ namespace WxAutoCore.Components
             {
                 _OpenSidebar();
             }
-            _FocuseSearchText();
+            _FocuseSearchTextExt();
             Thread.Sleep(500);
             List<string> list = _uiThreadInvoker.Run(automation =>
             {
@@ -614,15 +641,17 @@ namespace WxAutoCore.Components
                 var xPath = "/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane/List[@Name='聊天成员']";
                 var listBox = _SelfWindow.FindFirstByXPath(xPath)?.AsListBox();
                 var rootPane = listBox.GetParent();
+                rootPane?.DrawHighlightExt();
                 while (true)
                 {
                     //反复点击“查看更多”按钮
                     var moreButton = Retry.WhileNull(() =>
                     {
                         return rootPane.FindFirstByXPath("//Button[@Name='查看更多']")?.AsButton();
-                    }, TimeSpan.FromSeconds(1), TimeSpan.FromMilliseconds(200));
+                    }, TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
                     if (moreButton.Success)
                     {
+                        moreButton.Result?.DrawHighlightExt();
                         moreButton.Result.WaitUntilClickable();
                         moreButton.Result.Click();
                         Thread.Sleep(600);
@@ -636,9 +665,9 @@ namespace WxAutoCore.Components
                 var items = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
                 foreach (var item in items)
                 {
-                    if (item.Name != "添加" && item.Name != "移除")
+                    if (item.Name != "添加" && item.Name != "移出")
                     {
-                        memberList.Add(item.Name);
+                        memberList.Add(item.Name.Trim());
                     }
                 }
                 return memberList;
@@ -716,7 +745,7 @@ namespace WxAutoCore.Components
             {
                 _OpenSidebar();
             }
-            _FocuseSearchText();
+            _FocuseSearchTextExt();
             Thread.Sleep(500);
             string result = _uiThreadInvoker.Run(automation =>
             {
@@ -725,7 +754,7 @@ namespace WxAutoCore.Components
                 var listBox = _SelfWindow.FindFirstByXPath(xPath)?.AsListBox();
                 listBox = _SelfWindow.FindFirstByXPath(xPath)?.AsListBox();
                 var items = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
-                items = items.Where(item => item.Name != "添加" && item.Name != "移除").ToList();
+                items = items.Where(item => item.Name != "添加" && item.Name != "移出").ToList();
                 var firstItem = items.First();   //群主
 
                 return firstItem?.Name ?? "";
@@ -741,12 +770,25 @@ namespace WxAutoCore.Components
             {
                 _OpenSidebar();
             }
-            _FocuseSearchText();
+            _FocuseSearchTextExt();
+            Thread.Sleep(300);
             _uiThreadInvoker.Run(automation =>
             {
-                var clearButton = _SelfWindow.FindFirstByXPath("//Button[@Name='清空聊天记录']")?.AsButton();
+                var poupPane = Retry.WhileNull(() => _SelfWindow.FindFirstDescendant(cf => cf.ByClassName("SessionChatRoomDetailWnd")
+                .And(cf.ByControlType(ControlType.Pane))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
+                var list = poupPane.FindFirstByXPath("//List[@Name='聊天成员']");
+                var scrollPane = list.GetParent();
+                if (scrollPane.Patterns.Scroll.IsSupported)
+                {
+                    var pattern = scrollPane.Patterns.Scroll.Pattern;
+                    pattern.SetScrollPercent(0, 1);
+                }
+
+                var clearButton = Retry.WhileNull(() => _SelfWindow.FindFirstByXPath("//Button[@Name='清空聊天记录']")?.AsButton(),
+                TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
                 if (clearButton != null)
                 {
+                    clearButton.DrawHighlightExt();
                     clearButton.WaitUntilClickable();
                     clearButton.Focus();
                     clearButton.Click();
@@ -772,15 +814,25 @@ namespace WxAutoCore.Components
             {
                 _OpenSidebar();
             }
-            _FocuseSearchText();
+            _FocuseSearchTextExt();
             _uiThreadInvoker.Run(automation =>
             {
-                var clearButton = _SelfWindow.FindFirstByXPath("//Button[@Name='退出群聊']")?.AsButton();
-                if (clearButton != null)
+                var poupPane = Retry.WhileNull(() => _SelfWindow.FindFirstDescendant(cf => cf.ByClassName("SessionChatRoomDetailWnd")
+                    .And(cf.ByControlType(ControlType.Pane))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
+                var list = poupPane.FindFirstByXPath("//List[@Name='聊天成员']");
+                var scrollPane = list.GetParent();
+                if (scrollPane.Patterns.Scroll.IsSupported)
                 {
-                    clearButton.WaitUntilClickable();
-                    clearButton.Focus();
-                    clearButton.Click();
+                    var pattern = scrollPane.Patterns.Scroll.Pattern;
+                    pattern.SetScrollPercent(0, 1);
+                }
+                var exitButton = _SelfWindow.FindFirstByXPath("//Button[@Name='退出群聊']")?.AsButton();
+                if (exitButton != null)
+                {
+                    exitButton.DrawHighlightExt();
+                    exitButton.WaitUntilClickable();
+                    exitButton.Focus();
+                    exitButton.Click();
                     var confirmButton = Retry.WhileNull(() =>
                     {
                         return _SelfWindow.FindFirstByXPath("/Pane[1]/Pane/Pane/Button[@Name='退出']")?.AsButton();
@@ -827,7 +879,7 @@ namespace WxAutoCore.Components
             {
                 _OpenSidebar();
             }
-            _FocuseSearchText();
+            _FocuseSearchTextExt();
             _uiThreadInvoker.Run(automation =>
             {
                 var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/List[@Name='聊天成员']";
@@ -846,18 +898,49 @@ namespace WxAutoCore.Components
                         if (deleteMemberWin != null)
                         {
                             var listBoxRoot = deleteMemberWin.FindFirstByXPath("//List[@Name='请勾选需要添加的联系人']")?.AsListBox();
+                            listBoxRoot.DrawHighlightExt();
                             var revList = listBoxRoot.FindAllChildren(cf => cf.ByControlType(ControlType.CheckBox)).ToList();
                             foreach (var item in revList)
                             {
-                                item.AsCheckBox().ToggleState = ToggleState.On;
+                                var checkBox = item.AsCheckBox();
+                                if (checkBox.ToggleState != ToggleState.On)
+                                {
+                                    xPath = "//Button";
+                                    var checkButton = checkBox.FindFirstByXPath(xPath)?.AsButton();
+                                    if (checkButton != null)
+                                    {
+                                        checkButton.WaitUntilClickable();
+                                        checkButton.Focus();
+                                        checkButton.DrawHighlightExt();
+                                        checkButton.Click();
+                                    }
+                                }
                                 Thread.Sleep(500);
                             }
-                            var confirmButton = deleteMemberWin.FindFirstByXPath("//Button[@Name='完成']")?.AsButton();
-                            if (confirmButton != null)
+                            var finishButton = deleteMemberWin.FindFirstByXPath("//Button[@Name='完成']")?.AsButton();
+                            finishButton?.DrawHighlightExt();
+                            if (finishButton != null)
                             {
-                                confirmButton.WaitUntilClickable();
-                                confirmButton.Focus();
-                                confirmButton.Click();
+                                finishButton.WaitUntilClickable();
+                                finishButton.Focus();
+                                finishButton.Click();
+                                Thread.Sleep(300);
+                                var confirmWin = Retry.WhileNull(() => deleteMemberWin.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("ConfirmDialog"))),
+                                TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
+                                confirmWin.DrawHighlightExt();
+                                if (confirmWin != null)
+                                {
+                                    var deleButton = Retry.WhileNull(() => confirmWin.FindFirstDescendant(cf => cf.ByName("删除").And(cf.ByControlType(ControlType.Button)))?.AsButton(),
+                                    TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
+                                    deleButton?.DrawHighlightExt();
+                                    if (deleButton != null)
+                                    {
+                                        deleButton.WaitUntilClickable();
+                                        deleButton.Focus();
+                                        Keyboard.Press(VirtualKeyShort.RETURN);
+                                    }
+                                    Thread.Sleep(1000);
+                                }
                             }
                         }
                     }
@@ -904,7 +987,7 @@ namespace WxAutoCore.Components
             {
                 _OpenSidebar();
             }
-            _FocuseSearchText();
+            _FocuseSearchTextExt();
             List<string> addList = new List<string>();
             if (memberName.IsT0)
             {
@@ -914,14 +997,18 @@ namespace WxAutoCore.Components
             {
                 addList.AddRange(memberName.AsT1);
             }
+            List<string> chatGroupFriends = this.GetChatGroupMemberList();
+            addList = addList.Except(chatGroupFriends).ToList();
+            if (addList.Count == 0)
+                return;
             _uiThreadInvoker.Run(automation =>
             {
-                var pane = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd"))
-                    .And(cf.ByName("SessionChatRoomDetailWnd")));
-                var addListItem = pane.FindFirstByXPath("//ListItem[@Name='添加']")?.AsListBoxItem();
+                var rootPane = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd")));
+                var addListItem = rootPane.FindFirstByXPath("//ListItem[@Name='添加']")?.AsListBoxItem();
                 var addButton = addListItem.FindFirstByXPath("/Pane/Pane/Button")?.AsButton();
                 if (addButton != null)
                 {
+                    addButton.DrawHighlightExt();
                     addButton.WaitUntilClickable();
                     addButton.Focus();
                     addButton.Click();
@@ -969,23 +1056,21 @@ namespace WxAutoCore.Components
                     searchTextBox.Click();
                     Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
                     Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                    Thread.Sleep(1000);
                     Keyboard.Type(item);
-                    Keyboard.Press(VirtualKeyShort.RETURN);
+                    // Keyboard.Press(VirtualKeyShort.RETURN);
                     Wait.UntilInputIsProcessed();
                     Thread.Sleep(300);
                     var listBoxRoot = addMemberWin.FindFirstByXPath("//List[@Name='请勾选需要添加的联系人']")?.AsListBox();
-                    var checkBoxList = listBoxRoot.FindAllChildren(cf => cf.ByControlType(ControlType.CheckBox)).ToList();
-                    var checkBox = checkBoxList.FirstOrDefault(cf => cf.Name == item).AsCheckBox();
-                    if (checkBox != null)
+                    var listItems = listBoxRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
+                    var listItem = listItems.FirstOrDefault(cf => cf.Name.Trim() == item).AsListBoxItem();
+                    if (listItem != null)
                     {
-                        if (checkBox.ToggleState == ToggleState.Off)
-                        {
-                            checkBox.ToggleState = ToggleState.On;
-                            Thread.Sleep(300);
-                        }
+                        var button = listItem.FindFirstByXPath("//Button")?.AsButton();
+                        button?.Click();
                     }
+                    Thread.Sleep(300);
                 }
-
             }
         }
         /// <summary>
@@ -1016,7 +1101,7 @@ namespace WxAutoCore.Components
             {
                 _OpenSidebar();
             }
-            _FocuseSearchText();
+            _FocuseSearchTextExt();
             List<string> revList = new List<string>();
             if (memberName.IsT0)
             {
@@ -1028,13 +1113,13 @@ namespace WxAutoCore.Components
             }
             _uiThreadInvoker.Run(automation =>
             {
-                var pane = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd"))
-                    .And(cf.ByName("SessionChatRoomDetailWnd")));
+                var pane = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd")));
                 var revListItem = pane.FindFirstByXPath("//ListItem[@Name='移出']")?.AsListBoxItem();
                 var revButton = revListItem.FindFirstByXPath("/Pane/Pane/Button")?.AsButton();
                 if (revButton != null)
                 {
                     revButton.WaitUntilClickable();
+                    revButton.DrawHighlightExt();
                     revButton.Focus();
                     revButton.Click();
                     _SelectWillDeletePersion(revList);
@@ -1056,23 +1141,34 @@ namespace WxAutoCore.Components
                 var finishButton = deleteMemberWin.FindFirstByXPath("//Button[@Name='完成']")?.AsButton();
                 if (finishButton != null)
                 {
+                    finishButton.DrawHighlightExt();
                     finishButton.WaitUntilClickable();
                     finishButton.Focus();
                     finishButton.Click();
                     Thread.Sleep(300);
                     //点击“确认”按钮
-                    var ConfirmDialog = Retry.WhileNull(() => deleteMemberWin.FindFirstDescendant(cf => cf.ByName("微信").And(cf.ByControlType(ControlType.Window)).And(cf.ByClassName("ConfirmDialog"))),
-                        TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
+                    var ConfirmDialog = Retry.WhileNull(() => deleteMemberWin.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("ConfirmDialog"))),
+                        TimeSpan.FromSeconds(3), TimeSpan.FromMilliseconds(200))?.Result;
                     if (ConfirmDialog != null)
                     {
+                        ConfirmDialog.DrawHighlightExt();
                         var confirmButton = ConfirmDialog.FindFirstByXPath("//Button[@Name='删除']")?.AsButton();
                         if (confirmButton != null)
                         {
+                            confirmButton.DrawHighlightExt();
+                            Thread.Sleep(300);
                             confirmButton.WaitUntilClickable();
                             confirmButton.Focus();
-                            confirmButton.Click();
+                            Keyboard.Press(VirtualKeyShort.ENTER);
+                            // confirmButton.Click();
                             Thread.Sleep(300);
                         }
+                    }
+                    else
+                    {
+                        var cancelButton = deleteMemberWin.FindFirstByXPath("//Button[@Name='取消']")?.AsButton();
+                        cancelButton.DrawHighlightExt();
+                        cancelButton?.Click();
                     }
                 }
             }
@@ -1087,29 +1183,36 @@ namespace WxAutoCore.Components
             TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
             if (deleteMemberWin != null)
             {
+                deleteMemberWin.DrawHighlightExt();
                 foreach (var item in revList)
                 {
                     //查询选人
                     var searchTextBox = deleteMemberWin.FindFirstByXPath("//Edit[@Name='搜索']")?.AsTextBox();
                     searchTextBox.Focus();
+                    searchTextBox.DrawHighlightExt();
                     searchTextBox.Click();
                     Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
                     Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                    Thread.Sleep(1000);
                     Keyboard.Type(item);
-                    Keyboard.Press(VirtualKeyShort.RETURN);
+                    // Keyboard.Press(VirtualKeyShort.RETURN);
                     Wait.UntilInputIsProcessed();
                     Thread.Sleep(300);
                     var listBoxRoot = deleteMemberWin.FindFirstByXPath("//List[@Name='请勾选需要添加的联系人']")?.AsListBox();
-                    var checkBoxList = listBoxRoot.FindAllChildren(cf => cf.ByControlType(ControlType.CheckBox)).ToList();
-                    var checkBox = checkBoxList.FirstOrDefault(cf => cf.Name == item).AsCheckBox();
-                    if (checkBox != null)
+                    var listItems = listBoxRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
+                    if (listItems != null && listItems.Count > 0)
                     {
-                        if (checkBox.ToggleState == ToggleState.Off)
+                        foreach (var subItem in listItems)
                         {
-                            checkBox.ToggleState = ToggleState.On;
+                            var button = subItem.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))?.AsButton();
+                            if (button?.Name?.Trim() == item)
+                            {
+                                button?.Click();
+                            }
                             Thread.Sleep(300);
                         }
                     }
+                    Thread.Sleep(300);
                 }
 
             }
@@ -1213,8 +1316,7 @@ namespace WxAutoCore.Components
             {
                 foreach (var item in willAddList)
                 {
-                    var paneRoot = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd"))
-                        .And(cf.ByName("SessionChatRoomDetailWnd")));
+                    var paneRoot = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd")));
                     if (paneRoot == null)
                     {
                         var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Button[@Name='聊天信息']";
@@ -1314,8 +1416,7 @@ namespace WxAutoCore.Components
         {
             var list = _uiThreadInvoker.Run(automation =>
             {
-                var paneRoot = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd"))
-                    .And(cf.ByName("SessionChatRoomDetailWnd")));
+                var paneRoot = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd")));
                 _ExpndListBox(paneRoot);
                 var xPath = "//List[@Name='聊天成员']";
                 var listBox = paneRoot.FindFirstByXPath(xPath)?.AsListBox();

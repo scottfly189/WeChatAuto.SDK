@@ -988,6 +988,7 @@ namespace WxAutoCore.Components
         /// <param name="groupName">群聊名称</param>
         /// <param name="action">更新群聊选项的Action<see cref="ChatGroupOptions"/></param>
         /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
+        // [Obsolete("请使用其他方法代替，此方法已废弃")]
         public async Task<ChatResponse> UpdateChatGroupOptions(string groupName, Action<ChatGroupOptions> action)
         {
             await _SubWinList.CheckSubWinExistAndOpen(groupName);
@@ -1263,7 +1264,7 @@ namespace WxAutoCore.Components
         /// <param name="groupName">群聊名称</param>
         /// <param name="memberName">成员名称</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse CreateOwnerChatGroup(string groupName, OneOf<string, string[]> memberName)
+        public ChatResponse CreateOrUpdateOwnerChatGroup(string groupName, OneOf<string, string[]> memberName)
         {
             ChatResponse result = new ChatResponse();
             try
@@ -1563,6 +1564,17 @@ namespace WxAutoCore.Components
                 confirmButton.Click();
                 Thread.Sleep(1000);
                 Wait.UntilInputIsProcessed();
+
+                var cResult = Retry.WhileNull(() => _Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("RoomInfoModifyDialog"))), TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
+                if (cResult.Success)
+                {
+                    xPath = "//Button[@Name='取消']";
+                    var cancelButton = dialog.FindFirstByXPath(xPath)?.AsButton();
+                    cancelButton?.DrawHighlightExt();
+                    cancelButton?.Focus();
+                    cancelButton?.WaitUntilClickable();
+                    cancelButton?.Click();
+                }
             }
         }
 
@@ -1592,6 +1604,17 @@ namespace WxAutoCore.Components
                 confirmButton.Click();
                 Thread.Sleep(1000);
                 Wait.UntilInputIsProcessed();
+
+                var cResult = Retry.WhileNull(() => _Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("RoomInfoModifyDialog"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+                if (cResult.Success)
+                {
+                    xPath = "//Button[@Name='取消']";
+                    var cancelButton = dialog.FindFirstByXPath(xPath)?.AsButton();
+                    cancelButton?.DrawHighlightExt();
+                    cancelButton?.Focus();
+                    cancelButton?.WaitUntilClickable();
+                    cancelButton?.Click();
+                }
             }
         }
 
@@ -1622,6 +1645,7 @@ namespace WxAutoCore.Components
         }
         /// <summary>
         /// 删除群聊，适用于自有群,与退出群聊不同，退出群聊是退出群聊，删除群聊会删除自有群的所有好友，然后退出群聊
+        /// willdo: 这里有一个问题，如果删除群的用户很多，则需要滚屏才能全部选中。
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <returns>微信响应结果</returns>
