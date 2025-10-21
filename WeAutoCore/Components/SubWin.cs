@@ -328,15 +328,6 @@ namespace WxAutoCore.Components
             var element = button.GetParent().GetParent();
             return element;
         }
-        void NonBlockingDelay(int milliseconds)
-        {
-            var sw = System.Diagnostics.Stopwatch.StartNew();
-            while (sw.ElapsedMilliseconds < milliseconds)
-            {
-                System.Windows.Forms.Application.DoEvents(); // 保持消息泵运行
-                Thread.Sleep(1); // 小步延迟
-            }
-        }
         //更新群聊名称
         private void _UpdateGroupName(AutomationElement element, string groupName)
         {
@@ -438,6 +429,41 @@ namespace WxAutoCore.Components
                 }
             }
         }
+        /// <summary>
+        /// 更新群聊公告
+        /// </summary>
+        /// <param name="groupNotice">群聊公告</param>
+        public ChatResponse UpdateGroupNotice(string groupNotice)
+        {
+            ChatResponse result = new ChatResponse();
+            try
+            {
+                _uiThreadInvoker.Run(automation =>
+                {
+                    if (!_IsSidebarOpen(false))
+                    {
+                        _OpenSidebar(false);
+                    }
+                    _FocuseSearchTextExt(false);
+                    Thread.Sleep(500);
+                    var rootElement = this.GetNewElement();
+                    _UpdateGroupNotice(rootElement, groupNotice);
+                }).Wait();
+                result.Success = true;
+                result.Message = "更新群聊公告成功";
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = ex.Message;
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
+                return result;
+            }
+        }
+
+
         //更新群聊公告
         private void _UpdateGroupNotice(AutomationElement element, string groupNotice)
         {
@@ -447,24 +473,33 @@ namespace WxAutoCore.Components
             {
                 el.Focus();
                 el.WaitUntilClickable();
+                Thread.Sleep(300);
+                el.DrawHighlightExt();
                 el.Click();
                 Thread.Sleep(300);
                 var popWin = Retry.WhileNull(() =>
                 {
                     var desktop = el.Automation.GetDesktop();
-                    var pWin = desktop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("群公告")).And(cf.ByProcessId(_MainWxWindow.ProcessId)).And(cf.ByClassName("ChatRoomAnnouncementWnd")))?.AsWindow();
+                    var pWin = desktop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByProcessId(_MainWxWindow.ProcessId)).And(cf.ByClassName("ChatRoomAnnouncementWnd")))?.AsWindow();
                     return pWin;
                 }, TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
                 if (popWin != null)
                 {
-                    var editButton = popWin.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/Button[@Name='编辑']")?.AsButton();
+                    popWin.DrawHighlightExt();
+                    var editButton = Retry.WhileNull(() => popWin.FindFirstByXPath("//Button[@Name='编辑'] | //Button[@Name='完成']")?.AsButton(),
+                    TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
                     if (editButton != null)
                     {
-                        editButton.Focus();
-                        editButton.WaitUntilClickable();
-                        editButton.Click();
+                        if (editButton.Name == "编辑")
+                        {
+                            editButton.DrawHighlightExt();
+                            editButton.WaitUntilClickable();
+                            editButton.Click();
+                            Thread.Sleep(300);
+                        }
 
                         var edit = popWin.FindFirstByXPath("//Edit")?.AsTextBox();
+                        edit.DrawHighlightExt();
                         edit.Focus();
                         edit.WaitUntilClickable();
                         edit.Click();
@@ -472,24 +507,31 @@ namespace WxAutoCore.Components
                         Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
                         Keyboard.Type(groupNotice);
                         Wait.UntilInputIsProcessed();
+                        Thread.Sleep(1000);
                         var finishButton = popWin.FindFirstByXPath("//Button[@Name='完成']")?.AsButton();
-                        finishButton.Focus();
-                        finishButton.WaitUntilClickable();
-                        finishButton.Click();
+                        finishButton?.DrawHighlightExt();
+                        finishButton?.Focus();
+                        finishButton?.WaitUntilClickable();
+                        finishButton?.Click();
 
                         var sendButton = Retry.WhileNull(() => popWin.FindFirstByXPath("//Button[@Name='发布']")?.AsButton(), TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
                         if (sendButton != null)
                         {
+                            sendButton.DrawHighlightExt();
                             sendButton.Focus();
                             sendButton.WaitUntilClickable();
                             sendButton.Click();
-                            Thread.Sleep(2000);
+                        } else
+                        {
+                            popWin.Close();
+                            throw new Exception("可能相同公告内容，未找到发布按钮");
                         }
                     }
                     else
                     {
                         //无权限编辑
                         popWin.Close();
+                        throw new Exception("无编辑权限");
                     }
                 }
 

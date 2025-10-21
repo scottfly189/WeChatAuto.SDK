@@ -475,6 +475,24 @@ namespace WeAutoCore.Tests.Components
             Assert.True(true);
         }
 
-
+        [Theory(DisplayName = "测试更新群聊公告")]
+        [InlineData("测试04")]
+        [InlineData("实时AI快讯 5群")]
+        [InlineData("测试01")]
+        public async Task Test_UpdateGroupNotice(string groupName)
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var result = await window.UpdateGroupNotice(groupName, "测试04新的公告999");
+            _output.WriteLine($"更新群聊公告结果: {result.Message}");
+            if (groupName == "测试04" || groupName == "测试01")
+            {
+                Assert.True(result.Success);
+            } else
+            {
+                Assert.False(result.Success);
+            }
+        }
     }
 }
