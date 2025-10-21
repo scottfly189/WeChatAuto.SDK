@@ -1479,7 +1479,6 @@ namespace WxAutoCore.Components
                                             itemButton.DrawHighlightExt();
                                             itemButton.Focus();
                                             itemButton.WaitUntilClickable();
-                                            // itemButton.DoubleClick();
                                             itemButton.RightClick();
                                             this._OpenUpdateGroupNameWindow(groupName);
                                         }
@@ -1680,19 +1679,6 @@ namespace WxAutoCore.Components
         }
 
         /// <summary>
-        /// 发送群聊公告
-        /// </summary>
-        /// <param name="groupName">群聊名称</param>
-        /// <param name="notice">公告内容</param>
-        /// <returns>微信响应结果</returns>
-        public async Task<ChatResponse> PublishOwnerChatGroupNotice(string groupName, string notice)
-        {
-            await _SubWinList.CheckSubWinExistAndOpen(groupName);
-            await Task.Delay(500);
-            var subWin = _SubWinList.GetSubWin(groupName);
-            return subWin.PublishOwnerChatGroupNotice(notice);
-        }
-        /// <summary>
         /// 移除群聊成员,适用于自有群
         /// </summary>
         /// <param name="groupName">群聊名称</param>
@@ -1778,12 +1764,18 @@ namespace WxAutoCore.Components
             return subWin.AddAllChatGroupMemberToFriends(exceptList, intervalSecond, helloText, label);
         }
 
+        /// <summary>
+        /// 更新群聊公告
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        /// <param name="groupNotice">群聊公告</param>
+        /// <returns>微信响应结果</returns>
         public async Task<ChatResponse> UpdateGroupNotice(string groupName, string groupNotice)
         {
             await _SubWinList.CheckSubWinExistAndOpen(groupName);
             await Task.Delay(500);
             var subWin = _SubWinList.GetSubWin(groupName);
-            
+
             return subWin.UpdateGroupNotice(groupNotice);
         }
 

@@ -489,10 +489,22 @@ namespace WeAutoCore.Tests.Components
             if (groupName == "测试04" || groupName == "测试01")
             {
                 Assert.True(result.Success);
-            } else
+            }
+            else
             {
                 Assert.False(result.Success);
             }
+        }
+
+        [Fact(DisplayName = "测试邀请群聊成员,适用于他有群")]
+        public async Task Test_InviteChatGroupMember()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var result = await window.InviteChatGroupMember("测试04", new string[] { "AI.Net", "秋歌" });
+            _output.WriteLine($"邀请群聊成员结果: {result.Message}");
+            Assert.True(result.Success);
         }
     }
 }
