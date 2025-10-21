@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using WxAutoCore.Utils;
 using WxAutoCore.Extentions;
 using System.Threading;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WxAutoCore.Components
 {
@@ -21,6 +22,7 @@ namespace WxAutoCore.Components
     public class ConversationList
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly AutoLogger<ConversationList> _logger;
         private UIThreadInvoker _uiThreadInvoker;
         private Window _Window;
         private WeChatMainWindow _WxWindow;
@@ -36,6 +38,7 @@ namespace WxAutoCore.Components
         private List<ListBoxItem> _Conversations = new List<ListBoxItem>();
         public ConversationList(Window window, WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker, IServiceProvider serviceProvider)
         {
+            _logger = serviceProvider.GetRequiredService<AutoLogger<ConversationList>>();
             _uiThreadInvoker = uiThreadInvoker;
             _Window = window;
             _WxWindow = wxWindow;

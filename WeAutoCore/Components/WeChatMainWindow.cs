@@ -1116,6 +1116,8 @@ namespace WxAutoCore.Components
             catch (Exception ex)
             {
                 result.Success = false;
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
                 result.Message = ex.Message;
                 return result;
             }
@@ -1169,6 +1171,8 @@ namespace WxAutoCore.Components
             {
                 result.Success = false;
                 result.Message = ex.Message;
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
                 return result;
             }
         }
@@ -1297,6 +1301,8 @@ namespace WxAutoCore.Components
             {
                 result.Success = false;
                 result.Message = ex.Message;
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
                 return result;
             }
         }
@@ -1490,6 +1496,7 @@ namespace WxAutoCore.Components
             Trace.WriteLine("临时群名称：" + tempName);
             result.Success = true;
             result.Message = "创建群聊成功";
+            _logger.Info("创建临时群名称：" + tempName+"成功，下一步修改成正确的群名");
             return result;
         }
 
@@ -1639,6 +1646,8 @@ namespace WxAutoCore.Components
             {
                 result.Success = false;
                 result.Message = ex.Message;
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
                 return result;
             }
 
@@ -1664,6 +1673,8 @@ namespace WxAutoCore.Components
             {
                 result.Success = false;
                 result.Message = ex.Message;
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
                 return result;
             }
         }

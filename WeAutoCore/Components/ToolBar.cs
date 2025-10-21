@@ -1,6 +1,7 @@
 using System;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Input;
+using Microsoft.Extensions.DependencyInjection;
 using WxAutoCommon.Utils;
 using WxAutoCore.Utils;
 
@@ -20,6 +21,7 @@ namespace WxAutoCore.Components
         private Button _MinButton;
         private Button _MaxButton;   //最大化或者还原
         private Button _CloseButton;
+        private AutoLogger<ToolBar> _logger;
 
         public AutomationElement ToolBarInfo => _ToolBar;
         /// <summary>
@@ -36,6 +38,7 @@ namespace WxAutoCore.Components
             _NotifyIcon = notifyIcon;
             _uiThreadInvoker = uiThreadInvoker;
             _serviceProvider = serviceProvider;
+            _logger = serviceProvider.GetRequiredService<AutoLogger<ToolBar>>();
         }
 
         private void RefreshToolBar()

@@ -8,11 +8,13 @@ using WxAutoCommon.Interface;
 using WxAutoCore.Utils;
 using WxAutoCommon.Utils;
 using System;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WxAutoCore.Components
 {
-    public class ChatContent:IDisposable
+    public class ChatContent : IDisposable
     {
+        private readonly AutoLogger<ChatContent> _logger;
         private Window _Window;
         private IWeChatWindow _WxWindow;
         private ChatContentType _ChatContentType;
@@ -37,6 +39,7 @@ namespace WxAutoCore.Components
         public ChatBody ChatBody => GetChatBody();
         public ChatContent(Window window, ChatContentType chatContentType, string xPath, IWeChatWindow wxWindow, UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow, IServiceProvider serviceProvider)
         {
+            _logger = serviceProvider.GetRequiredService<AutoLogger<ChatContent>>();
             _uiThreadInvoker = uiThreadInvoker;
             _Window = window;
             _ChatContentType = chatContentType;
@@ -54,7 +57,7 @@ namespace WxAutoCore.Components
             var title = GetFullTitle();
             if (string.IsNullOrEmpty(title))
             {
-                return new ChatHeader(string.Empty, null,_serviceProvider);
+                return new ChatHeader(string.Empty, null, _serviceProvider);
             }
             if (Regex.IsMatch(title, @"^([^\(]+) \("))
             {
@@ -71,7 +74,7 @@ namespace WxAutoCore.Components
             {
                 chatInfoButton = buttons.ToList().First().AsButton();
             }
-            return new ChatHeader(title, chatInfoButton,_serviceProvider);
+            return new ChatHeader(title, chatInfoButton, _serviceProvider);
         }
         /// <summary>
         /// 获取聊天标题(不做处理，直接返回)
@@ -106,7 +109,7 @@ namespace WxAutoCore.Components
             var title = GetFullTitle();
             var chatBodyRoot = _uiThreadInvoker.Run(automation => ChatContentRoot.FindFirstByXPath("/Pane[2]")).Result;
             DrawHightlightHelper.DrawHightlight(chatBodyRoot, _uiThreadInvoker);
-            var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow, title, _uiThreadInvoker,this._MainWxWindow, _serviceProvider);
+            var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow, title, _uiThreadInvoker, this._MainWxWindow, _serviceProvider);
             return chatBody;
         }
 

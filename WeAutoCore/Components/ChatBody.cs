@@ -294,7 +294,7 @@ namespace WxAutoCore.Components
             var xPath = "/Pane[2]";
             var senderRoot = _uiThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).Result;
             DrawHightlightHelper.DrawHightlight(senderRoot, _uiThreadInvoker);
-            var sender = new Sender(_Window, senderRoot, _WxWindow, _Title, _uiThreadInvoker);
+            var sender = new Sender(_Window, senderRoot, _WxWindow, _Title, _uiThreadInvoker,_serviceProvider);
             return sender;
         }
 

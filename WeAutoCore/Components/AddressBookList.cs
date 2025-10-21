@@ -8,6 +8,7 @@ using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
 using FlaUI.Core.WindowsAPI;
+using Microsoft.Extensions.DependencyInjection;
 using WxAutoCommon.Models;
 using WxAutoCommon.Utils;
 using WxAutoCore.Extentions;
@@ -23,9 +24,11 @@ namespace WxAutoCore.Components
         private readonly IServiceProvider _serviceProvider;
         private UIThreadInvoker _uiThreadInvoker;
         private Window _Window;
+        private AutoLogger<AddressBookList> _logger;
         private WeChatMainWindow _MainWin;
         public AddressBookList(Window window, WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker, IServiceProvider serviceProvider)
         {
+            _logger = serviceProvider.GetRequiredService<AutoLogger<AddressBookList>>();
             _uiThreadInvoker = uiThreadInvoker;
             _Window = window;
             _MainWin = wxWindow;
@@ -124,6 +127,8 @@ namespace WxAutoCore.Components
             catch (Exception ex)
             {
                 Trace.WriteLine("获取公众号发生错误:" + ex.ToString());
+                _logger.Error("获取公众号发生错误:" + ex.ToString());
+                _logger.Error(ex.StackTrace);
                 throw new Exception("获取公众号发生错误:" + ex.ToString());
             }
             finally
@@ -148,6 +153,8 @@ namespace WxAutoCore.Components
             catch (Exception ex)
             {
                 Trace.WriteLine("获取待添加好友发生错误:" + ex.ToString());
+                _logger.Error("获取待添加好友发生错误:" + ex.ToString());
+                _logger.Error(ex.StackTrace);
                 throw new Exception("获取待添加好友发生错误:" + ex.ToString());
             }
             finally
@@ -174,6 +181,8 @@ namespace WxAutoCore.Components
             catch (Exception ex)
             {
                 Trace.WriteLine("添加好友发生错误:" + ex.ToString());
+                _logger.Error("添加好友发生错误:" + ex.ToString());
+                _logger.Error(ex.StackTrace);
                 throw new Exception("添加好友发生错误:" + ex.ToString());
             }
             finally
@@ -256,6 +265,8 @@ namespace WxAutoCore.Components
             catch (Exception ex)
             {
                 Trace.WriteLine("删除好友发生错误:" + ex.ToString());
+                _logger.Error("删除好友发生错误:" + ex.ToString());
+                _logger.Error(ex.StackTrace);
                 return false;
             }
             finally
@@ -419,6 +430,8 @@ namespace WxAutoCore.Components
             catch (Exception ex)
             {
                 Trace.WriteLine("添加好友发生错误:" + ex.ToString());
+                _logger.Error("添加好友发生错误:" + ex.ToString());
+                _logger.Error(ex.StackTrace);
                 throw new Exception("添加好友发生错误:" + ex.ToString());
             }
             finally

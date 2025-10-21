@@ -17,6 +17,7 @@ using WxAutoCommon.Interface;
 using System.Text;
 using OneOf;
 using WeAutoCommon.Classes;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WxAutoCore.Components
 {
@@ -25,11 +26,13 @@ namespace WxAutoCore.Components
     /// </summary>
     public class Sender
     {
+        private readonly AutoLogger<Sender> _logger;
         private Window _Window;
         private IWeChatWindow _WxWindow;
         private AutomationElement _SenderRoot;
         private UIThreadInvoker _uiThreadInvoker;
         public TextBox ContentArea => GetContentArea();
+        private readonly IServiceProvider _serviceProvider;
         public List<(ChatBoxToolBarType type, Button button)> ToolBarButtons => GetToolBarButtons();
         public Button SendButton => GetSendButton();
         /// <summary>
@@ -38,12 +41,14 @@ namespace WxAutoCore.Components
         /// <param name="senderRoot">发送者根元素<see cref="AutomationElement"/></param>
         /// <param name="wxWindow">微信窗口封装<see cref="WeChatMainWindow"/></param>
         /// </summary>
-        public Sender(Window window, AutomationElement senderRoot, IWeChatWindow wxWindow, string title, UIThreadInvoker uiThreadInvoker)
+        public Sender(Window window, AutomationElement senderRoot, IWeChatWindow wxWindow, string title, UIThreadInvoker uiThreadInvoker, IServiceProvider serviceProvider)
         {
             _Window = window;
             _WxWindow = wxWindow;
             _SenderRoot = senderRoot;
             _uiThreadInvoker = uiThreadInvoker;
+            _serviceProvider = serviceProvider;
+            _logger = serviceProvider.GetRequiredService<AutoLogger<Sender>>();
         }
         /// <summary>
         /// 获取工具栏按钮

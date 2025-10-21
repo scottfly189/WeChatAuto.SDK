@@ -8,6 +8,7 @@ using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
 using FlaUI.Core.WindowsAPI;
+using Microsoft.Extensions.DependencyInjection;
 using OneOf;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Interface;
@@ -24,6 +25,7 @@ namespace WxAutoCore.Components
     public class SubWin : IWeChatWindow, IDisposable
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly AutoLogger<SubWin> _logger;
         private ChatContent _ChatContent;
         private WeChatMainWindow _MainWxWindow;    //主窗口对象
         private Window _SelfWindow;        //子窗口FlaUI的window
@@ -50,6 +52,7 @@ namespace WxAutoCore.Components
         /// <param name="serviceProvider">服务提供者</param>
         public SubWin(Window window, WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker, string title, SubWinList subWinList, IServiceProvider serviceProvider)
         {
+            _logger = serviceProvider.GetRequiredService<AutoLogger<SubWin>>();
             _serviceProvider = serviceProvider;
             _uiThreadInvoker = uiThreadInvoker;
             _SubWinList = subWinList;
@@ -119,6 +122,8 @@ namespace WxAutoCore.Components
             {
                 result.Success = false;
                 result.Message = ex.Message;
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
                 return result;
             }
             finally
@@ -675,6 +680,7 @@ namespace WxAutoCore.Components
                         memberList.Add(item.Name.Trim());
                     }
                 }
+                _logger.Info("获取群聊成员列表成功，成员数量：" + memberList.Count);
                 return memberList;
             }).Result;
             return list;
@@ -761,6 +767,7 @@ namespace WxAutoCore.Components
                 var items = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
                 items = items.Where(item => item.Name != "添加" && item.Name != "移出").ToList();
                 var firstItem = items.First();   //群主
+                _logger.Info("获取群主成功，群主昵称：" + firstItem?.Name);
 
                 return firstItem?.Name ?? "";
             }).Result;
@@ -847,6 +854,7 @@ namespace WxAutoCore.Components
                         confirmButton.WaitUntilClickable();
                         confirmButton.Focus();
                         confirmButton.Click();
+                        _logger.Info("退出群聊成功");
                     }
                 }
             }).Wait();
@@ -875,6 +883,8 @@ namespace WxAutoCore.Components
             {
                 result.Success = false;
                 result.Message = ex.Message;
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
                 return result;
             }
         }
@@ -983,6 +993,8 @@ namespace WxAutoCore.Components
             {
                 result.Success = false;
                 result.Message = ex.Message;
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
                 return result;
             }
         }
@@ -1096,6 +1108,8 @@ namespace WxAutoCore.Components
             {
                 result.Success = false;
                 result.Message = ex.Message;
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
                 return result;
             }
         }
@@ -1244,6 +1258,8 @@ namespace WxAutoCore.Components
             {
                 result.Success = false;
                 result.Message = ex.Message;
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
                 return result;
             }
         }
@@ -1295,6 +1311,8 @@ namespace WxAutoCore.Components
             {
                 result.Success = false;
                 result.Message = ex.Message;
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
                 return result;
             }
         }
@@ -1485,6 +1503,8 @@ namespace WxAutoCore.Components
             {
                 result.Success = false;
                 result.Message = ex.Message;
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
                 return result;
             }
         }

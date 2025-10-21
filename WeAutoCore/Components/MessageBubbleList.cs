@@ -10,6 +10,7 @@ using WxAutoCommon.Interface;
 using WxAutoCore.Extentions;
 using Microsoft.Win32.SafeHandles;
 using System.Globalization;
+using WxAutoCore.Utils;
 
 namespace WxAutoCore.Components
 {

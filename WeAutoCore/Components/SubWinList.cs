@@ -14,6 +14,8 @@ using WxAutoCommon.Enums;
 using WxAutoCommon.Models;
 using System.Diagnostics;
 using WxAutoCore.Services;
+using WxAutoCore.Utils;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WxAutoCore.Components
 {
@@ -31,6 +33,7 @@ namespace WxAutoCore.Components
         private WeChatMainWindow _MainWxWindow;   //主窗口对象
         private Window _MainFlaUIWindow;   //主窗口FlaUI的window
         private UIThreadInvoker _uiThreadInvoker;
+        private AutoLogger<SubWinList> _logger;
         private readonly IServiceProvider _serviceProvider;
         /// <summary>
         /// 子窗口列表构造函数
@@ -41,6 +44,7 @@ namespace WxAutoCore.Components
         /// <param name="serviceProvider">服务提供者</param>
         public SubWinList(Window window, WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker, IServiceProvider serviceProvider)
         {
+            _logger = serviceProvider.GetRequiredService<AutoLogger<SubWinList>>();
             _uiThreadInvoker = uiThreadInvoker;
             _MainWxWindow = wxWindow;
             _MainFlaUIWindow = window;
@@ -90,7 +94,8 @@ namespace WxAutoCore.Components
                     }
                     catch (Exception ex)
                     {
-                        Trace.WriteLine("线程发生错误:" + ex.ToString());
+                        _logger.Error("线程发生错误:" + ex.ToString());
+                        _logger.Error(ex.StackTrace);
                         throw;
                     }
                 }
