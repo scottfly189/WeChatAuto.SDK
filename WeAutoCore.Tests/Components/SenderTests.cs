@@ -42,7 +42,7 @@ public class SenderTests
         var sender = subWin.ChatContent.ChatBody.Sender;
         sender.SendMessage("你好，世界！");
         Assert.True(true);
-        await WeAutomation.Wait(TimeSpan.FromSeconds(5));
+        await Task.Delay(5000);
         mainWindow.SubWinList.CloseAllSubWins();
     }
 
@@ -57,7 +57,7 @@ public class SenderTests
         var sender = subWin.ChatContent.ChatBody.Sender;
         sender.SendMessage("你好，世界！", "秋歌");
         Assert.True(true);
-        await WeAutomation.Wait(TimeSpan.FromSeconds(5));
+        await Task.Delay(5000);
         mainWindow.SubWinList.CloseAllSubWins();
     }
 
@@ -73,7 +73,7 @@ public class SenderTests
         sender.SendEmoji(11);
         sender.SendEmoji("微笑");
         Assert.True(true);
-        await WeAutomation.Wait(TimeSpan.FromSeconds(5));
+        await Task.Delay(5000);
         mainWindow.SubWinList.CloseAllSubWins();
     }
 
@@ -88,7 +88,7 @@ public class SenderTests
         var sender = subWin.ChatContent.ChatBody.Sender;
         sender.SendFile(new string[] { @"C:\Users\Administrator\Desktop\ssss\logo.png" });
         Assert.True(true);
-        await WeAutomation.Wait(TimeSpan.FromSeconds(5));
+        await Task.Delay(5000);
         mainWindow.SubWinList.CloseAllSubWins();
     }
 
@@ -103,7 +103,7 @@ public class SenderTests
         var sender = subWin.ChatContent.ChatBody.Sender;
         sender.SendFile(new string[] { @"C:\Users\Administrator\Desktop\ssss\logo.png", @"C:\Users\Administrator\Desktop\ssss\4.mp4", @"C:\Users\Administrator\Desktop\ssss\3.pdf" });
         Assert.True(true);
-        await WeAutomation.Wait(TimeSpan.FromSeconds(5));
+        await Task.Delay(5000);
         mainWindow.SubWinList.CloseAllSubWins();
     }
 }

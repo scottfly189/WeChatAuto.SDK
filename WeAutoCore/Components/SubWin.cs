@@ -353,7 +353,6 @@ namespace WxAutoCore.Components
                     Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
                     // Keyboard.Type(groupName);
                     //Keyboard.TypeSimultaneously(VirtualKeyShort.RETURN);
-                    var i = 1;
                 }
                 else
                 {

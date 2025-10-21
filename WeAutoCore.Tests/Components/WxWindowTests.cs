@@ -33,12 +33,12 @@ namespace WeAutoCore.Tests.Components
             window.WindowRestore();
             DrawHightlightHelper.DrawHightlight(window.Window, window.UiThreadInvoker);
             window.WindowMin();
-            await WeAutomation.Wait(2);
+            await Task.Delay(2000);
             window.WinMinRestore();
             window.WindowTop(true);
-            await WeAutomation.Wait(2);
+            await Task.Delay(2000);
             window.WindowTop(false);
-            await WeAutomation.Wait(2);
+            await Task.Delay(2000);
             Assert.True(true);
         }
 

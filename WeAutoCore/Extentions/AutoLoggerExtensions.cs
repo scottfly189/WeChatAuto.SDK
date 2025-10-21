@@ -20,7 +20,6 @@ namespace WxAutoCore.Extentions
             {
                 services.AddLogging(builder =>
                 {
-                    builder.ClearProviders();
                     builder.AddConsole();
                     builder.AddDebug();
                     builder.SetMinimumLevel(LogLevel.Trace);

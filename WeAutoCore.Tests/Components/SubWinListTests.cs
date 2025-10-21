@@ -35,7 +35,7 @@ namespace WxAutoCore.Tests.Components
                 _output.WriteLine($"子窗口名称: {subWinName}");
             }
             Assert.True(subWinNames.Count > 0);
-            await WeAutomation.Wait(TimeSpan.FromSeconds(5));
+            await Task.Delay(5000);
             subWinList.CloseAllSubWins();
         }
         [Theory(DisplayName = "测试获取子窗口")]
@@ -49,7 +49,7 @@ namespace WxAutoCore.Tests.Components
             var subWinList = window.SubWinList;
             var subWin = subWinList.GetSubWin(subWinName);
             Assert.NotNull(subWin);
-            await WeAutomation.Wait(TimeSpan.FromSeconds(5));
+            await Task.Delay(5000);
             subWinList.CloseAllSubWins();
         }
         [Theory(DisplayName = "测试判断子窗口是否打开")]
@@ -63,7 +63,7 @@ namespace WxAutoCore.Tests.Components
             var subWinList = window.SubWinList;
             var isOpen = subWinList.CheckSubWinIsOpen(subWinName);
             Assert.True(isOpen);
-            await WeAutomation.Wait(TimeSpan.FromSeconds(5));
+            await Task.Delay(5000);
             subWinList.CloseAllSubWins();
             isOpen = subWinList.CheckSubWinIsOpen(subWinName);
             Assert.False(isOpen);
@@ -95,7 +95,7 @@ namespace WxAutoCore.Tests.Components
             subWinList.RegisterMonitorSubWin(subWinName);
 
             Assert.True(true);
-            await WeAutomation.Wait(TimeSpan.FromSeconds(50000));
+            await Task.Delay(50000);
         }
     }
 }
