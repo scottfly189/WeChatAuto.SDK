@@ -10,6 +10,8 @@ using FlaUI.Core.Tools;
 using FlaUI.Core.WindowsAPI;
 using Microsoft.Extensions.DependencyInjection;
 using OneOf;
+using WindowsInput;
+using WindowsInput.Native;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Interface;
 using WxAutoCommon.Models;
@@ -1291,7 +1293,7 @@ namespace WxAutoCore.Components
         /// <param name="memberName">成员名称</param>
         /// <param name="helloText">打招呼文本</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse InviteChatGroupMember(OneOf<string, string[]> memberName,string helloText="")
+        public ChatResponse InviteChatGroupMember(OneOf<string, string[]> memberName, string helloText = "")
         {
             ChatResponse result = new ChatResponse();
             try
@@ -1310,7 +1312,7 @@ namespace WxAutoCore.Components
                 return result;
             }
         }
-        private void _ConfirmInviteChatGroupMember(string helloText="")
+        private void _ConfirmInviteChatGroupMember(string helloText = "")
         {
             var confirmPane = Retry.WhileNull(() => _SelfWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("WeUIDialog"))),
              TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
@@ -1336,7 +1338,8 @@ namespace WxAutoCore.Components
                     confirmButton.Click();
                     Thread.Sleep(300);
                 }
-            } else
+            }
+            else
             {
                 _logger.Info("由于群主没有设置认证，所以没有弹出确认窗口，成功邀请！");
             }
@@ -1388,6 +1391,11 @@ namespace WxAutoCore.Components
         /// <param name="label">好友标签,方便归类管理</param>
         private void _AddChatGroupFriendsCore(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", string label = "")
         {
+            if (!_IsSidebarOpen())
+            {
+                _OpenSidebar();
+            }
+            _FocuseSearchTextExt();
             List<string> addList = new List<string>();
             if (memberName.IsT0)
             {
@@ -1399,91 +1407,108 @@ namespace WxAutoCore.Components
             }
             var willAddList = _GetWillAddListFromContacts(addList);
             _logger.Info($"获取到待添加列表: {string.Join(",", willAddList)}");
+            if (willAddList.Count == 0)
+            {
+                _logger.Warn("警告：实际待添加的人数为零，请检查你输入的待添加人群是否都在通讯录中。");
+                return;
+            }
             _uiThreadInvoker.Run(automation =>
             {
                 foreach (var item in willAddList)
                 {
                     var paneRoot = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd")));
-                    if (paneRoot == null)
+                    if (paneRoot != null)
                     {
-                        var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Button[@Name='聊天信息']";
-                        var button = _SelfWindow.FindFirstByXPath(xPath)?.AsButton();
-                        if (button != null)
+                        _logger.Info($"开始搜索群成员: {item}");
+                        var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='搜索群成员']";
+                        var edit = _SelfWindow.FindFirstByXPath(xPath)?.AsTextBox();
+                        if (edit != null)
                         {
-                            button.WaitUntilClickable();
-                            button.Focus();
-                            button.Click();
+                            edit.Focus();
+                            edit.Click();
+                            Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                            Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                            Keyboard.Type(item);
+                            Keyboard.Press(VirtualKeyShort.RETURN);
+                            Wait.UntilInputIsProcessed();
                             Thread.Sleep(600);
-                            xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='搜索群成员']";
-                            var edit = _SelfWindow.FindFirstByXPath(xPath)?.AsTextBox();
-                            if (edit != null)
+                            var listItem = paneRoot.FindFirstByXPath("//ListItem")?.AsListBoxItem();
+                            // var listItem = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(item))).Select(u => u.AsListBoxItem()).ToList();
+                            if (listItem != null)
                             {
-                                edit.Focus();
-                                edit.Click();
-                                Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
-                                Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
-                                Keyboard.Type(item);
-                                Keyboard.Press(VirtualKeyShort.RETURN);
-                                Wait.UntilInputIsProcessed();
-                                Thread.Sleep(600);
-                                var listBox = paneRoot.FindFirstByXPath("//List[@Name='聊天成员']")?.AsListBox();
-                                var listItem = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(item))).Select(u => u.AsListBoxItem()).ToList();
-                                if (listItem != null && listItem.Count > 0)
+                                listItem.DrawHighlightExt();
+                                var button = listItem.FindFirstByXPath("/Pane/Pane/Button").AsButton();
+                                if (button != null)
                                 {
-                                    button = listItem.FirstOrDefault().FindFirstByXPath("/Pane/Pane/Button").AsButton();
-                                    if (button != null)
+                                    button.DrawHighlightExt();
+                                    button.WaitUntilClickable();
+                                    // Mouse.LeftClick(button.GetClickablePoint());
+                                    // var rect = button.BoundingRectangle;
+                                    // var point = rect.Center();
+                                    // Mouse.MoveTo(point);
+                                    // Mouse.Click(FlaUI.Core.Input.MouseButton.Left);
+                                    // button.Focus();
+                                    // Keyboard.Press(VirtualKeyShort.RETURN);
+                                    // var rect = button.BoundingRectangle;
+                                    // var center = rect.Center();
+                                    // InputSimulator sim = new InputSimulator();
+                                    // double x = center.X * 65535 / System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+                                    // double y = center.Y * 65535 / System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
+                                    // sim.Mouse.MoveMouseToPositionOnVirtualDesktop(x, y);
+                                    // sim.Mouse.LeftButtonClick();
+                                    // button.Focus();
+                                    // sim.Keyboard.KeyPress(VirtualKeyCode.RETURN);
+
+                                    InputHelper.LeftClickAtSafe(button.GetClickablePoint().X, button.GetClickablePoint().Y);
+
+                                    Thread.Sleep(600);
+                                    var addPane = Retry.WhileNull(() => paneRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("添加好友")).And(cf.ByClassName("WeUIDialog"))),
+                                        TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
+                                    if (addPane != null)
                                     {
-                                        button.WaitUntilClickable();
-                                        button.Click();
-                                        Thread.Sleep(600);
-                                        var addPane = Retry.WhileNull(() => paneRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("添加好友")).And(cf.ByClassName("WeUIDialog"))),
-                                            TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
-                                        if (addPane != null)
+                                        //点击添加到通讯录按钮
+                                        var addButton = addPane.FindFirstByXPath("//Button[@Name='添加到通讯录']")?.AsButton();
+                                        addButton.WaitUntilClickable();
+                                        addButton.Click();
+                                        var addConfirmWinResult = Retry.WhileNull(() => _MainWxWindow.Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("添加朋友请求")).And(cf.ByClassName("WeUIDialog")))?.AsWindow(),
+                                            TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
+                                        if (addConfirmWinResult.Success && addConfirmWinResult.Result != null)
                                         {
-                                            //点击添加到通讯录按钮
-                                            var addButton = addPane.FindFirstByXPath("//Button[@Name='添加到通讯录']")?.AsButton();
-                                            addButton.WaitUntilClickable();
-                                            addButton.Click();
-                                            var addConfirmWinResult = Retry.WhileNull(() => _MainWxWindow.Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("添加朋友请求")).And(cf.ByClassName("WeUIDialog")))?.AsWindow(),
-                                                TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
-                                            if (addConfirmWinResult.Success && addConfirmWinResult.Result != null)
+                                            if (!string.IsNullOrWhiteSpace(helloText))
                                             {
-                                                if (!string.IsNullOrWhiteSpace(helloText))
-                                                {
-                                                    var helloTextEdit = addConfirmWinResult.Result.FindFirstByXPath("/Pane[2]/Pane[1]/Pane/Pane/Pane[1]/Pane/Edit").AsTextBox();
-                                                    helloTextEdit.Focus();
-                                                    helloTextEdit.Click();
-                                                    Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
-                                                    Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
-                                                    Keyboard.Type(helloText);
-                                                    helloTextEdit.Click();
-                                                    Keyboard.Press(VirtualKeyShort.RETURN);
-                                                    Wait.UntilInputIsProcessed();
-                                                    Thread.Sleep(600);
-                                                }
-                                                if (!string.IsNullOrWhiteSpace(label))
-                                                {
-                                                    var labelEdit = addConfirmWinResult.Result.FindFirstByXPath("/Pane[2]/Pane[1]/Pane/Pane/Pane[3]/Pane[1]/Pane/Edit").AsTextBox();
-                                                    labelEdit.Focus();
-                                                    labelEdit.Click();
-                                                    Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
-                                                    Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
-                                                    Keyboard.Type(label);
-                                                    labelEdit.Click();
-                                                    Keyboard.Press(VirtualKeyShort.RETURN);
-                                                    Wait.UntilInputIsProcessed();
-                                                    Thread.Sleep(600);
-                                                }
-                                                button = addConfirmWinResult.Result.FindFirstByXPath("//Button[@Name='确定']")?.AsButton();
-                                                button.WaitUntilClickable();
-                                                button.Click();
+                                                var helloTextEdit = addConfirmWinResult.Result.FindFirstByXPath("/Pane[2]/Pane[1]/Pane/Pane/Pane[1]/Pane/Edit").AsTextBox();
+                                                helloTextEdit.Focus();
+                                                helloTextEdit.Click();
+                                                Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                                                Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                                                Keyboard.Type(helloText);
+                                                helloTextEdit.Click();
+                                                Keyboard.Press(VirtualKeyShort.RETURN);
+                                                Wait.UntilInputIsProcessed();
                                                 Thread.Sleep(600);
                                             }
-                                            else
+                                            if (!string.IsNullOrWhiteSpace(label))
                                             {
-                                                edit.Focus();
-                                                edit.Click();
+                                                var labelEdit = addConfirmWinResult.Result.FindFirstByXPath("/Pane[2]/Pane[1]/Pane/Pane/Pane[3]/Pane[1]/Pane/Edit").AsTextBox();
+                                                labelEdit.Focus();
+                                                labelEdit.Click();
+                                                Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                                                Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                                                Keyboard.Type(label);
+                                                labelEdit.Click();
+                                                Keyboard.Press(VirtualKeyShort.RETURN);
+                                                Wait.UntilInputIsProcessed();
+                                                Thread.Sleep(600);
                                             }
+                                            button = addConfirmWinResult.Result.FindFirstByXPath("//Button[@Name='确定']")?.AsButton();
+                                            button.WaitUntilClickable();
+                                            button.Click();
+                                            Thread.Sleep(600);
+                                        }
+                                        else
+                                        {
+                                            edit.Focus();
+                                            edit.Click();
                                         }
                                     }
                                 }
