@@ -521,7 +521,8 @@ namespace WxAutoCore.Components
                             sendButton.Focus();
                             sendButton.WaitUntilClickable();
                             sendButton.Click();
-                        } else
+                        }
+                        else
                         {
                             popWin.Close();
                             throw new Exception("可能相同公告内容，未找到发布按钮");
@@ -1059,7 +1060,10 @@ namespace WxAutoCore.Components
             List<string> chatGroupFriends = this.GetChatGroupMemberList();
             addList = addList.Except(chatGroupFriends).ToList();
             if (addList.Count == 0)
+            {
+                _logger.Warn("警告：实际待邀请的人数为零，请检查你输入的待邀请人群是否都在群聊中。");
                 return;
+            }
             _uiThreadInvoker.Run(automation =>
             {
                 var rootPane = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd")));
@@ -1285,14 +1289,15 @@ namespace WxAutoCore.Components
         /// 邀请群聊成员,适用于他有群
         /// </summary>
         /// <param name="memberName">成员名称</param>
+        /// <param name="helloText">打招呼文本</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse InviteChatGroupMember(OneOf<string, string[]> memberName)
+        public ChatResponse InviteChatGroupMember(OneOf<string, string[]> memberName,string helloText="")
         {
             ChatResponse result = new ChatResponse();
             try
             {
                 this._AddChatGroupMemberCore(memberName);
-                this._ConfirmInviteChatGroupMember();
+                this._ConfirmInviteChatGroupMember(helloText);
                 result.Success = true;
                 return result;
             }
@@ -1305,12 +1310,24 @@ namespace WxAutoCore.Components
                 return result;
             }
         }
-        private void _ConfirmInviteChatGroupMember()
+        private void _ConfirmInviteChatGroupMember(string helloText="")
         {
-            var confirmPane = Retry.WhileNull(() => _SelfWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("新建标签")).And(cf.ByClassName("WeUIDialog"))),
+            var confirmPane = Retry.WhileNull(() => _SelfWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("WeUIDialog"))),
              TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
             if (confirmPane != null)
             {
+                if (!string.IsNullOrWhiteSpace(helloText))
+                {
+                    var edit = confirmPane.FindFirstByXPath("//Edit")?.AsTextBox();
+                    if (edit != null)
+                    {
+                        edit.Focus();
+                        edit.Click();
+                        Keyboard.Type(helloText);
+                        Wait.UntilInputIsProcessed();
+                        Thread.Sleep(300);
+                    }
+                }
                 var confirmButton = confirmPane.FindFirstByXPath("//Button[@Name='发送']")?.AsButton();
                 if (confirmButton != null)
                 {
@@ -1319,6 +1336,9 @@ namespace WxAutoCore.Components
                     confirmButton.Click();
                     Thread.Sleep(300);
                 }
+            } else
+            {
+                _logger.Info("由于群主没有设置认证，所以没有弹出确认窗口，成功邀请！");
             }
         }
         /// <summary>
@@ -1345,6 +1365,7 @@ namespace WxAutoCore.Components
             ChatResponse result = new ChatResponse();
             try
             {
+                _logger.Info($"开始添加群聊成员为好友，待添加列表: {string.Join(",", memberName.IsT0 ? new string[] { memberName.AsT0 } : memberName.AsT1)}");
                 this._AddChatGroupFriendsCore(memberName, intervalSecond, helloText, label);
                 result.Success = true;
                 return result;
@@ -1377,6 +1398,7 @@ namespace WxAutoCore.Components
                 addList.AddRange(memberName.AsT1);
             }
             var willAddList = _GetWillAddListFromContacts(addList);
+            _logger.Info($"获取到待添加列表: {string.Join(",", willAddList)}");
             _uiThreadInvoker.Run(automation =>
             {
                 foreach (var item in willAddList)

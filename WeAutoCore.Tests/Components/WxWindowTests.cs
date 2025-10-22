@@ -497,16 +497,6 @@ namespace WeAutoCore.Tests.Components
             }
         }
 
-        [Fact(DisplayName = "测试邀请群聊成员,适用于他有群")]
-        public async Task Test_InviteChatGroupMember()
-        {
-            var framework = _globalFixture.wxFramwork;
-            var client = framework.GetWxClient(_wxClientName);
-            var window = client.WxMainWindow;
-            var result = await window.InviteChatGroupMember("测试04", new string[] { "AI.Net", "秋歌" });
-            _output.WriteLine($"邀请群聊成员结果: {result.Message}");
-            Assert.True(result.Success);
-        }
 
         [Theory(DisplayName = "测试设置消息免打扰")]
         [InlineData("他有群01", true, true)]
@@ -544,6 +534,46 @@ namespace WeAutoCore.Tests.Components
             var window = client.WxMainWindow;
             var result = window.SetChatTop(friendName, isChatTop);
             _output.WriteLine($"设置聊天置顶结果: {result.Message}");
+            Assert.True(result.Success);
+        }
+
+        [Theory(DisplayName = "测试邀请群聊成员,适用于他有群")]
+        [InlineData("他有群01")]
+        [InlineData("他有群02")]
+        public async Task Test_InviteChatGroupMember(string groupName)
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var result = await window.InviteChatGroupMember(groupName, new string[] { "AI.Net"},"你好啊");
+            _output.WriteLine($"邀请群聊成员结果: {result.Message}");
+            Assert.True(result.Success);
+        }
+
+        [Theory(DisplayName = "测试添加群聊成员为好友,适用于他有群")]
+        [InlineData("他有群01")]
+        [InlineData("他有群02")]
+        public async Task Test_AddChatGroupMemberToFriends(string groupName)
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var result = await window.AddChatGroupMemberToFriends(groupName, new string[] { "AI.Net", "秋歌" }, 3, "你好呀", "测试标签");
+            _output.WriteLine($"添加群聊成员为好友结果: {result.Message}");
+            Assert.True(result.Success);
+        }
+
+
+        [Theory(DisplayName = "测试添加群聊成员为好友,适用于他有群")]
+        [InlineData("他有群01")]
+        [InlineData("他有群02")]
+        public async Task Test_AddAllChatGroupMemberToFriends(string groupName)
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var result = await window.AddAllChatGroupMemberToFriends(groupName, new List<string> { "AI.Net", "秋歌" }, 3, "你好呀", "测试标签");
+            _output.WriteLine($"添加群聊成员为好友结果: {result.Message}");
             Assert.True(result.Success);
         }
     }

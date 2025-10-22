@@ -1987,13 +1987,14 @@ namespace WxAutoCore.Components
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <param name="memberName">成员名称</param>
+        /// <param name="helloText">打招呼文本</param>
         /// <returns>微信响应结果</returns>
-        public async Task<ChatResponse> InviteChatGroupMember(string groupName, OneOf<string, string[]> memberName)
+        public async Task<ChatResponse> InviteChatGroupMember(string groupName, OneOf<string, string[]> memberName, string helloText = "")
         {
             await _SubWinList.CheckSubWinExistAndOpen(groupName);
             await Task.Delay(500);
             var subWin = _SubWinList.GetSubWin(groupName);
-            return subWin.InviteChatGroupMember(memberName);
+            return subWin.InviteChatGroupMember(memberName, helloText);
         }
 
         /// <summary>
