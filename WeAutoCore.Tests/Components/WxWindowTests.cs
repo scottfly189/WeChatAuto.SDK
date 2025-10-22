@@ -513,7 +513,7 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.SetMessageWithoutInterruption("他有群01", true);
+            var result = window.SetMessageWithoutInterruption("他有群01", false);
             _output.WriteLine($"设置消息免打扰结果: {result.Message}");
             Assert.True(result.Success);
         }

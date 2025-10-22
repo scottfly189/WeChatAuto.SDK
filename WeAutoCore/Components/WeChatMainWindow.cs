@@ -1112,6 +1112,7 @@ namespace WxAutoCore.Components
                 this._SetMessageWithoutInterruptionCore(friendName, listItem, isMessageWithoutInterruption);
                 _logger.Info($"设置{friendName}消息免打扰成功");
                 result.Success = true;
+                result.Message = $"设置{friendName}消息免打扰成功";
                 return result;
             }
             catch (Exception ex)
@@ -1168,6 +1169,7 @@ namespace WxAutoCore.Components
                 this._SaveToAddressCore(groupName, listItem, isSaveToAddress);
                 _logger.Info($"设置{groupName}保存到通讯录成功");
                 result.Success = true;
+                result.Message = $"设置{groupName}保存到通讯录成功";
                 return result;
             }
             catch (Exception ex)
@@ -1222,6 +1224,7 @@ namespace WxAutoCore.Components
                 this._SetFriendChatTop(friendName, listItem, isTop);
                 _logger.Info($"设置{friendName}聊天置顶成功");
                 result.Success = true;
+                result.Message = $"设置{friendName}聊天置顶成功";
                 return result;
             }
             catch (Exception ex)
