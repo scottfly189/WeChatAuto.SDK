@@ -5,6 +5,7 @@ using Xunit.Abstractions;
 using WxAutoCommon.Configs;
 using WeAutoCommon.Classes;
 using System.Diagnostics;
+using Xunit.Sdk;
 
 [assembly: CollectionBehavior(DisableTestParallelization = true)]
 
@@ -507,35 +508,41 @@ namespace WeAutoCore.Tests.Components
             Assert.True(result.Success);
         }
 
-        [Fact(DisplayName = "测试设置消息免打扰")]
-        public void Test_SetMessageWithoutInterruption()
+        [Theory(DisplayName = "测试设置消息免打扰")]
+        [InlineData("他有群01", true, true)]
+        [InlineData("他有群01", false, true)]
+        public void Test_SetMessageWithoutInterruption(string friendName, bool isMessageWithoutInterruption, bool resultFlag)
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.SetMessageWithoutInterruption("他有群01", false);
+            var result = window.SetMessageWithoutInterruption(friendName, isMessageWithoutInterruption);
             _output.WriteLine($"设置消息免打扰结果: {result.Message}");
-            Assert.True(result.Success);
+            Assert.True(result.Success == resultFlag);
         }
 
-        [Fact(DisplayName = "测试设置保存到通讯录")]
-        public void Test_SetSaveToAddress()
+        [Theory(DisplayName = "测试设置保存到通讯录")]
+        [InlineData("他有群01", true, true)]
+        [InlineData("他有群01", false, true)]
+        public void Test_SetSaveToAddress(string friendName, bool isSaveToAddress, bool resultFlag)
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.SetSaveToAddress("他有群01", true);
+            var result = window.SetSaveToAddress(friendName, isSaveToAddress);
             _output.WriteLine($"设置保存到通讯录结果: {result.Message}");
-            Assert.True(result.Success);
+            Assert.True(result.Success == resultFlag);
         }
 
-        [Fact(DisplayName = "测试设置聊天置顶")]
-        public void Test_SetChatTop()
+        [Theory(DisplayName = "测试设置聊天置顶")]
+        [InlineData("他有群01", true)]
+        [InlineData("他有群01", false)]
+        public void Test_SetChatTop(string friendName, bool isChatTop)
         {
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.SetChatTop("他有群01", true);
+            var result = window.SetChatTop(friendName, isChatTop);
             _output.WriteLine($"设置聊天置顶结果: {result.Message}");
             Assert.True(result.Success);
         }

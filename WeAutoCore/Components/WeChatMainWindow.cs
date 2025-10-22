@@ -1412,8 +1412,7 @@ namespace WxAutoCore.Components
                     else
                     {
                         Trace.WriteLine($"没有找到{menuName}菜单项");
-                        _logger.Error($"没有找到{menuName}菜单项,可能已是[{menuName}]状态");
-                        throw new Exception($"没有找到{menuName}菜单项,可能已是[{menuName}]状态");
+                        _logger.Error($"没有找到{menuName}菜单项");
                     }
                 }
             }
@@ -1457,7 +1456,6 @@ namespace WxAutoCore.Components
                     {
                         Trace.WriteLine($"没有找到{menuName}菜单项");
                         _logger.Error($"没有找到{menuName}菜单项,可能已是[{menuName}]状态");
-                        throw new Exception($"没有找到{menuName}菜单项,可能已是[{menuName}]状态");
                     }
                 }
             }
