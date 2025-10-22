@@ -1068,6 +1068,172 @@ namespace WxAutoCore.Components
             var subWin = _SubWinList.GetSubWin(groupName);
             subWin.QuitChatGroup();
         }
+
+        /// <summary>
+        /// 设置消息免打扰
+        /// </summary>
+        /// <param name="friendName">好友名称,可以是单个好友，也可以是群聊</param>
+        /// <param name="isMessageWithoutInterruption">是否消息免打扰,默认是True:消息免打扰,False:取消消息免打扰</param>
+        /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
+        public ChatResponse SetMessageWithoutInterruption(string friendName, bool isMessageWithoutInterruption = true)
+        {
+            ChatResponse result = new ChatResponse();
+            try
+            {
+                //1.首先检查子窗口有没有好友，如果有，则关闭窗口
+                var (success, window) = __CheckSubWinIsOpen(friendName, false);
+                if (success)
+                {
+                    window.Close();
+                }
+                ListBoxItem listItem = null;
+                NavigationSwitch(NavigationType.聊天);
+                //2.检查会话列表有没有好友，如果有，则点击打开为当前聊天
+                var (success2, item) = __CheckConversationExist(friendName, false);
+                if (success2)
+                {
+                    listItem = item;
+                }
+                else
+                {
+                    //3.如果会话列表没有好友，则打开搜索框，输入好友名称搜索.
+                    this.__SearchChat(friendName);
+                    var (success3, item3) = __CheckConversationExist(friendName, false);
+                    if (success3)
+                    {
+                        listItem = item3;
+                    }
+                    else
+                    {
+                        throw new Exception($"{friendName} 好友不存在");
+                    }
+                }
+                //4.执行设置消息免打扰
+                this._SetMessageWithoutInterruptionCore(friendName, listItem, isMessageWithoutInterruption);
+                _logger.Info($"设置{friendName}消息免打扰成功");
+                result.Success = true;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
+                result.Message = ex.Message;
+                return result;
+            }
+        }
+
+
+        /// <summary>
+        /// 设置保存到通讯录
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        /// <param name="isSaveToAddress">是否保存到通讯录,默认是True:保存,False:取消保存</param>
+        /// <returns></returns>
+        public ChatResponse SetSaveToAddress(string groupName, bool isSaveToAddress = true)
+        {
+            ChatResponse result = new ChatResponse();
+            try
+            {
+                //1.首先检查子窗口有没有群聊，如果有，则关闭窗口
+                var (success, window) = __CheckSubWinIsOpen(groupName, false);
+                if (success)
+                {
+                    window.Close();
+                }
+                ListBoxItem listItem = null;
+                NavigationSwitch(NavigationType.聊天);
+                //2.检查会话列表有没有群聊，如果有，则点击打开为当前聊天
+                var (success2, item) = __CheckConversationExist(groupName, false);
+                if (success2)
+                {
+                    listItem = item;
+                }
+                else
+                {
+                    //3.如果会话列表没有群聊，则打开搜索框，输入群聊名称搜索.
+                    this.__SearchChat(groupName);
+                    var (success3, item3) = __CheckConversationExist(groupName, false);
+                    if (success3)
+                    {
+                        listItem = item3;
+                    }
+                    else
+                    {
+                        throw new Exception($"{groupName} 群聊不存在");
+                    }
+                }
+                //4.执行设置保存到通讯录
+                this._SaveToAddressCore(groupName, listItem, isSaveToAddress);
+                _logger.Info($"设置{groupName}保存到通讯录成功");
+                result.Success = true;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
+                result.Message = ex.Message;
+                return result;
+            }
+        }
+        /// <summary>
+        /// 设置聊天置顶
+        /// </summary>
+        /// <param name="friendName">好友名称,可以是单个好友，也可以是群聊</param>
+        /// <param name="isTop">是否置顶,默认是True:置顶,False:取消置顶</param>
+        /// <returns>微信响应结果</returns>
+        public ChatResponse SetChatTop(string friendName, bool isTop = true)
+        {
+            ChatResponse result = new ChatResponse();
+            try
+            {
+                //1.首先检查子窗口有没有好友，如果有，则关闭窗口
+                var (success, window) = __CheckSubWinIsOpen(friendName, false);
+                if (success)
+                {
+                    window.Close();
+                }
+                ListBoxItem listItem = null;
+                NavigationSwitch(NavigationType.聊天);
+                //2.检查会话列表有没有好友，如果有，则点击打开为当前聊天
+                var (success2, item) = __CheckConversationExist(friendName, false);
+                if (success2)
+                {
+                    listItem = item;
+                }
+                else
+                {
+                    //3.如果会话列表没有好友，则打开搜索框，输入好友名称搜索.
+                    this.__SearchChat(friendName);
+                    var (success3, item3) = __CheckConversationExist(friendName, false);
+                    if (success3)
+                    {
+                        listItem = item3;
+                    }
+                    else
+                    {
+                        throw new Exception($"{friendName} 好友不存在");
+                    }
+                }
+                //4.执行设置聊天置顶
+                this._SetFriendChatTop(friendName, listItem, isTop);
+                _logger.Info($"设置{friendName}聊天置顶成功");
+                result.Success = true;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                _logger.Error(ex.Message);
+                _logger.Error(ex.StackTrace);
+                result.Message = ex.Message;
+                return result;
+            }
+        }
+
         /// <summary>
         /// 改变自有群群备注
         /// </summary>
@@ -1203,6 +1369,130 @@ namespace WxAutoCore.Components
                 itemButton.WaitUntilClickable();
                 itemButton.RightClick();
                 this._OpenUpdateGroupWin(groupName, newMemo);
+            }
+            Thread.Sleep(300);
+        }
+        private void _SetMessageWithoutInterruptionCore(string friendName, ListBoxItem firstItem, bool isMessageWithoutInterruption = true)
+        {
+            firstItem.DrawHighlightExt();
+            var xPath = "//Button";
+            var itemButton = firstItem.FindFirstByXPath(xPath)?.AsButton();
+            if (itemButton != null)
+            {
+                itemButton.DrawHighlightExt();
+                itemButton.Focus();
+                itemButton.WaitUntilClickable();
+                itemButton.RightClick();
+                //设置消息免打扰
+                var winResult = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+                if (winResult.Success)
+                {
+                    var menu = winResult.Result.AsMenu();
+                    menu.DrawHighlightExt();
+                    var menuName = isMessageWithoutInterruption ? "消息免打扰" : "开启新消息提醒";
+                    var item = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName(menuName)))?.AsMenuItem();
+                    if (item != null)
+                    {
+                        item.DrawHighlightExt();
+                        item.Focus();
+                        item.WaitUntilClickable();
+                        item.Click();
+                        if (isMessageWithoutInterruption)
+                        {
+                            _logger.Info($"设置{friendName}消息免打扰成功");
+                        }
+                        else
+                        {
+                            _logger.Info($"设置{friendName}开启新消息提醒成功");
+                        }
+                    }
+                    else
+                    {
+                        Trace.WriteLine($"没有找到{menuName}菜单项");
+                        _logger.Error($"没有找到{menuName}菜单项,可能已是[{menuName}]状态");
+                        throw new Exception($"没有找到{menuName}菜单项,可能已是[{menuName}]状态");
+                    }
+                }
+            }
+            Thread.Sleep(300);
+        }
+        private void _SaveToAddressCore(string friendName, ListBoxItem firstItem, bool isSaveToAddress = true)
+        {
+            firstItem.DrawHighlightExt();
+            var xPath = "//Button";
+            var itemButton = firstItem.FindFirstByXPath(xPath)?.AsButton();
+            if (itemButton != null)
+            {
+                itemButton.DrawHighlightExt();
+                itemButton.Focus();
+                itemButton.WaitUntilClickable();
+                itemButton.RightClick();
+                //设置保存到通讯录
+                var winResult = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+                if (winResult.Success)
+                {
+                    var menu = winResult.Result.AsMenu();
+                    menu.DrawHighlightExt();
+                    var menuName = isSaveToAddress ? "保存到通讯录" : "从通讯录中删除";
+                    var item = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName(menuName)))?.AsMenuItem();
+                    if (item != null)
+                    {
+                        item.DrawHighlightExt();
+                        item.Focus();
+                        item.WaitUntilClickable();
+                        item.Click();
+                        if (isSaveToAddress)
+                        {
+                            _logger.Info($"设置{friendName}保存到通讯录成功");
+                        }
+                        else
+                        {
+                            _logger.Info($"设置{friendName}从通讯录中删除成功");
+                        }
+                    }
+                    else
+                    {
+                        Trace.WriteLine($"没有找到{menuName}菜单项");
+                        _logger.Error($"没有找到{menuName}菜单项,可能已是[{menuName}]状态");
+                        throw new Exception($"没有找到{menuName}菜单项,可能已是[{menuName}]状态");
+                    }
+                }
+            }
+            Thread.Sleep(300);
+        }
+        private void _SetFriendChatTop(string friendName, ListBoxItem firstItem, bool isTop = true)
+        {
+            firstItem.DrawHighlightExt();
+            var xPath = "//Button";
+            var itemButton = firstItem.FindFirstByXPath(xPath)?.AsButton();
+            if (itemButton != null)
+            {
+                itemButton.DrawHighlightExt();
+                itemButton.Focus();
+                itemButton.WaitUntilClickable();
+                itemButton.RightClick();
+                //设置聊天置顶
+                var winResult = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+                if (winResult.Success)
+                {
+                    var menu = winResult.Result.AsMenu();
+                    menu.DrawHighlightExt();
+                    var menuName = isTop ? "置顶" : "取消置顶";
+                    var item = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName(menuName)))?.AsMenuItem();
+                    if (item != null)
+                    {
+                        item.DrawHighlightExt();
+                        item.Focus();
+                        item.WaitUntilClickable();
+                        item.Click();
+                    }
+                    else
+                    {
+                        Trace.WriteLine($"没有找到{menuName}菜单项");
+                        _logger.Error($"没有找到{menuName}菜单项,可能已是{menuName}状态");
+                        throw new Exception($"没有找到{menuName}菜单项,可能已是{menuName}状态");
+                    }
+                }
             }
             Thread.Sleep(300);
         }

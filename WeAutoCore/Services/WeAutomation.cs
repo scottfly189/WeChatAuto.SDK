@@ -16,7 +16,7 @@ namespace WxAutoCore.Services
         public static WeChatConfig Config => _config;
 
         /// <summary>
-        /// 如果用户端已经有依赖注入框架，则直接注入
+        /// 如果用户端已经有依赖注入框架，则直接使用此方法注入
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
@@ -30,7 +30,7 @@ namespace WxAutoCore.Services
             return services;
         }
         /// <summary>
-        /// 如果用户端没有依赖注入框架，则初始化
+        /// 如果用户端没有依赖注入框架，则用此方法初始化
         /// 注意：此方法与AddWxAutomation()方法不能同时使用
         /// </summary>
         /// <returns></returns>
