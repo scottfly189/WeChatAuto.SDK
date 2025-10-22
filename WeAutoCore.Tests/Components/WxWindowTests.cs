@@ -506,5 +506,38 @@ namespace WeAutoCore.Tests.Components
             _output.WriteLine($"邀请群聊成员结果: {result.Message}");
             Assert.True(result.Success);
         }
+
+        [Fact(DisplayName = "测试设置消息免打扰")]
+        public void Test_SetMessageWithoutInterruption()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var result = window.SetMessageWithoutInterruption("他有群01", true);
+            _output.WriteLine($"设置消息免打扰结果: {result.Message}");
+            Assert.True(result.Success);
+        }
+
+        [Fact(DisplayName = "测试设置保存到通讯录")]
+        public void Test_SetSaveToAddress()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var result = window.SetSaveToAddress("他有群01", true);
+            _output.WriteLine($"设置保存到通讯录结果: {result.Message}");
+            Assert.True(result.Success);
+        }
+
+        [Fact(DisplayName = "测试设置聊天置顶")]
+        public void Test_SetChatTop()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var result = window.SetChatTop("他有群01", true);
+            _output.WriteLine($"设置聊天置顶结果: {result.Message}");
+            Assert.True(result.Success);
+        }
     }
 }
