@@ -1459,7 +1459,7 @@ namespace WxAutoCore.Components
                                     // button.Focus();
                                     // sim.Keyboard.KeyPress(VirtualKeyCode.RETURN);
 
-                                    InputHelper.LeftClickAtSafe(button.GetClickablePoint().X, button.GetClickablePoint().Y);
+                                    //InputHelper.LeftClickAtSafe(button.GetClickablePoint().X, button.GetClickablePoint().Y);
 
                                     Thread.Sleep(600);
                                     var addPane = Retry.WhileNull(() => paneRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("添加好友")).And(cf.ByClassName("WeUIDialog"))),

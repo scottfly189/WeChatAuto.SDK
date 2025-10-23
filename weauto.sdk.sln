@@ -3,15 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.34902.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeAutoCore", "WeAutoCore\WeAutoCore.csproj", "{4B6E2057-BD42-4562-A519-E4FCB3B6AC14}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeAuto", "WeAuto\WeAuto.csproj", "{7C386AAA-1A69-45B2-BEF5-7F2C41096634}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeChatAuto", "WeChatAuto\WeChatAuto.csproj", "{4B6E2057-BD42-4562-A519-E4FCB3B6AC14}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeAutoCommon", "WeAutoCommon\WeAutoCommon.csproj", "{81CD18E4-7EEE-49C5-8DD5-15F5EE947DCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeAuto.Tests", "WeAuto.Tests\WeAuto.Tests.csproj", "{7D2C5A76-13DF-41EF-8D4D-A05A7BDB5460}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeAutoCore.Tests", "WeAutoCore.Tests\WeAutoCore.Tests.csproj", "{38891B8D-5A0F-4C80-8260-D2EB3045DB35}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeChatAuto.Tests", "WeChatAuto.Tests\WeChatAuto.Tests.csproj", "{38891B8D-5A0F-4C80-8260-D2EB3045DB35}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeMeetCore.Web", "WeMeetCore.Web\WeMeetCore.Web.csproj", "{8CEB3584-0F96-42E4-B93A-D6377843C1A0}"
 EndProject

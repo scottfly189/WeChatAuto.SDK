@@ -524,8 +524,8 @@ namespace WeAutoCore.Tests.Components
         }
 
         [Theory(DisplayName = "测试设置聊天置顶")]
-        [InlineData("他有群01", true)]
-        [InlineData("他有群01", false)]
+        [InlineData("他有群02", true)]
+        [InlineData("他有群02", false)]
         public void Test_SetChatTop(string friendName, bool isChatTop)
         {
             var framework = _globalFixture.wxFramwork;
@@ -549,7 +549,7 @@ namespace WeAutoCore.Tests.Components
             Assert.True(result.Success);
         }
 
-        [Theory(DisplayName = "测试添加群聊成员为好友,适用于他有群")]
+        [Theory(Skip = "测试添加群聊成员为好友,适用于他有群")]
         [InlineData("他有群01")]
         [InlineData("他有群02")]
         [Obsolete("由于微信对于自动化的限制，暂时放弃此方法，修改成硬件模拟的方式")]
@@ -564,7 +564,7 @@ namespace WeAutoCore.Tests.Components
         }
 
 
-        [Theory(DisplayName = "测试添加群聊成员为好友,适用于他有群")]
+        [Theory(Skip = "测试添加群聊成员为好友,适用于他有群")]
         [InlineData("他有群01")]
         [InlineData("他有群02")]
         [Obsolete("由于微信对于自动化的限制，暂时放弃此方法，修改成硬件模拟的方式")]

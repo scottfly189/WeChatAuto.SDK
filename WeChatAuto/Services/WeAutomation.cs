@@ -22,7 +22,6 @@ namespace WxAutoCore.Services
         /// <returns></returns>
         public static IServiceCollection AddWxAutomation(this IServiceCollection services, Action<WeChatConfig> options = default)
         {
-            //这里增加服务.
             services.AddSingleton<WeChatFramwork>();
             services.AddAutoLogger();
             options?.Invoke(_config);
