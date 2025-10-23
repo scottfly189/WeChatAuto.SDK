@@ -12,7 +12,7 @@ namespace WxAutoCore.Tests.Utils;
 [Collection("UiTestCollection")]
 public class XPathTests
 {
-    private readonly string _wxClientName = "AlexZhao";
+    private readonly string _wxClientName = "Alex Zhao";
     private ITestOutputHelper _output;
     private UiTestFixture _globalFixture;
     public XPathTests(ITestOutputHelper output, UiTestFixture globalFixture)

@@ -12,7 +12,7 @@ namespace WxAutoCore.Tests.Components
     [Collection("UiTestCollection")]
     public class NavigationTests
     {
-        private readonly string _wxClientName = "AlexZhao";
+        private readonly string _wxClientName = "Alex Zhao";
         private readonly ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public NavigationTests(ITestOutputHelper output, UiTestFixture globalFixture)

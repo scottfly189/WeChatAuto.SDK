@@ -10,7 +10,7 @@ namespace WxAutoCore.Tests.Components;
 [Collection("UiTestCollection")]
 public class BubbleListTests
 {
-    private readonly string _wxClientName = "AlexZhao";
+    private readonly string _wxClientName = "Alex Zhao";
     private readonly ITestOutputHelper _output;
     private UiTestFixture _globalFixture;
     public BubbleListTests(ITestOutputHelper output, UiTestFixture globalFixture)

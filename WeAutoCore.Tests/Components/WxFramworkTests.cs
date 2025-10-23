@@ -9,7 +9,7 @@ namespace WxAutoCore.Tests.Components
     [Collection("UiTestCollection")]
     public class WxFramworkTests
     {
-        private readonly string _wxClientName = "AlexZhao";
+        private readonly string _wxClientName = "Alex Zhao";
         private ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public WxFramworkTests(ITestOutputHelper output, UiTestFixture globalFixture)
