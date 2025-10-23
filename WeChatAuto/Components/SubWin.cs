@@ -338,17 +338,27 @@ namespace WeChatAuto.Components
             if (button.Patterns.Value.IsSupported)
             {
                 //可以修改
-                Keyboard.TypeSimultaneously(VirtualKeyShort.TAB);
-                Keyboard.TypeSimultaneously(VirtualKeyShort.TAB);
-                Keyboard.TypeSimultaneously(VirtualKeyShort.SPACE); // 空格触发点击
+                // Keyboard.TypeSimultaneously(VirtualKeyShort.TAB);
+                // Keyboard.TypeSimultaneously(VirtualKeyShort.TAB);
+                // Keyboard.TypeSimultaneously(VirtualKeyShort.SPACE); // 空格触发点击
+                InputSimulator input = new InputSimulator();
+                // input.Mouse.MoveMouseTo(button.GetClickablePoint().X, button.GetClickablePoint().Y);
+                // input.Mouse.LeftButtonClick();
+                button.Focus();
+                button.WaitUntilClickable();
+                // Mouse.LeftClick(button.GetClickablePoint());
+                var position = button.GetClickablePoint();
+                input.Mouse.MoveMouseTo(position.X, position.Y);
+                
 
                 var edit = Retry.WhileNull(() => element.FindFirstByXPath("//Edit")?.AsTextBox(), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
                 if (edit != null)
                 {
                     edit.Focus();
-                    Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
-                    // Keyboard.Type(groupName);
                     //Keyboard.TypeSimultaneously(VirtualKeyShort.RETURN);
+                    //input.Keyboard.ModifiedKeyStroke(VirtualKeyCode.CONTROL, VirtualKeyCode.VK_A).KeyPress(VirtualKeyCode.BACK);
+                    input.Keyboard.TextEntry(groupName);
+                    
                 }
                 else
                 {
