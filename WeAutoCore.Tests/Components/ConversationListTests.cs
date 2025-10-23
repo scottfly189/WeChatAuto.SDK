@@ -11,7 +11,7 @@ namespace WxAutoCore.Tests.Components
     [Collection("UiTestCollection")]
     public class ConversationListTests
     {
-        private readonly string _wxClientName = WeAutomation.Config.TestClientName;
+        private readonly string _wxClientName = "AlexZhao";
         private readonly ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public ConversationListTests(ITestOutputHelper output, UiTestFixture globalFixture)
@@ -42,7 +42,7 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
-            conversations.ClickConversation(WeAutomation.Config.TestGroupNickName);
+            conversations.ClickConversation(".NET-AI实时快讯3群");
         }
 
         [Fact(DisplayName = "测试双击会话")]
@@ -52,7 +52,7 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
-            conversations.DoubleClickConversation(WeAutomation.Config.TestGroupNickName);
+            conversations.DoubleClickConversation(".NET-AI实时快讯3群");
         }
 
         [Fact(DisplayName = "获取会话列表可见会话标题")]
@@ -92,7 +92,7 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
-            var result = conversations.LocateConversation(WeAutomation.Config.TestGroupNickName);
+            var result = conversations.LocateConversation(".NET-AI实时快讯3群");
             _output.WriteLine($"定位会话结果: {result}");
             result = conversations.LocateConversation("哈哈");
             _output.WriteLine($"定位会话结果: {result}");

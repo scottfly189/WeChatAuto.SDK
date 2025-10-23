@@ -334,9 +334,7 @@ namespace WxAutoCore.Components
         private void _UpdateGroupName(AutomationElement element, string groupName)
         {
             var xPath = "//Button[@Name='群聊名称']";
-            var xPath1 = "//Text[@Name='群聊名称']";
             var button = element.FindFirstByXPath(xPath)?.AsButton();
-            var label = element.FindFirstByXPath(xPath1)?.AsLabel();
             if (button.Patterns.Value.IsSupported)
             {
                 //可以修改
@@ -1351,7 +1349,7 @@ namespace WxAutoCore.Components
         /// <param name="intervalSecond">间隔时间</param>
         /// <param name="helloText">打招呼文本</param>
         /// <returns>微信响应结果</returns>
-        [Obsolete("由于微信对于自动化的限制，暂时放弃此方法")]
+        [Obsolete("由于微信对于自动化的限制，暂时放弃此方法，修改成硬件模拟的方式")]
         public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "")
         {
             return this.AddChatGroupMemberToFriends(memberName, intervalSecond, helloText, "");
@@ -1364,7 +1362,7 @@ namespace WxAutoCore.Components
         /// <param name="helloText">打招呼文本</param>
         /// <param name="label">好友标签,方便归类管理</param>
         /// <returns>微信响应结果</returns>
-        [Obsolete("由于微信对于自动化的限制，暂时放弃此方法")]
+        [Obsolete("由于微信对于自动化的限制，暂时放弃此方法,修改成硬件模拟的方式")]
         public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", string label = "")
         {
             ChatResponse result = new ChatResponse();
@@ -1565,7 +1563,7 @@ namespace WxAutoCore.Components
         /// <param name="exceptList">排除列表</param>
         /// <param name="helloText">打招呼文本</param>
         /// <returns>微信响应结果</returns>
-        [Obsolete("由于微信对于自动化的限制，暂时放弃此方法")]
+        [Obsolete("由于微信对于自动化的限制，暂时放弃此方法,修改成硬件模拟的方式")]
         public ChatResponse AddAllChatGroupMemberToFriends(List<string> exceptList = null, int intervalSecond = 3, string helloText = "")
         {
             return this.AddAllChatGroupMemberToFriends(exceptList, intervalSecond, helloText, "");
@@ -1578,7 +1576,7 @@ namespace WxAutoCore.Components
         /// <param name="helloText">打招呼文本</param>
         /// <param name="label">好友标签,方便归类管理</param>
         /// <returns>微信响应结果</returns>
-        [Obsolete("由于微信对于自动化的限制，暂时放弃此方法")]
+        [Obsolete("由于微信对于自动化的限制，暂时放弃此方法,修改成硬件模拟的方式")]
         public ChatResponse AddAllChatGroupMemberToFriends(List<string> exceptList = null, int intervalSecond = 3, string helloText = "", string label = "")
         {
             ChatResponse result = new ChatResponse();

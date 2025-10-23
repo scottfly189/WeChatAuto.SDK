@@ -12,11 +12,6 @@ public class UiTestFixture : IDisposable
     {
         _serviceProvider = WeAutomation.GetServiceProvider(options =>
         {
-            options.TestClientName = "Alex Zhao";
-            options.TestFriendNickName = "AI.Net";
-            options.TestGroupNickName = ".NET-AI实时快讯3群"; 
-            options.TestAlternativeFriendNickName = "文件传输助手";
-            options.TestAlternativeGroupNickName = "备选测试群";
             options.DebugMode = true;
         });
         _framework = _serviceProvider.GetRequiredService<WeChatFramwork>();

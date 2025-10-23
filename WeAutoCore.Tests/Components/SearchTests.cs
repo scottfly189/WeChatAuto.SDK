@@ -8,7 +8,7 @@ namespace WxAutoCore.Tests.Components
     [Collection("UiTestCollection")]
     public class SearchTests
     {
-        private readonly string _wxClientName = WeAutomation.Config.TestClientName;
+        private readonly string _wxClientName = "AlexZhao";
         private readonly ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public SearchTests(ITestOutputHelper output, UiTestFixture globalFixture)
@@ -24,7 +24,7 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var search = window.Search;
-            search.SearchChat(WeAutomation.Config.TestFriendNickName);
+            search.SearchChat("AI.Net");
             Assert.True(true);
         }
 
@@ -35,7 +35,7 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var search = window.Search;
-            search.SearchContact(WeAutomation.Config.TestFriendNickName);
+            search.SearchContact("AI.Net");
             Assert.True(true);
         }
 
@@ -46,7 +46,7 @@ namespace WxAutoCore.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var search = window.Search;
-            search.SearchCollection(WeAutomation.Config.TestFriendNickName);
+            search.SearchCollection("AI.Net");
             Assert.True(true);
         }
     }

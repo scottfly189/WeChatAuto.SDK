@@ -2,7 +2,6 @@ using WxAutoCommon.Models;
 using WxAutoCore.Services;
 using WxAutoCore.Utils;
 using Xunit.Abstractions;
-using WxAutoCommon.Configs;
 using WeAutoCommon.Classes;
 using System.Diagnostics;
 using Xunit.Sdk;
@@ -14,7 +13,7 @@ namespace WeAutoCore.Tests.Components
     [Collection("UiTestCollection")]
     public class WxWindowTests
     {
-        private readonly string _wxClientName = WeAutomation.Config.TestClientName;
+        private readonly string _wxClientName = "AlexZhao";
         private readonly ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public WxWindowTests(ITestOutputHelper output, UiTestFixture globalFixture)
@@ -82,7 +81,7 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.SendWho(WeAutomation.Config.TestFriendNickName, "你好，世界111！");
+            await window.SendWho("AI.Net", "你好，世界111！");
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -93,7 +92,7 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.SendWho(WeAutomation.Config.TestFriendNickName, "你好，世界222！");
+            await window.SendWho("AI.Net", "你好，世界222！");
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -103,7 +102,7 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.SendWho(WeAutomation.Config.TestFriendNickName, "你好，世界333！");
+            await window.SendWho("AI.Net", "你好，世界333！");
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -114,7 +113,7 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.SendWhoAndOpenChat(WeAutomation.Config.TestFriendNickName, "你好，世界333222！");
+            await window.SendWhoAndOpenChat("AI.Net", "你好，世界333222！");
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -125,7 +124,7 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.SendWho(WeAutomation.Config.TestFriendNickName, "你好，世界444！");
+            await window.SendWho("AI.Net", "你好，世界444！");
             Assert.True(true);
             await Task.Delay(30000);
         }
@@ -147,7 +146,7 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.SendWhoAndOpenChat(WeAutomation.Config.TestFriendNickName, "你好，世界666！");
+            await window.SendWhoAndOpenChat("AI.Net", "你好，世界666！");
             Assert.True(true);
             await Task.Delay(30000);
         }
@@ -158,7 +157,7 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendWhos([WeAutomation.Config.TestFriendNickName, WeAutomation.Config.TestGroupNickName], "你好，世界777！");
+            window.SendWhos(["AI.Net", ".NET-AI实时快讯3群"], "你好，世界777！");
             Assert.True(true);
             await Task.Delay(30000);
         }
@@ -169,7 +168,7 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendWhosAndOpenChat([WeAutomation.Config.TestFriendNickName, WeAutomation.Config.TestGroupNickName], "你好，世界777！");
+            window.SendWhosAndOpenChat(["AI.Net", ".NET-AI实时快讯3群"], "你好，世界777！");
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -179,7 +178,7 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendEmoji(WeAutomation.Config.TestFriendNickName, EmojiListHelper.Items[0].Index, false);
+            window.SendEmoji("AI.Net", EmojiListHelper.Items[0].Index, false);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -189,7 +188,7 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendEmoji(WeAutomation.Config.TestFriendNickName, "微笑", false);
+            window.SendEmoji("AI.Net", "微笑", false);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -199,7 +198,7 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendEmoji(WeAutomation.Config.TestFriendNickName, "[微笑]", false);
+            window.SendEmoji("AI.Net", "[微笑]", false);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -210,7 +209,7 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendEmoji(WeAutomation.Config.TestFriendNickName, EmojiListHelper.Items[0].Index, true);
+            window.SendEmoji("AI.Net", EmojiListHelper.Items[0].Index, true);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -221,7 +220,7 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendEmojis([WeAutomation.Config.TestFriendNickName, WeAutomation.Config.TestGroupNickName], EmojiListHelper.Items[0].Index, true);
+            window.SendEmojis(["AI.Net", ".NET-AI实时快讯3群"], EmojiListHelper.Items[0].Index, true);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -232,7 +231,7 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendFile(WeAutomation.Config.TestFriendNickName, @"C:\Users\Administrator\Desktop\ssss\logo.png", false);
+            window.SendFile("AI.Net", @"C:\Users\Administrator\Desktop\ssss\logo.png", false);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -243,7 +242,7 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendFile(WeAutomation.Config.TestFriendNickName, @"C:\Users\Administrator\Desktop\ssss\4.mp4", false);
+            window.SendFile("AI.Net", @"C:\Users\Administrator\Desktop\ssss\4.mp4", false);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -255,7 +254,7 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendFile(WeAutomation.Config.TestGroupNickName, new string[] { @"C:\Users\Administrator\Desktop\ssss\4.mp4", @"C:\Users\Administrator\Desktop\ssss\logo.png", @"C:\Users\Administrator\Desktop\ssss\3.pdf" }, false);
+            window.SendFile(".NET-AI实时快讯3群", new string[] { @"C:\Users\Administrator\Desktop\ssss\4.mp4", @"C:\Users\Administrator\Desktop\ssss\logo.png", @"C:\Users\Administrator\Desktop\ssss\3.pdf" }, false);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -295,7 +294,7 @@ namespace WeAutoCore.Tests.Components
             var framework = _globalFixture.wxFramwork;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.AddMessageListener(WeAutomation.Config.TestFriendNickName, (newBubbles, bubblesList, sender, mainWindow, framework, serviceProvider) =>
+            await window.AddMessageListener("AI.Net", (newBubbles, bubblesList, sender, mainWindow, framework, serviceProvider) =>
             {
                 Trace.WriteLine($"消息: 收到新消息数量:{newBubbles.Count},当前可见消息数量:{bubblesList.Count}");
             });
@@ -553,6 +552,7 @@ namespace WeAutoCore.Tests.Components
         [Theory(DisplayName = "测试添加群聊成员为好友,适用于他有群")]
         [InlineData("他有群01")]
         [InlineData("他有群02")]
+        [Obsolete("由于微信对于自动化的限制，暂时放弃此方法，修改成硬件模拟的方式")]
         public async Task Test_AddChatGroupMemberToFriends(string groupName)
         {
             var framework = _globalFixture.wxFramwork;
@@ -567,6 +567,7 @@ namespace WeAutoCore.Tests.Components
         [Theory(DisplayName = "测试添加群聊成员为好友,适用于他有群")]
         [InlineData("他有群01")]
         [InlineData("他有群02")]
+        [Obsolete("由于微信对于自动化的限制，暂时放弃此方法，修改成硬件模拟的方式")]
         public async Task Test_AddAllChatGroupMemberToFriends(string groupName)
         {
             var framework = _globalFixture.wxFramwork;

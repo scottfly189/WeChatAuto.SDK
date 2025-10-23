@@ -45,34 +45,6 @@ namespace WxAutoCommon.Configs
         /// </summary>
         public bool DebugMode { get; set; } = false;
 
-        /// <summary>
-        /// 测试好友,要改成自己的才能正确运行单元测试
-        /// </summary>
-        public string TestFriendNickName { get; set; }
-
-        /// <summary>
-        /// 备选测试好友,要改成自己的才能正确运行单元测试
-        /// </summary>
-        public string TestAlternativeFriendNickName { get; set; }
-
-        /// <summary>
-        /// 测试客户端,要改成自己的才能正确运行单元测试
-        /// </summary>
-        public string TestClientName { get; set; }
-
-        /// <summary>
-        /// 测试群组,要改成自己的才能正确运行单元测试
-        /// </summary>
-        public string TestGroupNickName { get; set; }
-
-        /// <summary>
-        /// 备选测试群组,要改成自己的才能正确运行单元测试
-        /// </summary>
-        public string TestAlternativeGroupNickName { get; set; }
-        /// <summary>
-        /// 语言设置
-        /// </summary>
-
     }
 
     public static class Language

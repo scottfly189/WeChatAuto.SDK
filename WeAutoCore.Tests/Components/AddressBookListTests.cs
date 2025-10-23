@@ -11,7 +11,7 @@ namespace WxAutoCore.Tests.Components
     [Collection("UiTestCollection")]
     public class AddressBookListTests
     {
-        private readonly string _wxClientName = WeAutomation.Config.TestClientName;
+        private readonly string _wxClientName = "AlexZhao";
         private readonly ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public AddressBookListTests(ITestOutputHelper output, UiTestFixture globalFixture)
