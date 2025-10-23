@@ -1,9 +1,9 @@
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using WxAutoCore.Utils;
+using WeChatAuto.Utils;
 
-namespace WxAutoCore.Extentions
+namespace WeChatAuto.Extentions
 {
     public static class AutoLoggerExtensions
     {

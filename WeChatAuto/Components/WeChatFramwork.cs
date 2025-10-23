@@ -7,11 +7,11 @@ using WxAutoCommon.Utils;
 using System;
 using System.Windows.Forms;
 using System.Linq;
-using WxAutoCore.Utils;
+using WeChatAuto.Utils;
 using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
 
-namespace WxAutoCore.Components
+namespace WeChatAuto.Components
 {
     /// <summary>
     /// 微信自动化框架,封装的微信自动化框架，支持多微信实例

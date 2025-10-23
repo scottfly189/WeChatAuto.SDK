@@ -4,7 +4,7 @@ using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
 
-namespace WxAutoCore.Utils
+namespace WeChatAuto.Utils
 {
     /// <summary>
     /// 微信元素定位器

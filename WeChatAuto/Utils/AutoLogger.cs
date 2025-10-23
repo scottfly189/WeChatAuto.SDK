@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Extensions.Logging;
 
-namespace WxAutoCore.Utils
+namespace WeChatAuto.Utils
 {
     /// <summary>
     /// 自动化日志类

@@ -8,18 +8,18 @@ using System.Collections.Generic;
 using System.Linq;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Utils;
-using WxAutoCore.Utils;
+using WeChatAuto.Utils;
 using FlaUI.UIA3.Converters;
 using FlaUI.Core.WindowsAPI;
 using System;
-using WxAutoCore.Extentions;
+using WeChatAuto.Extentions;
 using WxAutoCommon.Interface;
 using System.Text;
 using OneOf;
 using WeAutoCommon.Classes;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace WxAutoCore.Components
+namespace WeChatAuto.Components
 {
     /// <summary>
     /// 聊天内容区发送者

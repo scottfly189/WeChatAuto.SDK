@@ -9,7 +9,7 @@ using WxAutoCommon.Utils;
 using System;
 
 
-namespace WxAutoCore.Components
+namespace WeChatAuto.Components
 {
     /// <summary>
     /// 微信客户端,一个微信客户端包含一个通知图标和一个窗口

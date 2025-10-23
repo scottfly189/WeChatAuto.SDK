@@ -1,7 +1,7 @@
 using System;
 using FlaUI.Core.AutomationElements;
 
-namespace WxAutoCore.Components
+namespace WeChatAuto.Components
 {
     /// <summary>
     /// 聊天内容区标题区

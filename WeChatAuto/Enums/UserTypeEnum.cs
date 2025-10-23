@@ -1,4 +1,4 @@
-namespace WxAutoCore.Enums
+namespace WeChatAuto.Enums
 {
     internal enum UserType
     {

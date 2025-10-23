@@ -1,8 +1,8 @@
-using WxAutoCore.Utils;
+using WeChatAuto.Utils;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace WxAutoCore.Tests.Utils;
+namespace WeChatAuto.Tests.Utils;
 
 public class WinApiTests
 {

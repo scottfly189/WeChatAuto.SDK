@@ -6,7 +6,7 @@ using FlaUI.Core.Tools;
 using FlaUI.Core.EventHandlers;
 using FlaUI.Core.AutomationElements;
 using WxAutoCommon.Utils;
-using WxAutoCore.Utils;
+using WeChatAuto.Utils;
 using WxAutoCommon.Interface;
 using System.Collections.Generic;
 using System;
@@ -15,10 +15,10 @@ using System.Diagnostics;
 using System.Threading;
 using WxAutoCommon.Configs;
 using WxAutoCommon.Enums;
-using WxAutoCore.Services;
+using WeChatAuto.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace WxAutoCore.Components
+namespace WeChatAuto.Components
 {
     public class ChatBody : IDisposable
     {

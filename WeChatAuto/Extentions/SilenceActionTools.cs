@@ -8,10 +8,10 @@ using FlaUI.Core.Input;
 using FlaUI.Core.WindowsAPI;
 using WxAutoCommon.Interface;
 using WxAutoCommon.Utils;
-using WxAutoCore.Components;
-using WxAutoCore.Utils;
+using WeChatAuto.Components;
+using WeChatAuto.Utils;
 
-namespace WxAutoCore.Extentions
+namespace WeChatAuto.Extentions
 {
 
     /// <summary>

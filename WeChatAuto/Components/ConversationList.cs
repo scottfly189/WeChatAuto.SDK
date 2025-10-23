@@ -9,12 +9,12 @@ using System;
 using FlaUI.Core.Tools;
 using FlaUI.Core.Conditions;
 using System.Text.RegularExpressions;
-using WxAutoCore.Utils;
-using WxAutoCore.Extentions;
+using WeChatAuto.Utils;
+using WeChatAuto.Extentions;
 using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace WxAutoCore.Components
+namespace WeChatAuto.Components
 {
     /// <summary>
     /// 会话列表

@@ -7,12 +7,12 @@ using WxAutoCommon.Enums;
 using WxAutoCommon.Utils;
 using System.Text.RegularExpressions;
 using WxAutoCommon.Interface;
-using WxAutoCore.Extentions;
+using WeChatAuto.Extentions;
 using Microsoft.Win32.SafeHandles;
 using System.Globalization;
-using WxAutoCore.Utils;
+using WeChatAuto.Utils;
 
-namespace WxAutoCore.Components
+namespace WeChatAuto.Components
 {
     /// <summary>
     /// 聊天内容区气泡列表

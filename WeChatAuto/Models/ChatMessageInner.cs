@@ -1,5 +1,5 @@
 using OneOf;
-namespace WeAutoCore.Models
+namespace WeChatAuto.Models
 {
     /// <summary>
     /// 微信消息内部类

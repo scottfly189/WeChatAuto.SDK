@@ -3,7 +3,7 @@ using WxAutoCommon.Enums;
 using Newtonsoft.Json;
 using System;
 
-namespace WxAutoCore.Components
+namespace WeChatAuto.Components
 {
     /// <summary>
     /// 聊天内容区气泡

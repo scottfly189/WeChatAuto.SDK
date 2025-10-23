@@ -14,7 +14,7 @@ using OneOf;
 using WxAutoCommon.Models;
 using System;
 using WeAutoCommon.Classes;
-using WxAutoCore.Utils;
+using WeChatAuto.Utils;
 using System.Threading;
 using WxAutoCommon.Configs;
 using WxAutoCommon.Classes;
@@ -23,12 +23,12 @@ using FlaUI.Core.Tools;
 using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using WxAutoCore.Services;
-using WxAutoCore.Extentions;
+using WeChatAuto.Services;
+using WeChatAuto.Extentions;
 
 
 
-namespace WxAutoCore.Components
+namespace WeChatAuto.Components
 {
     /// <summary>
     /// 微信客户端窗口,封装的微信窗口，包含工具栏、导航栏、搜索、会话列表、通讯录、聊天窗口等

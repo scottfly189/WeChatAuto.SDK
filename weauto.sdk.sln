@@ -13,9 +13,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeMeetCore.Web", "WeMeetCor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeMeetCore.Desktop", "WeMeetCore.Desktop\WeMeetCore.Desktop.csproj", "{B67D0717-AAA2-4E22-939D-31305488425E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeMiniCore", "WeMiniCore\WeMiniCore.csproj", "{88D06F92-C874-4DD4-A203-710157B75122}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeMini", "WeMini\WeMini.csproj", "{88D06F92-C874-4DD4-A203-710157B75122}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeMpCore", "WeMpCore\WeMpCore.csproj", "{E299E726-DE17-4898-B665-57E1A77DDE34}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeMp", "WeMp\WeMp.csproj", "{E299E726-DE17-4898-B665-57E1A77DDE34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using OneOf;
-using WeAutoCore.Models;
+using WeChatAuto.Models;
 using WxAutoCommon.Configs;
 using WxAutoCommon.Models;
-using WxAutoCore.Components;
+using WeChatAuto.Components;
 
-namespace WxAutoCore.Services
+namespace WeChatAuto.Services
 {
     /// <summary>
     /// 微信PC端自动化核心服务

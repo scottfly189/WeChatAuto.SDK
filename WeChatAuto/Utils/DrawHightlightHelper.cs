@@ -3,9 +3,9 @@ using FlaUI.Core.AutomationElements;
 using WxAutoCommon.Configs;
 using WxAutoCommon.Models;
 using WxAutoCommon.Utils;
-using WxAutoCore.Services;
+using WeChatAuto.Services;
 
-namespace WxAutoCore.Utils
+namespace WeChatAuto.Utils
 {
     public static class DrawHightlightHelper
     {

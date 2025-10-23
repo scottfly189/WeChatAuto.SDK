@@ -2,7 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace WxAutoCore.Utils
+namespace WeChatAuto.Utils
 {
     /// <summary>
     /// Windows剪贴板API工具类

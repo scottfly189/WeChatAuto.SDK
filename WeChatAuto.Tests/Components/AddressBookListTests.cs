@@ -1,12 +1,12 @@
 using FlaUI.Core.AutomationElements;
-using WxAutoCore.Components;
+using WeChatAuto.Components;
 using Xunit;
 using Xunit.Abstractions;
 using WxAutoCommon.Models;
 using WxAutoCommon.Configs;
-using WxAutoCore.Services;
+using WeChatAuto.Services;
 
-namespace WxAutoCore.Tests.Components
+namespace WeChatAuto.Tests.Components
 {
     [Collection("UiTestCollection")]
     public class AddressBookListTests

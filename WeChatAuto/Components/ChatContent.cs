@@ -5,12 +5,12 @@ using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Interface;
-using WxAutoCore.Utils;
+using WeChatAuto.Utils;
 using WxAutoCommon.Utils;
 using System;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace WxAutoCore.Components
+namespace WeChatAuto.Components
 {
     public class ChatContent : IDisposable
     {

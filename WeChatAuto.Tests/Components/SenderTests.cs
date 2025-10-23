@@ -1,11 +1,11 @@
 using Xunit;
 using Xunit.Abstractions;
-using WxAutoCore.Components;
+using WeChatAuto.Components;
 using WxAutoCommon.Models;
-using WxAutoCore.Services;
+using WeChatAuto.Services;
 using WxAutoCommon.Configs;
 
-namespace WxAutoCore.Tests.Components;
+namespace WeChatAuto.Tests.Components;
 
 [Collection("UiTestCollection")]
 public class SenderTests

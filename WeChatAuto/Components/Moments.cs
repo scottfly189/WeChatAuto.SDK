@@ -1,4 +1,4 @@
-namespace WxAutoCore.Components
+namespace WeChatAuto.Components
 {
     /// <summary>
     /// 朋友圈

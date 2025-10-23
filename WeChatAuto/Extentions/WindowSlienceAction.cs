@@ -7,12 +7,12 @@ using FlaUI.Core.Input;
 using FlaUI.Core.WindowsAPI;
 using WxAutoCommon.Interface;
 using WxAutoCommon.Utils;
-using WxAutoCore.Components;
-using WxAutoCore.Utils;
+using WeChatAuto.Components;
+using WeChatAuto.Utils;
 using FlaUI.Core;
 using FlaUI.UIA3;
 
-namespace WxAutoCore.Extentions
+namespace WeChatAuto.Extentions
 {
 
     /// <summary>

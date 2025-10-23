@@ -11,10 +11,10 @@ using FlaUI.Core.WindowsAPI;
 using Microsoft.Extensions.DependencyInjection;
 using WxAutoCommon.Models;
 using WxAutoCommon.Utils;
-using WxAutoCore.Extentions;
-using WxAutoCore.Utils;
+using WeChatAuto.Extentions;
+using WeChatAuto.Utils;
 
-namespace WxAutoCore.Components
+namespace WeChatAuto.Components
 {
     /// <summary>
     /// 通讯录列表

@@ -8,10 +8,10 @@ using FlaUI.Core.Tools;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Interface;
 using WxAutoCommon.Utils;
-using WxAutoCore.Extentions;
-using WxAutoCore.Utils;
+using WeChatAuto.Extentions;
+using WeChatAuto.Utils;
 
-namespace WxAutoCore.Components
+namespace WeChatAuto.Components
 {
     public class Navigation
     {

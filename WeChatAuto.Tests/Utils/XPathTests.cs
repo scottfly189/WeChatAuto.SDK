@@ -2,12 +2,12 @@ using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Tools;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Models;
-using WxAutoCore.Services;
+using WeChatAuto.Services;
 using WxAutoCommon.Configs;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace WxAutoCore.Tests.Utils;
+namespace WeChatAuto.Tests.Utils;
 
 [Collection("UiTestCollection")]
 public class XPathTests

@@ -4,7 +4,7 @@ using System.Linq;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Conditions;
 
-namespace WxAutoCore.Utils
+namespace WeChatAuto.Utils
 {
     public class WxLocationCaches
     {

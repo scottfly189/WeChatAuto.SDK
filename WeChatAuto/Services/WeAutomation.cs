@@ -3,10 +3,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using WxAutoCommon.Configs;
-using WxAutoCore.Components;
-using WxAutoCore.Extentions;
+using WeChatAuto.Components;
+using WeChatAuto.Extentions;
 
-namespace WxAutoCore.Services
+namespace WeChatAuto.Services
 {
     public static class WeAutomation
     {

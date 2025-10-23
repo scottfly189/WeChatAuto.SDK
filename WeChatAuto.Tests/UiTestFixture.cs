@@ -1,7 +1,7 @@
 using Xunit;
 using Microsoft.Extensions.DependencyInjection;
-using WxAutoCore.Components;
-using WxAutoCore.Services;
+using WeChatAuto.Components;
+using WeChatAuto.Services;
 public class UiTestFixture : IDisposable
 {
     private IServiceProvider _serviceProvider;

@@ -4,7 +4,7 @@ using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
 using WxAutoCommon.Utils;
 
-namespace WxAutoCore.Utils
+namespace WeChatAuto.Utils
 {
     public static class WaitHelper
     {

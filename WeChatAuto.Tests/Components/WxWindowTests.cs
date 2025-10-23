@@ -1,6 +1,6 @@
 using WxAutoCommon.Models;
-using WxAutoCore.Services;
-using WxAutoCore.Utils;
+using WeChatAuto.Services;
+using WeChatAuto.Utils;
 using Xunit.Abstractions;
 using WeAutoCommon.Classes;
 using System.Diagnostics;
@@ -8,7 +8,7 @@ using Xunit.Sdk;
 
 [assembly: CollectionBehavior(DisableTestParallelization = true)]
 
-namespace WeAutoCore.Tests.Components
+namespace WeChatAuto.Tests.Components
 {
     [Collection("UiTestCollection")]
     public class WxWindowTests

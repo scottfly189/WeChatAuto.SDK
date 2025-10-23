@@ -1,11 +1,11 @@
-using WxAutoCore.Services;
+using WeChatAuto.Services;
 using WxAutoCommon.Models;
 using Xunit.Abstractions;
 using WxAutoCommon.Enums;
-using WxAutoCore.Utils;
+using WeChatAuto.Utils;
 using WxAutoCommon.Configs;
 
-namespace WxAutoCore.Tests.Components;
+namespace WeChatAuto.Tests.Components;
 
 [Collection("UiTestCollection")]
 public class BubbleListTests

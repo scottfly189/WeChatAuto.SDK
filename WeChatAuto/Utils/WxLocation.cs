@@ -2,7 +2,7 @@ using System;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Conditions;
 
-namespace WxAutoCore.Utils
+namespace WeChatAuto.Utils
 {
     /// <summary>
     /// 微信元素定位信息

@@ -1,9 +1,9 @@
 using WxAutoCommon.Models;
 using Xunit.Abstractions;
 using WxAutoCommon.Configs;
-using WxAutoCore.Services;
+using WeChatAuto.Services;
 
-namespace WxAutoCore.Tests.Components
+namespace WeChatAuto.Tests.Components
 {
     [Collection("UiTestCollection")]
     public class SearchTests

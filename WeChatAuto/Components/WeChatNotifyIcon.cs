@@ -1,7 +1,7 @@
 using System;
 using FlaUI.Core.AutomationElements;
 
-namespace WxAutoCore.Components
+namespace WeChatAuto.Components
 {
     /// <summary>
     /// 微信客户端通知图标,封装的微信客户端通知图标，包含通知图标、通知图标点击事件等

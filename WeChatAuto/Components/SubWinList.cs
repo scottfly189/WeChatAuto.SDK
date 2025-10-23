@@ -13,11 +13,11 @@ using WxAutoCommon.Configs;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Models;
 using System.Diagnostics;
-using WxAutoCore.Services;
-using WxAutoCore.Utils;
+using WeChatAuto.Services;
+using WeChatAuto.Utils;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace WxAutoCore.Components
+namespace WeChatAuto.Components
 {
     /// <summary>
     /// 子窗口列表

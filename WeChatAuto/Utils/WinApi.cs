@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
-namespace WxAutoCore.Utils
+namespace WeChatAuto.Utils
 {
     public class WinApi
     {

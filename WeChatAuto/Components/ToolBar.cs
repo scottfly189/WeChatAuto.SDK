@@ -3,9 +3,9 @@ using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Input;
 using Microsoft.Extensions.DependencyInjection;
 using WxAutoCommon.Utils;
-using WxAutoCore.Utils;
+using WeChatAuto.Utils;
 
-namespace WxAutoCore.Components
+namespace WeChatAuto.Components
 {
     /// <summary>
     /// 微信窗口工具栏封装
