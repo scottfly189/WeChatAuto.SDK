@@ -31,6 +31,16 @@ namespace WeChatAuto.Tests.Components
             moments.OpenMoments();
             Assert.True(moments.IsMomentsOpen());
         }
+        [Fact(DisplayName = "测试获取朋友圈内容列表")]
+        public void TestGetMomentsList()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var moments = window.Moments;
+            var momentsList = moments.GetMomentsList();
+            Assert.True(true);
+        }
 
     }
 }

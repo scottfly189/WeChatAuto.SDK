@@ -110,7 +110,7 @@ namespace WeChatAuto.Components
                         button.Focus();
                         button.DrawHighlightExt();
                         button.Click();
-                        _logger.Info($"切换到导航栏：{navigationType.ToStrim()}");
+                        _logger.Info($"切换到导航栏：{navigationType.ToString()}");
                     }
                 }
             }).Wait();

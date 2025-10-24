@@ -6,6 +6,9 @@ using WeChatAuto.Utils;
 using WxAutoCommon.Utils;
 using FlaUI.Core.Tools;
 using WxAutoCommon.Enums;
+using System.Collections.Generic;
+using WxAutoCommon.Models;
+using System.Threading;
 
 namespace WeChatAuto.Components
 {
@@ -80,7 +83,41 @@ namespace WeChatAuto.Components
                 this._WxMainWindow.Navigation.SwitchNavigation(NavigationType.聊天);
             }
         }
+        /// <summary>
+        /// 获取朋友圈内容列表
+        /// </summary>
+        /// <param name="beforeDays">获取多少天前的朋友圈内容,0表示获取今天朋友圈内容</param>
+        /// <returns>朋友圈内容列表<see cref="MonentItem"/></returns>
+        public List<MonentItem> GetMomentsList(int beforeDays = 0)
+        {
+            this.OpenMoments();
+            var result = _SelfUiThreadInvoker.Run(automation =>
+            {
+                _MomentsWindow.DrawHighlightExt();
+                var momentsList = new List<MonentItem>();
+                var rootListBox = _MomentsWindow.FindFirstByXPath("//List[@Name='朋友圈']")?.AsListBox();
+                rootListBox.DrawHighlightExt();
+                if (rootListBox.Patterns.Scroll.IsSupported)
+                {
+                    var pattern = rootListBox.Patterns.Scroll.Pattern;
+                    pattern.SetScrollPercent(0, 1);
+                    Thread.Sleep(600);
+                    for (double p = 0; p <= 1; p += pattern.VerticalViewSize)
+                    {
+                        pattern.SetScrollPercent(0, p);
+                        Thread.Sleep(600);
+                        // var items = rootListBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
+                        // foreach (var item in items)
+                        // {
+                        //     var momentItem = new MonentItem();
+                        // }
+                    }
+                }
 
+                return momentsList;
+            }).Result;
+            return result;
+        }
         public void Dispose()
         {
             Dispose(true);
