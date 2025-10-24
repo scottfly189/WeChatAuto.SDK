@@ -67,6 +67,8 @@ namespace WeChatAuto.Components
         private TaskCompletionSource<bool> _newUserListenerStarted = new TaskCompletionSource<bool>();
         public Window SelfWindow { get => _Window; set => _Window = value; }
         public WeChatFramwork WeChatFramwork => _WeChatFramwork;
+        private Moments _moments;
+        public Moments Moments { get => _moments; set => _moments = value; }
 
 
         public ActionQueueChannel<ChatActionMessage> ActionQueueChannel => _actionQueueChannel;
@@ -209,6 +211,7 @@ namespace WeChatAuto.Components
             _Search = new Search(this, _uiThreadInvoker, _Window, _serviceProvider);  // 搜索
             _Conversations = new ConversationList(_Window, this, _uiThreadInvoker, _serviceProvider);  // 会话列表
             _AddressBook = new AddressBookList(_Window, this, _uiThreadInvoker, _serviceProvider);  // 通讯录
+            _moments = new Moments(_Window, this, _uiThreadInvoker, _serviceProvider);
             _SubWinList = new SubWinList(_Window, this, _uiThreadInvoker, _serviceProvider);
             _WxChatContent = new ChatContent(_Window, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane", this, _uiThreadInvoker, this, _serviceProvider);
         }

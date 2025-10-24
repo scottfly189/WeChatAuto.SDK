@@ -109,7 +109,6 @@ namespace WxAutoCommon.Utils
         {
             if (_disposed) return;
 
-            _disposed = true;
             _cts.Cancel();
             _queue.CompleteAdding();
 
@@ -121,6 +120,7 @@ namespace WxAutoCommon.Utils
 
             _cts.Dispose();
             _queue.Dispose();
+            _disposed = true;
         }
     }
 }

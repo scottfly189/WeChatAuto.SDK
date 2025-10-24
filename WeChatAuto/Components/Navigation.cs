@@ -10,12 +10,15 @@ using WxAutoCommon.Interface;
 using WxAutoCommon.Utils;
 using WeChatAuto.Extentions;
 using WeChatAuto.Utils;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WeChatAuto.Components
 {
     public class Navigation
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly AutoLogger<Navigation> _logger;
         private UIThreadInvoker _uiThreadInvoker;
         private IWeChatWindow _WxWindow;
         public WxLocationCaches _wxLocationCaches = new WxLocationCaches();
@@ -29,6 +32,7 @@ namespace WeChatAuto.Components
         /// <param name="serviceProvider">服务提供者</param>
         public Navigation(Window window, IWeChatWindow wxWindow, UIThreadInvoker uiThreadInvoker, IServiceProvider serviceProvider)
         {
+            _logger = serviceProvider.GetRequiredService<AutoLogger<Navigation>>();
             _uiThreadInvoker = uiThreadInvoker;
             _Window = window;
             _WxWindow = wxWindow;
@@ -60,9 +64,10 @@ namespace WeChatAuto.Components
                     parentElement: navigationRoot,
                     xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_MOMENT}'][@IsEnabled='true']"
                 );
+
                 _wxLocationCaches.AddXPathLocation(NavigationType.视频号.ToString(),
                     parentElement: navigationRoot,
-                    xPath: $"/Pane/Pane/Pane[1]/Button"
+                    xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_VIDEO}'][@IsEnabled='true']  "
                 );
                 _wxLocationCaches.AddXPathLocation(NavigationType.看一看.ToString(),
                     parentElement: navigationRoot,
@@ -72,6 +77,7 @@ namespace WeChatAuto.Components
                     parentElement: navigationRoot,
                     xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_SEARCH}'][@IsEnabled='true']"
                 );
+
                 _wxLocationCaches.AddXPathLocation(NavigationType.小程序面板.ToString(),
                     parentElement: navigationRoot,
                     xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_APP}'][@IsEnabled='true']"
