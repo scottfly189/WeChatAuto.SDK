@@ -107,8 +107,10 @@ namespace WeChatAuto.Components
                 {
                     if (Wait.UntilResponsive(button, timeout: TimeSpan.FromSeconds(5)))
                     {
+                        button.Focus();
                         button.DrawHighlightExt();
                         button.Click();
+                        _logger.Info($"切换到导航栏：{navigationType.ToStrim()}");
                     }
                 }
             }).Wait();

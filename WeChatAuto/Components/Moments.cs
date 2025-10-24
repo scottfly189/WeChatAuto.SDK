@@ -41,7 +41,7 @@ namespace WeChatAuto.Components
                 bool result = _SelfUiThreadInvoker.Run(automation =>
                             {
                                 var deskTop = automation.GetDesktop();
-                                var window = Retry.WhileNull(() => deskTop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByProcessId(_MainWindow.Properties.ProcessId)).And(cf.ByClassName("SnsWndForPC"))).AsWindow(),
+                                var window = Retry.WhileNull(() => deskTop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByProcessId(_MainWindow.Properties.ProcessId)).And(cf.ByClassName("SnsWnd"))).AsWindow(),
                                     timeout: TimeSpan.FromSeconds(3),
                                     interval: TimeSpan.FromMilliseconds(200));
                                 if (window.Success && window.Result != null)
