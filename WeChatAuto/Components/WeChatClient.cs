@@ -18,7 +18,7 @@ namespace WeChatAuto.Components
     {
         private IServiceProvider _serviceProvider;
         public WeChatNotifyIcon WxNotifyIcon { get; private set; }  // 微信客户端通知图标
-        public WeChatMainWindow WxMainWindow { get; private set; }  // 微信客户端窗口
+        public WeChatMainWindow WxMainWindow { get; private set; }  // 微信客户端主窗口
 
         public string NickName => WxMainWindow.NickName;   // 微信昵称
 
@@ -35,11 +35,15 @@ namespace WeChatAuto.Components
             _serviceProvider = serviceProvider;
         }
 
+        #region NotifyIcon操作
         public void ClickNotifyIcon()
         {
             WxNotifyIcon.Click();
         }
+        #endregion
 
+
+        #region 微信客户端工具操作
         /// <summary>
         /// 出错后捕获UI
         /// </summary>
@@ -56,5 +60,7 @@ namespace WeChatAuto.Components
         {
 
         }
+        #endregion
+        
     }
 }
