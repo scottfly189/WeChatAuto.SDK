@@ -13,8 +13,8 @@ namespace WeChatAuto.Utils
         {
             var monentItem = new MonentItem(nickName);
             var content = item.Name;
-            var splitTempStr = content.Split("\n", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-            var title = splitTempStr[0];
+            var splitTempStr = content.Split(new string[] { "\n"}, StringSplitOptions.RemoveEmptyEntries);
+            var title = splitTempStr[0].Trim();
             if (title.EndsWith(":"))
             {
                 monentItem.From = title.Substring(0, title.Length - 1);
@@ -68,14 +68,14 @@ namespace WeChatAuto.Utils
                         foreach (var subItem in items)
                         {
                             var historyCommentItem = new ReplyItem();
-                            var splitSubItem = subItem.Name.Split(":", StringSplitOptions.TrimEntries);
-                            historyCommentItem.From = splitSubItem[0];
-                            historyCommentItem.Content = splitSubItem[1];
-                            if (splitSubItem[0].Contains("回复"))
+                            var splitSubItem = subItem.Name.Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
+                            historyCommentItem.From = splitSubItem[0].Trim();
+                            historyCommentItem.Content = splitSubItem[1].Trim();
+                            if (splitSubItem[0].Trim().Contains("回复"))
                             {
-                                splitSubItem = splitSubItem[0].Split("回复", StringSplitOptions.TrimEntries);
-                                historyCommentItem.From = splitSubItem[0];
-                                historyCommentItem.ReplyTo = splitSubItem[1];
+                                splitSubItem = splitSubItem[0].Trim().Split(new string[] { "回复" }, StringSplitOptions.RemoveEmptyEntries);
+                                historyCommentItem.From = splitSubItem[0].Trim();
+                                historyCommentItem.ReplyTo = splitSubItem[1].Trim();
                             }
                             monentItem.ReplyItems.Add(historyCommentItem);
                         }
@@ -125,7 +125,7 @@ namespace WeChatAuto.Utils
             var text = pane.FindFirstChild(cf => cf.ByControlType(ControlType.Text));
             if (text != null)
             {
-                return text.Name;
+                return text.Name.Trim();
             }
             return string.Empty;
         }

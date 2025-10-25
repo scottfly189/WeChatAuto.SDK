@@ -20,6 +20,8 @@ namespace WxAutoCommon.Utils
         private UIA3Automation _automation;
         private volatile bool _disposed = false;
 
+        public UIA3Automation Automation => _automation;
+
         public UIThreadInvoker()
         {
             _uiThread = new Thread(ThreadMain);
@@ -104,23 +106,34 @@ namespace WxAutoCommon.Utils
             });
         }
 
-
-        public void Dispose()
+        public virtual void Dispose(bool disposing)
         {
             if (_disposed) return;
-
-            _cts.Cancel();
-            _queue.CompleteAdding();
-
-            // 等待线程结束
-            if (_uiThread.IsAlive)
+            if (disposing)
             {
-                _uiThread.Join(TimeSpan.FromSeconds(5)); // 最多等待5秒
-            }
+                _cts.Cancel();
+                _queue.CompleteAdding();
 
-            _cts.Dispose();
-            _queue.Dispose();
+                // 等待线程结束
+                if (_uiThread.IsAlive)
+                {
+                    _uiThread.Join(TimeSpan.FromSeconds(5)); // 最多等待5秒
+                }
+
+                _cts.Dispose();
+                _queue.Dispose();
+            }
             _disposed = true;
+        }
+
+        ~UIThreadInvoker()
+        {
+            Dispose(false);
+        }
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

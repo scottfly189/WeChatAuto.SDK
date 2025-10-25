@@ -11,6 +11,7 @@ using WxAutoCommon.Models;
 using System.Threading;
 using System.Diagnostics;
 using FlaUI.Core.Input;
+using WeChatAuto.Extentions;
 
 namespace WeChatAuto.Components
 {
@@ -25,7 +26,6 @@ namespace WeChatAuto.Components
         private volatile bool _disposed = false;
         private readonly UIThreadInvoker _SelfUiThreadInvoker;
         private readonly UIThreadInvoker _MainUIThreadInvoker;
-        private Window _MomentsWindow;
 
         public Moments(Window window, WeChatMainWindow wxWindow, UIThreadInvoker mainUIThreadInvoker, IServiceProvider serviceProvider)
         {
@@ -51,7 +51,6 @@ namespace WeChatAuto.Components
                                     interval: TimeSpan.FromMilliseconds(200));
                                 if (window.Success && window.Result != null)
                                 {
-                                    _MomentsWindow = window.Result;
                                     return true;
                                 }
                                 return false;
@@ -93,6 +92,8 @@ namespace WeChatAuto.Components
         /// <returns>朋友圈内容列表<see cref="MonentItem"/></returns>
         public List<MonentItem> GetMomentsList(int count = 20)
         {
+            if (_disposed)
+                return null;
             this.OpenMoments();
             var result = _MainUIThreadInvoker.Run(automation =>
             {
@@ -100,14 +101,11 @@ namespace WeChatAuto.Components
                 var window = Retry.WhileNull(() => deskTop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByProcessId(_MainWindow.Properties.ProcessId)).And(cf.ByClassName("SnsWnd"))).AsWindow(),
                     timeout: TimeSpan.FromSeconds(3),
                     interval: TimeSpan.FromMilliseconds(200));
-                if (window.Success)
-                {
-                    _MomentsWindow = window.Result;
-                }
-                _MomentsWindow.DrawHighlightExt();
-                _MomentsWindow.Focus();
+                var momentWindow = window.Success ? window.Result : null;
+                momentWindow.DrawHighlightExt();
+                momentWindow.Focus();
                 var momentsList = new List<MonentItem>();
-                var rootListBox = _MomentsWindow.FindFirstByXPath("//List[@Name='朋友圈']")?.AsListBox();
+                var rootListBox = momentWindow.FindFirstByXPath("//List[@Name='朋友圈']")?.AsListBox();
                 rootListBox.DrawHighlightExt();
                 if (rootListBox.Patterns.Scroll.IsSupported)
                 {
@@ -134,15 +132,73 @@ namespace WeChatAuto.Components
                         }
                         i++;
                     }
-                    momentsList.ForEach(item =>
-                    {
-                            Trace.WriteLine(item.ToString());
-                    });
                 }
 
                 return momentsList;
             }).Result;
             return result;
+        }
+
+        /// <summary>
+        /// 刷新朋友圈
+        /// </summary>
+        /// <param name="inThreaded">是否已经在UI线程中执行</param>
+        public void RefreshMomentsList(bool inThreaded = true)
+        {
+            if (_disposed)
+                return;
+            _logger.Info("刷新朋友圈开始...");
+            this.OpenMoments();
+            Action action = () =>
+            {
+                try
+                {
+                    var momentWindow = _GetMomentsWindow();
+                    if (momentWindow == null)
+                        throw new Exception("朋友圈窗口未找到");
+                    momentWindow.DrawHighlightExt();
+
+                    var xPath = "//ToolBar";
+                    var toolBar = momentWindow.FindFirstByXPath(xPath);
+                    if (toolBar != null)
+                    {
+                        var refreshButton = toolBar?.FindFirstByXPath("//Button[@Name='刷新']")?.AsButton();
+                        refreshButton?.DrawHighlightExt();
+                        if (refreshButton != null)
+                        {
+                            refreshButton.WaitUntilClickable();
+                            // refreshButton.Click();
+                            momentWindow.SilenceClickExt(refreshButton);
+                        }
+                    }
+                    else
+                    {
+                        _logger.Error("刷新朋友圈失败，工具栏未找到");
+                    }
+                }catch(Exception ex)
+                {
+                    _logger.Error("刷新朋友圈失败，"+ ex.Message, ex);
+                }
+            };
+            if (inThreaded)
+            {
+                action();
+            }
+            else
+            {
+                _SelfUiThreadInvoker.Run(automation => action());
+            }
+        }
+
+        private Window _GetMomentsWindow()
+        {
+            if (_disposed)
+                return null;
+            var deskTop = _SelfUiThreadInvoker.Automation.GetDesktop();
+            var window = Retry.WhileNull(() => deskTop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByProcessId(_MainWindow.Properties.ProcessId)).And(cf.ByClassName("SnsWnd"))).AsWindow(),
+                timeout: TimeSpan.FromSeconds(3),
+                interval: TimeSpan.FromMilliseconds(200));
+            return window.Success ? window.Result : null;
         }
         public void Dispose()
         {
@@ -160,11 +216,7 @@ namespace WeChatAuto.Components
             if (_disposed) return;
             if (disposing)
             {
-                if (_MomentsWindow != null)
-                {
-                    _MomentsWindow.Close();
-                    _MomentsWindow = null;
-                }
+                _GetMomentsWindow()?.Close();
             }
             _SelfUiThreadInvoker.Dispose();
             _disposed = true;
