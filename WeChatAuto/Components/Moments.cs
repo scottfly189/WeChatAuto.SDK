@@ -87,13 +87,14 @@ namespace WeChatAuto.Components
         }
         /// <summary>
         /// 获取朋友圈内容列表
+        /// 注意：此方法会让朋友圈窗口获取焦点,可能会导致其他窗口失去焦点.
         /// </summary>
-        /// <param name="beforeDays">获取多少天前的朋友圈内容,0表示获取今天朋友圈内容</param>
+        /// <param name="count">鼠标滚动次数,一次滚动5行</param>
         /// <returns>朋友圈内容列表<see cref="MonentItem"/></returns>
-        public List<MonentItem> GetMomentsList(int beforeDays = 0)
+        public List<MonentItem> GetMomentsList(int count = 20)
         {
             this.OpenMoments();
-            var result = _SelfUiThreadInvoker.Run(automation =>
+            var result = _MainUIThreadInvoker.Run(automation =>
             {
                 var deskTop = automation.GetDesktop();
                 var window = Retry.WhileNull(() => deskTop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByProcessId(_MainWindow.Properties.ProcessId)).And(cf.ByClassName("SnsWnd"))).AsWindow(),
@@ -104,8 +105,7 @@ namespace WeChatAuto.Components
                     _MomentsWindow = window.Result;
                 }
                 _MomentsWindow.DrawHighlightExt();
-                _MomentsWindow.Click();
-                //_MomentsWindow.Focus();
+                _MomentsWindow.Focus();
                 var momentsList = new List<MonentItem>();
                 var rootListBox = _MomentsWindow.FindFirstByXPath("//List[@Name='朋友圈']")?.AsListBox();
                 rootListBox.DrawHighlightExt();
@@ -114,31 +114,30 @@ namespace WeChatAuto.Components
                     var pattern = rootListBox.Patterns.Scroll.Pattern;
                     pattern.SetScrollPercent(0, 0);
                     Thread.Sleep(600);
-                    Mouse.MoveTo(rootListBox.BoundingRectangle.Center());
-                    var i = 0;
-                    while (true && i < 20)
+                    Mouse.Position = rootListBox.BoundingRectangle.Center();
+                    var i = 1;
+                    MomentsHelper momentsHelper = new MomentsHelper();
+                    while (true && i <= count)
                     {
-                        //pattern.Scroll(ScrollAmount.NoAmount, ScrollAmount.LargeIncrement);
+                        rootListBox.Focus();
+                        Mouse.Position = rootListBox.BoundingRectangle.Center();
                         Mouse.Scroll(-5);
-                        Thread.Sleep(1000);
-                        i++;
+                        Thread.Sleep(600);
                         var items = rootListBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
                         foreach (var item in items)
                         {
-                            Trace.WriteLine(item.Name);
+                            var monentItem = momentsHelper.ParseMonentItem(item.AsListBoxItem());
+                            if (monentItem != null && !momentsList.Exists(m => m.From == monentItem.From && m.Content == monentItem.Content && m.Time == monentItem.Time))
+                            {
+                                momentsList.Add(monentItem);
+                            }
                         }
+                        i++;
                     }
-                    // for (double p = 0; p <= 1; p += pattern.VerticalViewSize)
-                    // {
-                    //     pattern.SetScrollPercent(0, p);
-                    //     Trace.WriteLine("比率:" + pattern.VerticalScrollPercent.ToString());
-                    //     Thread.Sleep(600);
-                    //     var items = rootListBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
-                    //     foreach (var item in items)
-                    //     {
-                    //         Trace.WriteLine(item.Name);
-                    //     }
-                    // }
+                    momentsList.ForEach(item =>
+                    {
+                            Trace.WriteLine(item.ToString());
+                    });
                 }
 
                 return momentsList;

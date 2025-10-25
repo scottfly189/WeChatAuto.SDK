@@ -38,9 +38,8 @@ namespace WeChatAuto.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var moments = window.Moments;
-            var momentsList = moments.GetMomentsList();
+            var momentsList = moments.GetMomentsList(20);
             Assert.True(true);
         }
-
     }
 }

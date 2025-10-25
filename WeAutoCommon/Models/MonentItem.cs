@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WxAutoCommon.Models
 {
@@ -18,13 +19,18 @@ namespace WxAutoCommon.Models
         /// </summary>
         public string Time { get; set; }
         /// <summary>
-        /// 来源
-        /// </summary>
-        public string Source { get; set; }
-        /// <summary>
         /// 评论列表
         /// </summary>
         public List<HistoryCommentItem> HistoryItems { get; set; } = new List<HistoryCommentItem>();
+        /// <summary>
+        /// 点赞列表
+        /// </summary>
+        public List<string> Likers { get; set; } = new List<string>();
+
+        public override string ToString()
+        {
+            return $"From: {From}, Content: {Content}, Time: {Time}, HistoryItems: {string.Join(", ", HistoryItems.Select(h => h.ToString()))}, Likers: {string.Join(", ", Likers)}";
+        }
     }
 
     public class HistoryCommentItem
@@ -37,5 +43,9 @@ namespace WxAutoCommon.Models
         /// 评论内容
         /// </summary>
         public string Content { get; set; }
+        /// <summary>
+        /// 回复给谁
+        /// </summary>
+        public string ReplyTo { get; set; } = "";
     }
 }
