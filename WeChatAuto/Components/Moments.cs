@@ -126,7 +126,7 @@ namespace WeChatAuto.Components
                         var items = rootListBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
                         foreach (var item in items)
                         {
-                            var monentItem = momentsHelper.ParseMonentItem(item.AsListBoxItem());
+                            var monentItem = momentsHelper.ParseMonentItem(item.AsListBoxItem(), _WxMainWindow.NickName);
                             if (monentItem != null && !momentsList.Exists(m => m.From == monentItem.From && m.Content == monentItem.Content && m.Time == monentItem.Time))
                             {
                                 momentsList.Add(monentItem);

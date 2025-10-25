@@ -55,7 +55,8 @@ namespace WeChatAuto.Components
         public ChatContent ChatContent => _WxChatContent;  // 聊天窗口
         public SubWinList SubWinList => _SubWinList;  // 子窗口列表
         public int ProcessId { get; private set; }
-        public string NickName => _uiThreadInvoker.Run(automation => _Window.FindFirstByXPath($"/Pane/Pane/ToolBar[@Name='{WeChatConstant.WECHAT_NAVIGATION_NAVIGATION}'][@IsEnabled='true']").FindFirstChild().Name).Result;
+        private string _nickName;
+        public string NickName => _nickName;
         public Window Window => _Window;
         public WeChatClient Client { get; set; }
         private UIThreadInvoker _uiThreadInvoker;   //每个微信窗口一个单独的UI线程
@@ -206,6 +207,7 @@ namespace WeChatAuto.Components
         /// </summary>
         private void _InitStaticWxWindowComponents(WeChatNotifyIcon notifyIcon)
         {
+            _nickName = _uiThreadInvoker.Run(automation => _Window.FindFirstByXPath($"/Pane/Pane/ToolBar[@Name='{WeChatConstant.WECHAT_NAVIGATION_NAVIGATION}'][@IsEnabled='true']").FindFirstChild().Name).Result;
             _ToolBar = new ToolBar(_Window, notifyIcon, _uiThreadInvoker, _serviceProvider);  // 工具栏
             _Navigation = new Navigation(_Window, this, _uiThreadInvoker, _serviceProvider);  // 导航栏
             _Search = new Search(this, _uiThreadInvoker, _Window, _serviceProvider);  // 搜索

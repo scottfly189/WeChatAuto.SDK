@@ -9,9 +9,9 @@ namespace WeChatAuto.Utils
 {
     public class MomentsHelper
     {
-        public MonentItem ParseMonentItem(ListBoxItem item)
+        public MonentItem ParseMonentItem(ListBoxItem item, string nickName)
         {
-            var monentItem = new MonentItem();
+            var monentItem = new MonentItem(nickName);
             var content = item.Name;
             var splitTempStr = content.Split("\n", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
             var title = splitTempStr[0];

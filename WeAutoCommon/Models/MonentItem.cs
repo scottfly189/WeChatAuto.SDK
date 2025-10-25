@@ -6,6 +6,11 @@ namespace WxAutoCommon.Models
 {
     public class MonentItem
     {
+        public MonentItem(string nickName)
+        {
+            _nickName = nickName;
+        }
+        private string _nickName;
         /// <summary>
         /// 好友名称
         /// </summary>
@@ -27,9 +32,20 @@ namespace WxAutoCommon.Models
         /// </summary>
         public List<string> Likers { get; set; } = new List<string>();
 
+        /// <summary>
+        /// 我是否点赞
+        /// </summary>
+        public bool IsMyLiked
+        {
+            get
+            {
+                return Likers.Contains(_nickName);
+            }
+        }
+
         public override string ToString()
         {
-            return $"From: {From}, Content: {Content}, Time: {Time}, ReplyItems: {string.Join(", ", ReplyItems.Select(h => h.ToString()))}, Likers: {string.Join(", ", Likers)}";
+            return $"From: {From}, Content: {Content}, Time: {Time}, IsMyLiked: {IsMyLiked}, ReplyItems: {string.Join(", ", ReplyItems.Select(h => h.ToString()))}, Likers: {string.Join(", ", Likers)}";
         }
     }
 
