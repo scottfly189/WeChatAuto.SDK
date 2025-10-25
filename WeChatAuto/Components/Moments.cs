@@ -9,6 +9,8 @@ using WxAutoCommon.Enums;
 using System.Collections.Generic;
 using WxAutoCommon.Models;
 using System.Threading;
+using System.Diagnostics;
+using FlaUI.Core.Input;
 
 namespace WeChatAuto.Components
 {
@@ -93,25 +95,50 @@ namespace WeChatAuto.Components
             this.OpenMoments();
             var result = _SelfUiThreadInvoker.Run(automation =>
             {
+                var deskTop = automation.GetDesktop();
+                var window = Retry.WhileNull(() => deskTop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByProcessId(_MainWindow.Properties.ProcessId)).And(cf.ByClassName("SnsWnd"))).AsWindow(),
+                    timeout: TimeSpan.FromSeconds(3),
+                    interval: TimeSpan.FromMilliseconds(200));
+                if (window.Success)
+                {
+                    _MomentsWindow = window.Result;
+                }
                 _MomentsWindow.DrawHighlightExt();
+                _MomentsWindow.Click();
+                //_MomentsWindow.Focus();
                 var momentsList = new List<MonentItem>();
                 var rootListBox = _MomentsWindow.FindFirstByXPath("//List[@Name='朋友圈']")?.AsListBox();
                 rootListBox.DrawHighlightExt();
                 if (rootListBox.Patterns.Scroll.IsSupported)
                 {
                     var pattern = rootListBox.Patterns.Scroll.Pattern;
-                    pattern.SetScrollPercent(0, 1);
+                    pattern.SetScrollPercent(0, 0);
                     Thread.Sleep(600);
-                    for (double p = 0; p <= 1; p += pattern.VerticalViewSize)
+                    Mouse.MoveTo(rootListBox.BoundingRectangle.Center());
+                    var i = 0;
+                    while (true && i < 20)
                     {
-                        pattern.SetScrollPercent(0, p);
-                        Thread.Sleep(600);
-                        // var items = rootListBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
-                        // foreach (var item in items)
-                        // {
-                        //     var momentItem = new MonentItem();
-                        // }
+                        //pattern.Scroll(ScrollAmount.NoAmount, ScrollAmount.LargeIncrement);
+                        Mouse.Scroll(-5);
+                        Thread.Sleep(1000);
+                        i++;
+                        var items = rootListBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
+                        foreach (var item in items)
+                        {
+                            Trace.WriteLine(item.Name);
+                        }
                     }
+                    // for (double p = 0; p <= 1; p += pattern.VerticalViewSize)
+                    // {
+                    //     pattern.SetScrollPercent(0, p);
+                    //     Trace.WriteLine("比率:" + pattern.VerticalScrollPercent.ToString());
+                    //     Thread.Sleep(600);
+                    //     var items = rootListBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
+                    //     foreach (var item in items)
+                    //     {
+                    //         Trace.WriteLine(item.Name);
+                    //     }
+                    // }
                 }
 
                 return momentsList;
