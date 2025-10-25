@@ -21,7 +21,7 @@ namespace WxAutoCommon.Models
         /// <summary>
         /// 评论列表
         /// </summary>
-        public List<HistoryCommentItem> HistoryItems { get; set; } = new List<HistoryCommentItem>();
+        public List<ReplyItem> ReplyItems { get; set; } = new List<ReplyItem>();
         /// <summary>
         /// 点赞列表
         /// </summary>
@@ -29,11 +29,11 @@ namespace WxAutoCommon.Models
 
         public override string ToString()
         {
-            return $"From: {From}, Content: {Content}, Time: {Time}, HistoryItems: {string.Join(", ", HistoryItems.Select(h => h.ToString()))}, Likers: {string.Join(", ", Likers)}";
+            return $"From: {From}, Content: {Content}, Time: {Time}, ReplyItems: {string.Join(", ", ReplyItems.Select(h => h.ToString()))}, Likers: {string.Join(", ", Likers)}";
         }
     }
 
-    public class HistoryCommentItem
+    public class ReplyItem
     {
         /// <summary>
         /// 评论人
@@ -47,5 +47,17 @@ namespace WxAutoCommon.Models
         /// 回复给谁
         /// </summary>
         public string ReplyTo { get; set; } = "";
+
+        public override string ToString()
+        {
+            if (string.IsNullOrEmpty(ReplyTo))
+            {
+                return $"{From}: {Content}";
+            }
+            else
+            {
+                return $"{From} 回复 {ReplyTo}: {Content}";
+            }
+        }
     }
 }

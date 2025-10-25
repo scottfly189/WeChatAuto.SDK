@@ -13,7 +13,7 @@ namespace WeChatAuto.Utils
         {
             var monentItem = new MonentItem();
             var content = item.Name;
-            var splitTempStr = content.Split("\n", StringSplitOptions.RemoveEmptyEntries);
+            var splitTempStr = content.Split("\n", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
             var title = splitTempStr[0];
             if (title.EndsWith(":"))
             {
@@ -45,7 +45,7 @@ namespace WeChatAuto.Utils
                     var texts = pane.FindAllByXPath(xPath);
                     foreach (var text in texts)
                     {
-                        monentItem.Likers.Add(text.Name);
+                        monentItem.Likers.Add(text.Name.Trim());
                     }
                 }
             }
@@ -60,23 +60,24 @@ namespace WeChatAuto.Utils
                 var pane = button.GetParent().GetSibling(1);
                 if (pane != null && pane.ControlType == ControlType.Pane)
                 {
-                    xPath = "/Pane/List[@Name='评论']";
+                    xPath = "//List[@Name='评论']";
                     var listBox = pane.FindFirstByXPath(xPath)?.AsListBox();
                     if (listBox != null)
                     {
                         var items = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
                         foreach (var subItem in items)
                         {
-                            var historyCommentItem = new HistoryCommentItem();
-                            var splitSubItem = subItem.Name.Split(":", StringSplitOptions.RemoveEmptyEntries);
+                            var historyCommentItem = new ReplyItem();
+                            var splitSubItem = subItem.Name.Split(":", StringSplitOptions.TrimEntries);
                             historyCommentItem.From = splitSubItem[0];
-                            var content = splitSubItem[1];
+                            historyCommentItem.Content = splitSubItem[1];
                             if (splitSubItem[0].Contains("回复"))
                             {
-                                splitSubItem = splitSubItem[0].Split("回复", StringSplitOptions.RemoveEmptyEntries);
+                                splitSubItem = splitSubItem[0].Split("回复", StringSplitOptions.TrimEntries);
                                 historyCommentItem.From = splitSubItem[0];
                                 historyCommentItem.ReplyTo = splitSubItem[1];
                             }
+                            monentItem.ReplyItems.Add(historyCommentItem);
                         }
                     }
                 }
