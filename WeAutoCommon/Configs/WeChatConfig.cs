@@ -28,6 +28,10 @@ namespace WxAutoCommon.Configs
         /// 监听消息时间间隔，单位秒
         /// </summary>
         public int ListenInterval { get; set; } = 3;
+        /// <summary>
+        /// 朋友圈监听时间间隔，单位秒
+        /// </summary>
+        public int MomentsListenInterval { get; set; } = 10;
 
         /// <summary>
         /// 新用户监听时间间隔，单位秒
