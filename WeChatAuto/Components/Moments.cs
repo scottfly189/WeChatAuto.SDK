@@ -12,6 +12,9 @@ using System.Threading;
 using System.Diagnostics;
 using FlaUI.Core.Input;
 using WeChatAuto.Extentions;
+using FlaUI.UIA3;
+using OneOf;
+using System.Threading.Tasks;
 
 namespace WeChatAuto.Components
 {
@@ -26,6 +29,9 @@ namespace WeChatAuto.Components
         private volatile bool _disposed = false;
         private readonly UIThreadInvoker _SelfUiThreadInvoker;
         private readonly UIThreadInvoker _MainUIThreadInvoker;
+        private Thread _ListenerThread;
+        private CancellationTokenSource _ListenerCancellationTokenSource;
+        private TaskCompletionSource<bool> _ListenerStarted;
 
         public Moments(Window window, WeChatMainWindow wxWindow, UIThreadInvoker mainUIThreadInvoker, IServiceProvider serviceProvider)
         {
@@ -117,7 +123,7 @@ namespace WeChatAuto.Components
                     MomentsHelper momentsHelper = new MomentsHelper();
                     while (true && i <= count)
                     {
-                        rootListBox.Focus();
+                        momentWindow.Focus();
                         Mouse.Position = rootListBox.BoundingRectangle.Center();
                         Mouse.Scroll(-5);
                         Thread.Sleep(600);
@@ -142,18 +148,16 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 刷新朋友圈
         /// </summary>
-        /// <param name="inThreaded">是否已经在UI线程中执行</param>
-        public void RefreshMomentsList(bool inThreaded = true)
+        public void RefreshMomentsList(Action<UIA3Automation,Window> action = null)
         {
             if (_disposed)
                 return;
             _logger.Info("刷新朋友圈开始...");
-            this.OpenMoments();
-            Action action = () =>
+            _SelfUiThreadInvoker.Run(automation =>
             {
                 try
                 {
-                    var momentWindow = _GetMomentsWindow();
+                    var momentWindow = _GetMomentsWindow(automation);
                     if (momentWindow == null)
                         throw new Exception("朋友圈窗口未找到");
                     momentWindow.DrawHighlightExt();
@@ -167,34 +171,99 @@ namespace WeChatAuto.Components
                         if (refreshButton != null)
                         {
                             refreshButton.WaitUntilClickable();
-                            // refreshButton.Click();
-                            momentWindow.SilenceClickExt(refreshButton);
+                            momentWindow.SilenceClickExt(refreshButton);   //静默点击刷新按钮
+                            Thread.Sleep(600);
+                            action?.Invoke(automation, momentWindow);   //执行回调
+                        }
+                        else
+                        {
+                            _logger.Error("刷新朋友圈失败，刷新按钮未找到");
                         }
                     }
                     else
                     {
                         _logger.Error("刷新朋友圈失败，工具栏未找到");
                     }
-                }catch(Exception ex)
-                {
-                    _logger.Error("刷新朋友圈失败，"+ ex.Message, ex);
                 }
-            };
-            if (inThreaded)
-            {
-                action();
-            }
-            else
-            {
-                _SelfUiThreadInvoker.Run(automation => action());
-            }
+                catch (Exception ex)
+                {
+                    _logger.Error("刷新朋友圈失败，" + ex.Message, ex);
+                }
+            }).Wait();
+            _logger.Info("刷新朋友圈结束...");
         }
 
-        private Window _GetMomentsWindow()
+        /// <summary>
+        /// 添加朋友圈监听,当监听到指定的好友发朋友圈时，可以自动点赞，或者执行其他操作，如：回复评论等
+        /// </summary>
+        /// <param name="nickNameOrNickNames">好友名称或好友名称列表</param>
+        /// <param name="autoLike">是否自动点赞</param>
+        /// <param name="action">回调函数,参数：朋友圈内容列表<see cref="List{MonentItem}"/>,朋友圈对象<see cref="Moments"/>,可以通过Monents对象调用回复评论等操作,服务提供者<see cref="IServiceProvider"/>，适用于使用者获取自己注入的服务</param>
+        public void AddMomentsListener(OneOf<string, List<string>> nickNameOrNickNames, bool autoLike = true, Action<List<MonentItem>, Moments, IServiceProvider> action = null)
+        {
+            if (_disposed)
+                return;
+            _logger.Info("添加朋友圈监听开始...");
+            this.StopMomentsListener();
+            _ListenerThread = new Thread(() =>
+            {
+                while (!_ListenerCancellationTokenSource.IsCancellationRequested)
+                {
+                    Thread.Sleep(1000);
+                }
+            });
+            _ListenerThread.Start();
+        }
+        /// <summary>
+        /// 点赞朋友圈
+        /// </summary>
+        /// <param name="monentItem">朋友圈内容<see cref="MonentItem"/></param>
+        public void LikeMoments(MonentItem monentItem)
+        {
+            if (_disposed)
+                return;
+            _logger.Info("点赞朋友圈开始...");
+            _SelfUiThreadInvoker.Run(automation =>
+            {
+            }).Wait();
+        }
+
+        /// <summary>
+        /// 回复朋友圈
+        /// </summary>
+        /// <param name="monentItem">朋友圈内容<see cref="MonentItem"/></param>
+        /// <param name="replyContent">回复内容</param>
+        public void ReplyMoments(MonentItem monentItem, string replyContent)
+        {
+            if (_disposed)
+                return;
+            _logger.Info("回复朋友圈开始...");
+            _SelfUiThreadInvoker.Run(automation =>
+            {
+            }).Wait();
+        }
+
+        public void StopMomentsListener()
+        {
+            if (_disposed)
+                return;
+            if (_ListenerThread != null && _ListenerThread.IsAlive)
+            {
+                _ListenerCancellationTokenSource.Cancel();
+                _ListenerThread.Join(5000);
+                _ListenerThread = null;
+                _ListenerCancellationTokenSource = null;
+                _ListenerStarted.TrySetResult(false);
+                _ListenerStarted = null;
+            }
+            _logger.Info("移除朋友圈监听成功...");
+        }
+
+        private Window _GetMomentsWindow(UIA3Automation automation)
         {
             if (_disposed)
                 return null;
-            var deskTop = _SelfUiThreadInvoker.Automation.GetDesktop();
+            var deskTop = automation.GetDesktop();
             var window = Retry.WhileNull(() => deskTop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByProcessId(_MainWindow.Properties.ProcessId)).And(cf.ByClassName("SnsWnd"))).AsWindow(),
                 timeout: TimeSpan.FromSeconds(3),
                 interval: TimeSpan.FromMilliseconds(200));
@@ -216,7 +285,6 @@ namespace WeChatAuto.Components
             if (_disposed) return;
             if (disposing)
             {
-                _GetMomentsWindow()?.Close();
             }
             _SelfUiThreadInvoker.Dispose();
             _disposed = true;
