@@ -150,6 +150,7 @@ namespace WxAutoCommon.Simulator
         public static void LeftClick(Point point)
         {
             Skm.HKMMoveTo(_deviceData, (Int32)point.X, (Int32)point.Y);
+            Skm.HKMDelayRnd(_deviceData, 100, 150);
             Skm.HKMLeftClick(_deviceData);
         }
         /// <summary>

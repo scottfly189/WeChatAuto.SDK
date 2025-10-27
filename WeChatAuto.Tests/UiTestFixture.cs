@@ -13,6 +13,9 @@ public class UiTestFixture : IDisposable
         _serviceProvider = WeAutomation.GetServiceProvider(options =>
         {
             options.DebugMode = true;
+            options.EnableMouseKeyboardSimulator = true;
+            options.KMDeiviceVID = 0x2612;
+            options.KMDeivicePID = 0x1701;
         });
         _framework = _serviceProvider.GetRequiredService<WeChatFramwork>();
 

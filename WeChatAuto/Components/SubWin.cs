@@ -18,6 +18,8 @@ using WxAutoCommon.Models;
 using WxAutoCommon.Utils;
 using WeChatAuto.Extentions;
 using WeChatAuto.Utils;
+using WxAutoCommon.Simulator;
+using WeChatAuto.Services;
 
 namespace WeChatAuto.Components
 {
@@ -349,7 +351,7 @@ namespace WeChatAuto.Components
                 // Mouse.LeftClick(button.GetClickablePoint());
                 var position = button.GetClickablePoint();
                 input.Mouse.MoveMouseTo(position.X, position.Y);
-                
+
 
                 var edit = Retry.WhileNull(() => element.FindFirstByXPath("//Edit")?.AsTextBox(), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
                 if (edit != null)
@@ -358,7 +360,7 @@ namespace WeChatAuto.Components
                     //Keyboard.TypeSimultaneously(VirtualKeyShort.RETURN);
                     //input.Keyboard.ModifiedKeyStroke(VirtualKeyCode.CONTROL, VirtualKeyCode.VK_A).KeyPress(VirtualKeyCode.BACK);
                     input.Keyboard.TextEntry(groupName);
-                    
+
                 }
                 else
                 {
@@ -1366,13 +1368,13 @@ namespace WeChatAuto.Components
         }
         /// <summary>
         /// 添加群聊里面的好友为自己的好友,适用于从他有群中添加好友为自己的好友
+        /// 注：使用此方法必须要打开硬件模拟器，否则无法正常添加好友
         /// </summary>
         /// <param name="memberName">成员名称</param>
         /// <param name="intervalSecond">间隔时间</param>
         /// <param name="helloText">打招呼文本</param>
         /// <param name="label">好友标签,方便归类管理</param>
         /// <returns>微信响应结果</returns>
-        [Obsolete("由于微信对于自动化的限制，暂时放弃此方法,修改成硬件模拟的方式")]
         public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", string label = "")
         {
             ChatResponse result = new ChatResponse();
@@ -1443,7 +1445,6 @@ namespace WeChatAuto.Components
                             Wait.UntilInputIsProcessed();
                             Thread.Sleep(600);
                             var listItem = paneRoot.FindFirstByXPath("//ListItem")?.AsListBoxItem();
-                            // var listItem = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(item))).Select(u => u.AsListBoxItem()).ToList();
                             if (listItem != null)
                             {
                                 listItem.DrawHighlightExt();
@@ -1452,26 +1453,16 @@ namespace WeChatAuto.Components
                                 {
                                     button.DrawHighlightExt();
                                     button.WaitUntilClickable();
-                                    // Mouse.LeftClick(button.GetClickablePoint());
-                                    // var rect = button.BoundingRectangle;
-                                    // var point = rect.Center();
-                                    // Mouse.MoveTo(point);
-                                    // Mouse.Click(FlaUI.Core.Input.MouseButton.Left);
-                                    // button.Focus();
-                                    // Keyboard.Press(VirtualKeyShort.RETURN);
-                                    // var rect = button.BoundingRectangle;
-                                    // var center = rect.Center();
-                                    // InputSimulator sim = new InputSimulator();
-                                    // double x = center.X * 65535 / System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
-                                    // double y = center.Y * 65535 / System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
-                                    // sim.Mouse.MoveMouseToPositionOnVirtualDesktop(x, y);
-                                    // sim.Mouse.LeftButtonClick();
-                                    // button.Focus();
-                                    // sim.Keyboard.KeyPress(VirtualKeyCode.RETURN);
 
-                                    //InputHelper.LeftClickAtSafe(button.GetClickablePoint().X, button.GetClickablePoint().Y);
+                                    listItem.GetParent().Focus();
+                                    var point = button.BoundingRectangle.Center();
+                                    // KMSimulatorService.LeftClick(point);
+                                    // KMSimulatorService.LeftClick();
+                                    Mouse.MoveTo(point);
+                                    Mouse.LeftClick();
+                                    Mouse.LeftClick();
 
-                                    Thread.Sleep(600);
+                                    return;
                                     var addPane = Retry.WhileNull(() => paneRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("添加好友")).And(cf.ByClassName("WeUIDialog"))),
                                         TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
                                     if (addPane != null)

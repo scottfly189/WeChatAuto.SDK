@@ -549,10 +549,9 @@ namespace WeChatAuto.Tests.Components
             Assert.True(result.Success);
         }
 
-        [Theory(Skip = "测试添加群聊成员为好友,适用于他有群")]
+        [Theory(DisplayName = "测试添加群聊成员为好友,适用于他有群")]
         [InlineData("他有群01")]
         [InlineData("他有群02")]
-        [Obsolete("由于微信对于自动化的限制，暂时放弃此方法，修改成硬件模拟的方式")]
         public async Task Test_AddChatGroupMemberToFriends(string groupName)
         {
             var framework = _globalFixture.wxFramwork;
