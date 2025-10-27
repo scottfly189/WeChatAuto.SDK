@@ -61,11 +61,11 @@ namespace WxAutoCommon.Configs
         /// <summary>
         /// 键鼠模拟器设备VID
         /// </summary>
-        public uint KMDeiviceVID { get; set; } = 0x2612;
+        public int KMDeiviceVID { get; set; } = 0x2612;
         /// <summary>
         /// 键鼠模拟器设备PID
         /// </summary>
-        public uint KMDeivicePID { get; set; } = 0x1701;
+        public int KMDeivicePID { get; set; } = 0x1701;
     }
 
     public static class Language

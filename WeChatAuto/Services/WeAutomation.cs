@@ -25,6 +25,10 @@ namespace WeChatAuto.Services
             services.AddSingleton<WeChatFramwork>();
             services.AddAutoLogger();
             options?.Invoke(_config);
+            if (_config.EnableMouseKeyboardSimulator)
+            {
+                services.AddKMSimulator(_config.KMDeiviceVID, _config.KMDeivicePID);
+            }
 
             return services;
         }
