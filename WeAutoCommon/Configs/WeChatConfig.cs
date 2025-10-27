@@ -1,4 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Runtime.InteropServices;
 using System.IO;
 
 namespace WxAutoCommon.Configs
@@ -48,7 +52,20 @@ namespace WxAutoCommon.Configs
         /// 是否启用调试模式
         /// </summary>
         public bool DebugMode { get; set; } = false;
-
+        /// <summary>
+        /// 是否启用鼠标键盘模拟器
+        /// 启用后，一些普通automation操作不了功能，启用硬件模拟器后，可以操作。
+        /// 注意：需要购买键鼠模拟器，并在此处启用。
+        /// </summary>
+        public bool EnableMouseKeyboardSimulator { get; set; } = false;
+        /// <summary>
+        /// 键鼠模拟器设备VID
+        /// </summary>
+        public uint KMDeiviceVID { get; set; } = 0x2612;
+        /// <summary>
+        /// 键鼠模拟器设备PID
+        /// </summary>
+        public uint KMDeivicePID { get; set; } = 0x1701;
     }
 
     public static class Language
