@@ -1456,11 +1456,12 @@ namespace WeChatAuto.Components
 
                                     listItem.GetParent().Focus();
                                     var point = button.BoundingRectangle.Center();
-                                    // KMSimulatorService.LeftClick(point);
-                                    // KMSimulatorService.LeftClick();
-                                    Mouse.MoveTo(point);
-                                    Mouse.LeftClick();
-                                    Mouse.LeftClick();
+                                    var scale = KMSimulatorService.GetScaleForWindow(_SelfWindow.Properties.NativeWindowHandle);
+                                    KMSimulatorService.LeftClick((int)(point.X*scale), (int)(point.Y*scale));
+                                    KMSimulatorService.LeftClick();
+                                    // Mouse.MoveTo(point);
+                                    // Mouse.LeftClick();
+                                    // Mouse.LeftClick();
 
                                     return;
                                     var addPane = Retry.WhileNull(() => paneRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("添加好友")).And(cf.ByClassName("WeUIDialog"))),

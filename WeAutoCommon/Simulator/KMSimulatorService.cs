@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace WxAutoCommon.Simulator
@@ -245,6 +246,24 @@ namespace WxAutoCommon.Simulator
         {
             Skm.HKMMoveTo(_deviceData, x, y);
             Skm.HKMMouseWheel(_deviceData, count);
+        }
+
+        [DllImport("user32.dll")]
+        static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
+
+        [DllImport("shcore.dll")]
+        static extern int GetDpiForMonitor(IntPtr hmonitor, int dpiType, out uint dpiX, out uint dpiY);
+
+        const int MDT_EFFECTIVE_DPI = 0;
+
+        public static double GetScaleForWindow(IntPtr hwnd)
+        {
+            var mon = MonitorFromWindow(hwnd, 2); 
+            if (mon == IntPtr.Zero) return 1.0;
+            uint dpiX, dpiY;
+            int hr = GetDpiForMonitor(mon, MDT_EFFECTIVE_DPI, out dpiX, out dpiY);
+            if (hr == 0) return dpiX / 96.0;
+            return 1.0;
         }
     }
 }
