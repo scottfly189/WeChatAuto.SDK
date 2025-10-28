@@ -9,6 +9,12 @@ namespace WeChatAuto.Utils
 {
     public class MomentsHelper
     {
+        /// <summary>
+        /// 解析朋友圈内容
+        /// </summary>
+        /// <param name="item">朋友圈内容列表项</param>
+        /// <param name="nickName">我的昵称</param>
+        /// <returns>朋友圈内容<see cref="MonentItem"/></returns>
         public MonentItem ParseMonentItem(ListBoxItem item, string nickName)
         {
             var monentItem = new MonentItem(nickName);

@@ -318,13 +318,13 @@ namespace WeChatAuto.Components
         /// 点赞朋友圈
         /// </summary>
         /// <param name="nickNames">好友名称或好友名称列表</param>
-        public void LikeMoments(OneOf<string, List<string>> nickNames)
+        public void LikeMoments(OneOf<string, string[]> nickNames)
         {
             if (_disposed)
                 return;
             _logger.Info("点赞朋友圈开始...");
             var myNickName = _WxMainWindow.NickName;
-            var searchNickNames = nickNames.Value is string nickName ? new List<string> { nickName } : nickNames.Value as List<string>;
+            var searchNickNames = nickNames.Value is string nickName ? new string[] { nickName } : nickNames.Value as string[];
             _SelfUiThreadInvoker.Run(automation =>
             {
                 Window momentWindow = _GetMomentWindow(automation);
@@ -356,7 +356,7 @@ namespace WeChatAuto.Components
             }).Wait();
         }
 
-        private void LikeMomentsItem(List<MonentItem> currentMomentsList, string myNickName, List<string> searchNickNames, ref double scrollAmount, ListBox rootListBox, IScrollPattern pattern, Window momentWindow)
+        private void LikeMomentsItem(List<MonentItem> currentMomentsList, string myNickName, string[] searchNickNames, ref double scrollAmount, ListBox rootListBox, IScrollPattern pattern, Window momentWindow)
         {
             foreach (var moment in currentMomentsList)
             {
@@ -380,7 +380,8 @@ namespace WeChatAuto.Components
                             button.WaitUntilClickable();
                             button.DrawHighlightExt();
                             //ClickHighlighter.ShowClick(button.BoundingRectangle.Center());
-                            momentWindow.SilenceClickExt(button);
+                            // momentWindow.SilenceClickExt(button);
+                            button.Click();
                             Thread.Sleep(600);
                             xPath = "//Button[1][@Name='赞']";
                             var linkButtonResult = Retry.WhileNull(() => momentWindow.FindFirstByXPath(xPath)?.AsButton(),
