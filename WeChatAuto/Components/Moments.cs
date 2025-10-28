@@ -378,16 +378,22 @@ namespace WeChatAuto.Components
                                 button = item.FindFirstByXPath(xPath)?.AsButton();
                             }
                             button.WaitUntilClickable();
+                            button.DrawHighlightExt();
+                            //ClickHighlighter.ShowClick(button.BoundingRectangle.Center());
                             momentWindow.SilenceClickExt(button);
                             Thread.Sleep(600);
-                            xPath = "/Pane/Pane/Pane/Button[1][@Name='赞']";
+                            xPath = "//Button[1][@Name='赞']";
                             var linkButtonResult = Retry.WhileNull(() => momentWindow.FindFirstByXPath(xPath)?.AsButton(),
                                 timeout: TimeSpan.FromSeconds(3), interval: TimeSpan.FromMilliseconds(200));
                             if (linkButtonResult.Success && linkButtonResult.Result != null)
                             {
                                 var linkButton = linkButtonResult.Result;
                                 linkButton.WaitUntilClickable();
-                                momentWindow.SilenceClickExt(linkButton);
+                                linkButton.DrawHighlightExt();
+                                //ClickHighlighter.ShowClick(linkButton.BoundingRectangle.Center());
+
+                                //momentWindow.SilenceClickExt(linkButton);
+                                linkButton.Click();
                                 Thread.Sleep(600);
                             }
                         }
