@@ -19,7 +19,10 @@ namespace WxAutoCommon.Simulator
             var deviceId = SearchDevice(deviceVID, devicePID);
             OpenDevice(deviceId);
         }
-
+        /// <summary>
+        /// 复制DLL到当前目录
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         private static void CopyDllToCurrentDirectory()
         {
             var path = Environment.Is64BitProcess ? "x64" : "x86";

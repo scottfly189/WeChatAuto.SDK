@@ -23,6 +23,11 @@ namespace WxAutoCommon.Models
         /// 时间
         /// </summary>
         public string Time { get; set; }
+
+        /// <summary>
+        /// 列表项唯一标识
+        /// </summary>
+        public string ListItemKey { get; set; }
         /// <summary>
         /// 评论列表
         /// </summary>
@@ -42,6 +47,15 @@ namespace WxAutoCommon.Models
                 return Likers.Contains(_nickName);
             }
         }
+
+        public string UniqueKey
+        {
+            get
+            {
+                return $"From: {From}, Content: {Content}, Time: {Time}";
+            }
+        }
+
 
         public override string ToString()
         {

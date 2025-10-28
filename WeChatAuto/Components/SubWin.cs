@@ -1456,6 +1456,7 @@ namespace WeChatAuto.Components
 
                                     listItem.GetParent().Focus();
                                     var point = button.BoundingRectangle.Center();
+                                    
                                     var scale = KMSimulatorService.GetScaleForWindow(_SelfWindow.Properties.NativeWindowHandle);
                                     KMSimulatorService.LeftClick((int)(point.X*scale), (int)(point.Y*scale));
                                     KMSimulatorService.LeftClick();

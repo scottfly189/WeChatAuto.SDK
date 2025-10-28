@@ -13,7 +13,7 @@ namespace WeChatAuto.Utils
         {
             var monentItem = new MonentItem(nickName);
             var content = item.Name;
-            var splitTempStr = content.Split(new string[] { "\n"}, StringSplitOptions.RemoveEmptyEntries);
+            var splitTempStr = content.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
             var title = splitTempStr[0].Trim();
             if (title.EndsWith(":"))
             {
@@ -25,6 +25,7 @@ namespace WeChatAuto.Utils
             }
             monentItem.Content = _GetContent(item);
             monentItem.Time = _GetTime(splitTempStr);
+            monentItem.ListItemKey = item.Name;
             _FetchLikes(monentItem, item);
             _FetchReplyItems(monentItem, item);
 

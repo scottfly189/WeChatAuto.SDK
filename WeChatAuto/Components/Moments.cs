@@ -15,6 +15,8 @@ using WeChatAuto.Extentions;
 using FlaUI.UIA3;
 using OneOf;
 using System.Threading.Tasks;
+using System.Linq;
+using FlaUI.Core.Patterns;
 
 namespace WeChatAuto.Components
 {
@@ -23,6 +25,7 @@ namespace WeChatAuto.Components
     /// </summary>
     public class Moments : IDisposable
     {
+        private const double SCROLL_STEP = 0.05;
         private readonly AutoLogger<Moments> _logger;
         private Window _MainWindow;
         private WeChatMainWindow _WxMainWindow;
@@ -144,11 +147,108 @@ namespace WeChatAuto.Components
             }).Result;
             return result;
         }
+        /// <summary>
+        /// 获取朋友圈内容列表,静默模式
+        /// </summary>
+        /// <returns>朋友圈内容列表<see cref="MonentItem"/></returns>
+        public List<MonentItem> GetMomentsListSilence()
+        {
+            if (_disposed)
+                return null;
+            this.OpenMoments();
+            var result = _SelfUiThreadInvoker.Run(automation =>
+            {
+                var deskTop = automation.GetDesktop();
+                var window = Retry.WhileNull(() => deskTop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByProcessId(_MainWindow.Properties.ProcessId)).And(cf.ByClassName("SnsWnd"))).AsWindow(),
+                    timeout: TimeSpan.FromSeconds(3),
+                    interval: TimeSpan.FromMilliseconds(200));
+                var momentWindow = window.Success ? window.Result : null;
+                momentWindow.DrawHighlightExt();
+
+                var momentsList = new List<MonentItem>();
+                var rootListBox = momentWindow.FindFirstByXPath("//List[@Name='朋友圈']")?.AsListBox();
+                rootListBox.DrawHighlightExt();
+                if (rootListBox.Patterns.Scroll.IsSupported)
+                {
+                    var pattern = rootListBox.Patterns.Scroll.Pattern;
+                    pattern.SetScrollPercent(0, 0);
+                    Thread.Sleep(600);
+                    double scrollAmount = 0;
+                    while (true)
+                    {
+                        var isEnd = this.AddMomentsItemAndReturn(momentsList, rootListBox);
+                        if (isEnd)
+                            break;
+                        scrollAmount += SCROLL_STEP;
+                        pattern.SetScrollPercent(0, scrollAmount);
+                        Thread.Sleep(600);
+                    }
+                }
+
+                return momentsList;
+            }).Result;
+            return result;
+        }
+
+        private bool AddMomentsItemAndReturn(List<MonentItem> momentsList, ListBox rootListBox)
+        {
+            var result = false;
+            MomentsHelper momentsHelper = new MomentsHelper();
+            var items = rootListBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
+            if (items.Any(item => string.IsNullOrWhiteSpace(item.Name)))
+            {
+                result = true;
+                items = items.Where(item => !string.IsNullOrWhiteSpace(item.Name)).ToArray();
+            }
+            foreach (var item in items)
+            {
+                var monentItem = momentsHelper.ParseMonentItem(item.AsListBoxItem(), _WxMainWindow.NickName);
+                if (monentItem != null && !momentsList.Exists(m => m.From == monentItem.From && m.Content == monentItem.Content && m.Time == monentItem.Time))
+                {
+                    momentsList.Add(monentItem);
+                }
+            }
+            return result;
+        }
+
+        private (List<MonentItem> list, bool isEnd) _GetCurentMomentsItems(ListBox rootListBox)
+        {
+            bool isEnd = false;
+            var list = new List<MonentItem>();
+            MomentsHelper momentsHelper = new MomentsHelper();
+            var items = rootListBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
+            if (items.Any(item => string.IsNullOrWhiteSpace(item.Name)))
+            {
+                isEnd = true;
+                items = items.Where(item => !string.IsNullOrWhiteSpace(item.Name)).ToArray();
+            }
+            foreach (var item in items)
+            {
+                var monentItem = momentsHelper.ParseMonentItem(item.AsListBoxItem(), _WxMainWindow.NickName);
+                list.Add(monentItem);
+            }
+            return (list, isEnd);
+        }
+
+        private void AddMomentsItem(List<MonentItem> momentsList, ListBox rootListBox)
+        {
+            MomentsHelper momentsHelper = new MomentsHelper();
+            var items = rootListBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
+            items = items.Where(item => !string.IsNullOrWhiteSpace(item.Name)).ToArray();
+            foreach (var item in items)
+            {
+                var monentItem = momentsHelper.ParseMonentItem(item.AsListBoxItem(), _WxMainWindow.NickName);
+                if (monentItem != null && !momentsList.Exists(m => m.From == monentItem.From && m.Content == monentItem.Content && m.Time == monentItem.Time))
+                {
+                    momentsList.Add(monentItem);
+                }
+            }
+        }
 
         /// <summary>
         /// 刷新朋友圈
         /// </summary>
-        public void RefreshMomentsList(Action<UIA3Automation,Window> action = null)
+        public void RefreshMomentsList(Action<UIA3Automation, Window> action = null)
         {
             if (_disposed)
                 return;
@@ -217,23 +317,102 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 点赞朋友圈
         /// </summary>
-        /// <param name="monentItem">朋友圈内容<see cref="MonentItem"/></param>
-        public void LikeMoments(MonentItem monentItem)
+        /// <param name="nickNames">好友名称或好友名称列表</param>
+        public void LikeMoments(OneOf<string, List<string>> nickNames)
         {
             if (_disposed)
                 return;
             _logger.Info("点赞朋友圈开始...");
+            var myNickName = _WxMainWindow.NickName;
+            var searchNickNames = nickNames.Value is string nickName ? new List<string> { nickName } : nickNames.Value as List<string>;
             _SelfUiThreadInvoker.Run(automation =>
             {
+                Window momentWindow = _GetMomentWindow(automation);
+                var momentsList = new List<MonentItem>();
+                var rootListBox = momentWindow.FindFirstByXPath("//List[@Name='朋友圈']")?.AsListBox();
+                rootListBox.DrawHighlightExt();
+                if (rootListBox.Patterns.Scroll.IsSupported)
+                {
+                    var pattern = rootListBox.Patterns.Scroll.Pattern;
+                    pattern.SetScrollPercent(0, 0);
+                    Thread.Sleep(600);
+                    double scrollAmount = 0;
+                    while (true)
+                    {
+                        var (mList, isEnd) = this._GetCurentMomentsItems(rootListBox);
+                        var flag = mList.Any(m => searchNickNames.Contains(m.From));
+                        if (flag)
+                        {
+                            this.LikeMomentsItem(mList, myNickName, searchNickNames, ref scrollAmount, rootListBox, pattern, momentWindow);
+                        }
+                        if (isEnd)
+                            break;
+                        scrollAmount += SCROLL_STEP;
+                        pattern.SetScrollPercent(0, scrollAmount);
+                        Thread.Sleep(600);
+                    }
+
+                }
             }).Wait();
+        }
+
+        private void LikeMomentsItem(List<MonentItem> currentMomentsList, string myNickName, List<string> searchNickNames, ref double scrollAmount, ListBox rootListBox, IScrollPattern pattern, Window momentWindow)
+        {
+            foreach (var moment in currentMomentsList)
+            {
+                if (searchNickNames.Contains(moment.From))
+                {
+                    if (!moment.IsMyLiked)
+                    {
+                        var name = moment.ListItemKey;
+                        var item = rootListBox.FindFirstChild(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(name)))?.AsListBoxItem();
+                        if (item != null)
+                        {
+                            var xPath = "//Button[@Name='评论']";
+                            var button = item.FindFirstByXPath(xPath)?.AsButton();
+                            while (button.IsOffscreen)
+                            {
+                                scrollAmount += SCROLL_STEP;
+                                pattern.SetScrollPercent(0, scrollAmount);
+                                Thread.Sleep(600);
+                                button = item.FindFirstByXPath(xPath)?.AsButton();
+                            }
+                            button.WaitUntilClickable();
+                            momentWindow.SilenceClickExt(button);
+                            Thread.Sleep(600);
+                            xPath = "/Pane/Pane/Pane/Button[1][@Name='赞']";
+                            var linkButtonResult = Retry.WhileNull(() => momentWindow.FindFirstByXPath(xPath)?.AsButton(),
+                                timeout: TimeSpan.FromSeconds(3), interval: TimeSpan.FromMilliseconds(200));
+                            if (linkButtonResult.Success && linkButtonResult.Result != null)
+                            {
+                                var linkButton = linkButtonResult.Result;
+                                linkButton.WaitUntilClickable();
+                                momentWindow.SilenceClickExt(linkButton);
+                                Thread.Sleep(600);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private Window _GetMomentWindow(UIA3Automation automation)
+        {
+            var deskTop = automation.GetDesktop();
+            var window = Retry.WhileNull(() => deskTop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByProcessId(_MainWindow.Properties.ProcessId)).And(cf.ByClassName("SnsWnd"))).AsWindow(),
+                timeout: TimeSpan.FromSeconds(3),
+                interval: TimeSpan.FromMilliseconds(200));
+            var momentWindow = window.Success ? window.Result : null;
+            momentWindow.DrawHighlightExt();
+            return momentWindow;
         }
 
         /// <summary>
         /// 回复朋友圈
         /// </summary>
-        /// <param name="monentItem">朋友圈内容<see cref="MonentItem"/></param>
+        /// <param name="nickName">好友名称</param>
         /// <param name="replyContent">回复内容</param>
-        public void ReplyMoments(MonentItem monentItem, string replyContent)
+        public void ReplyMoments(string nickName, string replyContent)
         {
             if (_disposed)
                 return;
@@ -285,6 +464,7 @@ namespace WeChatAuto.Components
             if (_disposed) return;
             if (disposing)
             {
+                StopMomentsListener();
             }
             _SelfUiThreadInvoker.Dispose();
             _disposed = true;

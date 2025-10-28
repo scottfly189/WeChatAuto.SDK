@@ -46,6 +46,21 @@ namespace WeChatAuto.Tests.Components
             Assert.True(true);
         }
 
+        [Fact(DisplayName = "测试获取朋友圈内容列表,静默模式")]
+        public void TestGetMomentsListSilence()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var moments = window.Moments;
+            var momentsList = moments.GetMomentsListSilence();
+            foreach (var item in momentsList)
+            {
+                _output.WriteLine(item.ToString());
+            }
+            Assert.True(true);
+        }
+
         [Fact(DisplayName = "测试刷新朋友圈内容列表")]
         public void TestRefreshMomentsList()
         {
@@ -54,6 +69,17 @@ namespace WeChatAuto.Tests.Components
             var window = client.WxMainWindow;
             var moments = window.Moments;
             moments.RefreshMomentsList();
+            Assert.True(true);
+        }
+
+        [Fact(DisplayName = "测试点赞朋友圈")]
+        public void TestLikeMoments()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var moments = window.Moments;
+            moments.LikeMoments("Alex Zhao");
             Assert.True(true);
         }
     }
