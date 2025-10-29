@@ -47,6 +47,34 @@ namespace WxAutoCommon.Models
                 return Likers.Contains(_nickName);
             }
         }
+        /// <summary>
+        /// 我是否是最后一个回复的人
+        /// 判断条件：回复列表不为空，且最后一个回复的人是我
+        /// </summary>
+        public bool IsMyEndReply
+        {
+            get
+            {
+                var lastReplyItem = ReplyItems.LastOrDefault();
+                if (lastReplyItem == null)
+                {
+                    return false;
+                }
+                return lastReplyItem.From == _nickName;
+            }
+        }
+
+        /// <summary>
+        /// 是否包含我的回复
+        /// 判断条件：回复列表不为空，且包含我的回复
+        /// </summary>
+        public bool IsIncludeMyReply
+        {
+            get
+            {
+                return ReplyItems.Any(r => r.From == _nickName);
+            }
+        }
 
         public string UniqueKey
         {

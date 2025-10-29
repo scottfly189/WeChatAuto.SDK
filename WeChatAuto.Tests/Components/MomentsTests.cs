@@ -79,7 +79,7 @@ namespace WeChatAuto.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var moments = window.Moments;
-            moments.LikeMoments(new string[] { "Alex Zhao", "阮宙园-上海-融资", "顾自己" });
+            moments.LikeMoments(new string[] { "Alex Zhao", "阮宙园-上海-融资", "顾自己","Hans-文韬","雨飞","尚万虎-数学老师"});
             Assert.True(true);
         }
     }

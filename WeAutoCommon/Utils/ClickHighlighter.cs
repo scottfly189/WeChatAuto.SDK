@@ -41,15 +41,12 @@ public static class ClickHighlighter
     /// <param name="position">坐标</param>
     /// <param name="radius">半径</param>
     /// <param name="duration">停留时间</param>
-    public static void ShowClick(Point position, int radius = 20, int duration = 500)
+    public static void ShowClick(Point position, int radius = 20, int duration = 1000)
     {
         IntPtr desktopDC = GetDC(IntPtr.Zero);
-
         uint color = (uint)((255) | (0 << 8) | (0 << 16)); // 红色
-
         IntPtr brush = CreateSolidBrush(color);
         IntPtr old = SelectObject(desktopDC, brush);
-
         // 绘制圆形
         Ellipse(desktopDC,
             position.X - radius,

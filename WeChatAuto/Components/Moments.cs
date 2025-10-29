@@ -17,6 +17,7 @@ using OneOf;
 using System.Threading.Tasks;
 using System.Linq;
 using FlaUI.Core.Patterns;
+using WeAutoCommon.Utils;
 
 namespace WeChatAuto.Components
 {
@@ -328,6 +329,8 @@ namespace WeChatAuto.Components
             _SelfUiThreadInvoker.Run(automation =>
             {
                 Window momentWindow = _GetMomentWindow(automation);
+                //先刷新朋友圈列表
+                this._RefreshMomentsListCore(momentWindow);
                 var momentsList = new List<MonentItem>();
                 var rootListBox = momentWindow.FindFirstByXPath("//List[@Name='朋友圈']")?.AsListBox();
                 rootListBox.DrawHighlightExt();
@@ -356,10 +359,32 @@ namespace WeChatAuto.Components
             }).Wait();
         }
 
+        private void _RefreshMomentsListCore(Window momentWindow)
+        {
+            var xPath = "//ToolBar";
+            var toolBar = momentWindow.FindFirstByXPath(xPath);
+            if (toolBar != null)
+            {
+                var refreshButton = toolBar?.FindFirstByXPath("//Button[@Name='刷新']")?.AsButton();
+                refreshButton?.DrawHighlightExt();
+                if (refreshButton != null)
+                {
+                    refreshButton.WaitUntilClickable();
+                    momentWindow.SilenceClickExt(refreshButton);   //静默点击刷新按钮
+                    Thread.Sleep(1000);
+                }
+                else
+                {
+                    _logger.Error("刷新朋友圈失败，刷新按钮未找到");
+                }
+            }
+        }
+
         private void LikeMomentsItem(List<MonentItem> currentMomentsList, string myNickName, string[] searchNickNames, ref double scrollAmount, ListBox rootListBox, IScrollPattern pattern, Window momentWindow)
         {
             foreach (var moment in currentMomentsList)
             {
+                Mouse.Position = momentWindow.BoundingRectangle.Center();
                 if (searchNickNames.Contains(moment.From))
                 {
                     if (!moment.IsMyLiked)
@@ -378,11 +403,8 @@ namespace WeChatAuto.Components
                                 button = item.FindFirstByXPath(xPath)?.AsButton();
                             }
                             button.WaitUntilClickable();
+                            momentWindow.Focus();
                             button.DrawHighlightExt();
-                            var point = momentWindow.GetDpiAwarePoint(button);
-                            ClickHighlighter.ShowClick(point);
-                            //ClickHighlighter.ShowClick(button.BoundingRectangle.Center());
-                            momentWindow.SilenceClickExt(button);
                             button.Click();
                             Thread.Sleep(600);
                             xPath = "//Button[1][@Name='赞']";
@@ -393,9 +415,6 @@ namespace WeChatAuto.Components
                                 var linkButton = linkButtonResult.Result;
                                 linkButton.WaitUntilClickable();
                                 linkButton.DrawHighlightExt();
-                                //ClickHighlighter.ShowClick(linkButton.BoundingRectangle.Center());
-
-                                //momentWindow.SilenceClickExt(linkButton);
                                 linkButton.Click();
                                 Thread.Sleep(600);
                             }

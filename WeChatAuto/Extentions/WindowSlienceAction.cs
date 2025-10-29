@@ -11,6 +11,9 @@ using WeChatAuto.Components;
 using WeChatAuto.Utils;
 using FlaUI.Core;
 using FlaUI.UIA3;
+using FlaUI.Core.Tools;
+using WeAutoCommon.Utils;
+using System.Drawing;
 
 namespace WeChatAuto.Extentions
 {
@@ -23,6 +26,7 @@ namespace WeChatAuto.Extentions
         /// <summary>
         /// 静默点击
         /// 最好保证是最近刷新的元素，这样支持窗口移动.
+        /// 此方法dpi无感
         /// </summary>
         /// <param name="window">窗口Window</param>
         /// <param name="element">要点击的元素<see cref="AutomationElement"/>最好保证是最近刷新的元素</param>
@@ -40,6 +44,38 @@ namespace WeChatAuto.Extentions
             var windowRectangle = window.BoundingRectangle;
             int clientX = x - windowRectangle.X;
             int clientY = y - windowRectangle.Y;
+
+            // 构建 lParam (y << 16) | (x & 0xFFFF)
+            int lParamValue = (clientY << 16) | (clientX & 0xFFFF);
+            IntPtr lParam = (IntPtr)lParamValue;
+
+            // 鼠标按下
+            User32.SendMessage(windowHandle, WindowsMessages.WM_LBUTTONDOWN, IntPtr.Zero, lParam);
+            // 鼠标释放
+            User32.SendMessage(windowHandle, WindowsMessages.WM_LBUTTONUP, IntPtr.Zero, lParam);
+            Wait.UntilInputIsProcessed();
+        }
+        /// <summary>
+        /// 测试
+        /// </summary>
+        /// <param name="window"></param>
+        /// <param name="element"></param>
+        public static void SilenceClickExt2(this Window window, AutomationElement element)
+        {
+            Wait.UntilInputIsProcessed();
+            var windowHandle = window.Properties.NativeWindowHandle.Value;
+            var elementRectangle = element.BoundingRectangle;
+            var dpi = DpiHelper.GetWindowDpi(windowHandle);
+            double scale = dpi / 96;
+
+            // 计算按钮中心点相对于窗口的坐标
+            int x = elementRectangle.X + (elementRectangle.Width / 2);
+            int y = elementRectangle.Y + (elementRectangle.Height / 2);
+
+            // 转换为窗口客户区坐标
+            var windowRectangle = window.BoundingRectangle;
+            int clientX = (int)((x - windowRectangle.X) * scale);
+            int clientY = (int)((y - windowRectangle.Y) * scale);
 
             // 构建 lParam (y << 16) | (x & 0xFFFF)
             int lParamValue = (clientY << 16) | (clientX & 0xFFFF);
@@ -133,6 +169,48 @@ namespace WeChatAuto.Extentions
 
             Wait.UntilInputIsProcessed();
             System.Threading.Thread.Sleep(500);
+        }
+        /// <summary>
+        /// 显示点击
+        /// 此方法dpi无感
+        /// </summary>
+        /// <param name="window">窗口</param>
+        /// <param name="element">元素</param>
+        public static void ShowClick(this Window window, AutomationElement element)
+        {
+            ClickHighlighter.ShowClick(element.BoundingRectangle.Center());
+        }
+        /// <summary>
+        /// 显示点击
+        /// 此方法dpi感知
+        /// </summary>
+        /// <param name="window">窗口</param>
+        /// <param name="element">元素</param>
+        public static void ShowAwareClick(this Window window, AutomationElement element)
+        {
+            var point = window.GetDpiAwarePoint(element);
+            ClickHighlighter.ShowClick(point);
+        }
+        /// <summary>
+        /// 显示点击
+        /// 此方法dpi无感知
+        /// </summary>
+        /// <param name="window">窗口</param>
+        /// <param name="point">坐标</param>
+        public static void ShowClick(this Window window, Point point)
+        {
+            ClickHighlighter.ShowClick(point);
+        }
+        /// <summary>
+        /// 显示点击
+        /// 此方法dpi感知
+        /// </summary>
+        /// <param name="window">窗口</param>
+        /// <param name="point">坐标</param>
+        public static void ShowAwareClick(this Window window, Point point)
+        {
+            var dpiPoint = window.GetDpiAwarePoint(point);
+            ClickHighlighter.ShowClick(dpiPoint);
         }
     }
 }

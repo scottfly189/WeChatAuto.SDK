@@ -5,11 +5,13 @@ using System.Runtime.InteropServices;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Tools;
 
-namespace WxAutoCommon.Utils
+namespace WeAutoCommon.Utils
 {
     public static class DpiHelper
     {
-        // ---- DPI 感知级别 ----
+        private const string USER32 = "user32.dll";
+        private const string SHCORE = "shcore.dll";
+
         public enum ProcessDpiAwareness
         {
             Process_DPI_Unaware = 0,
@@ -17,7 +19,61 @@ namespace WxAutoCommon.Utils
             Process_Per_Monitor_DPI_Aware = 2
         }
 
-        // ---- DPI_AWARENESS_CONTEXT ----
+        [DllImport("kernel32.dll")]
+        private static extern IntPtr GetCurrentProcess();
+
+        [DllImport("kernel32.dll")]
+        private static extern IntPtr OpenProcess(uint dwDesiredAccess, bool bInheritHandle, uint dwProcessId);
+
+        [DllImport("kernel32.dll")]
+        private static extern bool CloseHandle(IntPtr hObject);
+
+        [DllImport(USER32)]
+        private static extern IntPtr GetForegroundWindow();
+
+        [DllImport(USER32)]
+        private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+        [DllImport(USER32)]
+        private static extern bool IsProcessDPIAware();
+
+        [DllImport(SHCORE)]
+        private static extern int GetProcessDpiAwareness(IntPtr hProcess, out ProcessDpiAwareness awareness);
+
+        [DllImport(USER32)]
+        private static extern uint GetDpiForWindow(IntPtr hwnd);
+
+        private const uint PROCESS_QUERY_INFORMATION = 0x0400;
+
+        // 动态加载函数
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr GetModuleHandle(string lpModuleName);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
+
+        private delegate IntPtr GetDpiAwarenessContextForWindowDelegate(IntPtr hwnd);
+        private delegate bool AreDpiAwarenessContextsEqualDelegate(IntPtr a, IntPtr b);
+
+        private static GetDpiAwarenessContextForWindowDelegate _getContext;
+        private static AreDpiAwarenessContextsEqualDelegate _cmpContext;
+
+        static DpiHelper()
+        {
+            var user32 = GetModuleHandle(USER32);
+            if (user32 != IntPtr.Zero)
+            {
+                var getCtxPtr = GetProcAddress(user32, "GetDpiAwarenessContextForWindow");
+                var cmpPtr = GetProcAddress(user32, "AreDpiAwarenessContextsEqual");
+
+                if (getCtxPtr != IntPtr.Zero)
+                    _getContext = (GetDpiAwarenessContextForWindowDelegate)Marshal.GetDelegateForFunctionPointer(getCtxPtr, typeof(GetDpiAwarenessContextForWindowDelegate));
+
+                if (cmpPtr != IntPtr.Zero)
+                    _cmpContext = (AreDpiAwarenessContextsEqualDelegate)Marshal.GetDelegateForFunctionPointer(cmpPtr, typeof(AreDpiAwarenessContextsEqualDelegate));
+            }
+        }
+
         private enum DpiAwarenessContext
         {
             Unaware = 16,
@@ -26,45 +82,78 @@ namespace WxAutoCommon.Utils
             PerMonitorAwareV2 = 34
         }
 
-        // ---- API 声明 ----
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetForegroundWindow();
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
-
-        [DllImport("user32.dll")]
-        private static extern bool GetProcessDpiAwareness(IntPtr hProcess, out ProcessDpiAwareness awareness);
-
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetDpiAwarenessContextForWindow(IntPtr hwnd);
-
-        [DllImport("user32.dll")]
-        private static extern bool AreDpiAwarenessContextsEqual(IntPtr dpiContextA, IntPtr dpiContextB);
-
-        [DllImport("kernel32.dll")]
-        private static extern IntPtr GetCurrentProcess();
-
-        [DllImport("user32.dll")]
-        private static extern bool IsProcessDPIAware();
-
-        [DllImport("user32.dll")]
-        private static extern uint GetDpiForWindow(IntPtr hwnd);
-
-        // ---- 判断是否 Per-Monitor V2 感知 ----
         public static bool IsPerMonitorV2Aware(IntPtr hwnd)
         {
-            IntPtr ctx = GetDpiAwarenessContextForWindow(hwnd);
-            return AreDpiAwarenessContextsEqual(ctx, (IntPtr)DpiAwarenessContext.PerMonitorAwareV2);
+            if (_getContext == null || _cmpContext == null) return false;
+            var ctx = _getContext(hwnd);
+            return _cmpContext(ctx, (IntPtr)DpiAwarenessContext.PerMonitorAwareV2);
         }
 
-
-
-        // ---- 获取进程级 DPI 感知 ----
-        public static ProcessDpiAwareness GetProcessAwareness(IntPtr process)
+        public static bool IsPerMonitorAware(IntPtr hwnd)
         {
-            GetProcessDpiAwareness(process, out var awareness);
-            return awareness;
+            if (_getContext == null || _cmpContext == null) return false;
+            var ctx = _getContext(hwnd);
+            return _cmpContext(ctx, (IntPtr)DpiAwarenessContext.PerMonitorAware);
+        }
+
+        /// <summary>
+        /// 获取进程的DPI感知级别（进程级别，无法检测Per-Monitor V2）
+        /// </summary>
+        /// <param name="processHandle">进程句柄，如果为IntPtr.Zero则返回Unknown</param>
+        /// <returns>进程DPI感知级别</returns>
+        public static ProcessDpiAwareness GetProcessAwareness(IntPtr processHandle)
+        {
+            if (processHandle == IntPtr.Zero)
+                return ProcessDpiAwareness.Process_DPI_Unaware;
+
+            try
+            {
+                int hr = GetProcessDpiAwareness(processHandle, out var awareness);
+                // HRESULT S_OK = 0
+                if (hr == 0)
+                    return awareness;
+                else
+                    return ProcessDpiAwareness.Process_DPI_Unaware;
+            }
+            catch
+            {
+                return ProcessDpiAwareness.Process_DPI_Unaware;
+            }
+        }
+
+        /// <summary>
+        /// 从窗口句柄获取进程的DPI感知级别
+        /// </summary>
+        /// <param name="hwnd">窗口句柄</param>
+        /// <returns>进程DPI感知级别</returns>
+        public static ProcessDpiAwareness GetProcessAwarenessFromWindow(IntPtr hwnd)
+        {
+            if (hwnd == IntPtr.Zero)
+                return ProcessDpiAwareness.Process_DPI_Unaware;
+
+            try
+            {
+                GetWindowThreadProcessId(hwnd, out uint processId);
+                if (processId == 0)
+                    return ProcessDpiAwareness.Process_DPI_Unaware;
+
+                IntPtr processHandle = OpenProcess(PROCESS_QUERY_INFORMATION, false, processId);
+                if (processHandle == IntPtr.Zero)
+                    return ProcessDpiAwareness.Process_DPI_Unaware;
+
+                try
+                {
+                    return GetProcessAwareness(processHandle);
+                }
+                finally
+                {
+                    CloseHandle(processHandle);
+                }
+            }
+            catch
+            {
+                return ProcessDpiAwareness.Process_DPI_Unaware;
+            }
         }
 
         // ---- 获取窗口 DPI ----
@@ -78,6 +167,32 @@ namespace WxAutoCommon.Utils
             {
                 return 96; // 默认逻辑DPI
             }
+        }
+
+        public static void DumpDpiInfo(IntPtr hwnd = default, IntPtr process = default)
+        {
+            if (hwnd == IntPtr.Zero)
+                hwnd = GetForegroundWindow();
+
+            // 如果未提供进程句柄，从窗口句柄获取
+            ProcessDpiAwareness processAwareness;
+            if (process == IntPtr.Zero)
+            {
+                processAwareness = GetProcessAwarenessFromWindow(hwnd);
+            }
+            else
+            {
+                processAwareness = GetProcessAwareness(process);
+            }
+
+            Trace.WriteLine("========== DPI 状态 ==========");
+            Trace.WriteLine($"窗口句柄: 0x{hwnd.ToInt64():X}");
+            Trace.WriteLine($"窗口 DPI: {GetWindowDpi(hwnd)}");
+            Trace.WriteLine($"进程感知级别: {processAwareness}");
+            Trace.WriteLine($"Per-Monitor 感知: {IsPerMonitorAware(hwnd)}");
+            Trace.WriteLine($"Per-Monitor V2 感知: {IsPerMonitorV2Aware(hwnd)}");
+            Trace.WriteLine($"IsProcessDPIAware (Win7兼容): {IsProcessDPIAware()}");
+            Trace.WriteLine("==============================");
         }
 
         /// <summary>
@@ -122,5 +237,6 @@ namespace WxAutoCommon.Utils
         {
             return (int)GetWindowDpi(window.Properties.NativeWindowHandle.Value);
         }
+
     }
 }
