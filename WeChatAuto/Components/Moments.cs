@@ -18,6 +18,8 @@ using System.Threading.Tasks;
 using System.Linq;
 using FlaUI.Core.Patterns;
 using WeAutoCommon.Utils;
+using WeChatAuto.Services;
+using WxAutoCommon.Simulator;
 
 namespace WeChatAuto.Components
 {
@@ -395,17 +397,26 @@ namespace WeChatAuto.Components
                         {
                             var xPath = "//Button[@Name='评论']";
                             var button = item.FindFirstByXPath(xPath)?.AsButton();
-                            while (button.IsOffscreen)
+                            var index = 0;
+                            while (button.IsOffscreen && index < 3)
                             {
                                 scrollAmount += SCROLL_STEP;
                                 pattern.SetScrollPercent(0, scrollAmount);
                                 Thread.Sleep(600);
                                 button = item.FindFirstByXPath(xPath)?.AsButton();
+                                index++;
                             }
                             button.WaitUntilClickable();
                             momentWindow.Focus();
                             button.DrawHighlightExt();
-                            button.Click();
+                            if (WeAutomation.Config.EnableMouseKeyboardSimulator)
+                            {
+                                KMSimulatorService.LeftClick(momentWindow, button);
+                            }
+                            else
+                            {
+                                button.Click();
+                            }
                             Thread.Sleep(600);
                             xPath = "//Button[1][@Name='赞']";
                             var linkButtonResult = Retry.WhileNull(() => momentWindow.FindFirstByXPath(xPath)?.AsButton(),
@@ -415,7 +426,14 @@ namespace WeChatAuto.Components
                                 var linkButton = linkButtonResult.Result;
                                 linkButton.WaitUntilClickable();
                                 linkButton.DrawHighlightExt();
-                                linkButton.Click();
+                                if (WeAutomation.Config.EnableMouseKeyboardSimulator)
+                                {
+                                    KMSimulatorService.LeftClick(momentWindow, linkButton);
+                                }
+                                else
+                                {
+                                    linkButton.Click();
+                                }
                                 Thread.Sleep(600);
                             }
                         }

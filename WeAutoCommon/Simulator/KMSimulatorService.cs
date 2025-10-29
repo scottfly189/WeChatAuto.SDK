@@ -3,6 +3,8 @@ using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
+using FlaUI.Core.AutomationElements;
+using WeAutoCommon.Utils;
 
 namespace WxAutoCommon.Simulator
 {
@@ -153,9 +155,18 @@ namespace WxAutoCommon.Simulator
         /// <param name="point">坐标</param>
         public static void LeftClick(Point point)
         {
-            Skm.HKMMoveTo(_deviceData, (Int32)point.X, (Int32)point.Y);
-            Skm.HKMDelayRnd(_deviceData, 100, 150);
-            Skm.HKMLeftClick(_deviceData);
+            LeftClick((int)point.X, (int)point.Y);
+        }
+        /// <summary>
+        /// 左键单击
+        /// 此方法dpi感知
+        /// </summary>
+        /// <param name="window">窗口</param>
+        /// <param name="element">元素</param>
+        public static void LeftClick(Window window, AutomationElement element)
+        {
+            var point = window.GetDpiAwarePoint(element);
+            LeftClick(point);
         }
         /// <summary>
         /// 左键单击
@@ -165,6 +176,7 @@ namespace WxAutoCommon.Simulator
         public static void LeftClick(int x, int y)
         {
             Skm.HKMMoveTo(_deviceData, x, y);
+            Skm.HKMDelayRnd(_deviceData, 100, 150);
             Skm.HKMLeftClick(_deviceData);
         }
         /// <summary>
@@ -180,8 +192,7 @@ namespace WxAutoCommon.Simulator
         /// <param name="point">坐标</param>
         public static void RightClick(Point point)
         {
-            Skm.HKMMoveTo(_deviceData, (Int32)point.X, (Int32)point.Y);
-            Skm.HKMRightClick(_deviceData);
+            RightClick((int)point.X, (int)point.Y);
         }
         /// <summary>
         /// 右键单击
@@ -191,7 +202,20 @@ namespace WxAutoCommon.Simulator
         public static void RightClick(int x, int y)
         {
             Skm.HKMMoveTo(_deviceData, x, y);
+            Skm.HKMDelayRnd(_deviceData, 100, 150);
             Skm.HKMRightClick(_deviceData);
+        }
+
+        /// <summary>
+        /// 右键单击
+        /// 此方法dpi感知
+        /// </summary>
+        /// <param name="window">窗口</param>
+        /// <param name="element">元素</param>
+        public static void RightClick(Window window, AutomationElement element)
+        {
+            var point = window.GetDpiAwarePoint(element);
+            RightClick(point);
         }
 
         /// <summary>
@@ -207,17 +231,29 @@ namespace WxAutoCommon.Simulator
         /// <param name="point">坐标</param>
         public static void MiddleClick(Point point)
         {
-            Skm.HKMMoveTo(_deviceData, (Int32)point.X, (Int32)point.Y);
-            Skm.HKMMiddleClick(_deviceData);
+            MiddleClick((int)point.X, (int)point.Y);
         }
         /// <summary>
         /// 中键单击
+        /// 此方法dpi感知
+        /// </summary>
+        /// <param name="window">窗口</param>
+        /// <param name="element">元素</param>
+        public static void MiddleClick(Window window, AutomationElement element)
+        {
+            var point = window.GetDpiAwarePoint(element);
+            MiddleClick(point);
+        }
+        /// <summary>
+        /// 中键单击
+        /// 此方法dpi感知
         /// </summary>
         /// <param name="x">x坐标</param>
         /// <param name="y">y坐标</param>
         public static void MiddleClick(int x, int y)
         {
             Skm.HKMMoveTo(_deviceData, x, y);
+            Skm.HKMDelayRnd(_deviceData, 100, 150);
             Skm.HKMMiddleClick(_deviceData);
         }
 
@@ -236,8 +272,18 @@ namespace WxAutoCommon.Simulator
         /// <param name="count">滚轮数量</param>
         public static void MouseWheel(Point point, int count = 3)
         {
-            Skm.HKMMoveTo(_deviceData, (Int32)point.X, (Int32)point.Y);
-            Skm.HKMMouseWheel(_deviceData, count);
+            MouseWheel((int)point.X, (int)point.Y, count);
+        }
+        /// <summary>
+        /// 鼠标滚轮
+        /// 此方法dpi感知
+        /// </summary>
+        /// <param name="window">窗口</param>
+        /// <param name="element">元素</param>
+        public static void MouseWheel(Window window, AutomationElement element, int count = 3)
+        {
+            var point = window.GetDpiAwarePoint(element);
+            MouseWheel(point, count);
         }
         /// <summary>
         /// 鼠标滚轮
@@ -248,25 +294,18 @@ namespace WxAutoCommon.Simulator
         public static void MouseWheel(int x, int y, int count = 3)
         {
             Skm.HKMMoveTo(_deviceData, x, y);
+            Skm.HKMDelayRnd(_deviceData, 100, 150);
             Skm.HKMMouseWheel(_deviceData, count);
         }
 
-        [DllImport("user32.dll")]
-        static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
-
-        [DllImport("shcore.dll")]
-        static extern int GetDpiForMonitor(IntPtr hmonitor, int dpiType, out uint dpiX, out uint dpiY);
-
-        const int MDT_EFFECTIVE_DPI = 0;
-
+        /// <summary>
+        /// 获取窗口缩放比例
+        /// </summary>
+        /// <param name="hwnd">窗口句柄</param>
+        /// <returns>缩放比例</returns>
         public static double GetScaleForWindow(IntPtr hwnd)
         {
-            var mon = MonitorFromWindow(hwnd, 2); 
-            if (mon == IntPtr.Zero) return 1.0;
-            uint dpiX, dpiY;
-            int hr = GetDpiForMonitor(mon, MDT_EFFECTIVE_DPI, out dpiX, out dpiY);
-            if (hr == 0) return dpiX / 96.0;
-            return 1.0;
+            return DpiHelper.GetWindowDpi(hwnd) / 96.0;
         }
     }
 }
