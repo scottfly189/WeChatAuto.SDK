@@ -410,7 +410,7 @@ namespace WeChatAuto.Components
             return momentWindow;
         }
 
-                /// <summary>
+        /// <summary>
         /// 点赞朋友圈
         /// </summary>
         /// <param name="nickNames">好友名称或好友名称列表</param>
@@ -458,17 +458,140 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 回复朋友圈
         /// </summary>
-        /// <param name="nickName">好友名称</param>
+        /// <param name="nickNames">好友名称或好友名称列表</param>
         /// <param name="replyContent">回复内容</param>
-        public void ReplyMoments(string nickName, string replyContent)
+        public void ReplyMoments(OneOf<string, string[]> nickNames, string replyContent)
         {
             if (_disposed)
                 return;
             _logger.Info("回复朋友圈开始...");
+            var myNickName = _WxMainWindow.NickName;
+            var searchNickNames = nickNames.Value is string nickName ? new string[] { nickName } : nickNames.Value as string[];
             _SelfUiThreadInvoker.Run(automation =>
             {
+                Window momentWindow = _GetMomentWindow(automation);
+                //先刷新朋友圈列表
+                this._RefreshMomentsListCore(momentWindow);
+                var momentsList = new List<MonentItem>();
+                var rootListBox = momentWindow.FindFirstByXPath("//List[@Name='朋友圈']")?.AsListBox();
+                rootListBox.DrawHighlightExt();
+                if (rootListBox.Patterns.Scroll.IsSupported)
+                {
+                    var pattern = rootListBox.Patterns.Scroll.Pattern;
+                    pattern.SetScrollPercent(0, 0);
+                    Thread.Sleep(600);
+                    double scrollAmount = 0;
+                    while (true)
+                    {
+                        var (mList, isEnd) = this._GetCurentMomentsItems(rootListBox);
+                        var flag = mList.Any(m => searchNickNames.Contains(m.From));
+                        if (flag)
+                        {
+                            this.ReplyMomentsItem(mList, myNickName, searchNickNames, ref scrollAmount, rootListBox, pattern, momentWindow, replyContent);
+                        }
+                        if (isEnd)
+                            break;
+                        scrollAmount += SCROLL_STEP;
+                        pattern.SetScrollPercent(0, scrollAmount);
+                        Thread.Sleep(600);
+                    }
+
+                }
             }).Wait();
         }
+
+        private void ReplyMomentsItem(List<MonentItem> currentMomentsList, string myNickName, string[] searchNickNames, ref double scrollAmount, ListBox rootListBox, IScrollPattern pattern, Window momentWindow, string replyContent)
+        {
+            foreach (var moment in currentMomentsList)
+            {
+                Mouse.Position = momentWindow.BoundingRectangle.Center();
+                if (searchNickNames.Contains(moment.From))
+                {
+                    if (!moment.IsMyEndReply)
+                    {
+                        var name = moment.ListItemKey;
+                        var item = rootListBox.FindFirstChild(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(name)))?.AsListBoxItem();
+                        if (item != null)
+                        {
+                            var xPath = "//Button[@Name='评论']";
+                            var button = item.FindFirstByXPath(xPath)?.AsButton();
+                            var index = 0;
+                            while (button.IsOffscreen && index < 3)
+                            {
+                                scrollAmount += SCROLL_STEP;
+                                pattern.SetScrollPercent(0, scrollAmount);
+                                Thread.Sleep(600);
+                                button = item.FindFirstByXPath(xPath)?.AsButton();
+                                index++;
+                            }
+                            button.WaitUntilClickable();
+                            momentWindow.Focus();
+                            button.DrawHighlightExt();
+                            if (WeAutomation.Config.EnableMouseKeyboardSimulator)
+                            {
+                                KMSimulatorService.LeftClick(momentWindow, button);
+                            }
+                            else
+                            {
+                                button.Click();
+                            }
+                            Thread.Sleep(600);
+                            xPath = "//Button[2][@Name='评论']";
+                            var replyButtonResult = Retry.WhileNull(() => momentWindow.FindFirstByXPath(xPath)?.AsButton(),
+                                timeout: TimeSpan.FromSeconds(3), interval: TimeSpan.FromMilliseconds(200));
+                            if (replyButtonResult.Success && replyButtonResult.Result != null)
+                            {
+                                var replyButton = replyButtonResult.Result;
+                                replyButton.WaitUntilClickable();
+                                replyButton.DrawHighlightExt();
+                                if (WeAutomation.Config.EnableMouseKeyboardSimulator)
+                                {
+                                    KMSimulatorService.LeftClick(momentWindow, replyButton);
+                                }
+                                else
+                                {
+                                    replyButton.Click();
+                                }
+                                Thread.Sleep(600);
+                                ReplyContentCore(momentWindow, ref scrollAmount, rootListBox, pattern, replyContent);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void ReplyContentCore(Window momentWindow, ref double scrollAmount, ListBox rootListBox, IScrollPattern pattern, string replyContent)
+        {
+            var sendButtonResult = Retry.WhileNull(() => momentWindow.FindFirstByXPath("//Button[@Name='发送']")?.AsButton(),
+            timeout: TimeSpan.FromSeconds(3), interval: TimeSpan.FromMilliseconds(200));
+            if (sendButtonResult.Success && sendButtonResult.Result != null)
+            {
+                var sendButton = sendButtonResult.Result;
+                var index = 0;
+                while (sendButton.IsOffscreen && index < 3)
+                {
+                    scrollAmount += SCROLL_STEP;
+                    pattern.SetScrollPercent(0, scrollAmount);
+                    Thread.Sleep(600);
+                    sendButton = momentWindow.FindFirstByXPath("//Button[@Name='发送']")?.AsButton();
+                    index++;
+                }
+                var parentPane = sendButton.GetParent().GetParent().GetParent();
+                var contentArea = parentPane.FindFirstByXPath("//Edit[@Name='评论']")?.AsTextBox();
+                contentArea?.WaitUntilClickable();
+                contentArea?.DrawHighlightExt();
+                momentWindow.SilenceEnterText(contentArea, replyContent);
+                momentWindow.SilenceReturn(contentArea);
+                _logger.Info("回复内容输入完成...");
+                Thread.Sleep(600);
+            }
+            else
+            {
+                _logger.Error("回复朋友圈失败，发送按钮未找到");
+            }
+        }
+
 
         public void StopMomentsListener()
         {
