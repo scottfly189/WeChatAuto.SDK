@@ -379,8 +379,10 @@ namespace WeChatAuto.Components
                             }
                             button.WaitUntilClickable();
                             button.DrawHighlightExt();
+                            var point = momentWindow.GetDpiAwarePoint(button);
+                            ClickHighlighter.ShowClick(point);
                             //ClickHighlighter.ShowClick(button.BoundingRectangle.Center());
-                            // momentWindow.SilenceClickExt(button);
+                            momentWindow.SilenceClickExt(button);
                             button.Click();
                             Thread.Sleep(600);
                             xPath = "//Button[1][@Name='赞']";

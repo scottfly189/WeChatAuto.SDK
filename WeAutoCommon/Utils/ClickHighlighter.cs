@@ -4,6 +4,9 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 
+/// <summary>
+/// 点击高亮器
+/// </summary>
 public static class ClickHighlighter
 {
     [DllImport("user32.dll")]
@@ -32,7 +35,13 @@ public static class ClickHighlighter
         ShowClick(Cursor.Position);
     }
 
-    public static void ShowClick(Point position, int radius = 20, int duration = 300)
+    /// <summary>
+    /// 显示当前鼠标点击
+    /// </summary>
+    /// <param name="position">坐标</param>
+    /// <param name="radius">半径</param>
+    /// <param name="duration">停留时间</param>
+    public static void ShowClick(Point position, int radius = 20, int duration = 500)
     {
         IntPtr desktopDC = GetDC(IntPtr.Zero);
 
