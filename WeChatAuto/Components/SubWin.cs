@@ -10,8 +10,6 @@ using FlaUI.Core.Tools;
 using FlaUI.Core.WindowsAPI;
 using Microsoft.Extensions.DependencyInjection;
 using OneOf;
-using WindowsInput;
-using WindowsInput.Native;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Interface;
 using WxAutoCommon.Models;
@@ -343,14 +341,14 @@ namespace WeChatAuto.Components
                 // Keyboard.TypeSimultaneously(VirtualKeyShort.TAB);
                 // Keyboard.TypeSimultaneously(VirtualKeyShort.TAB);
                 // Keyboard.TypeSimultaneously(VirtualKeyShort.SPACE); // 空格触发点击
-                InputSimulator input = new InputSimulator();
+                // InputSimulator input = new InputSimulator();
                 // input.Mouse.MoveMouseTo(button.GetClickablePoint().X, button.GetClickablePoint().Y);
                 // input.Mouse.LeftButtonClick();
                 button.Focus();
                 button.WaitUntilClickable();
                 // Mouse.LeftClick(button.GetClickablePoint());
                 var position = button.GetClickablePoint();
-                input.Mouse.MoveMouseTo(position.X, position.Y);
+                // input.Mouse.MoveMouseTo(position.X, position.Y);
 
 
                 var edit = Retry.WhileNull(() => element.FindFirstByXPath("//Edit")?.AsTextBox(), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
@@ -359,7 +357,7 @@ namespace WeChatAuto.Components
                     edit.Focus();
                     //Keyboard.TypeSimultaneously(VirtualKeyShort.RETURN);
                     //input.Keyboard.ModifiedKeyStroke(VirtualKeyCode.CONTROL, VirtualKeyCode.VK_A).KeyPress(VirtualKeyCode.BACK);
-                    input.Keyboard.TextEntry(groupName);
+                    // input.Keyboard.TextEntry(groupName);
 
                 }
                 else
@@ -1456,9 +1454,9 @@ namespace WeChatAuto.Components
 
                                     listItem.GetParent().Focus();
                                     var point = button.BoundingRectangle.Center();
-                                    
+
                                     var scale = KMSimulatorService.GetScaleForWindow(_SelfWindow.Properties.NativeWindowHandle);
-                                    KMSimulatorService.LeftClick((int)(point.X*scale), (int)(point.Y*scale));
+                                    KMSimulatorService.LeftClick((int)(point.X * scale), (int)(point.Y * scale));
                                     KMSimulatorService.LeftClick();
                                     // Mouse.MoveTo(point);
                                     // Mouse.LeftClick();

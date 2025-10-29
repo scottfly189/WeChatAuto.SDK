@@ -317,49 +317,6 @@ namespace WeChatAuto.Components
             });
             _ListenerThread.Start();
         }
-        /// <summary>
-        /// 点赞朋友圈
-        /// </summary>
-        /// <param name="nickNames">好友名称或好友名称列表</param>
-        public void LikeMoments(OneOf<string, string[]> nickNames)
-        {
-            if (_disposed)
-                return;
-            _logger.Info("点赞朋友圈开始...");
-            var myNickName = _WxMainWindow.NickName;
-            var searchNickNames = nickNames.Value is string nickName ? new string[] { nickName } : nickNames.Value as string[];
-            _SelfUiThreadInvoker.Run(automation =>
-            {
-                Window momentWindow = _GetMomentWindow(automation);
-                //先刷新朋友圈列表
-                this._RefreshMomentsListCore(momentWindow);
-                var momentsList = new List<MonentItem>();
-                var rootListBox = momentWindow.FindFirstByXPath("//List[@Name='朋友圈']")?.AsListBox();
-                rootListBox.DrawHighlightExt();
-                if (rootListBox.Patterns.Scroll.IsSupported)
-                {
-                    var pattern = rootListBox.Patterns.Scroll.Pattern;
-                    pattern.SetScrollPercent(0, 0);
-                    Thread.Sleep(600);
-                    double scrollAmount = 0;
-                    while (true)
-                    {
-                        var (mList, isEnd) = this._GetCurentMomentsItems(rootListBox);
-                        var flag = mList.Any(m => searchNickNames.Contains(m.From));
-                        if (flag)
-                        {
-                            this.LikeMomentsItem(mList, myNickName, searchNickNames, ref scrollAmount, rootListBox, pattern, momentWindow);
-                        }
-                        if (isEnd)
-                            break;
-                        scrollAmount += SCROLL_STEP;
-                        pattern.SetScrollPercent(0, scrollAmount);
-                        Thread.Sleep(600);
-                    }
-
-                }
-            }).Wait();
-        }
 
         private void _RefreshMomentsListCore(Window momentWindow)
         {
@@ -452,6 +409,51 @@ namespace WeChatAuto.Components
             momentWindow.DrawHighlightExt();
             return momentWindow;
         }
+
+                /// <summary>
+        /// 点赞朋友圈
+        /// </summary>
+        /// <param name="nickNames">好友名称或好友名称列表</param>
+        public void LikeMoments(OneOf<string, string[]> nickNames)
+        {
+            if (_disposed)
+                return;
+            _logger.Info("点赞朋友圈开始...");
+            var myNickName = _WxMainWindow.NickName;
+            var searchNickNames = nickNames.Value is string nickName ? new string[] { nickName } : nickNames.Value as string[];
+            _SelfUiThreadInvoker.Run(automation =>
+            {
+                Window momentWindow = _GetMomentWindow(automation);
+                //先刷新朋友圈列表
+                this._RefreshMomentsListCore(momentWindow);
+                var momentsList = new List<MonentItem>();
+                var rootListBox = momentWindow.FindFirstByXPath("//List[@Name='朋友圈']")?.AsListBox();
+                rootListBox.DrawHighlightExt();
+                if (rootListBox.Patterns.Scroll.IsSupported)
+                {
+                    var pattern = rootListBox.Patterns.Scroll.Pattern;
+                    pattern.SetScrollPercent(0, 0);
+                    Thread.Sleep(600);
+                    double scrollAmount = 0;
+                    while (true)
+                    {
+                        var (mList, isEnd) = this._GetCurentMomentsItems(rootListBox);
+                        var flag = mList.Any(m => searchNickNames.Contains(m.From));
+                        if (flag)
+                        {
+                            this.LikeMomentsItem(mList, myNickName, searchNickNames, ref scrollAmount, rootListBox, pattern, momentWindow);
+                        }
+                        if (isEnd)
+                            break;
+                        scrollAmount += SCROLL_STEP;
+                        pattern.SetScrollPercent(0, scrollAmount);
+                        Thread.Sleep(600);
+                    }
+
+                }
+            }).Wait();
+        }
+
 
         /// <summary>
         /// 回复朋友圈
