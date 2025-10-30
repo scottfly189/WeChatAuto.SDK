@@ -321,12 +321,12 @@ namespace WeChatAuto.Components
             }
         }
 
-        private void LikeMomentsItem(List<MonentItem> currentMomentsList, string myNickName, string[] searchNickNames, ref double scrollAmount, ListBox rootListBox, IScrollPattern pattern, Window momentWindow)
+        private void LikeMomentsItem(List<MonentItem> currentMomentsList, string myNickName, string[] searchNickNames, ref double scrollAmount, ListBox rootListBox, IScrollPattern pattern, Window momentWindow, List<MonentItem> willDoList = null)
         {
             foreach (var moment in currentMomentsList)
             {
                 Mouse.Position = momentWindow.BoundingRectangle.Center();
-                if (searchNickNames.Contains(moment.From))
+                if (searchNickNames.Contains(moment.From) && (willDoList == null || willDoList.Contains(moment)))
                 {
                     if (!moment.IsMyLiked)
                     {
@@ -427,10 +427,10 @@ namespace WeChatAuto.Components
                     while (true)
                     {
                         var (mList, isEnd) = this._GetCurentMomentsItems(rootListBox);
-                        var flag = mList.Any(m => searchNickNames.Contains(m.From));
+                        var flag = willDoList == null ? mList.Any(m => searchNickNames.Contains(m.From)) : mList.Any(m => searchNickNames.Contains(m.From) && willDoList.Contains(m));
                         if (flag)
                         {
-                            this.LikeMomentsItem(mList, myNickName, searchNickNames, ref scrollAmount, rootListBox, pattern, momentWindow);
+                            this.LikeMomentsItem(mList, myNickName, searchNickNames, ref scrollAmount, rootListBox, pattern, momentWindow, willDoList);
                         }
                         if (isEnd)
                             break;
@@ -647,7 +647,7 @@ namespace WeChatAuto.Components
 
             if (autoLike)
             {
-                this.LikeMoments(willDoList.Select(item => item.From).ToArray());
+                this._LikeMomentsCore(willDoList.Select(item => item.From).ToArray(), willDoList);
             }
             if (action != null)
             {
