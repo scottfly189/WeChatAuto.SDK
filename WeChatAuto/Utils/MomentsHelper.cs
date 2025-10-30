@@ -31,13 +31,15 @@ namespace WeChatAuto.Utils
             }
             monentItem.Content = _GetContent(item);
             monentItem.Time = _GetTime(splitTempStr);
-            monentItem.ListItemKey = item.Name;
+            monentItem.ListItemName = item.Name;
             _FetchLikes(monentItem, item);
             _FetchReplyItems(monentItem, item);
 
 
             return monentItem;
         }
+
+
 
         private void _FetchLikes(MonentItem monentItem, ListBoxItem item)
         {
@@ -136,5 +138,11 @@ namespace WeChatAuto.Utils
             }
             return string.Empty;
         }
+        /// <summary>
+        /// 获取列表项唯一标识
+        /// </summary>
+        /// <param name="listItemName">列表项名称</param>
+        /// <returns>列表项唯一标识</returns>
+        public static string GetListItemKey(string listItemName) => MonentItem.GetListItemKey(listItemName);
     }
 }

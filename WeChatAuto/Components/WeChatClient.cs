@@ -19,8 +19,11 @@ namespace WeChatAuto.Components
         private IServiceProvider _serviceProvider;
         public WeChatNotifyIcon WxNotifyIcon { get; private set; }  // 微信客户端通知图标
         public WeChatMainWindow WxMainWindow { get; private set; }  // 微信客户端主窗口
-
         public string NickName => WxMainWindow.NickName;   // 微信昵称
+
+        public volatile bool _AppRunning = true;
+
+        public bool AppRunning => _AppRunning;
 
 
         /// <summary>

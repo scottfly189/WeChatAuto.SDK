@@ -35,9 +35,11 @@ namespace WeChatAuto.Components
         private volatile bool _disposed = false;
         private readonly UIThreadInvoker _SelfUiThreadInvoker;
         private readonly UIThreadInvoker _MainUIThreadInvoker;
-        private Thread _ListenerThread;
         private CancellationTokenSource _ListenerCancellationTokenSource;
-        private TaskCompletionSource<bool> _ListenerStarted;
+        private System.Threading.Timer _pollingTimer;
+        private volatile bool _isProcessing = false;
+        private IServiceProvider _ServiceProvider;
+
 
         public Moments(Window window, WeChatMainWindow wxWindow, UIThreadInvoker mainUIThreadInvoker, IServiceProvider serviceProvider)
         {
@@ -46,6 +48,7 @@ namespace WeChatAuto.Components
             _WxMainWindow = wxWindow;
             _MainUIThreadInvoker = mainUIThreadInvoker;
             _SelfUiThreadInvoker = new UIThreadInvoker();
+            _ServiceProvider = serviceProvider;
         }
         /// <summary>
         /// 判断朋友圈是否打开
@@ -251,7 +254,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 刷新朋友圈
         /// </summary>
-        public void RefreshMomentsList(Action<UIA3Automation, Window> action = null)
+        public void RefreshMomentsList()
         {
             if (_disposed)
                 return;
@@ -276,7 +279,6 @@ namespace WeChatAuto.Components
                             refreshButton.WaitUntilClickable();
                             momentWindow.SilenceClickExt(refreshButton);   //静默点击刷新按钮
                             Thread.Sleep(600);
-                            action?.Invoke(automation, momentWindow);   //执行回调
                         }
                         else
                         {
@@ -291,32 +293,12 @@ namespace WeChatAuto.Components
                 catch (Exception ex)
                 {
                     _logger.Error("刷新朋友圈失败，" + ex.Message, ex);
+                    throw;
                 }
             }).Wait();
             _logger.Info("刷新朋友圈结束...");
         }
 
-        /// <summary>
-        /// 添加朋友圈监听,当监听到指定的好友发朋友圈时，可以自动点赞，或者执行其他操作，如：回复评论等
-        /// </summary>
-        /// <param name="nickNameOrNickNames">好友名称或好友名称列表</param>
-        /// <param name="autoLike">是否自动点赞</param>
-        /// <param name="action">回调函数,参数：朋友圈内容列表<see cref="List{MonentItem}"/>,朋友圈对象<see cref="Moments"/>,可以通过Monents对象调用回复评论等操作,服务提供者<see cref="IServiceProvider"/>，适用于使用者获取自己注入的服务</param>
-        public void AddMomentsListener(OneOf<string, List<string>> nickNameOrNickNames, bool autoLike = true, Action<List<MonentItem>, Moments, IServiceProvider> action = null)
-        {
-            if (_disposed)
-                return;
-            _logger.Info("添加朋友圈监听开始...");
-            this.StopMomentsListener();
-            _ListenerThread = new Thread(() =>
-            {
-                while (!_ListenerCancellationTokenSource.IsCancellationRequested)
-                {
-                    Thread.Sleep(1000);
-                }
-            });
-            _ListenerThread.Start();
-        }
 
         private void _RefreshMomentsListCore(Window momentWindow)
         {
@@ -348,7 +330,7 @@ namespace WeChatAuto.Components
                 {
                     if (!moment.IsMyLiked)
                     {
-                        var name = moment.ListItemKey;
+                        var name = moment.ListItemName;
                         var item = rootListBox.FindFirstChild(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(name)))?.AsListBoxItem();
                         if (item != null)
                         {
@@ -414,7 +396,14 @@ namespace WeChatAuto.Components
         /// 点赞朋友圈
         /// </summary>
         /// <param name="nickNames">好友名称或好友名称列表</param>
-        public void LikeMoments(OneOf<string, string[]> nickNames)
+        public void LikeMoments(OneOf<string, string[]> nickNames) => this._LikeMomentsCore(nickNames);
+
+        /// <summary>
+        /// 点赞朋友圈
+        /// </summary>
+        /// <param name="nickNames">好友名称或好友名称列表</param>
+        /// <param name="willDoList">待处理列表</param>
+        private void _LikeMomentsCore(OneOf<string, string[]> nickNames, List<MonentItem> willDoList = null)
         {
             if (_disposed)
                 return;
@@ -453,7 +442,6 @@ namespace WeChatAuto.Components
                 }
             }).Wait();
         }
-
 
         /// <summary>
         /// 回复朋友圈
@@ -509,7 +497,7 @@ namespace WeChatAuto.Components
                 {
                     if (!moment.IsMyEndReply)
                     {
-                        var name = moment.ListItemKey;
+                        var name = moment.ListItemName;
                         var item = rootListBox.FindFirstChild(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(name)))?.AsListBoxItem();
                         if (item != null)
                         {
@@ -592,20 +580,109 @@ namespace WeChatAuto.Components
             }
         }
 
+        /// <summary>
+        /// 添加朋友圈监听,当监听到指定的好友发朋友圈时，可以自动点赞，或者执行其他操作，如：回复评论等
+        /// </summary>
+        /// <param name="nickNameOrNickNames">监听的好友名称或好友名称列表</param>
+        /// <param name="autoLike">是否自动点赞</param>
+        /// <param name="action">回调函数,参数：朋友圈内容列表<see cref="List{MonentItem}"/>,朋友圈对象<see cref="Moments"/>,可以通过Monents对象调用回复评论等操作,服务提供者<see cref="IServiceProvider"/>，适用于使用者获取自己注入的服务</param>
+        public void AddMomentsListener(OneOf<string, List<string>> nickNameOrNickNames, bool autoLike = true, Action<List<MonentItem>, Moments, IServiceProvider> action = null)
+        {
+            if (_disposed)
+                return;
+            _logger.Info("添加朋友圈监听开始...");
+            this.StopMomentsListener();
+            _ListenerCancellationTokenSource = new CancellationTokenSource();
+            this.OpenMoments();
+            List<MonentItem> oldMomentsList = _GetCurrentMomentsList();
+            try
+            {
+                _pollingTimer = new System.Threading.Timer(_ =>
+                {
+                    _ListenerCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                    if (!_WxMainWindow.Client.AppRunning)
+                    {
+                        _logger.Info("微信客户端已关闭，朋友圈监听线程暂停");
+                        return;
+                    }
+                    if (_isProcessing)
+                    {
+                        _logger.Trace("朋友圈监听上一次处理尚未完成，跳过本次检测");
+                        return;
+                    }
+                    try
+                    {
+                        _isProcessing = true;
+                        this.AddMomentsListenerCore(nickNameOrNickNames, ref oldMomentsList, autoLike, action);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        _logger.Info("朋友圈监听线程已停止，正常取消,不做处理");
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Error("朋友圈监听异常:" + ex.Message, ex);
+                    }
+                }, null, WeAutomation.Config.MomentsListenInterval * 1000, WeAutomation.Config.MomentsListenInterval * 1000);
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.Info("朋友圈监听线程已停止，正常取消,不做处理");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("朋友圈监听异常:" + ex.Message, ex);
+            }
+        }
+        private void AddMomentsListenerCore(OneOf<string, List<string>> nickNameOrNickNames, ref List<MonentItem> oldMomentsList, bool autoLike = true, Action<List<MonentItem>, Moments, IServiceProvider> action = null)
+        {
+            this.OpenMoments();
+            _ListenerCancellationTokenSource.Token.ThrowIfCancellationRequested();
+            var newMomentsList = this._GetCurrentMomentsList();
+            var willDoList = newMomentsList.Except(oldMomentsList).ToList();
+            var nickList = nickNameOrNickNames.Value is string nickName ? new List<string> { nickName } : nickNameOrNickNames.Value as List<string>;
+            willDoList = willDoList.Where(item => nickList.Contains(item.From)).ToList();
+            if (willDoList.Count == 0)
+                return;
+
+            if (autoLike)
+            {
+                this.LikeMoments(willDoList.Select(item => item.From).ToArray());
+            }
+            if (action != null)
+            {
+                action.Invoke(willDoList, this, _ServiceProvider);
+            }
+
+            oldMomentsList = newMomentsList;
+            _isProcessing = false;
+        }
+
+        private List<MonentItem> _GetCurrentMomentsList()
+        {
+            //首先刷新朋友圈列表
+            this.RefreshMomentsList();
+            //获取最近的当前朋友圈列表并返回
+            var momentsList = this.GetMomentsListSilence();
+            return momentsList;
+        }
 
         public void StopMomentsListener()
         {
             if (_disposed)
                 return;
-            if (_ListenerThread != null && _ListenerThread.IsAlive)
+            _logger.Info("开始移除朋友圈监听...");
+            _isProcessing = true;
+            _ListenerCancellationTokenSource?.Cancel();
+            if (_pollingTimer != null)
             {
-                _ListenerCancellationTokenSource.Cancel();
-                _ListenerThread.Join(5000);
-                _ListenerThread = null;
-                _ListenerCancellationTokenSource = null;
-                _ListenerStarted.TrySetResult(false);
-                _ListenerStarted = null;
+                Thread.Sleep(3000);
             }
+            _pollingTimer?.Dispose();
+            _ListenerCancellationTokenSource = null;
+            _pollingTimer = null;
+            _isProcessing = false;
+
             _logger.Info("移除朋友圈监听成功...");
         }
 
@@ -635,9 +712,10 @@ namespace WeChatAuto.Components
             if (_disposed) return;
             if (disposing)
             {
-                StopMomentsListener();
+
             }
-            _SelfUiThreadInvoker.Dispose();
+            StopMomentsListener();
+            _SelfUiThreadInvoker?.Dispose();
             _disposed = true;
         }
     }

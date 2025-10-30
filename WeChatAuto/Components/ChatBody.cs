@@ -98,7 +98,7 @@ namespace WeChatAuto.Components
                     (int currentCount, List<MessageBubble> currentBubbles) = GetCurrentMessage();
                     if (currentCount != _lastMessageCount || !_CompareBabbleHash(currentBubbles, _lastBubbles))
                     {
-                        System.Threading.Thread.Sleep(200); // 等待消息完全加载
+                        System.Threading.Thread.Sleep(300); // 等待消息完全加载
                         ProcessNewMessages(callBack, currentBubbles);
                         _lastMessageCount = currentCount;
                         _lastBubbles = currentBubbles;
