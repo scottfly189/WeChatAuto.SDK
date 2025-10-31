@@ -119,6 +119,26 @@ namespace WeChatAuto.Utils
                     time = str;
                     break;
                 }
+                if (str.Contains("月"))
+                {
+                    time = str;
+                    break;
+                }
+                if (str.Contains("日"))
+                {
+                    time = str;
+                    break;
+                }
+                if (str.Contains("年"))
+                {
+                    time = str;
+                    break;
+                }
+                if (str.Contains("刚刚"))
+                {
+                    time = str;
+                    break;
+                }
                 if (Regex.IsMatch(str, @"(\d{1,2})月(\d{1,2})日"))
                 {
                     time = str;
@@ -138,11 +158,5 @@ namespace WeChatAuto.Utils
             }
             return string.Empty;
         }
-        /// <summary>
-        /// 获取列表项唯一标识
-        /// </summary>
-        /// <param name="listItemName">列表项名称</param>
-        /// <returns>列表项唯一标识</returns>
-        public static string GetListItemKey(string listItemName) => MonentItem.GetListItemKey(listItemName);
     }
 }

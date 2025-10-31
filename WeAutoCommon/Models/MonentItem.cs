@@ -73,7 +73,7 @@ namespace WxAutoCommon.Models
         }
 
         /// <summary>
-        /// 是否包含我的回复
+        /// 是否包含我的回复,意思是我回复了别人。
         /// 判断条件：回复列表不为空，且包含我的回复
         /// </summary>
         public bool IsIncludeMyReply
@@ -83,15 +83,6 @@ namespace WxAutoCommon.Models
                 return ReplyItems.Any(r => r.From == _MyNickName);
             }
         }
-
-        public string UniqueKey
-        {
-            get
-            {
-                return $"From: {From}, Content: {Content}, Time: {Time}";
-            }
-        }
-
 
         public override string ToString()
         {
@@ -163,8 +154,13 @@ namespace WxAutoCommon.Models
                     time = str;
                     break;
                 }
+                if (str.Contains("刚刚"))
+                {
+                    time = str;
+                    break;
+                }
             }
-            if (string.IsNullOrWhiteSpace(time))
+            if (!string.IsNullOrWhiteSpace(time))
             {
                 arrayListItemName = arrayListItemName.Where(item => !item.Equals(time));
             }

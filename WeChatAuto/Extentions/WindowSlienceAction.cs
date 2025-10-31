@@ -56,38 +56,6 @@ namespace WeChatAuto.Extentions
             Wait.UntilInputIsProcessed();
         }
         /// <summary>
-        /// 测试
-        /// </summary>
-        /// <param name="window"></param>
-        /// <param name="element"></param>
-        public static void SilenceClickExt2(this Window window, AutomationElement element)
-        {
-            Wait.UntilInputIsProcessed();
-            var windowHandle = window.Properties.NativeWindowHandle.Value;
-            var elementRectangle = element.BoundingRectangle;
-            var dpi = DpiHelper.GetWindowDpi(windowHandle);
-            double scale = dpi / 96;
-
-            // 计算按钮中心点相对于窗口的坐标
-            int x = elementRectangle.X + (elementRectangle.Width / 2);
-            int y = elementRectangle.Y + (elementRectangle.Height / 2);
-
-            // 转换为窗口客户区坐标
-            var windowRectangle = window.BoundingRectangle;
-            int clientX = (int)((x - windowRectangle.X) * scale);
-            int clientY = (int)((y - windowRectangle.Y) * scale);
-
-            // 构建 lParam (y << 16) | (x & 0xFFFF)
-            int lParamValue = (clientY << 16) | (clientX & 0xFFFF);
-            IntPtr lParam = (IntPtr)lParamValue;
-
-            // 鼠标按下
-            User32.SendMessage(windowHandle, WindowsMessages.WM_LBUTTONDOWN, IntPtr.Zero, lParam);
-            // 鼠标释放
-            User32.SendMessage(windowHandle, WindowsMessages.WM_LBUTTONUP, IntPtr.Zero, lParam);
-            Wait.UntilInputIsProcessed();
-        }
-        /// <summary>
         /// 静默输入文本
         /// </summary>
         /// <param name="element">输入框<see cref="TextBox"/></param>

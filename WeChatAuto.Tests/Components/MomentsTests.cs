@@ -82,7 +82,7 @@ namespace WeChatAuto.Tests.Components
             moments.LikeMoments(new string[] { "Alex Zhao", "阮宙园-上海-融资", "顾自己", "Hans-文韬", "雨飞", "尚万虎-数学老师" });
             Assert.True(true);
         }
-        
+
         [Fact(DisplayName = "测试回复朋友圈")]
         public void TestReplyMomentsOne()
         {
@@ -92,6 +92,24 @@ namespace WeChatAuto.Tests.Components
             var moments = window.Moments;
             moments.ReplyMoments("Alex Zhao", "测试回复朋友圈");
             Assert.True(true);
+        }
+        [Fact(DisplayName = "测试添加朋友圈监听")]
+        public async Task TestAddMomentsListener()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var moments = window.Moments;
+            moments.AddMomentsListener("Alex Zhao", true, (momentsList, moments, serviceProvider) =>
+            {
+                foreach (var item in momentsList)
+                {
+                    _output.WriteLine(item.ToString());
+                }
+            });
+            Assert.True(true);
+
+            await Task.Delay(600000000);
         }
     }
 }

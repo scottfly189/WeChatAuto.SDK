@@ -75,7 +75,7 @@ namespace WeChatAuto.Components
             catch (Exception ex)
             {
                 _logger.Error(ex.Message, ex);
-                return false;
+                throw;
             }
         }
         /// <summary>
@@ -169,7 +169,6 @@ namespace WeChatAuto.Components
                     timeout: TimeSpan.FromSeconds(3),
                     interval: TimeSpan.FromMilliseconds(200));
                 var momentWindow = window.Success ? window.Result : null;
-                momentWindow.DrawHighlightExt();
 
                 var momentsList = new List<MonentItem>();
                 var rootListBox = momentWindow.FindFirstByXPath("//List[@Name='朋友圈']")?.AsListBox();
@@ -266,7 +265,6 @@ namespace WeChatAuto.Components
                     var momentWindow = _GetMomentsWindow(automation);
                     if (momentWindow == null)
                         throw new Exception("朋友圈窗口未找到");
-                    momentWindow.DrawHighlightExt();
 
                     var xPath = "//ToolBar";
                     var toolBar = momentWindow.FindFirstByXPath(xPath);
@@ -276,7 +274,7 @@ namespace WeChatAuto.Components
                         refreshButton?.DrawHighlightExt();
                         if (refreshButton != null)
                         {
-                            refreshButton.WaitUntilClickable();
+                            Thread.Sleep(600);
                             momentWindow.SilenceClickExt(refreshButton);   //静默点击刷新按钮
                             Thread.Sleep(600);
                         }
@@ -642,6 +640,7 @@ namespace WeChatAuto.Components
             var willDoList = newMomentsList.Except(oldMomentsList).ToList();
             var nickList = nickNameOrNickNames.Value is string nickName ? new List<string> { nickName } : nickNameOrNickNames.Value as List<string>;
             willDoList = willDoList.Where(item => nickList.Contains(item.From)).ToList();
+            _isProcessing = false;
             if (willDoList.Count == 0)
                 return;
 
@@ -649,13 +648,9 @@ namespace WeChatAuto.Components
             {
                 this._LikeMomentsCore(willDoList.Select(item => item.From).ToArray(), willDoList);
             }
-            if (action != null)
-            {
-                action.Invoke(willDoList, this, _ServiceProvider);
-            }
+            action?.Invoke(willDoList, this, _ServiceProvider);
 
             oldMomentsList = newMomentsList;
-            _isProcessing = false;
         }
 
         private List<MonentItem> _GetCurrentMomentsList()
