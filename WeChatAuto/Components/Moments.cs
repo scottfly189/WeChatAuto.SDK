@@ -195,6 +195,64 @@ namespace WeChatAuto.Components
             return result;
         }
 
+        /// <summary>
+        /// 获取朋友圈内容列表,静默模式,简单模式
+        /// 从性能角度考虑，仅比较有不同.
+        /// </summary>
+        /// <returns>朋友圈内容列表<see cref="MonentItem"/></returns>
+        public List<MonentItem> GetShortMomentsList()
+        {
+            if (_disposed)
+                return null;
+            this.OpenMoments();
+            var result = _SelfUiThreadInvoker.Run(automation =>
+            {
+                var deskTop = automation.GetDesktop();
+                var window = Retry.WhileNull(() => deskTop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByProcessId(_MainWindow.Properties.ProcessId)).And(cf.ByClassName("SnsWnd"))).AsWindow(),
+                    timeout: TimeSpan.FromSeconds(3),
+                    interval: TimeSpan.FromMilliseconds(200));
+                var momentWindow = window.Success ? window.Result : null;
+
+                //首先点击刷新
+                _ClickRefreshButton(momentWindow);
+                //获取当前朋友圈列表
+                var momentsList = new List<MonentItem>();
+                var rootListBox = momentWindow.FindFirstByXPath("//List[@Name='朋友圈']")?.AsListBox();
+                rootListBox.DrawHighlightExt();
+                this.AddMomentsItemAndReturn(momentsList, rootListBox);
+
+                return momentsList;
+            }).Result;
+            return result;
+        }
+
+        private void _ClickRefreshButton(Window momentWindow)
+        {
+            var xPath = "//ToolBar";
+            var toolBar = momentWindow.FindFirstByXPath(xPath);
+            if (toolBar != null)
+            {
+                var refreshButton = toolBar?.FindFirstByXPath("//Button[@Name='刷新']")?.AsButton();
+                refreshButton?.DrawHighlightExt();
+                if (refreshButton != null)
+                {
+                    Thread.Sleep(600);
+                    momentWindow.SilenceClickExt(refreshButton);   //静默点击刷新按钮
+                    Thread.Sleep(600);
+                }
+                else
+                {
+                    _logger.Error("刷新朋友圈失败，刷新按钮未找到");
+                    throw new Exception("刷新朋友圈失败，刷新按钮未找到");
+                }
+            }
+            else
+            {
+                _logger.Error("刷新朋友圈失败，工具栏未找到");
+                throw new Exception("刷新朋友圈失败，工具栏未找到");
+            }
+        }
+
         private bool AddMomentsItemAndReturn(List<MonentItem> momentsList, ListBox rootListBox)
         {
             var result = false;
@@ -593,6 +651,7 @@ namespace WeChatAuto.Components
             _ListenerCancellationTokenSource = new CancellationTokenSource();
             this.OpenMoments();
             List<MonentItem> oldMomentsList = _GetCurrentMomentsList();
+            List<MonentItem> oldShortMomentsList = _GetCurrentShortMomentsList();
             try
             {
                 _pollingTimer = new System.Threading.Timer(_ =>
@@ -611,6 +670,12 @@ namespace WeChatAuto.Components
                     try
                     {
                         _isProcessing = true;
+                        if (!this.checkShortMomentsChanged(ref oldShortMomentsList))
+                        {
+                            _ListenerCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                            _isProcessing = false;
+                            return;
+                        }
                         this.AddMomentsListenerCore(nickNameOrNickNames, ref oldMomentsList, autoLike, action);
                     }
                     catch (OperationCanceledException)
@@ -631,6 +696,19 @@ namespace WeChatAuto.Components
             {
                 _logger.Error("朋友圈监听异常:" + ex.Message, ex);
             }
+        }
+        private bool checkShortMomentsChanged(ref List<MonentItem> oldShortMomentsList)
+        {
+            var newShortMomentsList = this._GetCurrentShortMomentsList();
+            var exceptList = newShortMomentsList.Except(oldShortMomentsList).ToList();
+            if (exceptList.Count > 0)
+            {
+                oldShortMomentsList = newShortMomentsList;
+                _logger.Info("朋友圈内容发生变化，触发全面刷新朋友圈列表");
+                return true;
+            }
+            _logger.Trace("朋友圈内容未发生变化，跳过全面刷新朋友圈列表");
+            return false;
         }
         private void AddMomentsListenerCore(OneOf<string, List<string>> nickNameOrNickNames, ref List<MonentItem> oldMomentsList, bool autoLike = true, Action<List<MonentItem>, Moments, IServiceProvider> action = null)
         {
@@ -662,6 +740,23 @@ namespace WeChatAuto.Components
             return momentsList;
         }
 
+        private List<MonentItem> _GetCurrentShortMomentsList()
+        {
+            var momentsList = this.GetShortMomentsList();
+            return momentsList;
+        }
+
+        private Window _GetMomentsWindow(UIA3Automation automation)
+        {
+            if (_disposed)
+                return null;
+            var deskTop = automation.GetDesktop();
+            var window = Retry.WhileNull(() => deskTop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByProcessId(_MainWindow.Properties.ProcessId)).And(cf.ByClassName("SnsWnd"))).AsWindow(),
+                timeout: TimeSpan.FromSeconds(3),
+                interval: TimeSpan.FromMilliseconds(200));
+            return window.Success ? window.Result : null;
+        }
+
         public void StopMomentsListener()
         {
             if (_disposed)
@@ -681,16 +776,6 @@ namespace WeChatAuto.Components
             _logger.Info("移除朋友圈监听成功...");
         }
 
-        private Window _GetMomentsWindow(UIA3Automation automation)
-        {
-            if (_disposed)
-                return null;
-            var deskTop = automation.GetDesktop();
-            var window = Retry.WhileNull(() => deskTop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByProcessId(_MainWindow.Properties.ProcessId)).And(cf.ByClassName("SnsWnd"))).AsWindow(),
-                timeout: TimeSpan.FromSeconds(3),
-                interval: TimeSpan.FromMilliseconds(200));
-            return window.Success ? window.Result : null;
-        }
         public void Dispose()
         {
             Dispose(true);
