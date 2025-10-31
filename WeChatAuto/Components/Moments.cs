@@ -670,6 +670,7 @@ namespace WeChatAuto.Components
                     try
                     {
                         _isProcessing = true;
+                        this.OpenMoments();
                         if (!this.checkShortMomentsChanged(ref oldShortMomentsList))
                         {
                             _ListenerCancellationTokenSource.Token.ThrowIfCancellationRequested();
@@ -685,6 +686,7 @@ namespace WeChatAuto.Components
                     catch (Exception ex)
                     {
                         _logger.Error("朋友圈监听异常:" + ex.Message, ex);
+                        _isProcessing = false;
                     }
                 }, null, WeAutomation.Config.MomentsListenInterval * 1000, WeAutomation.Config.MomentsListenInterval * 1000);
             }
@@ -695,6 +697,7 @@ namespace WeChatAuto.Components
             catch (Exception ex)
             {
                 _logger.Error("朋友圈监听异常:" + ex.Message, ex);
+                throw new Exception("添加朋友圈监听失败，" + ex.Message, ex);
             }
         }
         private bool checkShortMomentsChanged(ref List<MonentItem> oldShortMomentsList)
