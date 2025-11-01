@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace WxAutoCommon.Models
 {
-    public class MonentItem : IEquatable<MonentItem>
+    public class MomentItem : IEquatable<MomentItem>,ICloneable
     {
-        public MonentItem(string myNickName)
+        public MomentItem(string myNickName)
         {
             _MyNickName = myNickName;
         }
@@ -14,7 +14,7 @@ namespace WxAutoCommon.Models
         /// <summary>
         /// 好友名称
         /// </summary>
-        public string From { get; set; }
+        public string Who { get; set; }
         /// <summary>
         /// 内容
         /// </summary>
@@ -86,10 +86,10 @@ namespace WxAutoCommon.Models
 
         public override string ToString()
         {
-            return $"From: {From}, Content: {Content}, Time: {Time}, IsMyEndReply: {IsMyEndReply}, IsIncludeMyReply: {IsIncludeMyReply}, IsMyLiked: {IsMyLiked}, ReplyItems: {string.Join(", ", ReplyItems.Select(h => h.ToString()))}, Likers: {string.Join(", ", Likers)}";
+            return $"From: {Who}, Content: {Content}, Time: {Time}, IsMyEndReply: {IsMyEndReply}, IsIncludeMyReply: {IsIncludeMyReply}, IsMyLiked: {IsMyLiked}, ReplyItems: {string.Join(", ", ReplyItems.Select(h => h.ToString()))}, Likers: {string.Join(", ", Likers)}";
         }
 
-        public bool Equals(MonentItem other)
+        public bool Equals(MomentItem other)
         {
             if (other == null)
             {
@@ -100,7 +100,7 @@ namespace WxAutoCommon.Models
 
         public override bool Equals(Object other)
         {
-            return this.ListItemKey == (other as MonentItem).ListItemKey;
+            return this.ListItemKey == (other as MomentItem).ListItemKey;
         }
 
         public override int GetHashCode()
@@ -167,6 +167,16 @@ namespace WxAutoCommon.Models
             arrayListItemName = arrayListItemName.Reverse();
             var key = string.Join("\n", arrayListItemName);
             return key;
+        }
+
+        public object Clone()
+        {
+            return new MomentItem(this._MyNickName)
+            {
+                Who = this.Who,
+                Content = this.Content,
+                ListItemName = this.ListItemName,
+            };
         }
     }
 

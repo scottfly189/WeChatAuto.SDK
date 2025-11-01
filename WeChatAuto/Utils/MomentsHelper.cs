@@ -14,20 +14,20 @@ namespace WeChatAuto.Utils
         /// </summary>
         /// <param name="item">朋友圈内容列表项</param>
         /// <param name="nickName">我的昵称</param>
-        /// <returns>朋友圈内容<see cref="MonentItem"/></returns>
-        public MonentItem ParseMonentItem(ListBoxItem item, string nickName)
+        /// <returns>朋友圈内容<see cref="MomentItem"/></returns>
+        public MomentItem ParseMonentItem(ListBoxItem item, string nickName)
         {
-            var monentItem = new MonentItem(nickName);
+            var monentItem = new MomentItem(nickName);
             var content = item.Name;
             var splitTempStr = content.Split(new string[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
             var title = splitTempStr[0].Trim();
             if (title.EndsWith(":"))
             {
-                monentItem.From = title.Substring(0, title.Length - 1);
+                monentItem.Who = title.Substring(0, title.Length - 1);
             }
             else
             {
-                monentItem.From = title;
+                monentItem.Who = title;
             }
             monentItem.Content = _GetContent(item);
             monentItem.Time = _GetTime(splitTempStr);
@@ -41,7 +41,7 @@ namespace WeChatAuto.Utils
 
 
 
-        private void _FetchLikes(MonentItem monentItem, ListBoxItem item)
+        private void _FetchLikes(MomentItem monentItem, ListBoxItem item)
         {
             var xPath = "//Button[@Name='评论']";
             var button = item.FindFirstByXPath(xPath).AsButton();
@@ -60,7 +60,7 @@ namespace WeChatAuto.Utils
             }
         }
 
-        private void _FetchReplyItems(MonentItem monentItem, ListBoxItem item)
+        private void _FetchReplyItems(MomentItem monentItem, ListBoxItem item)
         {
             var xPath = "//Button[@Name='评论']";
             var button = item.FindFirstByXPath(xPath).AsButton();
