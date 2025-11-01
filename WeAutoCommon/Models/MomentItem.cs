@@ -68,7 +68,7 @@ namespace WxAutoCommon.Models
                 {
                     return false;
                 }
-                return lastReplyItem.From == _MyNickName;
+                return lastReplyItem.Who == _MyNickName;
             }
         }
 
@@ -80,7 +80,7 @@ namespace WxAutoCommon.Models
         {
             get
             {
-                return ReplyItems.Any(r => r.From == _MyNickName);
+                return ReplyItems.Any(r => r.Who == _MyNickName);
             }
         }
 
@@ -185,7 +185,7 @@ namespace WxAutoCommon.Models
         /// <summary>
         /// 评论人
         /// </summary>
-        public string From { get; set; }
+        public string Who { get; set; }
         /// <summary>
         /// 评论内容
         /// </summary>
@@ -199,11 +199,11 @@ namespace WxAutoCommon.Models
         {
             if (string.IsNullOrEmpty(ReplyTo))
             {
-                return $"{From}: {Content}";
+                return $"{Who}: {Content}";
             }
             else
             {
-                return $"{From} 回复 {ReplyTo}: {Content}";
+                return $"{Who} 回复 {ReplyTo}: {Content}";
             }
         }
     }

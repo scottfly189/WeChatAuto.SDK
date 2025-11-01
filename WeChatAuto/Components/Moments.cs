@@ -768,13 +768,13 @@ namespace WeChatAuto.Components
                     Thread.Sleep(600);
                     double scrollAmount = 0;
                     var cloneList = willDoList.Select(item => item.Clone() as MomentItem).ToList();
-                    while (true)
+                    while (true && cloneList.Count > 0)
                     {
                         var (mList, isEnd) = this._GetCurentMomentsItems(rootListBox);
                         var flag = willDoList == null ? mList.Any(m => searchNickNames.Contains(m.Who)) : mList.Any(m => searchNickNames.Contains(m.Who) && willDoList.Contains(m));
                         if (flag)
                         {
-                            this.LikeAndReplayMomentsItemCore(mList, myNickName, searchNickNames, ref scrollAmount, rootListBox, pattern, momentWindow, willDoList, cloneList, action);
+                            this._LikeAndReplayMomentsItemCore(mList, myNickName, searchNickNames, ref scrollAmount, rootListBox, pattern, momentWindow, willDoList, cloneList, action, autoLike);
                         }
                         if (isEnd)
                             break;
@@ -790,68 +790,80 @@ namespace WeChatAuto.Components
             _logger.Info("点赞朋友圈并回复评论结束...");
         }
 
-        private void LikeAndReplayMomentsItemCore(List<MomentItem> currentMomentsList, string myNickName, string[] searchNickNames, ref double scrollAmount,
-         ListBox rootListBox, IScrollPattern pattern, Window momentWindow, List<MomentItem> willDoList = null, List<MomentItem> cloneList = null, Action<MomentsContext, IServiceProvider> action = null)
+        private void _LikeAndReplayMomentsItemCore(List<MomentItem> currentMomentsList, string myNickName, string[] searchNickNames, ref double scrollAmount,
+          ListBox rootListBox, IScrollPattern pattern, Window momentWindow, List<MomentItem> willDoList = null,
+          List<MomentItem> cloneList = null, Action<MomentsContext, IServiceProvider> action = null, bool autoLike = true)
         {
             foreach (var moment in currentMomentsList)
             {
                 if (searchNickNames.Contains(moment.Who) && (willDoList == null || willDoList.Contains(moment)))
                 {
                     cloneList.Remove(moment);
-                    if (!moment.IsMyLiked)
+                    MomentsContext momentsContext = new MomentsContext(moment, scrollAmount, rootListBox, pattern, momentWindow, _ServiceProvider);
+                    if (autoLike)
                     {
-                        var items = rootListBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
-                        var item = items.FirstOrDefault(subItem => MomentItem.GetListItemKey(subItem.Name) == moment.ListItemKey);
-                        if (item != null)
-                        {
-                            var xPath = "//Button[@Name='评论']";
-                            var button = item.FindFirstByXPath(xPath)?.AsButton();
-                            var index = 0;
-                            while (button.IsOffscreen && index < 3)
-                            {
-                                scrollAmount += SCROLL_STEP;
-                                pattern.SetScrollPercent(0, scrollAmount);
-                                Thread.Sleep(600);
-                                button = item.FindFirstByXPath(xPath)?.AsButton();
-                                index++;
-                            }
-                            button.WaitUntilClickable();
-                            momentWindow.Focus();
-                            button.DrawHighlightExt();
-                            if (WeAutomation.Config.EnableMouseKeyboardSimulator)
-                            {
-                                KMSimulatorService.LeftClick(momentWindow, button);
-                            }
-                            else
-                            {
-                                button.Click();
-                            }
-                            Thread.Sleep(600);
-                            xPath = "//Button[1][@Name='赞']";
-                            var linkButtonResult = Retry.WhileNull(() => momentWindow.FindFirstByXPath(xPath)?.AsButton(),
-                                timeout: TimeSpan.FromSeconds(3), interval: TimeSpan.FromMilliseconds(200));
-                            if (linkButtonResult.Success && linkButtonResult.Result != null)
-                            {
-                                momentWindow.Focus();
-                                var linkButton = linkButtonResult.Result;
-                                linkButton.WaitUntilClickable();
-                                linkButton.DrawHighlightExt();
-                                if (WeAutomation.Config.EnableMouseKeyboardSimulator)
-                                {
-                                    KMSimulatorService.LeftClick(momentWindow, linkButton);
-                                }
-                                else
-                                {
-                                    linkButton.Click();
-                                }
-                                Thread.Sleep(600);
-                            }
-                        }
+                        momentsContext.DoLike();
                     }
+                    action?.Invoke(momentsContext, _ServiceProvider);
+                    scrollAmount = momentsContext.GetScrollAmount();
                 }
             }
         }
 
+        private static void _DoLikeCore(ref double scrollAmount, ListBox rootListBox, IScrollPattern pattern, Window momentWindow, MomentItem moment)
+        {
+            if (!moment.IsMyLiked)
+            {
+                var items = rootListBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
+                var item = items.FirstOrDefault(subItem => MomentItem.GetListItemKey(subItem.Name) == moment.ListItemKey);
+                if (item != null)
+                {
+                    var xPath = "//Button[@Name='评论']";
+                    var button = item.FindFirstByXPath(xPath)?.AsButton();
+                    var index = 0;
+                    while (button.IsOffscreen && index < 3)
+                    {
+                        scrollAmount += SCROLL_STEP;
+                        pattern.SetScrollPercent(0, scrollAmount);
+                        Thread.Sleep(600);
+                        button = item.FindFirstByXPath(xPath)?.AsButton();
+                        index++;
+                    }
+                    button.WaitUntilClickable();
+                    momentWindow.Focus();
+                    button.DrawHighlightExt();
+                    if (WeAutomation.Config.EnableMouseKeyboardSimulator)
+                    {
+                        KMSimulatorService.LeftClick(momentWindow, button);
+                    }
+                    else
+                    {
+                        button.Click();
+                    }
+                    Thread.Sleep(600);
+                    xPath = "//Button[1][@Name='赞']";
+                    var linkButtonResult = Retry.WhileNull(() => momentWindow.FindFirstByXPath(xPath)?.AsButton(),
+                        timeout: TimeSpan.FromSeconds(3), interval: TimeSpan.FromMilliseconds(200));
+                    if (linkButtonResult.Success && linkButtonResult.Result != null)
+                    {
+                        momentWindow.Focus();
+                        var linkButton = linkButtonResult.Result;
+                        linkButton.WaitUntilClickable();
+                        linkButton.DrawHighlightExt();
+                        if (WeAutomation.Config.EnableMouseKeyboardSimulator)
+                        {
+                            KMSimulatorService.LeftClick(momentWindow, linkButton);
+                        }
+                        else
+                        {
+                            linkButton.Click();
+                        }
+                        Thread.Sleep(600);
+                    }
+                }
+
+            }
+        }
 
         private List<MomentItem> _GetCurrentMomentsList()
         {

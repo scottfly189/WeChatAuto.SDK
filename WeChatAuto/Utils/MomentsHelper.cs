@@ -78,12 +78,12 @@ namespace WeChatAuto.Utils
                         {
                             var historyCommentItem = new ReplyItem();
                             var splitSubItem = subItem.Name.Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
-                            historyCommentItem.From = splitSubItem[0].Trim();
+                            historyCommentItem.Who = splitSubItem[0].Trim();
                             historyCommentItem.Content = splitSubItem[1].Trim();
                             if (splitSubItem[0].Trim().Contains("回复"))
                             {
                                 splitSubItem = splitSubItem[0].Trim().Split(new string[] { "回复" }, StringSplitOptions.RemoveEmptyEntries);
-                                historyCommentItem.From = splitSubItem[0].Trim();
+                                historyCommentItem.Who = splitSubItem[0].Trim();
                                 historyCommentItem.ReplyTo = splitSubItem[1].Trim();
                             }
                             monentItem.ReplyItems.Add(historyCommentItem);
