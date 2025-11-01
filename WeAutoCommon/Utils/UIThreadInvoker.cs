@@ -123,6 +123,7 @@ namespace WxAutoCommon.Utils
                 _cts.Dispose();
                 _queue.Dispose();
             }
+            _automation?.Dispose();
             _disposed = true;
         }
 

@@ -795,7 +795,7 @@ namespace WeChatAuto.Components
             if (_disposed) return;
             if (disposing)
             {
-
+                _SelfUiThreadInvoker?.Dispose();
             }
             StopMomentsListener();
             _SelfUiThreadInvoker?.Dispose();
