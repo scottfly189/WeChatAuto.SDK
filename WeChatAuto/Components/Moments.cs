@@ -228,7 +228,7 @@ namespace WeChatAuto.Components
 
         private void _ClickRefreshButton(Window momentWindow)
         {
-            var xPath = "//ToolBar";
+            var xPath = "/Pane[2]/ToolBar";
             var toolBar = momentWindow.FindFirstByXPath(xPath);
             if (toolBar != null)
             {

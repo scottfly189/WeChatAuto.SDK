@@ -173,7 +173,6 @@ namespace WeChatAuto.Utils
                     timeout: TimeSpan.FromSeconds(3), interval: TimeSpan.FromMilliseconds(200));
                 if (linkButtonResult.Success && linkButtonResult.Result != null)
                 {
-                    _momentWindow.Focus();
                     var linkButton = linkButtonResult.Result;
                     linkButton.WaitUntilClickable();
                     linkButton.DrawHighlightExt();
