@@ -716,6 +716,9 @@ namespace WeChatAuto.Components
         }
         /// <summary>
         /// 添加朋友圈监听核心逻辑
+        /// 1.得到最新的朋友圈列表
+        /// 2.得到待处理列表
+        /// 3.递交给实际点赞与回复核心逻辑
         /// </summary>
         /// <param name="nickNameOrNickNames"></param>
         /// <param name="oldMomentsList"></param>

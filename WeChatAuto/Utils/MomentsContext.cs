@@ -25,7 +25,7 @@ namespace WeChatAuto.Utils
         private readonly IServiceProvider _serviceProvider;
         private readonly MomentItem _moment;
         private readonly ListBox _rootListBox;
-        private IScrollPattern _pattern;
+        private readonly IScrollPattern _pattern;
         private readonly Window _momentWindow;
         private double _scrollAmount;
         public MomentItem Moment => _moment;
@@ -68,6 +68,16 @@ namespace WeChatAuto.Utils
             return _moment.ListItemName;
         }
         /// <summary>
+        /// 获取朋友圈列表项唯一标识
+        /// 此标识可以做为大模型提供上下文信息。
+        /// 如：朋友圈记录唯一标识。
+        /// </summary>
+        /// <returns>朋友圈列表项唯一标识</returns>
+        public string GetMomentKey()
+        {
+            return _moment.ListItemKey;
+        }
+        /// <summary>
         /// 是否是我最后一个回复的人，供大模型自动回复时参考。
         /// </summary>
         /// <returns>是否是我最后一个回复的人</returns>
@@ -103,28 +113,46 @@ namespace WeChatAuto.Utils
                 _ClickPopupMenuButton();
             }
 
-            var sendButtonResult = Retry.WhileNull(() => _momentWindow.FindFirstByXPath("//Button[@Name='发送']")?.AsButton(),
-               timeout: TimeSpan.FromSeconds(3), interval: TimeSpan.FromMilliseconds(200));
-            if (sendButtonResult.Success && sendButtonResult.Result != null)
+            var xPath = "//Button[2][@Name='评论']";
+            var replyButtonResult = Retry.WhileNull(() => _momentWindow.FindFirstByXPath(xPath)?.AsButton(),
+                timeout: TimeSpan.FromSeconds(3), interval: TimeSpan.FromMilliseconds(200));
+            if (replyButtonResult.Success && replyButtonResult.Result != null)
             {
-                var sendButton = sendButtonResult.Result;
-                var index = 0;
-                while (sendButton.IsOffscreen && index < 3)
+                var replyButton = replyButtonResult.Result;
+                replyButton.WaitUntilClickable();
+                replyButton.DrawHighlightExt();
+                if (WeAutomation.Config.EnableMouseKeyboardSimulator)
                 {
-                    _scrollAmount += SCROLL_STEP;
-                    _pattern.SetScrollPercent(0, _scrollAmount);
-                    Thread.Sleep(600);
-                    sendButton = _momentWindow.FindFirstByXPath("//Button[@Name='发送']")?.AsButton();
-                    index++;
+                    KMSimulatorService.LeftClick(_momentWindow, replyButton);
                 }
-                var parentPane = sendButton.GetParent().GetParent().GetParent();
-                var contentArea = parentPane.FindFirstByXPath("//Edit[@Name='评论']")?.AsTextBox();
-                contentArea?.WaitUntilClickable();
-                contentArea?.DrawHighlightExt();
-                _momentWindow.SilenceEnterText(contentArea, replyContent);
-                _momentWindow.SilenceReturn(contentArea);
-                _logger.Info("回复内容输入完成...");
+                else
+                {
+                    replyButton.Click();
+                }
                 Thread.Sleep(600);
+                var sendButtonResult = Retry.WhileNull(() => _momentWindow.FindFirstByXPath("//Button[@Name='发送']")?.AsButton(),
+                   timeout: TimeSpan.FromSeconds(3), interval: TimeSpan.FromMilliseconds(200));
+                if (sendButtonResult.Success && sendButtonResult.Result != null)
+                {
+                    var sendButton = sendButtonResult.Result;
+                    var index = 0;
+                    while (sendButton.IsOffscreen && index < 3)
+                    {
+                        _scrollAmount += SCROLL_STEP;
+                        _pattern.SetScrollPercent(0, _scrollAmount);
+                        Thread.Sleep(600);
+                        sendButton = _momentWindow.FindFirstByXPath("//Button[@Name='发送']")?.AsButton();
+                        index++;
+                    }
+                    var parentPane = sendButton.GetParent().GetParent().GetParent();
+                    var contentArea = parentPane.FindFirstByXPath("//Edit[@Name='评论']")?.AsTextBox();
+                    contentArea?.WaitUntilClickable();
+                    contentArea?.DrawHighlightExt();
+                    _momentWindow.SilenceEnterText(contentArea, replyContent);
+                    _momentWindow.SilenceReturn(contentArea);
+                    _logger.Info("回复内容输入完成...");
+                    Thread.Sleep(600);
+                }
             }
             _logger.Info("回复朋友圈结束...");
         }
