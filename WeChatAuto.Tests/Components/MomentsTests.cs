@@ -100,9 +100,9 @@ namespace WeChatAuto.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var moments = window.Moments;
-            moments.AddMomentsListener("Alex Zhao", false, (momentsContext, serviceProvider) =>
+            moments.AddMomentsListener("Alex Zhao", true, (momentsContext, serviceProvider) =>
             {
-                // momentsContext.DoLike();
+                momentsContext.DoLike();
                 momentsContext.DoReply("呵呵，测试成功！");
             });
             Assert.True(true);
