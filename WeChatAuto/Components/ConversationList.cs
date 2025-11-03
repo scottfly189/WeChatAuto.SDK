@@ -51,7 +51,7 @@ namespace WeChatAuto.Components
         /// 获取会话列表可见会话
         /// 会话信息包含：会话名称、会话类型、会话状态、会话时间、会话未读消息数、会话头像<see cref="Conversation"/>
         /// </summary>
-        /// <returns></returns>
+        /// <returns>返回<see cref="Conversation"/>列表</returns>
         public List<Conversation> GetVisibleConversations()
         {
             var items = _GetVisibleConversatItems();

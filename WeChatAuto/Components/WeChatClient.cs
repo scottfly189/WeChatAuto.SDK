@@ -124,6 +124,54 @@ namespace WeChatAuto.Components
     #region 消息操作
     #endregion
 
+    #region 会话操作
+    /// <summary>
+    /// 获取会话列表可见会话
+    /// 会话信息包含：会话名称、会话类型、会话状态、会话时间、会话未读消息数、会话头像<see cref="Conversation"/>
+    /// </summary>
+    /// <returns>返回<see cref="Conversation"/>列表</returns>
+    public List<Conversation> GetVisibleConversations()
+      => WxMainWindow.Conversations.GetVisibleConversations();
+    /// <summary>
+    /// 获取会话列表所有会话的名称
+    /// 考虑到效率，只返回名称列表
+    /// </summary>
+    /// <returns>返回会话标题名称列表</returns>
+    public List<string> GetAllConversations()
+      => WxMainWindow.Conversations.GetAllConversations();
+    /// <summary>
+    /// 定位会话
+    /// 定位会话的用途：可以将会话列表滚动到指定会话的位置，使指定会话可见
+    /// </summary>
+    /// <param name="title">会话标题</param>
+    /// <returns>如果找到会话，则返回true，否则返回false</returns>
+    public bool LocateConversation(string title)
+      => WxMainWindow.Conversations.LocateConversation(title);
+    /// <summary>
+    /// 点击会话,使会话窗口获取焦点
+    /// </summary>
+    /// <param name="title">会话标题</param>
+    public void ClickConversation(string title)
+      => WxMainWindow.Conversations.ClickConversation(title);
+    /// <summary>
+    /// 点击第一个会话,使第一个会话窗口获取焦点
+    /// </summary>
+    public void ClickFirstConversation()
+      => WxMainWindow.Conversations.ClickFirstConversation();
+    /// <summary>
+    /// 双击会话,使会话窗口获取焦点
+    /// </summary>
+    /// <param name="title">会话标题</param>
+    public void DoubleClickConversation(string title)
+      => WxMainWindow.Conversations.DoubleClickConversation(title);
+    /// <summary>
+    /// 获取会话列表可见会话标题
+    /// </summary>
+    /// <returns>返回会话标题列表</returns>
+    public List<string> GetVisibleConversationTitles()
+      => WxMainWindow.Conversations.GetVisibleConversationTitles();
+    #endregion
+
     #region 群聊操作
     #endregion
   }

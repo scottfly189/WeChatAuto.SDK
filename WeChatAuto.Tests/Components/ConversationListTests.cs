@@ -45,6 +45,18 @@ namespace WeChatAuto.Tests.Components
             conversations.ClickConversation("AutoGLM用户交流群21");
         }
 
+        [Fact(DisplayName = "测试点击第一个会话")]
+        public void TestClickFirstConversation()
+        {
+            var framework = _globalFixture.wxFramwork;
+            var client = framework.GetWxClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var conversations = window.Conversations;
+            conversations.ClickFirstConversation();
+            Assert.True(true);
+            
+        }
+
         [Fact(DisplayName = "测试双击会话")]
         public void TestDoubleClickConversation()
         {
