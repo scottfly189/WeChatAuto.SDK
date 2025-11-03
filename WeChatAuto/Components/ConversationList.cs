@@ -150,7 +150,7 @@ namespace WeChatAuto.Components
                 DrawHightlightHelper.DrawHightlight(button, _uiThreadInvoker);
                 if (WeAutomation.Config.EnableMouseKeyboardSimulator)
                 {
-                    var point = DpiHelper.GetDpiAwarePoint(_Window, button);
+                    var point = DpiHelper.GetDpiAwarePoint(_Window,button.GetClickablePoint());
                     ClickHighlighter.ShowClick(point);
                     KMSimulatorService.LeftClick(point);
                 }
@@ -174,10 +174,20 @@ namespace WeChatAuto.Components
             {
                 return root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
             }).Result;
-            var item = items.FirstOrDefault();
+            var item = items.FirstOrDefault(u => !u.IsOffscreen);
+            var parentY = root.BoundingRectangle.Y;
+            var itemY = item.BoundingRectangle.Center().Y;
+            if (itemY <= parentY)
+            {
+                item = item.GetSibling(1);
+            }
             if (item != null)
             {
                 DoConversionClick(item, root);
+            }
+            else
+            {
+                _logger.Trace($"未找到第一个会话");
             }
         }
         /// <summary>
