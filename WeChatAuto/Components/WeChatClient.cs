@@ -230,15 +230,11 @@ namespace WeChatAuto.Components
             var window = wxWindowResult.Result.AsWindow();
             var loginButtonResult = Retry.WhileNull(() =>
               {
-                try
-                {
-                  var btn = window.FindFirst(TreeScope.Descendants, window.Automation.ConditionFactory.ByControlType(ControlType.Button).And(window.Automation.ConditionFactory.ByName("登录")))?.AsButton();
-                  return btn;
-                }
-                catch (COMException)
-                {
-                  return null;
-                }
+                var cf = automation.ConditionFactory;
+                var cond = cf.ByControlType(ControlType.Button)
+                             .And(cf.ByName("登录"));
+                var loginButton = window.FindFirst(TreeScope.Descendants, cond)?.AsButton();
+                return loginButton;
               },
               timeout: TimeSpan.FromSeconds(3),
               interval: TimeSpan.FromMilliseconds(200));
