@@ -10,6 +10,12 @@ using System;
 using WxAutoCommon.Models;
 using OneOf;
 using WeChatAuto.Utils;
+using System.Threading;
+using Microsoft.Extensions.DependencyInjection;
+using WeChatAuto.Services;
+using FlaUI.Core.Tools;
+using System.Windows.Markup;
+using System.Runtime.InteropServices;
 
 
 namespace WeChatAuto.Components
@@ -18,28 +24,37 @@ namespace WeChatAuto.Components
   /// 微信客户端,一个微信客户端包含一个通知图标和一个窗口
   /// 适用于单个微信客户端的自动化操作
   /// </summary>
-  public class WeChatClient
+  public class WeChatClient : IDisposable
   {
     private IServiceProvider _serviceProvider;
     public WeChatNotifyIcon WxNotifyIcon { get; private set; }  // 微信客户端通知图标
     public WeChatMainWindow WxMainWindow { get; private set; }  // 微信客户端主窗口
     public string NickName => WxMainWindow.NickName;   // 微信昵称
-
     public volatile bool _AppRunning = true;
-
+    private volatile bool _disposed = false;
     public bool AppRunning => _AppRunning;
-
+    private readonly AutoLogger<WeChatClient> _logger;
+    private readonly UIThreadInvoker _CheckAppRunningUIThreadInvoker;
+    private System.Threading.Timer _CheckAppRunningTimer;
+    private volatile bool _CheckRunningFlag = false;
+    private readonly CancellationTokenSource _CheckAppRunningCancellationTokenSource = new CancellationTokenSource();
 
     /// <summary>
     /// 微信客户端构造函数
     /// </summary>
     /// <param name="wxNotifyIcon">微信客户端通知图标类</param>
     /// <param name="wxWindow">微信客户端窗口类</param>
-    public WeChatClient(WeChatNotifyIcon wxNotifyIcon, WeChatMainWindow wxWindow, IServiceProvider serviceProvider)
+    public WeChatClient(WeChatNotifyIcon wxNotifyIcon, WeChatMainWindow wxWindow, IServiceProvider serviceProvider, bool enableCheckAppRunning = true)
     {
+      _logger = serviceProvider.GetRequiredService<AutoLogger<WeChatClient>>();
       WxNotifyIcon = wxNotifyIcon;
       WxMainWindow = wxWindow;
       _serviceProvider = serviceProvider;
+      _CheckAppRunningUIThreadInvoker = new UIThreadInvoker();
+      if (enableCheckAppRunning)
+      {
+        addAppRunningCheckListener();
+      }
     }
 
     #region NotifyIcon操作
@@ -173,6 +188,123 @@ namespace WeChatAuto.Components
     #endregion
 
     #region 群聊操作
+    #endregion
+
+    #region 通讯录操作
+    #endregion
+
+    #region 监听操作，包括消息监听、朋友圈监听、新用户监听
+
+    #endregion
+    private void addAppRunningCheckListener()
+    {
+      try
+      {
+        _CheckAppRunningTimer = new System.Threading.Timer(_ =>
+        {
+          if (_CheckRunningFlag) return;
+          _addAppRunningCheckListenerCore();
+        }, null, 0, WeAutomation.Config.CheckAppRunningInterval * 1000);
+      }
+      catch (Exception ex)
+      {
+        _logger.Error($"微信客户端是{NickName}运行检查监听失败:{ex.Message}", ex);
+      }
+    }
+    private void _addAppRunningCheckListenerCore()
+    {
+      try
+      {
+        _CheckAppRunningUIThreadInvoker.Run(automation =>
+        {
+          _CheckRunningFlag = true;
+          _CheckAppRunningCancellationTokenSource.Token.ThrowIfCancellationRequested();
+          var desktop = automation.GetDesktop();
+          var wxWindowResult = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("WeChatMainWndForPC")
+            .And(cf.ByControlType(ControlType.Window)
+            .And(cf.ByProcessId(WxMainWindow.ProcessId)))),
+            timeout: TimeSpan.FromSeconds(5),
+            interval: TimeSpan.FromMilliseconds(200));
+          if (wxWindowResult.Success && wxWindowResult.Result != null)
+          {
+            var window = wxWindowResult.Result.AsWindow();
+            var loginButtonResult = Retry.WhileNull(() =>
+              {
+                try
+                {
+                  var btn = window.FindFirst(TreeScope.Descendants, window.Automation.ConditionFactory.ByControlType(ControlType.Button).And(window.Automation.ConditionFactory.ByName("登录")))?.AsButton();
+                  return btn;
+                }
+                catch (COMException)
+                {
+                  return null;
+                }
+              },
+              timeout: TimeSpan.FromSeconds(3),
+              interval: TimeSpan.FromMilliseconds(200));
+            if (loginButtonResult.Success && loginButtonResult.Result != null)
+            {
+              if (this._AppRunning)
+              {
+                this._AppRunning = false;
+                var button = loginButtonResult.Result;
+                Thread.Sleep(WeAutomation.Config.AppRetryWaitTime * 1000);
+                button.DrawHighlight();
+                button.WaitUntilClickable();
+                button.Focus();
+                if (!button.IsOffscreen && button.IsEnabled)
+                {
+                  button.Click();   //等用户手动点击登录按钮,仅点击一次
+                }
+              }
+            }
+            else
+            {
+              this._AppRunning = true;
+            }
+          }
+          else
+          {
+            _logger.Error($"微信客户端是{NickName}运行检查监听失败，窗口不存在");
+            throw new Exception($"微信客户端[{NickName}]运行检查监听失败，窗口不存在,可能微信已退出，请重新打开微信客户端重试");
+          }
+          _CheckRunningFlag = false;
+        }).Wait();
+      }
+      catch (OperationCanceledException)
+      {
+        _logger.Info($"微信客户端是{NickName}运行检查监听线程已停止，正常取消,不做处理");
+      }
+      catch (Exception ex)
+      {
+        _logger.Error($"微信客户端是{NickName}运行检查监听失败:{ex.Message}", ex);
+      }
+    }
+    #region 释放资源
+    public void Dispose()
+    {
+      Dispose(true);
+      GC.SuppressFinalize(this);
+    }
+
+    ~WeChatClient()
+    {
+      Dispose(false);
+    }
+    protected virtual void Dispose(bool disposing)
+    {
+      if (_disposed) return;
+      if (disposing)
+      {
+        // 先取消操作，然后释放托管资源
+        _CheckAppRunningCancellationTokenSource?.Cancel();
+        _CheckAppRunningCancellationTokenSource?.Dispose();
+      }
+      WxMainWindow?.Dispose();
+      _CheckAppRunningTimer?.Dispose();
+      _CheckAppRunningUIThreadInvoker?.Dispose();
+      _disposed = true;
+    }
     #endregion
   }
 }

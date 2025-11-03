@@ -10,6 +10,7 @@ using System.Linq;
 using WeChatAuto.Utils;
 using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
+using WeChatAuto.Services;
 
 namespace WeChatAuto.Components
 {
@@ -140,7 +141,7 @@ namespace WeChatAuto.Components
                     WeChatNotifyIcon wxNotifyIcon = new WeChatNotifyIcon(wxNotify.AsButton(),_serviceProvider);
                     WeChatMainWindow wxWindow = new WeChatMainWindow(wxInstances, wxNotifyIcon, this,_serviceProvider);
 
-                    var client = new WeChatClient(wxNotifyIcon, wxWindow,_serviceProvider);
+                    var client = new WeChatClient(wxNotifyIcon, wxWindow,_serviceProvider,WeAutomation.Config.EnableCheckAppRunning);
                     wxWindow.Client = client;
                     var NickNameButton = wxInstances.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]").AsButton();
                     _wxClientList.Add(NickNameButton.Name, client);
