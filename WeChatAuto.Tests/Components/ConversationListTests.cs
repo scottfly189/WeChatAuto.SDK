@@ -20,7 +20,7 @@ namespace WeChatAuto.Tests.Components
             _globalFixture = globalFixture;
         }
 
-        [Fact(DisplayName = "测试获取会话列表")]
+        [Fact(DisplayName = "测试获取可见会话列表")]
         public void TestGetVisibleConversations()
         {
             var framework = _globalFixture.wxFramwork;
@@ -42,7 +42,7 @@ namespace WeChatAuto.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
-            conversations.ClickConversation(".NET-AI实时快讯3群");
+            conversations.ClickConversation("AutoGLM用户交流群21");
         }
 
         [Fact(DisplayName = "测试双击会话")]
@@ -52,7 +52,7 @@ namespace WeChatAuto.Tests.Components
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
-            conversations.DoubleClickConversation(".NET-AI实时快讯3群");
+            conversations.DoubleClickConversation("前端攻城狮");
         }
 
         [Fact(DisplayName = "获取会话列表可见会话标题")]
@@ -94,7 +94,7 @@ namespace WeChatAuto.Tests.Components
             var conversations = window.Conversations;
             var result = conversations.LocateConversation(".NET-AI实时快讯3群");
             _output.WriteLine($"定位会话结果: {result}");
-            result = conversations.LocateConversation("哈哈");
+            result = conversations.LocateConversation("六六");
             _output.WriteLine($"定位会话结果: {result}");
             Assert.True(result);    
         }

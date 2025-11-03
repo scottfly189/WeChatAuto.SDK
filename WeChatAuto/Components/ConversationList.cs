@@ -13,6 +13,9 @@ using WeChatAuto.Utils;
 using WeChatAuto.Extentions;
 using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
+using WeChatAuto.Services;
+using WeAutoCommon.Utils;
+using WxAutoCommon.Simulator;
 
 namespace WeChatAuto.Components
 {
@@ -98,19 +101,67 @@ namespace WeChatAuto.Components
             var item = items.FirstOrDefault(c => c.Name.Contains(title));
             if (item != null)
             {
-                DoConversionClick(item);
+                DoConversionClick(item, root);
+            }
+            else
+            {
+                _logger.Trace($"未找到会话：{title}");
             }
         }
 
-        private void DoConversionClick(AutomationElement item)
+        private void DoConversionClick(AutomationElement item, AutomationElement root)
         {
             var xPath = "/Pane/Button";
-            var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindFirstByXPath(xPath))).Result;
-            if (retryElement.Success)
+            var buttonElement = _uiThreadInvoker.Run(automation =>
             {
-                var button = retryElement.Result.AsButton();
+                var buttonResult = Retry.WhileNull(() => item.FindFirstByXPath(xPath));
+                var button = buttonResult.Result;
+                if (button != null)
+                {
+                    //确保按钮可见
+                    while (button.Properties.IsOffscreen.Value)
+                    {
+                        var scrollPattern = root.Patterns.Scroll.Pattern;
+                        if (scrollPattern != null && scrollPattern.VerticallyScrollable)
+                        {
+                            double currentPercent = scrollPattern.VerticalScrollPercent;
+                            double newPercent = Math.Min(currentPercent + scrollPattern.VerticalViewSize, 1);
+                            scrollPattern.SetScrollPercent(0, newPercent);
+                            Thread.Sleep(600);
+                            buttonResult = Retry.WhileNull(() => item.FindFirstByXPath(xPath));
+                            button = buttonResult.Result;
+                        }
+                        else
+                        {
+                            _logger.Trace($"会话列表不可滚动，无法定位会话按钮元素");
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    _logger.Trace($"未找到会话按钮元素");
+                }
+                return button;
+            }).Result;
+            if (buttonElement != null)
+            {
+                var button = buttonElement.AsButton();
                 DrawHightlightHelper.DrawHightlight(button, _uiThreadInvoker);
-                _WxWindow.SilenceClickExt(button);
+                if (WeAutomation.Config.EnableMouseKeyboardSimulator)
+                {
+                    var point = DpiHelper.GetDpiAwarePoint(_Window, button);
+                    ClickHighlighter.ShowClick(point);
+                    KMSimulatorService.LeftClick(point);
+                }
+                else
+                {
+                    _WxWindow.SilenceClickExt(button);
+                }
+            }
+            else
+            {
+                _logger.Trace($"未找到会话按钮元素");
             }
         }
         /// <summary>
@@ -119,11 +170,14 @@ namespace WeChatAuto.Components
         public void ClickFirstConversation()
         {
             var root = GetConversationRoot();
-            var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
+            var items = _uiThreadInvoker.Run(automation =>
+            {
+                return root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
+            }).Result;
             var item = items.FirstOrDefault();
             if (item != null)
             {
-                DoConversionClick(item);
+                DoConversionClick(item, root);
             }
         }
         /// <summary>
@@ -142,10 +196,56 @@ namespace WeChatAuto.Components
                 if (retryElement.Success)
                 {
                     var button = retryElement.Result.AsButton();
-                    DrawHightlightHelper.DrawHightlight(button, _uiThreadInvoker);
-                    _Window.SetForeground();
-                    button.DoubleClick();
+                    _uiThreadInvoker.Run(automation =>
+                    {
+                        //使按钮可见
+                        while (button.Properties.IsOffscreen.Value)
+                        {
+                            var scrollPattern = root.Patterns.Scroll.Pattern;
+                            if (scrollPattern != null && scrollPattern.VerticallyScrollable)
+                            {
+                                double currentPercent = scrollPattern.VerticalScrollPercent;
+                                double newPercent = Math.Min(currentPercent + scrollPattern.VerticalViewSize, 1);
+                                scrollPattern.SetScrollPercent(0, newPercent);
+                                Thread.Sleep(600);
+                                var retryElementInner = Retry.WhileNull(() => item.FindFirstByXPath(xPath));
+                                if (retryElementInner.Success)
+                                {
+                                    button = retryElementInner.Result.AsButton();
+                                }
+                                else
+                                {
+                                    _logger.Trace($"未找到会话按钮元素");
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                _logger.Trace($"会话列表不可滚动，无法定位会话按钮元素");
+                                break;
+                            }
+                        }
+                        DrawHightlightHelper.DrawHighlightExt(button);
+                        if (WeAutomation.Config.EnableMouseKeyboardSimulator)
+                        {
+                            var point = DpiHelper.GetDpiAwarePoint(_Window, button);
+                            ClickHighlighter.ShowClick(point);
+                            KMSimulatorService.LeftDoubleClick(point);
+                            Thread.Sleep(300);
+                            return;
+                        }
+                        _Window.SetForeground();
+                        button.DoubleClick();
+                    }).Wait();
                 }
+                else
+                {
+                    _logger.Trace($"未找到会话按钮元素");
+                }
+            }
+            else
+            {
+                _logger.Trace($"未找到会话：{title}");
             }
         }
         /// <summary>
@@ -228,7 +328,7 @@ namespace WeChatAuto.Components
                         {
                             if (!subList.Contains(item.Name))
                             {
-                                subList.Add(item.Name.Replace(WeChatConstant.WECHAT_SESSION_BOX_HAS_TOP, ""));
+                                subList.Add(item.Name.Replace(WeChatConstant.WECHAT_SESSION_BOX_HAS_TOP, ""));  //去除置顶标记
                             }
                         }
                     }
@@ -237,7 +337,7 @@ namespace WeChatAuto.Components
                 else
                 {
                     var items = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
-                    subList.AddRange(items.Select(item => item.Name.Replace(WeChatConstant.WECHAT_SESSION_BOX_HAS_TOP, "")).ToList());
+                    subList.AddRange(items.Select(item => item.Name.Replace(WeChatConstant.WECHAT_SESSION_BOX_HAS_TOP, "")).ToList()); //去除置顶标记
                     return subList;
                 }
             }).Result;

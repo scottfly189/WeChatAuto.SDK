@@ -297,6 +297,25 @@ namespace WxAutoCommon.Simulator
             Skm.HKMDelayRnd(_deviceData, 100, 150);
             Skm.HKMMouseWheel(_deviceData, count);
         }
+        /// <summary>
+        /// 左键双击
+        /// </summary>
+        /// <param name="point"></param>
+        public static void LeftDoubleClick(Point point)
+        {
+            Skm.HKMMoveTo(_deviceData, point.X, point.Y);
+            Skm.HKMDelayRnd(_deviceData, 100, 150);
+            Skm.HKMLeftDoubleClick(_deviceData);
+        }
+        /// <summary>
+        /// 左键双击
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public static void LeftDoubleClick(int x, int y)
+        {
+            LeftDoubleClick(new Point(x, y));
+        }
 
         /// <summary>
         /// 获取窗口缩放比例
