@@ -386,8 +386,9 @@ namespace WeChatAuto.Components
                 {
                     if (!moment.IsMyLiked)
                     {
-                        var name = moment.ListItemName;
-                        var item = rootListBox.FindFirstChild(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(name)))?.AsListBoxItem();
+                        var name = moment.ListItemKey;
+                        var items = rootListBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
+                        var item = items.FirstOrDefault(u => MomentItem.GetListItemKey(u.Name) == name).AsListBoxItem();
                         if (item != null)
                         {
                             var xPath = "//Button[@Name='评论']";
@@ -423,14 +424,23 @@ namespace WeChatAuto.Components
                                 linkButton.DrawHighlightExt();
                                 if (WeAutomation.Config.EnableMouseKeyboardSimulator)
                                 {
-                                    KMSimulatorService.LeftClick(momentWindow, linkButton);
+                                    var point = DpiHelper.GetDpiAwarePoint(momentWindow,linkButton);
+                                    ClickHighlighter.ShowClick(point);
+                                    KMSimulatorService.LeftClick(point);
                                 }
                                 else
                                 {
                                     linkButton.Click();
                                 }
                                 Thread.Sleep(600);
+                            } else
+                            {
+                                _logger.Trace("点赞按钮未找到");
                             }
+                        }
+                        else
+                        {
+                            _logger.Trace("未找到指定的朋友圈列表项:" + name);
                         }
                     }
                 }
@@ -464,6 +474,16 @@ namespace WeChatAuto.Components
             if (_disposed)
                 return;
             _logger.Info("点赞朋友圈开始...");
+            if (IsMomentsOpen())
+            {
+                _SelfUiThreadInvoker.Run(automation =>
+                {
+                    var win = _GetMomentWindow(automation);
+                    win.Close();
+                    Thread.Sleep(600);
+                }).Wait();
+            }
+            OpenMoments();
             var myNickName = _WxMainWindow.NickName;
             var searchNickNames = nickNames.Value is string nickName ? new string[] { nickName } : nickNames.Value as string[];
             _SelfUiThreadInvoker.Run(automation =>
@@ -471,7 +491,6 @@ namespace WeChatAuto.Components
                 Window momentWindow = _GetMomentWindow(automation);
                 //先刷新朋友圈列表
                 this._RefreshMomentsListCore(momentWindow);
-                var momentsList = new List<MomentItem>();
                 var rootListBox = momentWindow.FindFirstByXPath("//List[@Name='朋友圈']")?.AsListBox();
                 rootListBox.DrawHighlightExt();
                 if (rootListBox.Patterns.Scroll.IsSupported)
