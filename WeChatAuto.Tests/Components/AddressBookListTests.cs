@@ -23,7 +23,7 @@ namespace WeChatAuto.Tests.Components
         [Fact(DisplayName = "测试获取所有好友")]
         public void TestGetAllFriends()
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var addressBookList = window.AddressBook;
@@ -37,7 +37,7 @@ namespace WeChatAuto.Tests.Components
         [Fact(DisplayName = "测试定位好友")]
         public void TestLocateFriend()
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var addressBookList = window.AddressBook;
@@ -48,7 +48,7 @@ namespace WeChatAuto.Tests.Components
         [Fact(DisplayName = "测试获取所有公众号")]
         public void TestGetAllOfficialAccount()
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var addressBookList = window.AddressBook;
@@ -63,7 +63,7 @@ namespace WeChatAuto.Tests.Components
         [Fact(DisplayName = "测试获取所有待添加好友，不加关键字")]
         public void TestGetAllWillAddFriends()
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var addressBookList = window.AddressBook;
@@ -79,7 +79,7 @@ namespace WeChatAuto.Tests.Components
         [InlineData("test")]
         public void TestGetAllWillAddFriendsWithKeyWord(string keyWord)
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var addressBookList = window.AddressBook;
@@ -96,7 +96,7 @@ namespace WeChatAuto.Tests.Components
         [InlineData("", "test", "测试")]
         public void TestPassedAllNewFriend(string keyWord, string suffix, string label)
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var addressBookList = window.AddressBook;
@@ -112,7 +112,7 @@ namespace WeChatAuto.Tests.Components
         [Fact(DisplayName = "测试添加好友")]
         public void TestAddFriends()
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var addressBookList = window.AddressBook;
@@ -128,7 +128,7 @@ namespace WeChatAuto.Tests.Components
         [InlineData("AI.Net")]
         public void TestRemoveFriend(string nickName)
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var addressBookList = window.AddressBook;

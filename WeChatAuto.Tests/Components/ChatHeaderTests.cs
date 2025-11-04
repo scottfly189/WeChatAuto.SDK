@@ -21,7 +21,7 @@ public class ChatHeaderTests
     [Fact(DisplayName = "测试获取聊天标题")]
     public void Test_Inline_ChatHeaderTitle()
     {
-        var framework = _globalFixture.wxFramwork;
+        var framework = _globalFixture.clientFactory;
         var client = framework.GetWxClient(_wxClientName);
         var window = client.WxMainWindow;
         var chatHeader = window.ChatContent.ChatHeader;
@@ -32,7 +32,7 @@ public class ChatHeaderTests
     [Fact(DisplayName = "测试获取子窗口标题")]
     public void Test_SubWin_ChatHeaderTitle()
     {
-        var framework = _globalFixture.wxFramwork;
+        var framework = _globalFixture.clientFactory;
         var client = framework.GetWxClient(_wxClientName);
         var mainWindow = client.WxMainWindow;
         mainWindow.Conversations.DoubleClickConversation(".NET-AI实时快讯3群");

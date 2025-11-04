@@ -24,7 +24,7 @@ namespace WeChatAuto.Tests.Components
         [Fact(DisplayName = "测试切换导航栏")]
         public async Task TestSwitchNavigation()
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var navigation = window.Navigation;
@@ -55,7 +55,7 @@ namespace WeChatAuto.Tests.Components
         [Fact(DisplayName = "测试当前导航栏")]
         public async Task TestCurrentNavigationElement()
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var navigation = window.Navigation;
@@ -69,7 +69,7 @@ namespace WeChatAuto.Tests.Components
         [Fact(Skip = "测试关闭导航栏")]
         public async Task TestCloseNavigation()
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var navigation = window.Navigation;

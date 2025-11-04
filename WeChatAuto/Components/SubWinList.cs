@@ -49,7 +49,7 @@ namespace WeChatAuto.Components
             _MainWxWindow = wxWindow;
             _MainFlaUIWindow = window;
             _serviceProvider = serviceProvider;
-            //暂时取消_InitMonitorSubWinThread();
+            _InitMonitorSubWinThread();
             _MonitorSubWinTaskCompletionSource.Task.Wait();
         }
         /// <summary>
@@ -64,6 +64,8 @@ namespace WeChatAuto.Components
                 {
                     try
                     {
+                        if (_MainWxWindow != null && _MainWxWindow.Client != null && !_MainWxWindow.Client.AppRunning)
+                            return;
                         var subWinNames = GetAllSubWinNames();   //获取所有打开的子窗口名称
                         if (!_MonitorSubWinNames.IsEmpty)
                         {

@@ -24,16 +24,9 @@ public class XPathTests
     [Fact(DisplayName = "测试XPath")]
     public void Test_Navigation_XPath()
     {
-        var framework = _globalFixture.wxFramwork;
+        var framework = _globalFixture.clientFactory;
         var sutClient = framework.GetWxClient(_wxClientName);
         var sutWindow = sutClient.WxMainWindow;
-        // var element = Retry.WhileNull(checkMethod: () => sutWindow.Window
-        //     .FindFirstByXPath($"/Pane[1]/Pane/Pane[1]/Button").AsButton(),
-        //     timeout: TimeSpan.FromSeconds(10),
-        //     interval: TimeSpan.FromMilliseconds(200)
-        // );
-        // Assert.NotNull(element);
-        // element?.Result?.DrawHighlight();
         Assert.True(true);
     }
 }

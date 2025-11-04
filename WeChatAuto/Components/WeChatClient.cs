@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using WeChatAuto.Services;
 using FlaUI.Core.Tools;
 using WxAutoCommon.Exceptions;
+using FlaUI.UIA3;
+using WxAutoCommon.Simulator;
 
 
 namespace WeChatAuto.Components
@@ -201,14 +203,19 @@ namespace WeChatAuto.Components
         _logger.Trace($"微信客户端是{NickName}添加运行检查监听");
         _CheckAppRunningTimer = new System.Threading.Timer(_ =>
         {
+          _CheckAppRunningCancellationTokenSource.Token.ThrowIfCancellationRequested();
           if (_CheckRunningFlag)
           {
-            _logger.Trace($"微信客户端是{NickName}运行检查风控退出监听线程正在运行，跳过本次检测");
+            _logger.Trace($"微信客户端[{NickName}]运行检查风控退出监听线程正在运行，跳过本次检测");
             return;
           }
           _CheckRunningFlag = true;
           _addAppRunningCheckListenerCore();
         }, null, 0, WeAutomation.Config.CheckAppRunningInterval * 1000);
+      }
+      catch (OperationCanceledException)
+      {
+        _logger.Info($"微信客户端是{NickName}运行检查监听线程已停止，正常取消,不做处理");
       }
       catch (Exception ex)
       {
@@ -226,7 +233,7 @@ namespace WeChatAuto.Components
         {
           _CheckAppRunningCancellationTokenSource.Token.ThrowIfCancellationRequested();
           var desktop = automation.GetDesktop();
-          var wxWindowResult = Retry.WhileNull(() => desktop.FindFirstByXPath($"/Window[@ClassName='WeChatMainWndForPC'][@ProcessId={WxMainWindow.ProcessId}] | /Window[@ClassName='WeChatLoginWndForPC'][@ProcessId={WxMainWindow.ProcessId}]")?.AsWindow(),
+          var wxWindowResult = Retry.WhileNull(() => (desktop.FindFirstByXPath($"/Window[@ClassName='WeChatMainWndForPC'][@ProcessId={WxMainWindow.ProcessId}] | /Window[@ClassName='WeChatLoginWndForPC'][@ProcessId={WxMainWindow.ProcessId}]")?.AsWindow()),
             timeout: TimeSpan.FromSeconds(5),
             interval: TimeSpan.FromMilliseconds(200));
           if (wxWindowResult.Success && wxWindowResult.Result != null)
@@ -240,6 +247,16 @@ namespace WeChatAuto.Components
             else if (window.ClassName == "WeChatLoginWndForPC")
             {
               this._AppRunning = false;
+              if (!this._AppRunning)
+              {
+                _logger.Error($"微信客户端是[{NickName}]运行检查监听结果：被风控退出，正在尝试自动登录");
+                RetryLogin(automation, window);
+              }
+            }
+            else
+            {
+              _logger.Error($"微信客户端是[{NickName}]运行检查监听结果：被风控退出，错误原因：{window.ClassName}窗口不存在");
+              throw new WindowNotExsitException($"微信客户端是[{NickName}]运行检查监听结果：被风控退出，错误原因：{window.ClassName}窗口不存在");
             }
           }
           else
@@ -247,46 +264,6 @@ namespace WeChatAuto.Components
             _logger.Error($"微信客户端是{NickName}运行检查监听失败，窗口不存在");
             throw new WindowNotExsitException($"微信客户端是{NickName}运行检查监听失败，错误原因：窗口不存在");
           }
-          // if (wxWindowResult.Success && wxWindowResult.Result != null)
-          // {
-          //   var window = wxWindowResult.Result.AsWindow();
-          //   var loginButtonResult = Retry.WhileNull(() =>
-          //     {
-          //       var cf = automation.ConditionFactory;
-          //       var cond = cf.ByControlType(ControlType.Button)
-          //                    .And(cf.ByName("登录"));
-          //       var loginButton = window.FindFirst(TreeScope.Descendants, cond)?.AsButton();
-          //       return loginButton;
-          //     },
-          //     timeout: TimeSpan.FromSeconds(3),
-          //     interval: TimeSpan.FromMilliseconds(200));
-          //   if (loginButtonResult.Success && loginButtonResult.Result != null)
-          //   {
-          //     if (this._AppRunning)
-          //     {
-          //       this._AppRunning = false;
-          //       var button = loginButtonResult.Result;
-          //       Thread.Sleep(WeAutomation.Config.AppRetryWaitTime * 1000);
-          //       button.DrawHighlight();
-          //       button.WaitUntilClickable();
-          //       button.Focus();
-          //       if (!button.IsOffscreen && button.IsEnabled)
-          //       {
-          //         button.Click();   //等用户手动点击登录按钮,仅点击一次
-          //       }
-          //     }
-          //   }
-          //   else
-          //   {
-          //     this._AppRunning = true;
-          //     _logger.Trace($"微信客户端是[{NickName}]运行检查监听成功，没有被风控退出");
-          //   }
-          // }
-          // else
-          // {
-          //   _logger.Error($"微信客户端是{NickName}运行检查监听失败，窗口不存在");
-          //   throw new Exception($"微信客户端[{NickName}]运行检查监听失败，窗口不存在,可能微信已退出，请重新打开微信客户端");
-          // }
           _CheckRunningFlag = false;
         }).Wait();
       }
@@ -297,12 +274,52 @@ namespace WeChatAuto.Components
       catch (WindowNotExsitException ex)
       {
         _logger.Error($"微信客户端是{NickName}运行检查监听失败:{ex.Message}", ex);
-        throw;
+        throw;  //因为抛出的是窗口不存在异常，所以直接终止应用运行.
       }
       catch (Exception ex)
       {
         this._AppRunning = false;
         _logger.Error($"微信客户端是{NickName}运行检查监听失败:{ex.Message}", ex);
+      }
+    }
+
+    private void RetryLogin(UIA3Automation automation, Window window)
+    {
+      var loginButtonResult = Retry.WhileNull(() =>
+        {
+          var cf = automation.ConditionFactory;
+          var cond = cf.ByControlType(ControlType.Button)
+            .And(cf.ByName("登录"));
+          var loginButton = window.FindFirst(TreeScope.Descendants, cond)?.AsButton();
+          return loginButton;
+        },
+        timeout: TimeSpan.FromSeconds(3),
+        interval: TimeSpan.FromMilliseconds(200));
+      if (loginButtonResult.Success && loginButtonResult.Result != null)
+      {
+        var button = loginButtonResult.Result;
+        _logger.Trace($"按系统设定，等待{WeAutomation.Config.AppRetryWaitTime}秒后，自动点击登录按钮");
+        Thread.Sleep(WeAutomation.Config.AppRetryWaitTime * 1000);
+        window.Focus();
+        button.DrawHighlightExt();
+        button.WaitUntilClickable();
+        button.Focus();
+        if (!button.IsOffscreen && button.IsEnabled)
+        {
+          if (WeAutomation.Config.EnableMouseKeyboardSimulator)
+          {
+            KMSimulatorService.LeftClick(window, button);
+          }
+          else
+          {
+            button.Click();
+          }
+          _logger.Trace("已自动点击登录按钮，等待人工通过微信验证");
+        }
+      }
+      else
+      {
+        _logger.Info("没有找到登录按钮，可能用户正在人工通过微信验证");
       }
     }
     #region 释放资源

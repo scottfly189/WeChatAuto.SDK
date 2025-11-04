@@ -22,7 +22,7 @@ public class SenderTests
     [Fact(DisplayName = "测试发送文本消息")]
     public void Test_Inline_SendTextMessage()
     {
-        var framework = _globalFixture.wxFramwork;
+        var framework = _globalFixture.clientFactory;
         var client = framework.GetWxClient(_wxClientName);
         var window = client.WxMainWindow;
         var sender = window.ChatContent.ChatBody.Sender;
@@ -34,7 +34,7 @@ public class SenderTests
     [Fact(DisplayName = "测试弹出窗口发送文本消息")]
     public async Task Test_SubWin_SendTextMessage()
     {
-        var framework = _globalFixture.wxFramwork;
+        var framework = _globalFixture.clientFactory;
         var client = framework.GetWxClient(_wxClientName);
         var mainWindow = client.WxMainWindow;
         mainWindow.Conversations.DoubleClickConversation(".NET-AI实时快讯3群");
@@ -49,7 +49,7 @@ public class SenderTests
     [Fact(DisplayName = "测试弹出窗口发送文本消息-被@的用户")]
     public async Task Test_SubWin_SendTextMessage_atUser()
     {
-        var framework = _globalFixture.wxFramwork;
+        var framework = _globalFixture.clientFactory;
         var client = framework.GetWxClient(_wxClientName);
         var mainWindow = client.WxMainWindow;
         mainWindow.Conversations.DoubleClickConversation(".NET-AI实时快讯3群");
@@ -64,7 +64,7 @@ public class SenderTests
     [Fact(DisplayName = "测试弹出窗口发送表情")]
     public async Task Test_SubWin_SendEmoji()
     {
-        var framework = _globalFixture.wxFramwork;
+        var framework = _globalFixture.clientFactory;
         var client = framework.GetWxClient(_wxClientName);
         var mainWindow = client.WxMainWindow;
         mainWindow.Conversations.DoubleClickConversation(".NET-AI实时快讯3群");
@@ -80,7 +80,7 @@ public class SenderTests
     [Fact(DisplayName = "测试弹出窗口发送文件-单文件")]
     public async Task Test_SubWin_SendFile_Single()
     {
-        var framework = _globalFixture.wxFramwork;
+        var framework = _globalFixture.clientFactory;
         var client = framework.GetWxClient(_wxClientName);
         var mainWindow = client.WxMainWindow;
         mainWindow.Conversations.DoubleClickConversation(".NET-AI实时快讯3群");
@@ -95,7 +95,7 @@ public class SenderTests
     [Fact(DisplayName = "测试弹出窗口发送文件-多文件")]
     public async Task Test_SubWin_SendFile_Multi()
     {
-        var framework = _globalFixture.wxFramwork;
+        var framework = _globalFixture.clientFactory;
         var client = framework.GetWxClient(_wxClientName);
         var mainWindow = client.WxMainWindow;
         mainWindow.Conversations.DoubleClickConversation(".NET-AI实时快讯3群");

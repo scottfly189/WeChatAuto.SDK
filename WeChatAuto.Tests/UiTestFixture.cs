@@ -5,9 +5,9 @@ using WeChatAuto.Services;
 public class UiTestFixture : IDisposable
 {
     private IServiceProvider _serviceProvider;
-    private WeChatClientFactory _framework;
+    private WeChatClientFactory _Factory;
     public IServiceProvider ServiceProvider => _serviceProvider;
-    public WeChatClientFactory wxFramwork => _framework;
+    public WeChatClientFactory clientFactory => _Factory;
     public UiTestFixture()
     {
         _serviceProvider = WeAutomation.GetServiceProvider(options =>
@@ -17,7 +17,7 @@ public class UiTestFixture : IDisposable
             options.KMDeiviceVID = 0x2612;
             options.KMDeivicePID = 0x1701;
         });
-        _framework = _serviceProvider.GetRequiredService<WeChatClientFactory>();
+        _Factory = _serviceProvider.GetRequiredService<WeChatClientFactory>();
 
     }
     public void Dispose()

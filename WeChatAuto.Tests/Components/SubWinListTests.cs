@@ -24,7 +24,7 @@ namespace WeChatAuto.Tests.Components
         [Fact(DisplayName = "测试获取所有子窗口名称")]
         public async Task TestGetAllSubWinNames()
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             window.Conversations.DoubleClickConversation("文件传输助手");
@@ -42,7 +42,7 @@ namespace WeChatAuto.Tests.Components
         [InlineData("文件传输助手")]
         public async Task TestGetSubWin(string subWinName)
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             window.Conversations.DoubleClickConversation(subWinName);
@@ -56,7 +56,7 @@ namespace WeChatAuto.Tests.Components
         [InlineData("文件传输助手")]
         public async Task TestGetSubWinIsOpen(string subWinName)
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             window.Conversations.DoubleClickConversation(subWinName);
@@ -73,7 +73,7 @@ namespace WeChatAuto.Tests.Components
         [InlineData(".NET-AI实时快讯3群")]
         public async Task TestCheckSubWinExistAndOpen(string subWinName)
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var subWinList = window.SubWinList;
@@ -88,7 +88,7 @@ namespace WeChatAuto.Tests.Components
         [InlineData(".NET-AI实时快讯3群")]
         public async Task TestCheckSubWinMonitor(string subWinName)
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var subWinList = window.SubWinList;

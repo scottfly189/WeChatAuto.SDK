@@ -21,7 +21,7 @@ namespace WeChatAuto.Tests.Components
         [Fact(DisplayName = "测试刷新微信客户端")]
         public void TestRefreshWxWindows()
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             framework.RefreshWxWindows();
             _output.WriteLine($"微信客户端数量: {framework.WxClientList.Count}");
             foreach (var client in framework.WxClientList)
@@ -33,7 +33,7 @@ namespace WeChatAuto.Tests.Components
         [Fact(DisplayName = "测试获取微信客户端名称")]
         public void TestGetWxClientName()
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             _output.WriteLine($"微信客户端名称: {client.WxMainWindow.NickName}");
             Assert.True(client.WxMainWindow.NickName == _wxClientName);

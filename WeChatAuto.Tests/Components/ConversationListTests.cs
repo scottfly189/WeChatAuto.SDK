@@ -23,7 +23,7 @@ namespace WeChatAuto.Tests.Components
         [Fact(DisplayName = "测试获取可见会话列表")]
         public void TestGetVisibleConversations()
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
@@ -38,7 +38,7 @@ namespace WeChatAuto.Tests.Components
         [Fact(DisplayName = "测试点击会话")]
         public void TestClickConversation()
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
@@ -48,7 +48,7 @@ namespace WeChatAuto.Tests.Components
         [Fact(DisplayName = "测试点击第一个会话")]
         public void TestClickFirstConversation()
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
@@ -60,7 +60,7 @@ namespace WeChatAuto.Tests.Components
         [Fact(DisplayName = "测试双击会话")]
         public void TestDoubleClickConversation()
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
@@ -70,7 +70,7 @@ namespace WeChatAuto.Tests.Components
         [Fact(DisplayName = "获取会话列表可见会话标题")]
         public void TestGetConversationTitles()
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
@@ -85,7 +85,7 @@ namespace WeChatAuto.Tests.Components
         [Fact(DisplayName = "获取会话列表所有会话")]
         public void TestGetAllConversations()
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
@@ -100,7 +100,7 @@ namespace WeChatAuto.Tests.Components
         [Fact(DisplayName = "测试定位会话")]
         public void TestLocateConversation()
         {
-            var framework = _globalFixture.wxFramwork;
+            var framework = _globalFixture.clientFactory;
             var client = framework.GetWxClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
