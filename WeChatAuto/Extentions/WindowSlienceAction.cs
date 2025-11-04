@@ -122,7 +122,6 @@ namespace WeChatAuto.Extentions
             {
                 edit.Focus();
                 System.Threading.Thread.Sleep(500);
-                // System.Windows.Forms.SendKeys.SendWait("^v"); // ^v 表示 Ctrl+V
                 Keyboard.Press(VirtualKeyShort.CONTROL);
                 Keyboard.Press(VirtualKeyShort.KEY_V);
                 Keyboard.Release(VirtualKeyShort.KEY_V);

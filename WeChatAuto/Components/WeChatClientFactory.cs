@@ -1,11 +1,9 @@
 using System.Collections.Generic;
-using MessageBox = System.Windows.Forms.MessageBox;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.UIA3;
 using WxAutoCommon.Utils;
 using System;
-using System.Windows.Forms;
 using System.Linq;
 using WeChatAuto.Utils;
 using FlaUI.Core.Input;

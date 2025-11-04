@@ -2,7 +2,6 @@ using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Threading;
-using System.Windows.Forms;
 using WeChatAuto.Services;
 
 /// <summary>
@@ -31,13 +30,6 @@ namespace WeChatAuto.Utils
         [DllImport("gdi32.dll")]
         private static extern bool DeleteObject(IntPtr hObject);
 
-        /// <summary>
-        /// 显示当前鼠标点击
-        /// </summary>
-        public static void ShowClick()
-        {
-            ShowClick(Cursor.Position);
-        }
 
         /// <summary>
         /// 显示当前鼠标点击
