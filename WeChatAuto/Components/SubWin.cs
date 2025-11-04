@@ -69,7 +69,7 @@ namespace WeChatAuto.Components
         /// 添加消息监听
         /// </summary>
         /// <param name="callBack"></param>
-        public void AddMessageListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider> callBack)
+        public void AddMessageListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider> callBack)
         {
             if (_disposed)
             {

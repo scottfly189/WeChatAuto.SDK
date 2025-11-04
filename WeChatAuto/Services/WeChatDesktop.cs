@@ -14,13 +14,13 @@ namespace WeChatAuto.Services
     /// </summary>
     public class WeChatDesktop
     {
-        private readonly WeChatFramwork _wxFramwork;
+        private readonly WeChatClientFactory _wxFramwork;
         private Dictionary<string, WeChatClient> _wxClientList = new Dictionary<string, WeChatClient>();
 
         /// <summary>
         /// 默认构造函数
         /// </summary>
-        public WeChatDesktop(WeChatFramwork weChatFramwork)
+        public WeChatDesktop(WeChatClientFactory weChatFramwork)
         {
             _wxFramwork = weChatFramwork;
             _wxClientList = _wxFramwork.GetWxClientList();

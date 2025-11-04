@@ -22,7 +22,7 @@ namespace WeChatAuto.Services
         /// <returns></returns>
         public static IServiceCollection AddWxAutomation(this IServiceCollection services, Action<WeChatConfig> options = default)
         {
-            services.AddSingleton<WeChatFramwork>();
+            services.AddSingleton<WeChatClientFactory>();
             services.AddAutoLogger();
             options?.Invoke(_config);
             if (_config.EnableMouseKeyboardSimulator)

@@ -15,9 +15,9 @@ using WeChatAuto.Services;
 namespace WeChatAuto.Components
 {
     /// <summary>
-    /// 微信自动化框架,封装的微信自动化框架，支持多微信实例
+    /// 微信客户端工厂,封装的微信客户端工厂，支持多微信实例
     /// </summary>
-    public class WeChatFramwork : IDisposable
+    public class WeChatClientFactory : IDisposable
     {
         private bool _IsInit = false;
         private IServiceProvider _serviceProvider;
@@ -26,7 +26,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 微信自动化框架构造函数
         /// </summary>
-        public WeChatFramwork(IServiceProvider serviceProvider)
+        public WeChatClientFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -64,24 +64,11 @@ namespace WeChatAuto.Components
         }
 
         /// <summary>
-        /// 清除所有事件
-        /// </summary>
-        public void ClearAllEvent()
-        {
-            if (_disposed)
-            {
-                return;
-            }
-            foreach (var client in _wxClientList)
-            {
-                client.Value.WxMainWindow.Dispose();
-            }
-        }
-        /// <summary>
         /// 获取微信客户端
         /// </summary>
         /// <param name="name">微信客户端名称</param>
-        /// <returns></returns>
+        /// <returns>微信客户端<see cref="WeChatClient"/></returns>
+        /// <exception cref="Exception"></exception>
         public WeChatClient GetWxClient(string name)
         {
             Init();
@@ -89,15 +76,15 @@ namespace WeChatAuto.Components
             {
                 return _wxClientList[name];
             }
-            MessageBox.Show($"微信客户端[{name}]不存在，请检查微信是否打开", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return null;
+
+            throw new Exception($"微信客户端[{name}]不存在，请检查微信是否打开");
         }
 
         /// <summary>
         /// 获取微信客户端列表
         /// 微信客户端请参见<see cref="WeChatClient"/>
         /// </summary>
-        /// <returns></returns>
+        /// <returns>微信客户端列表<see cref="Dictionary{string, WeChatClient}"/></returns>
         public Dictionary<string, WeChatClient> GetWxClientList()
         {
             Init();
@@ -107,6 +94,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 重新获取微信窗口
         /// </summary>
+        /// <exception cref="Exception"></exception>
         public void RefreshWxWindows()
         {
             if (_disposed)
@@ -118,7 +106,7 @@ namespace WeChatAuto.Components
             var taskBarRoot = _uiThreadInvoker.Run(automation =>
                 automation.GetDesktop().FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd")))
             ).Result;
-            var wxNotifyList = _uiThreadInvoker.Run(automation => 
+            var wxNotifyList = _uiThreadInvoker.Run(automation =>
                 Retry.WhileNull(() => taskBarRoot.FindFirstDescendant(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NOTIFY_ICON)
                     .And(cf.ByClassName("ToolbarWindow32").And(cf.ByControlType(ControlType.ToolBar))))
                     .FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME).And(cf.ByControlType(ControlType.Button))),
@@ -138,10 +126,10 @@ namespace WeChatAuto.Components
                                 .And(cf.ByProcessId(topWindowProcessId.Result)))).AsWindow()
                     ).Result;
                     DrawHightlightHelper.DrawHightlight(wxInstances, _uiThreadInvoker);
-                    WeChatNotifyIcon wxNotifyIcon = new WeChatNotifyIcon(wxNotify.AsButton(),_serviceProvider);
-                    WeChatMainWindow wxWindow = new WeChatMainWindow(wxInstances, wxNotifyIcon, this,_serviceProvider);
+                    WeChatNotifyIcon wxNotifyIcon = new WeChatNotifyIcon(wxNotify.AsButton(), _serviceProvider);
+                    WeChatMainWindow wxWindow = new WeChatMainWindow(wxInstances, wxNotifyIcon, this, _serviceProvider);
 
-                    var client = new WeChatClient(wxNotifyIcon, wxWindow,_serviceProvider,WeAutomation.Config.EnableCheckAppRunning);
+                    var client = new WeChatClient(wxNotifyIcon, wxWindow, _serviceProvider, WeAutomation.Config.EnableCheckAppRunning);
                     wxWindow.Client = client;
                     var NickNameButton = wxInstances.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]").AsButton();
                     _wxClientList.Add(NickNameButton.Name, client);
@@ -158,14 +146,32 @@ namespace WeChatAuto.Components
             }
         }
 
+        /// <summary>
+        /// 释放资源
+        /// </summary>
         public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~WeChatClientFactory()
+        {
+            Dispose(false);
+        }
+        protected virtual void Dispose(bool disposing)
         {
             if (_disposed)
             {
                 return;
             }
+            if (_wxClientList != null && _wxClientList.Count > 0)
+            {
+                foreach (var client in _wxClientList)
+                {
+                    client.Value?.Dispose();
+                }
+            }
             _disposed = true;
-            ClearAllEvent();
         }
     }
 }

@@ -53,7 +53,7 @@ namespace WeChatAuto.Components
         /// 注意：消息回调函数会在新线程中执行，请注意线程安全，如果在回调函数中操作UI，请用InvokeRequired等方法切换到UI线程.
         /// </summary>
         /// <param name="callBack">回调函数,参数：新消息气泡<see cref="MessageBubble"/>,包含新消息气泡的列表<see cref="List{MessageBubble}"/>,当前窗口发送者<see cref="Sender"/>,当前微信窗口对象<see cref="WeChatMainWindow"/></param>
-        public void AddListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider> callBack)
+        public void AddListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider> callBack)
         {
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
             var bubbleListBox = _uiThreadInvoker.Run(automation =>
@@ -67,7 +67,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 启动消息轮询检测
         /// </summary>
-        private void StartMessagePolling(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider> callBack, AutomationElement bubbleListRoot)
+        private void StartMessagePolling(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider> callBack, AutomationElement bubbleListRoot)
         {
             // 初始化消息数量和内容哈希
             (int count, List<MessageBubble> bubbles) = GetCurrentMessage();
@@ -147,7 +147,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 处理新消息
         /// </summary>
-        private void ProcessNewMessages(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider> callBack, List<MessageBubble> currentBubbles)
+        private void ProcessNewMessages(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider> callBack, List<MessageBubble> currentBubbles)
         {
             try
             {

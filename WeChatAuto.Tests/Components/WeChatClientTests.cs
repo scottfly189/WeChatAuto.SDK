@@ -21,4 +21,4 @@ public class WeChatClientTests
         Assert.True(client.AppRunning);
         await Task.Delay(-1);  //阻塞测试，直到微信客户端退出
     }
-} 
+}

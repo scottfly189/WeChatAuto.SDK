@@ -26,7 +26,7 @@ namespace WeChatAuto.Components
     {
         private ConcurrentBag<string> _MonitorSubWinNames = new ConcurrentBag<string>();   //守护子窗口名称列表
         private Dictionary<string, SubWin> _SubWins = new Dictionary<string, SubWin>();      //所有子窗口列表,事实上手动关闭子窗口，这里并不会变化.
-        private Dictionary<string, Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider>> _SubWinMessageListeners = new Dictionary<string, Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider>>();  //所有子窗口消息监听器列表
+        private Dictionary<string, Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider>> _SubWinMessageListeners = new Dictionary<string, Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider>>();  //所有子窗口消息监听器列表
         private CancellationTokenSource _MonitorSubWinCancellationTokenSource = new CancellationTokenSource();
         private TaskCompletionSource<bool> _MonitorSubWinTaskCompletionSource = new TaskCompletionSource<bool>();
         private Thread _MonitorSubWinThread;
@@ -253,7 +253,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="callBack">回调函数</param>
         /// <param name="nickName">好友名称</param>
-        public async Task AddMessageListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatFramwork, IServiceProvider> callBack, string nickName)
+        public async Task AddMessageListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider> callBack, string nickName)
         {
             await this.CheckSubWinExistAndOpen(nickName);
             await Task.Delay(500);
