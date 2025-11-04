@@ -69,7 +69,7 @@ namespace WeChatAuto.Components
         /// <param name="name">微信客户端名称</param>
         /// <returns>微信客户端<see cref="WeChatClient"/></returns>
         /// <exception cref="Exception"></exception>
-        public WeChatClient GetWxClient(string name)
+        public WeChatClient GetWeChatClient(string name)
         {
             Init();
             if (_wxClientList.ContainsKey(name))

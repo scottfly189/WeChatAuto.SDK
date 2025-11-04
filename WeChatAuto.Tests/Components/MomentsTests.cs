@@ -25,7 +25,7 @@ namespace WeChatAuto.Tests.Components
         public void TestOpenMoments()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var moments = window.Moments;
             moments.OpenMoments();
@@ -35,7 +35,7 @@ namespace WeChatAuto.Tests.Components
         public void TestGetMomentsList()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var moments = window.Moments;
             var momentsList = moments.GetMomentsList(20);
@@ -50,7 +50,7 @@ namespace WeChatAuto.Tests.Components
         public void TestGetMomentsListSilence()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var moments = window.Moments;
             var momentsList = moments.GetMomentsListSilence();
@@ -65,7 +65,7 @@ namespace WeChatAuto.Tests.Components
         public void TestRefreshMomentsList()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var moments = window.Moments;
             moments.RefreshMomentsList();
@@ -76,7 +76,7 @@ namespace WeChatAuto.Tests.Components
         public void TestLikeMoments()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var moments = window.Moments;
             moments.LikeMoments(new string[] { "兵哥-程序员", "我是欧阳", "无际²", "Alex Zhao", "阮宙园-上海-融资", "顾自己", "Hans-文韬", "雨飞", "尚万虎-数学老师", "小城女人" });
@@ -87,7 +87,7 @@ namespace WeChatAuto.Tests.Components
         public void TestReplyMomentsOne()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var moments = window.Moments;
             moments.ReplyMoments("Alex Zhao", "测试回复朋友圈");
@@ -97,7 +97,7 @@ namespace WeChatAuto.Tests.Components
         public async Task TestAddMomentsListener()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var moments = window.Moments;
             moments.AddMomentsListener("Alex Zhao", true, (momentsContext, serviceProvider) =>

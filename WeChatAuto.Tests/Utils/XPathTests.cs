@@ -25,7 +25,7 @@ public class XPathTests
     public void Test_Navigation_XPath()
     {
         var framework = _globalFixture.clientFactory;
-        var sutClient = framework.GetWxClient(_wxClientName);
+        var sutClient = framework.GetWeChatClient(_wxClientName);
         var sutWindow = sutClient.WxMainWindow;
         Assert.True(true);
     }

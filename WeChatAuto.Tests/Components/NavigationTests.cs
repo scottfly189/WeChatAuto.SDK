@@ -25,7 +25,7 @@ namespace WeChatAuto.Tests.Components
         public async Task TestSwitchNavigation()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var navigation = window.Navigation;
             navigation.SwitchNavigation(NavigationType.通讯录);
@@ -56,7 +56,7 @@ namespace WeChatAuto.Tests.Components
         public async Task TestCurrentNavigationElement()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var navigation = window.Navigation;
             navigation.SwitchNavigation(NavigationType.通讯录);
@@ -70,7 +70,7 @@ namespace WeChatAuto.Tests.Components
         public async Task TestCloseNavigation()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var navigation = window.Navigation;
             navigation.SwitchNavigation(NavigationType.聊天文件);

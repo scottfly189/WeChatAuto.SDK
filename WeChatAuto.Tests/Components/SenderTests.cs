@@ -23,7 +23,7 @@ public class SenderTests
     public void Test_Inline_SendTextMessage()
     {
         var framework = _globalFixture.clientFactory;
-        var client = framework.GetWxClient(_wxClientName);
+        var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
         var sender = window.ChatContent.ChatBody.Sender;
         sender.SendMessage("你好，世界！");
@@ -35,7 +35,7 @@ public class SenderTests
     public async Task Test_SubWin_SendTextMessage()
     {
         var framework = _globalFixture.clientFactory;
-        var client = framework.GetWxClient(_wxClientName);
+        var client = framework.GetWeChatClient(_wxClientName);
         var mainWindow = client.WxMainWindow;
         mainWindow.Conversations.DoubleClickConversation(".NET-AI实时快讯3群");
         var subWin = mainWindow.SubWinList.GetSubWin(".NET-AI实时快讯3群");
@@ -50,7 +50,7 @@ public class SenderTests
     public async Task Test_SubWin_SendTextMessage_atUser()
     {
         var framework = _globalFixture.clientFactory;
-        var client = framework.GetWxClient(_wxClientName);
+        var client = framework.GetWeChatClient(_wxClientName);
         var mainWindow = client.WxMainWindow;
         mainWindow.Conversations.DoubleClickConversation(".NET-AI实时快讯3群");
         var subWin = mainWindow.SubWinList.GetSubWin(".NET-AI实时快讯3群");
@@ -65,7 +65,7 @@ public class SenderTests
     public async Task Test_SubWin_SendEmoji()
     {
         var framework = _globalFixture.clientFactory;
-        var client = framework.GetWxClient(_wxClientName);
+        var client = framework.GetWeChatClient(_wxClientName);
         var mainWindow = client.WxMainWindow;
         mainWindow.Conversations.DoubleClickConversation(".NET-AI实时快讯3群");
         var subWin = mainWindow.SubWinList.GetSubWin(".NET-AI实时快讯3群");
@@ -81,7 +81,7 @@ public class SenderTests
     public async Task Test_SubWin_SendFile_Single()
     {
         var framework = _globalFixture.clientFactory;
-        var client = framework.GetWxClient(_wxClientName);
+        var client = framework.GetWeChatClient(_wxClientName);
         var mainWindow = client.WxMainWindow;
         mainWindow.Conversations.DoubleClickConversation(".NET-AI实时快讯3群");
         var subWin = mainWindow.SubWinList.GetSubWin(".NET-AI实时快讯3群");
@@ -96,7 +96,7 @@ public class SenderTests
     public async Task Test_SubWin_SendFile_Multi()
     {
         var framework = _globalFixture.clientFactory;
-        var client = framework.GetWxClient(_wxClientName);
+        var client = framework.GetWeChatClient(_wxClientName);
         var mainWindow = client.WxMainWindow;
         mainWindow.Conversations.DoubleClickConversation(".NET-AI实时快讯3群");
         var subWin = mainWindow.SubWinList.GetSubWin(".NET-AI实时快讯3群");

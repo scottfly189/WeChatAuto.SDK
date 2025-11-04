@@ -21,7 +21,7 @@ namespace WeChatAuto.Tests.Components
         public void TestSearchChat()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var search = window.Search;
             search.SearchChat("AI.Net");
@@ -32,7 +32,7 @@ namespace WeChatAuto.Tests.Components
         public void TestSearchContact()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var search = window.Search;
             search.SearchContact("AI.Net");
@@ -43,7 +43,7 @@ namespace WeChatAuto.Tests.Components
         public void TestSearchCollection()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var search = window.Search;
             search.SearchCollection("AI.Net");

@@ -34,7 +34,7 @@ namespace WeChatAuto.Tests.Components
         public void TestGetWxClientName()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             _output.WriteLine($"微信客户端名称: {client.WxMainWindow.NickName}");
             Assert.True(client.WxMainWindow.NickName == _wxClientName);
         }

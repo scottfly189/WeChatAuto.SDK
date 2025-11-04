@@ -17,7 +17,7 @@ public class WeChatClientTests
     public async Task TestCheckAppRunning()
     {
         var framework = _globalFixture.clientFactory;
-        var client = framework.GetWxClient(_wxClientName);
+        var client = framework.GetWeChatClient(_wxClientName);
         Assert.True(client.AppRunning);
         await Task.Delay(-1);  //阻塞测试，直到微信客户端退出
     }

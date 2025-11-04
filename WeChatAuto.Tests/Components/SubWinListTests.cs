@@ -25,7 +25,7 @@ namespace WeChatAuto.Tests.Components
         public async Task TestGetAllSubWinNames()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             window.Conversations.DoubleClickConversation("文件传输助手");
             var subWinList = window.SubWinList;
@@ -43,7 +43,7 @@ namespace WeChatAuto.Tests.Components
         public async Task TestGetSubWin(string subWinName)
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             window.Conversations.DoubleClickConversation(subWinName);
             var subWinList = window.SubWinList;
@@ -57,7 +57,7 @@ namespace WeChatAuto.Tests.Components
         public async Task TestGetSubWinIsOpen(string subWinName)
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             window.Conversations.DoubleClickConversation(subWinName);
             var subWinList = window.SubWinList;
@@ -74,7 +74,7 @@ namespace WeChatAuto.Tests.Components
         public async Task TestCheckSubWinExistAndOpen(string subWinName)
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var subWinList = window.SubWinList;
             await subWinList.CheckSubWinExistAndOpen(subWinName);
@@ -89,7 +89,7 @@ namespace WeChatAuto.Tests.Components
         public async Task TestCheckSubWinMonitor(string subWinName)
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var subWinList = window.SubWinList;
             subWinList.RegisterMonitorSubWin(subWinName);

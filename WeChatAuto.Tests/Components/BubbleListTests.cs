@@ -23,7 +23,7 @@ public class BubbleListTests
     public void Test_Get_Main_Bubble_List()
     {
         var framework = _globalFixture.clientFactory;
-        var client = framework.GetWxClient(_wxClientName);
+        var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
         var bubbleList = window.ChatContent.ChatBody.BubbleList;
         var bubbles = bubbleList.Bubbles;
@@ -42,7 +42,7 @@ public class BubbleListTests
     public void Test_Get_Sub_Bubble_Friend_List()
     {
         var framework = _globalFixture.clientFactory;
-        var client = framework.GetWxClient(_wxClientName);
+        var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
         var subWin = window.SubWinList.GetSubWin("AI.Net");
         if (subWin == null)
@@ -68,7 +68,7 @@ public class BubbleListTests
     public void Test_Get_Sub_Bubble_Group_List()
     {
         var framework = _globalFixture.clientFactory;
-        var client = framework.GetWxClient(_wxClientName);
+        var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
         var subWin = window.SubWinList.GetSubWin(".NET-AI实时快讯3群");
         if (subWin == null)
@@ -94,7 +94,7 @@ public class BubbleListTests
     public async Task Test_Get_Chat_Type()
     {
         var framework = _globalFixture.clientFactory;
-        var client = framework.GetWxClient(_wxClientName);
+        var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
         await window.SendWho("AI.Net", "hello world!");
         _output.WriteLine(window.ChatContent.ChatBody.BubbleList.GetChatType().ToString());

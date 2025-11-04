@@ -26,7 +26,7 @@ namespace WeChatAuto.Tests.Components
         public async Task TestWindowAction()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             window.WindowMax();
             DrawHightlightHelper.DrawHightlight(window.Window, window.UiThreadInvoker);
@@ -46,7 +46,7 @@ namespace WeChatAuto.Tests.Components
         public void TestNickName()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var nickName = window.NickName;
             _output.WriteLine($"昵称: {nickName}");
@@ -57,7 +57,7 @@ namespace WeChatAuto.Tests.Components
         public void Test_GetCurrentChatTitle()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var title = window.GetCurrentChatTitle();
             _output.WriteLine($"当前聊天窗口的标题: {title}");
@@ -68,7 +68,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_SendMessage()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             window.SendCurrentMessage("你好，世界！");
             Assert.True(true);
@@ -79,7 +79,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_SendWho_AlreadyOpenChat()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             await window.SendWho("AI.Net", "你好，世界111！");
             Assert.True(true);
@@ -90,7 +90,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_SendWho_CurrentChat()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             await window.SendWho("AI.Net", "你好，世界222！");
             Assert.True(true);
@@ -100,7 +100,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_SendWho_NotCurrentChat_InConversationList()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             await window.SendWho("AI.Net", "你好，世界333！");
             Assert.True(true);
@@ -111,7 +111,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_SendWho_NotCurrentChat_InConversationList_OpenChat()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             await window.SendWhoAndOpenChat("AI.Net", "你好，世界333222！");
             Assert.True(true);
@@ -122,7 +122,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_SendWho_NotCurrentChat_NOT_InConversationList()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             await window.SendWho("AI.Net", "你好，世界444！");
             Assert.True(true);
@@ -133,7 +133,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_SendWho_Not_Exist_Person()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             await window.SendWho("不存在的人", "你好，世界555！");
             Assert.True(true);
@@ -144,7 +144,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_SendWhoAndOpenChat()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             await window.SendWhoAndOpenChat("AI.Net", "你好，世界666！");
             Assert.True(true);
@@ -155,7 +155,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_SendWhos()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             window.SendWhos(["AI.Net", ".NET-AI实时快讯3群"], "你好，世界777！");
             Assert.True(true);
@@ -166,7 +166,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_SendWhosAndOpenChat()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             window.SendWhosAndOpenChat(["AI.Net", ".NET-AI实时快讯3群"], "你好，世界777！");
             Assert.True(true);
@@ -176,7 +176,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_SendEmoji_Index()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             window.SendEmoji("AI.Net", EmojiListHelper.Items[0].Index, false);
             Assert.True(true);
@@ -186,7 +186,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_SendEmoji_Name()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             window.SendEmoji("AI.Net", "微笑", false);
             Assert.True(true);
@@ -196,7 +196,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_SendEmoji_value()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             window.SendEmoji("AI.Net", "[微笑]", false);
             Assert.True(true);
@@ -207,7 +207,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_SendEmoji_open_subwin()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             window.SendEmoji("AI.Net", EmojiListHelper.Items[0].Index, true);
             Assert.True(true);
@@ -218,7 +218,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_SendEmoji_multi_open_subwin()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             window.SendEmojis(["AI.Net", ".NET-AI实时快讯3群"], EmojiListHelper.Items[0].Index, true);
             Assert.True(true);
@@ -229,7 +229,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_File_image()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             window.SendFile("AI.Net", @"C:\Users\Administrator\Desktop\ssss\logo.png", false);
             Assert.True(true);
@@ -240,7 +240,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_File_vedio()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             window.SendFile("AI.Net", @"C:\Users\Administrator\Desktop\ssss\4.mp4", false);
             Assert.True(true);
@@ -252,7 +252,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_File_Multi_File()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             window.SendFile(".NET-AI实时快讯3群", new string[] { @"C:\Users\Administrator\Desktop\ssss\4.mp4", @"C:\Users\Administrator\Desktop\ssss\logo.png", @"C:\Users\Administrator\Desktop\ssss\3.pdf" }, false);
             Assert.True(true);
@@ -263,7 +263,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_AddNewFriendCustomPassedListener()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             window.AddNewFriendCustomPassedListener(list =>
             {
@@ -278,7 +278,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_AddNewFriendAutoPassedListener()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             window.AddNewFriendAutoPassedListener(list =>
             {
@@ -292,7 +292,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_AddMessageListener()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             await window.AddMessageListener("AI.Net", (newBubbles, bubblesList, sender, mainWindow, framework, serviceProvider) =>
             {
@@ -305,7 +305,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_AddMessageListener_Reback()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             await window.AddMessageListener("歪脖子的模版交流群", (newBubbles, bubblesList, sender, mainWindow, framework, serviceProvider) =>
             {
@@ -332,7 +332,7 @@ namespace WeChatAuto.Tests.Components
         public void Test_CheckFriendExist(string groupName, bool doubleClick = false)
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var flag = window.CheckFriendExist(groupName, doubleClick);
             _output.WriteLine($"检查好友是否存在: {groupName}, 双击: {doubleClick}, 结果: {flag} ");
@@ -350,7 +350,7 @@ namespace WeChatAuto.Tests.Components
         public void Test_CreateOwnerChatGroup_ChatGroup_NotExist()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var result = window.CreateOrUpdateOwnerChatGroup("测试04", new string[] { "AI.Net", "秋歌" });
             _output.WriteLine($"创建群聊结果: {result.Message}");
@@ -361,7 +361,7 @@ namespace WeChatAuto.Tests.Components
         public void Test_CreateOwnerChatGroup_ChatGroup_Exist()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var result = window.CreateOrUpdateOwnerChatGroup("测试04", new string[] { "阿恩-frankie", "阿恩" });
             _output.WriteLine($"创建群聊结果: {result.Message}");
@@ -372,7 +372,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_RemoveOwnerChatGroupMember()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var result = await window.RemoveOwnerChatGroupMember("测试04", new string[] { "阿恩-frankie", "阿恩" });
             _output.WriteLine($"移除群聊成员结果: {result.Message}");
@@ -383,7 +383,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_DeleteOwnerChatGroup()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             await window.DeleteOwnerChatGroup("测试04");
             Assert.True(true);
@@ -393,7 +393,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_UpdateChatGroupOptions()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             await window.UpdateChatGroupOptions("测试04", action =>
             {
@@ -406,7 +406,7 @@ namespace WeChatAuto.Tests.Components
         public void Test_UpdateGroupMemo()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var result = window.ChageOwerChatGroupMemo("测试07", "测试07新的备注6");
             _output.WriteLine($"更新群聊备注结果: {result.Message}");
@@ -417,7 +417,7 @@ namespace WeChatAuto.Tests.Components
         public void Test_UpdateGroupName()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var result = window.ChangeOwerChatGroupName("测试05", "测试05");
             _output.WriteLine($"更新群聊名称结果: {result.Message}");
@@ -428,7 +428,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_ClearChatGroupHistory()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             await window.ClearChatGroupHistory("测试03");
             Assert.True(true);
@@ -438,7 +438,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_QuitChatGroup()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             await window.QuitChatGroup("测试03");
             Assert.True(true);
@@ -451,7 +451,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_GetGroupOwner(string groupName)
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var owner = await window.GetGroupOwner(groupName);
             _output.WriteLine($"群主: {owner}");
@@ -465,7 +465,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_GetChatGroupMemberList(string groupName)
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var list = await window.GetChatGroupMemberList(groupName);
             foreach (var item in list)
@@ -482,7 +482,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_UpdateGroupNotice(string groupName)
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var result = await window.UpdateGroupNotice(groupName, "测试04新的公告999");
             _output.WriteLine($"更新群聊公告结果: {result.Message}");
@@ -503,7 +503,7 @@ namespace WeChatAuto.Tests.Components
         public void Test_SetMessageWithoutInterruption(string friendName, bool isMessageWithoutInterruption, bool resultFlag)
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var result = window.SetMessageWithoutInterruption(friendName, isMessageWithoutInterruption);
             _output.WriteLine($"设置消息免打扰结果: {result.Message}");
@@ -516,7 +516,7 @@ namespace WeChatAuto.Tests.Components
         public void Test_SetSaveToAddress(string friendName, bool isSaveToAddress, bool resultFlag)
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var result = window.SetSaveToAddress(friendName, isSaveToAddress);
             _output.WriteLine($"设置保存到通讯录结果: {result.Message}");
@@ -529,7 +529,7 @@ namespace WeChatAuto.Tests.Components
         public void Test_SetChatTop(string friendName, bool isChatTop)
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var result = window.SetChatTop(friendName, isChatTop);
             _output.WriteLine($"设置聊天置顶结果: {result.Message}");
@@ -542,7 +542,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_InviteChatGroupMember(string groupName)
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var result = await window.InviteChatGroupMember(groupName, new string[] { "AI.Net"},"你好啊");
             _output.WriteLine($"邀请群聊成员结果: {result.Message}");
@@ -555,7 +555,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_AddChatGroupMemberToFriends(string groupName)
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var result = await window.AddChatGroupMemberToFriends(groupName, new string[] { "AI.Net", "秋歌" }, 3, "你好呀", "测试标签");
             _output.WriteLine($"添加群聊成员为好友结果: {result.Message}");
@@ -570,7 +570,7 @@ namespace WeChatAuto.Tests.Components
         public async Task Test_AddAllChatGroupMemberToFriends(string groupName)
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var result = await window.AddAllChatGroupMemberToFriends(groupName, new List<string> { "AI.Net", "秋歌" }, 3, "你好呀", "测试标签");
             _output.WriteLine($"添加群聊成员为好友结果: {result.Message}");

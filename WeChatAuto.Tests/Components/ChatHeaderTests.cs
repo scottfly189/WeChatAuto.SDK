@@ -22,7 +22,7 @@ public class ChatHeaderTests
     public void Test_Inline_ChatHeaderTitle()
     {
         var framework = _globalFixture.clientFactory;
-        var client = framework.GetWxClient(_wxClientName);
+        var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
         var chatHeader = window.ChatContent.ChatHeader;
         _output.WriteLine(chatHeader.Title);
@@ -33,7 +33,7 @@ public class ChatHeaderTests
     public void Test_SubWin_ChatHeaderTitle()
     {
         var framework = _globalFixture.clientFactory;
-        var client = framework.GetWxClient(_wxClientName);
+        var client = framework.GetWeChatClient(_wxClientName);
         var mainWindow = client.WxMainWindow;
         mainWindow.Conversations.DoubleClickConversation(".NET-AI实时快讯3群");
         var subWin = mainWindow.SubWinList.GetSubWin(".NET-AI实时快讯3群");

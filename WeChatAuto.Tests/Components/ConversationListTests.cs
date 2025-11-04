@@ -24,7 +24,7 @@ namespace WeChatAuto.Tests.Components
         public void TestGetVisibleConversations()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
             var list = conversations.GetVisibleConversations();
@@ -39,7 +39,7 @@ namespace WeChatAuto.Tests.Components
         public void TestClickConversation()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
             conversations.ClickConversation("AutoGLM用户交流群21");
@@ -49,7 +49,7 @@ namespace WeChatAuto.Tests.Components
         public void TestClickFirstConversation()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
             conversations.ClickFirstConversation();
@@ -61,7 +61,7 @@ namespace WeChatAuto.Tests.Components
         public void TestDoubleClickConversation()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
             conversations.DoubleClickConversation("前端攻城狮");
@@ -71,7 +71,7 @@ namespace WeChatAuto.Tests.Components
         public void TestGetConversationTitles()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
             var titles = conversations.GetVisibleConversationTitles();
@@ -86,7 +86,7 @@ namespace WeChatAuto.Tests.Components
         public void TestGetAllConversations()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
             var list = conversations.GetAllConversations();
@@ -101,7 +101,7 @@ namespace WeChatAuto.Tests.Components
         public void TestLocateConversation()
         {
             var framework = _globalFixture.clientFactory;
-            var client = framework.GetWxClient(_wxClientName);
+            var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
             var result = conversations.LocateConversation(".NET-AI实时快讯3群");
