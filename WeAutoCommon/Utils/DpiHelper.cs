@@ -223,7 +223,6 @@ namespace WeAutoCommon.Utils
         /// <returns>DPI坐标</returns>
         public static Point GetDpiAwarePoint(this Window window, AutomationElement element)
         {
-            var dpi = GetWindowDpi(window.Properties.NativeWindowHandle.Value);
             var point = element.BoundingRectangle.Center();
             return GetDpiAwarePoint(window, point);
         }
