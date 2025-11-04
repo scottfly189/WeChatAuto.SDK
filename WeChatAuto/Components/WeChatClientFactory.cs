@@ -1,14 +1,13 @@
 using System.Collections.Generic;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
-using FlaUI.UIA3;
 using WxAutoCommon.Utils;
 using System;
 using System.Linq;
 using WeChatAuto.Utils;
-using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
 using WeChatAuto.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WeChatAuto.Components
 {
@@ -18,6 +17,7 @@ namespace WeChatAuto.Components
     public class WeChatClientFactory : IDisposable
     {
         private bool _IsInit = false;
+        private readonly AutoLogger<WeChatClientFactory> _logger;
         private IServiceProvider _serviceProvider;
         private readonly Dictionary<string, WeChatClient> _wxClientList = new Dictionary<string, WeChatClient>();
         private bool _disposed = false;
@@ -27,6 +27,8 @@ namespace WeChatAuto.Components
         public WeChatClientFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+            _logger = _serviceProvider.GetRequiredService<AutoLogger<WeChatClientFactory>>();
+            _logger.Trace("微信客户端工厂初始化完成");
         }
         /// <summary>
         /// 微信客户端列表
@@ -74,7 +76,7 @@ namespace WeChatAuto.Components
             {
                 return _wxClientList[name];
             }
-
+            _logger.Error($"微信客户端[{name}]不存在，请检查微信是否打开");
             throw new Exception($"微信客户端[{name}]不存在，请检查微信是否打开");
         }
 
@@ -100,6 +102,7 @@ namespace WeChatAuto.Components
                 return;
             }
             _wxClientList.Clear();
+            _logger.Trace("开始重新获取微信窗口");
             UIThreadInvoker _uiThreadInvoker = new UIThreadInvoker();
             var taskBarRoot = _uiThreadInvoker.Run(automation =>
                 automation.GetDesktop().FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd")))
@@ -131,15 +134,18 @@ namespace WeChatAuto.Components
                     wxWindow.Client = client;
                     var NickNameButton = wxInstances.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]").AsButton();
                     _wxClientList.Add(NickNameButton.Name, client);
+                    _logger.Trace($"微信客户端[{NickNameButton.Name}]获取完成,当前微信客户端数量:_{_wxClientList.Count}");
                 }
                 this._IsInit = true;
             }
             else
             {
+                _logger.Error("微信客户端不存在，请检查微信是否打开");
                 throw new Exception("微信客户端不存在，请检查微信是否打开");
             }
             if (_wxClientList.Count == 0)
             {
+                _logger.Error("微信客户端不存在，请检查微信是否打开");
                 throw new Exception("微信客户端不存在，请检查微信是否打开");
             }
         }

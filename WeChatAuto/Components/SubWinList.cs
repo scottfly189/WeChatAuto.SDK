@@ -49,7 +49,7 @@ namespace WeChatAuto.Components
             _MainWxWindow = wxWindow;
             _MainFlaUIWindow = window;
             _serviceProvider = serviceProvider;
-            _InitMonitorSubWinThread();
+            //暂时取消_InitMonitorSubWinThread();
             _MonitorSubWinTaskCompletionSource.Task.Wait();
         }
         /// <summary>

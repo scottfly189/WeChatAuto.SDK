@@ -38,6 +38,7 @@ namespace WxAutoCommon.Configs
         public int AppRetryWaitTime { get; set; } = 10;
         /// <summary>
         /// 是否启用检查微信客户端是否运行
+        /// 默认启用
         /// </summary>
         public bool EnableCheckAppRunning { get; set; } = true;
 
