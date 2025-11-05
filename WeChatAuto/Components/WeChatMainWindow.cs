@@ -2022,7 +2022,7 @@ namespace WeChatAuto.Components
         /// <param name="helloText">打招呼文本</param>
         /// <param name="label">好友标签,方便归类管理</param>
         /// <returns>微信响应结果</returns>
-        public async Task<ChatResponse> AddChatGroupMemberToFriends(string groupName, OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", string label = "")
+        public async Task<ChatResponse> AddChatGroupMemberToFriends(string groupName, OneOf<string, string[]> memberName, int intervalSecond = 5, string helloText = "", string label = "")
         {
             await _SubWinList.CheckSubWinExistAndOpen(groupName);
             await Task.Delay(500);

@@ -557,16 +557,16 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = await window.AddChatGroupMemberToFriends(groupName, new string[] { "AI.Net", "秋歌" }, 3, "你好呀", "测试标签");
+            var result = await window.AddChatGroupMemberToFriends(groupName, new string[] { "AI.Net", "秋歌" }, 5, "你好呀", "测试标签");
             _output.WriteLine($"添加群聊成员为好友结果: {result.Message}");
             Assert.True(result.Success);
+            await Task.Delay(-1);
         }
 
 
         [Theory(Skip = "测试添加群聊成员为好友,适用于他有群")]
         [InlineData("他有群01")]
         [InlineData("他有群02")]
-        [Obsolete("由于微信对于自动化的限制，暂时放弃此方法，修改成硬件模拟的方式")]
         public async Task Test_AddAllChatGroupMemberToFriends(string groupName)
         {
             var framework = _globalFixture.clientFactory;
