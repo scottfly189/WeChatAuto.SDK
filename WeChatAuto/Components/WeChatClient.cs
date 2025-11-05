@@ -242,12 +242,14 @@ namespace WeChatAuto.Components
             var window = wxWindowResult.Result;
             if (window.ClassName == "WeChatMainWndForPC")
             {
-              _RequireRetryLogin = false;
               this._AppRunning = true;
               _logger.Trace($"微信客户端是[{NickName}]运行检查监听成功，没有被风控退出");
+              _CheckRunningFlag = false;
+              _RequireRetryLogin = false;
             }
             else if (window.ClassName == "WeChatLoginWndForPC")
             {
+              _CheckRunningFlag = false;
               if (_RequireRetryLogin)
                 return;
               _RequireRetryLogin = true;

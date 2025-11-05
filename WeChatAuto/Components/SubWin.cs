@@ -1402,7 +1402,6 @@ namespace WeChatAuto.Components
             ChatResponse result = new ChatResponse();
             try
             {
-                _logger.Info($"开始添加群聊成员为好友，待添加列表: {string.Join(",", memberName.IsT0 ? new string[] { memberName.AsT0 } : memberName.AsT1)}");
                 this._AddChatGroupFriendsCore(memberName, intervalSecond, helloText, label);
                 result.Success = true;
                 return result;
@@ -1429,10 +1428,10 @@ namespace WeChatAuto.Components
             {
                 _OpenSidebar();
             }
-            _FocuseSearchTextExt();
+            _FocuseSearchTextExt(autoThread: true);
             List<string> addList = memberName.Value is string nickname ? new List<string> { nickname } : memberName.AsT1.ToList();
             var willAddList = _GetWillAddListFromContacts(addList);   //实际群成员与待添加人群的交集
-            _logger.Info($"获取到待添加列表: {string.Join(",", willAddList)}");
+            _logger.Info($"实际待添加好友列表: {string.Join(",", willAddList)}");
             if (willAddList.Count == 0)
             {
                 _logger.Warn("警告：实际待添加的人数为零，请检查你输入的待添加人群是否都在通讯录中。");
@@ -1450,6 +1449,7 @@ namespace WeChatAuto.Components
                     var paneRoot = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd")));
                     if (paneRoot != null)
                     {
+                        paneRoot.Focus();
                         _logger.Info($"开始搜索群成员: {who}");
                         var xPath = "//Edit[@Name='搜索群成员']";
                         var edit = _SelfWindow.FindFirstByXPath(xPath)?.AsTextBox();
@@ -1539,7 +1539,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="who">待添加好友</param>
         /// <param name="edit">搜索输入框</param>
-        private  void _SearchWillAddFriendCore(string who, TextBox edit)
+        private void _SearchWillAddFriendCore(string who, TextBox edit)
         {
             edit.Focus();
             edit.ClickEnhance(_SelfWindow);
@@ -1638,11 +1638,12 @@ namespace WeChatAuto.Components
             try
             {
                 exceptList = exceptList == null ? new List<string>() : exceptList;
-                var memberList = this.GetChatGroupMemberList();
+                var memberList = this.GetChatGroupMemberList();  //获取所有群聊成员列表
                 var myNickName = _MainWxWindow.NickName;
                 memberList.Remove(myNickName);
-                _logger.Info($"获取到待增加群聊成员列表: {string.Join(",", memberList)}");
-                memberList = memberList.Except(exceptList).ToList();
+                _logger.Info($"获取到所有群聊成员列表,去除群主后: {string.Join(",", memberList)}");
+                memberList = memberList.Except(exceptList).ToList(); //去除排除列表
+                _logger.Info($"去除排除列表后: {string.Join(",", memberList)}");
                 this.AddChatGroupMemberToFriends(memberList.ToArray(), intervalSecond, helloText, label);
                 result.Success = true;
                 return result;
