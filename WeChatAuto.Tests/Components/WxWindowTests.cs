@@ -567,12 +567,13 @@ namespace WeChatAuto.Tests.Components
         [Theory(DisplayName = "测试添加群聊成员为好友,适用于他有群")]
         [InlineData("他有群01")]
         [InlineData("他有群02")]
+        [InlineData("歪脖子的模版交流群")]
         public async Task Test_AddAllChatGroupMemberToFriends(string groupName)
         {
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = await window.AddAllChatGroupMemberToFriends(groupName, new List<string> { "秋歌" }, 3, "你好呀", "测试标签");
+            var result = await window.AddAllChatGroupMemberToFriends(groupName, null, 3, "兄弟不用管，测试自动化", "测试标签");
             _output.WriteLine($"添加群聊成员为好友结果: {result.Message}");
             Assert.True(result.Success);
             await Task.Delay(-1);

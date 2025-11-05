@@ -663,6 +663,23 @@ namespace WeChatAuto.Components
                 return func();
             }
         }
+        private bool _IsSidebarOpenInner()
+        {
+            var pane = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd")));
+            return pane != null;
+        }
+        private void _OpenSidebarInner()
+        {
+            var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Button[@Name='聊天信息']";
+            var button = _SelfWindow.FindFirstByXPath(xPath)?.AsButton();
+            if (button != null)
+            {
+                button.DrawHighlightExt();
+                button.WaitUntilClickable();
+                button.Focus();
+                button.Click();
+            }
+        }
         private void _OpenSidebar(bool autoThread = true)
         {
             Action action = () =>
@@ -1425,6 +1442,11 @@ namespace WeChatAuto.Components
             {
                 foreach (var who in willAddList)
                 {
+                    if (!_IsSidebarOpenInner())
+                    {
+                        Thread.Sleep(500);
+                        _OpenSidebarInner();
+                    }
                     var paneRoot = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd")));
                     if (paneRoot != null)
                     {
@@ -1517,10 +1539,10 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="who">待添加好友</param>
         /// <param name="edit">搜索输入框</param>
-        private static void _SearchWillAddFriendCore(string who, TextBox edit)
+        private  void _SearchWillAddFriendCore(string who, TextBox edit)
         {
             edit.Focus();
-            edit.Click();
+            edit.ClickEnhance(_SelfWindow);
             Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
             Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
             Keyboard.Type(who);

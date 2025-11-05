@@ -34,6 +34,7 @@ namespace WeChatAuto.Components
     private readonly UIThreadInvoker _CheckAppRunningUIThreadInvoker;
     private System.Threading.Timer _CheckAppRunningTimer;
     private volatile bool _CheckRunningFlag = false;
+    private volatile bool _RequireRetryLogin = false;
     private readonly CancellationTokenSource _CheckAppRunningCancellationTokenSource = new CancellationTokenSource();
 
     /// <summary>
@@ -241,17 +242,18 @@ namespace WeChatAuto.Components
             var window = wxWindowResult.Result;
             if (window.ClassName == "WeChatMainWndForPC")
             {
+              _RequireRetryLogin = false;
               this._AppRunning = true;
               _logger.Trace($"微信客户端是[{NickName}]运行检查监听成功，没有被风控退出");
             }
             else if (window.ClassName == "WeChatLoginWndForPC")
             {
+              if (_RequireRetryLogin)
+                return;
+              _RequireRetryLogin = true;
               this._AppRunning = false;
-              if (!this._AppRunning)
-              {
-                _logger.Error($"微信客户端是[{NickName}]运行检查监听结果：被风控退出，正在尝试自动登录");
-                RetryLogin(automation, window);
-              }
+              _logger.Error($"微信客户端是[{NickName}]运行检查监听结果：被风控退出，正在尝试自动登录");
+              RetryLogin(automation, window);
             }
             else
             {
@@ -285,6 +287,20 @@ namespace WeChatAuto.Components
 
     private void RetryLogin(UIA3Automation automation, Window window)
     {
+      //如果有"确认"按钮，则点击"确认"按钮
+      Thread.Sleep(3 * 1_000);
+      var confirmButton = Retry.WhileNull(() =>
+      {
+        var button = window.FindFirstByXPath("/Pane[1]/Pane[2]/Pane[2]/Button[@Name='确定']")?.AsButton();
+        return button;
+      }, timeout: TimeSpan.FromSeconds(3), interval: TimeSpan.FromMilliseconds(200))?.Result;
+      if (confirmButton != null)
+      {
+        window.Focus();
+        confirmButton.DrawHighlightExt();
+        confirmButton.ClickEnhance(window);
+        Thread.Sleep(1_000);
+      }
       var loginButtonResult = Retry.WhileNull(() =>
         {
           var cf = automation.ConditionFactory;
@@ -306,14 +322,7 @@ namespace WeChatAuto.Components
         button.Focus();
         if (!button.IsOffscreen && button.IsEnabled)
         {
-          if (WeAutomation.Config.EnableMouseKeyboardSimulator)
-          {
-            KMSimulatorService.LeftClick(window, button);
-          }
-          else
-          {
-            button.Click();
-          }
+          button.ClickEnhance(window);
           _logger.Trace("已自动点击登录按钮，等待人工通过微信验证");
         }
       }
