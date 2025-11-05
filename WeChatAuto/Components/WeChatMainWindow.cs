@@ -2021,13 +2021,14 @@ namespace WeChatAuto.Components
         /// <param name="intervalSecond">间隔时间</param>
         /// <param name="helloText">打招呼文本</param>
         /// <param name="label">好友标签,方便归类管理</param>
+        /// <param name="stopWaitMinute">停止等待时间</param>
         /// <returns>微信响应结果</returns>
-        public async Task<ChatResponse> AddChatGroupMemberToFriends(string groupName, OneOf<string, string[]> memberName, int intervalSecond = 5, string helloText = "", string label = "")
+        public async Task<ChatResponse> AddChatGroupMemberToFriends(string groupName, OneOf<string, string[]> memberName, int intervalSecond = 5, string helloText = "", string label = "",int stopWaitMinute = 3)
         {
             await _SubWinList.CheckSubWinExistAndOpen(groupName);
             await Task.Delay(500);
             var subWin = _SubWinList.GetSubWin(groupName);
-            return subWin.AddChatGroupMemberToFriends(memberName, intervalSecond, helloText, label);
+            return subWin.AddChatGroupMemberToFriends(memberName, intervalSecond, helloText, label, stopWaitMinute);
         }
 
         /// <summary>
@@ -2051,13 +2052,14 @@ namespace WeChatAuto.Components
         /// <param name="intervalSecond">间隔时间</param>
         /// <param name="helloText">打招呼文本</param>
         /// <param name="label">好友标签,方便归类管理</param>
+        /// <param name="stopWaitMinute">停止等待时间</param>
         /// <returns>微信响应结果</returns>
-        public async Task<ChatResponse> AddAllChatGroupMemberToFriends(string groupName, List<string> exceptList = null, int intervalSecond = 3, string helloText = "", string label = "")
+        public async Task<ChatResponse> AddAllChatGroupMemberToFriends(string groupName, List<string> exceptList = null, int intervalSecond = 3, string helloText = "", string label = "",int stopWaitMinute = 3)
         {
             await _SubWinList.CheckSubWinExistAndOpen(groupName);
             await Task.Delay(500);
             var subWin = _SubWinList.GetSubWin(groupName);
-            return subWin.AddAllChatGroupMemberToFriends(exceptList, intervalSecond, helloText, label);
+            return subWin.AddAllChatGroupMemberToFriends(exceptList, intervalSecond, helloText, label, stopWaitMinute);
         }
 
         /// <summary>
