@@ -18,7 +18,6 @@ using WeChatAuto.Utils;
 using System.Threading;
 using WxAutoCommon.Configs;
 using WxAutoCommon.Classes;
-using System.Windows.Documents;
 using FlaUI.Core.Tools;
 using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
@@ -734,10 +733,10 @@ namespace WeChatAuto.Components
                         return;
                     }
 
-                    System.Windows.MessageBox.Show($"错误：用户[{who}]不存在,请检查您的输入是否正确",
-                        "错误",
-                        System.Windows.MessageBoxButton.OK,
-                        System.Windows.MessageBoxImage.Error);
+                    // System.Windows.MessageBox.Show($"错误：用户[{who}]不存在,请检查您的输入是否正确",
+                    //     "错误",
+                    //     System.Windows.MessageBoxButton.OK,
+                    //     System.Windows.MessageBoxImage.Error);
 
                 }
             }
@@ -790,10 +789,10 @@ namespace WeChatAuto.Components
                 return;
             }
 
-            System.Windows.MessageBox.Show($"用户{who}不存在,请检查您的输入是否正确",
-                "错误",
-                System.Windows.MessageBoxButton.OK,
-                System.Windows.MessageBoxImage.Error);
+            // System.Windows.MessageBox.Show($"用户{who}不存在,请检查您的输入是否正确",
+            //     "错误",
+            //     System.Windows.MessageBoxButton.OK,
+            //     System.Windows.MessageBoxImage.Error);
         }
         // 发送表情核心方法
         private async Task SendEmojiCore(ChatActionMessage msg)

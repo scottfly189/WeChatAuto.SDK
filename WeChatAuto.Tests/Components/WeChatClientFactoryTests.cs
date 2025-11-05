@@ -7,12 +7,12 @@ using WeChatAuto.Services;
 namespace WeChatAuto.Tests.Components
 {
     [Collection("UiTestCollection")]
-    public class WxFramworkTests
+    public class WeChatClientFactoryTests
     {
         private readonly string _wxClientName = "Alex Zhao";
         private ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
-        public WxFramworkTests(ITestOutputHelper output, UiTestFixture globalFixture)
+        public WeChatClientFactoryTests(ITestOutputHelper output, UiTestFixture globalFixture)
         {
             _output = output;
             _globalFixture = globalFixture;

@@ -18,6 +18,7 @@ using WeChatAuto.Extentions;
 using WeChatAuto.Utils;
 using WxAutoCommon.Simulator;
 using WeChatAuto.Services;
+using WeAutoCommon.Utils;
 
 namespace WeChatAuto.Components
 {
@@ -1366,7 +1367,6 @@ namespace WeChatAuto.Components
         }
         /// <summary>
         /// 添加群聊里面的好友为自己的好友,适用于从他有群中添加好友为自己的好友
-        /// 注：使用此方法必须要打开硬件模拟器，否则无法正常添加好友
         /// </summary>
         /// <param name="memberName">成员名称</param>
         /// <param name="intervalSecond">间隔时间</param>
@@ -1424,24 +1424,17 @@ namespace WeChatAuto.Components
             }
             _uiThreadInvoker.Run(automation =>
             {
-                foreach (var item in willAddList)
+                foreach (var who in willAddList)
                 {
                     var paneRoot = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd")));
                     if (paneRoot != null)
                     {
-                        _logger.Info($"开始搜索群成员: {item}");
+                        _logger.Info($"开始搜索群成员: {who}");
                         var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='搜索群成员']";
                         var edit = _SelfWindow.FindFirstByXPath(xPath)?.AsTextBox();
                         if (edit != null)
                         {
-                            edit.Focus();
-                            edit.Click();
-                            Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
-                            Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
-                            Keyboard.Type(item);
-                            Keyboard.Press(VirtualKeyShort.RETURN);
-                            Wait.UntilInputIsProcessed();
-                            Thread.Sleep(600);
+                            _SearchWillAddFriend(who, edit);
                             var listItem = paneRoot.FindFirstByXPath("//ListItem")?.AsListBoxItem();
                             if (listItem != null)
                             {
@@ -1449,20 +1442,8 @@ namespace WeChatAuto.Components
                                 var button = listItem.FindFirstByXPath("/Pane/Pane/Button").AsButton();
                                 if (button != null)
                                 {
-                                    button.DrawHighlightExt();
-                                    button.WaitUntilClickable();
+                                    _ClickAndPopupAddFriendMenu(listItem, button);
 
-                                    listItem.GetParent().Focus();
-                                    var point = button.BoundingRectangle.Center();
-
-                                    var scale = KMSimulatorService.GetScaleForWindow(_SelfWindow.Properties.NativeWindowHandle);
-                                    KMSimulatorService.LeftClick((int)(point.X * scale), (int)(point.Y * scale));
-                                    KMSimulatorService.LeftClick();
-                                    // Mouse.MoveTo(point);
-                                    // Mouse.LeftClick();
-                                    // Mouse.LeftClick();
-
-                                    return;
                                     var addPane = Retry.WhileNull(() => paneRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("添加好友")).And(cf.ByClassName("WeUIDialog"))),
                                         TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
                                     if (addPane != null)
@@ -1513,7 +1494,19 @@ namespace WeChatAuto.Components
                                         }
                                     }
                                 }
+                                else
+                                {
+                                    _logger.Error($"未找到添加好友按钮，无法添加好友: {who}");
+                                }
                             }
+                            else
+                            {
+                                _logger.Error($"未找到群成员: {who}");
+                            }
+                        }
+                        else
+                        {
+                            _logger.Error($"未找到搜索群成员输入框，无法添加好友: {who}");
                         }
                     }
                 }
@@ -1521,7 +1514,48 @@ namespace WeChatAuto.Components
             }).Wait();
         }
         /// <summary>
-        /// 从通讯录中获取待添加列表
+        /// 搜索待添加好友
+        /// </summary>
+        /// <param name="who">待添加好友</param>
+        /// <param name="edit">搜索输入框</param>
+        private static void _SearchWillAddFriend(string who, TextBox edit)
+        {
+            edit.Focus();
+            edit.Click();
+            Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+            Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+            Keyboard.Type(who);
+            Keyboard.Press(VirtualKeyShort.RETURN);
+            Wait.UntilInputIsProcessed();
+            Thread.Sleep(600);
+        }
+
+        /// <summary>
+        /// 点击列表项并弹出添加好友菜单
+        /// </summary>
+        private void _ClickAndPopupAddFriendMenu(ListBoxItem listItem, Button button)
+        {
+            button.DrawHighlightExt();
+            button.WaitUntilClickable();
+
+            listItem.GetParent().Focus();
+            var point = button.BoundingRectangle.Center();
+            if (WeAutomation.Config.EnableMouseKeyboardSimulator)
+            {
+                point = DpiHelper.GetDpiAwarePoint(_SelfWindow, point);
+                KMSimulatorService.LeftClick(point);
+                KMSimulatorService.LeftClick(point);
+            }
+            else
+            {
+                Mouse.MoveTo(point);
+                Mouse.LeftClick();
+                Mouse.LeftClick();
+            }
+        }
+
+        /// <summary>
+        /// 从子窗口人员列表中获取待添加人员列表
         /// </summary>
         /// <param name="addList">待添加列表</param>
         /// <returns>待添加列表</returns>
