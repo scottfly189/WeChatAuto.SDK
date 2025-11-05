@@ -1615,9 +1615,11 @@ namespace WeChatAuto.Components
             ChatResponse result = new ChatResponse();
             try
             {
+                exceptList = exceptList == null ? new List<string>() : exceptList;
                 var memberList = this.GetChatGroupMemberList();
                 var myNickName = _MainWxWindow.NickName;
                 memberList.Remove(myNickName);
+                _logger.Info($"获取到待增加群聊成员列表: {string.Join(",", memberList)}");
                 memberList = memberList.Except(exceptList).ToList();
                 this.AddChatGroupMemberToFriends(memberList.ToArray(), intervalSecond, helloText, label);
                 result.Success = true;
