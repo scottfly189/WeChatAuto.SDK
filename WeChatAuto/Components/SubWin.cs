@@ -1386,7 +1386,7 @@ namespace WeChatAuto.Components
         /// <param name="stopWaitMinute">停止等待时间</param>
         /// <returns>微信响应结果</returns>
         [Obsolete("由于微信对于自动化的限制，暂时放弃此方法，修改成硬件模拟的方式")]
-        public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", int stopWaitMinute = 3)
+        public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "",int stopWaitMinute = 3)
         {
             return this.AddChatGroupMemberToFriends(memberName, intervalSecond, helloText, "", stopWaitMinute);
         }
@@ -1399,7 +1399,7 @@ namespace WeChatAuto.Components
         /// <param name="label">好友标签,方便归类管理</param>
         /// <param name="stopWaitMinute">停止等待时间</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", string label = "", int stopWaitMinute = 3)
+        public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", string label = "",int stopWaitMinute = 3)
         {
             ChatResponse result = new ChatResponse();
             try
@@ -1425,7 +1425,7 @@ namespace WeChatAuto.Components
         /// <param name="helloText">打招呼文本</param>
         /// <param name="label">好友标签,方便归类管理</param>
         /// <param name="stopWaitMinute">停止等待时间</param>
-        private void _AddChatGroupFriendsCore(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", string label = "", int stopWaitMinute = 3)
+        private void _AddChatGroupFriendsCore(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", string label = "",int stopWaitMinute = 3)
         {
             if (!_IsSidebarOpen())
             {
@@ -1524,13 +1524,13 @@ namespace WeChatAuto.Components
                                         button.WaitUntilClickable();
                                         button.ClickEnhance(_MainWxWindow.Window);
                                         Thread.Sleep(600);
-
+                                        //好象不起作用.
                                         var stopButton = Retry.WhileNull(() => _MainWxWindow.Window.FindFirstByXPath("/Window[@ClassName='AlertDialog']/Pane[2]/Pane/Pane[3]/Button[@Name='确定']")?.AsButton(),
                                             TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
                                         if (stopButton != null)
                                         {
                                             stopButton.ClickEnhance(_MainWxWindow.Window);
-                                            Thread.Sleep(stopWaitMinute * 60 * 1_000);
+                                            Thread.Sleep(1 * 1000);
                                             continue;
                                         }
                                     }
@@ -1648,7 +1648,7 @@ namespace WeChatAuto.Components
         /// <param name="helloText">打招呼文本</param>
         /// <param name="stopWaitMinute">停止等待时间</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse AddAllChatGroupMemberToFriends(List<string> exceptList = null, int intervalSecond = 3, string helloText = "", int stopWaitMinute = 3)
+        public ChatResponse AddAllChatGroupMemberToFriends(List<string> exceptList = null, int intervalSecond = 3, string helloText = "",int stopWaitMinute = 3)
         {
             return this.AddAllChatGroupMemberToFriends(exceptList, intervalSecond, helloText, "", stopWaitMinute);
         }
@@ -1661,7 +1661,7 @@ namespace WeChatAuto.Components
         /// <param name="label">好友标签,方便归类管理</param>
         /// <param name="stopWaitMinute">停止等待时间</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse AddAllChatGroupMemberToFriends(List<string> exceptList = null, int intervalSecond = 3, string helloText = "", string label = "", int stopWaitMinute = 3)
+        public ChatResponse AddAllChatGroupMemberToFriends(List<string> exceptList = null, int intervalSecond = 3, string helloText = "", string label = "",int stopWaitMinute = 3)
         {
             ChatResponse result = new ChatResponse();
             try

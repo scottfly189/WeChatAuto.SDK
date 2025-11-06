@@ -14,12 +14,24 @@ namespace WxAutoCommon.Simulator
     public static class KMSimulatorService
     {
         private static IntPtr _deviceData = IntPtr.Zero;
-        public static void Init(int deviceVID, int devicePID)
+        public static void Init(int deviceVID, int devicePID, string verifyUserData)
         {
             CopyDllToCurrentDirectory();
             Thread.Sleep(600);
             var deviceId = SearchDevice(deviceVID, devicePID);
             OpenDevice(deviceId);
+            VerifyUserData(verifyUserData);
+        }
+        private static void VerifyUserData(string verifyUserData)
+        {
+            if (string.IsNullOrEmpty(verifyUserData))
+            {
+                throw new Exception("键鼠模拟器校验数据不能为空!");
+            }
+            if (Skm.HKMVerifyUserData2(_deviceData, verifyUserData, false) != Skm.HKMGetSerialNumber(_deviceData, false))
+            {
+                throw new Exception("键鼠模拟器校验数据错误!");
+            }
         }
         /// <summary>
         /// 复制DLL到当前目录

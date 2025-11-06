@@ -27,7 +27,7 @@ namespace WeChatAuto.Services
             options?.Invoke(_config);
             if (_config.EnableMouseKeyboardSimulator)
             {
-                services.AddKMSimulator(_config.KMDeiviceVID, _config.KMDeivicePID);
+                services.AddKMSimulator(_config.KMDeiviceVID, _config.KMDeivicePID, _config.KMVerifyUserData);
             }
 
             return services;

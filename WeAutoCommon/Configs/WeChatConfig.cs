@@ -80,6 +80,7 @@ namespace WxAutoCommon.Configs
         /// 键鼠模拟器设备PID
         /// </summary>
         public int KMDeivicePID { get; set; } = 0x1701;
+        public string KMVerifyUserData { get; set; } = "";
     }
 
     public static class Language
