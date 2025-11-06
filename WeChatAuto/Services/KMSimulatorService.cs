@@ -5,8 +5,9 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using FlaUI.Core.AutomationElements;
 using WeAutoCommon.Utils;
+using WxAutoCommon.Simulator;
 
-namespace WxAutoCommon.Simulator
+namespace WeChatAuto.Services
 {
     /// <summary>
     /// 键鼠模拟器服务
@@ -14,6 +15,7 @@ namespace WxAutoCommon.Simulator
     public static class KMSimulatorService
     {
         private static IntPtr _deviceData = IntPtr.Zero;
+        #region 设备初始化
         public static void Init(int deviceVID, int devicePID, string verifyUserData)
         {
             CopyDllToCurrentDirectory();
@@ -21,6 +23,7 @@ namespace WxAutoCommon.Simulator
             var deviceId = SearchDevice(deviceVID, devicePID);
             OpenDevice(deviceId);
             VerifyUserData(verifyUserData);
+            SetMouseMode();
         }
         private static void VerifyUserData(string verifyUserData)
         {
@@ -80,6 +83,11 @@ namespace WxAutoCommon.Simulator
             }
         }
 
+        private static void SetMouseMode()
+        {
+            Skm.HKMSetMode(_deviceData, 4, 4);
+        }
+
         /// <summary>
         /// 关闭设备
         /// </summary>
@@ -93,6 +101,8 @@ namespace WxAutoCommon.Simulator
         /// <returns>是否打开</returns>
         public static bool IsDeviceOpen() => Skm.HKMIsOpen(_deviceData, 0);
 
+        #endregion
+
         /// <summary>
         /// 随机延时
         /// </summary>
@@ -101,6 +111,29 @@ namespace WxAutoCommon.Simulator
         public static void Delay(int minTime, int maxTime)
         {
             Skm.HKMDelayRnd(_deviceData, (UInt32)minTime, (UInt32)maxTime);
+        }
+        #region 键盘操作
+        /// <summary>
+        /// 清空输入框并输入字符串
+        /// </summary>
+        /// <param name="str">字符串</param>
+        /// <param name="window">窗口</param>
+        /// <param name="element">元素</param>
+        public static void ClearAndTypeString(string str, Window window, AutomationElement element)
+        {
+            LeftClick(window, element);
+            Delay(100, 300);
+            KeyPress("Ctrl+A");
+            Delay(100, 300);
+            KeyPress("Backspace");
+            Delay(100, 300);
+            KeyPressString(str);
+        }
+
+        public static void Enter(Window window, AutomationElement element)
+        {
+            Delay(500, 1000);
+            KeyPress("Enter");
         }
         /// <summary>
         /// 键盘按下
@@ -135,6 +168,8 @@ namespace WxAutoCommon.Simulator
         {
             Skm.HKMOutputString(_deviceData, str);
         }
+        #endregion
+        #region 鼠标操作
         /// <summary>
         /// 相对移动
         /// </summary>
@@ -177,7 +212,21 @@ namespace WxAutoCommon.Simulator
         /// <param name="element">元素</param>
         public static void LeftClick(Window window, AutomationElement element)
         {
-            var point = window.GetDpiAwarePoint(element);
+            double scale = GetScaleForWindow(window.Properties.NativeWindowHandle.Value);
+            int width = (int)(element.BoundingRectangle.Width * scale) - 2 * WeAutomation.Config.OffsetOfClick;
+            int height = (int)(element.BoundingRectangle.Height * scale) - 2 * WeAutomation.Config.OffsetOfClick;
+            var point = new Point();
+            if (width <= 0 || height <= 0)
+            {
+                point = window.GetDpiAwarePoint(element);
+                LeftClick(point);
+                return;
+            }
+            var random = new Random();
+            var offsetX = random.Next(1, width + 1);
+            var offsetY = random.Next(1, height + 1);
+            point = new Point((int)(element.BoundingRectangle.Left * scale + WeAutomation.Config.OffsetOfClick + offsetX), (int)(element.BoundingRectangle.Top * scale + WeAutomation.Config.OffsetOfClick + offsetY));
+
             LeftClick(point);
         }
         /// <summary>
@@ -328,6 +377,7 @@ namespace WxAutoCommon.Simulator
         {
             LeftDoubleClick(new Point(x, y));
         }
+        #endregion
 
         /// <summary>
         /// 获取窗口缩放比例

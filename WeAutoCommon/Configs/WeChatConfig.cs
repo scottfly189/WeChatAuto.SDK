@@ -81,6 +81,15 @@ namespace WxAutoCommon.Configs
         /// </summary>
         public int KMDeivicePID { get; set; } = 0x1701;
         public string KMVerifyUserData { get; set; } = "";
+        /// <summary>
+        /// 点击偏移量,单位像素
+        /// 为了避免每次点击都点击到同一个位置，可以设置一个偏移量，实际点击位置为点击位置减去偏移量的一个随机值
+        /// </summary>
+        public int OffsetOfClick { get; set; } = 5;
+        /// <summary>
+        /// 输出字符串编码类型,默认使用剪贴板粘贴输出字符串。优点是输出字符多时速度更快且不受输入法影响
+        /// </summary>
+        public int OutputStringType { get; set; } = 4;
     }
 
     public static class Language

@@ -175,6 +175,10 @@ namespace WeChatAuto.Components
                     client.Value?.Dispose();
                 }
             }
+            if (WeAutomation.Config.EnableMouseKeyboardSimulator)
+            {
+                KMSimulatorService.CloseDevice();
+            }
             _disposed = true;
         }
     }

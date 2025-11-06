@@ -1,0 +1,28 @@
+using FlaUI.Core.AutomationElements;
+using WeChatAuto.Services;
+
+namespace WeChatAuto.Utils
+{
+    public static class TypeNewStringExtentions
+    {
+        /// <summary>
+        /// 清空输入框并输入字符串
+        /// </summary>
+        /// <param name="element">元素</param>
+        /// <param name="str">字符串</param>
+        /// <param name="window">窗口</param>
+        public static void TypeNewString(this AutomationElement element, string str, Window window)
+        {
+            KMSimulatorService.ClearAndTypeString(str, window, element);
+        }
+        /// <summary>
+        /// 按下回车键
+        /// </summary>
+        /// <param name="element">元素</param>
+        /// <param name="window">窗口</param>
+        public static void Enter(this AutomationElement element, Window window)
+        {
+            KMSimulatorService.Enter(window, element);
+        }
+    }
+}

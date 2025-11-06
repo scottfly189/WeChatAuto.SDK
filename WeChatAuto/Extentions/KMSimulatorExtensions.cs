@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using WxAutoCommon.Simulator;
+using WeChatAuto.Services;
 
 namespace WeChatAuto.Extentions
 {

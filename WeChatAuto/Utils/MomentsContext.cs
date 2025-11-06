@@ -148,8 +148,16 @@ namespace WeChatAuto.Utils
                     var contentArea = parentPane.FindFirstByXPath("//Edit[@Name='评论']")?.AsTextBox();
                     contentArea?.WaitUntilClickable();
                     contentArea?.DrawHighlightExt();
-                    _momentWindow.SilenceEnterText(contentArea, replyContent);
-                    _momentWindow.SilenceReturn(contentArea);
+                    if (WeAutomation.Config.EnableMouseKeyboardSimulator)
+                    {
+                        KMSimulatorService.ClearAndTypeString(replyContent, _momentWindow, contentArea);
+                        KMSimulatorService.Enter(_momentWindow, contentArea);
+                    }
+                    else
+                    {
+                        _momentWindow.SilenceEnterText(contentArea, replyContent);
+                        _momentWindow.SilenceReturn(contentArea);
+                    }
                     _logger.Info("回复内容输入完成...");
                     Thread.Sleep(600);
                 }
