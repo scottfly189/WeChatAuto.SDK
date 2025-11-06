@@ -23,7 +23,8 @@ namespace WeChatAuto.Services
             var deviceId = SearchDevice(deviceVID, devicePID);
             OpenDevice(deviceId);
             VerifyUserData(verifyUserData);
-            SetMouseMode();
+            SetOutputMode();
+            SetMouseMode(WeAutomation.Config.MouseMoveMode);
         }
         private static void VerifyUserData(string verifyUserData)
         {
@@ -82,8 +83,18 @@ namespace WeChatAuto.Services
                 throw new Exception("打开键鼠模拟器设备失败!");
             }
         }
-
-        private static void SetMouseMode()
+        /// <summary>
+        /// 设置鼠标移动模式
+        /// </summary>
+        /// <param name="mode"></param>
+        private static void SetMouseMode(int mode)
+        {
+            Skm.HKMSetMode(_deviceData, 2, (uint)mode);
+        }
+        /// <summary>
+        /// 设置鼠标移动模式
+        /// </summary>
+        private static void SetOutputMode()
         {
             Skm.HKMSetMode(_deviceData, 4, 4);
         }
@@ -114,6 +125,14 @@ namespace WeChatAuto.Services
         }
         #region 键盘操作
         /// <summary>
+        /// 输出字符串
+        /// </summary>
+        /// <param name="str">字符串</param>
+        public static void KeyPressString(string str)
+        {
+            Skm.HKMOutputString(_deviceData, str);
+        }
+        /// <summary>
         /// 清空输入框并输入字符串
         /// </summary>
         /// <param name="str">字符串</param>
@@ -130,6 +149,11 @@ namespace WeChatAuto.Services
             KeyPressString(str);
         }
 
+        /// <summary>
+        /// 按下回车键
+        /// </summary>
+        /// <param name="window">窗口</param>
+        /// <param name="element">元素</param>
         public static void Enter(Window window, AutomationElement element)
         {
             Delay(500, 1000);
@@ -160,14 +184,7 @@ namespace WeChatAuto.Services
             Skm.HKMKeyPress(_deviceData, key);
         }
 
-        /// <summary>
-        /// 输出字符串
-        /// </summary>
-        /// <param name="str">字符串</param>
-        public static void KeyPressString(string str)
-        {
-            Skm.HKMOutputString(_deviceData, str);
-        }
+
         #endregion
         #region 鼠标操作
         /// <summary>

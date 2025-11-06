@@ -90,6 +90,10 @@ namespace WxAutoCommon.Configs
         /// 输出字符串编码类型,默认使用剪贴板粘贴输出字符串。优点是输出字符多时速度更快且不受输入法影响
         /// </summary>
         public int OutputStringType { get; set; } = 4;
+        /// <summary>
+        /// 鼠标移动模式
+        /// </summary>
+        public int MouseMoveMode { get; set; } = 0;
     }
 
     public static class Language
