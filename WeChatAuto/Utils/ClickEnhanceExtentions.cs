@@ -26,5 +26,19 @@ namespace WeChatAuto.Utils
                 element.Click();
             }
         }
+
+        public static void DblClickEnhance(this AutomationElement element, Window window)
+        {
+            if (WeAutomation.Config.EnableMouseKeyboardSimulator)
+            {
+                KMSimulatorService.LeftDblClickWithDpiAware(window, element);
+            }
+            else
+            {
+                element.WaitUntilClickable();
+                element.Click();
+            }
+        }
+
     }
 }

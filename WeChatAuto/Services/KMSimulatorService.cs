@@ -15,6 +15,7 @@ namespace WeChatAuto.Services
     public static class KMSimulatorService
     {
         private static IntPtr _deviceData = IntPtr.Zero;
+        public static IntPtr DeviceData => _deviceData;
         #region 设备初始化
         public static void Init(int deviceVID, int devicePID, string verifyUserData)
         {
@@ -245,6 +246,25 @@ namespace WeChatAuto.Services
             point = new Point((int)(element.BoundingRectangle.Left * scale + WeAutomation.Config.OffsetOfClick + offsetX), (int)(element.BoundingRectangle.Top * scale + WeAutomation.Config.OffsetOfClick + offsetY));
 
             LeftClick(point);
+        }
+        public static void LeftDblClickWithDpiAware(Window window, AutomationElement element)
+        {
+            double scale = GetScaleForWindow(window.Properties.NativeWindowHandle.Value);
+            int width = (int)(element.BoundingRectangle.Width * scale) - 2 * WeAutomation.Config.OffsetOfClick;
+            int height = (int)(element.BoundingRectangle.Height * scale) - 2 * WeAutomation.Config.OffsetOfClick;
+            var point = new Point();
+            if (width <= 0 || height <= 0)
+            {
+                point = window.GetDpiAwarePoint(element);
+                LeftClick(point);
+                return;
+            }
+            var random = new Random();
+            var offsetX = random.Next(1, width + 1);
+            var offsetY = random.Next(1, height + 1);
+            point = new Point((int)(element.BoundingRectangle.Left * scale + WeAutomation.Config.OffsetOfClick + offsetX), (int)(element.BoundingRectangle.Top * scale + WeAutomation.Config.OffsetOfClick + offsetY));
+
+            LeftDoubleClick(point);
         }
         /// <summary>
         /// 左键单击

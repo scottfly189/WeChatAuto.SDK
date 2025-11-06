@@ -1386,7 +1386,7 @@ namespace WeChatAuto.Components
         /// <param name="stopWaitMinute">停止等待时间</param>
         /// <returns>微信响应结果</returns>
         [Obsolete("由于微信对于自动化的限制，暂时放弃此方法，修改成硬件模拟的方式")]
-        public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "",int stopWaitMinute = 3)
+        public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", int stopWaitMinute = 3)
         {
             return this.AddChatGroupMemberToFriends(memberName, intervalSecond, helloText, "", stopWaitMinute);
         }
@@ -1399,7 +1399,7 @@ namespace WeChatAuto.Components
         /// <param name="label">好友标签,方便归类管理</param>
         /// <param name="stopWaitMinute">停止等待时间</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", string label = "",int stopWaitMinute = 3)
+        public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", string label = "", int stopWaitMinute = 3)
         {
             ChatResponse result = new ChatResponse();
             try
@@ -1425,7 +1425,7 @@ namespace WeChatAuto.Components
         /// <param name="helloText">打招呼文本</param>
         /// <param name="label">好友标签,方便归类管理</param>
         /// <param name="stopWaitMinute">停止等待时间</param>
-        private void _AddChatGroupFriendsCore(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", string label = "",int stopWaitMinute = 3)
+        private void _AddChatGroupFriendsCore(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", string label = "", int stopWaitMinute = 3)
         {
             if (!_IsSidebarOpen())
             {
@@ -1482,43 +1482,53 @@ namespace WeChatAuto.Components
                                     }
                                     addButton.ClickEnhance(_SelfWindow);
                                     //先排除一些设置权限的好友，会弹出“确定”按钮，所以需要先判断是否弹出“确定”按钮
-                                    var confirmButton = Retry.WhileNull(() => _MainWxWindow.Window.FindFirstByXPath("//Button[@Name='确定']")?.AsButton(),
-                                        TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
-                                    if (confirmButton != null)
-                                    {
-                                        confirmButton.ClickEnhance(_MainWxWindow.Window);
-                                        Thread.Sleep(intervalSecond * 1000);  //停顿间隔时间
-                                        continue;
-                                    }
                                     var addConfirmWinResult = Retry.WhileNull(() => _MainWxWindow.Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("添加朋友请求")).And(cf.ByClassName("WeUIDialog")))?.AsWindow(),
                                         TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
                                     if (addConfirmWinResult.Success && addConfirmWinResult.Result != null)
                                     {
                                         if (!string.IsNullOrWhiteSpace(helloText))
                                         {
+
                                             var helloTextEdit = addConfirmWinResult.Result.FindFirstByXPath("/Pane[2]/Pane[1]/Pane/Pane/Pane[1]/Pane/Edit").AsTextBox();
-                                            helloTextEdit.Focus();
-                                            helloTextEdit.Click();
-                                            Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
-                                            Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
-                                            Keyboard.Type(helloText);
-                                            helloTextEdit.Click();
-                                            Keyboard.Press(VirtualKeyShort.RETURN);
-                                            Wait.UntilInputIsProcessed();
-                                            Thread.Sleep(600);
+                                            if (WeAutomation.Config.EnableMouseKeyboardSimulator)
+                                            {
+                                                helloTextEdit.Focus();
+                                                helloTextEdit.TypeNewStringAndEnter(helloText, _MainWxWindow.Window);
+                                            }
+                                            else
+                                            {
+                                                helloTextEdit.Focus();
+                                                helloTextEdit.Click();
+                                                Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                                                Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                                                Keyboard.Type(helloText);
+                                                helloTextEdit.Click();
+                                                Keyboard.Press(VirtualKeyShort.RETURN);
+                                                Wait.UntilInputIsProcessed();
+                                                Thread.Sleep(600);
+                                            }
                                         }
                                         if (!string.IsNullOrWhiteSpace(label))
                                         {
                                             var labelEdit = addConfirmWinResult.Result.FindFirstByXPath("/Pane[2]/Pane[1]/Pane/Pane/Pane[3]/Pane[1]/Pane/Edit").AsTextBox();
-                                            labelEdit.Focus();
-                                            labelEdit.Click();
-                                            Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
-                                            Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
-                                            Keyboard.Type(label);
-                                            labelEdit.Click();
-                                            Keyboard.Press(VirtualKeyShort.RETURN);
-                                            Wait.UntilInputIsProcessed();
-                                            Thread.Sleep(600);
+                                            if (WeAutomation.Config.EnableMouseKeyboardSimulator)
+                                            {
+                                                labelEdit.Focus();
+                                                labelEdit.TypeNewStringAndEnter(label, _MainWxWindow.Window);
+                                                Thread.Sleep(600);
+                                            }
+                                            else
+                                            {
+                                                labelEdit.Focus();
+                                                labelEdit.Click();
+                                                Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                                                Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                                                Keyboard.Type(label);
+                                                labelEdit.Click();
+                                                Keyboard.Press(VirtualKeyShort.RETURN);
+                                                Wait.UntilInputIsProcessed();
+                                                Thread.Sleep(600);
+                                            }
                                         }
                                         button = addConfirmWinResult.Result.FindFirstByXPath("//Button[@Name='确定']")?.AsButton();
                                         button.WaitUntilClickable();
@@ -1536,7 +1546,14 @@ namespace WeChatAuto.Components
                                     }
                                     else
                                     {
-                                        _logger.Info($"未找到添加好友确认窗口，对方历史上可能被增加过，所以估计已增加好友: {who},请手动确认是否添加成功。");
+                                        var confirmButton = Retry.WhileNull(() => _MainWxWindow.Window.FindFirstByXPath("//Button[@Name='确定']")?.AsButton(),
+                                            TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
+                                        if (confirmButton != null)
+                                        {
+                                            confirmButton.ClickEnhance(_MainWxWindow.Window);
+                                            Thread.Sleep(intervalSecond * 1000);  //停顿间隔时间
+                                            continue;
+                                        }
                                     }
                                 }
                                 else
@@ -1569,14 +1586,21 @@ namespace WeChatAuto.Components
         /// <param name="edit">搜索输入框</param>
         private void _SearchWillAddFriendCore(string who, TextBox edit)
         {
-            edit.Focus();
-            edit.ClickEnhance(_SelfWindow);
-            Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
-            Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
-            Keyboard.Type(who);
-            Keyboard.Press(VirtualKeyShort.RETURN);
-            Wait.UntilInputIsProcessed();
-            Thread.Sleep(600);
+            if (WeAutomation.Config.EnableMouseKeyboardSimulator)
+            {
+                edit.TypeNewStringAndEnter(who, _SelfWindow);
+            }
+            else
+            {
+                edit.Focus();
+                edit.ClickEnhance(_SelfWindow);
+                Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                Keyboard.Type(who);
+                Keyboard.Press(VirtualKeyShort.RETURN);
+                Wait.UntilInputIsProcessed();
+                Thread.Sleep(600);
+            }
         }
 
         /// <summary>
@@ -1591,9 +1615,10 @@ namespace WeChatAuto.Components
             var point = button.BoundingRectangle.Center();
             if (WeAutomation.Config.EnableMouseKeyboardSimulator)
             {
-                point = DpiHelper.GetDpiAwarePoint(_SelfWindow, point);
-                KMSimulatorService.LeftClick(point);
-                KMSimulatorService.LeftClick(point);
+                // point = DpiHelper.GetDpiAwarePoint(_SelfWindow, point);
+                // KMSimulatorService.LeftClick(point);
+                // KMSimulatorService.LeftClick(point);
+                button.DblClickEnhance(_SelfWindow);
             }
             else
             {
@@ -1648,7 +1673,7 @@ namespace WeChatAuto.Components
         /// <param name="helloText">打招呼文本</param>
         /// <param name="stopWaitMinute">停止等待时间</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse AddAllChatGroupMemberToFriends(List<string> exceptList = null, int intervalSecond = 3, string helloText = "",int stopWaitMinute = 3)
+        public ChatResponse AddAllChatGroupMemberToFriends(List<string> exceptList = null, int intervalSecond = 3, string helloText = "", int stopWaitMinute = 3)
         {
             return this.AddAllChatGroupMemberToFriends(exceptList, intervalSecond, helloText, "", stopWaitMinute);
         }
@@ -1661,7 +1686,7 @@ namespace WeChatAuto.Components
         /// <param name="label">好友标签,方便归类管理</param>
         /// <param name="stopWaitMinute">停止等待时间</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse AddAllChatGroupMemberToFriends(List<string> exceptList = null, int intervalSecond = 3, string helloText = "", string label = "",int stopWaitMinute = 3)
+        public ChatResponse AddAllChatGroupMemberToFriends(List<string> exceptList = null, int intervalSecond = 3, string helloText = "", string label = "", int stopWaitMinute = 3)
         {
             ChatResponse result = new ChatResponse();
             try

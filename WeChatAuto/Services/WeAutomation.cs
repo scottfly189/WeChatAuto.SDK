@@ -32,6 +32,7 @@ namespace WeChatAuto.Services
 
             return services;
         }
+        
         /// <summary>
         /// 如果用户端没有依赖注入框架，则用此方法初始化
         /// 注意：此方法与AddWxAutomation()方法不能同时使用

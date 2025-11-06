@@ -175,7 +175,7 @@ namespace WeChatAuto.Components
                     client.Value?.Dispose();
                 }
             }
-            if (WeAutomation.Config.EnableMouseKeyboardSimulator)
+            if (WeAutomation.Config.EnableMouseKeyboardSimulator && KMSimulatorService.DeviceData != IntPtr.Zero)
             {
                 KMSimulatorService.CloseDevice();
             }
