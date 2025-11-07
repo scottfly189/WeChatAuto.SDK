@@ -234,7 +234,7 @@ namespace WeChatAuto.Components
 
                         _Window.SetForeground();
                         button.DoubleClick();
-                    }).Wait();
+                    }).GetAwaiter().GetResult();
                 }
                 else
                 {

@@ -29,7 +29,7 @@ namespace WxAutoCommon.Utils
             _uiThread.Priority = ThreadPriority.Normal;
             _uiThread.IsBackground = false;
             _uiThread.Start();
-            _started.Task.Wait();
+            _started.Task.GetAwaiter().GetResult();
         }
 
         private void ThreadMain()
@@ -45,7 +45,7 @@ namespace WxAutoCommon.Utils
                         if (_disposed) break;
                         try
                         {
-                            action(_automation).Wait();
+                            action(_automation).GetAwaiter().GetResult();
                         }
                         catch (Exception ex)
                         {

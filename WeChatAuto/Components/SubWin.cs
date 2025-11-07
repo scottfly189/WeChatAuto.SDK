@@ -177,7 +177,7 @@ namespace WeChatAuto.Components
                 element = element.GetSibling(1); //是否保存至通讯录
                 _FetchSaveToAddressBook(options, element);
 
-            }).Wait();
+            }).GetAwaiter().GetResult();
             return options;
         }
 
@@ -459,7 +459,7 @@ namespace WeChatAuto.Components
                     Thread.Sleep(500);
                     var rootElement = this.GetNewElement();
                     _UpdateGroupNotice(rootElement, groupNotice);
-                }).Wait();
+                }).GetAwaiter().GetResult();
                 result.Success = true;
                 result.Message = "更新群聊公告成功";
                 return result;
@@ -612,7 +612,7 @@ namespace WeChatAuto.Components
                     edit.Focus();
                     edit.Click();
                 }
-            }).Wait();
+            }).GetAwaiter().GetResult();
         }
 
         private void _FocuseSearchTextExt(bool autoThread = true)
@@ -632,7 +632,7 @@ namespace WeChatAuto.Components
             };
             if (autoThread)
             {
-                _uiThreadInvoker.Run(automation => action()).Wait();
+                _uiThreadInvoker.Run(automation => action()).GetAwaiter().GetResult();
             }
             else
             {
@@ -696,7 +696,7 @@ namespace WeChatAuto.Components
             };
             if (autoThread)
             {
-                _uiThreadInvoker.Run(automation => action()).Wait();
+                _uiThreadInvoker.Run(automation => action()).GetAwaiter().GetResult();
             }
             else
             {
@@ -893,7 +893,7 @@ namespace WeChatAuto.Components
                         confirmButton.Click();
                     }
                 }
-            }).Wait();
+            }).GetAwaiter().GetResult();
         }
         /// <summary>
         /// 退出群聊
@@ -935,7 +935,7 @@ namespace WeChatAuto.Components
                         _logger.Info("退出群聊成功");
                     }
                 }
-            }).Wait();
+            }).GetAwaiter().GetResult();
         }
         #endregion
 
@@ -1038,7 +1038,7 @@ namespace WeChatAuto.Components
                         }
                     }
                 }
-            }).Wait();
+            }).GetAwaiter().GetResult();
             Thread.Sleep(100);
         }
         /// <summary>
@@ -1114,7 +1114,7 @@ namespace WeChatAuto.Components
                     //点击完成按钮
                     _ClickAddConfirmButton();
                 }
-            }).Wait();
+            }).GetAwaiter().GetResult();
             Thread.Sleep(100);
         }
         /// <summary>
@@ -1226,7 +1226,7 @@ namespace WeChatAuto.Components
                     //点击完成按钮
                     _ClickDeleteConfirmButton();
                 }
-            }).Wait();
+            }).GetAwaiter().GetResult();
             Thread.Sleep(100);
         }
         /// <summary>
@@ -1604,7 +1604,7 @@ namespace WeChatAuto.Components
                     }
                     Thread.Sleep(intervalSecond * 1000);  //停顿间隔时间
                 }
-            }).Wait();
+            }).GetAwaiter().GetResult();
         }
         /// <summary>
         /// 搜索待添加好友

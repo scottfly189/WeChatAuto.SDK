@@ -118,7 +118,7 @@ namespace WeChatAuto.Components
                 foreach (var wxNotify in wxNotifyList.Result)
                 {
                     DrawHightlightHelper.DrawHightlight(wxNotify, _uiThreadInvoker);
-                    _uiThreadInvoker.Run(automation => wxNotify.AsButton().Invoke()).Wait();
+                    _uiThreadInvoker.Run(automation => wxNotify.AsButton().Invoke()).GetAwaiter().GetResult();
                     var topWindowProcessId = Retry.WhileException(() => WinApi.GetTopWindowProcessIdByClassName("WeChatMainWndForPC"), timeout: TimeSpan.FromSeconds(10));
                     var wxInstances = _uiThreadInvoker.Run(automation =>
                         automation.GetDesktop().FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME)

@@ -439,8 +439,30 @@ namespace WeChatAuto.Components
             }
             else
             {
-              _logger.Error($"微信客户端是[{NickName}]运行检查监听结果：被风控退出，错误原因：{window.ClassName}窗口不存在");
-              throw new WindowNotExsitException($"微信客户端是[{NickName}]运行检查监听结果：被风控退出，错误原因：{window.ClassName}窗口不存在");
+              var innerRetryCount = 0;
+              var retryResult = false;
+              while (innerRetryCount < 3)
+              {
+                innerRetryCount++;
+                wxWindowResult = Retry.WhileNull(() => (desktop.FindFirstByXPath($"/Window[@ClassName='WeChatMainWndForPC'][@ProcessId={WxMainWindow.ProcessId}] | /Window[@ClassName='WeChatLoginWndForPC'][@ProcessId={WxMainWindow.ProcessId}]")?.AsWindow()),
+                  timeout: TimeSpan.FromSeconds(2),
+                  interval: TimeSpan.FromMilliseconds(200));
+                if (wxWindowResult.Success && wxWindowResult.Result != null)
+                {
+                  retryResult = true;
+                  _logger.Info("又复活了！");
+                  break;
+                }
+                else
+                {
+                  Thread.Sleep(300);
+                }
+              }
+              if (!retryResult)
+              {
+                _logger.Error($"微信客户端是[{NickName}]运行检查监听结果：被风控退出，错误原因：{window.ClassName}窗口不存在");
+                throw new WindowNotExsitException($"微信客户端是[{NickName}]运行检查监听结果：被风控退出，错误原因：{window.ClassName}窗口不存在");
+              }
             }
           }
           else
@@ -449,7 +471,7 @@ namespace WeChatAuto.Components
             throw new WindowNotExsitException($"微信客户端是{NickName}运行检查监听失败，错误原因：窗口不存在");
           }
           _CheckRunningFlag = false;
-        }).Wait();
+        }).GetAwaiter().GetResult();
       }
       catch (OperationCanceledException)
       {
@@ -460,11 +482,12 @@ namespace WeChatAuto.Components
         retryCount++;
         if (retryCount < 3)
         {
-          this._AppRunning = false;
+          _CheckRunningFlag = false;
           _logger.Error($"微信客户端是{NickName}运行检查监听失败:{ex.Message},重试{retryCount}次", ex);
           Thread.Sleep(300);
+          return;
         }
-        _logger.Error($"重试{retryCount}次后，微信客户端是{NickName}运行检查监听失败:{ex.Message}", ex);
+        _logger.Error($"重试{retryCount}次后，微信客户端是{NickName}运行检查监听失败:{ex.Message},严重：系统将不再监听微信的风控退出.", ex);
         throw;  //因为抛出的是窗口不存在异常，所以直接终止应用运行.
       }
       catch (Exception ex)
@@ -533,11 +556,12 @@ namespace WeChatAuto.Components
       {
         // 先取消操作，然后释放托管资源
         _CheckAppRunningCancellationTokenSource?.Cancel();
-        _CheckAppRunningCancellationTokenSource?.Dispose();
       }
       WxNotifyIcon?.Dispose();
       WxMainWindow?.Dispose();
       _CheckAppRunningTimer?.Dispose();
+      Thread.CurrentThread.Join(5000);  //等待_CheckAppRunningTimer线程结束
+      _CheckAppRunningCancellationTokenSource?.Dispose();
       _CheckAppRunningUIThreadInvoker?.Dispose();
       _disposed = true;
     }

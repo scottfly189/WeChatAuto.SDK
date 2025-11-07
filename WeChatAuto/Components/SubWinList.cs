@@ -50,7 +50,7 @@ namespace WeChatAuto.Components
             _MainFlaUIWindow = window;
             _serviceProvider = serviceProvider;
             _InitMonitorSubWinThread();
-            _MonitorSubWinTaskCompletionSource.Task.Wait();
+            _MonitorSubWinTaskCompletionSource.Task.GetAwaiter().GetResult();
         }
         /// <summary>
         /// 初始化监听子窗口线程

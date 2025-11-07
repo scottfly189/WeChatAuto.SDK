@@ -351,7 +351,7 @@ namespace WeChatAuto.Components
                     _logger.Error("刷新朋友圈失败，" + ex.Message, ex);
                     throw;
                 }
-            }).Wait();
+            }).GetAwaiter().GetResult();
             _logger.Info("刷新朋友圈结束...");
         }
 
@@ -481,7 +481,7 @@ namespace WeChatAuto.Components
                     var win = _GetMomentWindow(automation);
                     win.Close();
                     Thread.Sleep(600);
-                }).Wait();
+                }).GetAwaiter().GetResult();
             }
             OpenMoments();
             var myNickName = _WxMainWindow.NickName;
@@ -515,7 +515,7 @@ namespace WeChatAuto.Components
                     }
 
                 }
-            }).Wait();
+            }).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -560,7 +560,7 @@ namespace WeChatAuto.Components
                     }
 
                 }
-            }).Wait();
+            }).GetAwaiter().GetResult();
         }
 
         private void ReplyMomentsItem(List<MomentItem> currentMomentsList, string myNickName, string[] searchNickNames, ref double scrollAmount, ListBox rootListBox, IScrollPattern pattern, Window momentWindow, string replyContent)
@@ -808,7 +808,7 @@ namespace WeChatAuto.Components
                     }
 
                 }
-            }).Wait();
+            }).GetAwaiter().GetResult();
             _logger.Info("点赞朋友圈并回复评论结束...");
         }
 

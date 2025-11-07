@@ -51,7 +51,7 @@ namespace WeChatAuto.Components
                 _MinButton = childen[1].AsButton();
                 _MaxButton = childen[2].AsButton();   // 最大化或者还原
                 _CloseButton = childen[3].AsButton();
-            }).Wait();
+            }).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace WeChatAuto.Components
                     {
                         Wait.UntilResponsive(_TopButton);
                         _TopButton.Click();
-                    }).Wait();
+                    }).GetAwaiter().GetResult();
                 }
             }
             else
@@ -91,7 +91,7 @@ namespace WeChatAuto.Components
             {
                 Wait.UntilResponsive(_MinButton);
                 _MinButton.Click();
-            }).Wait();
+            }).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace WeChatAuto.Components
             {
                 Wait.UntilResponsive(_MinButton);
                 _MinButton.Click();
-            }).Wait();
+            }).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace WeChatAuto.Components
                     Wait.UntilResponsive(_MaxButton);
                     _MaxButton.Click();
                 }
-            }).Wait();
+            }).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace WeChatAuto.Components
                     Wait.UntilResponsive(_MaxButton);
                     _MaxButton.Click();
                 }
-            }).Wait();
+            }).GetAwaiter().GetResult();
         }
     }
 }

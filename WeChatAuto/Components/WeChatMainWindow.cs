@@ -90,7 +90,7 @@ namespace WeChatAuto.Components
             _InitStaticWxWindowComponents(notifyIcon);
             _InitSubscription();
             _InitNewUserListener();
-            _newUserListenerStarted.Task.Wait();
+            _newUserListenerStarted.Task.GetAwaiter().GetResult();
         }
         /// <summary>
         /// 初始化新用户监听
@@ -200,7 +200,7 @@ namespace WeChatAuto.Components
             {
                 return;
             }
-            _uiMainThreadInvoker.Run(automation => automation.UnregisterAllEvents()).Wait();
+            _uiMainThreadInvoker.Run(automation => automation.UnregisterAllEvents()).GetAwaiter().GetResult();
         }
         /// <summary>
         /// 初始化微信窗口的各种组件,这些组件在微信窗口中是静态的，不会随着微信窗口的变化而变化
@@ -473,7 +473,7 @@ namespace WeChatAuto.Components
                     this.Conversations.DoubleClickConversation(who);
                     Wait.UntilInputIsProcessed();
                     // this.Conversations.ClickFirstConversation();
-                    this.SendMessageCore(who, message, isOpenChat).Wait();
+                    this.SendMessageCore(who, message, isOpenChat).GetAwaiter().GetResult();
                 }
                 else
                 {
@@ -1380,7 +1380,7 @@ namespace WeChatAuto.Components
                     this._OpenUpdateGroupWin(groupName, newMemo);
                 }
                 Thread.Sleep(300);
-            }).Wait();
+            }).GetAwaiter().GetResult();
         }
         private void _SetMessageWithoutInterruptionCore(string friendName, ListBoxItem firstItem, bool isMessageWithoutInterruption = true)
         {
@@ -1525,7 +1525,7 @@ namespace WeChatAuto.Components
                     root.Focus();
                 }
                 var items = root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))?.ToList();
-                var item = items?.FirstOrDefault(u => u.Name.Contains(friendName));
+                var item = items?.FirstOrDefault(u => u.Name.Equals(friendName) || u.Name.Equals(friendName + WeChatConstant.WECHAT_SESSION_BOX_HAS_TOP));
                 return (item != null ? true : false, item?.AsListBoxItem());
             };
             if (inActionThread)

@@ -63,7 +63,7 @@ namespace WeChatAuto.Components
                 {
                     _WxWindow.SilenceClickExt(clearButton.Result);
                 }
-            }).Wait();
+            }).GetAwaiter().GetResult();
         }
 
         /// <summary>

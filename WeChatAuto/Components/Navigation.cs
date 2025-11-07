@@ -90,7 +90,7 @@ namespace WeChatAuto.Components
                     parentElement: navigationRoot,
                     xPath: $"//Button[@Name='{WeChatConstant.WECHAT_NAVIGATION_SETTING}'][@IsEnabled='true']"
                 );
-            }).Wait();
+            }).GetAwaiter().GetResult();
             SwitchNavigation(NavigationType.聊天);
         }
         /// <summary>
@@ -113,7 +113,7 @@ namespace WeChatAuto.Components
                         _logger.Info($"切换到导航栏：{navigationType.ToString()}");
                     }
                 }
-            }).Wait();
+            }).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace WeChatAuto.Components
                 {
                     window.Result.AsWindow().Close();
                 }
-            }).Wait();
+            }).GetAwaiter().GetResult();
         }
 
     }
