@@ -406,6 +406,7 @@ namespace WeChatAuto.Components
     /// </summary>
     private void _addAppRunningCheckListenerCore()
     {
+      int retryCount = 0;
       try
       {
         _CheckAppRunningUIThreadInvoker.Run(automation =>
@@ -417,6 +418,7 @@ namespace WeChatAuto.Components
             interval: TimeSpan.FromMilliseconds(200));
           if (wxWindowResult.Success && wxWindowResult.Result != null)
           {
+            retryCount = 0;
             var window = wxWindowResult.Result;
             if (window.ClassName == "WeChatMainWndForPC")
             {
@@ -455,13 +457,27 @@ namespace WeChatAuto.Components
       }
       catch (WindowNotExsitException ex)
       {
-        _logger.Error($"微信客户端是{NickName}运行检查监听失败:{ex.Message}", ex);
+        retryCount++;
+        if (retryCount < 3)
+        {
+          this._AppRunning = false;
+          _logger.Error($"微信客户端是{NickName}运行检查监听失败:{ex.Message},重试{retryCount}次", ex);
+          Thread.Sleep(300);
+        }
+        _logger.Error($"重试{retryCount}次后，微信客户端是{NickName}运行检查监听失败:{ex.Message}", ex);
         throw;  //因为抛出的是窗口不存在异常，所以直接终止应用运行.
       }
       catch (Exception ex)
       {
         this._AppRunning = false;
         _logger.Error($"微信客户端是{NickName}运行检查监听失败:{ex.Message}", ex);
+        if (ex is System.AggregateException aggregateException)
+        {
+          foreach (var inner in aggregateException.Flatten().InnerExceptions)
+          {
+            _logger.Error($"微信客户端是{NickName}运行检查监听失败:{inner.Message}", inner);
+          }
+        }
       }
     }
     /// <summary>

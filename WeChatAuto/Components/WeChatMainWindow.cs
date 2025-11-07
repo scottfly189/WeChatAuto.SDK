@@ -59,8 +59,8 @@ namespace WeChatAuto.Components
         public string NickName => _nickName;
         public Window Window => _Window;
         public WeChatClient Client { get; set; }
-        private UIThreadInvoker _uiThreadInvoker;   //每个微信窗口一个单独的UI线程
-        public UIThreadInvoker UiThreadInvoker => _uiThreadInvoker;
+        private UIThreadInvoker _uiMainThreadInvoker;   //每个微信窗口一个单独的UI线程
+        public UIThreadInvoker UiMainThreadInvoker => _uiMainThreadInvoker;
         private volatile bool _disposed = false;
         private Thread _newUserListenerThread;
         private CancellationTokenSource _newUserListenerCancellationTokenSource = new CancellationTokenSource();
@@ -82,7 +82,7 @@ namespace WeChatAuto.Components
         public WeChatMainWindow(Window window, WeChatNotifyIcon notifyIcon, WeChatClientFactory weChatFramwork, IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _uiThreadInvoker = new UIThreadInvoker();
+            _uiMainThreadInvoker = new UIThreadInvoker();
             _WeChatFramwork = weChatFramwork;
             _Window = window;
             ProcessId = window.Properties.ProcessId;
@@ -129,7 +129,7 @@ namespace WeChatAuto.Components
         }
         private async Task _FetchNewUserNoticeAction(CancellationToken cancellationToken)
         {
-            var resultFlag = _uiThreadInvoker.Run(automation =>
+            var resultFlag = _uiMainThreadInvoker.Run(automation =>
             {
                 try
                 {
@@ -200,22 +200,22 @@ namespace WeChatAuto.Components
             {
                 return;
             }
-            _uiThreadInvoker.Run(automation => automation.UnregisterAllEvents()).Wait();
+            _uiMainThreadInvoker.Run(automation => automation.UnregisterAllEvents()).Wait();
         }
         /// <summary>
         /// 初始化微信窗口的各种组件,这些组件在微信窗口中是静态的，不会随着微信窗口的变化而变化
         /// </summary>
         private void _InitStaticWxWindowComponents(WeChatNotifyIcon notifyIcon)
         {
-            _nickName = _uiThreadInvoker.Run(automation => _Window.FindFirstByXPath($"/Pane/Pane/ToolBar[@Name='{WeChatConstant.WECHAT_NAVIGATION_NAVIGATION}'][@IsEnabled='true']").FindFirstChild().Name).Result;
-            _ToolBar = new ToolBar(_Window, notifyIcon, _uiThreadInvoker, _serviceProvider);  // 工具栏
-            _Navigation = new Navigation(_Window, this, _uiThreadInvoker, _serviceProvider);  // 导航栏
-            _Search = new Search(this, _uiThreadInvoker, _Window, _serviceProvider);  // 搜索
-            _Conversations = new ConversationList(_Window, this, _uiThreadInvoker, _serviceProvider);  // 会话列表
-            _AddressBook = new AddressBookList(_Window, this, _uiThreadInvoker, _serviceProvider);  // 通讯录
-            _moments = new Moments(_Window, this, _uiThreadInvoker, _serviceProvider);
-            _SubWinList = new SubWinList(_Window, this, _uiThreadInvoker, _serviceProvider);
-            _WxChatContent = new ChatContent(_Window, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane", this, _uiThreadInvoker, this, _serviceProvider);
+            _nickName = _uiMainThreadInvoker.Run(automation => _Window.FindFirstByXPath($"/Pane/Pane/ToolBar[@Name='{WeChatConstant.WECHAT_NAVIGATION_NAVIGATION}'][@IsEnabled='true']").FindFirstChild().Name).Result;
+            _ToolBar = new ToolBar(_Window, notifyIcon, _uiMainThreadInvoker, _serviceProvider);  // 工具栏
+            _Navigation = new Navigation(_Window, this, _uiMainThreadInvoker, _serviceProvider);  // 导航栏
+            _Search = new Search(this, _uiMainThreadInvoker, _Window, _serviceProvider);  // 搜索
+            _Conversations = new ConversationList(_Window, this, _uiMainThreadInvoker, _serviceProvider);  // 会话列表
+            _AddressBook = new AddressBookList(_Window, this, _uiMainThreadInvoker, _serviceProvider);  // 通讯录
+            _moments = new Moments(_Window, this, _uiMainThreadInvoker, _serviceProvider);
+            _SubWinList = new SubWinList(_Window, this, _uiMainThreadInvoker, _serviceProvider);
+            _WxChatContent = new ChatContent(_Window, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane", this, _uiMainThreadInvoker, this, _serviceProvider);
         }
         /// <summary>
         /// 初始化订阅
@@ -976,7 +976,7 @@ namespace WeChatAuto.Components
             }
             _disposed = true;
             _actionQueueChannel.Close();
-            _uiThreadInvoker.Dispose();
+            _uiMainThreadInvoker.Dispose();
             _newUserListenerCancellationTokenSource.Cancel();
             if (_newUserListenerThread.IsAlive)
             {
@@ -1366,18 +1366,21 @@ namespace WeChatAuto.Components
         }
         private void _UpdateOnwerGroupMemo(string groupName, string newMemo, ListBoxItem firstItem)
         {
-            firstItem.DrawHighlightExt();
-            var xPath = "//Button";
-            var itemButton = firstItem.FindFirstByXPath(xPath)?.AsButton();
-            if (itemButton != null)
+            _uiMainThreadInvoker.Run(automation =>
             {
-                itemButton.DrawHighlightExt();
-                itemButton.Focus();
-                itemButton.WaitUntilClickable();
-                itemButton.RightClick();
-                this._OpenUpdateGroupWin(groupName, newMemo);
-            }
-            Thread.Sleep(300);
+                firstItem.DrawHighlightExt();
+                var xPath = "//Button";
+                var itemButton = firstItem.FindFirstByXPath(xPath)?.AsButton();
+                if (itemButton != null)
+                {
+                    itemButton.DrawHighlightExt();
+                    itemButton.Focus();
+                    itemButton.WaitUntilClickable();
+                    itemButton.RightClick();
+                    this._OpenUpdateGroupWin(groupName, newMemo);
+                }
+                Thread.Sleep(300);
+            }).Wait();
         }
         private void _SetMessageWithoutInterruptionCore(string friendName, ListBoxItem firstItem, bool isMessageWithoutInterruption = true)
         {
@@ -1529,7 +1532,7 @@ namespace WeChatAuto.Components
             {
                 return func();
             }
-            return _uiThreadInvoker.Run(automation => func()).Result;
+            return _uiMainThreadInvoker.Run(automation => func()).Result;
         }
         /// <summary>
         /// 判断子窗口是否打开
@@ -1554,7 +1557,7 @@ namespace WeChatAuto.Components
             {
                 return func();
             }
-            return _uiThreadInvoker.Run(automation => func()).Result;
+            return _uiMainThreadInvoker.Run(automation => func()).Result;
         }
         /// <summary>
         /// 创建群聊
@@ -1617,7 +1620,7 @@ namespace WeChatAuto.Components
                 var list = root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))?.ToList();
                 if (list != null && list.Count > 0)
                 {
-                    var item = list.FirstOrDefault(cItem => cItem.Name.Equals(conversationName) || cItem.Name.Equals(conversationName+WeChatConstant.WECHAT_SESSION_BOX_HAS_TOP));
+                    var item = list.FirstOrDefault(cItem => cItem.Name.Equals(conversationName) || cItem.Name.Equals(conversationName + WeChatConstant.WECHAT_SESSION_BOX_HAS_TOP));
                     if (item != null)
                     {
                         if (isDoubleClick)
@@ -1644,7 +1647,7 @@ namespace WeChatAuto.Components
                                         break;
                                     }
                                 }
-                                
+
                                 button = _IsButtonVisible(root, item);
 
                                 button.Focus();
@@ -1660,7 +1663,7 @@ namespace WeChatAuto.Components
             return false;
         }
 
-        private  Button _IsButtonVisible(ListBox root, AutomationElement item)
+        private Button _IsButtonVisible(ListBox root, AutomationElement item)
         {
             Button button = item.FindFirstByXPath("//Button")?.AsButton();
             var centerPoint = button.BoundingRectangle.Center();
@@ -1711,7 +1714,7 @@ namespace WeChatAuto.Components
         public bool CheckFriendExist(string friendName, bool doubleClick = false)
         {
             Navigation.SwitchNavigation(NavigationType.聊天);
-            var result = _uiThreadInvoker.Run(automation =>
+            var result = _uiMainThreadInvoker.Run(automation =>
             {
                 //检查子窗口是否存在
                 if (_CheckSubWinExist(friendName))
@@ -1749,7 +1752,7 @@ namespace WeChatAuto.Components
 
         private ChatResponse _CreateChatGroupCore(string groupName, ChatResponse result, List<string> list)
         {
-            var tempName = _uiThreadInvoker.Run((automation) =>
+            var tempName = _uiMainThreadInvoker.Run((automation) =>
             {
                 var xPath = "//Button[@Name='发起群聊']";
                 var button = Retry.WhileNull(() => _Window.FindFirstByXPath(xPath)?.AsButton(), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
@@ -1896,7 +1899,7 @@ namespace WeChatAuto.Components
             if (modifyDialog.Success)
             {
                 var dialog = modifyDialog.Result.AsWindow();
-                dialog.DrawHighlightExt();
+                //dialog.DrawHighlightExt();
                 dialog.Focus();
                 var xPath = "//Edit";
                 var edit = dialog.FindFirstByXPath(xPath)?.AsTextBox();

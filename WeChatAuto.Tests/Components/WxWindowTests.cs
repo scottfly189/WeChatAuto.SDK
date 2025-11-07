@@ -30,9 +30,9 @@ namespace WeChatAuto.Tests.Components
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             window.WindowMax();
-            DrawHightlightHelper.DrawHightlight(window.Window, window.UiThreadInvoker);
+            DrawHightlightHelper.DrawHightlight(window.Window, window.UiMainThreadInvoker);
             window.WindowRestore();
-            DrawHightlightHelper.DrawHightlight(window.Window, window.UiThreadInvoker);
+            DrawHightlightHelper.DrawHightlight(window.Window, window.UiMainThreadInvoker);
             window.WindowMin();
             await Task.Delay(2000);
             window.WinMinRestore();
@@ -406,7 +406,7 @@ namespace WeChatAuto.Tests.Components
 
 
         [Fact(DisplayName = "测试更新群聊备注")]
-        public void Test_UpdateGroupMemo()
+        public async Task Test_UpdateGroupMemo()
         {
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
@@ -414,6 +414,7 @@ namespace WeChatAuto.Tests.Components
             var result = window.ChageOwerChatGroupMemo("测试07", "测试07新的备注6");
             _output.WriteLine($"更新群聊备注结果: {result.Message}");
             Assert.True(result.Success);
+            await Task.Delay(40 * 1_000);
         }
 
         [Fact(DisplayName = "测试更新群聊名称")]
