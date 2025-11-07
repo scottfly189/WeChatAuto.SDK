@@ -439,30 +439,8 @@ namespace WeChatAuto.Components
             }
             else
             {
-              var innerRetryCount = 0;
-              var retryResult = false;
-              while (innerRetryCount < 3)
-              {
-                innerRetryCount++;
-                wxWindowResult = Retry.WhileNull(() => (desktop.FindFirstByXPath($"/Window[@ClassName='WeChatMainWndForPC'][@ProcessId={WxMainWindow.ProcessId}] | /Window[@ClassName='WeChatLoginWndForPC'][@ProcessId={WxMainWindow.ProcessId}]")?.AsWindow()),
-                  timeout: TimeSpan.FromSeconds(2),
-                  interval: TimeSpan.FromMilliseconds(200));
-                if (wxWindowResult.Success && wxWindowResult.Result != null)
-                {
-                  retryResult = true;
-                  _logger.Info("又复活了！");
-                  break;
-                }
-                else
-                {
-                  Thread.Sleep(300);
-                }
-              }
-              if (!retryResult)
-              {
-                _logger.Error($"微信客户端是[{NickName}]运行检查监听结果：被风控退出，错误原因：{window.ClassName}窗口不存在");
-                throw new WindowNotExsitException($"微信客户端是[{NickName}]运行检查监听结果：被风控退出，错误原因：{window.ClassName}窗口不存在");
-              }
+              _logger.Error($"微信客户端是[{NickName}]运行检查监听结果：被风控退出，错误原因：{window.ClassName}窗口不存在");
+              throw new WindowNotExsitException($"微信客户端是[{NickName}]运行检查监听结果：被风控退出，错误原因：{window.ClassName}窗口不存在");
             }
           }
           else
