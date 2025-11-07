@@ -355,7 +355,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.CreateOrUpdateOwnerChatGroup("测试04", new string[] { "AI.Net", "秋歌" });
+            var result = window.CreateOrUpdateOwnerChatGroup("测试08", new string[] { "AI.Net", "秋歌" });
             _output.WriteLine($"创建群聊结果: {result.Message}");
             Assert.True(result.Success);
         }
@@ -366,7 +366,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.CreateOrUpdateOwnerChatGroup("测试04", new string[] { "阿恩-frankie", "阿恩" });
+            var result = window.CreateOrUpdateOwnerChatGroup("测试08", new string[] { "阿恩-frankie", "阿恩" });
             _output.WriteLine($"创建群聊结果: {result.Message}");
             Assert.True(result.Success);
         }
@@ -377,7 +377,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = await window.RemoveOwnerChatGroupMember("测试04", new string[] { "阿恩-frankie", "阿恩" });
+            var result = await window.RemoveOwnerChatGroupMember("测试08", new string[] { "阿恩-frankie", "阿恩" });
             _output.WriteLine($"移除群聊成员结果: {result.Message}");
             Assert.True(result.Success);
         }
@@ -388,7 +388,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.DeleteOwnerChatGroup("测试04");
+            await window.DeleteOwnerChatGroup("测试08");
             Assert.True(true);
         }
 

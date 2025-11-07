@@ -42,7 +42,9 @@ namespace WeChatAuto.Tests.Components
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
-            conversations.ClickConversation("AutoGLM用户交流群21");
+            conversations.ClickConversation("测试06");
+            Assert.True(true);
+            Thread.Sleep(20*1_000);
         }
 
         [Fact(DisplayName = "测试点击第一个会话")]
@@ -64,7 +66,7 @@ namespace WeChatAuto.Tests.Components
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var conversations = window.Conversations;
-            conversations.DoubleClickConversation("前端攻城狮");
+            conversations.DoubleClickConversation("测试03");
         }
 
         [Fact(DisplayName = "获取会话列表可见会话标题")]

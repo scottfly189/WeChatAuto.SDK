@@ -98,7 +98,7 @@ namespace WeChatAuto.Components
         {
             var root = GetConversationRoot();
             var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
-            var item = items.FirstOrDefault(c => c.Name.Contains(title));
+            var item = items.FirstOrDefault(c => (c.Name.Equals(title) || c.Name.Equals(title + _titleSuffix)));
             if (item != null)
             {
                 DoConversionClick(item, root);
@@ -137,6 +137,7 @@ namespace WeChatAuto.Components
                             break;
                         }
                     }
+                    _IsButtonVisible(root.AsListBox(), item);
                 }
                 else
                 {
@@ -148,16 +149,9 @@ namespace WeChatAuto.Components
             {
                 var button = buttonElement.AsButton();
                 DrawHightlightHelper.DrawHightlight(button, _uiThreadInvoker);
-                if (WeAutomation.Config.EnableMouseKeyboardSimulator)
-                {
-                    var point = DpiHelper.GetDpiAwarePoint(_Window,button.GetClickablePoint());
-                    ClickHighlighter.ShowClick(point);
-                    KMSimulatorService.LeftClick(point);
-                }
-                else
-                {
-                    _WxWindow.SilenceClickExt(button);
-                }
+
+                _WxWindow.SilenceClickExt(button);
+
             }
             else
             {
@@ -198,7 +192,7 @@ namespace WeChatAuto.Components
         {
             var root = GetConversationRoot();
             var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
-            var item = items.FirstOrDefault(c => c.Name.Contains(title));
+            var item = items.FirstOrDefault(c => c.Name.Equals(title) || c.Name.Equals(title+_titleSuffix));
             if (item != null)
             {
                 var xPath = "/Pane/Button";
@@ -235,15 +229,9 @@ namespace WeChatAuto.Components
                                 break;
                             }
                         }
-                        DrawHightlightHelper.DrawHighlightExt(button);
-                        if (WeAutomation.Config.EnableMouseKeyboardSimulator)
-                        {
-                            var point = DpiHelper.GetDpiAwarePoint(_Window, button);
-                            ClickHighlighter.ShowClick(point);
-                            KMSimulatorService.LeftDoubleClick(point);
-                            Thread.Sleep(300);
-                            return;
-                        }
+
+                        button = _IsButtonVisible(root, item);
+
                         _Window.SetForeground();
                         button.DoubleClick();
                     }).Wait();
@@ -258,6 +246,34 @@ namespace WeChatAuto.Components
                 _logger.Trace($"未找到会话：{title}");
             }
         }
+
+        private Button _IsButtonVisible(ListBox root, AutomationElement item)
+        {
+            Button button = item.FindFirstByXPath("//Button")?.AsButton();
+            var centerPoint = button.BoundingRectangle.Center();
+            var bottomPoint = root.BoundingRectangle.Bottom;
+            if (centerPoint.Y + 5 >= bottomPoint)
+            {
+                var scrollPattern = root.Patterns.Scroll.Pattern;
+                double currentPercent = scrollPattern.VerticalScrollPercent;
+                double newPercent = Math.Min(currentPercent + scrollPattern.VerticalViewSize, 1);
+                scrollPattern.SetScrollPercent(0, newPercent);
+                Thread.Sleep(600);
+            }
+            button = item.FindFirstByXPath("//Button")?.AsButton();
+            var topPoint = root.BoundingRectangle.Top;
+            if (centerPoint.Y - 5 <= topPoint)
+            {
+                var scrollPattern = root.Patterns.Scroll.Pattern;
+                double currentPercent = scrollPattern.VerticalScrollPercent;
+                double newPercent = Math.Max(currentPercent - scrollPattern.VerticalViewSize, 0);
+                scrollPattern.SetScrollPercent(0, newPercent);
+                Thread.Sleep(600);
+            }
+
+            return button;
+        }
+
         /// <summary>
         /// 获取会话列表可见会话标题
         /// </summary>
@@ -369,7 +385,7 @@ namespace WeChatAuto.Components
                         scrollPattern.SetScrollPercent(0, p);
                         Thread.Sleep(600);
                         var items = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
-                        var item = items.FirstOrDefault(c => c.Name.Contains(title));
+                        var item = items.FirstOrDefault(c => c.Name.Equals(title) || c.Name.Equals(title+_titleSuffix));
                         if (item != null)
                         {
                             existTag = true;
@@ -380,7 +396,7 @@ namespace WeChatAuto.Components
                 else
                 {
                     var items = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem));
-                    var item = items.FirstOrDefault(c => c.Name.Contains(title));
+                    var item = items.FirstOrDefault(c => c.Name.Equals(title) || c.Name.Equals(title+_titleSuffix));
                     if (item != null)
                     {
                         existTag = true;

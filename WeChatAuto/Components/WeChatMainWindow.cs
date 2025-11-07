@@ -1605,25 +1605,48 @@ namespace WeChatAuto.Components
         /// 检查会话是否存在
         /// </summary>
         /// <param name="conversationName">会话名称</param>
-        /// <param name="doubleClick">是否双击,True:是,False:否</param>
+        /// <param name="isDoubleClick">是否双击,True:是,False:否</param>
         /// <returns>是否存在,True:是,False:否</returns>
-        private bool _CheckConversationExist(string conversationName, bool doubleClick = false)
+        private bool _CheckConversationExist(string conversationName, bool isDoubleClick = false)
         {
             var xPath = "//List[@Name='会话']";
-            var listBox = _Window.FindFirstByXPath(xPath)?.AsListBox();
-            if (listBox != null)
+            var root = _Window.FindFirstByXPath(xPath)?.AsListBox();
+            root.DrawHighlightExt();
+            if (root != null)
             {
-                var list = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))?.ToList();
+                var list = root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))?.ToList();
                 if (list != null && list.Count > 0)
                 {
-                    var item = list.FirstOrDefault(cItem => cItem.Name.Contains(conversationName));
+                    var item = list.FirstOrDefault(cItem => cItem.Name.Equals(conversationName) || cItem.Name.Equals(conversationName+WeChatConstant.WECHAT_SESSION_BOX_HAS_TOP));
                     if (item != null)
                     {
-                        if (doubleClick)
+                        if (isDoubleClick)
                         {
                             var button = item.FindFirstByXPath("//Button")?.AsButton();
                             if (button != null)
                             {
+                                //确保按钮可见
+                                while (button.Properties.IsOffscreen.Value)
+                                {
+                                    var scrollPattern = root.Patterns.Scroll.Pattern;
+                                    if (scrollPattern != null && scrollPattern.VerticallyScrollable)
+                                    {
+                                        double currentPercent = scrollPattern.VerticalScrollPercent;
+                                        double newPercent = Math.Min(currentPercent + scrollPattern.VerticalViewSize, 1);
+                                        scrollPattern.SetScrollPercent(0, newPercent);
+                                        Thread.Sleep(600);
+                                        var buttonResult = Retry.WhileNull(() => item.FindFirstByXPath(xPath)?.AsButton());
+                                        button = buttonResult.Result;
+                                    }
+                                    else
+                                    {
+                                        _logger.Trace($"会话列表不可滚动，无法定位会话按钮元素");
+                                        break;
+                                    }
+                                }
+                                
+                                button = _IsButtonVisible(root, item);
+
                                 button.Focus();
                                 button.WaitUntilClickable();
                                 button.DoubleClick();
@@ -1636,6 +1659,34 @@ namespace WeChatAuto.Components
             }
             return false;
         }
+
+        private  Button _IsButtonVisible(ListBox root, AutomationElement item)
+        {
+            Button button = item.FindFirstByXPath("//Button")?.AsButton();
+            var centerPoint = button.BoundingRectangle.Center();
+            var bottomPoint = root.BoundingRectangle.Bottom;
+            if (centerPoint.Y + 5 >= bottomPoint)
+            {
+                var scrollPattern = root.Patterns.Scroll.Pattern;
+                double currentPercent = scrollPattern.VerticalScrollPercent;
+                double newPercent = Math.Min(currentPercent + scrollPattern.VerticalViewSize, 1);
+                scrollPattern.SetScrollPercent(0, newPercent);
+                Thread.Sleep(600);
+            }
+            button = item.FindFirstByXPath("//Button")?.AsButton();
+            var topPoint = root.BoundingRectangle.Top;
+            if (centerPoint.Y - 5 <= topPoint)
+            {
+                var scrollPattern = root.Patterns.Scroll.Pattern;
+                double currentPercent = scrollPattern.VerticalScrollPercent;
+                double newPercent = Math.Max(currentPercent - scrollPattern.VerticalViewSize, 0);
+                scrollPattern.SetScrollPercent(0, newPercent);
+                Thread.Sleep(600);
+            }
+
+            return button;
+        }
+
         /// <summary>
         /// 检查子窗口是否存在
         /// </summary>
