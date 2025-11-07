@@ -13,6 +13,8 @@ using FlaUI.Core.Tools;
 using WxAutoCommon.Exceptions;
 using FlaUI.UIA3;
 using WxAutoCommon.Simulator;
+using System.Threading.Tasks;
+using WeChatAuto.Models;
 
 
 namespace WeChatAuto.Components
@@ -186,6 +188,182 @@ namespace WeChatAuto.Components
     #endregion
 
     #region 群聊操作
+    /// <summary>
+    /// 获取群聊成员列表
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <returns>群聊成员列表</returns>
+    public async Task<List<string>> GetChatGroupMemberList(string groupName)
+      => await WxMainWindow.GetChatGroupMemberList(groupName);
+    /// <summary>
+    /// 是否是群聊成员
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <param name="memberName">成员名称</param>
+    /// <returns>是否是群聊成员</returns>
+    public async Task<bool> IsChatGroupMember(string groupName, string memberName)
+      => await WxMainWindow.IsChatGroupMember(groupName, memberName);
+    /// <summary>
+    /// 是否是自有群
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <returns>是否是自有群</returns>
+    public async Task<bool> IsOwnerChatGroup(string groupName)
+      => await WxMainWindow.IsOwnerChatGroup(groupName);
+    /// <summary>
+    /// 获取群主
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <returns>群主昵称</returns>
+    public async Task<string> GetGroupOwner(string groupName)
+      => await WxMainWindow.GetGroupOwner(groupName);
+    /// <summary>
+    /// 清空群聊历史
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    public async Task ClearChatGroupHistory(string groupName)
+      => await WxMainWindow.ClearChatGroupHistory(groupName);
+    /// <summary>
+    /// 退出群聊
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    public async Task QuitChatGroup(string groupName)
+      => await WxMainWindow.QuitChatGroup(groupName);
+    /// <summary>
+    /// 设置消息免打扰
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <param name="isMessageWithoutInterruption">是否消息免打扰,默认是True:消息免打扰,False:取消消息免打扰</param>
+    /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
+    public ChatResponse SetMessageWithoutInterruption(string groupName, bool isMessageWithoutInterruption = true)
+      => WxMainWindow.SetMessageWithoutInterruption(groupName, isMessageWithoutInterruption);
+    /// <summary>
+    /// 设置保存到通讯录
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <param name="isSaveToAddress">是否保存到通讯录,默认是True:保存,False:取消保存</param>
+    /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
+    public ChatResponse SetSaveToAddress(string groupName, bool isSaveToAddress = true)
+      => WxMainWindow.SetSaveToAddress(groupName, isSaveToAddress);
+    /// <summary>
+    /// 设置聊天置顶
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <param name="isTop">是否置顶,默认是True:置顶,False:取消置顶</param>
+    /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
+    public ChatResponse SetChatTop(string groupName, bool isTop = true)
+      => WxMainWindow.SetChatTop(groupName, isTop);
+    /// <summary>
+    /// 改变自有群群备注
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <param name="newMemo">新备注</param>
+    /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
+    public ChatResponse ChageOwerChatGroupMemo(string groupName, string newMemo)
+      => WxMainWindow.ChageOwerChatGroupMemo(groupName, newMemo);
+    /// <summary>
+    /// 改变自有群群名
+    /// </summary>
+    /// <param name="oldGroupName">旧群名称</param>
+    /// <param name="newGroupName">新群名称</param>
+    /// <returns>微信响应结果</returns>
+    public ChatResponse ChangeOwerChatGroupName(string oldGroupName, string newGroupName)
+      => WxMainWindow.ChangeOwerChatGroupName(oldGroupName, newGroupName);
+    /// <summary>
+    /// 更新群聊公告
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <param name="groupNotice">群聊公告</param>
+    /// <returns>微信响应结果</returns>
+    public async Task<ChatResponse> UpdateGroupNotice(string groupName, string groupNotice)
+      => await WxMainWindow.UpdateGroupNotice(groupName, groupNotice);
+    /// <summary>
+    /// 创建群聊
+    /// 如果存在，则打开它，否则创建一个新群聊
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <param name="memberName">成员名称</param>
+    /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
+    public ChatResponse CreateOrUpdateOwnerChatGroup(string groupName, OneOf<string, string[]> memberName)
+      => WxMainWindow.CreateOrUpdateOwnerChatGroup(groupName, memberName);
+    /// <summary>
+    /// 检查好友是否存在,好友可以为群聊与普通好友
+    /// </summary>
+    /// <param name="friendName">好友名称</param>
+    /// <param name="doubleClick">是否双击,True:是,False:否</param>
+    /// <returns>是否存在,True:是,False:否</returns>
+    public bool CheckFriendExist(string friendName, bool doubleClick = false)
+      => WxMainWindow.CheckFriendExist(friendName, doubleClick);
+    /// <summary>
+    /// 添加群聊成员，适用于自有群
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <param name="memberName">成员名称</param>
+    /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
+    public async Task<ChatResponse> AddOwnerChatGroupMember(string groupName, OneOf<string, string[]> memberName)
+      => await WxMainWindow.AddOwnerChatGroupMember(groupName, memberName);
+    /// <summary>
+    /// 删除群聊，适用于自有群,与退出群聊不同，退出群聊是退出群聊，删除群聊会删除自有群的所有好友，然后退出群聊
+    /// willdo: 这里有一个问题，如果删除群的用户很多，则需要滚屏才能全部选中。
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
+    public async Task<ChatResponse> DeleteOwnerChatGroup(string groupName)
+      => await WxMainWindow.DeleteOwnerChatGroup(groupName);
+    /// <summary>
+    /// 移除群聊成员,适用于自有群
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <param name="memberName">成员名称</param>
+    /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
+    public async Task<ChatResponse> RemoveOwnerChatGroupMember(string groupName, OneOf<string, string[]> memberName)
+      => await WxMainWindow.RemoveOwnerChatGroupMember(groupName, memberName);
+    /// <summary>
+    /// 邀请群聊成员,适用于他有群
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <param name="memberName">成员名称</param>
+    /// <param name="helloText">打招呼文本</param>
+    /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
+    public async Task<ChatResponse> InviteChatGroupMember(string groupName, OneOf<string, string[]> memberName, string helloText = "")
+      => await WxMainWindow.InviteChatGroupMember(groupName, memberName, helloText);
+    /// <summary>
+    /// 添加群聊里面的好友为自己的好友,适用于从他有群中添加好友为自己的好友
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <param name="memberName">成员名称</param>
+    /// <param name="intervalSecond">间隔时间</param>
+    /// <param name="helloText">打招呼文本</param>
+    /// <param name="label">好友标签,方便归类管理</param>
+    /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
+    public async Task<ChatResponse> AddChatGroupMemberToFriends(string groupName, OneOf<string, string[]> memberName, int intervalSecond = 5, string helloText = "", string label = "")
+      => await WxMainWindow.AddChatGroupMemberToFriends(groupName, memberName, intervalSecond, helloText, label);
+    /// <summary>
+    /// 添加群聊里面的所有好友为自己的好友,适用于从他有群中添加所有好友为自己的好友
+    /// 风控提醒：
+    /// 1、此方法容易触发微信风控机制，建议使用分页添加，并使用键鼠模拟器的方式增加好友。
+    /// 1、微信对于加好友每天有数量的限制，实际测试一天只能加20多个，超出数量会返回[操作过于频繁，请稍后再试。]消息.
+    /// 2、实际测试:使用键鼠模拟器的方式增加好友，只会受上述的增加好友数量限制，不会被风控退出。
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <param name="exceptList">排除列表</param>
+    /// <param name="intervalSecond">间隔时间</param>
+    /// <param name="helloText">打招呼文本</param>
+    /// <param name="label">好友标签,方便归类管理</param>
+    /// <param name="pageNo">起始页码,从1开始,如果从0开始，表示不使用分页，全部添加好友，但容易触发微信风控机制，建议使用分页添加</param>
+    /// <param name="pageSize">页数量</param>
+    /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
+    public async Task<ChatResponse> AddAllChatGroupMemberToFriends(string groupName, List<string> exceptList = null, int intervalSecond = 3,
+        string helloText = "", string label = "", int pageNo = 1, int pageSize = 15)
+      => await WxMainWindow.AddAllChatGroupMemberToFriends(groupName, exceptList, intervalSecond, helloText, label, pageNo, pageSize);
+    /// <summary>
+    /// 添加群聊里面的所有好友为自己的好友,适用于从他有群中添加所有好友为自己的好友
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <param name="options">添加群聊成员为好友的选项<see cref="AddGroupMemberOptions"/></param>
+    /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
+    public async Task<ChatResponse> AddAllChatGroupMemberToFriends(string groupName, Action<AddGroupMemberOptions> options)
+      => await WxMainWindow.AddAllChatGroupMemberToFriends(groupName, options);
     #endregion
 
     #region 通讯录操作
@@ -286,23 +464,11 @@ namespace WeChatAuto.Components
         _logger.Error($"微信客户端是{NickName}运行检查监听失败:{ex.Message}", ex);
       }
     }
-
+    /// <summary>
+    /// 自动登录
+    /// </summary>
     private void RetryLogin(UIA3Automation automation, Window window)
     {
-      //如果有"确认"按钮，则点击"确认"按钮
-      Thread.Sleep(3 * 1_000);
-      var confirmButton = Retry.WhileNull(() =>
-      {
-        var button = window.FindFirstByXPath("/Pane[1]/Pane[2]/Pane[2]/Button[@Name='确定']")?.AsButton();
-        return button;
-      }, timeout: TimeSpan.FromSeconds(3), interval: TimeSpan.FromMilliseconds(200))?.Result;
-      if (confirmButton != null)
-      {
-        window.Focus();
-        confirmButton.DrawHighlightExt();
-        confirmButton.ClickEnhance(window);
-        Thread.Sleep(1_000);
-      }
       var loginButtonResult = Retry.WhileNull(() =>
         {
           var cf = automation.ConditionFactory;

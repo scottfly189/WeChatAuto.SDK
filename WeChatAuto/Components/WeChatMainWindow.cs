@@ -1030,8 +1030,7 @@ namespace WeChatAuto.Components
         /// 是否是自有群
         /// </summary>
         /// <param name="groupName">群聊名称</param>
-        /// <returns>是否是群聊成员</returns>
-        /// <returns>是否是群主</returns>
+        /// <returns>是否是自有群</returns>
         public async Task<bool> IsOwnerChatGroup(string groupName)
         {
             await _SubWinList.CheckSubWinExistAndOpen(groupName);
@@ -1077,16 +1076,16 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 设置消息免打扰
         /// </summary>
-        /// <param name="friendName">好友名称,可以是单个好友，也可以是群聊</param>
+        /// <param name="groupName">群聊名称</param>
         /// <param name="isMessageWithoutInterruption">是否消息免打扰,默认是True:消息免打扰,False:取消消息免打扰</param>
         /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
-        public ChatResponse SetMessageWithoutInterruption(string friendName, bool isMessageWithoutInterruption = true)
+        public ChatResponse SetMessageWithoutInterruption(string groupName, bool isMessageWithoutInterruption = true)
         {
             ChatResponse result = new ChatResponse();
             try
             {
                 //1.首先检查子窗口有没有好友，如果有，则关闭窗口
-                var (success, window) = __CheckSubWinIsOpen(friendName, false);
+                var (success, window) = __CheckSubWinIsOpen(groupName, false);
                 if (success)
                 {
                     window.Close();
@@ -1094,7 +1093,7 @@ namespace WeChatAuto.Components
                 ListBoxItem listItem = null;
                 NavigationSwitch(NavigationType.聊天);
                 //2.检查会话列表有没有好友，如果有，则点击打开为当前聊天
-                var (success2, item) = __CheckConversationExist(friendName, false);
+                var (success2, item) = __CheckConversationExist(groupName, false);
                 if (success2)
                 {
                     listItem = item;
@@ -1102,22 +1101,22 @@ namespace WeChatAuto.Components
                 else
                 {
                     //3.如果会话列表没有好友，则打开搜索框，输入好友名称搜索.
-                    this.__SearchChat(friendName);
-                    var (success3, item3) = __CheckConversationExist(friendName, false);
+                    this.__SearchChat(groupName);
+                    var (success3, item3) = __CheckConversationExist(groupName, false);
                     if (success3)
                     {
                         listItem = item3;
                     }
                     else
                     {
-                        throw new Exception($"{friendName} 好友不存在");
+                        throw new Exception($"{groupName} 好友不存在");
                     }
                 }
                 //4.执行设置消息免打扰
-                this._SetMessageWithoutInterruptionCore(friendName, listItem, isMessageWithoutInterruption);
-                _logger.Info($"设置{friendName}消息免打扰成功");
+                this._SetMessageWithoutInterruptionCore(groupName, listItem, isMessageWithoutInterruption);
+                _logger.Info($"设置{groupName}消息免打扰成功");
                 result.Success = true;
-                result.Message = $"设置{friendName}消息免打扰成功";
+                result.Message = $"设置{groupName}消息免打扰成功";
                 return result;
             }
             catch (Exception ex)
@@ -1136,7 +1135,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <param name="isSaveToAddress">是否保存到通讯录,默认是True:保存,False:取消保存</param>
-        /// <returns></returns>
+        /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
         public ChatResponse SetSaveToAddress(string groupName, bool isSaveToAddress = true)
         {
             ChatResponse result = new ChatResponse();
@@ -1189,16 +1188,16 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 设置聊天置顶
         /// </summary>
-        /// <param name="friendName">好友名称,可以是单个好友，也可以是群聊</param>
+        /// <param name="groupName">群聊名称</param>
         /// <param name="isTop">是否置顶,默认是True:置顶,False:取消置顶</param>
-        /// <returns>微信响应结果</returns>
-        public ChatResponse SetChatTop(string friendName, bool isTop = true)
+        /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
+        public ChatResponse SetChatTop(string groupName, bool isTop = true)
         {
             ChatResponse result = new ChatResponse();
             try
             {
                 //1.首先检查子窗口有没有好友，如果有，则关闭窗口
-                var (success, window) = __CheckSubWinIsOpen(friendName, false);
+                var (success, window) = __CheckSubWinIsOpen(groupName, false);
                 if (success)
                 {
                     window.Close();
@@ -1206,7 +1205,7 @@ namespace WeChatAuto.Components
                 ListBoxItem listItem = null;
                 NavigationSwitch(NavigationType.聊天);
                 //2.检查会话列表有没有好友，如果有，则点击打开为当前聊天
-                var (success2, item) = __CheckConversationExist(friendName, false);
+                var (success2, item) = __CheckConversationExist(groupName, false);
                 if (success2)
                 {
                     listItem = item;
@@ -1214,22 +1213,22 @@ namespace WeChatAuto.Components
                 else
                 {
                     //3.如果会话列表没有好友，则打开搜索框，输入好友名称搜索.
-                    this.__SearchChat(friendName);
-                    var (success3, item3) = __CheckConversationExist(friendName, false);
+                    this.__SearchChat(groupName);
+                    var (success3, item3) = __CheckConversationExist(groupName, false);
                     if (success3)
                     {
                         listItem = item3;
                     }
                     else
                     {
-                        throw new Exception($"{friendName} 好友不存在");
+                        throw new Exception($"{groupName} 好友不存在");
                     }
                 }
                 //4.执行设置聊天置顶
-                this._SetFriendChatTop(friendName, listItem, isTop);
-                _logger.Info($"设置{friendName}聊天置顶成功");
+                this._SetFriendChatTop(groupName, listItem, isTop);
+                _logger.Info($"设置{groupName}聊天置顶成功");
                 result.Success = true;
-                result.Message = $"设置{friendName}聊天置顶成功";
+                result.Message = $"设置{groupName}聊天置顶成功";
                 return result;
             }
             catch (Exception ex)
@@ -1247,7 +1246,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <param name="newMemo">新备注</param>
-        /// <returns></returns>
+        /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
         public ChatResponse ChageOwerChatGroupMemo(string groupName, string newMemo)
         {
             ChatResponse result = new ChatResponse();
@@ -1563,7 +1562,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <param name="memberName">成员名称</param>
-        /// <returns>微信响应结果</returns>
+        /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
         public ChatResponse CreateOrUpdateOwnerChatGroup(string groupName, OneOf<string, string[]> memberName)
         {
             ChatResponse result = new ChatResponse();
@@ -1925,7 +1924,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <param name="memberName">成员名称</param>
-        /// <returns>微信响应结果</returns>
+        /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
         public async Task<ChatResponse> AddOwnerChatGroupMember(string groupName, OneOf<string, string[]> memberName)
         {
             ChatResponse result = new ChatResponse();
@@ -1952,7 +1951,7 @@ namespace WeChatAuto.Components
         /// willdo: 这里有一个问题，如果删除群的用户很多，则需要滚屏才能全部选中。
         /// </summary>
         /// <param name="groupName">群聊名称</param>
-        /// <returns>微信响应结果</returns>
+        /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
         public async Task<ChatResponse> DeleteOwnerChatGroup(string groupName)
         {
             ChatResponse result = new ChatResponse();
@@ -1979,7 +1978,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <param name="memberName">成员名称</param>
-        /// <returns>微信响应结果</returns>
+        /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
         public async Task<ChatResponse> RemoveOwnerChatGroupMember(string groupName, OneOf<string, string[]> memberName)
         {
             await _SubWinList.CheckSubWinExistAndOpen(groupName);
@@ -2009,7 +2008,7 @@ namespace WeChatAuto.Components
         /// <param name="memberName">成员名称</param>
         /// <param name="intervalSecond">间隔时间</param>
         /// <param name="helloText">打招呼文本</param>
-        /// <returns>微信响应结果</returns>
+        /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
         public async Task<ChatResponse> AddChatGroupMemberToFriends(string groupName, OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "")
         {
             return await this.AddChatGroupMemberToFriends(groupName, memberName, intervalSecond, helloText, "");
@@ -2022,7 +2021,7 @@ namespace WeChatAuto.Components
         /// <param name="intervalSecond">间隔时间</param>
         /// <param name="helloText">打招呼文本</param>
         /// <param name="label">好友标签,方便归类管理</param>
-        /// <returns>微信响应结果</returns>
+        /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
         public async Task<ChatResponse> AddChatGroupMemberToFriends(string groupName, OneOf<string, string[]> memberName, int intervalSecond = 5, string helloText = "", string label = "")
         {
             await _SubWinList.CheckSubWinExistAndOpen(groupName);
@@ -2058,7 +2057,7 @@ namespace WeChatAuto.Components
         /// <param name="label">好友标签,方便归类管理</param>
         /// <param name="pageNo">起始页码,从1开始,如果从0开始，表示不使用分页，全部添加好友，但容易触发微信风控机制，建议使用分页添加</param>
         /// <param name="pageSize">页数量</param>
-        /// <returns>微信响应结果</returns>
+        /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
         public async Task<ChatResponse> AddAllChatGroupMemberToFriends(string groupName, List<string> exceptList = null, int intervalSecond = 3,
             string helloText = "", string label = "", int pageNo = 1, int pageSize = 15)
         {
@@ -2072,7 +2071,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <param name="options">添加群聊成员为好友的选项<see cref="AddGroupMemberOptions"/></param>
-        /// <returns>微信响应结果</returns>
+        /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
         public async Task<ChatResponse> AddAllChatGroupMemberToFriends(string groupName, Action<AddGroupMemberOptions> options)
         {
             var opitons = new AddGroupMemberOptions();
