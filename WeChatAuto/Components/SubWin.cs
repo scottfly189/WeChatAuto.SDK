@@ -1478,7 +1478,6 @@ namespace WeChatAuto.Components
                                         continue;
                                     }
                                     addButton.ClickEnhance(_SelfWindow);
-                                    //先排除一些设置权限的好友，会弹出“确定”按钮，所以需要先判断是否弹出“确定”按钮
                                     var addConfirmWinResult = Retry.WhileNull(() => _MainWxWindow.Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("添加朋友请求")).And(cf.ByClassName("WeUIDialog")))?.AsWindow(),
                                         TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
                                     if (addConfirmWinResult.Success && addConfirmWinResult.Result != null)
@@ -1531,11 +1530,26 @@ namespace WeChatAuto.Components
                                         button.WaitUntilClickable();
                                         button.ClickEnhance(_MainWxWindow.Window);
                                         Thread.Sleep(600);
-                                        //好象不起作用.
                                         var stopButton = Retry.WhileNull(() => _MainWxWindow.Window.FindFirstByXPath("/Window[@ClassName='AlertDialog']/Pane[2]/Pane/Pane[3]/Button[@Name='确定']")?.AsButton(),
                                             TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
                                         if (stopButton != null)
                                         {
+                                            var labelEdit = Retry.WhileNull(() => _MainWxWindow.Window.FindFirstByXPath("//Text[@Name='操作过于频繁，请稍后再试。']"),
+                                                TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
+                                            if (labelEdit != null)
+                                            {
+                                                stopButton.ClickEnhance(_MainWxWindow.Window);
+                                                _logger.Error($"收到微信服务器返回的消息：[操作过于频繁，请稍后再试。],系统将退出循环，请稍后再试。");
+                                                break;
+                                            }
+                                            labelEdit = Retry.WhileNull(() => _MainWxWindow.Window.FindFirstByXPath("//Text[@Name='由于对方的隐私设置，你无法通过群聊将其添加至通讯录。']"),
+                                            TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
+                                            if (labelEdit != null)
+                                            {
+                                                stopButton.ClickEnhance(_MainWxWindow.Window);
+                                                _logger.Error($"收到微信服务器返回的消息：[由于对方的隐私设置，你无法通过群聊将其添加至通讯录。],无法添加好友,循环继续。");
+                                                continue;
+                                            }
                                             stopButton.ClickEnhance(_MainWxWindow.Window);
                                             Thread.Sleep(1 * 1000);
                                             continue;
@@ -1547,6 +1561,22 @@ namespace WeChatAuto.Components
                                             TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
                                         if (confirmButton != null)
                                         {
+                                            var labelEdit = Retry.WhileNull(() => _MainWxWindow.Window.FindFirstByXPath("//Text[@Name='操作过于频繁，请稍后再试。']"),
+                                                TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
+                                            if (labelEdit != null)
+                                            {
+                                                confirmButton.ClickEnhance(_MainWxWindow.Window);
+                                                _logger.Error($"收到微信服务器返回的消息：[操作过于频繁，请稍后再试。],系统将退出循环，请稍后再试。");
+                                                break;
+                                            }
+                                            labelEdit = Retry.WhileNull(() => _MainWxWindow.Window.FindFirstByXPath("//Text[@Name='由于对方的隐私设置，你无法通过群聊将其添加至通讯录。']"),
+                                            TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
+                                            if (labelEdit != null)
+                                            {
+                                                confirmButton.ClickEnhance(_MainWxWindow.Window);
+                                                _logger.Error($"收到微信服务器返回的消息：[由于对方的隐私设置，你无法通过群聊将其添加至通讯录。],无法添加好友,循环继续。");
+                                                continue;
+                                            }
                                             confirmButton.ClickEnhance(_MainWxWindow.Window);
                                             Thread.Sleep(intervalSecond * 1000);  //停顿间隔时间
                                             continue;
@@ -1609,17 +1639,7 @@ namespace WeChatAuto.Components
             button.WaitUntilClickable();
 
             listItem.GetParent().Focus();
-            var point = button.BoundingRectangle.Center();
-            if (WeAutomation.Config.EnableMouseKeyboardSimulator)
-            {
-                button.DblClickEnhance(_SelfWindow);
-            }
-            else
-            {
-                Mouse.MoveTo(point);
-                Mouse.LeftClick();
-                Mouse.LeftClick();
-            }
+            button.DblClickEnhance(_SelfWindow);
         }
 
         /// <summary>

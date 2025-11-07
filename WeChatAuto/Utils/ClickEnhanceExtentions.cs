@@ -1,4 +1,6 @@
 using FlaUI.Core.AutomationElements;
+using FlaUI.Core.Input;
+using FlaUI.Core.Tools;
 using WeChatAuto.Extentions;
 using WeChatAuto.Services;
 using WxAutoCommon.Simulator;
@@ -35,8 +37,10 @@ namespace WeChatAuto.Utils
             }
             else
             {
-                element.WaitUntilClickable();
-                element.Click();
+                var point = element.BoundingRectangle.Center();
+                Mouse.MoveTo(point);
+                Mouse.LeftClick();
+                Mouse.LeftClick();
             }
         }
 
