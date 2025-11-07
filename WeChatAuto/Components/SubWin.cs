@@ -1383,12 +1383,11 @@ namespace WeChatAuto.Components
         /// <param name="memberName">成员名称</param>
         /// <param name="intervalSecond">间隔时间</param>
         /// <param name="helloText">打招呼文本</param>
-        /// <param name="stopWaitMinute">停止等待时间</param>
         /// <returns>微信响应结果</returns>
         [Obsolete("由于微信对于自动化的限制，暂时放弃此方法，修改成硬件模拟的方式")]
-        public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", int stopWaitMinute = 3)
+        public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "")
         {
-            return this.AddChatGroupMemberToFriends(memberName, intervalSecond, helloText, "", stopWaitMinute);
+            return this.AddChatGroupMemberToFriends(memberName, intervalSecond, helloText, "");
         }
         /// <summary>
         /// 添加群聊里面的好友为自己的好友,适用于从他有群中添加好友为自己的好友
@@ -1397,14 +1396,13 @@ namespace WeChatAuto.Components
         /// <param name="intervalSecond">间隔时间</param>
         /// <param name="helloText">打招呼文本</param>
         /// <param name="label">好友标签,方便归类管理</param>
-        /// <param name="stopWaitMinute">停止等待时间</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", string label = "", int stopWaitMinute = 3)
+        public ChatResponse AddChatGroupMemberToFriends(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", string label = "")
         {
             ChatResponse result = new ChatResponse();
             try
             {
-                this._AddChatGroupFriendsCore(memberName, intervalSecond, helloText, label, stopWaitMinute);
+                this._AddChatGroupFriendsCore(memberName, intervalSecond, helloText, label);
                 result.Success = true;
                 return result;
             }
@@ -1424,8 +1422,7 @@ namespace WeChatAuto.Components
         /// <param name="intervalSecond">间隔时间</param>
         /// <param name="helloText">打招呼文本</param>
         /// <param name="label">好友标签,方便归类管理</param>
-        /// <param name="stopWaitMinute">停止等待时间</param>
-        private void _AddChatGroupFriendsCore(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", string label = "", int stopWaitMinute = 3)
+        private void _AddChatGroupFriendsCore(OneOf<string, string[]> memberName, int intervalSecond = 3, string helloText = "", string label = "")
         {
             if (!_IsSidebarOpen())
             {
@@ -1615,9 +1612,6 @@ namespace WeChatAuto.Components
             var point = button.BoundingRectangle.Center();
             if (WeAutomation.Config.EnableMouseKeyboardSimulator)
             {
-                // point = DpiHelper.GetDpiAwarePoint(_SelfWindow, point);
-                // KMSimulatorService.LeftClick(point);
-                // KMSimulatorService.LeftClick(point);
                 button.DblClickEnhance(_SelfWindow);
             }
             else
@@ -1671,11 +1665,10 @@ namespace WeChatAuto.Components
         /// <param name="intervalSecond">间隔时间</param>
         /// <param name="exceptList">排除列表</param>
         /// <param name="helloText">打招呼文本</param>
-        /// <param name="stopWaitMinute">停止等待时间</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse AddAllChatGroupMemberToFriends(List<string> exceptList = null, int intervalSecond = 3, string helloText = "", int stopWaitMinute = 3)
+        public ChatResponse AddAllChatGroupMemberToFriends(List<string> exceptList = null, int intervalSecond = 3, string helloText = "")
         {
-            return this.AddAllChatGroupMemberToFriends(exceptList, intervalSecond, helloText, "", stopWaitMinute);
+            return this.AddAllChatGroupMemberToFriends(exceptList, intervalSecond, helloText, "");
         }
         /// <summary>
         /// 添加群聊里面的所有好友为自己的好友,适用于从他有群中添加所有好友为自己的好友
@@ -1684,9 +1677,8 @@ namespace WeChatAuto.Components
         /// <param name="intervalSecond">间隔时间</param>
         /// <param name="helloText">打招呼文本</param>
         /// <param name="label">好友标签,方便归类管理</param>
-        /// <param name="stopWaitMinute">停止等待时间</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse AddAllChatGroupMemberToFriends(List<string> exceptList = null, int intervalSecond = 3, string helloText = "", string label = "", int stopWaitMinute = 3)
+        public ChatResponse AddAllChatGroupMemberToFriends(List<string> exceptList = null, int intervalSecond = 3, string helloText = "", string label = "")
         {
             ChatResponse result = new ChatResponse();
             try
@@ -1698,7 +1690,7 @@ namespace WeChatAuto.Components
                 _logger.Info($"获取到所有群聊成员列表,去除群主后: {string.Join(",", memberList)}");
                 memberList = memberList.Except(exceptList).ToList(); //去除排除列表
                 _logger.Info($"去除排除列表后: {string.Join(",", memberList)}");
-                this.AddChatGroupMemberToFriends(memberList.ToArray(), intervalSecond, helloText, label, stopWaitMinute);
+                this.AddChatGroupMemberToFriends(memberList.ToArray(), intervalSecond, helloText, label);
                 result.Success = true;
                 return result;
             }
