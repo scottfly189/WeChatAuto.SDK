@@ -322,8 +322,9 @@ namespace WeChatAuto.Tests.Components
             await Task.Delay(6000000);
         }
 
+        #region 群聊操作
 
-        [Theory(DisplayName = "测试检查好友是否存在")]
+        [Theory(DisplayName = "测试检查群聊是否存在")]
         [InlineData(".NET-AI实时快讯3群", false)]
         [InlineData("AI.Net", false)]
         [InlineData("AI.Net", true)]
@@ -332,8 +333,8 @@ namespace WeChatAuto.Tests.Components
         [InlineData("不存在的人", true)]
         public void Test_CheckFriendExist(string groupName, bool doubleClick = false)
         {
-            var framework = _globalFixture.clientFactory;
-            var client = framework.GetWeChatClient(_wxClientName);
+            var clientFacotry = _globalFixture.clientFactory;
+            var client = clientFacotry.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var flag = window.CheckFriendExist(groupName, doubleClick);
             _output.WriteLine($"检查好友是否存在: {groupName}, 双击: {doubleClick}, 结果: {flag} ");
@@ -345,6 +346,7 @@ namespace WeChatAuto.Tests.Components
             {
                 Assert.False(flag);
             }
+            Thread.Sleep(20 * 1_000);
         }
 
         [Fact(DisplayName = "测试创建群聊,群聊不存在的情况下")]
@@ -424,6 +426,65 @@ namespace WeChatAuto.Tests.Components
             _output.WriteLine($"更新群聊名称结果: {result.Message}");
             Assert.True(result.Success);
         }
+        [Theory(DisplayName = "测试更新群聊公告")]
+        [InlineData("测试04")]
+        [InlineData("实时AI快讯 5群")]
+        [InlineData("测试01")]
+        public async Task Test_UpdateGroupNotice(string groupName)
+        {
+            var framework = _globalFixture.clientFactory;
+            var client = framework.GetWeChatClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var result = await window.UpdateGroupNotice(groupName, "测试04新的公告999");
+            _output.WriteLine($"更新群聊公告结果: {result.Message}");
+            if (groupName == "测试04" || groupName == "测试01")
+            {
+                Assert.True(result.Success);
+            }
+            else
+            {
+                Assert.False(result.Success);
+            }
+        }
+
+        [Theory(DisplayName = "测试设置消息免打扰")]
+        [InlineData("他有群01", true, true)]
+        [InlineData("他有群01", false, true)]
+        public void Test_SetMessageWithoutInterruption(string friendName, bool isMessageWithoutInterruption, bool resultFlag)
+        {
+            var framework = _globalFixture.clientFactory;
+            var client = framework.GetWeChatClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var result = window.SetMessageWithoutInterruption(friendName, isMessageWithoutInterruption);
+            _output.WriteLine($"设置消息免打扰结果: {result.Message}");
+            Assert.True(result.Success == resultFlag);
+        }
+
+        [Theory(DisplayName = "测试设置保存到通讯录")]
+        [InlineData("他有群01", true, true)]
+        [InlineData("他有群01", false, true)]
+        public void Test_SetSaveToAddress(string friendName, bool isSaveToAddress, bool resultFlag)
+        {
+            var framework = _globalFixture.clientFactory;
+            var client = framework.GetWeChatClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var result = window.SetSaveToAddress(friendName, isSaveToAddress);
+            _output.WriteLine($"设置保存到通讯录结果: {result.Message}");
+            Assert.True(result.Success == resultFlag);
+        }
+
+        [Theory(DisplayName = "测试设置聊天置顶")]
+        [InlineData("他有群02", true)]
+        [InlineData("他有群02", false)]
+        public void Test_SetChatTop(string friendName, bool isChatTop)
+        {
+            var framework = _globalFixture.clientFactory;
+            var client = framework.GetWeChatClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var result = window.SetChatTop(friendName, isChatTop);
+            _output.WriteLine($"设置聊天置顶结果: {result.Message}");
+            Assert.True(result.Success);
+        }
 
         [Fact(DisplayName = "测试清空群聊历史")]
         public async Task Test_ClearChatGroupHistory()
@@ -476,67 +537,6 @@ namespace WeChatAuto.Tests.Components
             Assert.True(true);
         }
 
-        [Theory(DisplayName = "测试更新群聊公告")]
-        [InlineData("测试04")]
-        [InlineData("实时AI快讯 5群")]
-        [InlineData("测试01")]
-        public async Task Test_UpdateGroupNotice(string groupName)
-        {
-            var framework = _globalFixture.clientFactory;
-            var client = framework.GetWeChatClient(_wxClientName);
-            var window = client.WxMainWindow;
-            var result = await window.UpdateGroupNotice(groupName, "测试04新的公告999");
-            _output.WriteLine($"更新群聊公告结果: {result.Message}");
-            if (groupName == "测试04" || groupName == "测试01")
-            {
-                Assert.True(result.Success);
-            }
-            else
-            {
-                Assert.False(result.Success);
-            }
-        }
-
-
-        [Theory(DisplayName = "测试设置消息免打扰")]
-        [InlineData("他有群01", true, true)]
-        [InlineData("他有群01", false, true)]
-        public void Test_SetMessageWithoutInterruption(string friendName, bool isMessageWithoutInterruption, bool resultFlag)
-        {
-            var framework = _globalFixture.clientFactory;
-            var client = framework.GetWeChatClient(_wxClientName);
-            var window = client.WxMainWindow;
-            var result = window.SetMessageWithoutInterruption(friendName, isMessageWithoutInterruption);
-            _output.WriteLine($"设置消息免打扰结果: {result.Message}");
-            Assert.True(result.Success == resultFlag);
-        }
-
-        [Theory(DisplayName = "测试设置保存到通讯录")]
-        [InlineData("他有群01", true, true)]
-        [InlineData("他有群01", false, true)]
-        public void Test_SetSaveToAddress(string friendName, bool isSaveToAddress, bool resultFlag)
-        {
-            var framework = _globalFixture.clientFactory;
-            var client = framework.GetWeChatClient(_wxClientName);
-            var window = client.WxMainWindow;
-            var result = window.SetSaveToAddress(friendName, isSaveToAddress);
-            _output.WriteLine($"设置保存到通讯录结果: {result.Message}");
-            Assert.True(result.Success == resultFlag);
-        }
-
-        [Theory(DisplayName = "测试设置聊天置顶")]
-        [InlineData("他有群02", true)]
-        [InlineData("他有群02", false)]
-        public void Test_SetChatTop(string friendName, bool isChatTop)
-        {
-            var framework = _globalFixture.clientFactory;
-            var client = framework.GetWeChatClient(_wxClientName);
-            var window = client.WxMainWindow;
-            var result = window.SetChatTop(friendName, isChatTop);
-            _output.WriteLine($"设置聊天置顶结果: {result.Message}");
-            Assert.True(result.Success);
-        }
-
         [Theory(DisplayName = "测试邀请群聊成员,适用于他有群")]
         [InlineData("他有群01")]
         [InlineData("他有群02")]
@@ -579,7 +579,7 @@ namespace WeChatAuto.Tests.Components
             Assert.True(result.Success);
             await Task.Delay(-1);
         }
-        
+
         [Theory(DisplayName = "测试添加群聊成员为好友,适用于他有群,分页添加")]
         [InlineData("他有群01")]
         [InlineData("他有群02")]
@@ -589,7 +589,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = await window.AddAllChatGroupMemberToFriends(groupName, (options)=>
+            var result = await window.AddAllChatGroupMemberToFriends(groupName, (options) =>
             {
                 options.PageNo = 2;
                 options.IntervalSecond = 5;
@@ -601,5 +601,6 @@ namespace WeChatAuto.Tests.Components
             Assert.True(result.Success);
             await Task.Delay(-1);
         }
+        #endregion
     }
 }
