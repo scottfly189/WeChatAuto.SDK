@@ -36,6 +36,7 @@ namespace WeChatAuto.Components
     private readonly UIThreadInvoker _CheckAppRunningUIThreadInvoker;
     private System.Threading.Timer _CheckAppRunningTimer;
     private volatile bool _CheckRunningFlag = false;
+    private volatile int _RetryCount = 0;
     private volatile bool _RequireRetryLogin = false;
     private readonly CancellationTokenSource _CheckAppRunningCancellationTokenSource = new CancellationTokenSource();
 
@@ -380,6 +381,7 @@ namespace WeChatAuto.Components
       try
       {
         _logger.Trace($"微信客户端是{NickName}添加运行检查监听");
+        _RetryCount = 0;
         _CheckAppRunningTimer = new System.Threading.Timer(_ =>
         {
           _CheckAppRunningCancellationTokenSource.Token.ThrowIfCancellationRequested();
@@ -406,19 +408,16 @@ namespace WeChatAuto.Components
     /// </summary>
     private void _addAppRunningCheckListenerCore()
     {
-      int retryCount = 0;
       try
       {
         _CheckAppRunningUIThreadInvoker.Run(automation =>
         {
           _CheckAppRunningCancellationTokenSource.Token.ThrowIfCancellationRequested();
           var desktop = automation.GetDesktop();
-          var wxWindowResult = Retry.WhileNull(() => (desktop.FindFirstByXPath($"/Window[@ClassName='WeChatMainWndForPC'][@ProcessId={WxMainWindow.ProcessId}] | /Window[@ClassName='WeChatLoginWndForPC'][@ProcessId={WxMainWindow.ProcessId}]")?.AsWindow()),
-            timeout: TimeSpan.FromSeconds(5),
-            interval: TimeSpan.FromMilliseconds(200));
+          var wxWindowResult = _GetWindowInfo(desktop);
           if (wxWindowResult.Success && wxWindowResult.Result != null)
           {
-            retryCount = 0;
+            _RetryCount = 0;
             var window = wxWindowResult.Result;
             if (window.ClassName == "WeChatMainWndForPC")
             {
@@ -457,15 +456,15 @@ namespace WeChatAuto.Components
       }
       catch (WindowNotExsitException ex)
       {
-        retryCount++;
-        if (retryCount < 3)
+        _RetryCount++;
+        if (_RetryCount < 3)
         {
           _CheckRunningFlag = false;
-          _logger.Error($"微信客户端是{NickName}运行检查监听失败:{ex.Message},重试{retryCount}次", ex);
+          _logger.Error($"微信客户端是{NickName}运行检查监听失败:{ex.Message},重试{_RetryCount}次", ex);
           Thread.Sleep(300);
           return;
         }
-        _logger.Error($"重试{retryCount}次后，微信客户端是{NickName}运行检查监听失败:{ex.Message},严重：系统将不再监听微信的风控退出.", ex);
+        _logger.Error($"重试{_RetryCount}次后，微信客户端是{NickName}运行检查监听失败:{ex.Message},严重：系统将不再监听微信的风控退出.", ex);
         throw;  //因为抛出的是窗口不存在异常，所以直接终止应用运行.
       }
       catch (Exception ex)
@@ -480,6 +479,23 @@ namespace WeChatAuto.Components
           }
         }
       }
+    }
+    private RetryResult<Window> _GetWindowInfo(AutomationElement desktop)
+    {
+      var result = Retry.WhileNull<Window>(() =>
+      {
+        var window = desktop.FindFirstChild(cf => cf.ByClassName("WeChatMainWndForPC").And(cf.ByProcessId(WxMainWindow.ProcessId)))?.AsWindow();
+        return window;
+      }, timeout: TimeSpan.FromSeconds(5), interval: TimeSpan.FromMilliseconds(200));
+      if (result.Success)
+      {
+        return result;
+      }
+      return Retry.WhileNull<Window>(() =>
+      {
+        var window = desktop.FindFirstChild(cf => cf.ByClassName("WeChatLoginWndForPC").And(cf.ByProcessId(WxMainWindow.ProcessId)))?.AsWindow();
+        return window;
+      }, timeout: TimeSpan.FromSeconds(5), interval: TimeSpan.FromMilliseconds(200));
     }
     /// <summary>
     /// 自动登录
