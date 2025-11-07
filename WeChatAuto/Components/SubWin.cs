@@ -1697,8 +1697,10 @@ namespace WeChatAuto.Components
         /// <param name="intervalSecond">间隔时间</param>
         /// <param name="helloText">打招呼文本</param>
         /// <param name="label">好友标签,方便归类管理</param>
+        /// <param name="pageNo">起始页码,从1开始,如果从0开始，表示不使用分页，全部添加好友，但容易触发微信风控机制，建议使用分页添加</param>
+        /// <param name="pageSize">页数量</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse AddAllChatGroupMemberToFriends(List<string> exceptList = null, int intervalSecond = 3, string helloText = "", string label = "")
+        public ChatResponse AddAllChatGroupMemberToFriends(List<string> exceptList = null, int intervalSecond = 3, string helloText = "", string label = "", int pageNo = 1, int pageSize = 15)
         {
             ChatResponse result = new ChatResponse();
             try
@@ -1707,9 +1709,13 @@ namespace WeChatAuto.Components
                 var memberList = this.GetChatGroupMemberList();  //获取所有群聊成员列表
                 var myNickName = _MainWxWindow.NickName;
                 memberList.Remove(myNickName);
-                _logger.Info($"获取到所有群聊成员列表,去除群主后: {string.Join(",", memberList)}");
+                _logger.Info($"获取到所有群聊成员列表,去除自己后: {string.Join(",", memberList)}");
                 memberList = memberList.Except(exceptList).ToList(); //去除排除列表
                 _logger.Info($"去除排除列表后: {string.Join(",", memberList)}");
+                if (pageNo > 0)
+                {
+                    memberList = memberList.Skip((pageNo - 1) * pageSize).Take(pageSize).ToList();
+                }
                 this.AddChatGroupMemberToFriends(memberList.ToArray(), intervalSecond, helloText, label);
                 result.Success = true;
                 return result;

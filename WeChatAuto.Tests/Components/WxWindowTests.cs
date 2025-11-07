@@ -5,6 +5,7 @@ using Xunit.Abstractions;
 using WeAutoCommon.Classes;
 using System.Diagnostics;
 using Xunit.Sdk;
+using WeChatAuto.Models;
 
 [assembly: CollectionBehavior(DisableTestParallelization = true)]
 
@@ -544,7 +545,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = await window.InviteChatGroupMember(groupName, new string[] { "AI.Net"},"你好啊");
+            var result = await window.InviteChatGroupMember(groupName, new string[] { "AI.Net" }, "你好啊");
             _output.WriteLine($"邀请群聊成员结果: {result.Message}");
             Assert.True(result.Success);
         }
@@ -574,6 +575,28 @@ namespace WeChatAuto.Tests.Components
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var result = await window.AddAllChatGroupMemberToFriends(groupName, null, 5, "兄弟不用管，测试自动化", "测试标签");
+            _output.WriteLine($"添加群聊成员为好友结果: {result.Message}");
+            Assert.True(result.Success);
+            await Task.Delay(-1);
+        }
+        
+        [Theory(DisplayName = "测试添加群聊成员为好友,适用于他有群,分页添加")]
+        [InlineData("他有群01")]
+        [InlineData("他有群02")]
+        [InlineData("歪脖子的模版交流群")]
+        public async Task Test_AddAllChatGroupMemberToFriends_Page(string groupName)
+        {
+            var framework = _globalFixture.clientFactory;
+            var client = framework.GetWeChatClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var result = await window.AddAllChatGroupMemberToFriends(groupName, (options)=>
+            {
+                options.PageNo = 2;
+                options.IntervalSecond = 5;
+                options.HelloText = "兄弟不用管，测试自动化";
+                options.Label = "测试标签";
+                options.PageSize = 15;
+            });
             _output.WriteLine($"添加群聊成员为好友结果: {result.Message}");
             Assert.True(result.Success);
             await Task.Delay(-1);
