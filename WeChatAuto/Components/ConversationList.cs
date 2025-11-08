@@ -97,7 +97,7 @@ namespace WeChatAuto.Components
         public void ClickConversation(string title)
         {
             var root = GetConversationRoot();
-            var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
+            var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).GetAwaiter().GetResult();
             var item = items.FirstOrDefault(c => (c.Name.Equals(title) || c.Name.Equals(title + _titleSuffix)));
             if (item != null)
             {
@@ -144,7 +144,7 @@ namespace WeChatAuto.Components
                     _logger.Trace($"未找到会话按钮元素");
                 }
                 return button;
-            }).Result;
+            }).GetAwaiter().GetResult();
             if (buttonElement != null)
             {
                 var button = buttonElement.AsButton();
@@ -167,7 +167,7 @@ namespace WeChatAuto.Components
             var items = _uiThreadInvoker.Run(automation =>
             {
                 return root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
-            }).Result;
+            }).GetAwaiter().GetResult();
             var item = items.FirstOrDefault(u => !u.IsOffscreen);
             var parentY = root.BoundingRectangle.Y;
             var itemY = item.BoundingRectangle.Center().Y;
@@ -191,12 +191,12 @@ namespace WeChatAuto.Components
         public void DoubleClickConversation(string title)
         {
             var root = GetConversationRoot();
-            var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
+            var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).GetAwaiter().GetResult();
             var item = items.FirstOrDefault(c => c.Name.Equals(title) || c.Name.Equals(title+_titleSuffix));
             if (item != null)
             {
                 var xPath = "/Pane/Button";
-                var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindFirstByXPath(xPath))).Result;
+                var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindFirstByXPath(xPath))).GetAwaiter().GetResult();
                 if (retryElement.Success)
                 {
                     var button = retryElement.Result.AsButton();
@@ -281,7 +281,7 @@ namespace WeChatAuto.Components
         public List<string> GetVisibleConversationTitles()
         {
             var root = GetConversationRoot();
-            var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
+            var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).GetAwaiter().GetResult();
             return items.Select(item => item.Name.Replace(WeChatConstant.WECHAT_SESSION_BOX_HAS_TOP, "")).ToList();
         }
 
@@ -293,7 +293,7 @@ namespace WeChatAuto.Components
         private string _GetConversationTitle(ListBoxItem item, Conversation conversation)
         {
             var xPath = "/Pane/Button";
-            var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindFirstByXPath(xPath))).Result;
+            var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindFirstByXPath(xPath))).GetAwaiter().GetResult();
             if (retryElement.Success)
             {
                 var button = retryElement.Result.AsButton();
@@ -322,7 +322,7 @@ namespace WeChatAuto.Components
                 var root = _Window.FindFirstByXPath(xPath).AsListBox();
                 root.Focus();
                 return root;
-            }).Result;
+            }).GetAwaiter().GetResult();
         }
         /// <summary>
         /// 获取会话列表可见项
@@ -331,7 +331,7 @@ namespace WeChatAuto.Components
         private List<ListBoxItem> _GetVisibleConversatItems()
         {
             var root = GetConversationRoot();
-            var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))).Result;
+            var items = _uiThreadInvoker.Run(automation => root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))).GetAwaiter().GetResult();
             return items.Select(item => item.AsListBoxItem()).ToList();
         }
         //获取所有会话列表核心方法
@@ -366,7 +366,7 @@ namespace WeChatAuto.Components
                     subList.AddRange(items.Select(item => item.Name.Replace(WeChatConstant.WECHAT_SESSION_BOX_HAS_TOP, "")).ToList()); //去除置顶标记
                     return subList;
                 }
-            }).Result;
+            }).GetAwaiter().GetResult();
 
             return list;
         }
@@ -403,7 +403,7 @@ namespace WeChatAuto.Components
                     }
                 }
                 return existTag;
-            }).Result;
+            }).GetAwaiter().GetResult();
 
             return result;
         }
@@ -432,7 +432,7 @@ namespace WeChatAuto.Components
         private bool _IsCompanyGroup(ListBoxItem item)
         {
             var xPath = "/Pane/Pane/Pane[1]/Pane[2]";
-            var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindFirstByXPath(xPath))).Result;
+            var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindFirstByXPath(xPath))).GetAwaiter().GetResult();
             return retryElement.Success;
         }
         /// <summary>
@@ -443,7 +443,7 @@ namespace WeChatAuto.Components
         private string _GetConversationContent(ListBoxItem item)
         {
             var xPath = "/Pane/Pane[1]/Pane[2]/Text";
-            var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindFirstByXPath(xPath))).Result;
+            var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindFirstByXPath(xPath))).GetAwaiter().GetResult();
             if (retryElement.Success)
             {
                 var lable = retryElement.Result.AsLabel();
@@ -458,7 +458,7 @@ namespace WeChatAuto.Components
         /// <returns></returns>
         private Button _GetConversationImageButton(ListBoxItem item)
         {
-            return _uiThreadInvoker.Run(automation => item.FindFirstByXPath("/Pane/Button").AsButton()).Result;
+            return _uiThreadInvoker.Run(automation => item.FindFirstByXPath("/Pane/Button").AsButton()).GetAwaiter().GetResult();
         }
         /// <summary>
         /// 获取会话是否有未读消息
@@ -468,7 +468,7 @@ namespace WeChatAuto.Components
         private bool _GetConversationHasNotRead(ListBoxItem item)
         {
             var xPath = "/Pane/Pane[2] | /Pane/Text";
-            var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindFirstByXPath(xPath))).Result;
+            var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindFirstByXPath(xPath))).GetAwaiter().GetResult();
             return retryElement.Success;
         }
         /// <summary>
@@ -479,7 +479,7 @@ namespace WeChatAuto.Components
         private string _GetConversationTime(ListBoxItem item)
         {
             var xPath = "/Pane/Pane[1]/Pane[1]/Text";
-            var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindAllByXPath(xPath))).Result;
+            var retryElement = _uiThreadInvoker.Run(automation => Retry.WhileNull(() => item.FindAllByXPath(xPath))).GetAwaiter().GetResult();
             if (retryElement.Success)
             {
                 AutomationElement[] elements = retryElement.Result;
@@ -499,7 +499,7 @@ namespace WeChatAuto.Components
                 var xPath = "/Pane/Pane/Pane[2]/Pane";
                 var retryElement = Retry.WhileNull(() => item.FindFirstByXPath(xPath));
                 return retryElement.Success;
-            }).Result;
+            }).GetAwaiter().GetResult();
         }
     }
 }

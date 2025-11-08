@@ -355,7 +355,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.CreateOrUpdateOwnerChatGroup("测试05", new string[] { "AI.Net", "秋歌" });
+            var result = window.CreateOrUpdateOwnerChatGroup("测试09", new string[] { "AI.Net", "秋歌" });
             _output.WriteLine($"创建群聊结果: {result.Message}");
             Assert.True(result.Success);
         }
@@ -366,7 +366,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.CreateOrUpdateOwnerChatGroup("测试08", new string[] { "阿恩-frankie", "阿恩" });
+            var result = window.CreateOrUpdateOwnerChatGroup("测试09", new string[] { "阿恩-frankie", "阿恩" });
             _output.WriteLine($"创建群聊结果: {result.Message}");
             Assert.True(result.Success);
         }
@@ -390,18 +390,6 @@ namespace WeChatAuto.Tests.Components
             var window = client.WxMainWindow;
             await window.DeleteOwnerChatGroup("测试08");
             Assert.True(true);
-        }
-
-        [Fact(DisplayName = "测试更新群聊选项")]
-        public async Task Test_UpdateChatGroupOptions()
-        {
-            var framework = _globalFixture.clientFactory;
-            var client = framework.GetWeChatClient(_wxClientName);
-            var window = client.WxMainWindow;
-            await window.UpdateChatGroupOptions("测试04", action =>
-            {
-                action.GroupName = "测试06";
-            });
         }
 
 

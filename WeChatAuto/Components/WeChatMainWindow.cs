@@ -169,7 +169,7 @@ namespace WeChatAuto.Components
                     _logger.Error("新用户监听线程异常，异常信息：" + ex.Message);
                     return false;
                 }
-            }).Result;
+            }).GetAwaiter().GetResult();
             if (resultFlag)
             {
                 _newUserActionList.ForEach(async item =>
@@ -207,7 +207,7 @@ namespace WeChatAuto.Components
         /// </summary>
         private void _InitStaticWxWindowComponents(WeChatNotifyIcon notifyIcon)
         {
-            _nickName = _uiMainThreadInvoker.Run(automation => _Window.FindFirstByXPath($"/Pane/Pane/ToolBar[@Name='{WeChatConstant.WECHAT_NAVIGATION_NAVIGATION}'][@IsEnabled='true']").FindFirstChild().Name).Result;
+            _nickName = _uiMainThreadInvoker.Run(automation => _Window.FindFirstByXPath($"/Pane/Pane/ToolBar[@Name='{WeChatConstant.WECHAT_NAVIGATION_NAVIGATION}'][@IsEnabled='true']").FindFirstChild().Name).GetAwaiter().GetResult();
             _ToolBar = new ToolBar(_Window, notifyIcon, _uiMainThreadInvoker, _serviceProvider);  // 工具栏
             _Navigation = new Navigation(_Window, this, _uiMainThreadInvoker, _serviceProvider);  // 导航栏
             _Search = new Search(this, _uiMainThreadInvoker, _Window, _serviceProvider);  // 搜索
@@ -993,8 +993,7 @@ namespace WeChatAuto.Components
         /// <param name="groupName">群聊名称</param>
         /// <param name="action">更新群聊选项的Action<see cref="ChatGroupOptions"/></param>
         /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
-        // [Obsolete("请使用其他方法代替，此方法已废弃")]
-        public async Task<ChatResponse> UpdateChatGroupOptions(string groupName, Action<ChatGroupOptions> action)
+        private async Task<ChatResponse> UpdateChatGroupOptions(string groupName, Action<ChatGroupOptions> action)
         {
             await _SubWinList.CheckSubWinExistAndOpen(groupName);
             await Task.Delay(500);
@@ -1544,7 +1543,7 @@ namespace WeChatAuto.Components
             {
                 return func();
             }
-            return _uiMainThreadInvoker.Run(automation => func()).Result;
+            return _uiMainThreadInvoker.Run(automation => func()).GetAwaiter().GetResult();
         }
         /// <summary>
         /// 判断子窗口是否打开
@@ -1569,7 +1568,7 @@ namespace WeChatAuto.Components
             {
                 return func();
             }
-            return _uiMainThreadInvoker.Run(automation => func()).Result;
+            return _uiMainThreadInvoker.Run(automation => func()).GetAwaiter().GetResult();
         }
         /// <summary>
         /// 创建群聊
@@ -1757,7 +1756,7 @@ namespace WeChatAuto.Components
                     return _CheckConversationExist(friendName, doubleClick);
                 }
                 return false;
-            }).Result;
+            }).GetAwaiter().GetResult();
 
             return result;
         }
@@ -1852,7 +1851,7 @@ namespace WeChatAuto.Components
                     }
                 }
                 return "";
-            }).Result;
+            }).GetAwaiter().GetResult();
             Trace.WriteLine("临时群名称：" + tempName);
             result.Success = true;
             result.Message = "创建群聊成功";

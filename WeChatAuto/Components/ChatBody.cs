@@ -60,7 +60,7 @@ namespace WeChatAuto.Components
             {
                 var listBox = _ChatBodyRoot.FindFirstByXPath(xPath);
                 return listBox;
-            }).Result;
+            }).GetAwaiter().GetResult();
             StartMessagePolling(callBack, bubbleListBox);
         }
 
@@ -205,7 +205,7 @@ namespace WeChatAuto.Components
                     _logger.Trace($"判断子窗口是否打开异常: {ex.Message}");
                     return false;
                 }
-            }).Result;
+            }).GetAwaiter().GetResult();
 
             return subWinIsOpen;
         }
@@ -238,7 +238,7 @@ namespace WeChatAuto.Components
         public MessageBubbleList GetBubbleList()
         {
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
-            var bubbleListRoot = _uiThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).Result;
+            var bubbleListRoot = _uiThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).GetAwaiter().GetResult();
             //DrawHightlightHelper.DrawHightlight(bubbleListRoot, _uiThreadInvoker);
             MessageBubbleList bubbleList = new MessageBubbleList(_Window, bubbleListRoot, _WxWindow, _Title, _uiThreadInvoker);
             return bubbleList;
@@ -281,7 +281,7 @@ namespace WeChatAuto.Components
                 }
 
                 return list;
-            }).Result;
+            }).GetAwaiter().GetResult();
 
             return rList;
         }
@@ -292,7 +292,7 @@ namespace WeChatAuto.Components
         public Sender GetSender()
         {
             var xPath = "/Pane[2]";
-            var senderRoot = _uiThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).Result;
+            var senderRoot = _uiThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).GetAwaiter().GetResult();
             DrawHightlightHelper.DrawHightlight(senderRoot, _uiThreadInvoker);
             var sender = new Sender(_Window, senderRoot, _WxWindow, _Title, _uiThreadInvoker,_serviceProvider);
             return sender;

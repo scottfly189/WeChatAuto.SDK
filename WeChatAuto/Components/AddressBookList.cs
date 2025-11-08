@@ -102,7 +102,7 @@ namespace WeChatAuto.Components
                 }
 
                 return existTag;
-            }).Result;
+            }).GetAwaiter().GetResult();
             return result;
         }
         /// <summary>
@@ -254,7 +254,7 @@ namespace WeChatAuto.Components
                         {
                             return false;
                         }
-                    }).Result;
+                    }).GetAwaiter().GetResult();
                 }
                 else
                 {
@@ -305,7 +305,7 @@ namespace WeChatAuto.Components
                     {
                         xPath = "/Pane/Pane/Pane/Pane/Button[@Name='取消'][@IsOffscreen='false']";
                         return _Window.FindFirstByXPath(xPath)?.AsButton();
-                    }, TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200)).Result;
+                    }, TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
                     var searchEdit = Retry.WhileNull(() =>
                     {
                         xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='微信号/手机号']";
@@ -423,7 +423,7 @@ namespace WeChatAuto.Components
                     }
 
                     return rList;
-                }).Result;
+                }).GetAwaiter().GetResult();
 
                 return resultList;
             }
@@ -500,7 +500,7 @@ namespace WeChatAuto.Components
                     }
                 }
                 return rList;
-            }).Result;
+            }).GetAwaiter().GetResult();
             return list;
         }
         private void _SwitchFriend(AutomationElement root)
@@ -613,7 +613,7 @@ namespace WeChatAuto.Components
                 }
 
                 return rList;
-            }).Result;
+            }).GetAwaiter().GetResult();
             return list;
         }
 
@@ -654,7 +654,7 @@ namespace WeChatAuto.Components
                 }
 
                 return list;
-            }).Result;
+            }).GetAwaiter().GetResult();
             return result;
         }
         /// <summary>
@@ -680,7 +680,7 @@ namespace WeChatAuto.Components
                 }
 
                 return list;
-            }).Result;
+            }).GetAwaiter().GetResult();
             return result;
         }
     }

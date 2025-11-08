@@ -82,9 +82,9 @@ namespace WeChatAuto.Components
         /// <returns>工具栏按钮</returns>
         public List<(ChatBoxToolBarType type, Button button)> GetToolBarButtons()
         {
-            var toolBarRoot = _uiThreadInvoker.Run(automation => _SenderRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.ToolBar))).Result;
+            var toolBarRoot = _uiThreadInvoker.Run(automation => _SenderRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.ToolBar))).GetAwaiter().GetResult();
             DrawHightlightHelper.DrawHightlight(toolBarRoot, _uiThreadInvoker);
-            var buttons = _uiThreadInvoker.Run(automation => toolBarRoot.FindAllChildren(cf => cf.ByControlType(ControlType.Button))).Result;
+            var buttons = _uiThreadInvoker.Run(automation => toolBarRoot.FindAllChildren(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             List<Button> buttonList = buttons.Select(btn => btn.AsButton()).ToList();
             List<(ChatBoxToolBarType type, Button button)> toolBarButtons = new List<(ChatBoxToolBarType type, Button button)>
             {
@@ -104,7 +104,7 @@ namespace WeChatAuto.Components
         /// <returns>输入框</returns>
         public TextBox GetContentArea()
         {
-            var contentArea = _uiThreadInvoker.Run(automation => _SenderRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit))).Result.AsTextBox();
+            var contentArea = _uiThreadInvoker.Run(automation => _SenderRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit))).GetAwaiter().GetResult().AsTextBox();
             return contentArea;
         }
         /// <summary>
@@ -113,7 +113,7 @@ namespace WeChatAuto.Components
         /// <returns>发送按钮</returns>
         public Button GetSendButton()
         {
-            var sendButton = _uiThreadInvoker.Run(automation => _SenderRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByText(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_SEND)))).Result.AsButton();
+            var sendButton = _uiThreadInvoker.Run(automation => _SenderRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByText(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_SEND)))).GetAwaiter().GetResult().AsButton();
             DrawHightlightHelper.DrawHightlight(sendButton, _uiThreadInvoker);
             return sendButton;
         }

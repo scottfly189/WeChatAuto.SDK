@@ -122,7 +122,7 @@ namespace WeChatAuto.Components
                         interval: TimeSpan.FromMilliseconds(200));
 
                 return list.Result.ToList().Select(subWin => subWin.Name).ToList();
-            }).Result;
+            }).GetAwaiter().GetResult();
             if (subWinRetry != null)
             {
                 Thread.Sleep(1000);
@@ -146,7 +146,7 @@ namespace WeChatAuto.Components
                          .And(cf.ByName(name)))),
                          timeout: TimeSpan.FromSeconds(5),
                          interval: TimeSpan.FromMilliseconds(200));
-             }).Result;
+             }).GetAwaiter().GetResult();
 
             return subWin.Success;
         }
@@ -189,7 +189,7 @@ namespace WeChatAuto.Components
                         .And(cf.ByName(name)))),
                         timeout: TimeSpan.FromSeconds(5),
                         interval: TimeSpan.FromMilliseconds(200));
-            }).Result;
+            }).GetAwaiter().GetResult();
             if (subWin.Success)
             {
                 // if (_SubWins.ContainsKey(name))

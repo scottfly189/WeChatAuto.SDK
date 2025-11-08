@@ -27,7 +27,7 @@ namespace WeChatAuto.Utils
                 },
                 timeout: timeout,
                 interval: TimeSpan.FromMilliseconds(100));
-            }).Result.Success;
+            }).GetAwaiter().GetResult().Success;
         }
 
         public static bool WaitWindowReady(AutomationElement window, TimeSpan timeout, UIThreadInvoker uiThreadInvoker)
@@ -35,7 +35,7 @@ namespace WeChatAuto.Utils
             return uiThreadInvoker.Run(automation =>
             {
                 return Wait.UntilResponsive(window, timeout);
-            }).Result;
+            }).GetAwaiter().GetResult();
         }
     }
 }

@@ -32,7 +32,7 @@ namespace WeChatAuto.Components
         {
             var searchEdit = _uiThreadInvoker.Run(automation=>Retry.WhileNull(() => _WxWindow.Window.FindFirstByXPath($"/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='{WeChatConstant.WECHAT_SESSION_SEARCH}']"),
                 timeout: TimeSpan.FromSeconds(10),
-                interval: TimeSpan.FromMilliseconds(200))).Result;
+                interval: TimeSpan.FromMilliseconds(200))).GetAwaiter().GetResult();
             if (searchEdit.Success)
             {
                 WaitHelper.WaitTextBoxReady(searchEdit.Result, TimeSpan.FromSeconds(5), _uiThreadInvoker);

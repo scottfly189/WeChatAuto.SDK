@@ -65,7 +65,7 @@ namespace WeChatAuto.Components
         /// </summary>
         public void LoadMore()
         {
-            var lookMoreButton = _uiThreadInvoker.Run(automation => _BubbleListRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_LOOK_MORE)))).Result;
+            var lookMoreButton = _uiThreadInvoker.Run(automation => _BubbleListRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_LOOK_MORE)))).GetAwaiter().GetResult();
             if (lookMoreButton != null)
             {
                 _WxWindow.SilenceClickExt(lookMoreButton.AsButton());
@@ -78,7 +78,7 @@ namespace WeChatAuto.Components
         /// <returns>是否有加载更多按钮</returns>
         public bool IsLoadingMore()
         {
-            var lookMoreButton = _uiThreadInvoker.Run(automation => _BubbleListRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Button))).Result;
+            var lookMoreButton = _uiThreadInvoker.Run(automation => _BubbleListRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             return lookMoreButton != null;
         }
 
@@ -99,7 +99,7 @@ namespace WeChatAuto.Components
         /// <returns>气泡列表<see cref="MessageBubble"/></returns>
         public List<MessageBubble> GetVisibleNativeBubbles()
         {
-            var listItemList = _uiThreadInvoker.Run(automation => _BubbleListRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).Result;
+            var listItemList = _uiThreadInvoker.Run(automation => _BubbleListRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).GetAwaiter().GetResult();
             List<MessageBubble> bubbles = new List<MessageBubble>();
             DateTime? dateTime = null;
             for (int i = 0; i < listItemList.Count; i++)
@@ -127,7 +127,7 @@ namespace WeChatAuto.Components
         /// <returns>Bubble对象,可能为空,也可能为List<Bubble>对象;<see cref="MessageBubble"/></returns>
         private Object ParseBubble(AutomationElement listItem, ref DateTime? dateTime)
         {
-            var listItemChildren = _uiThreadInvoker.Run(automation => listItem.FindAllChildren()).Result;
+            var listItemChildren = _uiThreadInvoker.Run(automation => listItem.FindAllChildren()).GetAwaiter().GetResult();
             if (listItemChildren.Count() == 0)
             {
                 return null;
@@ -248,12 +248,12 @@ namespace WeChatAuto.Components
 
         private MessageBubble _ParseSingleExpressionMessage(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("表情消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             if (children.Count() != 3)
             {
                 throw new Exception("表情消息解析失败");
@@ -276,7 +276,7 @@ namespace WeChatAuto.Components
         }
         private MessageBubble _ParseGroupExpressionMessage(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("表情消息解析失败");
@@ -324,12 +324,12 @@ namespace WeChatAuto.Components
 
         private MessageBubble _ParseSingleTextMessage(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("文本消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             if (children.Count() != 3)
@@ -363,7 +363,7 @@ namespace WeChatAuto.Components
             if (_ParseMiniProgram(children[1]))
             {
                 bubble.MessageType = MessageType.小程序;
-                var miniButton = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+                var miniButton = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
                 if (miniButton != null)
                 {
                     bubble.ClickActionButton = miniButton.AsButton();
@@ -371,7 +371,7 @@ namespace WeChatAuto.Components
                 return bubble;
             }
 
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button != null)
             {
                 bubble.ClickActionButton = button.AsButton();
@@ -383,12 +383,12 @@ namespace WeChatAuto.Components
         }
         private MessageBubble _ParseGroupTextMessage(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("文本消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             if (children.Count() != 3)
@@ -424,14 +424,14 @@ namespace WeChatAuto.Components
             if (_ParseMiniProgram(children[1]))
             {
                 bubble.MessageType = MessageType.小程序;
-                var miniButton = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+                var miniButton = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
                 if (miniButton != null)
                 {
                     bubble.ClickActionButton = miniButton.AsButton();
                 }
                 return bubble;
             }
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button != null)
             {
                 bubble.ClickActionButton = button.AsButton();
@@ -452,7 +452,7 @@ namespace WeChatAuto.Components
         {
             if (Regex.IsMatch(title, $@"(\n{WeChatConstant.MESSAGES_REFERENCE}\s)"))
             {
-                var count = _uiThreadInvoker.Run(automation => rootPaneElement.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).Count()).Result;
+                var count = _uiThreadInvoker.Run(automation => rootPaneElement.FindAllChildren(cf => cf.ByControlType(ControlType.Pane)).Count()).GetAwaiter().GetResult();
                 switch (count)
                 {
                     case 1:
@@ -474,9 +474,9 @@ namespace WeChatAuto.Components
         /// <param name="parentBubble"></param>
         private void _ProcessPersionReferenceMesssage(AutomationElement rootPaneElement, MessageBubble parentBubble)
         {
-            var paneList = _uiThreadInvoker.Run(automation => rootPaneElement.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
-            paneList = _uiThreadInvoker.Run(automation => paneList.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
-            var subPaneList = _uiThreadInvoker.Run(automation => paneList.FindAllChildren()).Result;
+            var paneList = _uiThreadInvoker.Run(automation => rootPaneElement.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
+            paneList = _uiThreadInvoker.Run(automation => paneList.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
+            var subPaneList = _uiThreadInvoker.Run(automation => paneList.FindAllChildren()).GetAwaiter().GetResult();
             if (subPaneList.Count() != 1)
             {
                 int index = 0;
@@ -484,14 +484,14 @@ namespace WeChatAuto.Components
                 {
                     index = 1;
                 }
-                var texts = _uiThreadInvoker.Run(automation => subPaneList[index].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+                var texts = _uiThreadInvoker.Run(automation => subPaneList[index].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
                 var result = "";
                 foreach (var text in texts)
                 {
                     result += text.Name;
                 }
                 parentBubble.MessageContent = result;
-                var refText = _uiThreadInvoker.Run(automation => subPaneList[index + 1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+                var refText = _uiThreadInvoker.Run(automation => subPaneList[index + 1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
                 if (refText != null)
                 {
                     result = "";
@@ -517,8 +517,8 @@ namespace WeChatAuto.Components
         {
             int index = 0;
             parentBubble.GroupNickName = parentBubble.Sender;
-            var paneList = _uiThreadInvoker.Run(automation => rootPaneElement.FindAllChildren(cf => cf.ByControlType(ControlType.Pane))).Result;
-            var nickName = _uiThreadInvoker.Run(automation => paneList[0].FindFirstChild(cf => cf.ByControlType(ControlType.Text))).Result;
+            var paneList = _uiThreadInvoker.Run(automation => rootPaneElement.FindAllChildren(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
+            var nickName = _uiThreadInvoker.Run(automation => paneList[0].FindFirstChild(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             if (nickName != null)
             {
                 parentBubble.GroupNickName = nickName.Name;
@@ -527,14 +527,14 @@ namespace WeChatAuto.Components
             {
                 index = 1;
             }
-            var texts = _uiThreadInvoker.Run(automation => paneList[index].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var texts = _uiThreadInvoker.Run(automation => paneList[index].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             var result = "";
             foreach (var text in texts)
             {
                 result += text.Name;
             }
             parentBubble.MessageContent = result;
-            var refTexts = _uiThreadInvoker.Run(automation => paneList[index + 1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var refTexts = _uiThreadInvoker.Run(automation => paneList[index + 1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             if (refTexts != null)
             {
                 result = "";
@@ -581,7 +581,7 @@ namespace WeChatAuto.Components
         /// <returns></returns>
         private bool _ParseMiniProgram(AutomationElement root)
         {
-            var children = _uiThreadInvoker.Run(automation => root.FindAllDescendants(cf => cf.ByControlType(ControlType.Text)).ToList().Select(item => item.AsLabel()).ToList()).Result;
+            var children = _uiThreadInvoker.Run(automation => root.FindAllDescendants(cf => cf.ByControlType(ControlType.Text)).ToList().Select(item => item.AsLabel()).ToList()).GetAwaiter().GetResult();
             var result = children.FirstOrDefault(item => item.Name == WeChatConstant.MESSAGES_MINI_PROGRAM);
             if (result != null)
             {
@@ -650,12 +650,12 @@ namespace WeChatAuto.Components
         }
         private MessageBubble _ParseSingleWeChatTransfer(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("微信转账消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.微信转账;
@@ -673,7 +673,7 @@ namespace WeChatAuto.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var textList = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var textList = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             var result = "";
             foreach (var text in textList)
             {
@@ -683,7 +683,7 @@ namespace WeChatAuto.Components
                 }
             }
             bubble.MessageContent = result;
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button != null)
             {
                 bubble.ClickActionButton = button.AsButton();
@@ -692,12 +692,12 @@ namespace WeChatAuto.Components
         }
         private MessageBubble _ParseGroupWeChatTransfer(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("微信转账消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.微信转账;
@@ -716,7 +716,7 @@ namespace WeChatAuto.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var textList = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var textList = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             var result = "";
             foreach (var text in textList)
             {
@@ -748,12 +748,12 @@ namespace WeChatAuto.Components
         }
         private MessageBubble _ParseSingleVoice(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("语音消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.语音;
@@ -771,7 +771,7 @@ namespace WeChatAuto.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button.Count() != 1)
             {
                 throw new Exception("语音消息解析失败");
@@ -782,12 +782,12 @@ namespace WeChatAuto.Components
         }
         private MessageBubble _ParseGroupVoice(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("语音消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.语音;
@@ -805,7 +805,7 @@ namespace WeChatAuto.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button.Count() != 1)
             {
                 throw new Exception("语音消息解析失败");
@@ -835,12 +835,12 @@ namespace WeChatAuto.Components
         }
         private MessageBubble _ParseSingleNote(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("笔记消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.笔记;
@@ -859,14 +859,14 @@ namespace WeChatAuto.Components
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
 
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button == null)
             {
                 throw new Exception("笔记消息解析失败");
             }
             bubble.ClickActionButton = button.AsButton();
             //笔记消息内容
-            var textList = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var textList = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             var result = "";
             foreach (var text in textList)
             {
@@ -881,12 +881,12 @@ namespace WeChatAuto.Components
         }
         private MessageBubble _ParseGroupNote(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("笔记消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.笔记;
@@ -905,14 +905,14 @@ namespace WeChatAuto.Components
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
 
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button == null)
             {
                 throw new Exception("笔记消息解析失败");
             }
             bubble.ClickActionButton = button.AsButton();
             //笔记消息内容
-            var textList = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var textList = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             var result = "";
             foreach (var text in textList)
             {
@@ -947,12 +947,12 @@ namespace WeChatAuto.Components
         }
         private MessageBubble _ParseSingleLink(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("链接消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.链接;
@@ -971,13 +971,13 @@ namespace WeChatAuto.Components
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
 
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button == null)
             {
                 throw new Exception("链接消息解析失败");
             }
             bubble.ClickActionButton = button.AsButton();
-            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             if (texts != null)
             {
                 bubble.MessageContent = string.Join(" ", texts.Select(t => t.AsLabel().Name)).Trim();
@@ -986,12 +986,12 @@ namespace WeChatAuto.Components
         }
         private MessageBubble _ParseGroupLink(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("链接消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.链接;
@@ -1010,13 +1010,13 @@ namespace WeChatAuto.Components
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
 
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button == null)
             {
                 throw new Exception("链接消息解析失败");
             }
             bubble.ClickActionButton = button.AsButton();
-            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             var result = "";
             foreach (var text in texts)
             {
@@ -1049,12 +1049,12 @@ namespace WeChatAuto.Components
         }
         private MessageBubble _ParseSingleVideoNumberLive(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("视频号直播消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.视频号直播;
@@ -1073,24 +1073,24 @@ namespace WeChatAuto.Components
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
 
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button == null)
             {
                 throw new Exception("视频号直播消息解析失败");
             }
             bubble.ClickActionButton = button.AsButton();
-            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             bubble.MessageContent = string.Join(" ", texts.Select(t => t.AsLabel().Name)).Trim();
             return bubble;
         }
         private MessageBubble _ParseGroupVideoNumberLive(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("视频号直播消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.视频号直播;
@@ -1109,13 +1109,13 @@ namespace WeChatAuto.Components
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
 
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button == null)
             {
                 throw new Exception("视频号直播消息解析失败");
             }
             bubble.ClickActionButton = button.AsButton();
-            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             var result = "";
             foreach (var text in texts)
             {
@@ -1148,12 +1148,12 @@ namespace WeChatAuto.Components
 
         private MessageBubble _ParseSingleVideoNumber(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("视频号消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.视频号;
@@ -1171,13 +1171,13 @@ namespace WeChatAuto.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button == null)
             {
                 throw new Exception("视频号直播消息解析失败");
             }
             bubble.ClickActionButton = button.AsButton();
-            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             if (texts != null)
             {
                 bubble.MessageContent = string.Join(" ", texts.Select(t => t.AsLabel().Name)).Trim();
@@ -1187,12 +1187,12 @@ namespace WeChatAuto.Components
         }
         private MessageBubble _ParseGroupVideoNumber(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("视频号消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.视频号;
@@ -1210,13 +1210,13 @@ namespace WeChatAuto.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button == null)
             {
                 throw new Exception("视频号直播消息解析失败");
             }
             bubble.ClickActionButton = button.AsButton();
-            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             var result = "";
             foreach (var text in texts)
             {
@@ -1250,12 +1250,12 @@ namespace WeChatAuto.Components
 
         private MessageBubble _ParseSingleVideo(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("视频消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.视频;
@@ -1273,24 +1273,24 @@ namespace WeChatAuto.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button == null)
             {
                 throw new Exception("视频消息解析失败");
             }
             bubble.ClickActionButton = button.AsButton();
-            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             bubble.MessageContent = string.Join(" ", texts.Select(t => t.AsLabel().Name)).Trim();
             return bubble;
         }
         private MessageBubble _ParseGroupVideo(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("视频消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.视频;
@@ -1308,13 +1308,13 @@ namespace WeChatAuto.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button == null)
             {
                 throw new Exception("视频消息解析失败");
             }
             bubble.ClickActionButton = button.AsButton();
-            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             var result = "";
             foreach (var text in texts)
             {
@@ -1347,12 +1347,12 @@ namespace WeChatAuto.Components
 
         private MessageBubble _ParseSingleImage(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("图片消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.图片;
@@ -1370,7 +1370,7 @@ namespace WeChatAuto.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button == null)
             {
                 throw new Exception("图片消息解析失败");
@@ -1382,12 +1382,12 @@ namespace WeChatAuto.Components
 
         private MessageBubble _ParseGroupImage(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("图片消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.图片;
@@ -1406,7 +1406,7 @@ namespace WeChatAuto.Components
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             bubble.GroupNickName = __GetGroupNickName(children);
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button == null)
             {
                 throw new Exception("图片消息解析失败");
@@ -1426,7 +1426,7 @@ namespace WeChatAuto.Components
             {
                 //这里要判断群聊窗口是否打开昵称
                 var wxName = rootPanelChildren[0].AsButton().Name;
-                var label = _uiThreadInvoker.Run(automation => rootPanelChildren[1].FindFirstChild(cf => cf.ByControlType(ControlType.Pane)).FindFirstChild(cf => cf.ByControlType(ControlType.Text))).Result;
+                var label = _uiThreadInvoker.Run(automation => rootPanelChildren[1].FindFirstChild(cf => cf.ByControlType(ControlType.Pane)).FindFirstChild(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
                 if (label != null)
                 {
                     return label.AsLabel().Name;
@@ -1462,8 +1462,8 @@ namespace WeChatAuto.Components
 
         private MessageBubble _ParseSingleLocation(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result ?? throw new Exception("位置消息解析失败");
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult() ?? throw new Exception("位置消息解析失败");
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.位置;
@@ -1481,13 +1481,13 @@ namespace WeChatAuto.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button == null)
             {
                 throw new Exception("图片消息解析失败");
             }
             bubble.ClickActionButton = button.AsButton();
-            var lable = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var lable = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             var locationContent = "";
             foreach (var item in lable)
             {
@@ -1505,8 +1505,8 @@ namespace WeChatAuto.Components
         }
         private MessageBubble _ParseGroupLocation(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result ?? throw new Exception("位置消息解析失败");
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult() ?? throw new Exception("位置消息解析失败");
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.位置;
@@ -1524,9 +1524,9 @@ namespace WeChatAuto.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result ?? throw new Exception("位置消息解析失败");
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult() ?? throw new Exception("位置消息解析失败");
             bubble.ClickActionButton = button.AsButton();
-            var lable = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var lable = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             var locationContent = "";
             foreach (var item in lable)
             {
@@ -1569,12 +1569,12 @@ namespace WeChatAuto.Components
 
         private MessageBubble _ParseSingleChatRecord(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("聊天记录消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.聊天记录;
@@ -1592,9 +1592,9 @@ namespace WeChatAuto.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result ?? throw new Exception("聊天记录消息解析失败");
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult() ?? throw new Exception("聊天记录消息解析失败");
             bubble.ClickActionButton = button.AsButton();
-            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             if (texts != null)
             {
                 bubble.MessageContent = string.Join(" ", texts.Select(t => t.AsLabel().Name));
@@ -1607,12 +1607,12 @@ namespace WeChatAuto.Components
         }
         private MessageBubble _ParseGroupChatRecord(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("聊天记录消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.聊天记录;
@@ -1630,9 +1630,9 @@ namespace WeChatAuto.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result ?? throw new Exception("聊天记录消息解析失败");
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult() ?? throw new Exception("聊天记录消息解析失败");
             bubble.ClickActionButton = button.AsButton();
-            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             var result = "";
             foreach (var text in texts)
             {
@@ -1665,12 +1665,12 @@ namespace WeChatAuto.Components
 
         private MessageBubble _ParseSingleCard(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("名片消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.个人名片;
@@ -1688,13 +1688,13 @@ namespace WeChatAuto.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button == null)
             {
                 throw new Exception("名片消息解析失败");
             }
             bubble.ClickActionButton = button.AsButton();
-            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             if (texts != null)
             {
                 bubble.MessageContent = string.Join(" ", texts.Select(t => t.AsLabel().Name));
@@ -1708,12 +1708,12 @@ namespace WeChatAuto.Components
         }
         private MessageBubble _ParseGroupCard(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("名片消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.个人名片;
@@ -1731,13 +1731,13 @@ namespace WeChatAuto.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result;
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button == null)
             {
                 throw new Exception("名片消息解析失败");
             }
             bubble.ClickActionButton = button.AsButton();
-            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             var result = "";
             foreach (var text in texts)
             {
@@ -1772,12 +1772,12 @@ namespace WeChatAuto.Components
 
         private MessageBubble _ParseSingleFile(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("文件消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.文件;
@@ -1795,14 +1795,14 @@ namespace WeChatAuto.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result.AsButton() ?? throw new Exception("文件消息解析失败");
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult().AsButton() ?? throw new Exception("文件消息解析失败");
             if (button == null)
             {
                 throw new Exception("文件消息解析失败");
             }
             bubble.ClickActionButton = button;
             bubble.MessageContent = "文件";
-            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             var result = "";
             foreach (var text in texts)
             {
@@ -1816,12 +1816,12 @@ namespace WeChatAuto.Components
         }
         private MessageBubble _ParseGroupFile(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("文件消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.文件;
@@ -1839,14 +1839,14 @@ namespace WeChatAuto.Components
                 bubble.Sender = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).Result.AsButton() ?? throw new Exception("文件消息解析失败");
+            var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult().AsButton() ?? throw new Exception("文件消息解析失败");
             if (button == null)
             {
                 throw new Exception("文件消息解析失败");
             }
             bubble.ClickActionButton = button;
             bubble.MessageContent = "文件";
-            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).Result;
+            var texts = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             var result = "";
             foreach (var text in texts)
             {
@@ -1886,17 +1886,17 @@ namespace WeChatAuto.Components
         /// <returns></returns>
         private List<MessageBubble> _ParseGroupPickUp(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("拍一拍消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             if (children.Count() != 3)
             {
                 throw new Exception("拍一拍消息解析失败");
             }
-            var items = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.ListItem))).Result;
+            var items = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.ListItem))).GetAwaiter().GetResult();
             var list = new List<MessageBubble>();
             foreach (var item in items)
             {
@@ -1953,17 +1953,17 @@ namespace WeChatAuto.Components
         /// <returns></returns>
         private List<MessageBubble> _ParseSinglePickUp(AutomationElement listItem, DateTime? dateTime)
         {
-            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var paneElement = _uiThreadInvoker.Run(automation => listItem.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             if (paneElement == null)
             {
                 throw new Exception("拍一拍消息解析失败");
             }
-            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).Result;
+            var children = _uiThreadInvoker.Run(automation => paneElement.FindAllChildren()).GetAwaiter().GetResult();
             if (children.Count() != 3)
             {
                 throw new Exception("拍一拍消息解析失败");
             }
-            var items = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.ListItem))).Result;
+            var items = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.ListItem))).GetAwaiter().GetResult();
             var list = new List<MessageBubble>();
             foreach (var item in items)
             {

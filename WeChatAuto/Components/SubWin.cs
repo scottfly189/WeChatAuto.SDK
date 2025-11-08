@@ -655,7 +655,7 @@ namespace WeChatAuto.Components
             };
             if (autoThread)
             {
-                bool result = _uiThreadInvoker.Run(automation => func()).Result;
+                bool result = _uiThreadInvoker.Run(automation => func()).GetAwaiter().GetResult();
                 return result;
             }
             else
@@ -760,7 +760,7 @@ namespace WeChatAuto.Components
                 }
                 _logger.Info("获取群聊成员列表成功，成员数量：" + memberList.Count);
                 return memberList;
-            }).Result;
+            }).GetAwaiter().GetResult();
             return list;
         }
         /// <summary>
@@ -803,7 +803,7 @@ namespace WeChatAuto.Components
                 }
 
                 return null;
-            }).Result;
+            }).GetAwaiter().GetResult();
 
             return element;
         }
@@ -848,7 +848,7 @@ namespace WeChatAuto.Components
                 _logger.Info("获取群主成功，群主昵称：" + firstItem?.Name);
 
                 return firstItem?.Name ?? "";
-            }).Result;
+            }).GetAwaiter().GetResult();
             return result;
         }
         /// <summary>
@@ -1662,7 +1662,7 @@ namespace WeChatAuto.Components
                 var listItemValues = listItem.Select(item => item.Name).ToList();
                 listItemValues = listItemValues.Intersect(addList).ToList();
                 return listItemValues;
-            }).Result;
+            }).GetAwaiter().GetResult();
             return list;
         }
 

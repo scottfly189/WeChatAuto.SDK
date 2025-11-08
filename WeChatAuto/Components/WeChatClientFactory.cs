@@ -106,13 +106,13 @@ namespace WeChatAuto.Components
             UIThreadInvoker _uiThreadInvoker = new UIThreadInvoker();
             var taskBarRoot = _uiThreadInvoker.Run(automation =>
                 automation.GetDesktop().FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd")))
-            ).Result;
+            ).GetAwaiter().GetResult();
             var wxNotifyList = _uiThreadInvoker.Run(automation =>
                 Retry.WhileNull(() => taskBarRoot.FindFirstDescendant(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NOTIFY_ICON)
                     .And(cf.ByClassName("ToolbarWindow32").And(cf.ByControlType(ControlType.ToolBar))))
                     .FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME).And(cf.ByControlType(ControlType.Button))),
                     timeout: TimeSpan.FromSeconds(10))
-            ).Result;
+            ).GetAwaiter().GetResult();
             if (wxNotifyList.Success)
             {
                 foreach (var wxNotify in wxNotifyList.Result)
@@ -125,7 +125,7 @@ namespace WeChatAuto.Components
                                 .And(cf.ByClassName("WeChatMainWndForPC")
                                 .And(cf.ByControlType(ControlType.Window))
                                 .And(cf.ByProcessId(topWindowProcessId.Result)))).AsWindow()
-                    ).Result;
+                    ).GetAwaiter().GetResult();
                     DrawHightlightHelper.DrawHightlight(wxInstances, _uiThreadInvoker);
                     WeChatNotifyIcon wxNotifyIcon = new WeChatNotifyIcon(wxNotify.AsButton(), _serviceProvider);
                     WeChatMainWindow wxWindow = new WeChatMainWindow(wxInstances, wxNotifyIcon, this, _serviceProvider);

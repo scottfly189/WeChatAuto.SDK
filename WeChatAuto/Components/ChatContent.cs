@@ -67,8 +67,8 @@ namespace WeChatAuto.Components
             {
                 title = title.Trim();
             }
-            var header = _uiThreadInvoker.Run(automation => ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
-            var buttons = _uiThreadInvoker.Run(automation => header.FindAllDescendants(cf => cf.ByControlType(ControlType.Button))).Result;
+            var header = _uiThreadInvoker.Run(automation => ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
+            var buttons = _uiThreadInvoker.Run(automation => header.FindAllDescendants(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             Button chatInfoButton = null;
             if (buttons.Count() > 0)
             {
@@ -86,9 +86,9 @@ namespace WeChatAuto.Components
             {
                 return "";
             }
-            var header = _uiThreadInvoker.Run(automation => ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).Result;
+            var header = _uiThreadInvoker.Run(automation => ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             DrawHightlightHelper.DrawHightlight(header, _uiThreadInvoker);
-            var titles = _uiThreadInvoker.Run(automation => header.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text))).Result;
+            var titles = _uiThreadInvoker.Run(automation => header.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             if (titles == null)
             {
                 return "";
@@ -107,7 +107,7 @@ namespace WeChatAuto.Components
                 return null;
             }
             var title = GetFullTitle();
-            var chatBodyRoot = _uiThreadInvoker.Run(automation => ChatContentRoot.FindFirstByXPath("/Pane[2]")).Result;
+            var chatBodyRoot = _uiThreadInvoker.Run(automation => ChatContentRoot.FindFirstByXPath("/Pane[2]")).GetAwaiter().GetResult();
             DrawHightlightHelper.DrawHightlight(chatBodyRoot, _uiThreadInvoker);
             var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow, title, _uiThreadInvoker, this._MainWxWindow, _serviceProvider);
             return chatBody;

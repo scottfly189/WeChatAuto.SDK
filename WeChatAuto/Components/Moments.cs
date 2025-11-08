@@ -69,7 +69,7 @@ namespace WeChatAuto.Components
                                     return true;
                                 }
                                 return false;
-                            }).Result;
+                            }).GetAwaiter().GetResult();
                 return result;
             }
             catch (Exception ex)
@@ -150,7 +150,7 @@ namespace WeChatAuto.Components
                 }
 
                 return momentsList;
-            }).Result;
+            }).GetAwaiter().GetResult();
             return result;
         }
         /// <summary>
@@ -191,7 +191,7 @@ namespace WeChatAuto.Components
                 }
 
                 return momentsList;
-            }).Result;
+            }).GetAwaiter().GetResult();
             return result;
         }
 
@@ -222,7 +222,7 @@ namespace WeChatAuto.Components
                 this.AddMomentsItemAndReturn(momentsList, rootListBox);
 
                 return momentsList;
-            }).Result;
+            }).GetAwaiter().GetResult();
             return result;
         }
 
