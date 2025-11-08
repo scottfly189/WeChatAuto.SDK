@@ -1351,18 +1351,21 @@ namespace WeChatAuto.Components
         }
         private void _UpdateOnwerGroupName(string oldGroupName, string newGroupName, ListBoxItem firstItem)
         {
-            firstItem.DrawHighlightExt();
-            var xPath = "//Button";
-            var itemButton = firstItem.FindFirstByXPath(xPath)?.AsButton();
-            if (itemButton != null)
+            _uiMainThreadInvoker.Run(automation =>
             {
-                itemButton.DrawHighlightExt();
-                itemButton.Focus();
-                itemButton.WaitUntilClickable();
-                itemButton.RightClick();
-                this._OpenUpdateGroupNameWindow(newGroupName);
-            }
-            Thread.Sleep(300);
+                firstItem.DrawHighlightExt();
+                var xPath = "//Button";
+                var itemButton = firstItem.FindFirstByXPath(xPath)?.AsButton();
+                if (itemButton != null)
+                {
+                    itemButton.DrawHighlightExt();
+                    itemButton.Focus();
+                    itemButton.WaitUntilClickable();
+                    itemButton.RightClick();
+                    this._OpenUpdateGroupNameWindow(newGroupName);
+                }
+                Thread.Sleep(300);
+            }).GetAwaiter().GetResult();
         }
         private void _UpdateOnwerGroupMemo(string groupName, string newMemo, ListBoxItem firstItem)
         {
@@ -1384,125 +1387,134 @@ namespace WeChatAuto.Components
         }
         private void _SetMessageWithoutInterruptionCore(string friendName, ListBoxItem firstItem, bool isMessageWithoutInterruption = true)
         {
-            firstItem.DrawHighlightExt();
-            var xPath = "//Button";
-            var itemButton = firstItem.FindFirstByXPath(xPath)?.AsButton();
-            if (itemButton != null)
+            _uiMainThreadInvoker.Run(automation =>
             {
-                itemButton.DrawHighlightExt();
-                itemButton.Focus();
-                itemButton.WaitUntilClickable();
-                itemButton.RightClick();
-                //设置消息免打扰
-                var winResult = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
-                if (winResult.Success)
+                firstItem.DrawHighlightExt();
+                var xPath = "//Button";
+                var itemButton = firstItem.FindFirstByXPath(xPath)?.AsButton();
+                if (itemButton != null)
                 {
-                    var menu = winResult.Result.AsMenu();
-                    menu.DrawHighlightExt();
-                    var menuName = isMessageWithoutInterruption ? "消息免打扰" : "开启新消息提醒";
-                    var item = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName(menuName)))?.AsMenuItem();
-                    if (item != null)
+                    itemButton.DrawHighlightExt();
+                    itemButton.Focus();
+                    itemButton.WaitUntilClickable();
+                    itemButton.RightClick();
+                    //设置消息免打扰
+                    var winResult = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+                    if (winResult.Success)
                     {
-                        item.DrawHighlightExt();
-                        item.Focus();
-                        item.WaitUntilClickable();
-                        item.Click();
-                        if (isMessageWithoutInterruption)
+                        var menu = winResult.Result.AsMenu();
+                        menu.DrawHighlightExt();
+                        var menuName = isMessageWithoutInterruption ? "消息免打扰" : "开启新消息提醒";
+                        var item = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName(menuName)))?.AsMenuItem();
+                        if (item != null)
                         {
-                            _logger.Info($"设置{friendName}消息免打扰成功");
+                            item.DrawHighlightExt();
+                            item.Focus();
+                            item.WaitUntilClickable();
+                            item.Click();
+                            if (isMessageWithoutInterruption)
+                            {
+                                _logger.Info($"设置{friendName}消息免打扰成功");
+                            }
+                            else
+                            {
+                                _logger.Info($"设置{friendName}开启新消息提醒成功");
+                            }
                         }
                         else
                         {
-                            _logger.Info($"设置{friendName}开启新消息提醒成功");
+                            Trace.WriteLine($"没有找到{menuName}菜单项");
+                            _logger.Error($"没有找到{menuName}菜单项");
                         }
                     }
-                    else
-                    {
-                        Trace.WriteLine($"没有找到{menuName}菜单项");
-                        _logger.Error($"没有找到{menuName}菜单项");
-                    }
                 }
-            }
-            Thread.Sleep(300);
+                Thread.Sleep(300);
+            }).GetAwaiter().GetResult();
         }
         private void _SaveToAddressCore(string friendName, ListBoxItem firstItem, bool isSaveToAddress = true)
         {
-            firstItem.DrawHighlightExt();
-            var xPath = "//Button";
-            var itemButton = firstItem.FindFirstByXPath(xPath)?.AsButton();
-            if (itemButton != null)
+            _uiMainThreadInvoker.Run(automation =>
             {
-                itemButton.DrawHighlightExt();
-                itemButton.Focus();
-                itemButton.WaitUntilClickable();
-                itemButton.RightClick();
-                //设置保存到通讯录
-                var winResult = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
-                if (winResult.Success)
+                firstItem.DrawHighlightExt();
+                var xPath = "//Button";
+                var itemButton = firstItem.FindFirstByXPath(xPath)?.AsButton();
+                if (itemButton != null)
                 {
-                    var menu = winResult.Result.AsMenu();
-                    menu.DrawHighlightExt();
-                    var menuName = isSaveToAddress ? "保存到通讯录" : "从通讯录中删除";
-                    var item = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName(menuName)))?.AsMenuItem();
-                    if (item != null)
+                    itemButton.DrawHighlightExt();
+                    itemButton.Focus();
+                    itemButton.WaitUntilClickable();
+                    itemButton.RightClick();
+                    //设置保存到通讯录
+                    var winResult = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+                    if (winResult.Success)
                     {
-                        item.DrawHighlightExt();
-                        item.Focus();
-                        item.WaitUntilClickable();
-                        item.Click();
-                        if (isSaveToAddress)
+                        var menu = winResult.Result.AsMenu();
+                        menu.DrawHighlightExt();
+                        var menuName = isSaveToAddress ? "保存到通讯录" : "从通讯录中删除";
+                        var item = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName(menuName)))?.AsMenuItem();
+                        if (item != null)
                         {
-                            _logger.Info($"设置{friendName}保存到通讯录成功");
+                            item.DrawHighlightExt();
+                            item.Focus();
+                            item.WaitUntilClickable();
+                            item.Click();
+                            if (isSaveToAddress)
+                            {
+                                _logger.Info($"设置{friendName}保存到通讯录成功");
+                            }
+                            else
+                            {
+                                _logger.Info($"设置{friendName}从通讯录中删除成功");
+                            }
                         }
                         else
                         {
-                            _logger.Info($"设置{friendName}从通讯录中删除成功");
+                            Trace.WriteLine($"没有找到{menuName}菜单项");
+                            _logger.Error($"没有找到{menuName}菜单项,可能已是[{menuName}]状态");
                         }
                     }
-                    else
-                    {
-                        Trace.WriteLine($"没有找到{menuName}菜单项");
-                        _logger.Error($"没有找到{menuName}菜单项,可能已是[{menuName}]状态");
-                    }
                 }
-            }
-            Thread.Sleep(300);
+                Thread.Sleep(300);
+            }).GetAwaiter().GetResult();
         }
         private void _SetFriendChatTop(string friendName, ListBoxItem firstItem, bool isTop = true)
         {
-            firstItem.DrawHighlightExt();
-            var xPath = "//Button";
-            var itemButton = firstItem.FindFirstByXPath(xPath)?.AsButton();
-            if (itemButton != null)
+            _uiMainThreadInvoker.Run(automation =>
             {
-                itemButton.DrawHighlightExt();
-                itemButton.Focus();
-                itemButton.WaitUntilClickable();
-                itemButton.RightClick();
-                //设置聊天置顶
-                var winResult = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
-                if (winResult.Success)
+                firstItem.DrawHighlightExt();
+                var xPath = "//Button";
+                var itemButton = firstItem.FindFirstByXPath(xPath)?.AsButton();
+                if (itemButton != null)
                 {
-                    var menu = winResult.Result.AsMenu();
-                    menu.DrawHighlightExt();
-                    var menuName = isTop ? "置顶" : "取消置顶";
-                    var item = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName(menuName)))?.AsMenuItem();
-                    if (item != null)
+                    itemButton.DrawHighlightExt();
+                    itemButton.Focus();
+                    itemButton.WaitUntilClickable();
+                    itemButton.RightClick();
+                    //设置聊天置顶
+                    var winResult = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+                    if (winResult.Success)
                     {
-                        item.DrawHighlightExt();
-                        item.Focus();
-                        item.WaitUntilClickable();
-                        item.Click();
-                    }
-                    else
-                    {
-                        Trace.WriteLine($"没有找到{menuName}菜单项");
-                        _logger.Error($"没有找到{menuName}菜单项,可能已是{menuName}状态");
-                        throw new Exception($"没有找到{menuName}菜单项,可能已是{menuName}状态");
+                        var menu = winResult.Result.AsMenu();
+                        menu.DrawHighlightExt();
+                        var menuName = isTop ? "置顶" : "取消置顶";
+                        var item = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName(menuName)))?.AsMenuItem();
+                        if (item != null)
+                        {
+                            item.DrawHighlightExt();
+                            item.Focus();
+                            item.WaitUntilClickable();
+                            item.Click();
+                        }
+                        else
+                        {
+                            Trace.WriteLine($"没有找到{menuName}菜单项");
+                            _logger.Error($"没有找到{menuName}菜单项,可能已是{menuName}状态");
+                            throw new Exception($"没有找到{menuName}菜单项,可能已是{menuName}状态");
+                        }
                     }
                 }
-            }
-            Thread.Sleep(300);
+                Thread.Sleep(300);
+            }).GetAwaiter().GetResult();
         }
         private void __SearchChat(string chatName)
         {

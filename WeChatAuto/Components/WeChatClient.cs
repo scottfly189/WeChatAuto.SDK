@@ -465,7 +465,7 @@ namespace WeChatAuto.Components
           return;
         }
         _logger.Error($"重试{_RetryCount}次后，微信客户端是{NickName}运行检查监听失败:{ex.Message},严重：系统将不再监听微信的风控退出.", ex);
-        throw;  //因为抛出的是窗口不存在异常，所以直接终止应用运行.
+        throw;  //因为抛出的是窗口不存在，所以直接终止应用运行.
       }
       catch (Exception ex)
       {

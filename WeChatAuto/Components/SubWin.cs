@@ -1347,35 +1347,38 @@ namespace WeChatAuto.Components
         }
         private void _ConfirmInviteChatGroupMember(string helloText = "")
         {
-            var confirmPane = Retry.WhileNull(() => _SelfWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("WeUIDialog"))),
-             TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
-            if (confirmPane != null)
+            _uiThreadInvoker.Run(automation =>
             {
-                if (!string.IsNullOrWhiteSpace(helloText))
+                var confirmPane = Retry.WhileNull(() => _SelfWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("WeUIDialog"))),
+                 TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
+                if (confirmPane != null)
                 {
-                    var edit = confirmPane.FindFirstByXPath("//Edit")?.AsTextBox();
-                    if (edit != null)
+                    if (!string.IsNullOrWhiteSpace(helloText))
                     {
-                        edit.Focus();
-                        edit.Click();
-                        Keyboard.Type(helloText);
-                        Wait.UntilInputIsProcessed();
+                        var edit = confirmPane.FindFirstByXPath("//Edit")?.AsTextBox();
+                        if (edit != null)
+                        {
+                            edit.Focus();
+                            edit.Click();
+                            Keyboard.Type(helloText);
+                            Wait.UntilInputIsProcessed();
+                            Thread.Sleep(300);
+                        }
+                    }
+                    var confirmButton = confirmPane.FindFirstByXPath("//Button[@Name='发送']")?.AsButton();
+                    if (confirmButton != null)
+                    {
+                        confirmButton.WaitUntilClickable();
+                        confirmButton.Focus();
+                        confirmButton.Click();
                         Thread.Sleep(300);
                     }
                 }
-                var confirmButton = confirmPane.FindFirstByXPath("//Button[@Name='发送']")?.AsButton();
-                if (confirmButton != null)
+                else
                 {
-                    confirmButton.WaitUntilClickable();
-                    confirmButton.Focus();
-                    confirmButton.Click();
-                    Thread.Sleep(300);
+                    _logger.Info("由于群主没有设置认证，所以没有弹出确认窗口，成功邀请！");
                 }
-            }
-            else
-            {
-                _logger.Info("由于群主没有设置认证，所以没有弹出确认窗口，成功邀请！");
-            }
+            }).GetAwaiter().GetResult();
         }
         /// <summary>
         /// 添加群聊里面的好友为自己的好友,适用于他有群

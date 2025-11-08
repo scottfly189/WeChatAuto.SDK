@@ -355,7 +355,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.CreateOrUpdateOwnerChatGroup("测试08", new string[] { "AI.Net", "秋歌" });
+            var result = window.CreateOrUpdateOwnerChatGroup("测试05", new string[] { "AI.Net", "秋歌" });
             _output.WriteLine($"创建群聊结果: {result.Message}");
             Assert.True(result.Success);
         }
@@ -418,14 +418,15 @@ namespace WeChatAuto.Tests.Components
         }
 
         [Fact(DisplayName = "测试更新群聊名称")]
-        public void Test_UpdateGroupName()
+        public async Task Test_UpdateGroupName()
         {
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.ChangeOwerChatGroupName("测试05", "测试05");
+            var result = window.ChangeOwerChatGroupName("测试05", "测试05新的名称");
             _output.WriteLine($"更新群聊名称结果: {result.Message}");
             Assert.True(result.Success);
+            await Task.Delay(40 * 1_000);
         }
         [Theory(DisplayName = "测试更新群聊公告")]
         [InlineData("测试04")]
