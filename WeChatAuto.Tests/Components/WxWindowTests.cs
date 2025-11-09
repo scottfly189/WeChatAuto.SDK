@@ -355,7 +355,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.CreateOrUpdateOwnerChatGroup("测试09", new string[] { "AI.Net", "秋歌" });
+            var result = window.CreateOrUpdateOwnerChatGroup("测试10", new string[] { "AI.Net", "秋歌" });
             _output.WriteLine($"创建群聊结果: {result.Message}");
             Assert.True(result.Success);
         }

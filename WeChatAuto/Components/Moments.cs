@@ -424,7 +424,8 @@ namespace WeChatAuto.Components
                                 linkButton.DrawHighlightExt();
                                 if (WeAutomation.Config.EnableMouseKeyboardSimulator)
                                 {
-                                    var point = DpiHelper.GetDpiAwarePoint(momentWindow,linkButton);
+                                    // var point = DpiHelper.GetDpiAwarePoint(momentWindow,linkButton);
+                                    var point = linkButton.BoundingRectangle.Center();
                                     ClickHighlighter.ShowClick(point);
                                     KMSimulatorService.LeftClick(point);
                                 }
