@@ -16,7 +16,6 @@ using WeChatAuto.Extentions;
 using WxAutoCommon.Interface;
 using System.Text;
 using OneOf;
-using WeAutoCommon.Classes;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace WeChatAuto.Components

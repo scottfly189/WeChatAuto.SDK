@@ -98,14 +98,13 @@ namespace WeChatAuto.Components
 
     #region 微信客户端工具操作
     /// <summary>
-    /// 出错后捕获UI
+    /// 屏幕截图
     /// </summary>
-    /// <param name="path">保存路径</param>
-    /// <param name="useOverlay">是否使用覆盖层,True:使用,False:不使用</param>
-    public void CaptureUI(string path,bool useOverlay)
+    /// <param name="fileName">文件名,默认不指定,如果不指定,则使用Capture_20251109_123456.png作为文件名</param>
+    /// <returns>截图文件路径</returns>
+    public string CaptureUI(string fileName = "")
     {
-      var image = Capture.Screen();
-      VideoRecorder.DownloadFFMpeg("");
+      return _serviceProvider.GetRequiredService<WeChatCaptureImage>().CaptureUI(fileName);
     }
     #endregion
 

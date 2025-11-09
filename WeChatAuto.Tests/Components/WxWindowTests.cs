@@ -2,10 +2,10 @@ using WxAutoCommon.Models;
 using WeChatAuto.Services;
 using WeChatAuto.Utils;
 using Xunit.Abstractions;
-using WeAutoCommon.Classes;
 using System.Diagnostics;
 using Xunit.Sdk;
 using WeChatAuto.Models;
+using WxAutoCommon.Utils;
 
 [assembly: CollectionBehavior(DisableTestParallelization = true)]
 

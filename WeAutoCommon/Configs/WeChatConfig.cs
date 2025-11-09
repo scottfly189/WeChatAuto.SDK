@@ -66,14 +66,10 @@ namespace WxAutoCommon.Configs
         /// </summary>
         public bool DebugMode { get; set; } = false;
         /// <summary>
-        /// 是否启用出错后捕获UI，并且保存到本地
-        /// </summary>
-        public bool EnableFailCaptureUI { get; set; } = false;
-        /// <summary>
         /// 出错后捕获UI保存路径
         /// 默认保存到当前目录下的Capture文件夹,可以修改为其他路径
         /// </summary>
-        public string FailCaptureUIPath { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "Captures");
+        public string CaptureUIPath { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "Captures");
         /// <summary>
         /// 是否启用视频录制
         /// </summary>

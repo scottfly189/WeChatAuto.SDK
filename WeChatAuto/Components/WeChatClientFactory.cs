@@ -21,6 +21,7 @@ namespace WeChatAuto.Components
         private IServiceProvider _serviceProvider;
         private readonly Dictionary<string, WeChatClient> _wxClientList = new Dictionary<string, WeChatClient>();
         private bool _disposed = false;
+        private readonly WeChatRecordVideo _recordVideo;
         /// <summary>
         /// 微信自动化框架构造函数
         /// </summary>
@@ -28,6 +29,12 @@ namespace WeChatAuto.Components
         {
             _serviceProvider = serviceProvider;
             _logger = _serviceProvider.GetRequiredService<AutoLogger<WeChatClientFactory>>();
+            _recordVideo = _serviceProvider.GetRequiredService<WeChatRecordVideo>();
+            if (WeAutomation.Config.EnableRecordVideo)
+            {
+                var videoPath = _recordVideo.RecordVideo().GetAwaiter().GetResult();
+                _logger.Trace($"开始录制视频,保存路径: {videoPath}");
+            }
             _logger.Trace("微信客户端工厂初始化完成");
         }
         /// <summary>
@@ -171,6 +178,12 @@ namespace WeChatAuto.Components
             if (WeAutomation.Config.EnableMouseKeyboardSimulator)
             {
                 KMSimulatorService.CloseDevice();
+            }
+
+            if (WeAutomation.Config.EnableRecordVideo)
+            {
+                _recordVideo?._VideoRecorder?.Stop();
+                _recordVideo?._VideoRecorder?.Dispose();
             }
             if (_wxClientList != null && _wxClientList.Count > 0)
             {
