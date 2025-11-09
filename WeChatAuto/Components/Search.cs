@@ -68,35 +68,32 @@ namespace WeChatAuto.Components
 
         /// <summary>
         /// 搜索聊天
-        /// 更多导航类型请参考<see cref="NavigationType"/>
         /// </summary>
-        /// <param name="text">搜索内容</param>
-        public void SearchChat(string text)
+        /// <param name="who">好友名称,可以是群聊名称也可以是好友名称</param>
+        public void SearchChat(string who)
         {
             _WxWindow.Navigation.SwitchNavigation(NavigationType.聊天);
-            SearchSomething(text);
+            SearchSomething(who);
         }
 
         /// <summary>
-        /// 搜索联系人
-        /// 更多导航类型请参考<see cref="NavigationType"/>
+        /// 在通讯录页面搜索联系人
         /// </summary>
-        /// <param name="text">搜索内容</param>
-        public void SearchContact(string text)
+        /// <param name="who">联系人名称</param>
+        public void SearchContact(string who)
         {
             _WxWindow.Navigation.SwitchNavigation(NavigationType.通讯录);
-            SearchSomething(text);
+            SearchSomething(who);
         }
 
         /// <summary>
-        /// 搜索收藏
-        /// 更多导航类型请参考<see cref="NavigationType"/>
+        /// 在收藏页面搜索收藏的内容
         /// </summary>
-        /// <param name="text">搜索内容</param>
-        public void SearchCollection(string text)
+        /// <param name="content">搜索内容</param>
+        public void SearchCollection(string content)
         {
             _WxWindow.Navigation.SwitchNavigation(NavigationType.收藏);
-            SearchSomething(text, true);
+            SearchSomething(content, true);
         }
     }
 }

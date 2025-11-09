@@ -24,10 +24,6 @@ public class UiTestFixture : IDisposable
     }
     public void Dispose()
     {
-        var framework = _serviceProvider.GetRequiredService<WeChatClientFactory>();
-        if (framework != null)
-        {
-            framework.Dispose();
-        }
+        _Factory.Dispose();
     }
 }

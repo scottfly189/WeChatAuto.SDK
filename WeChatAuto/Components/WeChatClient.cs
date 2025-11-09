@@ -36,7 +36,7 @@ namespace WeChatAuto.Components
     private readonly UIThreadInvoker _CheckAppRunningUIThreadInvoker;
     private System.Threading.Timer _CheckAppRunningTimer;
     private volatile bool _CheckRunningFlag = false;
-    private volatile int _RetryCount = 0;
+    private volatile int _RetryCount = 0;  //由于UI Automation的不稳定性，所以增加重试机制，防止因为UI Automation的不稳定性导致程序退出。
     private volatile bool _RequireRetryLogin = false;
     private readonly CancellationTokenSource _CheckAppRunningCancellationTokenSource = new CancellationTokenSource();
 
@@ -45,6 +45,8 @@ namespace WeChatAuto.Components
     /// </summary>
     /// <param name="wxNotifyIcon">微信客户端通知图标类</param>
     /// <param name="wxWindow">微信客户端窗口类</param>
+    /// <param name="serviceProvider">服务提供者</param>
+    /// <param name="enableCheckAppRunning">是否启用运行检查风控退出监听</param>
     public WeChatClient(WeChatNotifyIcon wxNotifyIcon, WeChatMainWindow wxWindow, IServiceProvider serviceProvider, bool enableCheckAppRunning = true)
     {
       _logger = serviceProvider.GetRequiredService<AutoLogger<WeChatClient>>();
@@ -65,7 +67,34 @@ namespace WeChatAuto.Components
     }
     #endregion
 
-
+    #region 搜索操作
+    /// <summary>
+    /// 输入搜索内容，并回车
+    /// </summary>
+    /// <param name="text">搜索内容</param>
+    /// <param name="isClear">是否清空搜索框,默认是False:不清空,True:清空</param>
+    public void SearchSomething(string text, bool isClear = false) => WxMainWindow.Search.SearchSomething(text, isClear);
+    /// <summary>
+    /// 清空搜索框
+    /// </summary>
+    public void ClearText() => WxMainWindow.Search.ClearText();
+    /// <summary>
+    /// 搜索聊天
+    /// </summary>
+    /// <param name="who">好友名称,可以是群聊名称也可以是好友名称</param>
+    public void SearchChat(string who) => WxMainWindow.Search.SearchChat(who);
+    /// <summary>
+    /// 在通讯录页面搜索联系人
+    /// </summary>
+    /// <param name="text">搜索内容</param>
+    public void SearchContact(string text) => WxMainWindow.Search.SearchContact(text);
+    /// <summary>
+    /// 在收藏页面搜索收藏的内容
+    /// </summary>
+    /// <param name="content">搜索内容</param>
+    public void SearchCollection(string content) => WxMainWindow.Search.SearchCollection(content);
+    #endregion
+    
     #region 微信客户端工具操作
     /// <summary>
     /// 出错后捕获UI
@@ -384,7 +413,7 @@ namespace WeChatAuto.Components
         _RetryCount = 0;
         _CheckAppRunningTimer = new System.Threading.Timer(_ =>
         {
-          _CheckAppRunningCancellationTokenSource.Token.ThrowIfCancellationRequested();
+          _CheckAppRunningCancellationTokenSource?.Token.ThrowIfCancellationRequested();
           if (_CheckRunningFlag)
           {
             _logger.Trace($"微信客户端[{NickName}]运行检查风控退出监听线程正在运行，跳过本次检测");
@@ -412,7 +441,7 @@ namespace WeChatAuto.Components
       {
         _CheckAppRunningUIThreadInvoker.Run(automation =>
         {
-          _CheckAppRunningCancellationTokenSource.Token.ThrowIfCancellationRequested();
+          _CheckAppRunningCancellationTokenSource?.Token.ThrowIfCancellationRequested();
           var desktop = automation.GetDesktop();
           var wxWindowResult = _GetWindowInfo(desktop);
           if (wxWindowResult.Success && wxWindowResult.Result != null)
@@ -464,6 +493,7 @@ namespace WeChatAuto.Components
           Thread.Sleep(300);
           return;
         }
+        _CheckRunningFlag = true;
         _logger.Error($"重试{_RetryCount}次后，微信客户端是{NickName}运行检查监听失败:{ex.Message},严重：系统将不再监听微信的风控退出.", ex);
         throw;  //因为抛出的是窗口不存在，所以直接终止应用运行.
       }
@@ -471,13 +501,6 @@ namespace WeChatAuto.Components
       {
         this._AppRunning = false;
         _logger.Error($"微信客户端是{NickName}运行检查监听失败:{ex.Message}", ex);
-        if (ex is System.AggregateException aggregateException)
-        {
-          foreach (var inner in aggregateException.Flatten().InnerExceptions)
-          {
-            _logger.Error($"微信客户端是{NickName}运行检查监听失败:{inner.Message}", inner);
-          }
-        }
       }
     }
     private RetryResult<Window> _GetWindowInfo(AutomationElement desktop)
@@ -502,6 +525,18 @@ namespace WeChatAuto.Components
     /// </summary>
     private void RetryLogin(UIA3Automation automation, Window window)
     {
+      var confirmButtonResult = Retry.WhileNull(() => window.FindFirstByXPath("//Button[@Name='确认']")?.AsButton(),
+        timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
+      if (confirmButtonResult.Success)
+      {
+        var button = confirmButtonResult.Result;
+        button.DrawHighlightExt();
+        button.WaitUntilClickable();
+        button.Focus();
+        button.ClickEnhance(window);
+        Thread.Sleep(300);
+        _logger.Trace("已自动点击确认按钮，下一步自动点击登录按钮");
+      }
       var loginButtonResult = Retry.WhileNull(() =>
         {
           var cf = automation.ConditionFactory;
@@ -512,7 +547,7 @@ namespace WeChatAuto.Components
         },
         timeout: TimeSpan.FromSeconds(3),
         interval: TimeSpan.FromMilliseconds(200));
-      if (loginButtonResult.Success && loginButtonResult.Result != null)
+      if (loginButtonResult.Success)
       {
         var button = loginButtonResult.Result;
         _logger.Trace($"按系统设定，等待{WeAutomation.Config.AppRetryWaitTime}秒后，自动点击登录按钮");

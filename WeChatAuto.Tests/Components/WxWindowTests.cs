@@ -377,7 +377,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = await window.RemoveOwnerChatGroupMember("测试08", new string[] { "阿恩-frankie", "阿恩" });
+            var result = await window.RemoveOwnerChatGroupMember("测试09", new string[] { "阿恩-frankie", "阿恩" });
             _output.WriteLine($"移除群聊成员结果: {result.Message}");
             Assert.True(result.Success);
         }
@@ -388,7 +388,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.DeleteOwnerChatGroup("测试08");
+            await window.DeleteOwnerChatGroup("测试09-01");
             Assert.True(true);
         }
 
@@ -411,7 +411,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.ChangeOwerChatGroupName("测试05", "测试05新的名称");
+            var result = window.ChangeOwerChatGroupName("测试09", "测试09-01");
             _output.WriteLine($"更新群聊名称结果: {result.Message}");
             Assert.True(result.Success);
             await Task.Delay(40 * 1_000);
@@ -581,7 +581,7 @@ namespace WeChatAuto.Tests.Components
             var window = client.WxMainWindow;
             var result = await window.AddAllChatGroupMemberToFriends(groupName, (options) =>
             {
-                options.PageNo = 2;
+                options.PageNo = 8;
                 options.IntervalSecond = 5;
                 options.HelloText = "兄弟不用管，测试自动化";
                 options.Label = "测试标签";

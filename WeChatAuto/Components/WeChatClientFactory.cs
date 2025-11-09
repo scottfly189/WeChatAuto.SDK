@@ -168,16 +168,16 @@ namespace WeChatAuto.Components
             {
                 return;
             }
+            if (WeAutomation.Config.EnableMouseKeyboardSimulator)
+            {
+                KMSimulatorService.CloseDevice();
+            }
             if (_wxClientList != null && _wxClientList.Count > 0)
             {
                 foreach (var client in _wxClientList)
                 {
                     client.Value?.Dispose();
                 }
-            }
-            if (WeAutomation.Config.EnableMouseKeyboardSimulator && KMSimulatorService.DeviceData != IntPtr.Zero)
-            {
-                KMSimulatorService.CloseDevice();
             }
             _disposed = true;
         }

@@ -105,7 +105,12 @@ namespace WeChatAuto.Services
         /// </summary>
         public static void CloseDevice()
         {
+            if (_deviceData == IntPtr.Zero)
+            {
+                return;
+            }
             Skm.HKMClose(_deviceData);
+            _deviceData = IntPtr.Zero;
         }
         /// <summary>
         /// 判断设备是否打开
