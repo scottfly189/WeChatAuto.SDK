@@ -17,7 +17,6 @@ using OneOf;
 using System.Threading.Tasks;
 using System.Linq;
 using FlaUI.Core.Patterns;
-using WeAutoCommon.Utils;
 using WeChatAuto.Services;
 using WxAutoCommon.Simulator;
 

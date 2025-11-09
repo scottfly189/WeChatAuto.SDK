@@ -18,7 +18,6 @@ using WeChatAuto.Extentions;
 using WeChatAuto.Utils;
 using WxAutoCommon.Simulator;
 using WeChatAuto.Services;
-using WeAutoCommon.Utils;
 
 namespace WeChatAuto.Components
 {

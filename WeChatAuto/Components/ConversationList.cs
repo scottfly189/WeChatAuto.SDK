@@ -14,7 +14,6 @@ using WeChatAuto.Extentions;
 using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using WeChatAuto.Services;
-using WeAutoCommon.Utils;
 using WxAutoCommon.Simulator;
 
 namespace WeChatAuto.Components

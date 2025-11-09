@@ -12,7 +12,6 @@ using WeChatAuto.Utils;
 using FlaUI.Core;
 using FlaUI.UIA3;
 using FlaUI.Core.Tools;
-using WeAutoCommon.Utils;
 using System.Drawing;
 
 namespace WeChatAuto.Extentions
@@ -149,13 +148,12 @@ namespace WeChatAuto.Extentions
         }
         /// <summary>
         /// 显示点击
-        /// 此方法dpi感知
         /// </summary>
         /// <param name="window">窗口</param>
         /// <param name="element">元素</param>
         public static void ShowAwareClick(this Window window, AutomationElement element)
         {
-            var point = window.GetDpiAwarePoint(element);
+            var point = element.BoundingRectangle.Center();
             ClickHighlighter.ShowClick(point);
         }
         /// <summary>
@@ -170,14 +168,12 @@ namespace WeChatAuto.Extentions
         }
         /// <summary>
         /// 显示点击
-        /// 此方法dpi感知
         /// </summary>
         /// <param name="window">窗口</param>
         /// <param name="point">坐标</param>
         public static void ShowAwareClick(this Window window, Point point)
         {
-            var dpiPoint = window.GetDpiAwarePoint(point);
-            ClickHighlighter.ShowClick(dpiPoint);
+            ClickHighlighter.ShowClick(point);
         }
     }
 }

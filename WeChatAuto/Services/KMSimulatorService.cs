@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using FlaUI.Core.AutomationElements;
-using WeAutoCommon.Utils;
+using FlaUI.Core.Tools;
 using WxAutoCommon.Simulator;
 
 namespace WeChatAuto.Services
@@ -274,7 +274,7 @@ namespace WeChatAuto.Services
             //最新版本
             int width = element.BoundingRectangle.Width - 2 * WeAutomation.Config.OffsetOfClick;
             int height = element.BoundingRectangle.Height - 2 * WeAutomation.Config.OffsetOfClick;
-            var point = new Point();
+            var point = element.BoundingRectangle.Center();
             if (width <= 0 || height <= 0)
             {
                 LeftClick(point);
@@ -310,10 +310,10 @@ namespace WeChatAuto.Services
 
             int width = element.BoundingRectangle.Width - 2 * WeAutomation.Config.OffsetOfClick;
             int height = element.BoundingRectangle.Height - 2 * WeAutomation.Config.OffsetOfClick;
-            var point = new Point();
+            var point = element.BoundingRectangle.Center();
             if (width <= 0 || height <= 0)
             {
-                LeftClick(point);
+                LeftDoubleClick(point);
                 return;
             }
             var random = new Random();
@@ -363,13 +363,12 @@ namespace WeChatAuto.Services
 
         /// <summary>
         /// 右键单击
-        /// 此方法dpi感知
         /// </summary>
         /// <param name="window">窗口</param>
         /// <param name="element">元素</param>
         public static void RightClick(Window window, AutomationElement element)
         {
-            var point = window.GetDpiAwarePoint(element);
+            var point = element.BoundingRectangle.Center();
             RightClick(point);
         }
 
@@ -396,7 +395,7 @@ namespace WeChatAuto.Services
         /// <param name="element">元素</param>
         public static void MiddleClick(Window window, AutomationElement element)
         {
-            var point = window.GetDpiAwarePoint(element);
+            var point = element.BoundingRectangle.Center();
             MiddleClick(point);
         }
         /// <summary>
@@ -437,7 +436,7 @@ namespace WeChatAuto.Services
         /// <param name="element">元素</param>
         public static void MouseWheel(Window window, AutomationElement element, int count = 3)
         {
-            var point = window.GetDpiAwarePoint(element);
+            var point = element.BoundingRectangle.Center();
             MouseWheel(point, count);
         }
         /// <summary>
@@ -478,9 +477,9 @@ namespace WeChatAuto.Services
         /// </summary>
         /// <param name="hwnd">窗口句柄</param>
         /// <returns>缩放比例</returns>
-        public static double GetScaleForWindow(IntPtr hwnd)
-        {
-            return DpiHelper.GetWindowDpi(hwnd) / 96.0;
-        }
+        // public static double GetScaleForWindow(IntPtr hwnd)
+        // {
+        //     return DpiHelper.GetWindowDpi(hwnd) / 96.0;
+        // }
     }
 }
