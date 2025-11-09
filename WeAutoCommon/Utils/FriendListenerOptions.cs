@@ -1,4 +1,4 @@
-namespace WxAutoCommon.Classes
+namespace WxAutoCommon.Utils
 {
     public class FriendListenerOptions
     {

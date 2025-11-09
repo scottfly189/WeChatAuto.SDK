@@ -15,6 +15,7 @@ using FlaUI.UIA3;
 using WxAutoCommon.Simulator;
 using System.Threading.Tasks;
 using WeChatAuto.Models;
+using FlaUI.Core.Capturing;
 
 
 namespace WeChatAuto.Components
@@ -94,23 +95,17 @@ namespace WeChatAuto.Components
     /// <param name="content">搜索内容</param>
     public void SearchCollection(string content) => WxMainWindow.Search.SearchCollection(content);
     #endregion
-    
+
     #region 微信客户端工具操作
     /// <summary>
     /// 出错后捕获UI
     /// </summary>
     /// <param name="path">保存路径</param>
-    public void CaptureUI(string path)
+    /// <param name="useOverlay">是否使用覆盖层,True:使用,False:不使用</param>
+    public void CaptureUI(string path,bool useOverlay)
     {
-
-    }
-    /// <summary>
-    /// 视频录制
-    /// </summary>
-    /// <param name="path">保存路径</param>
-    public void VideoRecord(string path)
-    {
-
+      var image = Capture.Screen();
+      VideoRecorder.DownloadFFMpeg("");
     }
     #endregion
 

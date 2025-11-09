@@ -61,11 +61,28 @@ namespace WxAutoCommon.Configs
         /// </summary>
         public int MonitorSubWinInterval { get; set; } = 5;
 
-
         /// <summary>
         /// 是否启用调试模式
         /// </summary>
         public bool DebugMode { get; set; } = false;
+        /// <summary>
+        /// 是否启用出错后捕获UI，并且保存到本地
+        /// </summary>
+        public bool EnableFailCaptureUI { get; set; } = false;
+        /// <summary>
+        /// 出错后捕获UI保存路径
+        /// 默认保存到当前目录下的Capture文件夹,可以修改为其他路径
+        /// </summary>
+        public string FailCaptureUIPath { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "Captures");
+        /// <summary>
+        /// 是否启用视频录制
+        /// </summary>
+        public bool EnableRecordVideo { get; set; } = false;
+        /// <summary>
+        /// 视频录制保存路径
+        /// 默认保存到当前目录下的Video文件夹,可以修改为其他路径
+        /// </summary>
+        public string TargetVideoPath  { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "Videos");
         /// <summary>
         /// 是否启用鼠标键盘模拟器
         /// 启用后，一些普通automation操作不了功能，启用硬件模拟器后，可以操作。
