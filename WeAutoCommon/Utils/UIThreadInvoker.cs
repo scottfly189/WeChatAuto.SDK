@@ -74,7 +74,7 @@ namespace WxAutoCommon.Utils
         public Task<T> Run<T>(Func<UIA3Automation, T> func)
         {
             if (_disposed)
-                throw new ObjectDisposedException(nameof(UIThreadInvoker));
+                return Task.FromResult(default(T));
 
             var tcs = new TaskCompletionSource<T>();
             _queue.Add(automation =>
@@ -99,6 +99,8 @@ namespace WxAutoCommon.Utils
         /// <returns>返回结果</returns>
         public Task Run(Action<UIA3Automation> action)
         {
+            if (_disposed)
+                return Task.CompletedTask;
             return Run<object>(automation =>
             {
                 action(automation);
