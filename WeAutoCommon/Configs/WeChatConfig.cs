@@ -23,11 +23,6 @@ namespace WxAutoCommon.Configs
         public string DefaultSavePath { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "wxauto_download");
 
         /// <summary>
-        /// 是否启用消息哈希值用于辅助判断消息，开启后会稍微影响性能
-        /// </summary>
-        public bool MessageHash { get; set; } = false;
-
-        /// <summary>
         /// 检查微信客户端是否运行的时间间隔，单位秒
         /// 用于风控退出时的重试机制
         /// </summary>
@@ -78,7 +73,7 @@ namespace WxAutoCommon.Configs
         /// 视频录制保存路径
         /// 默认保存到当前目录下的Video文件夹,可以修改为其他路径
         /// </summary>
-        public string TargetVideoPath  { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "Videos");
+        public string TargetVideoPath { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "Videos");
         /// <summary>
         /// 是否启用鼠标键盘模拟器
         /// 启用后，一些普通automation操作不了功能，启用硬件模拟器后，可以操作。
@@ -107,6 +102,13 @@ namespace WxAutoCommon.Configs
         /// 鼠标移动模式
         /// </summary>
         public int MouseMoveMode { get; set; } = 0;
+        /// <summary>
+        /// 进程DPI感知值,如果使用库的应用已经设置DPI感知，此参数无效。
+        /// 0: 不设置,进程对DPI完全不知晓，按逻辑像素绘制，可能会出现点击不准确的情况。
+        /// 1: PROCESS_SYSTEM_DPI_AWARE 默认值,进程只根据主显示器DPI绘制，DPI感知生效。
+        /// 2: PROCESS_PER_MONITOR_DPI_AWARE，进程根据每个显示器DPI绘制,DPI感知生效。
+        /// </summary>
+        public int ProcessDpiAwareness { get; set; } = 1;
     }
 
     public static class Language

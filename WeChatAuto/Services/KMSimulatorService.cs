@@ -17,14 +17,14 @@ namespace WeChatAuto.Services
         private static IntPtr _deviceData = IntPtr.Zero;
         public static IntPtr DeviceData => _deviceData;
         #region 设备初始化
-        public static void Init(int deviceVID, int devicePID, string verifyUserData)
+        public static void Init(int deviceVID, int devicePID, string verifyUserData,int outputStringType=4)
         {
             CopyDllToCurrentDirectory();
             Thread.Sleep(600);
             var deviceId = SearchDevice(deviceVID, devicePID);
             OpenDevice(deviceId);
             VerifyUserData(verifyUserData);
-            SetOutputMode();
+            SetOutputMode(outputStringType);
             SetMouseMode(WeAutomation.Config.MouseMoveMode);
         }
         private static void VerifyUserData(string verifyUserData)
@@ -95,9 +95,9 @@ namespace WeChatAuto.Services
         /// <summary>
         /// 设置鼠标移动模式
         /// </summary>
-        private static void SetOutputMode()
+        private static void SetOutputMode(int outputStringType=4)
         {
-            Skm.HKMSetMode(_deviceData, 4, 4);
+            Skm.HKMSetMode(_deviceData, 4, (uint)outputStringType);
         }
 
         /// <summary>

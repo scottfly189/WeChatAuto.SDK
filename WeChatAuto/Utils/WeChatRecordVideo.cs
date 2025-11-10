@@ -12,7 +12,7 @@ namespace WeChatAuto.Utils
     {
         public string TargetPath { get; set; }
         public VideoRecorder _VideoRecorder { get; set; } = null;
-
+        private bool isRunning = false;
 
         public WeChatRecordVideo(string path)
         {
@@ -27,6 +27,11 @@ namespace WeChatAuto.Utils
         /// <returns>视频文件路径</returns>
         public async Task<string> RecordVideo(string fileName = "")
         {
+            if (isRunning)
+            {
+                return null;
+            }
+            isRunning = true;
             var _fileName = fileName;
             var rootPath = Path.Combine(WeAutomation.Config.TargetVideoPath);
             if (!Directory.Exists(rootPath))
@@ -40,8 +45,10 @@ namespace WeChatAuto.Utils
             }
             var filePath = Path.Combine(rootPath, _fileName);
             Trace.WriteLine($"开始录制视频,保存文件: {filePath}");
+            Trace.WriteLine($"如果是首次录制视频，会自动下载ffmpeg,所需要时间比较长，请耐心等待...");
             var ffmpegPath = await VideoRecorder.DownloadFFMpeg(Path.Combine(Directory.GetCurrentDirectory(), "ffmpeg"));
             Trace.WriteLine($"ffmpeg路径: {ffmpegPath}");
+            Trace.WriteLine($"ffmpeg下载或者校验完成,开始录制视频...");
             var video = new VideoRecorder(new VideoRecorderSettings { VideoQuality = 26, ffmpegPath = ffmpegPath, TargetVideoPath = filePath }, r =>
                 {
                     var img = Capture.Screen();
