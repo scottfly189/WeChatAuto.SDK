@@ -229,7 +229,7 @@ namespace WeChatAuto.Services
         }
         /// <summary>
         /// 左键单击
-        /// 此方法dpi感知
+        /// 此方法dpi感知,并且加上元素范围内的随机偏移
         /// </summary>
         /// <param name="window">窗口</param>
         /// <param name="element">元素</param>
@@ -283,10 +283,24 @@ namespace WeChatAuto.Services
             var random = new Random();
             var offsetX = random.Next(1, width + 1);
             var offsetY = random.Next(1, height + 1);
-            point = new Point(element.BoundingRectangle.Left + WeAutomation.Config.OffsetOfClick + offsetX, element.BoundingRectangle.Top + WeAutomation.Config.OffsetOfClick + offsetY);
-
-            LeftClick(point);
+            var x = element.BoundingRectangle.Left + WeAutomation.Config.OffsetOfClick + offsetX;
+            var y = element.BoundingRectangle.Top + WeAutomation.Config.OffsetOfClick + offsetY;
+            if (x <= element.BoundingRectangle.Left || x >= element.BoundingRectangle.Right || y <= element.BoundingRectangle.Top || y >= element.BoundingRectangle.Bottom)
+            {
+                LeftClick(point);
+            }
+            else
+            {
+                point = new Point(x, y);
+                LeftClick(point);
+            }
         }
+        /// <summary>
+        /// 左键双击
+        /// 此方法dpi感知,并且加上元素范围内的随机偏移
+        /// </summary>
+        /// <param name="window">窗口</param>
+        /// <param name="element">元素</param>
         public static void LeftDblClickWithDpiAware(Window window, AutomationElement element)
         {
             #region 版本一： 加了DPI感知，但是在进程中把dpi设置为System_DPI_Aware，导致点击不准确，但保留此版本，以备不时之需
@@ -319,9 +333,17 @@ namespace WeChatAuto.Services
             var random = new Random();
             var offsetX = random.Next(1, width + 1);
             var offsetY = random.Next(1, height + 1);
-            point = new Point(element.BoundingRectangle.Left + WeAutomation.Config.OffsetOfClick + offsetX, element.BoundingRectangle.Top + WeAutomation.Config.OffsetOfClick + offsetY);
-
-            LeftDoubleClick(point);
+            var x = element.BoundingRectangle.Left + WeAutomation.Config.OffsetOfClick + offsetX;
+            var y = element.BoundingRectangle.Top + WeAutomation.Config.OffsetOfClick + offsetY;
+            if (x <= element.BoundingRectangle.Left || x >= element.BoundingRectangle.Right || y <= element.BoundingRectangle.Top || y >= element.BoundingRectangle.Bottom)
+            {
+                LeftDoubleClick(point);
+            }
+            else
+            {
+                point = new Point(x, y);
+                LeftDoubleClick(point);
+            }
         }
         /// <summary>
         /// 左键单击

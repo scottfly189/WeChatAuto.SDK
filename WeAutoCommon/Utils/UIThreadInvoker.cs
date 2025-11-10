@@ -47,6 +47,11 @@ namespace WxAutoCommon.Utils
                         {
                             action(_automation).GetAwaiter().GetResult();
                         }
+                        catch (OperationCanceledException)
+                        {
+                            Trace.WriteLine("UIThreadInvoker thread normally cancelled");
+                            break;
+                        }
                         catch (Exception ex)
                         {
                             // 记录异常，但不中断整个线程

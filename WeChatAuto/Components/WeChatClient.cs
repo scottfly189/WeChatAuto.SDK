@@ -436,8 +436,7 @@ namespace WeChatAuto.Components
         _CheckAppRunningUIThreadInvoker.Run(automation =>
         {
           _CheckAppRunningCancellationTokenSource?.Token.ThrowIfCancellationRequested();
-          var desktop = automation.GetDesktop();
-          var wxWindowResult = _GetWindowInfo(desktop);
+          var wxWindowResult = _GetWindowInfo(automation);
           if (wxWindowResult.Success && wxWindowResult.Result != null)
           {
             _RetryCount = 0;
@@ -452,10 +451,10 @@ namespace WeChatAuto.Components
             else if (window.ClassName == "WeChatLoginWndForPC")
             {
               _CheckRunningFlag = false;
+              this._AppRunning = false;
               if (_RequireRetryLogin)
                 return;
               _RequireRetryLogin = true;
-              this._AppRunning = false;
               _logger.Error($"微信客户端是[{NickName}]运行检查监听结果：被风控退出，正在尝试自动登录");
               RetryLogin(automation, window);
             }
@@ -497,8 +496,9 @@ namespace WeChatAuto.Components
         _logger.Error($"微信客户端是{NickName}运行检查监听失败:{ex.Message}", ex);
       }
     }
-    private RetryResult<Window> _GetWindowInfo(AutomationElement desktop)
+    private RetryResult<Window> _GetWindowInfo(UIA3Automation automation)
     {
+      var desktop = automation.GetDesktop();
       var result = Retry.WhileNull<Window>(() =>
       {
         var window = desktop.FindFirstChild(cf => cf.ByClassName("WeChatMainWndForPC").And(cf.ByProcessId(WxMainWindow.ProcessId)))?.AsWindow();
