@@ -18,18 +18,27 @@ namespace WxAutoCommon.Utils
         private readonly TaskCompletionSource<bool> _started = new TaskCompletionSource<bool>();
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
         private UIA3Automation _automation;
+        private readonly string _ThreadName;
+        public string ThreadName => _ThreadName;
         private volatile bool _disposed = false;
 
         public UIA3Automation Automation => _automation;
 
-        public UIThreadInvoker()
+        public UIThreadInvoker(string threadName)
         {
+            _ThreadName = threadName;
             _uiThread = new Thread(ThreadMain);
+            _uiThread.Name = _ThreadName;
             _uiThread.SetApartmentState(ApartmentState.STA);
             _uiThread.Priority = ThreadPriority.Normal;
             _uiThread.IsBackground = false;
             _uiThread.Start();
             _started.Task.GetAwaiter().GetResult();
+        }
+
+        public override string ToString()
+        {
+            return $"UIThreadInvoker: {_ThreadName}";
         }
 
         private void ThreadMain()

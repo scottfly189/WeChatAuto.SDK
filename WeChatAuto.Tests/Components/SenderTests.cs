@@ -25,7 +25,7 @@ public class SenderTests
         var framework = _globalFixture.clientFactory;
         var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
-        var sender = window.ChatContent.ChatBody.Sender;
+        var sender = window.MainChatContent.ChatBody.Sender;
         sender.SendMessage("你好，世界！");
         Assert.True(true);
     }

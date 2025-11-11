@@ -25,7 +25,7 @@ public class BubbleListTests
         var framework = _globalFixture.clientFactory;
         var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
-        var bubbleList = window.ChatContent.ChatBody.BubbleList;
+        var bubbleList = window.MainChatContent.ChatBody.BubbleList;
         var bubbles = bubbleList.Bubbles;
         foreach (var bubble in bubbles)
         {
@@ -97,10 +97,10 @@ public class BubbleListTests
         var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
         await window.SendWho("AI.Net", "hello world!");
-        _output.WriteLine(window.ChatContent.ChatBody.BubbleList.GetChatType().ToString());
-        Assert.Equal(ChatType.好友, window.ChatContent.ChatBody.BubbleList.GetChatType());
+        _output.WriteLine(window.MainChatContent.ChatBody.BubbleList.GetChatType().ToString());
+        Assert.Equal(ChatType.好友, window.MainChatContent.ChatBody.BubbleList.GetChatType());
         await window.SendWho(".NET-AI实时快讯3群", "hello world!");
-        _output.WriteLine(window.ChatContent.ChatBody.BubbleList.GetChatType().ToString());
-        Assert.Equal(ChatType.群聊, window.ChatContent.ChatBody.BubbleList.GetChatType());
+        _output.WriteLine(window.MainChatContent.ChatBody.BubbleList.GetChatType().ToString());
+        Assert.Equal(ChatType.群聊, window.MainChatContent.ChatBody.BubbleList.GetChatType());
     }
 }

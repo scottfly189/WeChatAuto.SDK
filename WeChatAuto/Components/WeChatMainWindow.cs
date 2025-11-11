@@ -43,14 +43,14 @@ namespace WeChatAuto.Components
         private Search _Search;  // 搜索
         private ConversationList _Conversations;  // 会话列表
         private AddressBookList _AddressBook;  // 通讯录
-        private ChatContent _WxChatContent;  // 聊天窗口
+        private ChatContent _WxMainChatContent;  // 主聊天窗口,其实每个SubWin都有一个ChatContent
         private IServiceProvider _serviceProvider;
         public ToolBar ToolBar => _ToolBar;  // 工具栏
         public Navigation Navigation => _Navigation;  // 导航栏
         public ConversationList Conversations => _Conversations;  // 会话列表
         public AddressBookList AddressBook => _AddressBook;  // 通讯录
         public Search Search => _Search;  // 搜索
-        public ChatContent ChatContent => _WxChatContent;  // 聊天窗口
+        public ChatContent MainChatContent => _WxMainChatContent;  // 主聊天窗口
         public SubWinList SubWinList => _SubWinList;  // 子窗口列表
         public int ProcessId { get; private set; }
         private string _nickName;
@@ -64,7 +64,7 @@ namespace WeChatAuto.Components
         private CancellationTokenSource _newUserListenerCancellationTokenSource = new CancellationTokenSource();
         private List<(Action<List<string>> callBack, FriendListenerOptions options)> _newUserActionList = new List<(Action<List<string>> callBack, FriendListenerOptions options)>();
         private TaskCompletionSource<bool> _newUserListenerStarted = new TaskCompletionSource<bool>();
-        public Window SelfWindow { get => _MainWindow; set => _MainWindow = value; }
+        public Window SelfWindow { get => _MainWindow; set => _MainWindow = value; }  //实现IWeChatWindow接口
         public WeChatClientFactory weChatClientFactory => _WeChatClientFactory;
         private Moments _moments;
         public Moments Moments { get => _moments; set => _moments = value; }
@@ -78,7 +78,7 @@ namespace WeChatAuto.Components
         /// <param name="notifyIcon">微信通知图标<see cref="WeChatNotifyIcon"/></param>
         public WeChatMainWindow(WeChatClientFactory weChatClientFactory, IServiceProvider serviceProvider, int topWindowProcessId)
         {
-            _uiMainThreadInvoker = new UIThreadInvoker();
+            _uiMainThreadInvoker = new UIThreadInvoker($"WeChatMainWindow_processId_{topWindowProcessId}");
             _serviceProvider = serviceProvider;
             _WeChatClientFactory = weChatClientFactory;
             ProcessId = topWindowProcessId;
@@ -116,7 +116,7 @@ namespace WeChatAuto.Components
                 try
                 {
                     _newUserListenerStarted.SetResult(true);
-                    while (!_newUserListenerCancellationTokenSource.IsCancellationRequested)
+                    while (!_newUserListenerCancellationTokenSource.Token.IsCancellationRequested)
                     {
                         if (_newUserActionList.Count > 0)
                         {
@@ -143,6 +143,7 @@ namespace WeChatAuto.Components
         }
         private async Task _FetchNewUserNoticeAction(CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             var resultFlag = _uiMainThreadInvoker.Run(automation =>
             {
                 try
@@ -217,7 +218,7 @@ namespace WeChatAuto.Components
             _uiMainThreadInvoker.Run(automation => automation.UnregisterAllEvents()).GetAwaiter().GetResult();
         }
         /// <summary>
-        /// 初始化微信窗口的各种组件,这些组件在微信窗口中是静态的，不会随着微信窗口的变化而变化
+        /// 初始化微信窗口的各种组件
         /// </summary>
         private void _InitStaticWxWindowComponents()
         {
@@ -229,7 +230,7 @@ namespace WeChatAuto.Components
             _AddressBook = new AddressBookList(_MainWindow, this, _uiMainThreadInvoker, _serviceProvider);  // 通讯录
             _moments = new Moments(_MainWindow, this, _uiMainThreadInvoker, _serviceProvider);
             _SubWinList = new SubWinList(_MainWindow, this, _uiMainThreadInvoker, _serviceProvider);
-            _WxChatContent = new ChatContent(_MainWindow, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane", this, _uiMainThreadInvoker, this, _serviceProvider);
+            _WxMainChatContent = new ChatContent(_MainWindow, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane", this, _uiMainThreadInvoker, this, _serviceProvider);
         }
         /// <summary>
         /// 初始化订阅
@@ -451,7 +452,7 @@ namespace WeChatAuto.Components
             {
                 message = $"@{atUser} {message}";
             }
-            this.ChatContent.ChatBody.Sender.SendMessage(message);
+            this.MainChatContent.ChatBody.Sender.SendMessage(message);
         }
         /// <summary>
         /// 获取当前聊天窗口的标题
@@ -459,7 +460,7 @@ namespace WeChatAuto.Components
         /// <returns>当前聊天窗口的标题</returns>
         public string GetCurrentChatTitle()
         {
-            return this.ChatContent.ChatHeader.Title;
+            return this.MainChatContent.ChatHeader.Title;
         }
         //打开的子窗口中有没有此用户
         private bool _SubWindowIsOpen(string who, string message, Action<SubWin> action)
@@ -507,7 +508,7 @@ namespace WeChatAuto.Components
             }
             if (currentChatTitle == who)
             {
-                this.ChatContent.ChatBody.Sender.SendFile(files);
+                this.MainChatContent.ChatBody.Sender.SendFile(files);
                 return true;
             }
             return false;
@@ -568,7 +569,7 @@ namespace WeChatAuto.Components
                 {
                     this.Conversations.ClickConversation(who);
                     Wait.UntilInputIsProcessed();
-                    this.ChatContent.ChatBody.Sender.SendFile(files);
+                    this.MainChatContent.ChatBody.Sender.SendFile(files);
                     return true;
                 }
             }
@@ -637,7 +638,7 @@ namespace WeChatAuto.Components
                 {
                     this.Conversations.ClickConversation(who);
                     Wait.UntilInputIsProcessed();
-                    this.ChatContent.ChatBody.Sender.SendFile(files);
+                    this.MainChatContent.ChatBody.Sender.SendFile(files);
                     return true;
                 }
             }
@@ -1761,9 +1762,8 @@ namespace WeChatAuto.Components
                     Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
                     Thread.Sleep(100);
                     Keyboard.Type(friendName);
-                    edit.Click();
+                    // edit.Click();
                     Thread.Sleep(300);
-                    Wait.UntilInputIsProcessed();
                     Keyboard.Press(VirtualKeyShort.RETURN);
                     Thread.Sleep(1000);
 

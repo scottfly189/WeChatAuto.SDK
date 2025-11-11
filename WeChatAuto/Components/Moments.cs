@@ -46,7 +46,7 @@ namespace WeChatAuto.Components
             _MainWindow = window;
             _WxMainWindow = wxWindow;
             _MainUIThreadInvoker = mainUIThreadInvoker;
-            _SelfUiThreadInvoker = new UIThreadInvoker();
+            _SelfUiThreadInvoker = new UIThreadInvoker("Moments");
             _ServiceProvider = serviceProvider;
         }
         /// <summary>

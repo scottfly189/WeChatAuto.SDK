@@ -110,7 +110,7 @@ namespace WeChatAuto.Components
             }
             _wxClientList.Clear();
             _logger.Trace("开始重新获取微信窗口");
-            UIThreadInvoker _uiTempThreadInvoker = new UIThreadInvoker();
+            UIThreadInvoker _uiTempThreadInvoker = new UIThreadInvoker("RefreshWxWindows");
             try
             {
                 var taskBarRoot = _uiTempThreadInvoker.Run(automation =>

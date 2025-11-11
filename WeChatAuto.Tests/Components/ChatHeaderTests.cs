@@ -24,7 +24,7 @@ public class ChatHeaderTests
         var framework = _globalFixture.clientFactory;
         var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
-        var chatHeader = window.ChatContent.ChatHeader;
+        var chatHeader = window.MainChatContent.ChatHeader;
         _output.WriteLine(chatHeader.Title);
         Assert.True(chatHeader.Title != null);
     }

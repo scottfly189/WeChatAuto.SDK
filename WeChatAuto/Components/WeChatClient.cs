@@ -54,7 +54,7 @@ namespace WeChatAuto.Components
       WxNotifyIcon = wxNotifyIcon;
       WxMainWindow = wxWindow;
       _serviceProvider = serviceProvider;
-      _CheckAppRunningUIThreadInvoker = new UIThreadInvoker();
+      _CheckAppRunningUIThreadInvoker = new UIThreadInvoker("CheckAppRunning");
       if (enableCheckAppRunning)
       {
         addAppRunningCheckListener();
