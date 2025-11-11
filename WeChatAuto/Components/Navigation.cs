@@ -19,7 +19,7 @@ namespace WeChatAuto.Components
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly AutoLogger<Navigation> _logger;
-        private UIThreadInvoker _uiThreadInvoker;
+        private UIThreadInvoker _uiMainThreadInvoker;
         private IWeChatWindow _WxWindow;
         public WxLocationCaches _wxLocationCaches = new WxLocationCaches();
         private Window _Window;
@@ -33,7 +33,7 @@ namespace WeChatAuto.Components
         public Navigation(Window window, IWeChatWindow wxWindow, UIThreadInvoker uiThreadInvoker, IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<AutoLogger<Navigation>>();
-            _uiThreadInvoker = uiThreadInvoker;
+            _uiMainThreadInvoker = uiThreadInvoker;
             _Window = window;
             _WxWindow = wxWindow;
             _serviceProvider = serviceProvider;
@@ -41,7 +41,7 @@ namespace WeChatAuto.Components
         }
         private void _InitNavigation()
         {
-            _uiThreadInvoker.Run(automation =>
+            _uiMainThreadInvoker.Run(automation =>
             {
                 var navigationRoot = _Window.FindFirstByXPath($"/Pane/Pane/ToolBar[@Name='{WeChatConstant.WECHAT_NAVIGATION_NAVIGATION}'][@IsEnabled='true']");
                 _wxLocationCaches.AddXPathLocation(NavigationType.聊天.ToString(),
@@ -99,7 +99,7 @@ namespace WeChatAuto.Components
         /// <param name="navigationType">导航栏类型</param>
         public void SwitchNavigation(NavigationType navigationType)
         {
-            _uiThreadInvoker.Run(automation =>
+            _uiMainThreadInvoker.Run(automation =>
             {
                 var name = navigationType.ToString();
                 var button = _wxLocationCaches.GetElement(name)?.AsButton();
@@ -123,7 +123,7 @@ namespace WeChatAuto.Components
         /// <param name="navigationType">导航栏类型</param>
         public void CloseNavigation(NavigationType navigationType)
         {
-            _uiThreadInvoker.Run(automation =>
+            _uiMainThreadInvoker.Run(automation =>
             {
                 RetryResult<AutomationElement> window = null;
                 switch (navigationType)

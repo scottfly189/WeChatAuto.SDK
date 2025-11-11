@@ -29,7 +29,7 @@ namespace WeChatAuto.Components
         private string _Title;
         private AutomationElement _ChatBodyRoot;
         private WeChatMainWindow _MainWxWindow;
-        private UIThreadInvoker _uiThreadInvoker;
+        private UIThreadInvoker _uiMainThreadInvoker;
         public MessageBubbleList BubbleList => GetBubbleList();
         public Sender Sender => GetSender();
         private System.Threading.Timer _pollingTimer;
@@ -44,7 +44,7 @@ namespace WeChatAuto.Components
             _ChatBodyRoot = chatBodyRoot;
             _WxWindow = wxWindow;
             _Title = title;
-            _uiThreadInvoker = uiThreadInvoker;
+            _uiMainThreadInvoker = uiThreadInvoker;
             _MainWxWindow = mainWxWindow;
             _serviceProvider = serviceProvider;
         }
@@ -56,7 +56,7 @@ namespace WeChatAuto.Components
         public void AddListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider> callBack)
         {
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
-            var bubbleListBox = _uiThreadInvoker.Run(automation =>
+            var bubbleListBox = _uiMainThreadInvoker.Run(automation =>
             {
                 var listBox = _ChatBodyRoot.FindFirstByXPath(xPath);
                 return listBox;
@@ -187,7 +187,7 @@ namespace WeChatAuto.Components
 
         private bool _subWinIsOpen()
         {
-            var subWinIsOpen = _uiThreadInvoker.Run(automation =>
+            var subWinIsOpen = _uiMainThreadInvoker.Run(automation =>
             {
                 try
                 {
@@ -238,9 +238,9 @@ namespace WeChatAuto.Components
         public MessageBubbleList GetBubbleList()
         {
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
-            var bubbleListRoot = _uiThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).GetAwaiter().GetResult();
+            var bubbleListRoot = _uiMainThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).GetAwaiter().GetResult();
             //DrawHightlightHelper.DrawHightlight(bubbleListRoot, _uiThreadInvoker);
-            MessageBubbleList bubbleList = new MessageBubbleList(_Window, bubbleListRoot, _WxWindow, _Title, _uiThreadInvoker);
+            MessageBubbleList bubbleList = new MessageBubbleList(_Window, bubbleListRoot, _WxWindow, _Title, _uiMainThreadInvoker);
             return bubbleList;
         }
         /// <summary>
@@ -251,7 +251,7 @@ namespace WeChatAuto.Components
         public List<string> GetAllBubbleTitleList()
         {
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
-            var rList = _uiThreadInvoker.Run(automation =>
+            var rList = _uiMainThreadInvoker.Run(automation =>
             {
                 var listBox = _ChatBodyRoot.FindFirstByXPath(xPath);
                 var list = new List<string>();
@@ -292,9 +292,9 @@ namespace WeChatAuto.Components
         public Sender GetSender()
         {
             var xPath = "/Pane[2]";
-            var senderRoot = _uiThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).GetAwaiter().GetResult();
-            DrawHightlightHelper.DrawHightlight(senderRoot, _uiThreadInvoker);
-            var sender = new Sender(_Window, senderRoot, _WxWindow, _Title, _uiThreadInvoker,_serviceProvider);
+            var senderRoot = _uiMainThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).GetAwaiter().GetResult();
+            DrawHightlightHelper.DrawHightlight(senderRoot, _uiMainThreadInvoker);
+            var sender = new Sender(_Window, senderRoot, _WxWindow, _Title, _uiMainThreadInvoker,_serviceProvider);
             return sender;
         }
 

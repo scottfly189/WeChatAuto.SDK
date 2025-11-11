@@ -32,7 +32,7 @@ namespace WeChatAuto.Components
         private WeChatMainWindow _MainWxWindow;    //主窗口对象
         private Window _SelfWindow;        //子窗口FlaUI的window
         private int _ProcessId;
-        private UIThreadInvoker _uiThreadInvoker;
+        private UIThreadInvoker _uiMainThreadInvoker;
         private SubWinList _SubWinList;
         private ChatBody _ChatBodyCache;
         public Window SelfWindow { get => _SelfWindow; set => _SelfWindow = value; }
@@ -56,7 +56,7 @@ namespace WeChatAuto.Components
         {
             _logger = serviceProvider.GetRequiredService<AutoLogger<SubWin>>();
             _serviceProvider = serviceProvider;
-            _uiThreadInvoker = uiThreadInvoker;
+            _uiMainThreadInvoker = uiThreadInvoker;
             _SubWinList = subWinList;
             NickName = title;
             _SelfWindow = window;
@@ -155,7 +155,7 @@ namespace WeChatAuto.Components
         private ChatGroupOptions _InitChatGroupOptions()
         {
             ChatGroupOptions options = new ChatGroupOptions();
-            _uiThreadInvoker.Run(automation =>
+            _uiMainThreadInvoker.Run(automation =>
             {
                 var rootXPath = "/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane";
                 var root = _SelfWindow.FindFirstByXPath(rootXPath);   //根节点
@@ -283,7 +283,7 @@ namespace WeChatAuto.Components
         //更新群聊选项
         private void _UpdateChatGroupOptions(ChatGroupOptions options)
         {
-            _uiThreadInvoker.Run(automation =>
+            _uiMainThreadInvoker.Run(automation =>
             {
                 if (options.GroupNameChanged)
                 {
@@ -448,7 +448,7 @@ namespace WeChatAuto.Components
             ChatResponse result = new ChatResponse();
             try
             {
-                _uiThreadInvoker.Run(automation =>
+                _uiMainThreadInvoker.Run(automation =>
                 {
                     if (!_IsSidebarOpen(false))
                     {
@@ -602,7 +602,7 @@ namespace WeChatAuto.Components
         private void _FocuseSearchText()
         {
             var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='搜索群成员']";
-            _uiThreadInvoker.Run(automation =>
+            _uiMainThreadInvoker.Run(automation =>
             {
                 var edit = _SelfWindow.FindFirstByXPath(xPath)?.AsTextBox();
                 if (edit != null)
@@ -631,7 +631,7 @@ namespace WeChatAuto.Components
             };
             if (autoThread)
             {
-                _uiThreadInvoker.Run(automation => action()).GetAwaiter().GetResult();
+                _uiMainThreadInvoker.Run(automation => action()).GetAwaiter().GetResult();
             }
             else
             {
@@ -654,7 +654,7 @@ namespace WeChatAuto.Components
             };
             if (autoThread)
             {
-                bool result = _uiThreadInvoker.Run(automation => func()).GetAwaiter().GetResult();
+                bool result = _uiMainThreadInvoker.Run(automation => func()).GetAwaiter().GetResult();
                 return result;
             }
             else
@@ -695,7 +695,7 @@ namespace WeChatAuto.Components
             };
             if (autoThread)
             {
-                _uiThreadInvoker.Run(automation => action()).GetAwaiter().GetResult();
+                _uiMainThreadInvoker.Run(automation => action()).GetAwaiter().GetResult();
             }
             else
             {
@@ -715,7 +715,7 @@ namespace WeChatAuto.Components
             }
             _FocuseSearchTextExt();
             Thread.Sleep(500);
-            List<string> list = _uiThreadInvoker.Run(automation =>
+            List<string> list = _uiMainThreadInvoker.Run(automation =>
             {
                 var memberList = new List<string>();
                 var xPath = "/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane/List[@Name='聊天成员']";
@@ -774,7 +774,7 @@ namespace WeChatAuto.Components
                 _OpenSidebar();
             }
             _FocuseSearchText();
-            var element = _uiThreadInvoker.Run(automation =>
+            var element = _uiMainThreadInvoker.Run(automation =>
             {
                 var edit = _SelfWindow.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='搜索群成员']")?.AsTextBox();
                 if (edit != null)
@@ -835,7 +835,7 @@ namespace WeChatAuto.Components
             }
             _FocuseSearchTextExt();
             Thread.Sleep(500);
-            string result = _uiThreadInvoker.Run(automation =>
+            string result = _uiMainThreadInvoker.Run(automation =>
             {
                 var memberList = new List<string>();
                 var xPath = "/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane/List[@Name='聊天成员']";
@@ -861,7 +861,7 @@ namespace WeChatAuto.Components
             }
             _FocuseSearchTextExt();
             Thread.Sleep(300);
-            _uiThreadInvoker.Run(automation =>
+            _uiMainThreadInvoker.Run(automation =>
             {
                 var poupPane = Retry.WhileNull(() => _SelfWindow.FindFirstDescendant(cf => cf.ByClassName("SessionChatRoomDetailWnd")
                 .And(cf.ByControlType(ControlType.Pane))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
@@ -904,7 +904,7 @@ namespace WeChatAuto.Components
                 _OpenSidebar();
             }
             _FocuseSearchTextExt();
-            _uiThreadInvoker.Run(automation =>
+            _uiMainThreadInvoker.Run(automation =>
             {
                 var poupPane = Retry.WhileNull(() => _SelfWindow.FindFirstDescendant(cf => cf.ByClassName("SessionChatRoomDetailWnd")
                     .And(cf.ByControlType(ControlType.Pane))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
@@ -972,7 +972,7 @@ namespace WeChatAuto.Components
                 _OpenSidebar();
             }
             _FocuseSearchTextExt();
-            _uiThreadInvoker.Run(automation =>
+            _uiMainThreadInvoker.Run(automation =>
             {
                 var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/List[@Name='聊天成员']";
                 var listBox = _SelfWindow.FindFirstByXPath(xPath)?.AsListBox();
@@ -1098,7 +1098,7 @@ namespace WeChatAuto.Components
                 _logger.Warn("警告：实际待邀请的人数为零，请检查你输入的待邀请人群是否都在群聊中。");
                 return;
             }
-            _uiThreadInvoker.Run(automation =>
+            _uiMainThreadInvoker.Run(automation =>
             {
                 var rootPane = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd")));
                 var addListItem = rootPane.FindFirstByXPath("//ListItem[@Name='添加']")?.AsListBoxItem();
@@ -1210,7 +1210,7 @@ namespace WeChatAuto.Components
             {
                 revList.AddRange(memberName.AsT1);
             }
-            _uiThreadInvoker.Run(automation =>
+            _uiMainThreadInvoker.Run(automation =>
             {
                 var pane = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd")));
                 var revListItem = pane.FindFirstByXPath("//ListItem[@Name='移出']")?.AsListBoxItem();
@@ -1346,7 +1346,7 @@ namespace WeChatAuto.Components
         }
         private void _ConfirmInviteChatGroupMember(string helloText = "")
         {
-            _uiThreadInvoker.Run(automation =>
+            _uiMainThreadInvoker.Run(automation =>
             {
                 var confirmPane = Retry.WhileNull(() => _SelfWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("WeUIDialog"))),
                  TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
@@ -1439,7 +1439,7 @@ namespace WeChatAuto.Components
                 _logger.Warn("警告：实际待添加的人数为零，请检查你输入的待添加人群是否都在通讯录中。");
                 return;
             }
-            _uiThreadInvoker.Run(automation =>
+            _uiMainThreadInvoker.Run(automation =>
             {
                 foreach (var who in willAddList)
                 {
@@ -1651,7 +1651,7 @@ namespace WeChatAuto.Components
         /// <returns>待添加列表</returns>
         private List<string> _GetWillAddListFromContacts(List<string> addList)
         {
-            var list = _uiThreadInvoker.Run(automation =>
+            var list = _uiMainThreadInvoker.Run(automation =>
             {
                 var paneRoot = _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("SessionChatRoomDetailWnd")));
                 _ExpndListBox(paneRoot);

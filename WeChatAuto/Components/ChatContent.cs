@@ -20,7 +20,7 @@ namespace WeChatAuto.Components
         private ChatContentType _ChatContentType;
         private string _XPath;
         private AutomationElement _ChatContentRoot;
-        private UIThreadInvoker _uiThreadInvoker;
+        private UIThreadInvoker _uiMainThreadInvoker;
         private readonly IServiceProvider _serviceProvider;
         private WeChatMainWindow _MainWxWindow;    //主窗口对象
         private volatile bool _disposed = false;
@@ -40,7 +40,7 @@ namespace WeChatAuto.Components
         public ChatContent(Window window, ChatContentType chatContentType, string xPath, IWeChatWindow wxWindow, UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow, IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<AutoLogger<ChatContent>>();
-            _uiThreadInvoker = uiThreadInvoker;
+            _uiMainThreadInvoker = uiThreadInvoker;
             _Window = window;
             _ChatContentType = chatContentType;
             _XPath = xPath;
@@ -67,8 +67,8 @@ namespace WeChatAuto.Components
             {
                 title = title.Trim();
             }
-            var header = _uiThreadInvoker.Run(automation => ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
-            var buttons = _uiThreadInvoker.Run(automation => header.FindAllDescendants(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
+            var header = _uiMainThreadInvoker.Run(automation => ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
+            var buttons = _uiMainThreadInvoker.Run(automation => header.FindAllDescendants(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             Button chatInfoButton = null;
             if (buttons.Count() > 0)
             {
@@ -86,9 +86,9 @@ namespace WeChatAuto.Components
             {
                 return "";
             }
-            var header = _uiThreadInvoker.Run(automation => ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
-            DrawHightlightHelper.DrawHightlight(header, _uiThreadInvoker);
-            var titles = _uiThreadInvoker.Run(automation => header.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
+            var header = _uiMainThreadInvoker.Run(automation => ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
+            DrawHightlightHelper.DrawHightlight(header, _uiMainThreadInvoker);
+            var titles = _uiMainThreadInvoker.Run(automation => header.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             if (titles == null)
             {
                 return "";
@@ -107,9 +107,9 @@ namespace WeChatAuto.Components
                 return null;
             }
             var title = GetFullTitle();
-            var chatBodyRoot = _uiThreadInvoker.Run(automation => ChatContentRoot.FindFirstByXPath("/Pane[2]")).GetAwaiter().GetResult();
-            DrawHightlightHelper.DrawHightlight(chatBodyRoot, _uiThreadInvoker);
-            var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow, title, _uiThreadInvoker, this._MainWxWindow, _serviceProvider);
+            var chatBodyRoot = _uiMainThreadInvoker.Run(automation => ChatContentRoot.FindFirstByXPath("/Pane[2]")).GetAwaiter().GetResult();
+            DrawHightlightHelper.DrawHightlight(chatBodyRoot, _uiMainThreadInvoker);
+            var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow, title, _uiMainThreadInvoker, this._MainWxWindow, _serviceProvider);
             return chatBody;
         }
 

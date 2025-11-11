@@ -14,11 +14,11 @@ namespace WeChatAuto.Components
     public class Search
     {
         private readonly IServiceProvider _serviceProvider;
-        private UIThreadInvoker _uiThreadInvoker;
+        private UIThreadInvoker _uiMainThreadInvoker;
         private WeChatMainWindow _WxWindow;
         public Search(WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker, Window window, IServiceProvider serviceProvider)
         {
-            _uiThreadInvoker = uiThreadInvoker;
+            _uiMainThreadInvoker = uiThreadInvoker;
             _WxWindow = wxWindow;
             _serviceProvider = serviceProvider;
         }
@@ -30,15 +30,15 @@ namespace WeChatAuto.Components
         /// <param name="text"></param>
         public void SearchSomething(string text, bool isClear = false)
         {
-            var searchEdit = _uiThreadInvoker.Run(automation=>Retry.WhileNull(() => _WxWindow.Window.FindFirstByXPath($"/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='{WeChatConstant.WECHAT_SESSION_SEARCH}']"),
+            var searchEdit = _uiMainThreadInvoker.Run(automation=>Retry.WhileNull(() => _WxWindow.Window.FindFirstByXPath($"/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='{WeChatConstant.WECHAT_SESSION_SEARCH}']"),
                 timeout: TimeSpan.FromSeconds(10),
                 interval: TimeSpan.FromMilliseconds(200))).GetAwaiter().GetResult();
             if (searchEdit.Success)
             {
-                WaitHelper.WaitTextBoxReady(searchEdit.Result, TimeSpan.FromSeconds(5), _uiThreadInvoker);
+                WaitHelper.WaitTextBoxReady(searchEdit.Result, TimeSpan.FromSeconds(5), _uiMainThreadInvoker);
                 var textBox = searchEdit.Result.AsTextBox();
                 textBox.Focus();
-                DrawHightlightHelper.DrawHightlight(textBox, _uiThreadInvoker);
+                DrawHightlightHelper.DrawHightlight(textBox, _uiMainThreadInvoker);
                 if (isClear)
                 {
                     ClearText();
@@ -54,7 +54,7 @@ namespace WeChatAuto.Components
         /// </summary>
         public void ClearText()
         {
-            _uiThreadInvoker.Run(automation =>
+            _uiMainThreadInvoker.Run(automation =>
             {
                 var clearButton = Retry.WhileNull(() => _WxWindow.Window.FindFirstByXPath($"/Pane/Pane/Pane/Pane/Pane/Pane/Button[@Name='{WeChatConstant.WECHAT_SESSION_CLEAR}']"),
                 timeout: TimeSpan.FromSeconds(5),

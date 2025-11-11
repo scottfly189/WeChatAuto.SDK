@@ -1253,7 +1253,7 @@ namespace WeChatAuto.Components
                 var (success, window) = __CheckSubWinIsOpen(groupName, false);
                 if (success)
                 {
-                    window.Close();
+                    _uiMainThreadInvoker.Run(automation => window.Close()).GetAwaiter().GetResult();
                 }
                 ListBoxItem listItem = null;
                 NavigationSwitch(NavigationType.聊天);
@@ -1908,7 +1908,6 @@ namespace WeChatAuto.Components
             if (modifyDialog.Success)
             {
                 var dialog = modifyDialog.Result.AsWindow();
-                //dialog.DrawHighlightExt();
                 dialog.Focus();
                 var xPath = "//Edit";
                 var edit = dialog.FindFirstByXPath(xPath)?.AsTextBox();

@@ -22,14 +22,14 @@ namespace WeChatAuto.Components
     public class AddressBookList
     {
         private readonly IServiceProvider _serviceProvider;
-        private UIThreadInvoker _uiThreadInvoker;
+        private UIThreadInvoker _uiMainThreadInvoker;
         private Window _Window;
         private AutoLogger<AddressBookList> _logger;
         private WeChatMainWindow _MainWin;
         public AddressBookList(Window window, WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker, IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<AutoLogger<AddressBookList>>();
-            _uiThreadInvoker = uiThreadInvoker;
+            _uiMainThreadInvoker = uiThreadInvoker;
             _Window = window;
             _MainWin = wxWindow;
             _serviceProvider = serviceProvider;
@@ -64,7 +64,7 @@ namespace WeChatAuto.Components
         public bool LocateFriend(string friendName)
         {
             _MainWin.Navigation.SwitchNavigation(WxAutoCommon.Enums.NavigationType.通讯录);
-            bool result = _uiThreadInvoker.Run(automation =>
+            bool result = _uiMainThreadInvoker.Run(automation =>
             {
                 bool existTag = false;
                 var root = _Window.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/List[@Name='联系人'][@IsOffscreen='false']")?.AsListBox();
@@ -202,7 +202,7 @@ namespace WeChatAuto.Components
                 var result = this.LocateFriend(nickName);
                 if (result)
                 {
-                    result = _uiThreadInvoker.Run(automation =>
+                    result = _uiMainThreadInvoker.Run(automation =>
                     {
                         var listBox = _Window.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/List[@Name='联系人'][@IsOffscreen='false']")?.AsListBox();
                         var listItems = listBox.FindFirstChild(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(nickName))).AsListBoxItem();
@@ -288,7 +288,7 @@ namespace WeChatAuto.Components
             _MainWin.Navigation.SwitchNavigation(WxAutoCommon.Enums.NavigationType.通讯录);
             try
             {
-                resultList = _uiThreadInvoker.Run(automation =>
+                resultList = _uiMainThreadInvoker.Run(automation =>
                 {
                     var rList = new List<(string friendName, bool isSuccess, string errMessage)>();
                     var sButton = _Window.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/Button[@Name='添加朋友'][@IsOffscreen='false']")?.AsButton();
@@ -460,7 +460,7 @@ namespace WeChatAuto.Components
         /// <returns></returns>
         private List<string> _PassedAllNewFriendCore(string keyWord = null, string suffix = null, string label = null)
         {
-            List<string> list = _uiThreadInvoker.Run(automation =>
+            List<string> list = _uiMainThreadInvoker.Run(automation =>
             {
                 var root = _Window.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/List[@Name='联系人'][@IsOffscreen='false']")?.AsListBox();
                 var scrollPattern = root.Patterns.Scroll.Pattern;
@@ -576,7 +576,7 @@ namespace WeChatAuto.Components
         /// <param name="keyWord">关键字,如果设置关键字，则返回包含关键字的新好友，如果没有设置，则返回所有新好友</param>
         private List<string> _GetAllWillAddFriendsCore(string keyWord = null)
         {
-            List<string> list = _uiThreadInvoker.Run(automation =>
+            List<string> list = _uiMainThreadInvoker.Run(automation =>
             {
                 var root = _Window.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/List[@Name='联系人'][@IsOffscreen='false']")?.AsListBox();
                 var scrollPattern = root.Patterns.Scroll.Pattern;
@@ -624,7 +624,7 @@ namespace WeChatAuto.Components
         /// <returns>好友列表</returns>
         private List<string> _GetAllFriendsCore()
         {
-            List<string> result = _uiThreadInvoker.Run(automation =>
+            List<string> result = _uiMainThreadInvoker.Run(automation =>
             {
                 var list = new List<string>();
                 var root = _Window.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/List[@Name='联系人'][@IsOffscreen='false']")?.AsListBox();
@@ -663,7 +663,7 @@ namespace WeChatAuto.Components
         /// <returns></returns>
         private List<string> _GetAllOfficialAccountCore()
         {
-            List<string> result = _uiThreadInvoker.Run(automation =>
+            List<string> result = _uiMainThreadInvoker.Run(automation =>
             {
                 var list = new List<string>();
                 var root = _Window.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/List[@Name='联系人'][@IsOffscreen='false']")?.AsListBox();

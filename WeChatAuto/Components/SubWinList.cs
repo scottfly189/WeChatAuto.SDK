@@ -192,10 +192,6 @@ namespace WeChatAuto.Components
             }).GetAwaiter().GetResult();
             if (subWin.Success)
             {
-                // if (_SubWins.ContainsKey(name))
-                // {
-                //     return _SubWins[name];
-                // }
                 var subWinObject = new SubWin(subWin.Result.AsWindow(), _MainWxWindow, _uiThreadInvoker, name, this, _serviceProvider);
                 _SubWins.Add(name, subWinObject);
                 return subWinObject;

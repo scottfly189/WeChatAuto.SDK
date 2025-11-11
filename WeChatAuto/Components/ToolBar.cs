@@ -13,7 +13,7 @@ namespace WeChatAuto.Components
     public class ToolBar
     {
         private readonly IServiceProvider _serviceProvider;
-        private UIThreadInvoker _uiThreadInvoker;
+        private UIThreadInvoker _uiMainThreadInvoker;
         private WeChatNotifyIcon _NotifyIcon;
         private AutomationElement _ToolBar;
         private Window _Window;
@@ -36,14 +36,14 @@ namespace WeChatAuto.Components
         {
             _Window = window;
             _NotifyIcon = notifyIcon;
-            _uiThreadInvoker = uiThreadInvoker;
+            _uiMainThreadInvoker = uiThreadInvoker;
             _serviceProvider = serviceProvider;
             _logger = serviceProvider.GetRequiredService<AutoLogger<ToolBar>>();
         }
 
         private void RefreshToolBar()
         {
-            _uiThreadInvoker.Run(automation =>
+            _uiMainThreadInvoker.Run(automation =>
             {
                 _ToolBar = _Window.FindFirstByXPath("/Pane/Pane/Pane[2]/ToolBar");
                 var childen = _ToolBar.FindAllChildren();
@@ -64,7 +64,7 @@ namespace WeChatAuto.Components
             {
                 if (_TopButton.Name.Equals(WeChatConstant.WECHAT_SYSTEM_TOP_BUTTON))
                 {
-                    _uiThreadInvoker.Run(automation =>
+                    _uiMainThreadInvoker.Run(automation =>
                     {
                         Wait.UntilResponsive(_TopButton);
                         _TopButton.Click();
@@ -87,7 +87,7 @@ namespace WeChatAuto.Components
         public void Min()
         {
             RefreshToolBar();
-            _uiThreadInvoker.Run(automation =>
+            _uiMainThreadInvoker.Run(automation =>
             {
                 Wait.UntilResponsive(_MinButton);
                 _MinButton.Click();
@@ -99,7 +99,7 @@ namespace WeChatAuto.Components
         /// </summary>
         public void MinRestore()
         {
-            _uiThreadInvoker.Run(automation =>
+            _uiMainThreadInvoker.Run(automation =>
             {
                 Wait.UntilResponsive(_MinButton);
                 _MinButton.Click();
@@ -112,7 +112,7 @@ namespace WeChatAuto.Components
         public void Max()
         {
             RefreshToolBar();
-            _uiThreadInvoker.Run(automation =>
+            _uiMainThreadInvoker.Run(automation =>
             {
                 if (_MaxButton.Name.Equals(WeChatConstant.WECHAT_SYSTEM_MAX_BUTTON))
                 {
@@ -128,7 +128,7 @@ namespace WeChatAuto.Components
         public void Restore()
         {
             RefreshToolBar();
-            _uiThreadInvoker.Run(automation =>
+            _uiMainThreadInvoker.Run(automation =>
             {
                 if (_MaxButton.Name.Equals(WeChatConstant.WECHAT_SYSTEM_RESTORE_BUTTON))
                 {

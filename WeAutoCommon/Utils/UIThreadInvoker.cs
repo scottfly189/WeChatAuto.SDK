@@ -63,6 +63,7 @@ namespace WxAutoCommon.Utils
             catch (OperationCanceledException)
             {
                 // 正常取消，不需要记录
+                Trace.WriteLine("UIThreadInvoker thread 正常退出，只做记录，不做处理");
             }
             catch (Exception ex)
             {

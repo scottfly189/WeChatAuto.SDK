@@ -25,7 +25,7 @@ namespace WeChatAuto.Components
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly AutoLogger<ConversationList> _logger;
-        private UIThreadInvoker _uiThreadInvoker;
+        private UIThreadInvoker _uiThreadInvoker; 
         private Window _Window;
         private WeChatMainWindow _WxWindow;
         private List<string> _TitleTypeList = new List<string> { WeChatConstant.WECHAT_CONVERSATION_WX_TEAM,
