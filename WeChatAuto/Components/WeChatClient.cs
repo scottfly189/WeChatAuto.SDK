@@ -444,9 +444,9 @@ namespace WeChatAuto.Components
             if (window.ClassName == "WeChatMainWndForPC")
             {
               this._AppRunning = true;
-              _logger.Trace($"微信客户端是[{NickName}]运行检查监听成功，没有被风控退出");
               _CheckRunningFlag = false;
               _RequireRetryLogin = false;
+              _logger.Trace($"微信客户端是[{NickName}]运行检查监听成功，没有被风控退出");
             }
             else if (window.ClassName == "WeChatLoginWndForPC")
             {
@@ -519,26 +519,25 @@ namespace WeChatAuto.Components
     /// </summary>
     private void RetryLogin(UIA3Automation automation, Window window)
     {
-      var confirmButtonResult = Retry.WhileNull(() => window.FindFirstByXPath("//Button[@Name='确认']")?.AsButton(),
-        timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
-      if (confirmButtonResult.Success)
-      {
-        var button = confirmButtonResult.Result;
-        button.DrawHighlightExt();
-        button.WaitUntilClickable();
-        button.Focus();
-        button.ClickEnhance(window);
-        Thread.Sleep(300);
-        _logger.Trace("已自动点击确认按钮，下一步自动点击登录按钮");
-      }
+      _ClickConfirmButton(window);
+      _ClickRetryButton(automation, window);
+    }
+  
+    /// <summary>
+    /// 点击登录按钮
+    /// </summary>
+    /// <param name="automation">自动化</param>
+    /// <param name="window">窗口</param>
+    private void _ClickRetryButton(UIA3Automation automation, Window window)
+    {
       var loginButtonResult = Retry.WhileNull(() =>
-        {
-          var cf = automation.ConditionFactory;
-          var cond = cf.ByControlType(ControlType.Button)
-            .And(cf.ByName("登录"));
-          var loginButton = window.FindFirst(TreeScope.Descendants, cond)?.AsButton();
-          return loginButton;
-        },
+      {
+        var cf = automation.ConditionFactory;
+        var cond = cf.ByControlType(ControlType.Button)
+                      .And(cf.ByName("登录"));
+        var loginButton = window.FindFirst(TreeScope.Descendants, cond)?.AsButton();
+        return loginButton;
+      },
         timeout: TimeSpan.FromSeconds(3),
         interval: TimeSpan.FromMilliseconds(200));
       if (loginButtonResult.Success)
@@ -559,6 +558,26 @@ namespace WeChatAuto.Components
       else
       {
         _logger.Info("没有找到登录按钮，可能用户正在人工通过微信验证");
+      }
+    }
+
+    /// <summary>
+    /// 点击确认按钮
+    /// </summary>
+    /// <param name="window">窗口</param>
+    private void _ClickConfirmButton(Window window)
+    {
+      var confirmButtonResult = Retry.WhileNull(() => window.FindFirstByXPath("//Button[@Name='确认']")?.AsButton(),
+        timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
+      if (confirmButtonResult.Success)
+      {
+        var button = confirmButtonResult.Result;
+        button.DrawHighlightExt();
+        button.WaitUntilClickable();
+        button.Focus();
+        button.ClickEnhance(window);
+        Thread.Sleep(300);
+        _logger.Trace("已自动点击确认按钮，下一步自动点击登录按钮");
       }
     }
     #region 释放资源
