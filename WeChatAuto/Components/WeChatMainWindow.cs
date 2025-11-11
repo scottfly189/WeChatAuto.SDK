@@ -84,10 +84,10 @@ namespace WeChatAuto.Components
             ProcessId = topWindowProcessId;
             _MainWindow = _GetClientWindow(topWindowProcessId);
             _logger = _serviceProvider.GetRequiredService<AutoLogger<WeChatMainWindow>>();
-            _InitStaticWxWindowComponents();
-            _InitSubscription();
-            _InitNewUserListener();
-            _newUserListenerStarted.Task.GetAwaiter().GetResult();
+            _InitStaticWxWindowComponents();  //初始化微信窗口的各种组件
+            _InitSubscription();  //初始化订阅
+            _InitNewUserListener();  //初始化新用户监听
+            _newUserListenerStarted.Task.GetAwaiter().GetResult();  //等待新用户监听线程启动
         }
         /// <summary>
         /// 获取微信客户端窗口
@@ -138,6 +138,7 @@ namespace WeChatAuto.Components
                 }
             });
             _newUserListenerThread.Priority = ThreadPriority.Lowest;
+            _newUserListenerThread.Name = "NewUserListenerThread";
             _newUserListenerThread.IsBackground = true;
             _newUserListenerThread.Start();
         }
@@ -983,13 +984,27 @@ namespace WeChatAuto.Components
             _newUserActionList.Clear();
         }
         #endregion
+
+        #region 释放资源
         public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~WeChatMainWindow()
+        {
+            Dispose(false);
+        }
+        public virtual void Dispose(bool disposing)
         {
             if (_disposed)
             {
                 return;
             }
-            _disposed = true;
+            if (disposing)
+            {
+                //释放托管资源
+            }
             _actionQueueChannel.Close();
             _uiMainThreadInvoker.Dispose();
             _newUserListenerCancellationTokenSource.Cancel();
@@ -998,7 +1013,9 @@ namespace WeChatAuto.Components
                 _newUserListenerThread.Join(1000);
             }
             _newUserListenerCancellationTokenSource.Dispose();
+            _disposed = true;
         }
+        #endregion
 
         #region 群聊操作
         #region 群基础操作，适用于自有群与他有群
