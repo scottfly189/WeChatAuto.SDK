@@ -176,7 +176,7 @@ namespace WeChatAuto.Components
                 }
                 if (newBubbles.Count > 0)
                 {
-                    callBack(newBubbles, currentBubbles, Sender, _MainWxWindow, _MainWxWindow.WeChatFramwork, _serviceProvider);
+                    callBack(newBubbles, currentBubbles, Sender, _MainWxWindow, _MainWxWindow.weChatClientFactory, _serviceProvider);
                 }
             }
             catch (Exception ex)

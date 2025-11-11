@@ -35,8 +35,8 @@ namespace WeChatAuto.Components
     {
         private readonly ActionQueueChannel<ChatActionMessage> _actionQueueChannel = new ActionQueueChannel<ChatActionMessage>();
         private readonly AutoLogger<WeChatMainWindow> _logger;
-        private WeChatClientFactory _WeChatFramwork;
-        private Window _Window;
+        private WeChatClientFactory _WeChatClientFactory;
+        private Window _MainWindow;
         private ToolBar _ToolBar;  // 工具栏
         private SubWinList _SubWinList;  // 弹出窗口列表
         private Navigation _Navigation;  // 导航栏
@@ -55,7 +55,7 @@ namespace WeChatAuto.Components
         public int ProcessId { get; private set; }
         private string _nickName;
         public string NickName => _nickName;
-        public Window Window => _Window;
+        public Window Window => _MainWindow;
         public WeChatClient Client { get; set; }
         private UIThreadInvoker _uiMainThreadInvoker;   //每个微信窗口一个单独的UI线程
         public UIThreadInvoker UiMainThreadInvoker => _uiMainThreadInvoker;
@@ -64,11 +64,10 @@ namespace WeChatAuto.Components
         private CancellationTokenSource _newUserListenerCancellationTokenSource = new CancellationTokenSource();
         private List<(Action<List<string>> callBack, FriendListenerOptions options)> _newUserActionList = new List<(Action<List<string>> callBack, FriendListenerOptions options)>();
         private TaskCompletionSource<bool> _newUserListenerStarted = new TaskCompletionSource<bool>();
-        public Window SelfWindow { get => _Window; set => _Window = value; }
-        public WeChatClientFactory WeChatFramwork => _WeChatFramwork;
+        public Window SelfWindow { get => _MainWindow; set => _MainWindow = value; }
+        public WeChatClientFactory weChatClientFactory => _WeChatClientFactory;
         private Moments _moments;
         public Moments Moments { get => _moments; set => _moments = value; }
-
 
         public ActionQueueChannel<ChatActionMessage> ActionQueueChannel => _actionQueueChannel;
 
@@ -77,18 +76,35 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="window">微信窗口<see cref="Window"/></param>
         /// <param name="notifyIcon">微信通知图标<see cref="WeChatNotifyIcon"/></param>
-        public WeChatMainWindow(Window window, WeChatNotifyIcon notifyIcon, WeChatClientFactory weChatFramwork, IServiceProvider serviceProvider)
+        public WeChatMainWindow(WeChatClientFactory weChatClientFactory, IServiceProvider serviceProvider, int topWindowProcessId)
         {
-            _serviceProvider = serviceProvider;
             _uiMainThreadInvoker = new UIThreadInvoker();
-            _WeChatFramwork = weChatFramwork;
-            _Window = window;
-            ProcessId = window.Properties.ProcessId;
+            _serviceProvider = serviceProvider;
+            _WeChatClientFactory = weChatClientFactory;
+            ProcessId = topWindowProcessId;
+            _MainWindow = _GetClientWindow(topWindowProcessId);
             _logger = _serviceProvider.GetRequiredService<AutoLogger<WeChatMainWindow>>();
-            _InitStaticWxWindowComponents(notifyIcon);
+            _InitStaticWxWindowComponents();
             _InitSubscription();
             _InitNewUserListener();
             _newUserListenerStarted.Task.GetAwaiter().GetResult();
+        }
+        /// <summary>
+        /// 获取微信客户端窗口
+        /// </summary>
+        /// <param name="topWindowProcessId">窗口进程ID</param>
+        /// <returns>微信客户端窗口</returns>
+        private Window _GetClientWindow(int topWindowProcessId)
+        {
+            return _uiMainThreadInvoker.Run(automation =>
+            {
+                var window = Retry.WhileNull(() => automation.GetDesktop().FindFirstChild(cf => cf.ByClassName("WeChatMainWndForPC")
+                        .And(cf.ByControlType(ControlType.Window)
+                        .And(cf.ByProcessId(topWindowProcessId)))).AsWindow(),
+                        timeout: TimeSpan.FromSeconds(5),
+                        interval: TimeSpan.FromMilliseconds(200));
+                return window.Result;
+            }).GetAwaiter().GetResult();
         }
         /// <summary>
         /// 初始化新用户监听
@@ -132,17 +148,17 @@ namespace WeChatAuto.Components
                 try
                 {
                     var xPath = "//ToolBar[@Name='导航']/Button[@Name='通讯录']";
-                    if (!AutomationValid.IsValid(_Window))
+                    if (!AutomationValid.IsValid(_MainWindow))
                     {
-                        var winResult = Retry.WhileNull(() => automation.GetDesktop().FindFirstChild(cf => cf.ByName("微信").And(cf.ByClassName("WeChatMainWndForPC")).And(cf.ByProcessId(_Window.Properties.ProcessId))).AsWindow(),
+                        var winResult = Retry.WhileNull(() => automation.GetDesktop().FindFirstChild(cf => cf.ByName("微信").And(cf.ByClassName("WeChatMainWndForPC")).And(cf.ByProcessId(_MainWindow.Properties.ProcessId))).AsWindow(),
                             timeout: TimeSpan.FromSeconds(5),
                             interval: TimeSpan.FromMilliseconds(200));
                         if (winResult.Success)
                         {
-                            _Window = winResult.Result;
+                            _MainWindow = winResult.Result;
                         }
                     }
-                    var button = _Window.FindFirstByXPath(xPath)?.AsButton();
+                    var button = _MainWindow.FindFirstByXPath(xPath)?.AsButton();
                     if (button != null)
                     {
                         var result = button.Patterns.Value.IsSupported;
@@ -203,17 +219,17 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 初始化微信窗口的各种组件,这些组件在微信窗口中是静态的，不会随着微信窗口的变化而变化
         /// </summary>
-        private void _InitStaticWxWindowComponents(WeChatNotifyIcon notifyIcon)
+        private void _InitStaticWxWindowComponents()
         {
-            _nickName = _uiMainThreadInvoker.Run(automation => _Window.FindFirstByXPath($"/Pane/Pane/ToolBar[@Name='{WeChatConstant.WECHAT_NAVIGATION_NAVIGATION}'][@IsEnabled='true']").FindFirstChild().Name).GetAwaiter().GetResult();
-            _ToolBar = new ToolBar(_Window, notifyIcon, _uiMainThreadInvoker, _serviceProvider);  // 工具栏
-            _Navigation = new Navigation(_Window, this, _uiMainThreadInvoker, _serviceProvider);  // 导航栏
-            _Search = new Search(this, _uiMainThreadInvoker, _Window, _serviceProvider);  // 搜索
-            _Conversations = new ConversationList(_Window, this, _uiMainThreadInvoker, _serviceProvider);  // 会话列表
-            _AddressBook = new AddressBookList(_Window, this, _uiMainThreadInvoker, _serviceProvider);  // 通讯录
-            _moments = new Moments(_Window, this, _uiMainThreadInvoker, _serviceProvider);
-            _SubWinList = new SubWinList(_Window, this, _uiMainThreadInvoker, _serviceProvider);
-            _WxChatContent = new ChatContent(_Window, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane", this, _uiMainThreadInvoker, this, _serviceProvider);
+            _nickName = _uiMainThreadInvoker.Run(automation => _MainWindow.FindFirstByXPath($"/Pane/Pane/ToolBar[@Name='{WeChatConstant.WECHAT_NAVIGATION_NAVIGATION}'][@IsEnabled='true']").FindFirstChild().Name).GetAwaiter().GetResult();
+            _ToolBar = new ToolBar(_MainWindow, _uiMainThreadInvoker, _serviceProvider);  // 工具栏
+            _Navigation = new Navigation(_MainWindow, this, _uiMainThreadInvoker, _serviceProvider);  // 导航栏
+            _Search = new Search(this, _uiMainThreadInvoker, _MainWindow, _serviceProvider);  // 搜索
+            _Conversations = new ConversationList(_MainWindow, this, _uiMainThreadInvoker, _serviceProvider);  // 会话列表
+            _AddressBook = new AddressBookList(_MainWindow, this, _uiMainThreadInvoker, _serviceProvider);  // 通讯录
+            _moments = new Moments(_MainWindow, this, _uiMainThreadInvoker, _serviceProvider);
+            _SubWinList = new SubWinList(_MainWindow, this, _uiMainThreadInvoker, _serviceProvider);
+            _WxChatContent = new ChatContent(_MainWindow, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane", this, _uiMainThreadInvoker, this, _serviceProvider);
         }
         /// <summary>
         /// 初始化订阅
@@ -1307,7 +1323,7 @@ namespace WeChatAuto.Components
                 var (success, window) = __CheckSubWinIsOpen(oldGroupName, false);
                 if (success)
                 {
-                    window.Close();
+                    _uiMainThreadInvoker.Run(_ => window.Close());
                 }
                 ListBoxItem listItem = null;
                 NavigationSwitch(NavigationType.聊天);
@@ -1396,7 +1412,7 @@ namespace WeChatAuto.Components
                     itemButton.WaitUntilClickable();
                     itemButton.RightClick();
                     //设置消息免打扰
-                    var winResult = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+                    var winResult = Retry.WhileNull(() => _MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
                     if (winResult.Success)
                     {
                         var menu = winResult.Result.AsMenu();
@@ -1442,7 +1458,7 @@ namespace WeChatAuto.Components
                     itemButton.WaitUntilClickable();
                     itemButton.RightClick();
                     //设置保存到通讯录
-                    var winResult = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+                    var winResult = Retry.WhileNull(() => _MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
                     if (winResult.Success)
                     {
                         var menu = winResult.Result.AsMenu();
@@ -1488,7 +1504,7 @@ namespace WeChatAuto.Components
                     itemButton.WaitUntilClickable();
                     itemButton.RightClick();
                     //设置聊天置顶
-                    var winResult = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+                    var winResult = Retry.WhileNull(() => _MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
                     if (winResult.Success)
                     {
                         var menu = winResult.Result.AsMenu();
@@ -1528,7 +1544,7 @@ namespace WeChatAuto.Components
             Func<(bool success, ListBoxItem item)> func = () =>
             {
                 string xPath = $"/Pane/Pane/Pane/Pane/Pane/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_SESSION_BOX_CONVERSATION}'][@IsOffscreen='false']";
-                var root = Retry.WhileNull(() => _Window.FindFirstByXPath(xPath)?.AsListBox(), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
+                var root = Retry.WhileNull(() => _MainWindow.FindFirstByXPath(xPath)?.AsListBox(), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
                 if (root != null)
                 {
                     root.Focus();
@@ -1553,7 +1569,7 @@ namespace WeChatAuto.Components
         {
             Func<(bool success, Window window)> func = () =>
             {
-                var desktop = _Window.Automation.GetDesktop();
+                var desktop = _MainWindow.Automation.GetDesktop();
                 var result = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("ChatWnd")
                         .And(cf.ByControlType(ControlType.Window)
                         .And(cf.ByProcessId(this.ProcessId))
@@ -1622,7 +1638,7 @@ namespace WeChatAuto.Components
         private bool _CheckConversationExist(string conversationName, bool isDoubleClick = false)
         {
             var xPath = "//List[@Name='会话']";
-            var root = _Window.FindFirstByXPath(xPath)?.AsListBox();
+            var root = _MainWindow.FindFirstByXPath(xPath)?.AsListBox();
             root.DrawHighlightExt();
             if (root != null)
             {
@@ -1706,7 +1722,7 @@ namespace WeChatAuto.Components
         /// <returns>是否存在,True:是,False:否</returns>
         private bool _CheckSubWinExist(string subWinName)
         {
-            var result = Retry.WhileNull(() => _Window.Automation.GetDesktop().FindFirstChild(cf => cf.ByClassName("ChatWnd")
+            var result = Retry.WhileNull(() => _MainWindow.Automation.GetDesktop().FindFirstChild(cf => cf.ByClassName("ChatWnd")
                          .And(cf.ByControlType(ControlType.Window)
                          .And(cf.ByProcessId(this.ProcessId))
                          .And(cf.ByName(subWinName)))),
@@ -1736,7 +1752,7 @@ namespace WeChatAuto.Components
                     return true;
                 }
                 var xPath = "//Edit[@Name='搜索']";
-                var edit = _Window.FindFirstByXPath(xPath)?.AsTextBox();
+                var edit = _MainWindow.FindFirstByXPath(xPath)?.AsTextBox();
                 if (edit != null)
                 {
                     edit.Focus();
@@ -1764,13 +1780,13 @@ namespace WeChatAuto.Components
             var tempName = _uiMainThreadInvoker.Run((automation) =>
             {
                 var xPath = "//Button[@Name='发起群聊']";
-                var button = Retry.WhileNull(() => _Window.FindFirstByXPath(xPath)?.AsButton(), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
+                var button = Retry.WhileNull(() => _MainWindow.FindFirstByXPath(xPath)?.AsButton(), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
                 if (button != null)
                 {
                     button.DrawHighlightExt();
                     button.Click();
                     Thread.Sleep(600);
-                    var AddMemberWnd = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("AddMemberWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
+                    var AddMemberWnd = Retry.WhileNull(() => _MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("AddMemberWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200))?.Result;
                     if (AddMemberWnd != null)
                     {
                         var searchTextBox = AddMemberWnd.FindFirstByXPath("//Edit[@Name='搜索']")?.AsTextBox();
@@ -1817,11 +1833,11 @@ namespace WeChatAuto.Components
                                 finishButton.Click();
                                 Thread.Sleep(1000);
                                 //修改名字
-                                var checkAddWinRresult = Retry.WhileNotNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("AddMemberWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+                                var checkAddWinRresult = Retry.WhileNotNull(() => _MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("AddMemberWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
                                 if (checkAddWinRresult.Success)
                                 {
                                     xPath = "//List[@Name='会话']";
-                                    var cListItemBox = _Window.FindFirstByXPath(xPath)?.AsListBox();
+                                    var cListItemBox = _MainWindow.FindFirstByXPath(xPath)?.AsListBox();
                                     Thread.Sleep(300);
                                     var cListItems = cListItemBox?.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))?.ToList();
                                     cListItems = cListItems?.Where(item => !item.Name.EndsWith("已置顶"))?.ToList();
@@ -1859,7 +1875,7 @@ namespace WeChatAuto.Components
 
         private void _OpenUpdateGroupNameWindow(string groupName)
         {
-            var winResult = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+            var winResult = Retry.WhileNull(() => _MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
             if (winResult.Success)
             {
                 var menu = winResult.Result.AsMenu();
@@ -1882,7 +1898,7 @@ namespace WeChatAuto.Components
 
         private void _OpenUpdateGroupWin(string groupName, string newMemo)
         {
-            var winResult = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+            var winResult = Retry.WhileNull(() => _MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Menu).And(cf.ByClassName("CMenuWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
             if (winResult.Success)
             {
                 var menu = winResult.Result.AsMenu();
@@ -1904,7 +1920,7 @@ namespace WeChatAuto.Components
         }
         private void _UpdateGroupMemoCore(string newMemo)
         {
-            var modifyDialog = Retry.WhileNull(() => _Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("RoomInfoModifyDialog"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+            var modifyDialog = Retry.WhileNull(() => _MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("RoomInfoModifyDialog"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
             if (modifyDialog.Success)
             {
                 var dialog = modifyDialog.Result.AsWindow();
@@ -1928,7 +1944,7 @@ namespace WeChatAuto.Components
                 Thread.Sleep(1000);
                 Wait.UntilInputIsProcessed();
 
-                var cResult = Retry.WhileNull(() => _Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("RoomInfoModifyDialog"))), TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
+                var cResult = Retry.WhileNull(() => _MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("RoomInfoModifyDialog"))), TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
                 if (cResult.Success)
                 {
                     xPath = "//Button[@Name='取消']";
@@ -1943,7 +1959,7 @@ namespace WeChatAuto.Components
 
         private void _UpdateGroupName(string groupName)
         {
-            var modifyDialog = Retry.WhileNull(() => _Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("RoomInfoModifyDialog"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+            var modifyDialog = Retry.WhileNull(() => _MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("RoomInfoModifyDialog"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
             if (modifyDialog.Success)
             {
                 var dialog = modifyDialog.Result.AsWindow();
@@ -1968,7 +1984,7 @@ namespace WeChatAuto.Components
                 Thread.Sleep(1000);
                 Wait.UntilInputIsProcessed();
 
-                var cResult = Retry.WhileNull(() => _Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("RoomInfoModifyDialog"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
+                var cResult = Retry.WhileNull(() => _MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("RoomInfoModifyDialog"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
                 if (cResult.Success)
                 {
                     xPath = "//Button[@Name='取消']";

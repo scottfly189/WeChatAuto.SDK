@@ -62,6 +62,9 @@ namespace WeChatAuto.Components
     }
 
     #region NotifyIcon操作
+    /// <summary>
+    /// 点击通知图标,以使微信客户端窗口显示或者获取焦点
+    /// </summary>
     public void ClickNotifyIcon()
     {
       WxNotifyIcon.Click();

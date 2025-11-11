@@ -14,7 +14,6 @@ namespace WeChatAuto.Components
     {
         private readonly IServiceProvider _serviceProvider;
         private UIThreadInvoker _uiMainThreadInvoker;
-        private WeChatNotifyIcon _NotifyIcon;
         private AutomationElement _ToolBar;
         private Window _Window;
         private Button _TopButton;
@@ -32,10 +31,9 @@ namespace WeChatAuto.Components
         /// <param name="uiThreadInvoker">UI线程执行器</param>
         /// <param name="serviceProvider">服务提供者</param>
         /// <param name="serviceProvider">服务提供者</param>
-        public ToolBar(Window window, WeChatNotifyIcon notifyIcon, UIThreadInvoker uiThreadInvoker, IServiceProvider serviceProvider)
+        public ToolBar(Window window, UIThreadInvoker uiThreadInvoker, IServiceProvider serviceProvider)
         {
             _Window = window;
-            _NotifyIcon = notifyIcon;
             _uiMainThreadInvoker = uiThreadInvoker;
             _serviceProvider = serviceProvider;
             _logger = serviceProvider.GetRequiredService<AutoLogger<ToolBar>>();

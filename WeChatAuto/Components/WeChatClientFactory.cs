@@ -110,50 +110,61 @@ namespace WeChatAuto.Components
             }
             _wxClientList.Clear();
             _logger.Trace("开始重新获取微信窗口");
-            UIThreadInvoker _uiThreadInvoker = new UIThreadInvoker();
-            var taskBarRoot = _uiThreadInvoker.Run(automation =>
-                automation.GetDesktop().FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd")))
-            ).GetAwaiter().GetResult();
-            var wxNotifyList = _uiThreadInvoker.Run(automation =>
-                Retry.WhileNull(() => taskBarRoot.FindFirstDescendant(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NOTIFY_ICON)
-                    .And(cf.ByClassName("ToolbarWindow32").And(cf.ByControlType(ControlType.ToolBar))))
-                    .FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME).And(cf.ByControlType(ControlType.Button))),
-                    timeout: TimeSpan.FromSeconds(10))
-            ).GetAwaiter().GetResult();
-            if (wxNotifyList.Success)
+            UIThreadInvoker _uiTempThreadInvoker = new UIThreadInvoker();
+            try
             {
-                foreach (var wxNotify in wxNotifyList.Result)
+                var taskBarRoot = _uiTempThreadInvoker.Run(automation =>
+                    automation.GetDesktop().FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd")))
+                ).GetAwaiter().GetResult();
+                var wxNotifyList = _uiTempThreadInvoker.Run(automation =>
+                    Retry.WhileNull(() => taskBarRoot.FindFirstDescendant(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NOTIFY_ICON)
+                        .And(cf.ByClassName("ToolbarWindow32").And(cf.ByControlType(ControlType.ToolBar))))
+                        .FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME).And(cf.ByControlType(ControlType.Button))),
+                        timeout: TimeSpan.FromSeconds(10))
+                ).GetAwaiter().GetResult();
+                if (wxNotifyList.Success)
                 {
-                    DrawHightlightHelper.DrawHightlight(wxNotify, _uiThreadInvoker);
-                    _uiThreadInvoker.Run(automation => wxNotify.AsButton().Invoke()).GetAwaiter().GetResult();
-                    var topWindowProcessId = Retry.WhileException(() => WinApi.GetTopWindowProcessIdByClassName("WeChatMainWndForPC"), timeout: TimeSpan.FromSeconds(10));
-                    var wxInstances = _uiThreadInvoker.Run(automation =>
-                        automation.GetDesktop().FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME)
-                                .And(cf.ByClassName("WeChatMainWndForPC")
-                                .And(cf.ByControlType(ControlType.Window))
-                                .And(cf.ByProcessId(topWindowProcessId.Result)))).AsWindow()
-                    ).GetAwaiter().GetResult();
-                    DrawHightlightHelper.DrawHightlight(wxInstances, _uiThreadInvoker);
-                    WeChatNotifyIcon wxNotifyIcon = new WeChatNotifyIcon(wxNotify.AsButton(), _serviceProvider);
-                    WeChatMainWindow wxWindow = new WeChatMainWindow(wxInstances, wxNotifyIcon, this, _serviceProvider);
+                    foreach (var wxNotifyButton in wxNotifyList.Result)
+                    {
+                        DrawHightlightHelper.DrawHightlight(wxNotifyButton, _uiTempThreadInvoker);
+                        _uiTempThreadInvoker.Run(automation => wxNotifyButton.AsButton().Invoke()).GetAwaiter().GetResult();
+                        var topWindowProcessId = Retry.WhileException(() => WinApi.GetTopWindowProcessIdByClassName("WeChatMainWndForPC"), timeout: TimeSpan.FromSeconds(5));
+                        var wxTempwindow = _uiTempThreadInvoker.Run(automation =>
+                            automation.GetDesktop().FindFirstChild(cf => cf.ByClassName("WeChatMainWndForPC")
+                                    .And(cf.ByControlType(ControlType.Window)
+                                    .And(cf.ByProcessId(topWindowProcessId.Result)))).AsWindow()
+                        ).GetAwaiter().GetResult();
+                        DrawHightlightHelper.DrawHightlight(wxTempwindow, _uiTempThreadInvoker);
+                        WeChatMainWindow wxMainWindow = new WeChatMainWindow(this, _serviceProvider, topWindowProcessId.Result);
+                        WeChatNotifyIcon wxNotifyIcon = new WeChatNotifyIcon(wxNotifyButton.AsButton(), _serviceProvider, wxMainWindow);
 
-                    var client = new WeChatClient(wxNotifyIcon, wxWindow, _serviceProvider, WeAutomation.Config.EnableCheckAppRunning);
-                    wxWindow.Client = client;
-                    var NickNameButton = wxInstances.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]").AsButton();
-                    _wxClientList.Add(NickNameButton.Name, client);
-                    _logger.Trace($"微信客户端[{NickNameButton.Name}]获取完成,当前微信客户端数量:_{_wxClientList.Count}");
+                        var client = new WeChatClient(wxNotifyIcon, wxMainWindow, _serviceProvider, WeAutomation.Config.EnableCheckAppRunning);
+                        wxMainWindow.Client = client;
+                        var NickNameButton = wxTempwindow.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]").AsButton();
+                        _wxClientList.Add(NickNameButton.Name, client);
+                    }
+                    this._IsInit = true;
+                    _logger.Trace($"当前微信客户端数量: 共{_wxClientList.Count}个");
                 }
-                this._IsInit = true;
+                else
+                {
+                    _logger.Error("微信客户端不存在，请检查微信是否打开");
+                    throw new Exception("微信客户端不存在，请检查微信是否打开");
+                }
+                if (_wxClientList.Count == 0)
+                {
+                    _logger.Error("微信客户端不存在，请检查微信是否打开");
+                    throw new Exception("微信客户端不存在，请检查微信是否打开");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _logger.Error("微信客户端不存在，请检查微信是否打开");
-                throw new Exception("微信客户端不存在，请检查微信是否打开");
+                _logger.Error($"获取微信窗口失败: {ex.Message}");
+                throw new Exception($"获取微信窗口失败: {ex.Message}");
             }
-            if (_wxClientList.Count == 0)
+            finally
             {
-                _logger.Error("微信客户端不存在，请检查微信是否打开");
-                throw new Exception("微信客户端不存在，请检查微信是否打开");
+                _uiTempThreadInvoker?.Dispose();
             }
         }
 

@@ -366,7 +366,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.CreateOrUpdateOwnerChatGroup("测试09", new string[] { "阿恩-frankie", "阿恩" });
+            var result = window.CreateOrUpdateOwnerChatGroup("测试11", new string[] { "阿恩-frankie", "阿恩" });
             _output.WriteLine($"创建群聊结果: {result.Message}");
             Assert.True(result.Success);
         }
@@ -402,6 +402,7 @@ namespace WeChatAuto.Tests.Components
             var result = window.ChageOwerChatGroupMemo("测试09", "测试09新的备注6");
             _output.WriteLine($"更新群聊备注结果: {result.Message}");
             Assert.True(result.Success);
+            await Task.CompletedTask;
         }
 
         [Fact(DisplayName = "测试更新群聊名称")]
