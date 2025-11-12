@@ -50,7 +50,7 @@ namespace WeChatAuto.Components
         }
         /// <summary>
         /// 添加消息监听
-        /// 注意：消息回调函数会在新线程中执行，请注意线程安全，如果在回调函数中操作UI，请用InvokeRequired等方法切换到UI线程.
+        /// 注意：消息回调函数会在新线程中执行，请注意线程安全，如果在回调函数中操作UI，请切换到UI线程.
         /// </summary>
         /// <param name="callBack">回调函数,参数：新消息气泡<see cref="MessageBubble"/>,包含新消息气泡的列表<see cref="List{MessageBubble}"/>,当前窗口发送者<see cref="Sender"/>,当前微信窗口对象<see cref="WeChatMainWindow"/></param>
         public void AddListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider> callBack)

@@ -16,6 +16,7 @@ using System.Diagnostics;
 using WeChatAuto.Services;
 using WeChatAuto.Utils;
 using Microsoft.Extensions.DependencyInjection;
+using System.IO;
 
 namespace WeChatAuto.Components
 {
@@ -67,36 +68,19 @@ namespace WeChatAuto.Components
                 {
                     try
                     {
+                        if (_disposed)
+                            break;
+
                         if (_MainWxWindow != null && _MainWxWindow.Client != null && !_MainWxWindow.Client.AppRunning)
                             return;
-                        var subWinNames = GetAllSubWinNames();   //获取所有打开的子窗口名称
+                        var allOpenedSubWinNames = GetAllOpenedSubWinNames();   //获取所有打开的子窗口名称
                         if (!_MonitorSubWinNames.IsEmpty)
                         {
-                            var willOpenSubWin = _MonitorSubWinNames.Except(subWinNames);  //去掉已经打开的子窗口
-                            if (willOpenSubWin.Any())
-                            {
-                                foreach (var willOpenSubWinName in willOpenSubWin)
-                                {
-                                    //取消监听子窗口
-                                    var subWin = this.GetSubWin(willOpenSubWinName);
-                                    subWin.Dispose();
-                                    _SubWins.Remove(willOpenSubWinName);
-                                }
-                                foreach (var notExistSubWinName in willOpenSubWin)
-                                {
-                                    //重新打开前将监听子窗口取消
-                                    //如果子窗口不存在，则打开
-                                    await this.CheckSubWinExistAndOpen(notExistSubWinName);
-                                    var subWin = this.GetSubWin(notExistSubWinName);
-                                    if (_SubWinMessageListeners.ContainsKey(notExistSubWinName))
-                                    {
-                                        subWin.AddMessageListener(_SubWinMessageListeners[notExistSubWinName]);
-                                    }
-                                }
-                            }
+                            await _MonitorSubWinCore(allOpenedSubWinNames);
                         }
                         await Task.Delay(WeAutomation.Config.MonitorSubWinInterval * 1000, _MonitorSubWinCancellationTokenSource.Token);
-                    }catch(OperationCanceledException)
+                    }
+                    catch (OperationCanceledException)
                     {
                         _logger.Info("监听子窗口线程已停止，正常取消,不做处理");
                         break;
@@ -113,10 +97,40 @@ namespace WeChatAuto.Components
             _MonitorSubWinThread.Start();
         }
         /// <summary>
+        /// 监听子窗口核心逻辑
+        /// </summary>
+        /// <param name="allOpenedSubWinNames">所有子窗口名称列表</param>
+        private async Task _MonitorSubWinCore(List<string> allOpenedSubWinNames)
+        {
+            var willOpenSubWin = _MonitorSubWinNames.Except(allOpenedSubWinNames);  //去掉已经打开的子窗口,剩下的就是要打开的子窗口
+            if (willOpenSubWin.Any())
+            {
+                foreach (var subWinName in willOpenSubWin)
+                {
+                    //取消监听子窗口,并从列表中移除
+                    var subWin = this.GetSubWin(subWinName);
+                    subWin.Dispose();
+                    _SubWins.Remove(subWinName);
+                }
+                foreach (var notExistSubWinName in willOpenSubWin)
+                {
+                    //重新打开前将监听子窗口
+                    //如果子窗口不存在，则打开
+                    await this.CheckSubWinExistAndOpen(notExistSubWinName);
+                    var subWin = this.GetSubWin(notExistSubWinName);
+                    if (_SubWinMessageListeners.ContainsKey(notExistSubWinName))
+                    {
+                        subWin.AddMessageListener(_SubWinMessageListeners[notExistSubWinName]);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// 得到所有子窗口名称
         /// </summary>
         /// <returns></returns>
-        public List<string> GetAllSubWinNames()
+        public List<string> GetAllOpenedSubWinNames()
         {
             var subWinRetry = _uiMainThreadInvoker.Run(automation =>
             {
@@ -210,7 +224,7 @@ namespace WeChatAuto.Components
         /// </summary>
         public void CloseAllSubWins()
         {
-            var subWinNames = GetAllSubWinNames();
+            var subWinNames = GetAllOpenedSubWinNames();
             foreach (var subWinName in subWinNames)
             {
                 GetSubWin(subWinName).Close();
@@ -256,23 +270,23 @@ namespace WeChatAuto.Components
         /// 添加消息监听
         /// </summary>
         /// <param name="callBack">回调函数</param>
-        /// <param name="nickName">好友名称</param>
-        public async Task AddMessageListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider> callBack, string nickName)
+        /// <param name="who">好友或者群聊名称</param>
+        public async Task AddMessageListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider> callBack, string who)
         {
-            await this.CheckSubWinExistAndOpen(nickName);
+            await this.CheckSubWinExistAndOpen(who);
             await Task.Delay(500);
-            var subWin = this.GetSubWin(nickName);
+            var subWin = this.GetSubWin(who);
             subWin.AddMessageListener(callBack);
-            _SubWinMessageListeners.Add(nickName, callBack);
+            _SubWinMessageListeners.Add(who, callBack);
         }
         /// <summary>
         /// 停止消息监听
         /// </summary>
-        /// <param name="nickName">好友名称</param>
-        public void StopMessageListener(string nickName)
+        /// <param name="who">好友名称</param>
+        public void StopMessageListener(string who)
         {
-            _SubWinMessageListeners.Remove(nickName);
-            GetSubWin(nickName).StopListener();
+            _SubWinMessageListeners.Remove(who);
+            GetSubWin(who).StopListener();
         }
 
         public void Dispose()

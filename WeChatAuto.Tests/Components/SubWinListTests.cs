@@ -29,7 +29,7 @@ namespace WeChatAuto.Tests.Components
             var window = client.WxMainWindow;
             window.Conversations.DoubleClickConversation("文件传输助手");
             var subWinList = window.SubWinList;
-            var subWinNames = subWinList.GetAllSubWinNames();
+            var subWinNames = subWinList.GetAllOpenedSubWinNames();
             foreach (var subWinName in subWinNames)
             {
                 _output.WriteLine($"子窗口名称: {subWinName}");
