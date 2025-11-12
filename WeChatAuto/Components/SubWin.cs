@@ -52,16 +52,16 @@ namespace WeChatAuto.Components
         /// <param name="wxWindow">主窗口的微信窗口对象</param>
         /// <param name="subWinList">子窗口列表</param>
         /// <param name="serviceProvider">服务提供者</param>
-        public SubWin(Window window, WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker, string title, SubWinList subWinList, IServiceProvider serviceProvider)
+        public SubWin(Window window, WeChatMainWindow wxWindow, UIThreadInvoker uiMainThreadInvoker, string title, SubWinList subWinList, IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<AutoLogger<SubWin>>();
             _serviceProvider = serviceProvider;
-            _uiMainThreadInvoker = uiThreadInvoker;
+            _uiMainThreadInvoker = uiMainThreadInvoker;
             _SubWinList = subWinList;
             NickName = title;
             _SelfWindow = window;
             _MainWxWindow = wxWindow;
-            _ChatContent = new ChatContent(_SelfWindow, ChatContentType.SubWindow, "/Pane[2]/Pane/Pane[2]/Pane/Pane", this, uiThreadInvoker, this._MainWxWindow, _serviceProvider);
+            _ChatContent = new ChatContent(_SelfWindow, ChatContentType.SubWindow, "/Pane[2]/Pane/Pane[2]/Pane/Pane", this, uiMainThreadInvoker, this._MainWxWindow, _serviceProvider);
             _ProcessId = _SelfWindow.Properties.ProcessId.Value;
         }
 

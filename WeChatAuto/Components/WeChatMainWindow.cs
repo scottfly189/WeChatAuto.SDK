@@ -57,19 +57,20 @@ namespace WeChatAuto.Components
         public string NickName => _nickName;
         public Window Window => _MainWindow;
         public WeChatClient Client { get; set; }
-        private UIThreadInvoker _uiMainThreadInvoker;   //每个微信窗口一个单独的UI线程
-        public UIThreadInvoker UiMainThreadInvoker => _uiMainThreadInvoker;
         private volatile bool _disposed = false;
-        private Thread _newUserListenerThread;
-        private CancellationTokenSource _newUserListenerCancellationTokenSource = new CancellationTokenSource();
-        private List<(Action<List<string>> callBack, FriendListenerOptions options)> _newUserActionList = new List<(Action<List<string>> callBack, FriendListenerOptions options)>();
-        private TaskCompletionSource<bool> _newUserListenerStarted = new TaskCompletionSource<bool>();
+        private Moments _moments;
         public Window SelfWindow { get => _MainWindow; set => _MainWindow = value; }  //实现IWeChatWindow接口
         public WeChatClientFactory weChatClientFactory => _WeChatClientFactory;
-        private Moments _moments;
         public Moments Moments { get => _moments; set => _moments = value; }
-
+        private UIThreadInvoker _uiMainThreadInvoker;   //每个微信窗口一个单独的UI线程
+        public UIThreadInvoker UiMainThreadInvoker => _uiMainThreadInvoker;
+        private Thread _newUserListenerThread;
+        private CancellationTokenSource _newUserListenerCancellationTokenSource = new CancellationTokenSource();
+        private CancellationTokenSource _SubscriptionCancellationTokenSource = new CancellationTokenSource();
+        private List<(Action<List<string>> callBack, FriendListenerOptions options)> _newUserActionList = new List<(Action<List<string>> callBack, FriendListenerOptions options)>();
+        private TaskCompletionSource<bool> _newUserListenerStarted = new TaskCompletionSource<bool>();
         public ActionQueueChannel<ChatActionMessage> ActionQueueChannel => _actionQueueChannel;
+
 
         /// <summary>
         /// 微信客户端窗口构造函数
@@ -240,12 +241,27 @@ namespace WeChatAuto.Components
         {
             Task.Run(async () =>
             {
-                while (await _actionQueueChannel.WaitToReadAsync())
+                while (await _actionQueueChannel.WaitToReadAsync(_SubscriptionCancellationTokenSource.Token))
                 {
-                    var msg = await _actionQueueChannel.ReadAsync();
-                    await _DispatchMessage(msg);
+                    try
+                    {
+                        _SubscriptionCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                        var msg = await _actionQueueChannel.ReadAsync(_SubscriptionCancellationTokenSource.Token);
+                        await _DispatchMessage(msg);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        Trace.WriteLine("订阅线程已停止，正常取消,不做处理");
+                        _logger.Info("订阅线程已停止，正常取消,不做处理");
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        Trace.WriteLine("订阅线程异常,订阅线程不中断，但请检查是否存在异常，异常信息：" + ex.Message);
+                        _logger.Error("订阅线程异常,订阅线程不中断，但请检查是否存在异常，异常信息：" + ex.Message);
+                    }
                 }
-            });
+            }, _SubscriptionCancellationTokenSource.Token);
         }
         /// <summary>
         /// 消息分发
@@ -982,38 +998,6 @@ namespace WeChatAuto.Components
         public void StopNewUserListener()
         {
             _newUserActionList.Clear();
-        }
-        #endregion
-
-        #region 释放资源
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        ~WeChatMainWindow()
-        {
-            Dispose(false);
-        }
-        public virtual void Dispose(bool disposing)
-        {
-            if (_disposed)
-            {
-                return;
-            }
-            if (disposing)
-            {
-                //释放托管资源
-            }
-            _actionQueueChannel.Close();
-            _uiMainThreadInvoker.Dispose();
-            _newUserListenerCancellationTokenSource.Cancel();
-            if (_newUserListenerThread.IsAlive)
-            {
-                _newUserListenerThread.Join(1000);
-            }
-            _newUserListenerCancellationTokenSource.Dispose();
-            _disposed = true;
         }
         #endregion
 
@@ -2191,6 +2175,52 @@ namespace WeChatAuto.Components
         }
 
         #endregion
+        #endregion
+
+        #region 释放资源
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~WeChatMainWindow()
+        {
+            Dispose(false);
+        }
+        public virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+            if (disposing)
+            {
+                //释放托管资源
+                _WxMainChatContent.Dispose();
+                _moments.Dispose();
+                _SubWinList.Dispose();
+
+                _newUserListenerCancellationTokenSource?.Cancel();
+                _SubscriptionCancellationTokenSource?.Cancel();
+                _actionQueueChannel?.Close();
+
+                if (_newUserListenerThread?.IsAlive ?? false)
+                {
+                    _newUserListenerThread?.Join(3000);
+                }
+                _newUserListenerCancellationTokenSource?.Dispose();
+                _newUserListenerStarted?.TrySetCanceled();
+                _SubscriptionCancellationTokenSource?.Dispose();
+                this.ClearAllEvent();
+                _uiMainThreadInvoker?.Dispose();
+
+                _newUserListenerCancellationTokenSource = null;
+                _SubscriptionCancellationTokenSource = null;
+                _uiMainThreadInvoker = null;
+            }
+
+            _disposed = true;
+        }
         #endregion
     }
 }

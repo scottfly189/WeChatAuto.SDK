@@ -22,17 +22,19 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 子窗口列表
     /// </summary>
-    public class SubWinList
+    public class SubWinList : IDisposable
     {
+        private volatile bool _disposed = false;
         private ConcurrentBag<string> _MonitorSubWinNames = new ConcurrentBag<string>();     //守护子窗口名称列表
         private Dictionary<string, SubWin> _SubWins = new Dictionary<string, SubWin>();      //所有子窗口列表,事实上手动关闭子窗口，这里并不会变化.
-        private Dictionary<string, Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider>> _SubWinMessageListeners = new Dictionary<string, Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider>>();  //所有子窗口消息监听器列表
+        private Dictionary<string, Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider>> _SubWinMessageListeners
+            = new Dictionary<string, Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider>>();  //所有子窗口消息监听器列表
         private CancellationTokenSource _MonitorSubWinCancellationTokenSource = new CancellationTokenSource();
         private TaskCompletionSource<bool> _MonitorSubWinTaskCompletionSource = new TaskCompletionSource<bool>();
         private Thread _MonitorSubWinThread;
         private WeChatMainWindow _MainWxWindow;   //主窗口对象
         private Window _MainFlaUIWindow;   //主窗口FlaUI的window
-        private UIThreadInvoker _uiThreadInvoker;
+        private UIThreadInvoker _uiMainThreadInvoker;
         private AutoLogger<SubWinList> _logger;
         private readonly IServiceProvider _serviceProvider;
         /// <summary>
@@ -40,12 +42,12 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="window">主窗口FlaUI的window</param>
         /// <param name="wxWindow">主窗口对象<see cref="WeChatMainWindow"/></param>
-        /// <param name="uiThreadInvoker">UI线程执行器</param>
+        /// <param name="uiMainThreadInvoker">主窗口UI线程执行器</param>
         /// <param name="serviceProvider">服务提供者</param>
-        public SubWinList(Window window, WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker, IServiceProvider serviceProvider)
+        public SubWinList(Window window, WeChatMainWindow wxWindow, UIThreadInvoker uiMainThreadInvoker, IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<AutoLogger<SubWinList>>();
-            _uiThreadInvoker = uiThreadInvoker;
+            _uiMainThreadInvoker = uiMainThreadInvoker;
             _MainWxWindow = wxWindow;
             _MainFlaUIWindow = window;
             _serviceProvider = serviceProvider;
@@ -69,17 +71,17 @@ namespace WeChatAuto.Components
                         var subWinNames = GetAllSubWinNames();   //获取所有打开的子窗口名称
                         if (!_MonitorSubWinNames.IsEmpty)
                         {
-                            var notExistSubWinNames = _MonitorSubWinNames.Except(subWinNames);
-                            if (notExistSubWinNames.Any())
+                            var willOpenSubWin = _MonitorSubWinNames.Except(subWinNames);  //去掉已经打开的子窗口
+                            if (willOpenSubWin.Any())
                             {
-                                foreach (var notExistSubWinName in notExistSubWinNames)
+                                foreach (var willOpenSubWinName in willOpenSubWin)
                                 {
                                     //取消监听子窗口
-                                    var subWin = this.GetSubWin(notExistSubWinName);
+                                    var subWin = this.GetSubWin(willOpenSubWinName);
                                     subWin.Dispose();
-                                    _SubWins.Remove(notExistSubWinName);
+                                    _SubWins.Remove(willOpenSubWinName);
                                 }
-                                foreach (var notExistSubWinName in notExistSubWinNames)
+                                foreach (var notExistSubWinName in willOpenSubWin)
                                 {
                                     //重新打开前将监听子窗口取消
                                     //如果子窗口不存在，则打开
@@ -92,13 +94,16 @@ namespace WeChatAuto.Components
                                 }
                             }
                         }
-                        await Task.Delay(WeAutomation.Config.MonitorSubWinInterval * 1000);
+                        await Task.Delay(WeAutomation.Config.MonitorSubWinInterval * 1000, _MonitorSubWinCancellationTokenSource.Token);
+                    }catch(OperationCanceledException)
+                    {
+                        _logger.Info("监听子窗口线程已停止，正常取消,不做处理");
+                        break;
                     }
                     catch (Exception ex)
                     {
-                        _logger.Error("线程发生错误:" + ex.ToString());
+                        _logger.Error("监听子窗口线程发生错误,但是不退出,异常信息:" + ex.ToString());
                         _logger.Error(ex.StackTrace);
-                        throw;
                     }
                 }
             });
@@ -112,7 +117,7 @@ namespace WeChatAuto.Components
         /// <returns></returns>
         public List<string> GetAllSubWinNames()
         {
-            var subWinRetry = _uiThreadInvoker.Run(automation =>
+            var subWinRetry = _uiMainThreadInvoker.Run(automation =>
             {
                 var desktop = automation.GetDesktop();
                 var list = Retry.WhileNull(() => desktop.FindAllChildren(cf => cf.ByClassName("ChatWnd")
@@ -137,7 +142,7 @@ namespace WeChatAuto.Components
         /// <returns></returns>
         public bool CheckSubWinIsOpen(string name)
         {
-            var subWin = _uiThreadInvoker.Run(automation =>
+            var subWin = _uiMainThreadInvoker.Run(automation =>
              {
                  var desktop = automation.GetDesktop();
                  return Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("ChatWnd")
@@ -180,7 +185,7 @@ namespace WeChatAuto.Components
             {
                 return _SubWins[name];
             }
-            var subWin = _uiThreadInvoker.Run(automation =>
+            var subWin = _uiMainThreadInvoker.Run(automation =>
             {
                 var desktop = automation.GetDesktop();
                 return Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("ChatWnd")
@@ -192,7 +197,7 @@ namespace WeChatAuto.Components
             }).GetAwaiter().GetResult();
             if (subWin.Success)
             {
-                var subWinObject = new SubWin(subWin.Result.AsWindow(), _MainWxWindow, _uiThreadInvoker, name, this, _serviceProvider);
+                var subWinObject = new SubWin(subWin.Result.AsWindow(), _MainWxWindow, _uiMainThreadInvoker, name, this, _serviceProvider);
                 _SubWins.Add(name, subWinObject);
                 return subWinObject;
             }
@@ -267,6 +272,32 @@ namespace WeChatAuto.Components
         {
             _SubWinMessageListeners.Remove(nickName);
             GetSubWin(nickName).StopListener();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~SubWinList()
+        {
+            Dispose(false);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+            if (disposing)
+            {
+                _MonitorSubWinCancellationTokenSource?.Cancel();
+                _MonitorSubWinTaskCompletionSource?.TrySetCanceled();
+                _MonitorSubWinThread?.Join(3000);
+                _MonitorSubWinCancellationTokenSource?.Dispose();
+                
+            }
+            _disposed = true;
         }
     }
 }

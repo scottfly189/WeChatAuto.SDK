@@ -36,6 +36,7 @@ namespace WeChatAuto.Components
         private int _lastMessageCount = 0;
         private List<MessageBubble> _lastBubbles = new List<MessageBubble>();
         private volatile bool _disposed = false;
+        private CancellationTokenSource _pollingTimerCancellationTokenSource = new CancellationTokenSource();
         private volatile bool _isProcessing = false; // 标记是否正在处理消息
         public ChatBody(Window window, AutomationElement chatBodyRoot, IWeChatWindow wxWindow, string title, UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow, IServiceProvider serviceProvider)
         {
@@ -80,15 +81,17 @@ namespace WeChatAuto.Components
                 {
                     return;
                 }
-                // 如果正在处理中，跳过本次执行
-                if (_isProcessing)
-                {
-                    _logger.Trace("上一次消息处理尚未完成，跳过本次检测");
-                    return;
-                }
-
                 try
                 {
+                    if (_pollingTimerCancellationTokenSource.Token.IsCancellationRequested)
+                        return;
+                    // 如果正在处理中，跳过本次执行
+                    if (_isProcessing)
+                    {
+                        _logger.Trace("上一次消息处理尚未完成，跳过本次检测");
+                        return;
+                    }
+
                     _isProcessing = true; // 标记开始处理
                     if (!_subWinIsOpen())
                     {
@@ -294,18 +297,36 @@ namespace WeChatAuto.Components
             var xPath = "/Pane[2]";
             var senderRoot = _uiMainThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).GetAwaiter().GetResult();
             DrawHightlightHelper.DrawHightlight(senderRoot, _uiMainThreadInvoker);
-            var sender = new Sender(_Window, senderRoot, _WxWindow, _Title, _uiMainThreadInvoker,_serviceProvider);
+            var sender = new Sender(_Window, senderRoot, _WxWindow, _Title, _uiMainThreadInvoker, _serviceProvider);
             return sender;
         }
 
-        public void Dispose()
+        public void Dispose(bool disposing)
         {
             if (_disposed)
             {
                 return;
             }
-            StopListener();
+            if (disposing)
+            {
+                _pollingTimerCancellationTokenSource?.Cancel();
+                _isProcessing = true;
+                _pollingTimer?.Dispose();
+                _pollingTimer = null;
+                _isProcessing = false; // 重置处理标志
+                _pollingTimerCancellationTokenSource?.Dispose();
+            }
             _disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        ~ChatBody()
+        {
+            Dispose(false);
         }
 
     }
