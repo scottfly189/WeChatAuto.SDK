@@ -33,7 +33,7 @@ namespace WeChatAuto.Components
         private TaskCompletionSource<bool> _MonitorSubWinTaskCompletionSource = new TaskCompletionSource<bool>();
         private Thread _MonitorSubWinThread;
         private WeChatMainWindow _MainWxWindow;   //主窗口对象
-        private Window _MainFlaUIWindow;   //主窗口FlaUI的window
+        private Window _MainWindow;   //主窗口FlaUI的window
         private UIThreadInvoker _uiMainThreadInvoker;
         private AutoLogger<SubWinList> _logger;
         private readonly IServiceProvider _serviceProvider;
@@ -41,15 +41,16 @@ namespace WeChatAuto.Components
         /// 子窗口列表构造函数
         /// </summary>
         /// <param name="window">主窗口FlaUI的window</param>
-        /// <param name="wxWindow">主窗口对象<see cref="WeChatMainWindow"/></param>
-        /// <param name="uiMainThreadInvoker">主窗口UI线程执行器</param>
-        /// <param name="serviceProvider">服务提供者</param>
-        public SubWinList(Window window, WeChatMainWindow wxWindow, UIThreadInvoker uiMainThreadInvoker, IServiceProvider serviceProvider)
+        /// <param name="mainWeChatMainWindow">主窗口对象<see cref="WeChatMainWindow"/></param>
+        /// <param name="uiMainThreadInvoker">主窗口UI线程执行器<see cref="UIThreadInvoker"/></param>
+        /// <param name="serviceProvider">服务提供者<see cref="IServiceProvider"/></param>
+        public SubWinList(Window window, WeChatMainWindow mainWeChatMainWindow, UIThreadInvoker uiMainThreadInvoker,
+          IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<AutoLogger<SubWinList>>();
             _uiMainThreadInvoker = uiMainThreadInvoker;
-            _MainWxWindow = wxWindow;
-            _MainFlaUIWindow = window;
+            _MainWxWindow = mainWeChatMainWindow;
+            _MainWindow = window;
             _serviceProvider = serviceProvider;
             _InitMonitorSubWinThread();
             _MonitorSubWinTaskCompletionSource.Task.GetAwaiter().GetResult();
@@ -122,7 +123,7 @@ namespace WeChatAuto.Components
                 var desktop = automation.GetDesktop();
                 var list = Retry.WhileNull(() => desktop.FindAllChildren(cf => cf.ByClassName("ChatWnd")
                         .And(cf.ByControlType(ControlType.Window)
-                        .And(cf.ByProcessId(_MainFlaUIWindow.Properties.ProcessId)))),
+                        .And(cf.ByProcessId(_MainWindow.Properties.ProcessId)))),
                         timeout: TimeSpan.FromSeconds(10),
                         interval: TimeSpan.FromMilliseconds(200));
 
@@ -147,7 +148,7 @@ namespace WeChatAuto.Components
                  var desktop = automation.GetDesktop();
                  return Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("ChatWnd")
                          .And(cf.ByControlType(ControlType.Window)
-                         .And(cf.ByProcessId(_MainFlaUIWindow.Properties.ProcessId))
+                         .And(cf.ByProcessId(_MainWindow.Properties.ProcessId))
                          .And(cf.ByName(name)))),
                          timeout: TimeSpan.FromSeconds(5),
                          interval: TimeSpan.FromMilliseconds(200));
@@ -190,7 +191,7 @@ namespace WeChatAuto.Components
                 var desktop = automation.GetDesktop();
                 return Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("ChatWnd")
                         .And(cf.ByControlType(ControlType.Window)
-                        .And(cf.ByProcessId(_MainFlaUIWindow.Properties.ProcessId))
+                        .And(cf.ByProcessId(_MainWindow.Properties.ProcessId))
                         .And(cf.ByName(name)))),
                         timeout: TimeSpan.FromSeconds(5),
                         interval: TimeSpan.FromMilliseconds(200));
@@ -295,7 +296,7 @@ namespace WeChatAuto.Components
                 _MonitorSubWinTaskCompletionSource?.TrySetCanceled();
                 _MonitorSubWinThread?.Join(3000);
                 _MonitorSubWinCancellationTokenSource?.Dispose();
-                
+                //will do: 释放所有子窗口
             }
             _disposed = true;
         }

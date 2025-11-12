@@ -1,4 +1,3 @@
-
 using FlaUI.Core;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Input;
@@ -107,6 +106,11 @@ namespace WeChatAuto.Components
                         _lastBubbles = currentBubbles;
                         return;
                     }
+                }
+                catch(OperationCanceledException)
+                {
+                    _logger.Info("轮询检测线程已停止，正常取消,不做处理");
+                    return;
                 }
                 catch (Exception ex)
                 {

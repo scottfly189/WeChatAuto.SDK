@@ -232,6 +232,7 @@ namespace WeChatAuto.Components
             _AddressBook = new AddressBookList(_MainWindow, this, _uiMainThreadInvoker, _serviceProvider);  // 通讯录
             _moments = new Moments(_MainWindow, this, _uiMainThreadInvoker, _serviceProvider);
             _SubWinList = new SubWinList(_MainWindow, this, _uiMainThreadInvoker, _serviceProvider);
+            //这里是主聊天窗口的ChatContent,子窗口也有ChatContent,但是是不同的对象，要注意传入的参数！
             _WxMainChatContent = new ChatContent(_MainWindow, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane", this, _uiMainThreadInvoker, this, _serviceProvider);
         }
         /// <summary>
