@@ -33,7 +33,6 @@ namespace WeChatAuto.Components
     /// </summary>
     public class WeChatMainWindow : IWeChatWindow, IDisposable
     {
-        private readonly ActionQueueChannel<ChatActionMessage> _actionQueueChannel = new ActionQueueChannel<ChatActionMessage>();
         private readonly AutoLogger<WeChatMainWindow> _logger;
         private WeChatClientFactory _WeChatClientFactory;
         private Window _MainWindow;
@@ -54,7 +53,6 @@ namespace WeChatAuto.Components
         public SubWinList SubWinList => _SubWinList;  // 子窗口列表
         public int ProcessId { get; private set; }
         private string _nickName;
-        private readonly List<Task> _taskList = new List<Task>();
         public string NickName => _nickName;
         public Window Window => _MainWindow;
         public WeChatClient Client { get; set; }
@@ -67,12 +65,8 @@ namespace WeChatAuto.Components
         public UIThreadInvoker UiMainThreadInvoker => _uiMainThreadInvoker;
         private Thread _newUserListenerThread;
         private CancellationTokenSource _newUserListenerCancellationTokenSource = new CancellationTokenSource();
-        private CancellationTokenSource _SubscriptionCancellationTokenSource = new CancellationTokenSource();
         private List<(Action<List<string>> callBack, FriendListenerOptions options)> _newUserActionList = new List<(Action<List<string>> callBack, FriendListenerOptions options)>();
         private TaskCompletionSource<bool> _newUserListenerStarted = new TaskCompletionSource<bool>();
-        private TaskCompletionSource<bool> _subscriptionStarted = new TaskCompletionSource<bool>();
-        public ActionQueueChannel<ChatActionMessage> ActionQueueChannel => _actionQueueChannel;
-
 
         /// <summary>
         /// 微信客户端窗口构造函数
@@ -88,10 +82,8 @@ namespace WeChatAuto.Components
             _MainWindow = _GetClientWindow(topWindowProcessId);
             _logger = _serviceProvider.GetRequiredService<AutoLogger<WeChatMainWindow>>();
             _InitStaticWxWindowComponents();  //初始化微信窗口的各种组件
-            _InitSubscription();  //初始化订阅
             _InitNewUserListener();  //初始化新用户监听
             _newUserListenerStarted.Task.GetAwaiter().GetResult();  //等待新用户监听线程启动
-            _subscriptionStarted.Task.GetAwaiter().GetResult();  //等待订阅线程启动
         }
         /// <summary>
         /// 获取微信客户端窗口
@@ -206,7 +198,7 @@ namespace WeChatAuto.Components
                         Payload = item.options,
                         IsOpenSubWin = false,
                     };
-                    var result = await _actionQueueChannel.WriteAndWaitAsync(msg, cancellationToken);
+                    var result = await this.AddFriendDispatch(msg);
                     if (result != null && result is List<string> list)
                     {
                         item.callBack(list);
@@ -242,77 +234,27 @@ namespace WeChatAuto.Components
             //这里是主聊天窗口的ChatContent,子窗口也有ChatContent,但是是不同的对象，要注意传入的参数！
             _WxMainChatContent = new ChatContent(_MainWindow, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane", this, _uiMainThreadInvoker, this, _serviceProvider);
         }
-        /// <summary>
-        /// 初始化订阅
-        /// </summary>
-        private void _InitSubscription()
+
+        public async Task SendMessageDispatch(ChatActionMessage msg)
         {
-            Task.Run(async () =>
-            {
-                _subscriptionStarted.SetResult(true);
-                while (await _actionQueueChannel.WaitToReadAsync(_SubscriptionCancellationTokenSource.Token))
-                {
-                    try
-                    {
-                        if (_disposed)
-                            break;
-                        if (_SubscriptionCancellationTokenSource.Token.IsCancellationRequested)
-                            break;
-                        var msg = await _actionQueueChannel.ReadAsync(_SubscriptionCancellationTokenSource.Token);
-                        await _DispatchMessage(msg);
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        Trace.WriteLine("订阅线程已停止，正常取消,不做处理");
-                        _logger.Info("订阅线程已停止，正常取消,不做处理");
-                        break;
-                    }
-                    catch (Exception ex)
-                    {
-                        Trace.WriteLine("订阅线程异常,订阅线程不中断，但请检查是否存在异常，异常信息：" + ex.Message);
-                        _logger.Error("订阅线程异常,订阅线程不中断，但请检查是否存在异常，异常信息：" + ex.Message);
-                    }
-                }
-            }, _SubscriptionCancellationTokenSource.Token);
+            await this.SendMessageCore(msg.ToUser, msg.Message, msg.IsOpenSubWin);
         }
-        /// <summary>
-        /// 消息分发
-        /// <see cref="ChatActionMessage"/>
-        /// </summary>
-        /// <param name="msg">消息<see cref="ChatActionMessage"/></param>
-        private async Task _DispatchMessage(ChatActionMessage msg)
+
+        public async Task SendEmojiDispatch(ChatActionMessage msg)
         {
-            Task task = null;
-            switch (msg.Type)
-            {
-                case ActionType.发送消息:
-                    task = this.SendMessageCore(msg.ToUser, msg.Message, msg.IsOpenSubWin);
-                    _taskList.Add(task);
-                    await task;
-                    break;
-                case ActionType.自定义表情:
-                    task = this.SendEmojiCore(msg);
-                    _taskList.Add(task);
-                    await task;
-                    break;
-                case ActionType.发送文件:
-                    task = this.SendFileCore(msg);
-                    _taskList.Add(task);
-                    await task;
-                    break;
-                case ActionType.添加好友:
-                    task = this.AddFriendCore(msg);
-                    _taskList.Add(task);
-                    await task;
-                    break;
-                case ActionType.打开子窗口:
-                    task = this.OpenSubWinCore(msg);
-                    _taskList.Add(task);
-                    await task;
-                    break;
-                default:
-                    throw new Exception($"错误：消息类型[{msg.Type}]不支持");
-            }
+            await this.SendEmojiCore(msg);
+        }
+        public async Task SendFileDispatch(ChatActionMessage msg)
+        {
+            await this.SendFileCore(msg);
+        }
+        public async Task<List<string>> AddFriendDispatch(ChatActionMessage msg)
+        {
+            return await this.AddFriendCore(msg);
+        }
+        public async Task<bool> OpenSubWinDispatch(ChatActionMessage msg)
+        {
+            return await this.OpenSubWinCore(msg);
         }
 
         #region 窗口操作
@@ -391,7 +333,7 @@ namespace WeChatAuto.Components
                     }
                 );
             }
-            await _actionQueueChannel.WriteAsync(new ChatActionMessage()
+            await this.SendMessageDispatch(new ChatActionMessage()
             {
                 Type = ActionType.发送消息,
                 ToUser = who,
@@ -436,7 +378,7 @@ namespace WeChatAuto.Components
                     }
                 );
             }
-            await _actionQueueChannel.WriteAsync(new ChatActionMessage()
+            await this.SendMessageDispatch(new ChatActionMessage()
             {
                 Type = ActionType.发送消息,
                 ToUser = who,
@@ -462,7 +404,7 @@ namespace WeChatAuto.Components
         /// <param name="atUser">被@的用户</param>
         public async Task SendCurrentMessage(string message, string atUser = null)
         {
-            await _actionQueueChannel.WriteAsync(new ChatActionMessage()
+            await this.SendMessageDispatch(new ChatActionMessage()
             {
                 Type = ActionType.发送消息,
                 ToUser = null,
@@ -690,7 +632,7 @@ namespace WeChatAuto.Components
             msg.ToUser = who;
             msg.Payload = files;
             msg.IsOpenSubWin = isOpenChat;
-            await _actionQueueChannel.WriteAsync(msg);
+            await this.SendFileDispatch(msg);
         }
         /// <summary>
         /// 给多个好友发送文件
@@ -719,7 +661,7 @@ namespace WeChatAuto.Components
             msg.ToUser = who;
             msg.Payload = emoji;
             msg.IsOpenSubWin = isOpenChat;
-            await _actionQueueChannel.WriteAsync(msg);
+            await this.SendEmojiDispatch(msg);
         }
 
         /// <summary>
@@ -869,59 +811,54 @@ namespace WeChatAuto.Components
                 _logger.Error("发送表情失败：" + ex.Message);
             }
         }
-        private async Task OpenSubWinCore(ChatActionMessage msg)
+        private async Task<bool> OpenSubWinCore(ChatActionMessage msg)
         {
-            TaskCompletionSource<object> tcs = (TaskCompletionSource<object>)msg.Tcs;
+            bool result = false;
             try
             {
                 _Navigation.SwitchNavigation(NavigationType.聊天);
                 string who = msg.ToUser;
                 if (await _IsInConversation(who))
                 {
-                    tcs.SetResult(true);
-                    return;
+                    result = true;
+                    return result;
                 }
                 if (await _IsSearch(who))
                 {
-                    tcs.SetResult(true);
-                    return;
+                    result = true;
+                    return result;
                 }
-                tcs.SetResult(false);
+                return result;
             }
             catch (Exception ex)
             {
                 _logger.Error("添加好友失败：" + ex.Message);
-                tcs.SetException(ex);
+                throw;
             }
-
-            await tcs.Task;
         }
-        private async Task AddFriendCore(ChatActionMessage msg)
+        private async Task<List<string>> AddFriendCore(ChatActionMessage msg)
         {
-            TaskCompletionSource<object> tcs = (TaskCompletionSource<object>)msg.Tcs;
+            List<string> list = null;
             FriendListenerOptions options = (FriendListenerOptions)msg.Payload;
             try
             {
                 if (options != null)
                 {
                     //自动通过新好友后返回
-                    var list = _AddressBook.PassedAllNewFriend(options.KeyWord, options.Suffix, options.Label);
-                    tcs.SetResult(list);
+                    list = _AddressBook.PassedAllNewFriend(options.KeyWord, options.Suffix, options.Label);
                 }
                 else
                 {
                     //仅获取所有新加好友列表，不自动通过，需要用户手动通过
-                    var list = _AddressBook.GetAllFriends();
-                    tcs.SetResult(list);
+                    list = _AddressBook.GetAllFriends();
                 }
-
-                await tcs.Task;
+                await Task.CompletedTask;
+                return list;
             }
             catch (Exception ex)
             {
                 _logger.Error("添加好友失败：" + ex.Message);
                 Trace.WriteLine("添加好友失败：" + ex.Message);
-                tcs.SetException(ex);
                 throw;
             }
         }
@@ -2207,10 +2144,7 @@ namespace WeChatAuto.Components
                 //释放托管资源
                 this.ClearAllEvent();
                 _newUserListenerCancellationTokenSource?.Cancel();
-                _SubscriptionCancellationTokenSource?.Cancel();
-                _actionQueueChannel?.Dispose();
 
-                Task.WhenAll(_taskList).Wait();
                 if (_newUserListenerThread?.IsAlive ?? false)
                 {
                     if (!_newUserListenerThread.Join(5000))
@@ -2225,11 +2159,9 @@ namespace WeChatAuto.Components
 
                 _newUserListenerCancellationTokenSource?.Dispose();
                 _newUserListenerStarted?.TrySetCanceled();
-                _SubscriptionCancellationTokenSource?.Dispose();
                 _uiMainThreadInvoker?.Dispose();
 
                 _newUserListenerCancellationTokenSource = null;
-                _SubscriptionCancellationTokenSource = null;
                 _uiMainThreadInvoker = null;
             }
         }

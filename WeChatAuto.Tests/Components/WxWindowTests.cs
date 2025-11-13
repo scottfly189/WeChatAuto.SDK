@@ -84,7 +84,6 @@ namespace WeChatAuto.Tests.Components
             var window = client.WxMainWindow;
             await window.SendWho("AI.Net", "你好，世界111！");
             Assert.True(true);
-            //await Task.Delay(60000);
         }
 
         [Fact(DisplayName = "测试发送消息-当前聊天窗口-确保打开是测试人的聊天窗口")]
