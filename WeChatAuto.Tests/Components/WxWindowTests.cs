@@ -71,10 +71,9 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendCurrentMessage("你好，世界！");
+            await window.SendCurrentMessage("你好，世界！");
             Assert.True(true);
             await Task.CompletedTask;
-            await Task.Delay(20000);
         }
         //要先打开测试人的聊天窗口
         [Fact(DisplayName = "测试发送消息-已打开聊天窗口")]
@@ -180,7 +179,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendEmoji("AI.Net", EmojiListHelper.Items[0].Index, false);
+            await window.SendEmoji("AI.Net", EmojiListHelper.Items[0].Index, false);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -190,7 +189,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendEmoji("AI.Net", "微笑", false);
+            await window.SendEmoji("AI.Net", "微笑", false);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -200,7 +199,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendEmoji("AI.Net", "[微笑]", false);
+            await window.SendEmoji("AI.Net", "[微笑]", false);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -211,7 +210,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendEmoji("AI.Net", EmojiListHelper.Items[0].Index, true);
+            await window.SendEmoji("AI.Net", EmojiListHelper.Items[0].Index, true);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -222,7 +221,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendEmojis(["AI.Net", ".NET-AI实时快讯3群"], EmojiListHelper.Items[0].Index, true);
+            await window.SendEmojis(["AI.Net", ".NET-AI实时快讯3群"], EmojiListHelper.Items[0].Index, true);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -233,7 +232,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendFile("AI.Net", @"C:\Users\Administrator\Desktop\ssss\logo.png", false);
+            await window.SendFile("AI.Net", @"C:\Users\Administrator\Desktop\ssss\logo.png", false);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -244,7 +243,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendFile("AI.Net", @"C:\Users\Administrator\Desktop\ssss\4.mp4", false);
+            await window.SendFile("AI.Net", @"C:\Users\Administrator\Desktop\ssss\4.mp4", false);
             Assert.True(true);
             await Task.Delay(60000);
         }
@@ -256,7 +255,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendFile(".NET-AI实时快讯3群", new string[] { @"C:\Users\Administrator\Desktop\ssss\4.mp4", @"C:\Users\Administrator\Desktop\ssss\logo.png", @"C:\Users\Administrator\Desktop\ssss\3.pdf" }, false);
+            await window.SendFile(".NET-AI实时快讯3群", new string[] { @"C:\Users\Administrator\Desktop\ssss\4.mp4", @"C:\Users\Administrator\Desktop\ssss\logo.png", @"C:\Users\Administrator\Desktop\ssss\3.pdf" }, false);
             Assert.True(true);
             await Task.Delay(60000);
         }

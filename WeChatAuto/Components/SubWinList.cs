@@ -181,7 +181,7 @@ namespace WeChatAuto.Components
         {
             if (!CheckSubWinIsOpen(name))
             {
-                await _MainWxWindow.ActionQueueChannel.PutAndWaitAsync(new ChatActionMessage()
+                await _MainWxWindow.ActionQueueChannel.WriteAndWaitAsync(new ChatActionMessage()
                 {
                     Type = ActionType.打开子窗口,
                     ToUser = name,

@@ -23,9 +23,9 @@ namespace WxAutoCommon.Models
         /// <param name="item"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public bool Put(T item, CancellationToken cancellationToken = default)
+        public async ValueTask WriteAsync(T item, CancellationToken cancellationToken = default)
         {
-            return _channel.Writer.TryWrite(item);
+            await _channel.Writer.WriteAsync(item, cancellationToken);
         }
         /// <summary>
         /// 写入动作并等待
@@ -33,7 +33,7 @@ namespace WxAutoCommon.Models
         /// <param name="item"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<object> PutAndWaitAsync(T item, CancellationToken cancellationToken = default)
+        public async Task<object> WriteAndWaitAsync(T item, CancellationToken cancellationToken = default)
         {
             TaskCompletionSource<object> tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
             item.Tcs = tcs;

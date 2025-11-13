@@ -230,8 +230,8 @@ namespace WeChatAuto.Components
     /// </summary>
     /// <param name="message">消息内容</param>
     /// <param name="atUser">被@的用户</param>
-    public void SendCurrentMessage(string message, string atUser = null)
-      => WxMainWindow.SendCurrentMessage(message, atUser);
+    public async Task SendCurrentMessage(string message, string atUser = null)
+      => await WxMainWindow.SendCurrentMessage(message, atUser);
 
     /// <summary>
     /// 给指定好友发送文件
@@ -239,32 +239,32 @@ namespace WeChatAuto.Components
     /// <param name="who">好友名称</param>
     /// <param name="files">文件路径,可以是单个文件路径，也可以是多个文件路径</param>
     /// <param name="isOpenChat">是否打开子聊天窗口</param>
-    public void SendFile(string who, OneOf<string, string[]> files, bool isOpenChat = false)
-      => WxMainWindow.SendFile(who, files, isOpenChat);
+    public async Task SendFile(string who, OneOf<string, string[]> files, bool isOpenChat = false)
+      => await WxMainWindow.SendFile(who, files, isOpenChat);
     /// <summary>
     /// 给多个好友发送文件
     /// </summary>
     /// <param name="whos">好友名称列表</param>
     /// <param name="files">文件路径,可以是单个文件路径，也可以是多个文件路径</param>
     /// <param name="isOpenChat">是否打开子聊天窗口</param>
-    public void SendFiles(string[] whos, OneOf<string, string[]> files, bool isOpenChat = false)
-      => WxMainWindow.SendFiles(whos, files, isOpenChat);
+    public async Task SendFiles(string[] whos, OneOf<string, string[]> files, bool isOpenChat = false)
+      => await WxMainWindow.SendFiles(whos, files, isOpenChat);
     /// <summary>
     /// 发送表情
     /// </summary>
     /// <param name="who">好友名称</param>
     /// <param name="emoji">表情名称或者描述或者索引,具体索引或者描述等请参考<see cref="EmojiListHelper"/>或者<see cref="EmojiItem"/></param>
     /// <param name="isOpenChat">是否打开子聊天窗口</param>
-    public void SendEmoji(string who, OneOf<int, string> emoji, bool isOpenChat = false)
-      => WxMainWindow.SendEmoji(who, emoji, isOpenChat);
+    public async Task SendEmoji(string who, OneOf<int, string> emoji, bool isOpenChat = false)
+      => await WxMainWindow.SendEmoji(who, emoji, isOpenChat);
     /// <summary>
     /// 发送表情
     /// </summary>
     /// <param name="whos">好友名称列表</param>
     /// <param name="emoji">表情名称或者描述或者索引,具体索引或者描述等请参考<see cref="EmojiListHelper"/>或者<see cref="EmojiItem"/></param>
     /// <param name="isOpenChat">是否打开子聊天窗口</param>
-    public void SendEmojis(string[] whos, OneOf<int, string> emoji, bool isOpenChat = false)
-      => WxMainWindow.SendEmojis(whos, emoji, isOpenChat);
+    public async Task SendEmojis(string[] whos, OneOf<int, string> emoji, bool isOpenChat = false)
+      => await WxMainWindow.SendEmojis(whos, emoji, isOpenChat);
 
     #endregion
 
