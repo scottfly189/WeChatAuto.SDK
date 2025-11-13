@@ -496,7 +496,67 @@ namespace WeChatAuto.Components
     #endregion
 
     #region 通讯录操作
-
+    /// <summary>
+    /// 获取所有好友
+    /// </summary>
+    /// <returns>好友列表</returns>
+    public List<string> GetAllFriends()
+      => WxMainWindow.AddressBook.GetAllFriends();
+    /// <summary>
+    /// 定位好友
+    /// </summary>
+    /// <param name="friendName">好友名称</param>
+    /// <returns>是否存在</returns>
+    public bool LocateFriend(string friendName)
+      => WxMainWindow.AddressBook.LocateFriend(friendName);
+    /// <summary>
+    /// 获取所有公众号
+    /// </summary>
+    /// <returns>公众号列表</returns>
+    public List<string> GetAllOfficialAccount()
+    => WxMainWindow.AddressBook.GetAllOfficialAccount();
+    /// <summary>
+    /// 获取所有待添加好友
+    /// </summary>
+    /// <param name="keyWord">关键字,如果设置关键字，则返回包含关键字的新好友，如果没有设置，则返回所有新好友</param>
+    /// <returns>待添加好友昵称列表</returns>
+    public List<string> GetAllWillAddFriends(string keyWord = null)
+      => WxMainWindow.AddressBook.GetAllWillAddFriends(keyWord);
+    /// <summary>
+    /// 通过新好友
+    /// </summary>
+    /// <param name="keyWord">关键字,如果设置关键字，则通过包含关键字的新好友，如果没有设置，则通过所有新好友</param>
+    /// <param name="suffix">后缀,如果设置后缀，则在此好友昵称后添加后缀</param>
+    /// <param name="label">用户标签</param>
+    /// <returns>通过的新好友昵称列表</returns>
+    public List<string> PassedAllNewFriend(string keyWord = null, string suffix = null, string label = null)
+      => WxMainWindow.AddressBook.PassedAllNewFriend(keyWord, suffix, label);
+    /// <summary>
+    /// 移除好友
+    /// </summary>
+    /// <param name="nickName">好友昵称</param>
+    /// <returns>是否成功</returns>
+    public bool RemoveFriend(string nickName)
+      => WxMainWindow.AddressBook.RemoveFriend(nickName);
+    /// <summary>
+    /// 添加好友
+    /// willdo:有必要吗？
+    /// </summary>
+    /// <param name="friendNames">微信号/手机号列表</param>
+    /// <param name="label">用户标签</param>
+    /// <returns>好友名称列表和是否成功</returns>
+    public List<(string friendName, bool isSuccess, string errMessage)> AddFriends(List<string> friendNames, string label = "")
+      => WxMainWindow.AddressBook.AddFriends(friendNames, label);
+    /// <summary>
+    /// 添加好友
+    /// 注意：不能添加太频繁，否则可能会触发微信的风控机制，导致加好友失败
+    /// willdo:有必要吗？
+    /// </summary>
+    /// <param name="friendName">微信号/手机号</param>
+    /// <param name="label">用户标签</param>
+    /// <returns>是否成功</returns>
+    public bool AddFriend(string friendName, string label = "")
+      => WxMainWindow.AddressBook.AddFriend(friendName, label);
     #endregion
 
     #region 所有监听操作，包括消息监听、朋友圈监听、新用户监听
