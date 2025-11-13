@@ -635,7 +635,10 @@ namespace WeChatAuto.Components
         _RetryCount = 0;
         _CheckAppRunningTimer = new System.Threading.Timer(_ =>
         {
-          _CheckAppRunningCancellationTokenSource?.Token.ThrowIfCancellationRequested();
+          if (_disposed)
+            return;
+          if (_CheckAppRunningCancellationTokenSource.Token.IsCancellationRequested)
+            return;
           if (_CheckRunningFlag)
           {
             _logger.Trace($"微信客户端[{NickName}]运行检查风控退出监听线程正在运行，跳过本次检测");
@@ -823,18 +826,16 @@ namespace WeChatAuto.Components
     protected virtual void Dispose(bool disposing)
     {
       if (_disposed) return;
+      _disposed = true;
       if (disposing)
       {
         _CheckAppRunningCancellationTokenSource?.Cancel();
+        _CheckAppRunningTimer?.Dispose();
         WxNotifyIcon?.Dispose();
         WxMainWindow?.Dispose();
-        _CheckAppRunningTimer?.Dispose();
-        Thread.CurrentThread.Join(5000);  //等待_CheckAppRunningTimer线程结束
         _CheckAppRunningCancellationTokenSource?.Dispose();
         _CheckAppRunningUIThreadInvoker?.Dispose();
       }
-
-      _disposed = true;
     }
     #endregion
   }

@@ -82,16 +82,17 @@ namespace WeChatAuto.Components
                     }
                     catch (OperationCanceledException)
                     {
-                        _logger.Info("监听子窗口线程已停止，正常取消,不做处理");
+                        _logger.Info($"监听子窗口线程[{_MonitorSubWinThread.Name}]已停止，正常取消,不做处理");
                         break;
                     }
                     catch (Exception ex)
                     {
-                        _logger.Error("监听子窗口线程发生错误,但是不退出,异常信息:" + ex.ToString());
+                        _logger.Error($"监听子窗口线程[{_MonitorSubWinThread.Name}]发生错误,但是不退出,异常信息:" + ex.ToString());
                         _logger.Error(ex.StackTrace);
                     }
                 }
             });
+            _MonitorSubWinThread.Name = "MonitorSubWinThread";
             _MonitorSubWinThread.IsBackground = true;
             _MonitorSubWinThread.Priority = ThreadPriority.Lowest;
             _MonitorSubWinThread.Start();
@@ -304,6 +305,7 @@ namespace WeChatAuto.Components
             {
                 return;
             }
+            _disposed = true;
             if (disposing)
             {
                 _MonitorSubWinCancellationTokenSource?.Cancel();
@@ -312,7 +314,6 @@ namespace WeChatAuto.Components
                 _MonitorSubWinCancellationTokenSource?.Dispose();
                 //will do: 释放所有子窗口
             }
-            _disposed = true;
         }
     }
 }

@@ -119,22 +119,28 @@ namespace WeChatAuto.Components
                     _newUserListenerStarted.SetResult(true);
                     while (!_newUserListenerCancellationTokenSource.Token.IsCancellationRequested)
                     {
+                        if (_disposed)
+                            break;
+                        if (_newUserListenerCancellationTokenSource.IsCancellationRequested)
+                            break;
                         if (_newUserActionList.Count > 0)
                         {
                             await _FetchNewUserNoticeAction(_newUserListenerCancellationTokenSource.Token);
                         }
+                        if (_disposed)
+                            break;
                         Thread.Sleep(WeAutomation.Config.NewUserListenerInterval * 1000);
                     }
                 }
                 catch (OperationCanceledException)
                 {
-                    Trace.WriteLine("新用户监听线程已停止，正常取消,不做处理");
-                    _logger.Info("新用户监听线程已停止，正常取消,不做处理");
+                    Trace.WriteLine($"新用户监听线程[{_newUserListenerThread.Name}]已停止，正常取消,不做处理");
+                    _logger.Info($"新用户监听线程[{_newUserListenerThread.Name}]已停止，正常取消,不做处理");
                 }
                 catch (Exception e)
                 {
-                    Trace.WriteLine("新用户监听线程异常，异常信息：" + e.Message);
-                    _logger.Error("新用户监听线程异常，异常信息：" + e.Message);
+                    Trace.WriteLine($"新用户监听线程[{_newUserListenerThread.Name}]异常，异常信息：" + e.Message);
+                    _logger.Error($"新用户监听线程[{_newUserListenerThread.Name}]异常，异常信息：" + e.Message);
                     throw;
                 }
             });
@@ -246,7 +252,10 @@ namespace WeChatAuto.Components
                 {
                     try
                     {
-                        _SubscriptionCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                        if (_disposed)
+                            break;
+                        if (_SubscriptionCancellationTokenSource.Token.IsCancellationRequested)
+                            break;
                         var msg = await _actionQueueChannel.ReadAsync(_SubscriptionCancellationTokenSource.Token);
                         await _DispatchMessage(msg);
                     }
@@ -364,7 +373,7 @@ namespace WeChatAuto.Components
                     (string[] atUsers) =>
                     {
                         var atUserList = atUsers.ToList();
-                        var atUserString = "@"+string.Join(" ", atUserList);
+                        var atUserString = "@" + string.Join(" ", atUserList);
                         message = $"{atUserString} {message}";
                     }
                 );
@@ -410,7 +419,7 @@ namespace WeChatAuto.Components
                     (string[] atUsers) =>
                     {
                         var atUserList = atUsers.ToList();
-                        var atUserString = "@"+string.Join(" ", atUserList);
+                        var atUserString = "@" + string.Join(" ", atUserList);
                         message = $"{atUserString}{message}";
                     }
                 );
@@ -2183,36 +2192,37 @@ namespace WeChatAuto.Components
         public virtual void Dispose(bool disposing)
         {
             if (_disposed)
-            {
                 return;
-            }
+            _disposed = true;
             if (disposing)
             {
                 //释放托管资源
+                this.ClearAllEvent();
+                _newUserListenerCancellationTokenSource?.Cancel();
+                _SubscriptionCancellationTokenSource?.Cancel();
+                _actionQueueChannel?.Dispose();
+
+                if (_newUserListenerThread?.IsAlive ?? false)
+                {
+                    if (!_newUserListenerThread.Join(5000))
+                    {
+                        _newUserListenerThread.Interrupt();
+                    }
+                }
+
                 _WxMainChatContent.Dispose();
                 _moments.Dispose();
                 _SubWinList.Dispose();
 
-                _newUserListenerCancellationTokenSource?.Cancel();
-                _SubscriptionCancellationTokenSource?.Cancel();
-                _actionQueueChannel?.Close();
-
-                if (_newUserListenerThread?.IsAlive ?? false)
-                {
-                    _newUserListenerThread?.Join(3000);
-                }
                 _newUserListenerCancellationTokenSource?.Dispose();
                 _newUserListenerStarted?.TrySetCanceled();
                 _SubscriptionCancellationTokenSource?.Dispose();
-                this.ClearAllEvent();
                 _uiMainThreadInvoker?.Dispose();
 
                 _newUserListenerCancellationTokenSource = null;
                 _SubscriptionCancellationTokenSource = null;
                 _uiMainThreadInvoker = null;
             }
-
-            _disposed = true;
         }
         #endregion
     }

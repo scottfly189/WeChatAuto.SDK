@@ -58,13 +58,13 @@ namespace WxAutoCommon.Utils
                         }
                         catch (OperationCanceledException)
                         {
-                            Trace.WriteLine("UIThreadInvoker thread normally cancelled");
+                            Trace.WriteLine($"UIThreadInvoker thread [{_ThreadName}] normally cancelled");
                             break;
                         }
                         catch (Exception ex)
                         {
                             // 记录异常，但不中断整个线程
-                            Trace.WriteLine($"Action execution failed: {ex}");
+                            Trace.WriteLine($"UIThreadInvoker thread [{_ThreadName}] Action execution failed: {ex}");
                         }
                     }
                 }
@@ -72,11 +72,11 @@ namespace WxAutoCommon.Utils
             catch (OperationCanceledException)
             {
                 // 正常取消，不需要记录
-                Trace.WriteLine("UIThreadInvoker thread 正常退出，只做记录，不做处理");
+                Trace.WriteLine($"UIThreadInvoker thread [{_ThreadName}] normally cancelled");
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"UIThreadInvoker thread failed: {ex}");
+                Trace.WriteLine($"UIThreadInvoker thread [{_ThreadName}] failed: {ex}");
                 _started.TrySetException(ex);
             }
         }
@@ -126,6 +126,7 @@ namespace WxAutoCommon.Utils
         public virtual void Dispose(bool disposing)
         {
             if (_disposed) return;
+            _disposed = true;
             if (disposing)
             {
                 _cts.Cancel();
@@ -134,14 +135,14 @@ namespace WxAutoCommon.Utils
                 // 等待线程结束
                 if (_uiThread.IsAlive)
                 {
-                    _uiThread.Join(TimeSpan.FromSeconds(5)); // 最多等待5秒
+                    if (!_uiThread.Join(TimeSpan.FromSeconds(3)))
+                        _uiThread.Interrupt();
                 }
 
                 _cts.Dispose();
                 _queue.Dispose();
                 _automation?.Dispose();
             }
-            _disposed = true;
         }
 
         ~UIThreadInvoker()

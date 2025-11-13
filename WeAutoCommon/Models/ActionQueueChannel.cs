@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -8,12 +9,12 @@ namespace WxAutoCommon.Models
     /// 动作队列通道
     /// </summary>
     /// <typeparam name="T">动作类型</typeparam>
-    public class ActionQueueChannel<T> where T : ChatActionMessage
+    public class ActionQueueChannel<T> : IDisposable where T : ChatActionMessage
     {
         private readonly Channel<T> _channel = Channel.CreateBounded<T>(new BoundedChannelOptions(100)
         {
             FullMode = BoundedChannelFullMode.Wait,
-            SingleReader = true, // 单个读取器
+            SingleReader = true, // 单个读取器,因为考虑到是UI操作，所以不能多个读取器同时读取
             SingleWriter = false // 多个写入器
         });
         /// <summary>
@@ -42,7 +43,7 @@ namespace WxAutoCommon.Models
         /// <summary>
         /// 读取动作
         /// </summary>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns></returns>
         public async ValueTask<T> ReadAsync(CancellationToken cancellationToken = default)
         {
@@ -51,16 +52,14 @@ namespace WxAutoCommon.Models
         /// <summary>
         /// 测试读取
         /// </summary>
-        /// <param name="cancellationToken"></param>
+        /// <param name="cancellationToken">取消令牌</param>
         /// <returns></returns>
         public ValueTask<bool> WaitToReadAsync(CancellationToken cancellationToken = default)
         {
             return _channel.Reader.WaitToReadAsync(cancellationToken);
         }
-        /// <summary>
-        /// 关闭通道
-        /// </summary>
-        public void Close()
+
+        public void Dispose()
         {
             _channel.Writer.Complete();
         }
