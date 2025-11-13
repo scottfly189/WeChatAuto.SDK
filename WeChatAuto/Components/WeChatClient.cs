@@ -100,7 +100,7 @@ namespace WeChatAuto.Components
     public void SearchCollection(string content) => WxMainWindow.Search.SearchCollection(content);
     #endregion
 
-    #region 微信客户端工具操作
+    #region 客户端工具
     /// <summary>
     /// 屏幕截图
     /// </summary>
@@ -112,7 +112,7 @@ namespace WeChatAuto.Components
     }
     #endregion
 
-    #region 微信主窗口操作
+    #region 主窗口操作
     /// <summary>
     /// 切换导航栏
     /// </summary>
@@ -179,21 +179,93 @@ namespace WeChatAuto.Components
     /// <param name="replyContent">回复内容</param>
     public void ReplyMoments(OneOf<string, string[]> nickNames, string replyContent)
       => WxMainWindow.Moments.ReplyMoments(nickNames, replyContent);
-    /// <summary>
-    /// 添加朋友圈监听,当监听到指定的好友发朋友圈时，可以自动点赞，或者执行其他操作，如：回复评论等
-    /// </summary>
-    /// <param name="nickNameOrNickNames">监听的好友名称或好友名称列表</param>
-    /// <param name="autoLike">是否自动点赞</param>
-    /// <param name="action">朋友圈对象<see cref="MomentsContext"/>,可以通过Monents对象调用回复评论等操作,服务提供者<see cref="IServiceProvider"/>，适用于使用者获取自己注入的服务</param>
-    public void AddMomentsListener(OneOf<string, List<string>> nickNameOrNickNames, bool autoLike = true, Action<MomentsContext, IServiceProvider> action = null)
-      => WxMainWindow.Moments.AddMomentsListener(nickNameOrNickNames, autoLike, action);
-    /// <summary>
-    /// 停止朋友圈监听
-    /// </summary>
-    public void StopMomentsListener() => WxMainWindow.Moments.StopMomentsListener();
     #endregion
 
     #region 消息操作
+    /// <summary>
+    /// 单个发送消息，发送消息给单个好友
+    /// </summary>
+    /// <param name="who">好友名称</param>
+    /// <param name="message">消息内容</param>
+    /// <param name="atUser">被@的用户</param>
+    /// <param name="isOpenChat">是否打开子聊天窗口,默认是True:打开,False:不打开</param>
+    public async Task SendWho(string who, string message, OneOf<string, string[]> atUser = default, bool isOpenChat = true)
+    {
+      if (isOpenChat)
+      {
+        await WxMainWindow.SendWhoAndOpenChat(who, message, atUser);
+      }
+      else
+      {
+        await WxMainWindow.SendWho(who, message, atUser);
+      }
+    }
+    /// <summary>
+    /// 批量发送消息
+    /// </summary>
+    /// <param name="whos">好友名称列表</param>
+    /// <param name="message">消息内容</param>
+    /// <param name="atUser">被@的用户</param>
+    public void SendWhos(string[] whos, string message, OneOf<string, string[]> atUser = default, bool isOpenChat = true)
+    {
+      if (isOpenChat)
+      {
+        WxMainWindow.SendWhosAndOpenChat(whos, message, atUser);
+      }
+      else
+      {
+        WxMainWindow.SendWhos(whos, message, atUser);
+      }
+    }
+
+    /// <summary>
+    /// 获取当前聊天窗口的标题
+    /// </summary>
+    /// <returns>当前聊天窗口的标题</returns>
+    public string GetCurrentChatTitle() => WxMainWindow.GetCurrentChatTitle();
+
+    /// <summary>
+    /// 发送给主窗口的当前聊天窗口
+    /// 此操作不会打开子聊天窗口
+    /// </summary>
+    /// <param name="message">消息内容</param>
+    /// <param name="atUser">被@的用户</param>
+    public void SendCurrentMessage(string message, string atUser = null)
+      => WxMainWindow.SendCurrentMessage(message, atUser);
+
+    /// <summary>
+    /// 给指定好友发送文件
+    /// </summary>
+    /// <param name="who">好友名称</param>
+    /// <param name="files">文件路径,可以是单个文件路径，也可以是多个文件路径</param>
+    /// <param name="isOpenChat">是否打开子聊天窗口</param>
+    public void SendFile(string who, OneOf<string, string[]> files, bool isOpenChat = false)
+      => WxMainWindow.SendFile(who, files, isOpenChat);
+    /// <summary>
+    /// 给多个好友发送文件
+    /// </summary>
+    /// <param name="whos">好友名称列表</param>
+    /// <param name="files">文件路径,可以是单个文件路径，也可以是多个文件路径</param>
+    /// <param name="isOpenChat">是否打开子聊天窗口</param>
+    public void SendFiles(string[] whos, OneOf<string, string[]> files, bool isOpenChat = false)
+      => WxMainWindow.SendFiles(whos, files, isOpenChat);
+    /// <summary>
+    /// 发送表情
+    /// </summary>
+    /// <param name="who">好友名称</param>
+    /// <param name="emoji">表情名称或者描述或者索引,具体索引或者描述等请参考<see cref="EmojiListHelper"/>或者<see cref="EmojiItem"/></param>
+    /// <param name="isOpenChat">是否打开子聊天窗口</param>
+    public void SendEmoji(string who, OneOf<int, string> emoji, bool isOpenChat = false)
+      => WxMainWindow.SendEmoji(who, emoji, isOpenChat);
+    /// <summary>
+    /// 发送表情
+    /// </summary>
+    /// <param name="whos">好友名称列表</param>
+    /// <param name="emoji">表情名称或者描述或者索引,具体索引或者描述等请参考<see cref="EmojiListHelper"/>或者<see cref="EmojiItem"/></param>
+    /// <param name="isOpenChat">是否打开子聊天窗口</param>
+    public void SendEmojis(string[] whos, OneOf<int, string> emoji, bool isOpenChat = false)
+      => WxMainWindow.SendEmojis(whos, emoji, isOpenChat);
+
     #endregion
 
     #region 会话操作
@@ -424,10 +496,72 @@ namespace WeChatAuto.Components
     #endregion
 
     #region 通讯录操作
+
     #endregion
 
     #region 所有监听操作，包括消息监听、朋友圈监听、新用户监听
-
+    /// <summary>
+    /// 添加消息监听，用户需要提供一个回调函数，当有消息时，会调用回调函数
+    /// callBack回调函数参数：
+    /// 1.新消息气泡<see cref="MessageBubble"/>
+    /// 2.包含新消息气泡的列表<see cref="List{MessageBubble}"/>，适用于给LLM大模型提供上下文
+    /// 3.发送者<see cref="Sender"/>，可以用此对象发送消息、发送文件、发送表情等
+    /// 4.当前微信窗口对象<see cref="WeChatMainWindow"/>，适用于全部操作，如给指定好友发送消息、发送文件、发送表情等
+    /// 5.服务提供者<see cref="IServiceProvider"/>，适用于使用者传入服务提供者，用于有户获取自己注入的服务
+    /// </summary>
+    /// <param name="nickName">好友名称</param>
+    /// <param name="callBack">回调函数,由好友提供</param>
+    public async Task AddMessageListener(string nickName, Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider> callBack)
+      => await WxMainWindow.AddMessageListener(nickName, callBack);
+    /// <summary>
+    /// 移除监听消息
+    /// </summary>
+    /// <param name="nickName">好友名称</param>
+    public void StopMessageListener(string nickName)
+      => WxMainWindow.StopMessageListener(nickName);
+    /// <summary>
+    /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会调用回调函数
+    /// 此方法需要自行处理好友是否通过，如果需要自动通过，请使用<see cref="AddNewFriendAutoPassedListener"/>
+    /// </summary>
+    /// <param name="callBack">回调函数</param>
+    public void AddNewFriendCustomPassedListener(Action<List<string>> callBack)
+      => WxMainWindow.AddNewFriendCustomPassedListener(callBack);
+    /// <summary>
+    /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会调用回调函数
+    /// </summary>
+    /// <param name="callBack">回调函数</param>
+    /// <param name="keyWord">关键字</param>
+    /// <param name="suffix">后缀</param>
+    /// <param name="label">标签</param>
+    public void AddNewFriendAutoPassedListener(Action<List<string>> callBack, string keyWord = null, string suffix = null, string label = null)
+      => WxMainWindow.AddNewFriendAutoPassedListener(callBack, keyWord, suffix, label);
+    /// <summary>
+    /// 移除新用户监听
+    /// </summary>
+    public void StopNewUserListener()
+      => WxMainWindow.StopNewUserListener();
+    /// <summary>
+    /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会自动通过此用户，并且将此用户打开到子窗口，当有新消息时，会调用回调函数
+    /// </summary>
+    /// <param name="callBack">回调函数</param>
+    /// <param name="keyWord">关键字</param>
+    /// <param name="suffix">后缀</param>
+    /// <param name="label">标签</param>
+    public void AddNewFriendAutoPassedAndOpenSubWinListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider> callBack, string keyWord = null, string suffix = null, string label = null)
+      => WxMainWindow.AddNewFriendAutoPassedAndOpenSubWinListener(callBack, keyWord, suffix, label);
+    /// <summary>
+    /// 添加朋友圈监听,当监听到指定的好友发朋友圈时，可以自动点赞，或者执行其他操作，如：回复评论等
+    /// </summary>
+    /// <param name="nickNameOrNickNames">监听的好友名称或好友名称列表</param>
+    /// <param name="autoLike">是否自动点赞</param>
+    /// <param name="action">朋友圈对象<see cref="MomentsContext"/>,可以通过Monents对象调用回复评论等操作,服务提供者<see cref="IServiceProvider"/>，适用于使用者获取自己注入的服务</param>
+    public void AddMomentsListener(OneOf<string, List<string>> nickNameOrNickNames, bool autoLike = true, Action<MomentsContext, IServiceProvider> action = null)
+      => WxMainWindow.Moments.AddMomentsListener(nickNameOrNickNames, autoLike, action);
+    /// <summary>
+    /// 停止朋友圈监听
+    /// </summary>
+    public void StopMomentsListener()
+      => WxMainWindow.Moments.StopMomentsListener();
     #endregion
     #region 风控退出监听
     /// <summary>
@@ -631,15 +765,15 @@ namespace WeChatAuto.Components
       if (_disposed) return;
       if (disposing)
       {
-        // 先取消操作，然后释放托管资源
         _CheckAppRunningCancellationTokenSource?.Cancel();
+        WxNotifyIcon?.Dispose();
+        WxMainWindow?.Dispose();
+        _CheckAppRunningTimer?.Dispose();
+        Thread.CurrentThread.Join(5000);  //等待_CheckAppRunningTimer线程结束
+        _CheckAppRunningCancellationTokenSource?.Dispose();
+        _CheckAppRunningUIThreadInvoker?.Dispose();
       }
-      WxNotifyIcon?.Dispose();
-      WxMainWindow?.Dispose();
-      _CheckAppRunningTimer?.Dispose();
-      Thread.CurrentThread.Join(5000);  //等待_CheckAppRunningTimer线程结束
-      _CheckAppRunningCancellationTokenSource?.Dispose();
-      _CheckAppRunningUIThreadInvoker?.Dispose();
+
       _disposed = true;
     }
     #endregion

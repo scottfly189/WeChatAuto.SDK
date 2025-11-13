@@ -436,7 +436,7 @@ namespace WeChatAuto.Components
             whos.ToList().ForEach(async who => await SendWhoAndOpenChat(who, message, atUser));
         }
         /// <summary>
-        /// 发送给当前聊天窗口
+        /// 发送给主窗口的当前聊天窗口
         /// </summary>
         /// <param name="message">消息内容</param>
         /// <param name="atUser">被@的用户</param>
@@ -661,14 +661,14 @@ namespace WeChatAuto.Components
         /// 给指定好友发送文件
         /// </summary>
         /// <param name="who">好友名称</param>
-        /// <param name="file">文件路径</param>
+        /// <param name="files">文件路径,可以是单个文件路径，也可以是多个文件路径</param>
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
-        public void SendFile(string who, OneOf<string, string[]> file, bool isOpenChat = false)
+        public void SendFile(string who, OneOf<string, string[]> files, bool isOpenChat = false)
         {
             ChatActionMessage msg = new ChatActionMessage();
             msg.Type = ActionType.发送文件;
             msg.ToUser = who;
-            msg.Payload = file;
+            msg.Payload = files;
             msg.IsOpenSubWin = isOpenChat;
             _actionQueueChannel.Put(msg);
         }
@@ -676,11 +676,11 @@ namespace WeChatAuto.Components
         /// 给多个好友发送文件
         /// </summary>
         /// <param name="whos">好友名称列表</param>
-        /// <param name="file">文件路径</param>
+        /// <param name="files">文件路径,可以是单个文件路径，也可以是多个文件路径</param>
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
-        public void SendFiles(string[] whos, OneOf<string, string[]> file, bool isOpenChat = false)
+        public void SendFiles(string[] whos, OneOf<string, string[]> files, bool isOpenChat = false)
         {
-            whos.ToList().ForEach(who => SendFile(who, file, isOpenChat));
+            whos.ToList().ForEach(who => SendFile(who, files, isOpenChat));
         }
 
 
@@ -986,7 +986,7 @@ namespace WeChatAuto.Components
             _SubWinList.StopMessageListener(nickName);
         }
         /// <summary>
-        /// 移除添加新用户监听
+        /// 移除新用户监听
         /// </summary>
         public void StopNewUserListener()
         {
