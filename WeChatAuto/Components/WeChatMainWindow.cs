@@ -346,8 +346,8 @@ namespace WeChatAuto.Components
         #endregion
         #region 发送消息操作
         /// <summary>
-        /// 单个查询，查询单个好友
-        /// 注意：此方法不会打开子聊天窗口
+        /// 单个发送消息，发送消息给单个好友
+        /// 注意：此方法不会打开子窗口
         /// </summary>
         /// <param name="who">好友名称</param>
         /// <param name="message">消息内容</param>
@@ -364,11 +364,7 @@ namespace WeChatAuto.Components
                     (string[] atUsers) =>
                     {
                         var atUserList = atUsers.ToList();
-                        var atUserString = "";
-                        atUserList.ForEach(user =>
-                        {
-                            atUserString += $"@{user} ";
-                        });
+                        var atUserString = "@"+string.Join(" ", atUserList);
                         message = $"{atUserString} {message}";
                     }
                 );
@@ -383,7 +379,7 @@ namespace WeChatAuto.Components
             await Task.CompletedTask;
         }
         /// <summary>
-        /// 批量查询，查询多个好友
+        /// 批量发送消息
         /// 注意：此方法不会打开子聊天窗口
         /// </summary>
         /// <param name="whos">好友名称列表</param>
@@ -397,7 +393,7 @@ namespace WeChatAuto.Components
             });
         }
         /// <summary>
-        /// 单个查询，查询单个好友，并打开子聊天窗口
+        /// 单个发送消息，发送消息给单个好友，并打开子聊天窗口
         /// </summary>
         /// <param name="who">好友名称</param>
         /// <param name="message">消息内容</param>
@@ -414,11 +410,7 @@ namespace WeChatAuto.Components
                     (string[] atUsers) =>
                     {
                         var atUserList = atUsers.ToList();
-                        var atUserString = "";
-                        atUserList.ForEach(user =>
-                        {
-                            atUserString += $"@{user} ";
-                        });
+                        var atUserString = "@"+string.Join(" ", atUserList);
                         message = $"{atUserString}{message}";
                     }
                 );
@@ -434,7 +426,7 @@ namespace WeChatAuto.Components
         }
 
         /// <summary>
-        /// 批量查询，查询多个好友，并打开子聊天窗口
+        /// 批量发送消息，发送消息给多个好友，并打开子聊天窗口
         /// </summary>
         /// <param name="whos">好友名称列表</param>
         /// <param name="message">消息内容</param>
@@ -460,11 +452,11 @@ namespace WeChatAuto.Components
         }
 
         /// <summary>
-        /// 给当前聊天窗口发送消息
-        /// 可能存在不能发送消息的窗口情况.
+        /// 给当前聊天窗口发送消息的核心方法
+        /// 可能存在不能发送消息的窗口情况，因为当前可能是非聊天窗口
         /// </summary>
         /// <param name="message">消息内容</param>
-        private void __SendCurrentMessage(string message, string atUser = null)
+        private void __SendCurrentMessageCore(string message, string atUser = null)
         {
             if (atUser != null)
             {
@@ -510,7 +502,7 @@ namespace WeChatAuto.Components
                 }
                 else
                 {
-                    this.__SendCurrentMessage(message);
+                    this.__SendCurrentMessageCore(message);
                 }
                 return true;
             }
@@ -549,7 +541,7 @@ namespace WeChatAuto.Components
                 {
                     this.Conversations.ClickConversation(who);
                     Wait.UntilInputIsProcessed();
-                    this.__SendCurrentMessage(message);
+                    this.__SendCurrentMessageCore(message);
                     return true;
                 }
             }
@@ -613,7 +605,7 @@ namespace WeChatAuto.Components
                 {
                     this.Conversations.ClickConversation(who);
                     Wait.UntilInputIsProcessed();
-                    this.__SendCurrentMessage(message);
+                    this.__SendCurrentMessageCore(message);
                     return true;
                 }
             }
@@ -735,7 +727,7 @@ namespace WeChatAuto.Components
                 if (string.IsNullOrEmpty(who))
                 {
                     //发送给当前聊天窗口
-                    this.__SendCurrentMessage(message);
+                    this.__SendCurrentMessageCore(message);
                     return;
                 }
                 else
@@ -924,7 +916,7 @@ namespace WeChatAuto.Components
         /// callBack回调函数参数：
         /// 1.新消息气泡<see cref="MessageBubble"/>
         /// 2.包含新消息气泡的列表<see cref="List{MessageBubble}"/>，适用于给LLM大模型提供上下文
-        /// 3.发送者<see cref="Sender"/>，适用于本子窗口操作，如发送消息、发送文件、发送表情等
+        /// 3.发送者<see cref="Sender"/>，可以用此对象发送消息、发送文件、发送表情等
         /// 4.当前微信窗口对象<see cref="WeChatMainWindow"/>，适用于全部操作，如给指定好友发送消息、发送文件、发送表情等
         /// 5.服务提供者<see cref="IServiceProvider"/>，适用于使用者传入服务提供者，用于有户获取自己注入的服务
         /// </summary>

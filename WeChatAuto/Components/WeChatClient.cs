@@ -16,6 +16,7 @@ using WxAutoCommon.Simulator;
 using System.Threading.Tasks;
 using WeChatAuto.Models;
 using FlaUI.Core.Capturing;
+using WxAutoCommon.Enums;
 
 
 namespace WeChatAuto.Components
@@ -71,7 +72,7 @@ namespace WeChatAuto.Components
     }
     #endregion
 
-    #region 搜索操作
+    #region 搜索
     /// <summary>
     /// 输入搜索内容，并回车
     /// </summary>
@@ -109,6 +110,35 @@ namespace WeChatAuto.Components
     {
       return _serviceProvider.GetRequiredService<WeChatCaptureImage>().CaptureUI(fileName);
     }
+    #endregion
+
+    #region 微信主窗口操作
+    /// <summary>
+    /// 切换导航栏
+    /// </summary>
+    /// <param name="navigationType">导航栏类型<see cref="NavigationType"/></param>
+    public void NavigationSwitch(NavigationType navigationType) => WxMainWindow.Navigation.SwitchNavigation(navigationType);
+
+    /// <summary>
+    /// 将微信主窗口置顶
+    /// </summary>
+    public void WindowTop() => WxMainWindow.WindowTop();
+    /// <summary>
+    /// 将微信主窗口最小化
+    /// </summary>
+    public void WindowMin() => WxMainWindow.WindowMin();
+    /// <summary>
+    /// 将微信主窗口最小化后的还原操作
+    /// </summary>
+    public void WindowMinRestore() => WxMainWindow.WinMinRestore();
+    /// <summary>
+    /// 将微信主窗口还原
+    /// </summary>
+    public void WindowRestore() => WxMainWindow.WindowRestore();
+    /// <summary>
+    /// 将微信主窗口最大化
+    /// </summary>
+    public void WindowMax() => WxMainWindow.WindowMax();
     #endregion
 
     #region 朋友圈操作
@@ -396,9 +426,10 @@ namespace WeChatAuto.Components
     #region 通讯录操作
     #endregion
 
-    #region 监听操作，包括消息监听、朋友圈监听、新用户监听
+    #region 所有监听操作，包括消息监听、朋友圈监听、新用户监听
 
     #endregion
+    #region 风控退出监听
     /// <summary>
     /// 添加运行检查风控退出监听
     /// </summary>
@@ -525,7 +556,7 @@ namespace WeChatAuto.Components
       _ClickConfirmButton(window);
       _ClickRetryButton(automation, window);
     }
-  
+
     /// <summary>
     /// 点击登录按钮
     /// </summary>
@@ -583,6 +614,7 @@ namespace WeChatAuto.Components
         _logger.Trace("已自动点击确认按钮，下一步自动点击登录按钮");
       }
     }
+    #endregion
     #region 释放资源
     public void Dispose()
     {
