@@ -203,15 +203,15 @@ namespace WeChatAuto.Components
     /// <param name="whos">好友名称列表</param>
     /// <param name="message">消息内容</param>
     /// <param name="atUser">被@的用户</param>
-    public void SendWhos(string[] whos, string message, OneOf<string, string[]> atUser = default, bool isOpenChat = true)
+    public async Task SendWhos(string[] whos, string message, OneOf<string, string[]> atUser = default, bool isOpenChat = true)
     {
       if (isOpenChat)
       {
-        WxMainWindow.SendWhosAndOpenChat(whos, message, atUser);
+        await WxMainWindow.SendWhosAndOpenChat(whos, message, atUser);
       }
       else
       {
-        WxMainWindow.SendWhos(whos, message, atUser);
+        await WxMainWindow.SendWhos(whos, message, atUser);
       }
     }
 

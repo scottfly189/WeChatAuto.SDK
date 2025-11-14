@@ -341,12 +341,9 @@ namespace WeChatAuto.Components
         /// <param name="whos">好友名称列表</param>
         /// <param name="message">消息内容</param>
         /// <param name="atUser">被@的用户</param>
-        public void SendWhos(string[] whos, string message, OneOf<string, string[]> atUser = default)
+        public async Task SendWhos(string[] whos, string message, OneOf<string, string[]> atUser = default)
         {
-            whos.ToList().ForEach(async who =>
-            {
-                await SendWho(who, message, atUser);
-            });
+            await Task.WhenAll(whos.ToList().Select(who => SendWho(who, message, atUser)));
         }
         /// <summary>
         /// 单个发送消息，发送消息给单个好友，并打开子聊天窗口
@@ -386,9 +383,9 @@ namespace WeChatAuto.Components
         /// <param name="whos">好友名称列表</param>
         /// <param name="message">消息内容</param>
         /// <param name="atUser">被@的用户</param>
-        public void SendWhosAndOpenChat(string[] whos, string message, OneOf<string, string[]> atUser = default)
+        public async Task SendWhosAndOpenChat(string[] whos, string message, OneOf<string, string[]> atUser = default)
         {
-            whos.ToList().ForEach(async who => await SendWhoAndOpenChat(who, message, atUser));
+            await Task.WhenAll(whos.ToList().Select(who => SendWhoAndOpenChat(who, message, atUser)));
         }
         /// <summary>
         /// 发送给主窗口的当前聊天窗口

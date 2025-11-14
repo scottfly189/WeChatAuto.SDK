@@ -105,6 +105,48 @@ public class WeChatClientTests
         var client = clientFactory.GetWeChatClient(_wxClientName);
         client.SearchSomething(text, isClear);
         Assert.True(true);
+        await Task.CompletedTask;
     }
+    [Fact(DisplayName = "测试清空搜索框")]
+    public async Task TestClearText()
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        await Task.Delay(5 * 1_000);
+        client.ClearText();
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
+    [Fact(DisplayName = "测试搜索聊天")]
+    public async Task TestSearchChat()
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        client.SearchChat("AI.Net");
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
+    [Fact(DisplayName = "测试搜索联系人")]
+    public async Task TestSearchContact()
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        client.SearchContact("AI.Net");
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
+
+    [Fact(DisplayName = "测试搜索收藏")]
+    public async Task TestSearchCollection()
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        client.SearchCollection("AI.Net");
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
+    #endregion
+    #region 消息操作
+    
     #endregion
 }
