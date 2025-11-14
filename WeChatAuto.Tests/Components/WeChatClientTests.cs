@@ -92,7 +92,18 @@ public class WeChatClientTests
         var client = clientFactory.GetWeChatClient(_wxClientName);
         await Task.Delay(5 * 1_000);
         client.WindowRestore();
-        await Task.Delay(10 * 1_000);
+        Assert.True(true);
+    }
+    #endregion
+    #region 搜索
+    [Theory(DisplayName = "测试搜索")]
+    [InlineData("AI.Net", false)]
+    [InlineData("AI.Net", true)]
+    public async Task TestSearchSomething(string text, bool isClear = false)
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        client.SearchSomething(text, isClear);
         Assert.True(true);
     }
     #endregion

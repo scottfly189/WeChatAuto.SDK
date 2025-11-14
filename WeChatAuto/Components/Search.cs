@@ -8,12 +8,14 @@ using WxAutoCommon.Utils;
 using WeChatAuto.Utils;
 using WxAutoCommon.Interface;
 using WeChatAuto.Extentions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WeChatAuto.Components
 {
     public class Search
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly AutoLogger<Search> _logger;
         private UIThreadInvoker _uiMainThreadInvoker;
         private WeChatMainWindow _WxWindow;
         public Search(WeChatMainWindow wxWindow, UIThreadInvoker uiThreadInvoker, Window window, IServiceProvider serviceProvider)
@@ -21,6 +23,7 @@ namespace WeChatAuto.Components
             _uiMainThreadInvoker = uiThreadInvoker;
             _WxWindow = wxWindow;
             _serviceProvider = serviceProvider;
+            _logger = _serviceProvider.GetRequiredService<AutoLogger<Search>>();
         }
 
 
@@ -30,8 +33,8 @@ namespace WeChatAuto.Components
         /// <param name="text"></param>
         public void SearchSomething(string text, bool isClear = false)
         {
-            var searchEdit = _uiMainThreadInvoker.Run(automation=>Retry.WhileNull(() => _WxWindow.Window.FindFirstByXPath($"/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='{WeChatConstant.WECHAT_SESSION_SEARCH}']"),
-                timeout: TimeSpan.FromSeconds(10),
+            var searchEdit = _uiMainThreadInvoker.Run(automation=>Retry.WhileNull(() => _WxWindow.Window.FindFirstByXPath($"//Edit[@Name='{WeChatConstant.WECHAT_SESSION_SEARCH}']"),
+                timeout: TimeSpan.FromSeconds(5),
                 interval: TimeSpan.FromMilliseconds(200))).GetAwaiter().GetResult();
             if (searchEdit.Success)
             {
@@ -46,8 +49,9 @@ namespace WeChatAuto.Components
                 _WxWindow.SilenceEnterText(textBox, text);
                 Wait.UntilInputIsProcessed(TimeSpan.FromSeconds(1));
                 _WxWindow.SilenceReturn(textBox);
+            }else{
+                _logger.Error($"没有找到搜索框,搜索内容: {text}");
             }
-
         }
         /// <summary>
         /// 清空搜索框
