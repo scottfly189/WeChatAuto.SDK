@@ -35,6 +35,10 @@ namespace WeChatAuto.Components
                 return _ChatContentRoot;
             }
         }
+        private ChatHeader _SubWinChatHeader;
+        private ChatBody _SubWinChatBody;
+        //注意：下面代码：如果是子窗口，则会返回固定的ChatHeader和ChatBody，不会重新获取，
+        //如果是主窗口的ChatContent,则每次都会重新获取ChatHeader和ChatBody,因为主窗口的ChatHeader和ChatBody会随着聊天内容的变化而变化
         public ChatHeader ChatHeader => GetChatHeader();
         public ChatBody ChatBody => GetChatBody();
         public ChatContent(Window window, ChatContentType chatContentType, string xPath, IWeChatWindow wxWindow, UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow, IServiceProvider serviceProvider)
@@ -54,6 +58,11 @@ namespace WeChatAuto.Components
         /// <returns>聊天标题区<see cref="ChatHeader"/></returns>
         public ChatHeader GetChatHeader()
         {
+            if (_ChatContentType == ChatContentType.SubWindow && _SubWinChatHeader != null)
+            {
+                //如果是子窗口，则返回子窗口的ChatHeader
+                return _SubWinChatHeader;
+            }
             var title = GetFullTitle();
             if (string.IsNullOrEmpty(title))
             {
@@ -63,10 +72,9 @@ namespace WeChatAuto.Components
             {
                 title = Regex.Match(title, @"^([^\(]+) \(").Groups[1].Value;
             }
-            else
-            {
-                title = title.Trim();
-            }
+
+            title = title.Trim();
+
             var header = _uiMainThreadInvoker.Run(automation => ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             var buttons = _uiMainThreadInvoker.Run(automation => header.FindAllDescendants(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             Button chatInfoButton = null;
@@ -74,7 +82,12 @@ namespace WeChatAuto.Components
             {
                 chatInfoButton = buttons.ToList().First().AsButton();
             }
-            return new ChatHeader(title, chatInfoButton, _serviceProvider);
+            var cHeader = new ChatHeader(title, chatInfoButton, _serviceProvider);
+            if (_ChatContentType == ChatContentType.SubWindow)
+            {
+                _SubWinChatHeader = cHeader;
+            }
+            return cHeader;
         }
         /// <summary>
         /// 获取聊天标题(不做处理，直接返回)
@@ -106,10 +119,18 @@ namespace WeChatAuto.Components
             {
                 return null;
             }
+            if (_ChatContentType == ChatContentType.SubWindow && _SubWinChatBody != null)
+            {
+                return _SubWinChatBody;
+            }
             var title = GetFullTitle();
             var chatBodyRoot = _uiMainThreadInvoker.Run(automation => ChatContentRoot.FindFirstByXPath("/Pane[2]")).GetAwaiter().GetResult();
             DrawHightlightHelper.DrawHightlight(chatBodyRoot, _uiMainThreadInvoker);
             var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow, title, _uiMainThreadInvoker, this._MainWxWindow, _serviceProvider);
+            if (_ChatContentType == ChatContentType.SubWindow)
+            {
+                _SubWinChatBody = chatBody;
+            }
             return chatBody;
         }
 
@@ -120,6 +141,7 @@ namespace WeChatAuto.Components
                 return;
             }
             _disposed = true;
+            _SubWinChatBody?.Dispose();
         }
     }
 }

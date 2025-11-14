@@ -122,15 +122,12 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 将微信主窗口置顶
     /// </summary>
-    public void WindowTop() => WxMainWindow.WindowTop();
+    /// <param name="isTop">是否置顶,默认是True:置顶,False:取消置顶</param>
+    public void WindowTop(bool isTop = true) => WxMainWindow.WindowTop(isTop);
     /// <summary>
     /// 将微信主窗口最小化
     /// </summary>
     public void WindowMin() => WxMainWindow.WindowMin();
-    /// <summary>
-    /// 将微信主窗口最小化后的还原操作
-    /// </summary>
-    public void WindowMinRestore() => WxMainWindow.WinMinRestore();
     /// <summary>
     /// 将微信主窗口还原
     /// </summary>

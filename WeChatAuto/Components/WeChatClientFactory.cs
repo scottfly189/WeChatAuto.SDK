@@ -8,6 +8,7 @@ using WeChatAuto.Utils;
 using FlaUI.Core.Tools;
 using WeChatAuto.Services;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading;
 
 namespace WeChatAuto.Components
 {
@@ -114,7 +115,10 @@ namespace WeChatAuto.Components
             try
             {
                 var taskBarRoot = _uiTempThreadInvoker.Run(automation =>
-                    automation.GetDesktop().FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd")))
+                    Retry.WhileNull(() => automation.GetDesktop().FindFirstChild(cf =>
+                      cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd"))),
+                      timeout: TimeSpan.FromSeconds(5),
+                      interval: TimeSpan.FromMilliseconds(200)).Result
                 ).GetAwaiter().GetResult();
                 var wxNotifyList = _uiTempThreadInvoker.Run(automation =>
                     Retry.WhileNull(() => taskBarRoot.FindFirstDescendant(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NOTIFY_ICON)
@@ -128,11 +132,15 @@ namespace WeChatAuto.Components
                     {
                         DrawHightlightHelper.DrawHightlight(wxNotifyButton, _uiTempThreadInvoker);
                         _uiTempThreadInvoker.Run(automation => wxNotifyButton.AsButton().Invoke()).GetAwaiter().GetResult();
-                        var topWindowProcessId = Retry.WhileException(() => WinApi.GetTopWindowProcessIdByClassName("WeChatMainWndForPC"), timeout: TimeSpan.FromSeconds(5));
+                        var topWindowProcessId = Retry.WhileException(() => WinApi.GetTopWindowProcessIdByClassName("WeChatMainWndForPC"),
+                          timeout: TimeSpan.FromSeconds(5),
+                          interval: TimeSpan.FromMilliseconds(200));
                         var wxTempwindow = _uiTempThreadInvoker.Run(automation =>
-                            automation.GetDesktop().FindFirstChild(cf => cf.ByClassName("WeChatMainWndForPC")
+                            Retry.WhileNull(() => automation.GetDesktop().FindFirstChild(cf => cf.ByClassName("WeChatMainWndForPC")
                                     .And(cf.ByControlType(ControlType.Window)
-                                    .And(cf.ByProcessId(topWindowProcessId.Result)))).AsWindow()
+                                    .And(cf.ByProcessId(topWindowProcessId.Result)))).AsWindow(),
+                                    timeout: TimeSpan.FromSeconds(5),
+                                    interval: TimeSpan.FromMilliseconds(200)).Result
                         ).GetAwaiter().GetResult();
                         DrawHightlightHelper.DrawHightlight(wxTempwindow, _uiTempThreadInvoker);
                         WeChatMainWindow wxMainWindow = new WeChatMainWindow(this, _serviceProvider, topWindowProcessId.Result);
@@ -140,7 +148,9 @@ namespace WeChatAuto.Components
 
                         var client = new WeChatClient(wxNotifyIcon, wxMainWindow, _serviceProvider, WeAutomation.Config.EnableCheckAppRunning);
                         wxMainWindow.Client = client;
-                        var NickNameButton = wxTempwindow.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]").AsButton();
+                        var NickNameButton = Retry.WhileNull(() => wxTempwindow.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]")?.AsButton(),
+                          timeout: TimeSpan.FromSeconds(5),
+                          interval: TimeSpan.FromMilliseconds(200)).Result;
                         _wxClientList.Add(NickNameButton.Name, client);
                     }
                     this._IsInit = true;

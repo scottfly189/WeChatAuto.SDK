@@ -39,6 +39,61 @@ public class WeChatClientTests
         var framework = _globalFixture.clientFactory;
         var client = framework.GetWeChatClient(_wxClientName);
         Assert.True(true);
-        await Task.Delay(20*1000);
+        await Task.Delay(20 * 1_000);
     }
+    #region NotifyIcon操作
+
+    [Fact(DisplayName = "测试点击通知图标")]
+    public async Task TestClickNotifyIcon()
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        client.ClickNotifyIcon();
+        await Task.Delay(20 * 1_000);
+        Assert.True(true);
+    }
+    #endregion
+    #region 主窗口操作
+    [Theory(DisplayName = "测试窗口置顶")]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task TestWindowTop(bool isTop = true)
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        client.WindowTop(isTop);
+        await Task.Delay(10 * 1_000);
+        Assert.True(true);
+    }
+    [Fact(DisplayName = "测试窗口最小化")]
+    public async Task TestWindowMin()
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        await Task.Delay(5 * 1_000);
+        client.WindowMin();
+        await Task.Delay(10 * 1_000);
+        Assert.True(true);
+    }
+    [Fact(DisplayName = "测试窗口最大化")]
+    public async Task TestWindowMax()
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        await Task.Delay(5 * 1_000);
+        client.WindowMax();
+        await Task.Delay(10 * 1_000);
+        Assert.True(true);
+    }
+    [Fact(DisplayName = "测试窗口还原")]
+    public async Task TestWindowRestore()
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        await Task.Delay(5 * 1_000);
+        client.WindowRestore();
+        await Task.Delay(10 * 1_000);
+        Assert.True(true);
+    }
+    #endregion
 }

@@ -274,13 +274,6 @@ namespace WeChatAuto.Components
             ToolBar.Min();
         }
 
-        /// <summary>
-        /// 最小化后的还原操作
-        /// </summary>
-        public void WinMinRestore()
-        {
-            ToolBar.MinRestore();
-        }
 
         /// <summary>
         /// 最大化窗口

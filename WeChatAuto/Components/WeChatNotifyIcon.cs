@@ -3,6 +3,8 @@ using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using FlaUI.Core.Tools;
 using WxAutoCommon.Utils;
+using System.Threading;
+using WeChatAuto.Utils;
 
 namespace WeChatAuto.Components
 {
@@ -46,7 +48,12 @@ namespace WeChatAuto.Components
         public void Click()
         {
             var actionThreaderInvoker = _wxMainWindow.UiMainThreadInvoker;
-            actionThreaderInvoker.Run(automation => _NotifyIcon.Invoke()).GetAwaiter().GetResult();
+            actionThreaderInvoker.Run(automation =>
+            {
+                _NotifyIcon.DrawHighlightExt();
+                _NotifyIcon.Invoke();
+                Thread.Sleep(300);
+            }).GetAwaiter().GetResult();
         }
 
         public void Dispose()

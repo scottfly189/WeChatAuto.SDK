@@ -35,7 +35,6 @@ namespace WeChatAuto.Tests.Components
             DrawHightlightHelper.DrawHightlight(window.Window, window.UiMainThreadInvoker);
             window.WindowMin();
             await Task.Delay(2000);
-            window.WinMinRestore();
             window.WindowTop(true);
             await Task.Delay(2000);
             window.WindowTop(false);
