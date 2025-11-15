@@ -346,7 +346,10 @@ namespace WeChatAuto.Components
         /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
         public async Task SendWhos(string[] whos, string message, OneOf<string, string[]> atUser = default)
         {
-            await Task.WhenAll(whos.ToList().Select(who => SendWho(who, message, atUser)));
+            foreach (var who in whos)
+            {
+                await SendWho(who, message, atUser);
+            }
         }
         /// <summary>
         /// 单个发送消息，发送消息给单个好友，并打开子聊天窗口
@@ -391,24 +394,11 @@ namespace WeChatAuto.Components
         /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
         public async Task SendWhosAndOpenChat(string[] whos, string message, OneOf<string, string[]> atUser = default)
         {
-            await Task.WhenAll(whos.ToList().Select(who => SendWhoAndOpenChat(who, message, atUser)));
+            foreach (var who in whos)
+            {
+                await SendWhoAndOpenChat(who, message, atUser);
+            }
         }
-        // /// <summary>
-        // /// 发送给主窗口的当前聊天窗口
-        // /// 暂时不需要这个方法
-        // /// </summary>
-        // /// <param name="message">消息内容</param>
-        // /// <param name="atUser">被@的用户</param>
-        // public async Task SendCurrentMessage(string message, string atUser = null)
-        // {
-        //     await this.SendMessageDispatch(new ChatActionMessage()
-        //     {
-        //         Type = ActionType.发送消息,
-        //         ToUser = null,
-        //         Message = message,
-        //         IsOpenSubWin = false
-        //     });
-        // }
 
         /// <summary>
         /// 给当前聊天窗口发送消息的核心方法

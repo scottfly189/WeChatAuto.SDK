@@ -173,12 +173,20 @@ public class WeChatClientTests
         await Task.CompletedTask;
     }
 
-    [Fact(DisplayName = "测试发送消息给多个好友")]
-    public async Task TestSendWhos()
+    [Theory(DisplayName = "测试发送消息给多个好友")]
+    [InlineData(new string[] { "AI.Net","测试11","实时快讯3群" }, "你好，世界1！", "", false, true, 1)]
+    [InlineData(new string[] { "AI.Net","测试11","实时快讯3群" }, "你好，世界3！", "", true, true, 2)]
+    [InlineData(new string[] { "测试11" }, "你好，世界4!", "", true, true, 3)]
+    [InlineData(new string[] { "AI.Net","测试11","实时快讯3群" }, "你好，世界5！", new string[] { "AI.Net", "秋歌" }, false, true,4)]
+    [InlineData(new string[] { "AI.Net","测试11","实时快讯3群","歪脖子的模版交流群" }, "好晚，大家睡着没有？", new string[] { "直脖子", "使不得先生", "常" }, true, true, 5)]
+    public async Task TestSendWhos(string[] whos, string message, object atUser = default,
+        bool isOpenChat = true, bool result = true, int flag = 0)
     {
         var clientFactory = _globalFixture.clientFactory;
         var client = clientFactory.GetWeChatClient(_wxClientName);
-        await client.SendWhos(["AI.Net", ".NET-AI实时快讯3群"], "你好，世界！");
+        var atUserOneOf = atUser is string ? OneOf<string, string[]>.FromT0((string)atUser) : OneOf<string, string[]>.FromT1((string[])atUser);
+        await client.SendWhos(whos, message, atUserOneOf, isOpenChat);
+        _output.WriteLine($"测试标识：{flag}");
         Assert.True(true);
         await Task.CompletedTask;
     }
