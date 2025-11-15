@@ -157,7 +157,10 @@ public class WeChatClientTests
     [InlineData("AI.Net", "你好，世界3！", "", true, true, 3)]
     [InlineData("测试11", "你好，世界4!", "", true, true, 4)]
     [InlineData("测试11", "你好，世界5！", new string[] { "AI.Net", "秋歌" }, false, true, 5)]
-    [InlineData("超级猩球2", "你好，世界6！", new string[] { "杨奇峰", "V姐" }, false, true, 6)]
+    [InlineData("超级猩球2", "你好，世界6！", new string[] { "杨奇峰", "V姐", "土豆核", "土豆核2" }, false, true, 6)]
+    [InlineData("歪脖子的模版交流群", "好晚，大家睡着没有？", new string[] { "直脖子", "使不得先生", "常" }, false, true, 7)]
+    [InlineData("测试11", "你好，世界5！", new string[] { "AI.Net", "秋歌" }, true, true, 8)]
+    [InlineData("歪脖子的模版交流群", "好晚，大家睡着没有？", new string[] { "直脖子", "使不得先生", "常" }, true, true, 9)]
     public async Task TestSendWho(string who, string message, object atUser = default,
         bool isOpenChat = true, bool result = true, int flag = 0)
     {

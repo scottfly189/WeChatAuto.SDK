@@ -136,11 +136,13 @@ namespace WeChatAuto.Components
             else
             {
                 this._AtUserActionCore(atUserList);
-                // Thread.Sleep(500);
-                // _WxWindow.SilenceEnterText(ContentArea, message);
-                // Thread.Sleep(500);
-                // var button = SendButton;
-                // _WxWindow.SilenceClickExt(button);
+                RandomWait.Wait(300, 800);
+                _WxWindow.SilenceEnterText(ContentArea, message);
+                RandomWait.Wait(100, 500);
+                Keyboard.Press(VirtualKeyShort.END);
+                RandomWait.Wait(300, 800);
+                var button = SendButton;
+                _WxWindow.SilenceClickExt(button);
             }
         }
         private void _AtUserActionCore(List<string> atUserList)
@@ -232,7 +234,24 @@ namespace WeChatAuto.Components
         }
         private void _CustomTypeAtUser(string atUser)
         {
-
+            foreach (var chatChar in atUser)
+            {
+                Keyboard.Type(chatChar);
+                RandomWait.Wait(300, 800);
+            }
+            var listResult = Retry.WhileNull(() => _Window.FindFirstByXPath("//Pane[@Name='ChatContactMenu'][@ClassName='ChatContactMenu']/Pane[2]/List"),
+                timeout: TimeSpan.FromSeconds(3), interval: TimeSpan.FromMilliseconds(200));
+            if (listResult.Success)
+            {
+                //浮动窗口还存在，按下回车键关闭浮动窗口
+                Keyboard.Press(VirtualKeyShort.RETURN);
+            }
+            else
+            {
+                //浮动窗口不存在，可能不存在此好友,硬性输入一个空格
+                Keyboard.Type(" ");
+                RandomWait.Wait(300, 800);
+            }
         }
         /// <summary>
         /// 发送消息
