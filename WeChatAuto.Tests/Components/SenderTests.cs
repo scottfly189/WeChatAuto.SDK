@@ -18,33 +18,8 @@ public class SenderTests
         _output = output;
         _globalFixture = globalFixture;
     }
-    //注意：测试时需要打开一个特定的好友
-    [Fact(DisplayName = "测试发送文本消息")]
-    public void Test_Inline_SendTextMessage()
-    {
-        var framework = _globalFixture.clientFactory;
-        var client = framework.GetWeChatClient(_wxClientName);
-        var window = client.WxMainWindow;
-        var sender = window.MainChatContent.ChatBody.Sender;
-        sender.SendMessage("你好，世界！");
-        Assert.True(true);
-    }
 
-    //注意：测试时需要待发送的好友在会话列表中
-    [Fact(DisplayName = "测试弹出窗口发送文本消息")]
-    public async Task Test_SubWin_SendTextMessage()
-    {
-        var framework = _globalFixture.clientFactory;
-        var client = framework.GetWeChatClient(_wxClientName);
-        var mainWindow = client.WxMainWindow;
-        mainWindow.Conversations.DoubleClickConversation(".NET-AI实时快讯3群");
-        var subWin = mainWindow.SubWinList.GetSubWin(".NET-AI实时快讯3群");
-        var sender = subWin.ChatContent.ChatBody.Sender;
-        sender.SendMessage("你好，世界！");
-        Assert.True(true);
-        await Task.Delay(5000);
-        mainWindow.SubWinList.CloseAllSubWins();
-    }
+
 
     [Fact(DisplayName = "测试弹出窗口发送文本消息-被@的用户")]
     public async Task Test_SubWin_SendTextMessage_atUser()

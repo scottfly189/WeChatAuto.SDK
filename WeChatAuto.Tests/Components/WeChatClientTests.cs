@@ -156,7 +156,8 @@ public class WeChatClientTests
     [InlineData("测试11", "你好，世界2！", "", false, true, 2)]
     [InlineData("AI.Net", "你好，世界3！", "", true, true, 3)]
     [InlineData("测试11", "你好，世界4!", "", true, true, 4)]
-    [InlineData("测试11", "你好，世界5！", "AI.Net", false, true, 5)]
+    [InlineData("测试11", "你好，世界5！", new string[] { "AI.Net", "秋歌" }, false, true, 5)]
+    [InlineData("超级猩球2", "你好，世界6！", new string[] { "杨奇峰", "V姐" }, false, true, 6)]
     public async Task TestSendWho(string who, string message, object atUser = default,
         bool isOpenChat = true, bool result = true, int flag = 0)
     {

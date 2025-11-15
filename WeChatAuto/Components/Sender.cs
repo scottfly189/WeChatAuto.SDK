@@ -17,6 +17,9 @@ using WxAutoCommon.Interface;
 using System.Text;
 using OneOf;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading;
+using System.Windows.Controls.Primitives;
+using FlaUI.Core.Patterns;
 
 namespace WeChatAuto.Components
 {
@@ -48,6 +51,7 @@ namespace WeChatAuto.Components
             _uiThreadInvoker = uiThreadInvoker;
             _serviceProvider = serviceProvider;
             _logger = serviceProvider.GetRequiredService<AutoLogger<Sender>>();
+            _logger.Info($"Sender对象使用线程：{uiThreadInvoker.ThreadName}");
         }
         /// <summary>
         /// 获取工具栏按钮
@@ -120,11 +124,115 @@ namespace WeChatAuto.Components
         /// 发送消息
         /// </summary>
         /// <param name="message">消息内容</param>
-        public void SendMessage(string message)
+        public void SendMessage(string message, List<string> atUserList = null)
         {
-            _WxWindow.SilenceEnterText(ContentArea, message);
-            var button = SendButton;
-            _WxWindow.SilenceClickExt(button);
+            if (atUserList == null || atUserList.Count == 0)
+            {
+                _WxWindow.SilenceEnterText(ContentArea, message);
+                Thread.Sleep(500);
+                var button = SendButton;
+                _WxWindow.SilenceClickExt(button);
+            }
+            else
+            {
+                this._AtUserActionCore(atUserList);
+                // Thread.Sleep(500);
+                // _WxWindow.SilenceEnterText(ContentArea, message);
+                // Thread.Sleep(500);
+                // var button = SendButton;
+                // _WxWindow.SilenceClickExt(button);
+            }
+        }
+        private void _AtUserActionCore(List<string> atUserList)
+        {
+            _Window.Focus();
+            Thread.Sleep(500);
+            ContentArea.Click();
+            _uiThreadInvoker.Run(automation =>
+            {
+                Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                Thread.Sleep(300);
+                foreach (var atUser in atUserList)
+                {
+                    Keyboard.Type("@");
+                    Thread.Sleep(300);
+                    var listResult = Retry.WhileNull(() => _Window.FindFirstByXPath("//Pane[@Name='ChatContactMenu'][@ClassName='ChatContactMenu']/Pane[2]/List"),
+                    timeout: TimeSpan.FromSeconds(3), interval: TimeSpan.FromMilliseconds(200));
+                    if (listResult.Success)
+                    {
+                        var list = listResult.Result.AsListBox();
+                        list.DrawHighlightExt(_uiThreadInvoker);
+                        IScrollPattern pattern = null;
+                        if (list.Patterns.Scroll.IsSupported)
+                        {
+                            pattern = list.Patterns.Scroll.Pattern;
+                            pattern.SetScrollPercent(0, 0);
+                        }
+                        var listItemResult = Retry.WhileNull(() => list.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(atUser))),
+                            timeout: TimeSpan.FromSeconds(3), interval: TimeSpan.FromMilliseconds(200));
+                        if (listItemResult.Success && listItemResult.Result.Length > 0)
+                        {
+                            var listItems = listItemResult.Result.ToList();
+                            var listItem = listItems.FirstOrDefault(item => item.Name == atUser);
+                            if (listItem != null)
+                            {
+                                if (listItem.IsOffscreen)
+                                {
+                                    //滚动列表使@用户可见
+                                    while (listItem.IsOffscreen)
+                                    {
+                                        double currentPercent = pattern.VerticalScrollPercent;
+                                        double newPercent = Math.Min(currentPercent + pattern.VerticalViewSize, 1);
+                                        pattern.SetScrollPercent(0, newPercent);
+                                        Thread.Sleep(600);
+                                        listItems = Retry.WhileNull(() => list.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(atUser))),
+                                          timeout: TimeSpan.FromSeconds(3), interval: TimeSpan.FromMilliseconds(200)).Result.ToList();
+                                        listItem = listItems.FirstOrDefault(item => item.Name == atUser);
+                                        if (!listItem.IsOffscreen)
+                                        {
+                                            var button = listItem.FindFirstByXPath("//Button[@IsOffscreen='false']").AsButton();
+                                            button?.WaitUntilClickable();
+                                            button?.DrawHighlightExt();
+                                            button?.Click();
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            continue;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    var button = listItem.FindFirstByXPath("//Button").AsButton();
+                                    button?.WaitUntilClickable();
+                                    button?.DrawHighlightExt();
+                                    button?.Click();
+                                }
+                            }
+                            else
+                            {
+                                _logger.Info($"未找到@用户{atUser},可能未显示在列表中,将采用键盘输入方式输入@用户");
+                                this._CustomTypeAtUser(atUser);
+                            }
+                        }
+                        else
+                        {
+                            _logger.Info($"未找到@用户{atUser},将采用键盘输入方式输入@用户");
+                            this._CustomTypeAtUser(atUser);
+                        }
+                    }
+                    else
+                    {
+                        _logger.Warn($"未找到@用户菜单窗口");
+                    }
+                }
+            }).GetAwaiter().GetResult();
+        }
+        private void _CustomTypeAtUser(string atUser)
+        {
+
         }
         /// <summary>
         /// 发送消息
@@ -133,26 +241,21 @@ namespace WeChatAuto.Components
         /// <param name="atUser">被@的用户</param>
         public void SendMessage(string message, OneOf<string, string[]> atUser = default)
         {
+            var atUserList = new List<string>();
             if (atUser.Value != default)
             {
                 atUser.Switch(
                     (string user) =>
                     {
-                        message = $"@{user} {message}";
+                        atUserList.Add(user);
                     },
                     (string[] atUsers) =>
                     {
-                        var atUserList = atUsers.ToList();
-                        var atUserString = "";
-                        atUserList.ForEach(user =>
-                        {
-                            atUserString += $"@{user} ";
-                        });
-                        message = $"{atUserString} {message}";
+                        atUserList.AddRange(atUsers);
                     }
                 );
             }
-            this.SendMessage(message);
+            this.SendMessage(message, atUserList);
         }
         /// <summary>
         /// 发送文件
@@ -169,7 +272,7 @@ namespace WeChatAuto.Components
         /// 发送表情
         /// </summary>
         /// <param name="emoji">表情名称或者描述或者索引</param>
-        public void SendEmoji(OneOf<int, string> emoji)
+        public void SendEmoji(OneOf<int, string> emoji, List<string> atUserList = null)
         {
             var message = "";
             emoji.Switch(
@@ -186,7 +289,7 @@ namespace WeChatAuto.Components
                     }
                 }
             );
-            this.SendMessage(message);
+            this.SendMessage(message, atUserList);
         }
     }
 }

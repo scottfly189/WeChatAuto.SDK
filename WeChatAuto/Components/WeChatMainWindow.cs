@@ -75,7 +75,7 @@ namespace WeChatAuto.Components
         /// <param name="notifyIcon">微信通知图标<see cref="WeChatNotifyIcon"/></param>
         public WeChatMainWindow(WeChatClientFactory weChatClientFactory, IServiceProvider serviceProvider, int topWindowProcessId)
         {
-            _uiMainThreadInvoker = new UIThreadInvoker($"WeChatMainWindow_processId_{topWindowProcessId}");
+            _uiMainThreadInvoker = new UIThreadInvoker($"WeChatMainWindow_processId_{topWindowProcessId}_Main_Invoker");
             _serviceProvider = serviceProvider;
             _WeChatClientFactory = weChatClientFactory;
             ProcessId = topWindowProcessId;
@@ -237,7 +237,7 @@ namespace WeChatAuto.Components
 
         public async Task SendMessageDispatch(ChatActionMessage msg)
         {
-            await this.SendMessageCore(msg.ToUser, msg.Message, msg.IsOpenSubWin);
+            await this.SendMessageCore(msg.ToUser, msg.Message, msg.IsOpenSubWin, msg.AtUsers);
         }
 
         public async Task SendEmojiDispatch(ChatActionMessage msg)
@@ -319,18 +319,12 @@ namespace WeChatAuto.Components
                     {
                         if (!string.IsNullOrWhiteSpace(user))
                         {
-                            //message = $"@{user} {message}";
                             atUserList.Add(user);
                         }
                     },
                     (string[] atUsers) =>
                     {
                         atUserList.AddRange(atUsers);
-                        // if (atUserList.Count > 0)
-                        // {
-                        //     var atUserString = "@" + string.Join(" ", atUserList);
-                        //     message = $"{atUserString} {message}";
-                        // }
                     }
                 );
             }
@@ -339,7 +333,8 @@ namespace WeChatAuto.Components
                 Type = ActionType.发送消息,
                 ToUser = who,
                 Message = message,
-                IsOpenSubWin = false
+                IsOpenSubWin = false,
+                AtUsers = atUserList,
             });
         }
         /// <summary>
@@ -361,24 +356,20 @@ namespace WeChatAuto.Components
         /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
         public async Task SendWhoAndOpenChat(string who, string message, OneOf<string, string[]> atUser = default)
         {
-            if (atUser.Value != null)
+            var atUserList = new List<string>();
+            if (atUser.Value != default)
             {
                 atUser.Switch(
                     (string user) =>
                     {
                         if (!string.IsNullOrWhiteSpace(user))
                         {
-                            message = $"@{user} {message}";
+                            atUserList.Add(user);
                         }
                     },
                     (string[] atUsers) =>
                     {
-                        var atUserList = atUsers.ToList();
-                        if (atUserList.Count > 0)
-                        {
-                            var atUserString = "@" + string.Join(" ", atUserList);
-                            message = $"{atUserString}{message}";
-                        }
+                        atUserList.AddRange(atUsers);
                     }
                 );
             }
@@ -387,7 +378,8 @@ namespace WeChatAuto.Components
                 Type = ActionType.发送消息,
                 ToUser = who,
                 Message = message,
-                IsOpenSubWin = true
+                IsOpenSubWin = true,
+                AtUsers = atUserList,
             });
         }
 
@@ -423,13 +415,9 @@ namespace WeChatAuto.Components
         /// 可能存在不能发送消息的窗口情况，因为当前可能是非聊天窗口
         /// </summary>
         /// <param name="message">消息内容</param>
-        private void __SendCurrentMessageCore(string message, string atUser = null)
+        private void __SendCurrentMessageCore(string message, List<string> atUserList = null)
         {
-            if (atUser != null)
-            {
-                message = $"@{atUser} {message}";
-            }
-            this.MainChatContent.ChatBody.Sender.SendMessage(message);
+            this.MainChatContent.ChatBody.Sender.SendMessage(message, atUserList);
         }
         /// <summary>
         /// 获取当前聊天窗口的标题
@@ -450,48 +438,8 @@ namespace WeChatAuto.Components
             }
             return false;
         }
-        //此用户是否是当前聊天窗口,如果当前聊天窗口是此用户，则发送消息
-        private bool _IsCurrentChat(string who, string message, bool isOpenChat)
-        {
-            var currentChatTitle = this.GetCurrentChatTitle();
-            if (string.IsNullOrEmpty(currentChatTitle))
-            {
-                return false;
-            }
-            if (currentChatTitle == who)
-            {
-                if (isOpenChat)
-                {
-                    this.Conversations.DoubleClickConversation(who);
-                    Wait.UntilInputIsProcessed();
-                    // this.Conversations.ClickFirstConversation();
-                    this.SendMessageCore(who, message, isOpenChat).GetAwaiter().GetResult();
-                }
-                else
-                {
-                    this.__SendCurrentMessageCore(message);
-                }
-                return true;
-            }
-            return false;
-        }
-        //此用户是否是当前聊天窗口,如果当前聊天窗口是此用户，则发送文件
-        private bool _IsCurrentChatFile(string who, string[] files)
-        {
-            var currentChatTitle = this.GetCurrentChatTitle();
-            if (string.IsNullOrEmpty(currentChatTitle))
-            {
-                return false;
-            }
-            if (currentChatTitle == who)
-            {
-                this.MainChatContent.ChatBody.Sender.SendFile(files);
-                return true;
-            }
-            return false;
-        }
         //此用户是否在会话列表中，如果存在，则打开或者点击此会话，并且发送消息
-        private async Task<bool> _IsInConversation(string who, string message, bool isOpenChat)
+        private async Task<bool> _IsInConversation(string who, string message, bool isOpenChat, List<string> atUserList = null)
         {
             var conversations = this.Conversations.GetVisibleConversationTitles();
             if (conversations.Contains(who))
@@ -501,14 +449,14 @@ namespace WeChatAuto.Components
                     this.Conversations.DoubleClickConversation(who);
                     Wait.UntilInputIsProcessed();
                     // this.Conversations.ClickFirstConversation();
-                    await SendMessageCore(who, message, isOpenChat); // 由于是双击会话,弹出窗口实例已经存在，所以需要从弹出窗口重新发送消息
+                    await SendMessageCore(who, message, isOpenChat, atUserList); // 由于是双击会话,弹出窗口实例已经存在，所以需要从弹出窗口重新发送消息
                     return true;
                 }
                 else
                 {
                     this.Conversations.ClickConversation(who);
                     Wait.UntilInputIsProcessed();
-                    this.__SendCurrentMessageCore(message);
+                    this.__SendCurrentMessageCore(message, atUserList);
                     return true;
                 }
             }
@@ -553,7 +501,7 @@ namespace WeChatAuto.Components
             return false;
         }
         //此用户是否在搜索结果中
-        private async Task<bool> _IsSearch(string who, string message, bool isOpenChat)
+        private async Task<bool> _IsSearch(string who, string message, bool isOpenChat, List<string> atUserList = null)
         {
             this.Search.SearchChat(who);
             await Task.Delay(1000);
@@ -565,14 +513,14 @@ namespace WeChatAuto.Components
                     this.Conversations.DoubleClickConversation(who);
                     Wait.UntilInputIsProcessed();
                     // this.Conversations.ClickFirstConversation();
-                    await SendMessageCore(who, message, isOpenChat); // 由于是双击会话,弹出窗口实例已经存在，所以需要从弹出窗口重新发送消息
+                    await SendMessageCore(who, message, isOpenChat, atUserList); // 由于是双击会话,弹出窗口实例已经存在，所以需要从弹出窗口重新发送消息
                     return true;
                 }
                 else
                 {
                     this.Conversations.ClickConversation(who);
                     Wait.UntilInputIsProcessed();
-                    this.__SendCurrentMessageCore(message);
+                    this.__SendCurrentMessageCore(message, atUserList);
                     return true;
                 }
             }
@@ -688,14 +636,15 @@ namespace WeChatAuto.Components
         /// <param name="who">好友名称</param>
         /// <param name="message">消息内容</param>
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
-        private async Task SendMessageCore(string who, string message, bool isOpenChat = false)
+        /// <param name="atUserList">被@的用户列表</param>
+        private async Task SendMessageCore(string who, string message, bool isOpenChat = false, List<string> atUserList = null)
         {
             try
             {
                 if (string.IsNullOrEmpty(who))
                 {
                     //发送给当前聊天窗口
-                    this.__SendCurrentMessageCore(message);
+                    this.__SendCurrentMessageCore(message, atUserList);
                     return;
                 }
                 else
@@ -704,7 +653,7 @@ namespace WeChatAuto.Components
                     //步骤：
                     //1.首先查询此用户是否在弹出窗口列表中
                     //2.如果存在，则用弹出窗口发出消息
-                    if (_SubWindowIsOpen(who, message, subWin => subWin.ChatContent.ChatBody.Sender.SendMessage(message)))
+                    if (_SubWindowIsOpen(who, message, subWin => subWin.ChatContent.ChatBody.Sender.SendMessage(message, atUserList)))
                     {
                         return;
                     }
@@ -716,13 +665,13 @@ namespace WeChatAuto.Components
                     // }
                     //5.如果不是，则查询此用户是否在会话列表中
                     //6.如果存在，则打开或者点击此会话，并且发送消息
-                    if (await _IsInConversation(who, message, isOpenChat))
+                    if (await _IsInConversation(who, message, isOpenChat,atUserList))
                     {
                         return;
                     }
                     //7.如果不存在，则进行查询,如果查询到有此用户，则打开或者点击此会话，并且发送消息
                     //8.如果查询不到，则提示用户不存在.
-                    if (await _IsSearch(who, message, isOpenChat))
+                    if (await _IsSearch(who, message, isOpenChat, atUserList))
                     {
                         return;
                     }
