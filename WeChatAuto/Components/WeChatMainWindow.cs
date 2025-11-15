@@ -308,21 +308,29 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="who">好友名称</param>
         /// <param name="message">消息内容</param>
-        /// <param name="atUser">被@的用户</param>
+        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
         public async Task SendWho(string who, string message, OneOf<string, string[]> atUser = default)
         {
+            var atUserList = new List<string>();
             if (atUser.Value != default)
             {
                 atUser.Switch(
                     (string user) =>
                     {
-                        message = $"@{user} {message}";
+                        if (!string.IsNullOrWhiteSpace(user))
+                        {
+                            //message = $"@{user} {message}";
+                            atUserList.Add(user);
+                        }
                     },
                     (string[] atUsers) =>
                     {
-                        var atUserList = atUsers.ToList();
-                        var atUserString = "@" + string.Join(" ", atUserList);
-                        message = $"{atUserString} {message}";
+                        atUserList.AddRange(atUsers);
+                        // if (atUserList.Count > 0)
+                        // {
+                        //     var atUserString = "@" + string.Join(" ", atUserList);
+                        //     message = $"{atUserString} {message}";
+                        // }
                     }
                 );
             }
@@ -340,7 +348,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="whos">好友名称列表</param>
         /// <param name="message">消息内容</param>
-        /// <param name="atUser">被@的用户</param>
+        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
         public async Task SendWhos(string[] whos, string message, OneOf<string, string[]> atUser = default)
         {
             await Task.WhenAll(whos.ToList().Select(who => SendWho(who, message, atUser)));
@@ -350,7 +358,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="who">好友名称</param>
         /// <param name="message">消息内容</param>
-        /// <param name="atUser">被@的用户</param>
+        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
         public async Task SendWhoAndOpenChat(string who, string message, OneOf<string, string[]> atUser = default)
         {
             if (atUser.Value != null)
@@ -358,13 +366,19 @@ namespace WeChatAuto.Components
                 atUser.Switch(
                     (string user) =>
                     {
-                        message = $"@{user} {message}";
+                        if (!string.IsNullOrWhiteSpace(user))
+                        {
+                            message = $"@{user} {message}";
+                        }
                     },
                     (string[] atUsers) =>
                     {
                         var atUserList = atUsers.ToList();
-                        var atUserString = "@" + string.Join(" ", atUserList);
-                        message = $"{atUserString}{message}";
+                        if (atUserList.Count > 0)
+                        {
+                            var atUserString = "@" + string.Join(" ", atUserList);
+                            message = $"{atUserString}{message}";
+                        }
                     }
                 );
             }
@@ -382,26 +396,27 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="whos">好友名称列表</param>
         /// <param name="message">消息内容</param>
-        /// <param name="atUser">被@的用户</param>
+        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
         public async Task SendWhosAndOpenChat(string[] whos, string message, OneOf<string, string[]> atUser = default)
         {
             await Task.WhenAll(whos.ToList().Select(who => SendWhoAndOpenChat(who, message, atUser)));
         }
-        /// <summary>
-        /// 发送给主窗口的当前聊天窗口
-        /// </summary>
-        /// <param name="message">消息内容</param>
-        /// <param name="atUser">被@的用户</param>
-        public async Task SendCurrentMessage(string message, string atUser = null)
-        {
-            await this.SendMessageDispatch(new ChatActionMessage()
-            {
-                Type = ActionType.发送消息,
-                ToUser = null,
-                Message = message,
-                IsOpenSubWin = false
-            });
-        }
+        // /// <summary>
+        // /// 发送给主窗口的当前聊天窗口
+        // /// 暂时不需要这个方法
+        // /// </summary>
+        // /// <param name="message">消息内容</param>
+        // /// <param name="atUser">被@的用户</param>
+        // public async Task SendCurrentMessage(string message, string atUser = null)
+        // {
+        //     await this.SendMessageDispatch(new ChatActionMessage()
+        //     {
+        //         Type = ActionType.发送消息,
+        //         ToUser = null,
+        //         Message = message,
+        //         IsOpenSubWin = false
+        //     });
+        // }
 
         /// <summary>
         /// 给当前聊天窗口发送消息的核心方法
@@ -695,10 +710,10 @@ namespace WeChatAuto.Components
                     }
                     //3.如果不存在，则查询当前聊天窗口是否是此用户(即who)
                     //4.如果是，则发送消息
-                    if (_IsCurrentChat(who, message, isOpenChat))
-                    {
-                        return;
-                    }
+                    // if (_IsCurrentChat(who, message, isOpenChat))
+                    // {
+                    //     return;
+                    // }
                     //5.如果不是，则查询此用户是否在会话列表中
                     //6.如果存在，则打开或者点击此会话，并且发送消息
                     if (await _IsInConversation(who, message, isOpenChat))
@@ -751,10 +766,10 @@ namespace WeChatAuto.Components
             {
                 return;
             }
-            if (_IsCurrentChatFile(who, files))
-            {
-                return;
-            }
+            // if (_IsCurrentChatFile(who, files))
+            // {
+            //     return;
+            // }
             if (await _IsInConversationFile(who, files, isOpenChat))
             {
                 return;

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WxAutoCommon.Enums;
 
@@ -16,6 +17,7 @@ namespace WxAutoCommon.Models
         /// 发送给谁
         /// </summary>
         public string ToUser { get; set; }
+        public List<string> AtUsers { get; set; } = new List<string>();
         /// <summary>
         /// 消息内容
         /// </summary>

@@ -63,17 +63,6 @@ namespace WeChatAuto.Tests.Components
             _output.WriteLine($"当前聊天窗口的标题: {title}");
             Assert.True(title != null);
         }
-
-        [Fact(DisplayName = "测试发送当前窗口消息-确保当前窗口是聊天窗口")]
-        public async Task Test_SendMessage()
-        {
-            var framework = _globalFixture.clientFactory;
-            var client = framework.GetWeChatClient(_wxClientName);
-            var window = client.WxMainWindow;
-            await window.SendCurrentMessage("你好，世界！");
-            Assert.True(true);
-            await Task.CompletedTask;
-        }
         //要先打开测试人的聊天窗口
         [Fact(DisplayName = "测试发送消息-已打开聊天窗口")]
         public async Task Test_SendWho_AlreadyOpenChat()
@@ -156,7 +145,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendWhos(["AI.Net", ".NET-AI实时快讯3群"], "你好，世界777！");
+            await window.SendWhos(["AI.Net", ".NET-AI实时快讯3群"], "你好，世界777！");
             Assert.True(true);
             await Task.Delay(30000);
         }
@@ -167,7 +156,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            window.SendWhosAndOpenChat(["AI.Net", ".NET-AI实时快讯3群"], "你好，世界777！");
+            await window.SendWhosAndOpenChat(["AI.Net", ".NET-AI实时快讯3群"], "你好，世界777！");
             Assert.True(true);
             await Task.Delay(60000);
         }

@@ -64,7 +64,7 @@ namespace WeChatAuto.Components
             _MonitorSubWinThread = new Thread(async () =>
             {
                 _MonitorSubWinTaskCompletionSource.SetResult(true);
-                while (!_MonitorSubWinCancellationTokenSource.Token.IsCancellationRequested)
+                while (!_disposed && !_MonitorSubWinCancellationTokenSource.Token.IsCancellationRequested)
                 {
                     try
                     {
@@ -310,7 +310,10 @@ namespace WeChatAuto.Components
             {
                 _MonitorSubWinCancellationTokenSource?.Cancel();
                 _MonitorSubWinTaskCompletionSource?.TrySetCanceled();
-                _MonitorSubWinThread?.Join(3000);
+                if (!_MonitorSubWinThread?.Join(3000) ?? false)
+                {
+                    _MonitorSubWinThread?.Interrupt();
+                }
                 _MonitorSubWinCancellationTokenSource?.Dispose();
                 //will do: 释放所有子窗口
             }

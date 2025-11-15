@@ -1,3 +1,4 @@
+using OneOf;
 using Xunit.Abstractions;
 
 namespace WeChatAuto.Tests.Components;
@@ -147,6 +148,35 @@ public class WeChatClientTests
     }
     #endregion
     #region 消息操作
-    
+    //注意重点测试：
+    // 1.接收人不在会话中;2.接收人在会话中;3.接收人在会话中，但是在一些特殊一点的位置;4、接收人在子窗口中.
+    //加强@测试,完成@谁与@全部人,群聊中
+    [Theory(DisplayName = "测试发送消息给单个好友")]
+    [InlineData("AI.Net", "你好，世界1！", "", false, true, 1)]
+    [InlineData("测试11", "你好，世界2！", "", false, true, 2)]
+    [InlineData("AI.Net", "你好，世界3！", "", true, true, 3)]
+    [InlineData("测试11", "你好，世界4!", "", true, true, 4)]
+    [InlineData("测试11", "你好，世界5！", "AI.Net", false, true, 5)]
+    public async Task TestSendWho(string who, string message, object atUser = default,
+        bool isOpenChat = true, bool result = true, int flag = 0)
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        var atUserOneOf = atUser is string ? OneOf<string, string[]>.FromT0((string)atUser) : OneOf<string, string[]>.FromT1((string[])atUser);
+        await client.SendWho(who, message, atUserOneOf, isOpenChat);
+        _output.WriteLine($"测试标识：{flag}");
+        Assert.True(result);
+        await Task.CompletedTask;
+    }
+
+    [Fact(DisplayName = "测试发送消息给多个好友")]
+    public async Task TestSendWhos()
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        await client.SendWhos(["AI.Net", ".NET-AI实时快讯3群"], "你好，世界！");
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
     #endregion
 }

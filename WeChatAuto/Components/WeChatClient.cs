@@ -184,7 +184,7 @@ namespace WeChatAuto.Components
     /// </summary>
     /// <param name="who">好友名称</param>
     /// <param name="message">消息内容</param>
-    /// <param name="atUser">被@的用户</param>
+    /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
     /// <param name="isOpenChat">是否打开子聊天窗口,默认是True:打开,False:不打开</param>
     public async Task SendWho(string who, string message, OneOf<string, string[]> atUser = default, bool isOpenChat = true)
     {
@@ -202,7 +202,8 @@ namespace WeChatAuto.Components
     /// </summary>
     /// <param name="whos">好友名称列表</param>
     /// <param name="message">消息内容</param>
-    /// <param name="atUser">被@的用户</param>
+    /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
+    /// <param name="isOpenChat">是否打开子聊天窗口,默认是True:打开,False:不打开</param>
     public async Task SendWhos(string[] whos, string message, OneOf<string, string[]> atUser = default, bool isOpenChat = true)
     {
       if (isOpenChat)
@@ -220,15 +221,6 @@ namespace WeChatAuto.Components
     /// </summary>
     /// <returns>当前聊天窗口的标题</returns>
     public string GetCurrentChatTitle() => WxMainWindow.GetCurrentChatTitle();
-
-    /// <summary>
-    /// 发送给主窗口的当前聊天窗口
-    /// 此操作不会打开子聊天窗口
-    /// </summary>
-    /// <param name="message">消息内容</param>
-    /// <param name="atUser">被@的用户</param>
-    public async Task SendCurrentMessage(string message, string atUser = null)
-      => await WxMainWindow.SendCurrentMessage(message, atUser);
 
     /// <summary>
     /// 给指定好友发送文件

@@ -18,7 +18,7 @@ public class UiTestFixture : IDisposable
             options.KMDeivicePID = 0x0300;
             options.KMVerifyUserData = "7AFC3F101F98F5E50939A84AD36F9357";
             options.MouseMoveMode = 8;
-            options.EnableRecordVideo = true;
+            options.EnableRecordVideo = false;
         });
         _Factory = _serviceProvider.GetRequiredService<WeChatClientFactory>();
 
