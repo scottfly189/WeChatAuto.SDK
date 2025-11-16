@@ -675,7 +675,7 @@ namespace WeChatAuto.Components
                 {
                     this.Conversations.DoubleClickConversation(who);
                     Wait.UntilInputIsProcessed();
-                    SendVoiceChat(who, isOpenChat);
+                    SendVideoChat(who, isOpenChat);
                     return true;
                 }
                 else

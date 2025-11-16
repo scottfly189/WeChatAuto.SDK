@@ -216,16 +216,24 @@ public class WeChatClientTests
     }
 
     [Theory(DisplayName = "测试发起视频聊天")]
-    [InlineData("AI.Net", false)]
-    [InlineData("AI.Net", true)]
-    public async Task TestSendVideoChat(string who, bool isOpenChat = false)
+    [InlineData("AI.Net", false,true)]
+    [InlineData("AI.Net", true,true)]
+    [InlineData("测试11", true,false)]
+    public async Task TestSendVideoChat(string who, bool isOpenChat = false,bool result = true)
     {
         try
         {
             var clientFactory = _globalFixture.clientFactory;
             var client = clientFactory.GetWeChatClient(_wxClientName);
             client.SendVideoChat(who, isOpenChat);
-            Assert.True(true);
+            if (result)
+            {
+                Assert.True(result);
+            }
+            else
+            {
+                Assert.False(result);
+            }
             await Task.CompletedTask;
         }
         catch (Exception ex)
