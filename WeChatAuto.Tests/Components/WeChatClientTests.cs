@@ -193,18 +193,19 @@ public class WeChatClientTests
         await Task.CompletedTask;
     }
     [Theory(DisplayName = "测试发起语音聊天-单个好友")]
-    [InlineData("AI.Net")]
-    public async Task TestSendVoiceChat_Single(string who)
+    [InlineData("AI.Net",false)]
+    [InlineData("AI.Net",true)]
+    public async Task TestSendVoiceChat_Single(string who, bool isOpenChat = false)
     {
         var clientFactory = _globalFixture.clientFactory;
         var client = clientFactory.GetWeChatClient(_wxClientName);
-        client.SendVoiceChat(who);
+        client.SendVoiceChat(who,isOpenChat);
         Assert.True(true);
         await Task.CompletedTask;
     }
 
     [Theory(DisplayName = "测试发起语音聊天-群聊")]
-    [InlineData("AI.Net", "测试111")]
+    [InlineData("秋歌", "智影工坊", "土豆核")]
     public async Task TestSendVoiceChat_Group(params string[] whos)
     {
         var clientFactory = _globalFixture.clientFactory;

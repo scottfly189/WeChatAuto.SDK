@@ -64,12 +64,77 @@ namespace WeChatAuto.Components
             return toolBarButtons.FirstOrDefault(btn => btn.type == type).button;
         }
         /// <summary>
-        /// 发起语音聊天
+        /// 发起单个语音聊天
         /// </summary>
         public void SendVoiceChat()
         {
             var voiceChatButton = GetToolBarButton(ChatBoxToolBarType.语音聊天);
-            voiceChatButton.Invoke();
+            if (voiceChatButton == null)
+            {
+                _logger.Error("无法找到语音聊天按钮，无法发起单个语音聊天");
+                return;
+            }
+            voiceChatButton.DrawHighlightExt(_uiThreadInvoker);
+            RandomWait.Wait(300, 800);
+            voiceChatButton.ClickEnhance(_Window);
+        }
+        /// <summary>
+        /// 发起多个语音聊天
+        /// </summary>
+        /// <param name="whos">好友名称列表</param>
+        public void SendVoiceChats(string[] whos)
+        {
+            var voiceChatButton = GetToolBarButton(ChatBoxToolBarType.语音聊天);
+            if (voiceChatButton == null)
+            {
+                _logger.Error("无法找到语音聊天按钮，无法发起多个语音聊天");
+                return;
+            }
+            voiceChatButton.DrawHighlightExt(_uiThreadInvoker);
+            RandomWait.Wait(300, 800);
+            voiceChatButton.ClickEnhance(_Window);
+            _AddChatGroupMember(whos);
+        }
+        private void _AddChatGroupMember(string[] whos)
+        {
+            _uiThreadInvoker.Run(automation =>
+            {
+                var addMemberWin = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Window)
+                  .And(cf.ByName("AddTalkMemberWnd")).And(cf.ByClassName("AddTalkMemberWnd")))?.AsWindow(),
+                  timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200))?.Result;
+                addMemberWin.DrawHighlightExt();
+                if (addMemberWin != null)
+                {
+                    var xPath = "//Edit[@Name='搜索']";
+                    var edit = Retry.WhileNull(() => addMemberWin.FindFirstByXPath(xPath)?.AsTextBox(),
+                      timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200))?.Result;
+                    if (edit != null)
+                    {
+                        edit.DrawHighlightExt();
+                        edit.Focus();
+                        edit.ClickEnhance(addMemberWin);
+                        Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                        Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                        foreach (var who in whos)
+                        {
+                            Keyboard.Type(who);
+                            RandomWait.Wait(100, 800);
+                            Keyboard.Press(VirtualKeyShort.RETURN);
+                            Wait.UntilInputIsProcessed();
+                            RandomWait.Wait(100, 800);
+                        }
+                        //点击确定
+                        xPath = "//Button[@Name='完成']";
+                        var finishButton = Retry.WhileNull(() => addMemberWin.FindFirstByXPath(xPath)?.AsButton(),
+                          timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200))?.Result;
+                        if (finishButton != null)
+                        {
+                            finishButton.DrawHighlightExt();
+                            finishButton.ClickEnhance(addMemberWin);
+                        }
+                    }
+                }
+            }).GetAwaiter().GetResult();
         }
         /// <summary>
         /// 发起直播,适用于群聊中发起直播，单个好友没有直播功能

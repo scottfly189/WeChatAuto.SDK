@@ -406,7 +406,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="who">好友名称</param>
         /// <param name="isOpenChat">是否打开子聊天窗口,默认是False:不打开,True:打开</param>
-        public void SendVoiceChat(string who,bool isOpenChat = false)
+        public void SendVoiceChat(string who, bool isOpenChat = false)
         {
             //发送给指定好友
             //步骤：
@@ -416,11 +416,11 @@ namespace WeChatAuto.Components
             {
                 return;
             }
-            if (_IsInConversationAndActionCore(who,isOpenChat, () => this.MainChatContent.ChatBody.Sender.SendVoiceChat()))
+            if (_IsInConversationAndActionCore(who, isOpenChat, () => this.MainChatContent.ChatBody.Sender.SendVoiceChat()))
             {
                 return;
             }
-            if (_IsSearchAndAction(who, () => this.MainChatContent.ChatBody.Sender.SendVoiceChat()))
+            if (_IsSearchAndAction(who, isOpenChat, () => this.MainChatContent.ChatBody.Sender.SendVoiceChat()))
             {
                 return;
             }
@@ -432,8 +432,21 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <param name="whos">好友名称列表</param>
-        public void SendVoiceChats(string groupName,string[] whos,bool isOpenChat = true)
+        public void SendVoiceChats(string groupName, string[] whos, bool isOpenChat = true)
         {
+            if (_SubWindowIsOpen(groupName, "", subWin => subWin.ChatContent.ChatBody.Sender.SendVoiceChats(whos)))
+            {
+                return;
+            }
+            if (_IsInConversationAndActionCore(groupName, isOpenChat, () => this.MainChatContent.ChatBody.Sender.SendVoiceChats(whos)))
+            {
+                return;
+            }
+            if (_IsSearchAndAction(groupName, isOpenChat, () => this.MainChatContent.ChatBody.Sender.SendVoiceChats(whos)))
+            {
+                return;
+            }
+            _logger.Error($"无法找到{groupName}的聊天窗口，无法发起语音聊天");
         }
 
         /// <summary>
@@ -468,7 +481,6 @@ namespace WeChatAuto.Components
         {
             return this.MainChatContent.ChatHeader.Title;
         }
-        //打开的子窗口中有没有此用户
         private bool _SubWindowIsOpen(string who, string message, Action<SubWin> action)
         {
             var subWin = this.SubWinList.GetSubWin(who);
@@ -508,10 +520,20 @@ namespace WeChatAuto.Components
             var conversations = this.Conversations.GetVisibleConversationTitles();
             if (conversations.Contains(who))
             {
-                this.Conversations.ClickConversation(who);
-                Wait.UntilInputIsProcessed();
-                action();
-                return true;
+                if (isOpenChat)
+                {
+                    this.Conversations.DoubleClickConversation(who);
+                    Wait.UntilInputIsProcessed();
+                    SendVoiceChat(who, isOpenChat);
+                    return true;
+                }
+                else
+                {
+                    this.Conversations.ClickConversation(who);
+                    Wait.UntilInputIsProcessed();
+                    action();
+                    return true;
+                }
             }
             return false;
         }
@@ -581,17 +603,27 @@ namespace WeChatAuto.Components
             return false;
         }
         //此用户是否在搜索结果中
-        private bool _IsSearchAndAction(string who, Action action)
+        private bool _IsSearchAndAction(string who, bool isOpenChat, Action action)
         {
             this.Search.SearchChat(who);
             RandomWait.Wait(300, 1500);
             var conversations = this.Conversations.GetVisibleConversationTitles();
             if (conversations.Contains(who))
             {
-                this.Conversations.ClickConversation(who);
-                Wait.UntilInputIsProcessed();
-                action();
-                return true;
+                if (isOpenChat)
+                {
+                    this.Conversations.DoubleClickConversation(who);
+                    Wait.UntilInputIsProcessed();
+                    SendVoiceChat(who, isOpenChat);
+                    return true;
+                }
+                else
+                {
+                    this.Conversations.ClickConversation(who);
+                    Wait.UntilInputIsProcessed();
+                    action();
+                    return true;
+                }
             }
             this.Search.ClearText();
             return false;
