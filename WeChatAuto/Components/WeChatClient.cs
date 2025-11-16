@@ -215,7 +215,27 @@ namespace WeChatAuto.Components
         await WxMainWindow.SendWhos(whos, message, atUser);
       }
     }
-
+    /// <summary>
+    /// 发起语音聊天,适用于单个好友
+    /// </summary>
+    /// <param name="who">好友名称</param>
+    /// <param name="isOpenChat">是否打开子聊天窗口,默认是False:不打开,True:打开</param>
+    public void SendVoiceChat(string who,bool isOpenChat = false) => WxMainWindow.SendVoiceChat(who,isOpenChat);
+    /// <summary>
+    /// 发起语音聊天,适用于群聊中发起语音聊天
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <param name="whos">好友名称列表</param>
+    /// <param name="isOpenChat">是否打开子聊天窗口,默认是False:不打开,True:打开</param>
+    public void SendVoiceChats(string groupName,string[] whos,bool isOpenChat = true) => WxMainWindow.SendVoiceChats(groupName,whos,isOpenChat);
+    /// <summary>
+    /// 发起视频聊天,适用于单个好友,群聊没有视频聊天功能
+    /// </summary>
+    public void SendVideoChat() => WxMainWindow.SendVideoChat();
+    /// <summary>
+    /// 发起直播,适用于群聊中发起直播，单个好友没有直播功能
+    /// </summary>
+    public void SendLiveStreaming() => WxMainWindow.SendLiveStreaming();
     /// <summary>
     /// 获取当前聊天窗口的标题
     /// </summary>

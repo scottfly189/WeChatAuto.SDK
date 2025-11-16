@@ -72,6 +72,14 @@ namespace WeChatAuto.Components
             voiceChatButton.Invoke();
         }
         /// <summary>
+        /// 发起直播,适用于群聊中发起直播，单个好友没有直播功能
+        /// </summary>
+        public void SendLiveStreaming()
+        {
+            var liveStreamingButton = GetToolBarButton(ChatBoxToolBarType.直播);
+            liveStreamingButton.Invoke();
+        }
+        /// <summary>
         /// 发起视频聊天
         /// </summary>
         public void SendVideoChat()
@@ -137,19 +145,19 @@ namespace WeChatAuto.Components
             {
                 this._AtUserActionCore(atUserList);
                 RandomWait.Wait(300, 800);
-                _WxWindow.SilenceEnterText(ContentArea, message);
-                RandomWait.Wait(100, 500);
                 Keyboard.Press(VirtualKeyShort.END);
+                RandomWait.Wait(100, 500);
+                _WxWindow.SilenceEnterText(ContentArea, message);
                 RandomWait.Wait(300, 800);
                 var button = SendButton;
-                _WxWindow.SilenceClickExt(button);
+                button.ClickEnhance(_WxWindow.SelfWindow);
             }
         }
         private void _AtUserActionCore(List<string> atUserList)
         {
             _Window.Focus();
             Thread.Sleep(500);
-            ContentArea.Click();
+            ContentArea.ClickEnhance(_WxWindow.SelfWindow);
             _uiThreadInvoker.Run(automation =>
             {
                 Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
@@ -193,10 +201,12 @@ namespace WeChatAuto.Components
                                         listItem = listItems.FirstOrDefault(item => item.Name == atUser);
                                         if (!listItem.IsOffscreen)
                                         {
-                                            var button = listItem.FindFirstByXPath("//Button[@IsOffscreen='false']").AsButton();
-                                            button?.WaitUntilClickable();
-                                            button?.DrawHighlightExt();
-                                            button?.Click();
+                                            // var button = listItem.FindFirstByXPath("//Button[@IsOffscreen='false']").AsButton();
+                                            // button?.WaitUntilClickable();
+                                            // button?.DrawHighlightExt();
+                                            // button?.Click();
+                                            listItem.DrawHighlightExt();
+                                            listItem.Click();
                                             break;
                                         }
                                         else
@@ -207,15 +217,17 @@ namespace WeChatAuto.Components
                                 }
                                 else
                                 {
-                                    var button = listItem.FindFirstByXPath("//Button").AsButton();
-                                    button?.WaitUntilClickable();
-                                    button?.DrawHighlightExt();
-                                    button?.Click();
+                                    // var button = listItem.FindFirstByXPath("//Button").AsButton();
+                                    // button?.WaitUntilClickable();
+                                    // button?.DrawHighlightExt();
+                                    // button?.Click();
+                                    listItem.DrawHighlightExt();
+                                    listItem.Click();
                                 }
                             }
                             else
                             {
-                                _logger.Info($"未找到@用户{atUser},可能未显示在列表中,将采用键盘输入方式输入@用户");
+                                _logger.Info($"未找到@用户【{atUser}】,可能未显示在列表中,将采用键盘输入方式输入@用户");
                                 this._CustomTypeAtUser(atUser);
                             }
                         }

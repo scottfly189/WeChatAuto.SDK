@@ -401,6 +401,55 @@ namespace WeChatAuto.Components
                 RandomWait.Wait(300, 1000);
             }
         }
+        /// <summary>
+        /// 发起语音聊天,适用于单个好友
+        /// </summary>
+        /// <param name="who">好友名称</param>
+        /// <param name="isOpenChat">是否打开子聊天窗口,默认是False:不打开,True:打开</param>
+        public void SendVoiceChat(string who,bool isOpenChat = false)
+        {
+            //发送给指定好友
+            //步骤：
+            //1.首先查询此用户是否在弹出窗口列表中
+            //2.如果存在，则用弹出窗口发出消息
+            if (_SubWindowIsOpen(who, "", subWin => subWin.ChatContent.ChatBody.Sender.SendVoiceChat()))
+            {
+                return;
+            }
+            if (_IsInConversationAndActionCore(who,isOpenChat, () => this.MainChatContent.ChatBody.Sender.SendVoiceChat()))
+            {
+                return;
+            }
+            if (_IsSearchAndAction(who, () => this.MainChatContent.ChatBody.Sender.SendVoiceChat()))
+            {
+                return;
+            }
+            _logger.Error($"无法找到{who}的聊天窗口，无法发起语音聊天");
+        }
+
+        /// <summary>
+        /// 发起语音聊天,适用于群聊中发起语音聊天
+        /// </summary>
+        /// <param name="groupName">群聊名称</param>
+        /// <param name="whos">好友名称列表</param>
+        public void SendVoiceChats(string groupName,string[] whos,bool isOpenChat = true)
+        {
+        }
+
+        /// <summary>
+        /// 发起视频聊天,适用于单个好友,群聊没有视频聊天功能
+        /// </summary>
+        public void SendVideoChat()
+        {
+            this.MainChatContent.ChatBody.Sender.SendVideoChat();
+        }
+        /// <summary>
+        /// 发起直播,适用于群聊中发起直播，单个好友没有直播功能
+        /// </summary>
+        public void SendLiveStreaming()
+        {
+            this.MainChatContent.ChatBody.Sender.SendLiveStreaming();
+        }
 
         /// <summary>
         /// 给当前聊天窗口发送消息的核心方法
@@ -451,6 +500,18 @@ namespace WeChatAuto.Components
                     this.__SendCurrentMessageCore(message, atUserList);
                     return true;
                 }
+            }
+            return false;
+        }
+        private bool _IsInConversationAndActionCore(string who, bool isOpenChat, Action action)
+        {
+            var conversations = this.Conversations.GetVisibleConversationTitles();
+            if (conversations.Contains(who))
+            {
+                this.Conversations.ClickConversation(who);
+                Wait.UntilInputIsProcessed();
+                action();
+                return true;
             }
             return false;
         }
@@ -515,6 +576,22 @@ namespace WeChatAuto.Components
                     this.__SendCurrentMessageCore(message, atUserList);
                     return true;
                 }
+            }
+            this.Search.ClearText();
+            return false;
+        }
+        //此用户是否在搜索结果中
+        private bool _IsSearchAndAction(string who, Action action)
+        {
+            this.Search.SearchChat(who);
+            RandomWait.Wait(300, 1500);
+            var conversations = this.Conversations.GetVisibleConversationTitles();
+            if (conversations.Contains(who))
+            {
+                this.Conversations.ClickConversation(who);
+                Wait.UntilInputIsProcessed();
+                action();
+                return true;
             }
             this.Search.ClearText();
             return false;
