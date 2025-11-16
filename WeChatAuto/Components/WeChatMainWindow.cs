@@ -416,11 +416,11 @@ namespace WeChatAuto.Components
             {
                 return;
             }
-            if (_IsInConversationAndActionCore(who, isOpenChat, () => this.MainChatContent.ChatBody.Sender.SendVoiceChat()))
+            if (_IsInConversationAndActionCoreExt(who, isOpenChat, () => this.MainChatContent.ChatBody.Sender.SendVoiceChat(), SendVoiceChat))
             {
                 return;
             }
-            if (_IsSearchAndAction(who, isOpenChat, () => this.MainChatContent.ChatBody.Sender.SendVoiceChat()))
+            if (_IsSearchAndActionExt(who, isOpenChat, () => this.MainChatContent.ChatBody.Sender.SendVoiceChat(), SendVoiceChat))
             {
                 return;
             }
@@ -460,11 +460,11 @@ namespace WeChatAuto.Components
             {
                 return;
             }
-            if (_IsInConversationAndVideoChatActionCore(who, isOpenChat, () => this.MainChatContent.ChatBody.Sender.SendVideoChat()))
+            if (_IsInConversationAndActionCoreExt(who, isOpenChat, () => this.MainChatContent.ChatBody.Sender.SendVideoChat(), SendVideoChat))
             {
                 return;
             }
-            if (_IsSearchAndVideoChatAction(who, isOpenChat, () => this.MainChatContent.ChatBody.Sender.SendVideoChat()))
+            if (_IsSearchAndActionExt(who, isOpenChat, () => this.MainChatContent.ChatBody.Sender.SendVideoChat(), SendVideoChat))
             {
                 return;
             }
@@ -587,28 +587,6 @@ namespace WeChatAuto.Components
             }
             return false;
         }
-        private bool _IsInConversationAndVideoChatActionCore(string who, bool isOpenChat, Action action)
-        {
-            var conversations = this.Conversations.GetVisibleConversationTitles();
-            if (conversations.Contains(who))
-            {
-                if (isOpenChat)
-                {
-                    this.Conversations.DoubleClickConversation(who);
-                    Wait.UntilInputIsProcessed();
-                    SendVideoChat(who, isOpenChat);
-                    return true;
-                }
-                else
-                {
-                    this.Conversations.ClickConversation(who);
-                    Wait.UntilInputIsProcessed();
-                    action();
-                    return true;
-                }
-            }
-            return false;
-        }
         //此用户是否在会话列表中，如果存在，则打开或者点击此会话，并且发送消息
         private async Task<bool> _IsInConversation(string who)
         {
@@ -712,31 +690,6 @@ namespace WeChatAuto.Components
                     this.Conversations.DoubleClickConversation(who);
                     Wait.UntilInputIsProcessed();
                     subWinAction(who, isOpenChat);
-                    return true;
-                }
-                else
-                {
-                    this.Conversations.ClickConversation(who);
-                    Wait.UntilInputIsProcessed();
-                    action();
-                    return true;
-                }
-            }
-            this.Search.ClearText();
-            return false;
-        }
-        private bool _IsSearchAndVideoChatAction(string who, bool isOpenChat, Action action)
-        {
-            this.Search.SearchChat(who);
-            RandomWait.Wait(300, 1500);
-            var conversations = this.Conversations.GetVisibleConversationTitles();
-            if (conversations.Contains(who))
-            {
-                if (isOpenChat)
-                {
-                    this.Conversations.DoubleClickConversation(who);
-                    Wait.UntilInputIsProcessed();
-                    SendVideoChat(who, isOpenChat);
                     return true;
                 }
                 else

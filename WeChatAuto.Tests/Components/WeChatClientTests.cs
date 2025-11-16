@@ -163,7 +163,7 @@ public class WeChatClientTests
     [InlineData("歪脖子的模版交流群", "好晚，大家睡着没有？", new string[] { "直脖子", "使不得先生", "常" }, true, true, 9)]
     [InlineData("测试11", "你好，世界10！", "所有人", false, true, 10)]
     [InlineData("测试11", "你好，世界11！", "所有人", true, true, 11)]
-    public async Task TestSendWho(string who, string message, object atUser = default,
+    public async Task TestSendWho(string who, string message, object atUser,
         bool isOpenChat = true, bool result = true, int flag = 0)
     {
         var clientFactory = _globalFixture.clientFactory;
@@ -180,8 +180,8 @@ public class WeChatClientTests
     [InlineData(new string[] { "AI.Net", "测试11", ".NET-AI实时快讯3群" }, "你好，世界3！", "", true, true, 2)]
     [InlineData(new string[] { "测试11" }, "你好，世界4!", "", true, true, 3)]
     [InlineData(new string[] { "测试01", "测试11", ".NET-AI实时快讯3群" }, "你好，世界5！", new string[] { "AI.Net", "秋歌" }, false, true, 4)]
-    [InlineData(new string[] { "测试01", "测试11", ".NET-AI实时快讯3群", "歪脖子的模版交流群" }, "今日大家都没有休息？", new string[] { "直脖子", "使不得先生", "常" }, true, true, 5)]
-    public async Task TestSendWhos(string[] whos, string message, object atUser = default,
+    [InlineData(new string[] { "歪脖子的模版交流群" }, "今日大家都没有休息？", new string[] { "直脖子", "使不得先生", "常" }, true, true, 5)]
+    public async Task TestSendWhos(string[] whos, string message, object atUser,
         bool isOpenChat = true, bool result = true, int flag = 0)
     {
         var clientFactory = _globalFixture.clientFactory;
@@ -189,7 +189,7 @@ public class WeChatClientTests
         var atUserOneOf = atUser is string ? OneOf<string, string[]>.FromT0((string)atUser) : OneOf<string, string[]>.FromT1((string[])atUser);
         await client.SendWhos(whos, message, atUserOneOf, isOpenChat);
         _output.WriteLine($"测试标识：{flag}");
-        Assert.True(true);
+        Assert.True(result);
         await Task.CompletedTask;
     }
     [Theory(DisplayName = "测试发起语音聊天-单个好友")]
