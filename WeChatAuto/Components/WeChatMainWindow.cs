@@ -473,9 +473,22 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 发起直播,适用于群聊中发起直播，单个好友没有直播功能
         /// </summary>
-        public void SendLiveStreaming()
+        /// <param name="groupName">群聊名称</param>
+        public void SendLiveStreaming(string groupName, bool isOpenChat = false)
         {
-            this.MainChatContent.ChatBody.Sender.SendLiveStreaming();
+            if (_SubWindowIsOpen(groupName, "", subWin => subWin.ChatContent.ChatBody.Sender.SendLiveStreaming()))
+            {
+                return;
+            }
+            if (_IsInConversationAndActionCoreExt(groupName, isOpenChat, () => this.MainChatContent.ChatBody.Sender.SendLiveStreaming(), SendLiveStreaming))
+            {
+                return;
+            }
+            if (_IsSearchAndActionExt(groupName, isOpenChat, () => this.MainChatContent.ChatBody.Sender.SendLiveStreaming(), SendLiveStreaming))
+            {
+                return;
+            }
+            _logger.Error("无法找到当前聊天窗口，无法发起直播,请检查是否在聊天窗口中");
         }
 
         /// <summary>
@@ -539,6 +552,29 @@ namespace WeChatAuto.Components
                     this.Conversations.DoubleClickConversation(who);
                     Wait.UntilInputIsProcessed();
                     SendVoiceChat(who, isOpenChat);
+                    return true;
+                }
+                else
+                {
+                    this.Conversations.ClickConversation(who);
+                    Wait.UntilInputIsProcessed();
+                    action();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool _IsInConversationAndActionCoreExt(string who, bool isOpenChat, Action action, Action<string, bool> subWinAction)
+        {
+            var conversations = this.Conversations.GetVisibleConversationTitles();
+            if (conversations.Contains(who))
+            {
+                if (isOpenChat)
+                {
+                    this.Conversations.DoubleClickConversation(who);
+                    Wait.UntilInputIsProcessed();
+                    subWinAction(who, isOpenChat);
                     return true;
                 }
                 else
@@ -651,6 +687,31 @@ namespace WeChatAuto.Components
                     this.Conversations.DoubleClickConversation(who);
                     Wait.UntilInputIsProcessed();
                     SendVoiceChat(who, isOpenChat);
+                    return true;
+                }
+                else
+                {
+                    this.Conversations.ClickConversation(who);
+                    Wait.UntilInputIsProcessed();
+                    action();
+                    return true;
+                }
+            }
+            this.Search.ClearText();
+            return false;
+        }
+        private bool _IsSearchAndActionExt(string who, bool isOpenChat, Action action, Action<string, bool> subWinAction)
+        {
+            this.Search.SearchChat(who);
+            RandomWait.Wait(300, 1500);
+            var conversations = this.Conversations.GetVisibleConversationTitles();
+            if (conversations.Contains(who))
+            {
+                if (isOpenChat)
+                {
+                    this.Conversations.DoubleClickConversation(who);
+                    Wait.UntilInputIsProcessed();
+                    subWinAction(who, isOpenChat);
                     return true;
                 }
                 else

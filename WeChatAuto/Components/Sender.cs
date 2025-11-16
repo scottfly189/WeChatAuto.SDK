@@ -142,7 +142,15 @@ namespace WeChatAuto.Components
         public void SendLiveStreaming()
         {
             var liveStreamingButton = GetToolBarButton(ChatBoxToolBarType.直播);
-            liveStreamingButton.Invoke();
+            liveStreamingButton.DrawHighlightExt(_uiThreadInvoker);
+            if (liveStreamingButton == null)
+            {
+                _logger.Error("无法找到直播按钮，无法发起直播");
+                return;
+            }
+            _Window.Focus();
+            RandomWait.Wait(300, 800);
+            liveStreamingButton.ClickEnhance(_Window);
         }
         /// <summary>
         /// 发起视频聊天

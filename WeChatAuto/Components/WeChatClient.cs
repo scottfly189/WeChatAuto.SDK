@@ -237,7 +237,9 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 发起直播,适用于群聊中发起直播，单个好友没有直播功能
     /// </summary>
-    public void SendLiveStreaming() => WxMainWindow.SendLiveStreaming();
+    /// <param name="groupName">群聊名称</param>
+    /// <param name="isOpenChat">是否打开子聊天窗口,默认是False:不打开,True:打开</param>
+    public void SendLiveStreaming(string groupName,bool isOpenChat = false) => WxMainWindow.SendLiveStreaming(groupName,isOpenChat);
     /// <summary>
     /// 获取当前聊天窗口的标题
     /// </summary>

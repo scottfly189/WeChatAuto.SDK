@@ -216,10 +216,10 @@ public class WeChatClientTests
     }
 
     [Theory(DisplayName = "测试发起视频聊天")]
-    [InlineData("AI.Net", false,true)]
-    [InlineData("AI.Net", true,true)]
-    [InlineData("测试11", true,false)]
-    public async Task TestSendVideoChat(string who, bool isOpenChat = false,bool result = true)
+    [InlineData("AI.Net", false, true)]
+    [InlineData("AI.Net", true, true)]
+    [InlineData("测试11", true, false)]
+    public async Task TestSendVideoChat(string who, bool isOpenChat = false, bool result = true)
     {
         try
         {
@@ -239,6 +239,34 @@ public class WeChatClientTests
         catch (Exception ex)
         {
             _output.WriteLine($"测试发起视频聊天异常：{ex}");
+            await Task.Delay(-1);
+        }
+    }
+    [Theory(DisplayName = "测试发起视频聊天")]
+    [InlineData("测试11", false, true)]
+    [InlineData("测试11", true, true)]
+    [InlineData("AI.Net", false, true)]
+    [InlineData("AI.Net", true, true)]
+    public async Task TestSendLiveStreaming(string groupName, bool isOpenChat = false, bool result = true)
+    {
+        try
+        {
+            var clientFactory = _globalFixture.clientFactory;
+            var client = clientFactory.GetWeChatClient(_wxClientName);
+            client.SendLiveStreaming(groupName, isOpenChat);
+            if (result)
+            {
+                Assert.True(result);
+            }
+            else
+            {
+                Assert.False(result);
+            }
+            await Task.CompletedTask;
+        }
+        catch (Exception ex)
+        {
+            _output.WriteLine($"测试发起直播异常：{ex}");
             await Task.Delay(-1);
         }
     }
