@@ -193,13 +193,13 @@ public class WeChatClientTests
         await Task.CompletedTask;
     }
     [Theory(DisplayName = "测试发起语音聊天-单个好友")]
-    [InlineData("AI.Net",false)]
-    [InlineData("AI.Net",true)]
+    [InlineData("AI.Net", false)]
+    [InlineData("AI.Net", true)]
     public async Task TestSendVoiceChat_Single(string who, bool isOpenChat = false)
     {
         var clientFactory = _globalFixture.clientFactory;
         var client = clientFactory.GetWeChatClient(_wxClientName);
-        client.SendVoiceChat(who,isOpenChat);
+        client.SendVoiceChat(who, isOpenChat);
         Assert.True(true);
         await Task.CompletedTask;
     }
@@ -210,19 +210,29 @@ public class WeChatClientTests
     {
         var clientFactory = _globalFixture.clientFactory;
         var client = clientFactory.GetWeChatClient(_wxClientName);
-        client.SendVoiceChats(".NET-AI实时快讯3群",whos,false);
+        client.SendVoiceChats(".NET-AI实时快讯3群", whos, false);
         Assert.True(true);
         await Task.CompletedTask;
     }
 
-    // [Fact(DisplayName = "测试发起视频聊天")]
-    // public async Task TestSendVideoChat()
-    // {
-    //     var clientFactory = _globalFixture.clientFactory;
-    //     var client = clientFactory.GetWeChatClient(_wxClientName);
-    //     client.SendVideoChat();
-    //     Assert.True(true);
-    //     await Task.CompletedTask;
-    // }
+    [Theory(DisplayName = "测试发起视频聊天")]
+    [InlineData("AI.Net", false)]
+    [InlineData("AI.Net", true)]
+    public async Task TestSendVideoChat(string who, bool isOpenChat = false)
+    {
+        try
+        {
+            var clientFactory = _globalFixture.clientFactory;
+            var client = clientFactory.GetWeChatClient(_wxClientName);
+            client.SendVideoChat(who, isOpenChat);
+            Assert.True(true);
+            await Task.CompletedTask;
+        }
+        catch (Exception ex)
+        {
+            _output.WriteLine($"测试发起视频聊天异常：{ex}");
+            await Task.Delay(-1);
+        }
+    }
     #endregion
 }

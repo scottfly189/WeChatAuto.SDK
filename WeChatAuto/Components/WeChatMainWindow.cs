@@ -452,9 +452,23 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 发起视频聊天,适用于单个好友,群聊没有视频聊天功能
         /// </summary>
-        public void SendVideoChat()
+        /// <param name="who">好友名称</param>
+        /// <param name="isOpenChat">是否打开子聊天窗口,默认是False:不打开,True:打开</param>
+        public void SendVideoChat(string who, bool isOpenChat = false)
         {
-            this.MainChatContent.ChatBody.Sender.SendVideoChat();
+            if (_SubWindowIsOpen(who, "", subWin => subWin.ChatContent.ChatBody.Sender.SendVideoChat()))
+            {
+                return;
+            }
+            if (_IsInConversationAndVideoChatActionCore(who, isOpenChat, () => this.MainChatContent.ChatBody.Sender.SendVideoChat()))
+            {
+                return;
+            }
+            if (_IsSearchAndVideoChatAction(who, isOpenChat, () => this.MainChatContent.ChatBody.Sender.SendVideoChat()))
+            {
+                return;
+            }
+            _logger.Error($"无法找到{who}的聊天窗口，无法发起视频聊天");
         }
         /// <summary>
         /// 发起直播,适用于群聊中发起直播，单个好友没有直播功能
@@ -537,6 +551,28 @@ namespace WeChatAuto.Components
             }
             return false;
         }
+        private bool _IsInConversationAndVideoChatActionCore(string who, bool isOpenChat, Action action)
+        {
+            var conversations = this.Conversations.GetVisibleConversationTitles();
+            if (conversations.Contains(who))
+            {
+                if (isOpenChat)
+                {
+                    this.Conversations.DoubleClickConversation(who);
+                    Wait.UntilInputIsProcessed();
+                    SendVideoChat(who, isOpenChat);
+                    return true;
+                }
+                else
+                {
+                    this.Conversations.ClickConversation(who);
+                    Wait.UntilInputIsProcessed();
+                    action();
+                    return true;
+                }
+            }
+            return false;
+        }
         //此用户是否在会话列表中，如果存在，则打开或者点击此会话，并且发送消息
         private async Task<bool> _IsInConversation(string who)
         {
@@ -604,6 +640,31 @@ namespace WeChatAuto.Components
         }
         //此用户是否在搜索结果中
         private bool _IsSearchAndAction(string who, bool isOpenChat, Action action)
+        {
+            this.Search.SearchChat(who);
+            RandomWait.Wait(300, 1500);
+            var conversations = this.Conversations.GetVisibleConversationTitles();
+            if (conversations.Contains(who))
+            {
+                if (isOpenChat)
+                {
+                    this.Conversations.DoubleClickConversation(who);
+                    Wait.UntilInputIsProcessed();
+                    SendVoiceChat(who, isOpenChat);
+                    return true;
+                }
+                else
+                {
+                    this.Conversations.ClickConversation(who);
+                    Wait.UntilInputIsProcessed();
+                    action();
+                    return true;
+                }
+            }
+            this.Search.ClearText();
+            return false;
+        }
+        private bool _IsSearchAndVideoChatAction(string who, bool isOpenChat, Action action)
         {
             this.Search.SearchChat(who);
             RandomWait.Wait(300, 1500);

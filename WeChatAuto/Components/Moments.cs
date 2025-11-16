@@ -433,7 +433,8 @@ namespace WeChatAuto.Components
                                     linkButton.Click();
                                 }
                                 Thread.Sleep(600);
-                            } else
+                            }
+                            else
                             {
                                 _logger.Trace("点赞按钮未找到");
                             }
@@ -672,53 +673,43 @@ namespace WeChatAuto.Components
             this.OpenMoments();
             List<MomentItem> oldMomentsList = _GetCurrentMomentsList();
             List<MomentItem> oldShortMomentsList = _GetCurrentShortMomentsList();
-            try
+
+            _pollingTimer = new System.Threading.Timer(_ =>
             {
-                _pollingTimer = new System.Threading.Timer(_ =>
+                _ListenerCancellationTokenSource.Token.ThrowIfCancellationRequested();
+                if (!_WxMainWindow.Client.AppRunning)
                 {
-                    _ListenerCancellationTokenSource.Token.ThrowIfCancellationRequested();
-                    if (!_WxMainWindow.Client.AppRunning)
+                    _logger.Info("微信客户端已关闭，朋友圈监听线程暂停");
+                    return;
+                }
+                if (_isProcessing)
+                {
+                    _logger.Trace("朋友圈监听上一次处理尚未完成，跳过本次检测");
+                    return;
+                }
+                try
+                {
+                    _isProcessing = true;
+                    this.OpenMoments();
+                    if (!this.checkShortMomentsChanged(ref oldShortMomentsList))
                     {
-                        _logger.Info("微信客户端已关闭，朋友圈监听线程暂停");
-                        return;
-                    }
-                    if (_isProcessing)
-                    {
-                        _logger.Trace("朋友圈监听上一次处理尚未完成，跳过本次检测");
-                        return;
-                    }
-                    try
-                    {
-                        _isProcessing = true;
-                        this.OpenMoments();
-                        if (!this.checkShortMomentsChanged(ref oldShortMomentsList))
-                        {
-                            _ListenerCancellationTokenSource.Token.ThrowIfCancellationRequested();
-                            _isProcessing = false;
-                            return;
-                        }
-                        this.AddMomentsListenerCore(nickNameOrNickNames, ref oldMomentsList, autoLike, action);
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        _logger.Info("朋友圈监听线程已停止，正常取消,不做处理");
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.Error("朋友圈监听异常:" + ex.Message, ex);
+                        _ListenerCancellationTokenSource.Token.ThrowIfCancellationRequested();
                         _isProcessing = false;
+                        return;
                     }
-                }, null, WeAutomation.Config.MomentsListenInterval * 1000, WeAutomation.Config.MomentsListenInterval * 1000);
-            }
-            catch (OperationCanceledException)
-            {
-                _logger.Info("朋友圈监听线程已停止，正常取消,不做处理");
-            }
-            catch (Exception ex)
-            {
-                _logger.Error("朋友圈监听异常:" + ex.Message, ex);
-                throw new Exception("添加朋友圈监听失败，" + ex.Message, ex);
-            }
+                    this.AddMomentsListenerCore(nickNameOrNickNames, ref oldMomentsList, autoLike, action);
+                }
+                catch (OperationCanceledException)
+                {
+                    _logger.Info("朋友圈监听线程已停止，正常取消,不做处理");
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error("朋友圈监听异常:" + ex.Message, ex);
+                    _isProcessing = false;
+                }
+            }, null, WeAutomation.Config.MomentsListenInterval * 1000, WeAutomation.Config.MomentsListenInterval * 1000);
+
         }
         private bool checkShortMomentsChanged(ref List<MomentItem> oldShortMomentsList)
         {
@@ -745,6 +736,8 @@ namespace WeChatAuto.Components
         /// <param name="action"></param>
         private void AddMomentsListenerCore(OneOf<string, List<string>> nickNameOrNickNames, ref List<MomentItem> oldMomentsList, bool autoLike = true, Action<MomentsContext, IServiceProvider> action = null)
         {
+            if (_disposed)
+                return;
             this.OpenMoments();
             _ListenerCancellationTokenSource.Token.ThrowIfCancellationRequested();
             var newMomentsList = this._GetCurrentMomentsList();
@@ -946,13 +939,17 @@ namespace WeChatAuto.Components
         protected virtual void Dispose(bool disposing)
         {
             if (_disposed) return;
+            _disposed = true;
             if (disposing)
             {
+                _isProcessing = true;
+                _ListenerCancellationTokenSource?.Cancel();
+                _pollingTimer?.Dispose();
+                _ListenerCancellationTokenSource = null;
+                _pollingTimer = null;
+                _isProcessing = false;
                 _SelfUiThreadInvoker?.Dispose();
             }
-            StopMomentsListener();
-            _SelfUiThreadInvoker?.Dispose();
-            _disposed = true;
         }
     }
 }

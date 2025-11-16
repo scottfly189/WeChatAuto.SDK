@@ -150,7 +150,16 @@ namespace WeChatAuto.Components
         public void SendVideoChat()
         {
             var videoChatButton = GetToolBarButton(ChatBoxToolBarType.视频聊天);
-            videoChatButton.Invoke();
+            if (videoChatButton == null)
+            {
+                _logger.Error("无法找到视频聊天按钮，无法发起视频聊天");
+                return;
+            }
+            videoChatButton.DrawHighlightExt(_uiThreadInvoker);
+            RandomWait.Wait(300, 800);
+            _Window.Focus();
+            RandomWait.Wait(300, 1500);
+            videoChatButton.ClickEnhance(_Window);
         }
         /// <summary>
         /// 获取工具栏按钮
@@ -169,8 +178,8 @@ namespace WeChatAuto.Components
                 (ChatBoxToolBarType.截图, buttonList.FirstOrDefault(btn => btn.Name.Contains(WeChatConstant.WECHAT_CHAT_BOX_SCREENSHOT))),
                 (ChatBoxToolBarType.聊天记录, buttonList.FirstOrDefault(btn => btn.Name.Contains(WeChatConstant.WECHAT_CHAT_BOX_CHAT_RECORD))),
                 (ChatBoxToolBarType.直播, buttonList.FirstOrDefault(btn => btn.Name.Contains(WeChatConstant.WECHAT_CHAT_BOX_LIVE))),
-                (ChatBoxToolBarType.语音聊天, buttonList.FirstOrDefault(btn => btn.Name.Contains(WeChatConstant.WECHAT_CHAT_BOX_VOICE_CHAT))),
-                (ChatBoxToolBarType.视频聊天, buttonList.FirstOrDefault(btn => btn.Name.Contains(WeChatConstant.WECHAT_CHAT_BOX_VIDEO_CHAT)))
+                (ChatBoxToolBarType.语音聊天, buttonList.FirstOrDefault(btn => btn.Name.Equals("语音聊天"))),
+                (ChatBoxToolBarType.视频聊天, buttonList.FirstOrDefault(btn => btn.Name.Equals("视频聊天")))
             };
             return toolBarButtons;
         }

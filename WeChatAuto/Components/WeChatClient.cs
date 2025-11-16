@@ -231,7 +231,9 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 发起视频聊天,适用于单个好友,群聊没有视频聊天功能
     /// </summary>
-    public void SendVideoChat() => WxMainWindow.SendVideoChat();
+    /// <param name="who">好友名称</param>
+    /// <param name="isOpenChat">是否打开子聊天窗口,默认是False:不打开,True:打开</param>
+    public void SendVideoChat(string who, bool isOpenChat = false) => WxMainWindow.SendVideoChat(who, isOpenChat);
     /// <summary>
     /// 发起直播,适用于群聊中发起直播，单个好友没有直播功能
     /// </summary>
