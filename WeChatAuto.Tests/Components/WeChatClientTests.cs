@@ -174,11 +174,11 @@ public class WeChatClientTests
     }
 
     [Theory(DisplayName = "测试发送消息给多个好友")]
-    [InlineData(new string[] { "AI.Net","测试11","实时快讯3群" }, "你好，世界1！", "", false, true, 1)]
-    [InlineData(new string[] { "AI.Net","测试11","实时快讯3群" }, "你好，世界3！", "", true, true, 2)]
+    [InlineData(new string[] { "AI.Net","测试11",".NET-AI实时快讯3群" }, "你好，世界1！", "", false, true, 1)]
+    [InlineData(new string[] { "AI.Net","测试11",".NET-AI实时快讯3群" }, "你好，世界3！", "", true, true, 2)]
     [InlineData(new string[] { "测试11" }, "你好，世界4!", "", true, true, 3)]
-    [InlineData(new string[] { "AI.Net","测试11","实时快讯3群" }, "你好，世界5！", new string[] { "AI.Net", "秋歌" }, false, true,4)]
-    [InlineData(new string[] { "AI.Net","测试11","实时快讯3群","歪脖子的模版交流群" }, "好晚，大家睡着没有？", new string[] { "直脖子", "使不得先生", "常" }, true, true, 5)]
+    [InlineData(new string[] { "测试01","测试11",".NET-AI实时快讯3群" }, "你好，世界5！", new string[] { "AI.Net", "秋歌" }, false, true,4)]
+    [InlineData(new string[] { "测试01","测试11",".NET-AI实时快讯3群","歪脖子的模版交流群" }, "今日大家都没有休息？", new string[] { "直脖子", "使不得先生", "常" }, true, true, 5)]
     public async Task TestSendWhos(string[] whos, string message, object atUser = default,
         bool isOpenChat = true, bool result = true, int flag = 0)
     {

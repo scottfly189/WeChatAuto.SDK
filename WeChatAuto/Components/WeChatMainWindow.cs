@@ -349,6 +349,7 @@ namespace WeChatAuto.Components
             foreach (var who in whos)
             {
                 await SendWho(who, message, atUser);
+                RandomWait.Wait(300, 1000);
             }
         }
         /// <summary>
@@ -397,6 +398,7 @@ namespace WeChatAuto.Components
             foreach (var who in whos)
             {
                 await SendWhoAndOpenChat(who, message, atUser);
+                RandomWait.Wait(300, 1000);
             }
         }
 
@@ -655,7 +657,7 @@ namespace WeChatAuto.Components
                     // }
                     //5.如果不是，则查询此用户是否在会话列表中
                     //6.如果存在，则打开或者点击此会话，并且发送消息
-                    if (await _IsInConversation(who, message, isOpenChat,atUserList))
+                    if (await _IsInConversation(who, message, isOpenChat, atUserList))
                     {
                         return;
                     }

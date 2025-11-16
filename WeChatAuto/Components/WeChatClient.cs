@@ -618,11 +618,11 @@ namespace WeChatAuto.Components
     /// </summary>
     private void addAppRunningCheckListener()
     {
-      try
+      _logger.Trace($"微信客户端是{NickName}添加运行检查监听");
+      _RetryCount = 0;
+      _CheckAppRunningTimer = new System.Threading.Timer(_ =>
       {
-        _logger.Trace($"微信客户端是{NickName}添加运行检查监听");
-        _RetryCount = 0;
-        _CheckAppRunningTimer = new System.Threading.Timer(_ =>
+        try
         {
           if (_disposed)
             return;
@@ -635,16 +635,24 @@ namespace WeChatAuto.Components
           }
           _CheckRunningFlag = true;
           _addAppRunningCheckListenerCore();
-        }, null, 0, WeAutomation.Config.CheckAppRunningInterval * 1000);
-      }
-      catch (OperationCanceledException)
-      {
-        _logger.Info($"微信客户端是{NickName}运行检查监听线程已停止，正常取消,不做处理");
-      }
-      catch (Exception ex)
-      {
-        _logger.Error($"微信客户端是{NickName}运行检查监听失败:{ex.Message}", ex);
-      }
+        }
+        catch (OperationCanceledException)
+        {
+          _logger.Info($"微信客户端是{NickName}运行检查监听线程已停止，正常取消,不做处理");
+        }
+        catch (WindowNotExsitException)
+        {
+          _CheckRunningFlag = false;
+          _AppRunning = false;  // 标记应用已停止，让依赖此属性的代码知道
+          _CheckAppRunningCancellationTokenSource?.Cancel();  // 取消后续检查，让 Timer 回调提前退出
+          _logger.Error($"微信客户端是{NickName}运行检查监听失败:窗口不存在，已停止监听");
+        }
+        catch (Exception ex)
+        {
+          _CheckRunningFlag = false;
+          _logger.Error($"微信客户端是{NickName}运行检查监听失败:{ex.Message}", ex);
+        }
+      }, null, 0, WeAutomation.Config.CheckAppRunningInterval * 1000);
     }
     /// <summary>
     /// 运行检查风控退出监听核心方法
