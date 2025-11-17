@@ -160,58 +160,6 @@ namespace WeChatAuto.Tests.Components
             Assert.True(true);
             await Task.Delay(60000);
         }
-        [Fact(DisplayName = "测试发送表情-发送索引给指定好友")]
-        public async Task Test_SendEmoji_Index()
-        {
-            var framework = _globalFixture.clientFactory;
-            var client = framework.GetWeChatClient(_wxClientName);
-            var window = client.WxMainWindow;
-            await window.SendEmoji("AI.Net", EmojiListHelper.Items[0].Index, false);
-            Assert.True(true);
-            await Task.Delay(60000);
-        }
-        [Fact(DisplayName = "测试发送表情-发送名称给指定好友")]
-        public async Task Test_SendEmoji_Name()
-        {
-            var framework = _globalFixture.clientFactory;
-            var client = framework.GetWeChatClient(_wxClientName);
-            var window = client.WxMainWindow;
-            await window.SendEmoji("AI.Net", "微笑", false);
-            Assert.True(true);
-            await Task.Delay(60000);
-        }
-        [Fact(DisplayName = "测试发送表情-发送值给指定好友")]
-        public async Task Test_SendEmoji_value()
-        {
-            var framework = _globalFixture.clientFactory;
-            var client = framework.GetWeChatClient(_wxClientName);
-            var window = client.WxMainWindow;
-            await window.SendEmoji("AI.Net", "[微笑]", false);
-            Assert.True(true);
-            await Task.Delay(60000);
-        }
-
-        [Fact(DisplayName = "测试发送表情-发送索引给指定好友-打开子窗口")]
-        public async Task Test_SendEmoji_open_subwin()
-        {
-            var framework = _globalFixture.clientFactory;
-            var client = framework.GetWeChatClient(_wxClientName);
-            var window = client.WxMainWindow;
-            await window.SendEmoji("AI.Net", EmojiListHelper.Items[0].Index, true);
-            Assert.True(true);
-            await Task.Delay(60000);
-        }
-
-        [Fact(DisplayName = "测试发送表情-发送索引给指定好友-发送给多个好友-打开多个子窗口")]
-        public async Task Test_SendEmoji_multi_open_subwin()
-        {
-            var framework = _globalFixture.clientFactory;
-            var client = framework.GetWeChatClient(_wxClientName);
-            var window = client.WxMainWindow;
-            await window.SendEmojis(["AI.Net", ".NET-AI实时快讯3群"], EmojiListHelper.Items[0].Index, true);
-            Assert.True(true);
-            await Task.Delay(60000);
-        }
 
         [Fact(DisplayName = "测试发送文件-发送图片")]
         public async Task Test_File_image()

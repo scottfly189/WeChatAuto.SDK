@@ -240,9 +240,9 @@ namespace WeChatAuto.Components
             await this.SendMessageCore(msg.ToUser, msg.Message, msg.IsOpenSubWin, msg.AtUsers);
         }
 
-        public async Task SendEmojiDispatch(ChatActionMessage msg)
+        public async Task SendEmojiDispatch(ChatActionMessage msg, OneOf<string, string[]> atUser = default)
         {
-            await this.SendEmojiCore(msg);
+            await this.SendEmojiCore(msg, atUser);
         }
         public async Task SendFileDispatch(ChatActionMessage msg)
         {
@@ -782,15 +782,16 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="who">好友名称</param>
         /// <param name="emoji">表情名称</param>
+        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
-        public async Task SendEmoji(string who, OneOf<int, string> emoji, bool isOpenChat = false)
+        public async Task SendEmoji(string who, OneOf<int, string> emoji, OneOf<string, string[]> atUser = default, bool isOpenChat = false)
         {
             ChatActionMessage msg = new ChatActionMessage();
             msg.Type = ActionType.自定义表情;
             msg.ToUser = who;
             msg.Payload = emoji;
             msg.IsOpenSubWin = isOpenChat;
-            await this.SendEmojiDispatch(msg);
+            await this.SendEmojiDispatch(msg, atUser);
         }
 
         /// <summary>
@@ -798,11 +799,15 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="whos">好友名称列表</param>
         /// <param name="emoji">表情名称</param>
+        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
-        public async Task SendEmojis(string[] whos, OneOf<int, string> emoji, bool isOpenChat = false)
+        public async Task SendEmojis(string[] whos, OneOf<int, string> emoji, OneOf<string, string[]> atUser = default, bool isOpenChat = false)
         {
-            //whos.ToList().ForEach(who => SendEmoji(who, emoji, isOpenChat));
-            await Task.WhenAll(whos.ToList().Select(who => SendEmoji(who, emoji, isOpenChat)));
+            foreach (var who in whos)
+            {
+                await SendEmoji(who, emoji, atUser, isOpenChat);
+                RandomWait.Wait(300, 1000);
+            }
         }
         #endregion
         #region 实际发送消息、文件、表情操作
@@ -903,14 +908,9 @@ namespace WeChatAuto.Components
             {
                 return;
             }
-
-            // System.Windows.MessageBox.Show($"用户{who}不存在,请检查您的输入是否正确",
-            //     "错误",
-            //     System.Windows.MessageBoxButton.OK,
-            //     System.Windows.MessageBoxImage.Error);
         }
         // 发送表情核心方法
-        private async Task SendEmojiCore(ChatActionMessage msg)
+        private async Task SendEmojiCore(ChatActionMessage msg, OneOf<string, string[]> atUser = default)
         {
             try
             {
@@ -931,9 +931,11 @@ namespace WeChatAuto.Components
                         }
                     }
                 );
-
+                var atUserList = atUser.Value == default
+                    ? new List<string>()
+                    : atUser.Value is string s ? new List<string> { s } : ((string[])atUser.Value).ToList();
                 msg.Message = message;
-                await SendMessageCore(msg.ToUser, message, msg.IsOpenSubWin);
+                await SendMessageCore(msg.ToUser, message, msg.IsOpenSubWin, atUserList: atUserList);
             }
             catch (Exception ex)
             {

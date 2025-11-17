@@ -152,7 +152,7 @@ public class WeChatClientTests
     // 1.接收人不在会话中;2.接收人在会话中;3.接收人在会话中，但是在一些特殊一点的位置;4、接收人在子窗口中.
     //加强@测试,完成@谁与@全部人,群聊中
     [Theory(DisplayName = "测试发送消息给单个好友")]
-    [InlineData("AI.Net", "你好，世界1！", "", false, true, 1)]
+    [InlineData("AI.Net", "你好，[微笑]世界1！", "", false, true, 1)]
     [InlineData("测试11", "你好，世界2！", "", false, true, 2)]
     [InlineData("AI.Net", "你好，世界3！", "", true, true, 3)]
     [InlineData("测试11", "你好，世界4!", "", true, true, 4)]
@@ -174,7 +174,9 @@ public class WeChatClientTests
         Assert.True(result);
         await Task.CompletedTask;
     }
-
+    //注意重点测试：
+    // 1.接收人不在会话中;2.接收人在会话中;3.接收人在会话中，但是在一些特殊一点的位置;4、接收人在子窗口中.
+    //加强@测试,完成@谁与@全部人,群聊中
     [Theory(DisplayName = "测试发送消息给多个好友")]
     [InlineData(new string[] { "AI.Net", "测试11", ".NET-AI实时快讯3群" }, "你好，世界1！", "", false, true, 1)]
     [InlineData(new string[] { "AI.Net", "测试11", ".NET-AI实时快讯3群" }, "你好，世界3！", "", true, true, 2)]
@@ -192,6 +194,37 @@ public class WeChatClientTests
         Assert.True(result);
         await Task.CompletedTask;
     }
+    [Theory(DisplayName = "测试发送表情")]
+    [InlineData("AI.Net", 1, new string[] { }, false)]
+    [InlineData("AI.Net", 2, new string[] { }, true)]
+    [InlineData("测试11", 3, new string[] { "AI.Net", "秋歌" }, false)]
+    [InlineData("测试11", 4, new string[] { "AI.Net", "秋歌" }, true)]
+    public async Task TestSendEmoji(string who, int emoji, object atUser, bool isOpenChat = false)
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        var atUserOneOf = atUser is string ? OneOf<string, string[]>.FromT0((string)atUser) : OneOf<string, string[]>.FromT1((string[])atUser);
+        await client.SendEmoji(who, emoji, atUserOneOf, isOpenChat);
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
+    [Theory(DisplayName = "测试发送表情-发送给多个好友")]
+    [InlineData(new string[] { "AI.Net", "测试11", ".NET-AI实时快讯3群" }, 1, new string[] { }, false)]
+    [InlineData(new string[] { "AI.Net", "测试11", ".NET-AI实时快讯3群" }, 2, new string[] { }, true)]
+    [InlineData(new string[] { "测试11", ".NET-AI实时快讯3群" }, 3, new string[] { "AI.Net", "秋歌" }, false)]
+    [InlineData(new string[] { "测试11", ".NET-AI实时快讯3群" }, 4, new string[] { "AI.Net", "秋歌" }, true)]
+    public async Task TestSendEmojis(string[] whos, int emoji, object atUser, bool isOpenChat = false)
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        var atUserOneOf = atUser is string ? OneOf<string, string[]>.FromT0((string)atUser) : OneOf<string, string[]>.FromT1((string[])atUser);
+        await client.SendEmojis(whos, emoji, atUserOneOf, isOpenChat);
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
+    //注意重点测试：
+    // 1.接收人不在会话中;2.接收人在会话中;3.接收人在会话中，但是在一些特殊一点的位置;4、接收人在子窗口中.
+    //加强@测试,完成@谁与@全部人,群聊中
     [Theory(DisplayName = "测试发起语音聊天-单个好友")]
     [InlineData("AI.Net", false)]
     [InlineData("AI.Net", true)]
@@ -203,7 +236,9 @@ public class WeChatClientTests
         Assert.True(true);
         await Task.CompletedTask;
     }
-
+    //注意重点测试：
+    // 1.接收人不在会话中;2.接收人在会话中;3.接收人在会话中，但是在一些特殊一点的位置;4、接收人在子窗口中.
+    //加强@测试,完成@谁与@全部人,群聊中
     [Theory(DisplayName = "测试发起语音聊天-群聊")]
     [InlineData("秋歌", "智影工坊", "土豆核")]
     public async Task TestSendVoiceChat_Group(params string[] whos)
@@ -215,6 +250,9 @@ public class WeChatClientTests
         await Task.CompletedTask;
     }
 
+    //注意重点测试：
+    // 1.接收人不在会话中;2.接收人在会话中;3.接收人在会话中，但是在一些特殊一点的位置;4、接收人在子窗口中.
+    //加强@测试,完成@谁与@全部人,群聊中
     [Theory(DisplayName = "测试发起视频聊天")]
     [InlineData("AI.Net", false, true)]
     [InlineData("AI.Net", true, true)]
@@ -242,6 +280,9 @@ public class WeChatClientTests
             await Task.Delay(-1);
         }
     }
+    //注意重点测试：
+    // 1.接收人不在会话中;2.接收人在会话中;3.接收人在会话中，但是在一些特殊一点的位置;4、接收人在子窗口中.
+    //加强@测试,完成@谁与@全部人,群聊中
     [Theory(DisplayName = "测试发起视频聊天")]
     [InlineData("测试11", false, true)]
     [InlineData("测试11", true, true)]
@@ -270,5 +311,7 @@ public class WeChatClientTests
             await Task.Delay(-1);
         }
     }
+
+
     #endregion
 }
