@@ -771,7 +771,11 @@ namespace WeChatAuto.Components
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
         public async Task SendFiles(string[] whos, OneOf<string, string[]> files, bool isOpenChat = false)
         {
-            await Task.WhenAll(whos.ToList().Select(who => SendFile(who, files, isOpenChat)));
+            foreach (var who in whos)
+            {
+                await SendFile(who, files, isOpenChat);
+                RandomWait.Wait(300, 1000);
+            }
         }
 
 
@@ -896,10 +900,6 @@ namespace WeChatAuto.Components
             {
                 return;
             }
-            // if (_IsCurrentChatFile(who, files))
-            // {
-            //     return;
-            // }
             if (await _IsInConversationFile(who, files, isOpenChat))
             {
                 return;

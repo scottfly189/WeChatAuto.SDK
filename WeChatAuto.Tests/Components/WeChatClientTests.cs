@@ -312,6 +312,37 @@ public class WeChatClientTests
         }
     }
 
-
+    [Theory(DisplayName = "测试发送文件")]
+    [InlineData("AI.Net", @"D:\desktop_new\ssss\logo.png", false)]
+    [InlineData("AI.Net", new string[] { @"D:\desktop_new\ssss\logo.png", @"D:\desktop_new\ssss\4.mp4", @"D:\desktop_new\ssss\3.pdf" }, false)]
+    [InlineData("AI.Net", @"D:\desktop_new\ssss\logo.png", true)]
+    [InlineData("AI.Net", new string[] { @"D:\desktop_new\ssss\logo.png", @"D:\desktop_new\ssss\4.mp4", @"D:\desktop_new\ssss\3.pdf" }, true)]
+    [InlineData("测试11", @"D:\desktop_new\ssss\logo.png", false)]
+    [InlineData("测试11", new string[] { @"D:\desktop_new\ssss\logo.png", @"D:\desktop_new\ssss\4.mp4", @"D:\desktop_new\ssss\3.pdf" }, false)]
+    [InlineData("测试11", @"D:\desktop_new\ssss\logo.png", true)]
+    [InlineData("测试11", new string[] { @"D:\desktop_new\ssss\logo.png", @"D:\desktop_new\ssss\4.mp4", @"D:\desktop_new\ssss\3.pdf" }, true)]
+    public async Task TestSendFile(string who, object file, bool isOpenChat = false)
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        var fileOneOf = file is string ? OneOf<string, string[]>.FromT0((string)file) : OneOf<string, string[]>.FromT1((string[])file);
+        await client.SendFile(who, fileOneOf, isOpenChat);
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
+    [Theory(DisplayName = "测试发送文件-发送给多个好友")]
+    [InlineData(new string[] { "AI.Net", "测试11", ".NET-AI实时快讯3群" }, @"D:\desktop_new\ssss\logo.png", false)]
+    [InlineData(new string[] { "AI.Net", "测试11", ".NET-AI实时快讯3群" }, new string[] { @"D:\desktop_new\ssss\logo.png", @"D:\desktop_new\ssss\4.mp4", @"D:\desktop_new\ssss\3.pdf" }, false)]
+    [InlineData(new string[] { "AI.Net", "测试11", ".NET-AI实时快讯3群" }, @"D:\desktop_new\ssss\logo.png", true)]
+    [InlineData(new string[] { "AI.Net", "测试11", ".NET-AI实时快讯3群" }, new string[] { @"D:\desktop_new\ssss\logo.png", @"D:\desktop_new\ssss\4.mp4", @"D:\desktop_new\ssss\3.pdf" }, true)]
+    public async Task TestSendFiles(string[] whos, object file, bool isOpenChat = false)
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        var fileOneOf = file is string ? OneOf<string, string[]>.FromT0((string)file) : OneOf<string, string[]>.FromT1((string[])file);
+        await client.SendFiles(whos, fileOneOf, isOpenChat);
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
     #endregion
 }

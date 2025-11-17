@@ -222,8 +222,8 @@ namespace WeChatAuto.Components
     /// <param name="emoji">表情名称或者描述或者索引,具体索引或者描述等请参考<see cref="EmojiListHelper"/>或者<see cref="EmojiItem"/></param>
     /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
     /// <param name="isOpenChat">是否打开子聊天窗口</param>
-    public async Task SendEmoji(string who, OneOf<int, string> emoji,OneOf<string, string[]> atUser = default,bool isOpenChat = false)
-      => await WxMainWindow.SendEmoji(who, emoji,atUser, isOpenChat);
+    public async Task SendEmoji(string who, OneOf<int, string> emoji, OneOf<string, string[]> atUser = default, bool isOpenChat = false)
+      => await WxMainWindow.SendEmoji(who, emoji, atUser, isOpenChat);
     /// <summary>
     /// 发送表情
     /// </summary>
@@ -231,7 +231,7 @@ namespace WeChatAuto.Components
     /// <param name="emoji">表情名称或者描述或者索引,具体索引或者描述等请参考<see cref="EmojiListHelper"/>或者<see cref="EmojiItem"/></param>
     /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
     /// <param name="isOpenChat">是否打开子聊天窗口</param>
-    public async Task SendEmojis(string[] whos, OneOf<int, string> emoji,OneOf<string, string[]> atUser = default, bool isOpenChat = false)
+    public async Task SendEmojis(string[] whos, OneOf<int, string> emoji, OneOf<string, string[]> atUser = default, bool isOpenChat = false)
       => await WxMainWindow.SendEmojis(whos, emoji, atUser, isOpenChat);
     /// <summary>
     /// 发起语音聊天,适用于单个好友
