@@ -16,6 +16,7 @@ using WxAutoCommon.Configs;
 using WxAutoCommon.Enums;
 using WeChatAuto.Services;
 using Microsoft.Extensions.DependencyInjection;
+using WeChatAuto.Models;
 
 namespace WeChatAuto.Components
 {
@@ -255,13 +256,13 @@ namespace WeChatAuto.Components
         /// 速度会比较快
         /// </summary>
         /// <returns>聊天内容区所有气泡列表,仅返回气泡标题</returns>
-        public List<string> GetAllBubbleTitleList()
+        public List<ChatSimpleMessage> GetAllChatHistory()
         {
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
             var rList = _uiMainThreadInvoker.Run(automation =>
             {
                 var listBox = _ChatBodyRoot.FindFirstByXPath(xPath);
-                var list = new List<string>();
+                var list = new List<ChatSimpleMessage>();
                 Button moreButton = listBox.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("查看更多消息"))).AsButton();
                 //显示全部消息
                 while (moreButton != null)
@@ -271,9 +272,10 @@ namespace WeChatAuto.Components
                     {
                         pattern.SetScrollPercent(0, 0);
                     }
+                    RandomWait.Wait(300, 1000);
                     moreButton.WaitUntilClickable(TimeSpan.FromSeconds(5));
                     moreButton.Click();
-                    Thread.Sleep(600);
+                    RandomWait.Wait(100, 3000);
                     moreButton = listBox.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("查看更多消息"))).AsButton();
                 }
                 var listItems = listBox.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
@@ -283,7 +285,24 @@ namespace WeChatAuto.Components
                     var subButton = item.FindFirstByXPath(xPath);
                     if (subButton != null)
                     {
-                        list.Add(item.Name ?? "未读取到气泡标题");
+                        if (string.IsNullOrWhiteSpace(item.Name))
+                        {
+                            continue;
+                        }
+                        string who = subButton.Name;
+                        var subButtons = item.FindAllByXPath("/Pane[1]/*");
+                        if (subButtons.Length == 3)
+                        {
+                            if (subButtons[0].ControlType == ControlType.Button)
+                            {
+                                var pane = subButtons[0].GetSibling(1);
+                                if (pane != null && pane.ControlType == ControlType.Pane)
+                                {
+                                    who = pane.FindFirstByXPath(@"//Text")?.Name;
+                                }
+                            }
+                        }
+                        list.Add(new ChatSimpleMessage { Who = subButton.Name == _MainWxWindow.NickName ? "我" : who, Message = item.Name });
                     }
                 }
 

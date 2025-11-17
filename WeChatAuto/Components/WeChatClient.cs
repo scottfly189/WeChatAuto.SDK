@@ -281,7 +281,14 @@ namespace WeChatAuto.Components
     public async Task SendFiles(string[] whos, OneOf<string, string[]> files, bool isOpenChat = false)
       => await WxMainWindow.SendFiles(whos, files, isOpenChat);
 
-
+    /// <summary>
+    /// 获取所有气泡标题列表
+    /// <see cref="ChatSimpleMessage"/>
+    /// </summary>
+    /// <param name="who">好友名称，可以是好友，也可以是群聊名称</param>
+    /// <returns>所有气泡标题列表</returns>
+    public List<ChatSimpleMessage> GetAllChatHistory(string who)
+      => WxMainWindow.GetAllChatHistory(who);
     #endregion
 
     #region 会话操作
@@ -556,6 +563,7 @@ namespace WeChatAuto.Components
       => WxMainWindow.AddressBook.RemoveFriend(nickName);
     /// <summary>
     /// 添加好友
+    /// 注意：不能添加太频繁，否则可能会触发微信的风控机制，导致加好友失败
     /// willdo:有必要吗？
     /// </summary>
     /// <param name="friendNames">微信号/手机号列表</param>

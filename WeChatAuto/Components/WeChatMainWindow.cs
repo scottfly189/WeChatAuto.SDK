@@ -492,6 +492,30 @@ namespace WeChatAuto.Components
         }
 
         /// <summary>
+        /// 获取所有气泡标题列表
+        /// <see cref="ChatSimpleMessage"/>
+        /// </summary>
+        /// <param name="who">好友名称</param>
+        /// <returns>所有气泡标题列表</returns>
+        public List<ChatSimpleMessage> GetAllChatHistory(string who)
+        {
+            var (success, subWin) = _SubWindowIsOpenExt(who);
+            if (success)
+            {
+                return subWin.ChatContent.ChatBody.GetAllChatHistory();
+            }
+            if (_IsInConversationNotOpenAndActionCoreExt(who))
+            {
+                return this.MainChatContent.ChatBody.GetAllChatHistory();
+            }
+            if (_IsSearchAndNotOpenAndActionExt(who))
+            {
+                return this.MainChatContent.ChatBody.GetAllChatHistory();
+            }
+            _logger.Error($"无法找到{who}的聊天窗口，无法获取所有气泡标题列表");
+            return null;
+        }
+        /// <summary>
         /// 给当前聊天窗口发送消息的核心方法
         /// 可能存在不能发送消息的窗口情况，因为当前可能是非聊天窗口
         /// </summary>
@@ -517,6 +541,15 @@ namespace WeChatAuto.Components
                 return true;
             }
             return false;
+        }
+        private (bool success, SubWin subWin) _SubWindowIsOpenExt(string who)
+        {
+            var subWin = this.SubWinList.GetSubWin(who);
+            if (subWin != null)
+            {
+                return (true, subWin);
+            }
+            return (false, subWin);
         }
         //此用户是否在会话列表中，如果存在，则打开或者点击此会话，并且发送消息
         private async Task<bool> _IsInConversation(string who, string message, bool isOpenChat, List<string> atUserList = null)
@@ -584,6 +617,17 @@ namespace WeChatAuto.Components
                     action();
                     return true;
                 }
+            }
+            return false;
+        }
+        private bool _IsInConversationNotOpenAndActionCoreExt(string who)
+        {
+            var conversations = this.Conversations.GetVisibleConversationTitles();
+            if (conversations.Contains(who))
+            {
+                this.Conversations.ClickConversation(who);
+                Wait.UntilInputIsProcessed();
+                return true;
             }
             return false;
         }
@@ -703,6 +747,22 @@ namespace WeChatAuto.Components
             this.Search.ClearText();
             return false;
         }
+
+        private bool _IsSearchAndNotOpenAndActionExt(string who)
+        {
+            this.Search.SearchChat(who);
+            RandomWait.Wait(300, 1500);
+            var conversations = this.Conversations.GetVisibleConversationTitles();
+            if (conversations.Contains(who))
+            {
+                this.Conversations.ClickConversation(who);
+                Wait.UntilInputIsProcessed();
+                return true;
+            }
+            this.Search.ClearText();
+            return false;
+        }
+
         //此用户是否在搜索结果中
         private async Task<bool> _IsSearch(string who)
         {

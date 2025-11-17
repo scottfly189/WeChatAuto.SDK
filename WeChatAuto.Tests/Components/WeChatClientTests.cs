@@ -344,5 +344,21 @@ public class WeChatClientTests
         Assert.True(true);
         await Task.CompletedTask;
     }
+    [Theory(DisplayName = "测试获取所有气泡标题列表")]
+    [InlineData("AI交流群")]
+    [InlineData("前端攻城狮")]
+    [InlineData("歪脖子的模版交流群")]
+    public async Task TestGetAllBubbleTitleList(string who)
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        var bubbleTitleList = client.GetAllChatHistory(who);
+        Assert.True(bubbleTitleList != null);
+        foreach (var bubbleTitle in bubbleTitleList)
+        {
+            _output.WriteLine($"Who: {bubbleTitle.Who}, Message: {bubbleTitle.Message}");
+        }
+        await Task.CompletedTask;
+    }
     #endregion
 }
