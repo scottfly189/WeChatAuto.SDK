@@ -48,6 +48,7 @@ namespace WeChatAuto.Components
             _uiMainThreadInvoker = uiThreadInvoker;
             _MainWxWindow = mainWxWindow;
             _serviceProvider = serviceProvider;
+            _logger.Info($"本次ChatBody的窗口名称:{_Window.Name},ProcessId:{_WxWindow.ProcessId},运行线程名称:{uiThreadInvoker.ThreadName}");
         }
         /// <summary>
         /// 添加消息监听

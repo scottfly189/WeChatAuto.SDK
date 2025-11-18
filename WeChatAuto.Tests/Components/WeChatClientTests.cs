@@ -344,10 +344,17 @@ public class WeChatClientTests
         Assert.True(true);
         await Task.CompletedTask;
     }
+    /// <summary>
+    /// 测试考虑的场景：
+    /// 1. 个人聊天
+    /// 2. 群聊
+    /// 3. 弹出的子窗口聊天
+    /// </summary>
     [Theory(DisplayName = "测试获取所有气泡标题列表")]
     [InlineData("AI交流群")]
     [InlineData("前端攻城狮")]
     [InlineData("歪脖子的模版交流群")]
+    [InlineData("歪脖子")]
     public async Task TestGetAllBubbleTitleList(string who)
     {
         var clientFactory = _globalFixture.clientFactory;
