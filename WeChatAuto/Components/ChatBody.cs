@@ -38,13 +38,16 @@ namespace WeChatAuto.Components
         private volatile bool _disposed = false;
         private CancellationTokenSource _pollingTimerCancellationTokenSource = new CancellationTokenSource();
         private volatile bool _isProcessing = false; // 标记是否正在处理消息
-        public ChatBody(Window window, AutomationElement chatBodyRoot, IWeChatWindow wxWindow, string title, UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow, IServiceProvider serviceProvider)
+        public ChatType _ChatType;
+        public ChatBody(Window window, AutomationElement chatBodyRoot, IWeChatWindow wxWindow, string title, ChatType chatType,
+          UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow, IServiceProvider serviceProvider)
         {
             _Window = window;
             _logger = serviceProvider.GetRequiredService<AutoLogger<ChatBody>>();
             _ChatBodyRoot = chatBodyRoot;
             _WxWindow = wxWindow;
             _Title = title;
+            _ChatType = chatType;
             _uiMainThreadInvoker = uiThreadInvoker;
             _MainWxWindow = mainWxWindow;
             _serviceProvider = serviceProvider;
@@ -109,7 +112,7 @@ namespace WeChatAuto.Components
                         return;
                     }
                 }
-                catch(OperationCanceledException)
+                catch (OperationCanceledException)
                 {
                     _logger.Info("轮询检测线程已停止，正常取消,不做处理");
                     return;
@@ -259,6 +262,11 @@ namespace WeChatAuto.Components
         /// <returns>聊天内容区所有气泡列表,仅返回气泡标题</returns>
         public List<ChatSimpleMessage> GetAllChatHistory()
         {
+            if (_ChatType != ChatType.好友 && _ChatType != ChatType.群聊)
+            {
+                _logger.Warn($"聊天类型为{_ChatType.ToString()}，不支持获取聊天内容区所有气泡列表");
+                return new List<ChatSimpleMessage>();
+            }
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
             var rList = _uiMainThreadInvoker.Run(automation =>
             {
@@ -291,15 +299,18 @@ namespace WeChatAuto.Components
                             continue;
                         }
                         string who = subButton.Name;
-                        var subButtons = item.FindAllByXPath("/Pane[1]/*");
-                        if (subButtons.Length == 3)
+                        if (_ChatType == ChatType.群聊)
                         {
-                            if (subButtons[0].ControlType == ControlType.Button)
+                            var subButtons = item.FindAllByXPath("/Pane[1]/*");
+                            if (subButtons.Length == 3)
                             {
-                                var pane = subButtons[0].GetSibling(1);
-                                if (pane != null && pane.ControlType == ControlType.Pane)
+                                if (subButtons[0].ControlType == ControlType.Button)
                                 {
-                                    who = pane.FindFirstByXPath(@"//Text")?.Name;
+                                    var pane = subButtons[0].GetSibling(1);
+                                    if (pane != null && pane.ControlType == ControlType.Pane)
+                                    {
+                                        who = pane.FindFirstByXPath(@"//Text")?.Name;
+                                    }
                                 }
                             }
                         }

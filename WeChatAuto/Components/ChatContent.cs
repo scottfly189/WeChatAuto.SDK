@@ -168,6 +168,11 @@ namespace WeChatAuto.Components
             {
                 return "";
             }
+            var (isSubscriptionAccount, subTitle) = IsSubscriptionAccount();
+            if (isSubscriptionAccount)
+            {
+                return subTitle;
+            }
             var header = _uiMainThreadInvoker.Run(automation => ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             DrawHightlightHelper.DrawHightlight(header, _uiMainThreadInvoker);
             var titles = _uiMainThreadInvoker.Run(automation => header.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
@@ -177,6 +182,22 @@ namespace WeChatAuto.Components
             }
             var title = titles.Name;
             return title;
+        }
+        /// <summary>
+        /// 是否订阅号
+        /// </summary>
+        /// <returns>是否订阅号,标题</returns>
+        private (bool isSubscriptionAccount, string title) IsSubscriptionAccount()
+        {
+            return _uiMainThreadInvoker.Run(automation =>
+            {
+                var subscriptionPane = _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("CWebviewControlHostWnd")));
+                if (subscriptionPane != null)
+                {
+                    return (true, "订阅号");
+                }
+                return (false, "");
+            }).GetAwaiter().GetResult();
         }
         /// <summary>
         /// 获取聊天内容组件
@@ -195,7 +216,7 @@ namespace WeChatAuto.Components
             var title = GetFullTitle();
             var chatBodyRoot = _uiMainThreadInvoker.Run(automation => ChatContentRoot.FindFirstByXPath("/Pane[2]")).GetAwaiter().GetResult();
             DrawHightlightHelper.DrawHightlight(chatBodyRoot, _uiMainThreadInvoker);
-            var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow, title, _uiMainThreadInvoker, this._MainWxWindow, _serviceProvider);
+            var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow, title, this.ChatType, _uiMainThreadInvoker, this._MainWxWindow, _serviceProvider);
             if (_ChatContentType == ChatContentType.SubWindow)
             {
                 _SubWinCacheChatBody = chatBody;
