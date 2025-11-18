@@ -2,6 +2,7 @@ using FlaUI.Core.AutomationElements;
 using WxAutoCommon.Enums;
 using Newtonsoft.Json;
 using System;
+using WeChatAuto.Models;
 
 namespace WeChatAuto.Components
 {
@@ -22,7 +23,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 发送者，好友或者群聊好友名称
         /// </summary>
-        public string Sender { get; set; }
+        public string Who { get; set; }
 
         /// <summary>
         /// 群昵称
@@ -75,7 +76,7 @@ namespace WeChatAuto.Components
             {
                 using (var sha256 = System.Security.Cryptography.SHA256.Create())
                 {
-                    var content = $"{this.MessageType.ToString()}|{this.MessageSource.ToString()}|{this.Sender}|{this.MessageContent}";
+                    var content = $"{this.MessageType.ToString()}|{this.MessageSource.ToString()}|{this.Who}|{this.MessageContent}";
                     var hashBytes = sha256.ComputeHash(System.Text.Encoding.UTF8.GetBytes(content));
                     return Convert.ToBase64String(hashBytes);
                 }
@@ -88,7 +89,7 @@ namespace WeChatAuto.Components
             {
                 MessageType = this.MessageType.ToString(),
                 MessageSource = this.MessageSource.ToString(),
-                this.Sender,
+                this.Who,
                 this.GroupNickName,
                 this.MessageContent,
                 this.IsNew,
@@ -106,7 +107,15 @@ namespace WeChatAuto.Components
         /// <returns></returns>
         public string RrettyPrint()
         {
-            return $"{this.Sender}: {this.MessageContent}";
+            return $"{this.Who}: {this.MessageContent}";
+        }
+        /// <summary>
+        /// 转换为ChatSimpleMessage
+        /// </summary>
+        /// <returns>ChatSimpleMessage</returns>
+        public ChatSimpleMessage ToChatSimpleMessage()
+        {
+            return new ChatSimpleMessage { Who = this.Who, Message = this.MessageContent };
         }
         /// <summary>
         /// 是否可点击

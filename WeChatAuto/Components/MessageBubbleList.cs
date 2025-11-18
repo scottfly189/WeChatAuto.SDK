@@ -92,6 +92,7 @@ namespace WeChatAuto.Components
             return bubbles.Where(item=>item.MessageSource != MessageSourceType.系统消息 &&
                                        item.MessageSource != MessageSourceType.其他消息).ToList();
         }
+        
         /// <summary>
         /// 获取气泡列表,包括系统消息
         /// 注意：速度比较慢，但是信息比较全
@@ -264,12 +265,12 @@ namespace WeChatAuto.Components
             bubble.MessageTime = dateTime;
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             return bubble;
@@ -292,12 +293,12 @@ namespace WeChatAuto.Components
             bubble.MessageTime = dateTime;
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             bubble.GroupNickName = __GetGroupNickName(children);
@@ -336,7 +337,7 @@ namespace WeChatAuto.Components
             {
                 bubble.MessageType = MessageType.文字;
                 bubble.MessageSource = MessageSourceType.系统消息;
-                bubble.Sender = MessageSourceType.系统消息.ToString();
+                bubble.Who = MessageSourceType.系统消息.ToString();
                 bubble.MessageContent = listItem.Name;
                 return bubble;
             }
@@ -344,14 +345,14 @@ namespace WeChatAuto.Components
             bubble.MessageContent = listItem.Name.Trim();
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
                 if (children[2].ControlType == ControlType.Button)
                 {
-                    bubble.Sender = "我";
+                    bubble.Who = "我";
                     bubble.MessageSource = MessageSourceType.自己发送消息;
                 }
                 else
@@ -395,7 +396,7 @@ namespace WeChatAuto.Components
             {
                 bubble.MessageType = MessageType.文字;
                 bubble.MessageSource = MessageSourceType.系统消息;
-                bubble.Sender = MessageSourceType.系统消息.ToString();
+                bubble.Who = MessageSourceType.系统消息.ToString();
                 bubble.MessageContent = listItem.Name;
                 return bubble;
             }
@@ -403,7 +404,7 @@ namespace WeChatAuto.Components
             bubble.MessageContent = listItem.Name.Trim();
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
                 bubble.GroupNickName = __GetGroupNickName(children);
             }
@@ -411,9 +412,9 @@ namespace WeChatAuto.Components
             {
                 if (children[2].ControlType == ControlType.Button)
                 {
-                    bubble.Sender = "我";
+                    bubble.Who = "我";
                     bubble.MessageSource = MessageSourceType.自己发送消息;
-                    bubble.GroupNickName = bubble.Sender;
+                    bubble.GroupNickName = bubble.Who;
                 }
                 else
                 {
@@ -516,7 +517,7 @@ namespace WeChatAuto.Components
         private void _ProcessGroupReferenceMesssage(AutomationElement rootPaneElement, MessageBubble parentBubble, int count)
         {
             int index = 0;
-            parentBubble.GroupNickName = parentBubble.Sender;
+            parentBubble.GroupNickName = parentBubble.Who;
             var paneList = _uiThreadInvoker.Run(automation => rootPaneElement.FindAllChildren(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             var nickName = _uiThreadInvoker.Run(automation => paneList[0].FindFirstChild(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             if (nickName != null)
@@ -560,11 +561,11 @@ namespace WeChatAuto.Components
                 //处理撤回消息
                 if (listItem.Name.StartsWith(WeChatConstant.MESSAGES_YOU))
                 {
-                    bubble.Sender = "我";
+                    bubble.Who = "我";
                 }
                 else
                 {
-                    bubble.Sender = Regex.Match(listItem.Name, @"^\""([^\""]+)\""").Success ? Regex.Match(listItem.Name, @"^\""([^\""]+)\""").Groups[1].Value : "系统消息";
+                    bubble.Who = Regex.Match(listItem.Name, @"^\""([^\""]+)\""").Success ? Regex.Match(listItem.Name, @"^\""([^\""]+)\""").Groups[1].Value : "系统消息";
                 }
                 bubble.MessageSource = MessageSourceType.系统消息;
                 if (children[2].ControlType == ControlType.Pane && listItem.Name.Contains(WeChatConstant.MESSAGES_RECALL))
@@ -615,7 +616,7 @@ namespace WeChatAuto.Components
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.红包;
             bubble.MessageSource = MessageSourceType.系统消息;
-            bubble.Sender = "系统消息";
+            bubble.Who = "系统消息";
             bubble.MessageContent = listItem.Name;
             return bubble;
         }
@@ -626,7 +627,7 @@ namespace WeChatAuto.Components
             bubble.MessageType = MessageType.红包;
             bubble.MessageSource = MessageSourceType.系统消息;
             bubble.MessageTime = dateTime;
-            bubble.Sender = "系统消息";
+            bubble.Who = "系统消息";
             bubble.MessageContent = listItem.Name;
             bubble.GroupNickName = "";
             return bubble;
@@ -665,12 +666,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             var textList = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
@@ -708,19 +709,19 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             var textList = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
             var result = "";
             foreach (var text in textList)
             {
-                if (text.Name != WeChatConstant.MESSAGES_WECHAT_TRANSFER && text.Name.Trim() != bubble.Sender.Trim())
+                if (text.Name != WeChatConstant.MESSAGES_WECHAT_TRANSFER && text.Name.Trim() != bubble.Who.Trim())
                 {
                     result += text.Name;
                 }
@@ -763,12 +764,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             var button = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
@@ -797,12 +798,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             var button = _uiThreadInvoker.Run(automation => children[1].FindAllDescendants(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
@@ -850,12 +851,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
 
@@ -896,12 +897,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
 
@@ -917,7 +918,7 @@ namespace WeChatAuto.Components
             foreach (var text in textList)
             {
                 if (text.AsLabel().Name != WeChatConstant.MESSAGES_NOTE_TEXT && text.AsLabel().Name != WeChatConstant.MESSAGES_COLLECT
-                && text.AsLabel().Name != bubble.Sender.Trim())
+                && text.AsLabel().Name != bubble.Who.Trim())
                 {
                     result = text.AsLabel().Name;
                     break;
@@ -962,12 +963,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
 
@@ -1001,12 +1002,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
 
@@ -1020,7 +1021,7 @@ namespace WeChatAuto.Components
             var result = "";
             foreach (var text in texts)
             {
-                if (text.Name.Trim() != bubble.Sender.Trim())
+                if (text.Name.Trim() != bubble.Who.Trim())
                 {
                     result += " " + text.AsLabel().Name.Trim();
                 }
@@ -1064,12 +1065,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
 
@@ -1100,12 +1101,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
 
@@ -1119,7 +1120,7 @@ namespace WeChatAuto.Components
             var result = "";
             foreach (var text in texts)
             {
-                if (text.Name.Trim() != bubble.Sender.Trim())
+                if (text.Name.Trim() != bubble.Who.Trim())
                 {
                     result += " " + text.AsLabel().Name.Trim();
                 }
@@ -1163,12 +1164,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
@@ -1202,12 +1203,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
@@ -1220,7 +1221,7 @@ namespace WeChatAuto.Components
             var result = "";
             foreach (var text in texts)
             {
-                if (text.Name.Trim() != bubble.Sender.Trim())
+                if (text.Name.Trim() != bubble.Who.Trim())
                 {
                     result += " " + text.AsLabel().Name.Trim();
                 }
@@ -1265,12 +1266,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
@@ -1300,12 +1301,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
@@ -1318,7 +1319,7 @@ namespace WeChatAuto.Components
             var result = "";
             foreach (var text in texts)
             {
-                if (text.Name.Trim() != bubble.Sender.Trim())
+                if (text.Name.Trim() != bubble.Who.Trim())
                 {
                     result += " " + text.AsLabel().Name.Trim();
                 }
@@ -1362,12 +1363,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
@@ -1397,12 +1398,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             bubble.GroupNickName = __GetGroupNickName(children);
@@ -1473,12 +1474,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
@@ -1516,12 +1517,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult() ?? throw new Exception("位置消息解析失败");
@@ -1530,7 +1531,7 @@ namespace WeChatAuto.Components
             var locationContent = "";
             foreach (var item in lable)
             {
-                if (item.Name.Trim() != bubble.Sender.Trim())
+                if (item.Name.Trim() != bubble.Who.Trim())
                 {
                     locationContent += " " + item.AsLabel().Name.Trim();
                 }
@@ -1584,12 +1585,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult() ?? throw new Exception("聊天记录消息解析失败");
@@ -1622,12 +1623,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult() ?? throw new Exception("聊天记录消息解析失败");
@@ -1636,7 +1637,7 @@ namespace WeChatAuto.Components
             var result = "";
             foreach (var text in texts)
             {
-                if (text.Name.Trim() != bubble.Sender.Trim())
+                if (text.Name.Trim() != bubble.Who.Trim())
                 {
                     result += " " + text.AsLabel().Name.Trim();
                 }
@@ -1680,12 +1681,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
@@ -1723,12 +1724,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
@@ -1741,7 +1742,7 @@ namespace WeChatAuto.Components
             var result = "";
             foreach (var text in texts)
             {
-                if (text.Name.Trim() != bubble.Sender.Trim())
+                if (text.Name.Trim() != bubble.Who.Trim())
                 {
                     result += " " + text.AsLabel().Name.Trim();
                 }
@@ -1787,12 +1788,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult().AsButton() ?? throw new Exception("文件消息解析失败");
@@ -1831,12 +1832,12 @@ namespace WeChatAuto.Components
             }
             if (children[0].ControlType == ControlType.Button)
             {
-                bubble.Sender = children[0].AsButton().Name;
+                bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
             }
             else
             {
-                bubble.Sender = "我";
+                bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
             var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult().AsButton() ?? throw new Exception("文件消息解析失败");
@@ -1850,7 +1851,7 @@ namespace WeChatAuto.Components
             var result = "";
             foreach (var text in texts)
             {
-                if (text.Name.Trim() != "微信电脑版" && text.Name.Trim() != bubble.Sender.Trim())
+                if (text.Name.Trim() != "微信电脑版" && text.Name.Trim() != bubble.Who.Trim())
                 {
                     result += " " + text.AsLabel().Name.Trim();
                 }
@@ -1906,7 +1907,7 @@ namespace WeChatAuto.Components
                 if (title.StartsWith(WeChatConstant.MESSAGES_I))
                 {
                     bubbleItem.MessageSource = MessageSourceType.自己发送消息;
-                    bubbleItem.Sender = "我";
+                    bubbleItem.Who = "我";
                     bubbleItem.BeClapPerson = Regex.Match(title, @"""([^""]+)""").Groups[1].Value;
                 }
                 else
@@ -1914,8 +1915,8 @@ namespace WeChatAuto.Components
                     if (title.Contains("我"))
                     {
                         bubbleItem.MessageSource = MessageSourceType.好友消息;
-                        bubbleItem.Sender = Regex.Match(title, @"^""([^""]+)""").Groups[1].Value;
-                        bubbleItem.GroupNickName = bubbleItem.Sender;
+                        bubbleItem.Who = Regex.Match(title, @"^""([^""]+)""").Groups[1].Value;
+                        bubbleItem.GroupNickName = bubbleItem.Who;
                         bubbleItem.BeClapPerson = "我";
                     }
                     else
@@ -1927,8 +1928,8 @@ namespace WeChatAuto.Components
                         {
                             if (index == 0)
                             {
-                                bubbleItem.Sender = m.Groups[1].Value;
-                                bubbleItem.GroupNickName = bubbleItem.Sender;
+                                bubbleItem.Who = m.Groups[1].Value;
+                                bubbleItem.GroupNickName = bubbleItem.Who;
                                 index++;
                             }
                             else if (index == 1)
@@ -1973,13 +1974,13 @@ namespace WeChatAuto.Components
                 if (title.StartsWith(WeChatConstant.MESSAGES_I))
                 {
                     bubbleItem.MessageSource = MessageSourceType.自己发送消息;
-                    bubbleItem.Sender = "我";
+                    bubbleItem.Who = "我";
                     bubbleItem.BeClapPerson = Regex.Match(title, @"""([^""]+)""$").Groups[1].Value;
                 }
                 else
                 {
                     bubbleItem.MessageSource = MessageSourceType.好友消息;
-                    bubbleItem.Sender = Regex.Match(title, @"^""([^""]+)""").Groups[1].Value;
+                    bubbleItem.Who = Regex.Match(title, @"^""([^""]+)""").Groups[1].Value;
                     bubbleItem.BeClapPerson = "我";
                 }
                 bubbleItem.MessageContent = title;
@@ -2000,7 +2001,7 @@ namespace WeChatAuto.Components
             MessageBubble bubble = new MessageBubble();
             bubble.MessageType = MessageType.时间;
             bubble.MessageSource = MessageSourceType.系统消息;
-            bubble.Sender = "系统消息";
+            bubble.Who = "系统消息";
             bubble.MessageContent = text.Name;
             dateTime = _ProcessDateStr(text.Name);
             bubble.MessageTime = dateTime;
