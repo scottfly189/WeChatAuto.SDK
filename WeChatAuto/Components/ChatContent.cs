@@ -35,12 +35,21 @@ namespace WeChatAuto.Components
                 return _ChatContentRoot;
             }
         }
-        private ChatHeader _SubWinChatHeader;
-        private ChatBody _SubWinChatBody;
+        private ChatHeader _SubWinCacheChatHeader;
+        private ChatBody _SubWinCacheChatBody;
         //注意：下面代码：如果是子窗口，则会返回固定的ChatHeader和ChatBody，不会重新获取，
         //如果是主窗口的ChatContent,则每次都会重新获取ChatHeader和ChatBody,因为主窗口的ChatHeader和ChatBody会随着聊天内容的变化而变化
         public ChatHeader ChatHeader => GetChatHeader();
         public ChatBody ChatBody => GetChatBody();
+        public ChatType ChatType => GetChatType();
+        /// <summary>
+        /// 聊天标题
+        /// </summary>
+        public string FullTitle => GetFullTitle();
+        /// <summary>
+        /// 聊天人数
+        /// </summary>
+        public int ChatMemberCount => GetChatMemberCount();
         public ChatContent(Window window, ChatContentType chatContentType, string xPath, IWeChatWindow wxWindow, UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow, IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<AutoLogger<ChatContent>>();
@@ -52,16 +61,76 @@ namespace WeChatAuto.Components
             _MainWxWindow = mainWxWindow;
             _serviceProvider = serviceProvider;
         }
+
+        private ChatType GetChatType()
+        {
+            var compareTitles = new string[] { "订阅号", "服务通知", "腾讯新闻", "微信团队" };
+            var title = GetFullTitle();
+            if (string.IsNullOrWhiteSpace(title))
+                return ChatType.其他;
+            if (compareTitles.Any(t => t.Equals(title)))
+            {
+                return Enum.TryParse<ChatType>(title, true, out ChatType chatType) ? chatType : ChatType.其他;
+            }
+            if (Regex.IsMatch(title, @"\((\d+)\)$"))
+            {
+                return ChatType.群聊;
+            }
+            if (IsMPChat())
+            {
+                return ChatType.公众号;
+            }
+            return ChatType.好友;
+        }
+
+        /// <summary>
+        /// 是否是公众号聊天
+        /// </summary>
+        /// <returns>是否是公众号聊天,True:是,False:否</returns>
+        private bool IsMPChat()
+        {
+            var result = _uiMainThreadInvoker.Run(automation =>
+            {
+                var inputButton = ChatContentRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByText("输入")));
+                if (inputButton != null)
+                {
+                    return true;
+                }
+                var serivceButton = ChatContentRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByText("服务")));
+                if (serivceButton != null)
+                {
+                    return true;
+                }
+                return false;
+            }).GetAwaiter().GetResult();
+            return result;
+        }
+
+        /// <summary>
+        /// 获取聊天人数
+        /// </summary>
+        /// <returns>聊天人数</returns>
+        private int GetChatMemberCount()
+        {
+            var title = GetFullTitle();
+            if (string.IsNullOrWhiteSpace(title))
+                return 1;
+            if (Regex.IsMatch(title, @"\((\d+)\)$"))
+            {
+                return int.Parse(Regex.Match(title, @"\((\d+)\)$").Groups[1].Value);
+            }
+            return 1;
+        }
         /// <summary>
         /// 获取聊天标题
         /// </summary>
         /// <returns>聊天标题区<see cref="ChatHeader"/></returns>
-        public ChatHeader GetChatHeader()
+        private ChatHeader GetChatHeader()
         {
-            if (_ChatContentType == ChatContentType.SubWindow && _SubWinChatHeader != null)
+            if (_ChatContentType == ChatContentType.SubWindow && _SubWinCacheChatHeader != null)
             {
                 //如果是子窗口，则返回子窗口的ChatHeader
-                return _SubWinChatHeader;
+                return _SubWinCacheChatHeader;
             }
             var title = GetFullTitle();
             if (string.IsNullOrEmpty(title))
@@ -85,7 +154,7 @@ namespace WeChatAuto.Components
             var cHeader = new ChatHeader(title, chatInfoButton, _serviceProvider);
             if (_ChatContentType == ChatContentType.SubWindow)
             {
-                _SubWinChatHeader = cHeader;
+                _SubWinCacheChatHeader = cHeader;
             }
             return cHeader;
         }
@@ -93,7 +162,7 @@ namespace WeChatAuto.Components
         /// 获取聊天标题(不做处理，直接返回)
         /// </summary>
         /// <returns></returns>
-        public string GetFullTitle()
+        private string GetFullTitle()
         {
             if (_disposed)
             {
@@ -113,15 +182,15 @@ namespace WeChatAuto.Components
         /// 获取聊天内容组件
         /// </summary>
         /// <returns>聊天内容组件</returns>
-        public ChatBody GetChatBody()
+        private ChatBody GetChatBody()
         {
             if (_disposed)
             {
                 return null;
             }
-            if (_ChatContentType == ChatContentType.SubWindow && _SubWinChatBody != null)
+            if (_ChatContentType == ChatContentType.SubWindow && _SubWinCacheChatBody != null)
             {
-                return _SubWinChatBody;
+                return _SubWinCacheChatBody;
             }
             var title = GetFullTitle();
             var chatBodyRoot = _uiMainThreadInvoker.Run(automation => ChatContentRoot.FindFirstByXPath("/Pane[2]")).GetAwaiter().GetResult();
@@ -129,7 +198,7 @@ namespace WeChatAuto.Components
             var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow, title, _uiMainThreadInvoker, this._MainWxWindow, _serviceProvider);
             if (_ChatContentType == ChatContentType.SubWindow)
             {
-                _SubWinChatBody = chatBody;
+                _SubWinCacheChatBody = chatBody;
             }
             return chatBody;
         }
@@ -141,7 +210,7 @@ namespace WeChatAuto.Components
                 return;
             }
             _disposed = true;
-            _SubWinChatBody?.Dispose();
+            _SubWinCacheChatBody?.Dispose();
         }
     }
 }
