@@ -30,7 +30,7 @@ namespace WeChatAuto.Components
         private AutomationElement _ChatBodyRoot;
         private WeChatMainWindow _MainWxWindow;
         private UIThreadInvoker _uiMainThreadInvoker;
-        public MessageBubbleList BubbleList => GetBubbleList();
+        public MessageBubbleList BubbleListObject => GetBubbleListObject();
         public Sender Sender => GetSender();
         private System.Threading.Timer _pollingTimer;
         private int _lastMessageCount = 0;
@@ -147,7 +147,7 @@ namespace WeChatAuto.Components
         {
             try
             {
-                var bubbles = BubbleList.GetVisibleBubbles();
+                var bubbles = BubbleListObject.GetVisibleBubbles();
                 return (bubbles.Count, bubbles);
             }
             catch (Exception ex)
@@ -246,14 +246,13 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 获取聊天内容区可见气泡列表
         /// </summary>
-        /// <returns>聊天内容区可见气泡列表<see cref="BubbleList"/></returns>
-        public MessageBubbleList GetBubbleList()
+        /// <returns>聊天内容区可见气泡列表对象<see cref="MessageBubbleList"/></returns>
+        public MessageBubbleList GetBubbleListObject()
         {
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
             var bubbleListRoot = _uiMainThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).GetAwaiter().GetResult();
-            //DrawHightlightHelper.DrawHightlight(bubbleListRoot, _uiThreadInvoker);
-            MessageBubbleList bubbleList = new MessageBubbleList(_Window, bubbleListRoot, _WxWindow, _Title, _uiMainThreadInvoker);
-            return bubbleList;
+            MessageBubbleList bubbleListObject = new MessageBubbleList(_Window, bubbleListRoot, _WxWindow, _Title, _uiMainThreadInvoker,this);
+            return bubbleListObject;
         }
         /// <summary>
         /// 获取聊天内容区所有气泡列表,如果消息没有显示全，则会滚动消息至最顶部，然后获取所有气泡标题

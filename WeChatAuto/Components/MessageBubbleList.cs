@@ -11,6 +11,7 @@ using WeChatAuto.Extentions;
 using Microsoft.Win32.SafeHandles;
 using System.Globalization;
 using WeChatAuto.Utils;
+using WeChatAuto.Models;
 
 namespace WeChatAuto.Components
 {
@@ -25,14 +26,17 @@ namespace WeChatAuto.Components
         private AutomationElement _BubbleListRoot;
         private UIThreadInvoker _uiThreadInvoker;
         public List<MessageBubble> Bubbles => GetVisibleBubbles();
+        public List<ChatSimpleMessage> ChatSimpleMessages => GetVisibleChatSimpleMessages();
         public ListBox BubbleListRoot => _BubbleListRoot.AsListBox();
-        public MessageBubbleList(Window selfWindow, AutomationElement bubbleListRoot, IWeChatWindow wxWindow, string title, UIThreadInvoker uiThreadInvoker)
+        private ChatBody _ChatBody;
+        public MessageBubbleList(Window selfWindow, AutomationElement bubbleListRoot, IWeChatWindow wxWindow, string title, UIThreadInvoker uiThreadInvoker, ChatBody chatBody)
         {
             _SelfWindow = selfWindow;
             _BubbleListRoot = bubbleListRoot;
             _WxWindow = wxWindow;
             _Title = title;
             _uiThreadInvoker = uiThreadInvoker;
+            _ChatBody = chatBody;
         }
 
         /// <summary>
@@ -58,6 +62,16 @@ namespace WeChatAuto.Components
         {
             MessageBubble[] bubbles = GetVisibleBubbles().ToArray();
             return bubbles.Count() > 0 ? bubbles.Last() : null;
+        }
+
+        /// <summary>
+        /// 获取所有气泡标题列表
+        /// 注意：可能速度比较慢,但是信息比较全
+        /// </summary>
+        /// <returns>所有气泡标题列表<see cref="ChatSimpleMessage"/></returns>
+        public List<ChatSimpleMessage> GetAllChatHistory()
+        {
+            return _ChatBody.GetAllChatHistory();
         }
 
         /// <summary>
@@ -89,10 +103,18 @@ namespace WeChatAuto.Components
         public List<MessageBubble> GetVisibleBubbles()
         {
             var bubbles = GetVisibleNativeBubbles();
-            return bubbles.Where(item=>item.MessageSource != MessageSourceType.系统消息 &&
+            return bubbles.Where(item => item.MessageSource != MessageSourceType.系统消息 &&
                                        item.MessageSource != MessageSourceType.其他消息).ToList();
         }
-        
+        /// <summary>
+        /// 获取可见气泡列表,仅返回气泡标题
+        /// </summary>
+        /// <returns>可见气泡列表,仅返回气泡标题</returns>
+        public List<ChatSimpleMessage> GetVisibleChatSimpleMessages()
+        {
+            var bubbles = GetVisibleBubbles();
+            return bubbles.Select(item => item.ToChatSimpleMessage()).ToList();
+        }
         /// <summary>
         /// 获取气泡列表,包括系统消息
         /// 注意：速度比较慢，但是信息比较全

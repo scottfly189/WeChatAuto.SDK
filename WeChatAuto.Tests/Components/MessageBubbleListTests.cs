@@ -8,24 +8,24 @@ using WxAutoCommon.Configs;
 namespace WeChatAuto.Tests.Components;
 
 [Collection("UiTestCollection")]
-public class BubbleListTests
+public class MessageBubbleListTests
 {
     private readonly string _wxClientName = "Alex Zhao";
     private readonly ITestOutputHelper _output;
     private UiTestFixture _globalFixture;
-    public BubbleListTests(ITestOutputHelper output, UiTestFixture globalFixture)
+    public MessageBubbleListTests(ITestOutputHelper output, UiTestFixture globalFixture)
     {
         _output = output;
         _globalFixture = globalFixture;
     }
 
-    [Fact(DisplayName = "测试获取气泡列表")]
+    [Fact(DisplayName = "测试获取可见气泡列表")]
     public void Test_Get_Main_Bubble_List()
     {
         var framework = _globalFixture.clientFactory;
         var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
-        var bubbleList = window.MainChatContent.ChatBody.BubbleList;
+        var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
         var bubbles = bubbleList.Bubbles;
         foreach (var bubble in bubbles)
         {
@@ -51,7 +51,7 @@ public class BubbleListTests
             Assert.True(false);
             return;
         }
-        var subBubbleList = subWin.ChatContent.ChatBody.BubbleList;
+        var subBubbleList = subWin.ChatContent.ChatBody.BubbleListObject;
         var subBubbles = subBubbleList.Bubbles;
         foreach (var bubble in subBubbles)
         {
@@ -77,7 +77,7 @@ public class BubbleListTests
             Assert.True(false);
             return;
         }
-        var subBubbleList = subWin.ChatContent.ChatBody.BubbleList;
+        var subBubbleList = subWin.ChatContent.ChatBody.BubbleListObject;
         var subBubbles = subBubbleList.Bubbles;
         foreach (var bubble in subBubbles)
         {
@@ -97,10 +97,10 @@ public class BubbleListTests
         var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
         await window.SendWho("AI.Net", "hello world!");
-        _output.WriteLine(window.MainChatContent.ChatBody.BubbleList.GetChatType().ToString());
-        Assert.Equal(ChatType.好友, window.MainChatContent.ChatBody.BubbleList.GetChatType());
+        _output.WriteLine(window.MainChatContent.ChatBody.BubbleListObject.GetChatType().ToString());
+        Assert.Equal(ChatType.好友, window.MainChatContent.ChatBody.BubbleListObject.GetChatType());
         await window.SendWho(".NET-AI实时快讯3群", "hello world!");
-        _output.WriteLine(window.MainChatContent.ChatBody.BubbleList.GetChatType().ToString());
-        Assert.Equal(ChatType.群聊, window.MainChatContent.ChatBody.BubbleList.GetChatType());
+        _output.WriteLine(window.MainChatContent.ChatBody.BubbleListObject.GetChatType().ToString());
+        Assert.Equal(ChatType.群聊, window.MainChatContent.ChatBody.BubbleListObject.GetChatType());
     }
 }
