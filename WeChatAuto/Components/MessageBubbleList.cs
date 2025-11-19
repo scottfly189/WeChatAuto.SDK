@@ -12,6 +12,9 @@ using Microsoft.Win32.SafeHandles;
 using System.Globalization;
 using WeChatAuto.Utils;
 using WeChatAuto.Models;
+using Microsoft.Extensions.DependencyInjection;
+using FlaUI.Core.Patterns;
+using System.Drawing;
 
 namespace WeChatAuto.Components
 {
@@ -21,7 +24,9 @@ namespace WeChatAuto.Components
     public class MessageBubbleList
     {
         private Window _SelfWindow;
+        private IServiceProvider _serviceProvider;
         private IWeChatWindow _WxWindow;
+        private AutoLogger<MessageBubbleList> _logger;
         private string _Title;
         private AutomationElement _BubbleListRoot;
         private UIThreadInvoker _uiThreadInvoker;
@@ -29,8 +34,10 @@ namespace WeChatAuto.Components
         public List<ChatSimpleMessage> ChatSimpleMessages => GetVisibleChatSimpleMessages();
         public ListBox BubbleListRoot => _BubbleListRoot.AsListBox();
         private ChatBody _ChatBody;
-        public MessageBubbleList(Window selfWindow, AutomationElement bubbleListRoot, IWeChatWindow wxWindow, string title, UIThreadInvoker uiThreadInvoker, ChatBody chatBody)
+        public MessageBubbleList(Window selfWindow, AutomationElement bubbleListRoot, IWeChatWindow wxWindow, string title, UIThreadInvoker uiThreadInvoker, ChatBody chatBody, IServiceProvider serviceProvider)
         {
+            _serviceProvider = serviceProvider;
+            _logger = serviceProvider.GetRequiredService<AutoLogger<MessageBubbleList>>();
             _SelfWindow = selfWindow;
             _BubbleListRoot = bubbleListRoot;
             _WxWindow = wxWindow;
@@ -70,9 +77,8 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <returns>所有气泡标题列表<see cref="ChatSimpleMessage"/></returns>
         public List<ChatSimpleMessage> GetAllChatHistory()
-        {
-            return _ChatBody.GetAllChatHistory();
-        }
+          => _ChatBody.GetAllChatHistory();
+
 
         /// <summary>
         /// 加载更多
@@ -82,7 +88,18 @@ namespace WeChatAuto.Components
             var lookMoreButton = _uiThreadInvoker.Run(automation => _BubbleListRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_LOOK_MORE)))).GetAwaiter().GetResult();
             if (lookMoreButton != null)
             {
-                _WxWindow.SilenceClickExt(lookMoreButton.AsButton());
+                _uiThreadInvoker.Run(automation =>
+                {
+                    var pattern = _BubbleListRoot.Patterns.Scroll.Pattern;
+                    if (pattern != null)
+                    {
+                        pattern.SetScrollPercent(0, 0);
+                    }
+                    RandomWait.Wait(300, 1000);
+                    lookMoreButton.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                    lookMoreButton.Click();
+                    RandomWait.Wait(100, 1000);
+                }).GetAwaiter().GetResult();
             }
         }
 
@@ -142,6 +159,157 @@ namespace WeChatAuto.Components
             }
             return bubbles;
         }
+        /// <summary>
+        /// 转发单条消息
+        /// 流程：
+        /// 1. 找到这一条消息,倒序找，这里注意一点，如果找不到消息，往前翻三页找不到，则不会转发此消息,日志显示错误，但不会报错.
+        /// 2. 右键点击这一条消息
+        /// 3. 找到菜单
+        /// 4. 找到发送人
+        /// </summary>
+        /// <param name="to">要转发给谁</param>
+        /// <param name="chatSimpleMessage">要转发的消息<see cref="ChatSimpleMessage"/></param>
+        public void ForwardSingleMessage(ChatSimpleMessage chatSimpleMessage, string to)
+        {
+            _uiThreadInvoker.Run(automation =>
+            {
+                var listItem = _LocateSingleMessage(chatSimpleMessage);
+            })
+            .GetAwaiter().GetResult();
+        }
+
+        private List<AutomationElement> _GetListItemList() => _BubbleListRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
+
+        private ListBoxItem _LocateSingleMessage(ChatSimpleMessage chatSimpleMessage)
+        {
+            int index = 0; //向前翻页的索引
+            ListBoxItem result = null;
+            IScrollPattern pattern = null;
+            if (_BubbleListRoot.Patterns.Scroll.IsSupported)
+            {
+                pattern = _BubbleListRoot.Patterns.Scroll.Pattern;
+                if (pattern != null)
+                {
+                    pattern.SetScrollPercent(0, 1);
+                }
+            }
+            while (index < 3)
+            {
+                var listItems = _GetListItemList();
+                listItems.Reverse();
+                var items = listItems.Where(item => item.Name.Contains(chatSimpleMessage.Message)).ToList();
+                foreach (var item in items)
+                {
+                    var subItems = item.FindAllByXPath("/Pane[1]/*");
+                    if (subItems != null && subItems.Length == 3)
+                    {
+                        ListBoxItem subItem = _SameMessageAndMove_(item.AsListBoxItem(), chatSimpleMessage);
+                        if (subItem != null)
+                        {
+                            result = subItem;
+                            break;
+                        }
+                    }
+                }
+
+                //往上翻页
+                var (flowControl, nextIndex) = _PrevPageSearch(chatSimpleMessage, index);
+                if (!flowControl)
+                {
+                    break;
+                }
+                index = nextIndex;
+            }
+            return result;
+        }
+
+        private ListBoxItem _SameMessageAndMove_(ListBoxItem item, ChatSimpleMessage chatSimpleMessage)
+        {
+            var subItems = item.FindAllByXPath("/Pane[1]/*");
+            var button = item.FindFirstChild(cf => cf.ByControlType(ControlType.Button));
+            if (button == null)
+                return null;
+            var who = button.Name;
+            if (_ChatBody.ChatType == ChatType.群聊)
+            {
+                if (subItems[0].ControlType == ControlType.Button)
+                {
+                    var pane = subItems[0].GetSibling(1);
+                    if (pane != null && pane.ControlType == ControlType.Pane)
+                    {
+                        who = pane.FindFirstByXPath(@"//Text")?.Name;
+                    }
+                }
+            }
+            if (item.Name.Contains(chatSimpleMessage.Message) && who == chatSimpleMessage.Who)
+            {
+                //检查item的可见性
+                _BubbleListRoot = _SelfWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByName("消息")));
+                if (_BubbleListRoot == null)
+                    throw new Exception("消息列表根节点获取失败");
+                var baseRect = item.BoundingRectangle;
+                var listItems = _GetListItemList();
+                listItems.Reverse();
+                var foundItem = listItems.FirstOrDefault(u => u.Name == item.Name)?.AsListBoxItem();
+
+                while (foundItem != null && foundItem.BoundingRectangle.Top < baseRect.Top)
+                {
+                    if (_BubbleListRoot.Patterns.Scroll.IsSupported)
+                    {
+                        var pattern = _BubbleListRoot.Patterns.Scroll.Pattern;
+                        if (pattern != null)
+                        {
+                            pattern.SetScrollPercent(0, System.Math.Max(pattern.VerticalScrollPercent - pattern.VerticalViewSize, 0));
+                            listItems = _GetListItemList();
+                            listItems.Reverse();
+                            foundItem = listItems.FirstOrDefault(u => u.Name == item.Name)?.AsListBoxItem();
+                        }
+                    }
+                    else
+                    {
+                        _logger.Error("消息列表不可滚动，无法定位消息");
+                        break;
+                    }
+                }
+                foundItem.DrawHighlightExt();
+
+                return item;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 往上翻页查找消息
+        /// </summary>
+        /// <param name="chatSimpleMessage">要查找的消息<see cref="ChatSimpleMessage"/></param>
+        /// <param name="index">当前索引</param>
+        /// <returns>是否找到消息，是否继续翻页</returns>
+        private (bool flowControl, int nextIndex) _PrevPageSearch(ChatSimpleMessage chatSimpleMessage, int index)
+        {
+            //往上翻页
+            index++;
+            var loadMoreButton = _BubbleListRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_LOOK_MORE)))?.AsButton();
+            if (loadMoreButton != null)
+            {
+                loadMoreButton.Click();
+                RandomWait.Wait(100, 1000);
+                return (flowControl: true, nextIndex: index);
+            }
+            else
+            {
+                _logger.Error($"不存在who={chatSimpleMessage.Who},message={chatSimpleMessage.Message}的消息");
+                return (flowControl: false, nextIndex: index);
+            }
+        }
+
+        /// <summary>
+        /// 转发单条消息
+        /// </summary>
+        /// <param name="who">要转发的好友昵称</param>
+        /// <param name="message">要转发的消息内容</param>
+        /// <param name="to">要转发给谁</param>
+        public void ForwardSingleMessage(string who, string message, string to)
+          => ForwardSingleMessage(new ChatSimpleMessage { Who = who, Message = message }, to);
         /// <summary>
         /// 解析气泡为Bubble对象,Bubble对象可能为空
         /// </summary>

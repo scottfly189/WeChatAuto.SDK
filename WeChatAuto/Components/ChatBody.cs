@@ -38,7 +38,8 @@ namespace WeChatAuto.Components
         private volatile bool _disposed = false;
         private CancellationTokenSource _pollingTimerCancellationTokenSource = new CancellationTokenSource();
         private volatile bool _isProcessing = false; // 标记是否正在处理消息
-        public ChatType _ChatType;
+        private ChatType _ChatType;
+        public ChatType ChatType => _ChatType;
         public ChatBody(Window window, AutomationElement chatBodyRoot, IWeChatWindow wxWindow, string title, ChatType chatType,
           UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow, IServiceProvider serviceProvider)
         {
@@ -251,7 +252,7 @@ namespace WeChatAuto.Components
         {
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
             var bubbleListRoot = _uiMainThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).GetAwaiter().GetResult();
-            MessageBubbleList bubbleListObject = new MessageBubbleList(_Window, bubbleListRoot, _WxWindow, _Title, _uiMainThreadInvoker,this);
+            MessageBubbleList bubbleListObject = new MessageBubbleList(_Window, bubbleListRoot, _WxWindow, _Title, _uiMainThreadInvoker,this, _serviceProvider);
             return bubbleListObject;
         }
         /// <summary>

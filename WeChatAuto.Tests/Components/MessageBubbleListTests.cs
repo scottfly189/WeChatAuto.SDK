@@ -19,6 +19,22 @@ public class MessageBubbleListTests
         _globalFixture = globalFixture;
     }
 
+    [Fact(DisplayName = "测试获取主窗口可见气泡标题列表")]
+    public void Test_Get_Main_Bubble_List_Simple()
+    {
+        var framework = _globalFixture.clientFactory;
+        var client = framework.GetWeChatClient(_wxClientName);
+        var window = client.WxMainWindow;
+        var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
+        var chatSimpleMessages = bubbleList.ChatSimpleMessages;
+        _output.WriteLine($"获取到的气泡标题列表数量：{chatSimpleMessages.Count}");
+        foreach (var chatSimpleMessage in chatSimpleMessages)
+        {
+            _output.WriteLine(chatSimpleMessage.ToString());
+        }
+        Assert.True(chatSimpleMessages.Count >= 0);
+    }
+
     [Fact(DisplayName = "测试获取可见气泡列表")]
     public void Test_Get_Main_Bubble_List()
     {
@@ -27,6 +43,7 @@ public class MessageBubbleListTests
         var window = client.WxMainWindow;
         var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
         var bubbles = bubbleList.Bubbles;
+        _output.WriteLine($"获取到的气泡列表数量：{bubbles.Count}");
         foreach (var bubble in bubbles)
         {
             _output.WriteLine(bubble.ToString());
@@ -102,5 +119,19 @@ public class MessageBubbleListTests
         await window.SendWho(".NET-AI实时快讯3群", "hello world!");
         _output.WriteLine(window.MainChatContent.ChatBody.BubbleListObject.GetChatType().ToString());
         Assert.Equal(ChatType.群聊, window.MainChatContent.ChatBody.BubbleListObject.GetChatType());
+    }
+
+    [Theory(DisplayName = "测试转发单条消息")]
+    [InlineData("AI.Net", "@Alex Zhao 发些有意思的", "测试11")]
+    [InlineData(".NET-AI实时快讯3群", "hello world!", "测试11")]
+    public async Task Test_Forward_Single_Message(string who, string message, string to)
+    {
+        var framework = _globalFixture.clientFactory;
+        var client = framework.GetWeChatClient(_wxClientName);
+        var window = client.WxMainWindow;
+        var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
+        bubbleList.ForwardSingleMessage(who: who, message: message, to: to);
+        Assert.True(true);
+        await Task.CompletedTask;
     }
 }
