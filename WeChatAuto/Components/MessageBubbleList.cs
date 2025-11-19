@@ -180,7 +180,7 @@ namespace WeChatAuto.Components
             })
             .GetAwaiter().GetResult();
         }
-        private void _ForwardSingleMessageCore(Menu menu,string to)
+        private void _ForwardSingleMessageCore(Menu menu, string to)
         {
             var menuItem = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("转发...")));
             if (menuItem != null)
@@ -215,12 +215,12 @@ namespace WeChatAuto.Components
                 }
                 else
                 {
-                    _logger.Error($"找不到转发窗口");
+                    _logger.Error($"找不到转发窗口，停止转发");
                 }
             }
             else
             {
-                _logger.Error($"找不到转发菜单项");
+                _logger.Error($"找不到转发菜单项，停止转发");
             }
         }
 
@@ -358,10 +358,10 @@ namespace WeChatAuto.Components
             return result;
         }
 
-        private ListBoxItem _SameMessageAndMove_(ListBoxItem item, ChatSimpleMessage chatSimpleMessage)
+        private ListBoxItem _SameMessageAndMove_(ListBoxItem selectItem, ChatSimpleMessage chatSimpleMessage)
         {
-            var subItems = item.FindAllByXPath("/Pane[1]/*");
-            var button = item.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button));
+            var subItems = selectItem.FindAllByXPath("/Pane[1]/*");
+            var button = selectItem.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button));
             if (button == null)
                 return null;
             var who = button.Name;
@@ -376,13 +376,13 @@ namespace WeChatAuto.Components
                     }
                 }
             }
-            if (item.Name.Contains(chatSimpleMessage.Message) && who == chatSimpleMessage.Who)
+            if (selectItem.Name.Contains(chatSimpleMessage.Message) && who == chatSimpleMessage.Who)
             {
                 var baseRect = _BubbleListRoot.BoundingRectangle;
                 var listItems = _GetListItemList();
                 listItems.Reverse();
-                var foundItem = listItems.FirstOrDefault(u => u.Name == item.Name)?.AsListBoxItem();
-
+                var foundItem = listItems.FirstOrDefault(u => u.Name == selectItem.Name && u.Properties.RuntimeId.Value.SequenceEqual(selectItem.Properties.RuntimeId.Value))?.AsListBoxItem();
+                _logger.Trace($"foundItem的RuntimeId：{string.Join("-", foundItem.Properties.RuntimeId.Value)}");
                 while (foundItem != null && foundItem.BoundingRectangle.Top < baseRect.Top)
                 {
                     if (_BubbleListRoot.Patterns.Scroll.IsSupported)
@@ -393,7 +393,8 @@ namespace WeChatAuto.Components
                             pattern.SetScrollPercent(0, System.Math.Max(pattern.VerticalScrollPercent - pattern.VerticalViewSize, 0));
                             listItems = _GetListItemList();
                             listItems.Reverse();
-                            foundItem = listItems.FirstOrDefault(u => u.Name == item.Name)?.AsListBoxItem();
+                            foundItem = listItems.FirstOrDefault(u => u.Name == selectItem.Name && u.Properties.RuntimeId.Value.SequenceEqual(selectItem.Properties.RuntimeId.Value))?.AsListBoxItem();
+                            _logger.Trace($"foundItem的RuntimeId：{string.Join("-", foundItem.Properties.RuntimeId.Value)}");
                         }
                         RandomWait.Wait(100, 800);
                     }
@@ -416,7 +417,7 @@ namespace WeChatAuto.Components
                 }
                 foundItem?.DrawHighlightExt();
 
-                return item;
+                return selectItem;
             }
             return null;
         }
