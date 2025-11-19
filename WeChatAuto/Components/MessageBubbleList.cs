@@ -229,6 +229,11 @@ namespace WeChatAuto.Components
                     break;
                 }
                 index = nextIndex;
+                _logger.Trace($"往上翻页{index}次，继续查找消息");
+            }
+            if (index >= 3)
+            {
+                _logger.Error($"往上翻页{index}次，仍然找不到消息：who={chatSimpleMessage.Who},message={chatSimpleMessage.Message}，停止查找");
             }
             return result;
         }
@@ -277,6 +282,17 @@ namespace WeChatAuto.Components
                         _logger.Error("消息列表不可滚动，无法定位消息");
                         break;
                     }
+                }
+                //foundItem.BoundingRectangle.Top < baseRect.Top满足要求了，但是可能foundItem.BoundingRectangle.Bottom > baseRect.Bottom，所以需要继续往上翻页
+                if (foundItem != null && foundItem.BoundingRectangle.Bottom > baseRect.Bottom)
+                {
+                    var pattern = _BubbleListRoot.Patterns.Scroll.Pattern;
+                    if (pattern != null)
+                    {
+                        //往下移一半的距离
+                        pattern.SetScrollPercent(0, System.Math.Min(pattern.VerticalScrollPercent + pattern.VerticalViewSize / 2, 1));
+                    }
+                    RandomWait.Wait(100, 800);
                 }
                 foundItem?.DrawHighlightExt();
 

@@ -139,10 +139,10 @@ public class MessageBubbleListTests
     }
 
     [Theory(DisplayName = "测试转发单条消息-子窗口")]
-    [InlineData("AI.Net", "AI.Net", "@Alex Zhao 发些有意思的", "测试11")]
-    [InlineData("秋歌", "秋歌", "她跳绳可以的", "测试11")]
-    [InlineData("gggccc", "gggccc", "但是我有工作", "测试11")]
-    [InlineData("gggccc", "gggccc", "但是我有工作2", "测试11")]
+    [InlineData("测试11", "AI.Net", "@Alex Zhao 发些有意思的", "测试11")]
+    [InlineData("测试11", "秋歌", "她跳绳可以的", "测试11")]
+    [InlineData("歪脖子的模版交流群", "gggccc", "但是我现在有工作", "测试11")]
+    [InlineData("歪脖子的模版交流群", "gggccc", "但是我现在有工作2", "测试11")]
     [InlineData(".NET-AI实时快讯3群", ".NET-AI实时快讯3群", "hello world!", "测试11")]
     public async Task Test_Forward_Single_Message_sub_window(string subWinName, string who, string message, string to)
     {
