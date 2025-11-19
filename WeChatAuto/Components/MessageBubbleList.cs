@@ -15,6 +15,9 @@ using WeChatAuto.Models;
 using Microsoft.Extensions.DependencyInjection;
 using FlaUI.Core.Patterns;
 using System.Drawing;
+using FlaUI.Core.Tools;
+using FlaUI.Core.Input;
+using FlaUI.Core.WindowsAPI;
 
 namespace WeChatAuto.Components
 {
@@ -173,9 +176,126 @@ namespace WeChatAuto.Components
         {
             _uiThreadInvoker.Run(automation =>
             {
-                var listItem = _LocateSingleMessage(chatSimpleMessage);
+                _PopupContextMenuCore(chatSimpleMessage, (menu) => _ForwardSingleMessageCore(menu, to));
             })
             .GetAwaiter().GetResult();
+        }
+        private void _ForwardSingleMessageCore(Menu menu,string to)
+        {
+            var menuItem = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("转发...")));
+            if (menuItem != null)
+            {
+                menuItem.DrawHighlightExt();
+                menuItem.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                RandomWait.Wait(100, 800);
+                menuItem.ClickEnhance(_SelfWindow);
+                RandomWait.Wait(100, 800);
+                var windowResult = Retry.WhileNull(() => _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("SelectContactWnd"))),
+                  TimeSpan.FromSeconds(5),
+                  TimeSpan.FromMilliseconds(200));
+                if (windowResult.Success)
+                {
+                    windowResult.Result.DrawHighlightExt();
+                    windowResult.Result.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                    var window = windowResult.Result;
+                    var searchTextBox = window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByName("搜索")));
+                    searchTextBox.Focus();
+                    searchTextBox.DrawHighlightExt();
+                    searchTextBox.ClickEnhance(window.AsWindow());
+                    Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                    Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                    RandomWait.Wait(100, 800);
+                    Keyboard.Type(to);
+                    RandomWait.Wait(100, 800);
+                    Keyboard.Press(VirtualKeyShort.RETURN);
+                    RandomWait.Wait(100, 800);
+                    var sendButton = window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("发送")));
+                    sendButton.DrawHighlightExt();
+                    sendButton.ClickEnhance(window.AsWindow());
+                }
+                else
+                {
+                    _logger.Error($"找不到转发窗口");
+                }
+            }
+            else
+            {
+                _logger.Error($"找不到转发菜单项");
+            }
+        }
+
+        private void _PopupContextMenuCore(ChatSimpleMessage chatSimpleMessage, Action<Menu> action)
+        {
+            var listItem = _LocateSingleMessage(chatSimpleMessage);
+            if (listItem == null)
+            {
+                _logger.Error($"找不到消息：who={chatSimpleMessage.Who},message={chatSimpleMessage.Message}，停止转发");
+                return;
+            }
+            Menu menu = _GetPopupMenu(listItem);
+            if (menu == null)
+            {
+                _logger.Error($"找不到菜单：who={chatSimpleMessage.Who},message={chatSimpleMessage.Message}，停止转发");
+                return;
+            }
+            action(menu);
+        }
+        private Menu _GetPopupMenu(ListBoxItem listItem)
+        {
+            RandomWait.Wait(100, 800);
+            //点击右键
+            var subItems = listItem.FindAllByXPath("/Pane[1]/*");
+            var pane = subItems[1];
+            if (pane != null && pane.ControlType == ControlType.Pane)
+            {
+                var xPath = "//Button";
+                var button = pane.FindFirstByXPath(xPath)?.AsButton();
+                if (button != null)
+                {
+                    button.GetParent().DrawHighlightExt();
+                    button.GetParent().WaitUntilClickable(TimeSpan.FromSeconds(5));
+                    button.GetParent().RightClick();
+                }
+                else
+                {
+                    xPath = "//Text";
+                    var texts = pane.FindAllByXPath(xPath);
+                    if (texts != null && texts.Length > 0)
+                    {
+                        var text = texts[1];
+                        var parentPane = text.GetParent();
+                        parentPane.DrawHighlightExt();
+                        parentPane.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                        parentPane.RightClick();
+                    }
+                    else
+                    {
+                        var text = texts[0];
+                        var parentPane = text.GetParent();
+                        parentPane.DrawHighlightExt();
+                        parentPane.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                        parentPane.RightClick();
+                    }
+                }
+                RandomWait.Wait(100, 1500);
+                var menu = Retry.WhileNull(() => _SelfWindow.FindFirstChild(cf => cf.Menu()).AsMenu(),
+                    TimeSpan.FromSeconds(5),
+                    TimeSpan.FromMilliseconds(200));
+                if (menu.Success)
+                {
+                    menu.Result.DrawHighlightExt();
+                    return menu.Result;
+                }
+                else
+                {
+                    _logger.Error($"找不到菜单");
+                }
+            }
+            else
+            {
+                _logger.Error($"找不到第二个位置是Pane的元素");
+            }
+            return null;
         }
 
         private List<AutomationElement> _GetListItemList()
