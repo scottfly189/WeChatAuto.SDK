@@ -121,8 +121,62 @@ public class MessageBubbleListTests
         Assert.Equal(ChatType.群聊, window.MainChatContent.ChatBody.BubbleListObject.GetChatType());
     }
 
+    [Theory(DisplayName = "测试拍一拍消息-主窗口")]
+    [InlineData("AI.Net")]
+    [InlineData("秋歌")]
+    [InlineData("gggccc")]
+    [InlineData("歪燕子")]
+    [InlineData(".NET-AI实时快讯3群")]
+    public async Task Test_Tap_Who_Message_main_window(string who)
+    {
+        var framework = _globalFixture.clientFactory;
+        var client = framework.GetWeChatClient(_wxClientName);
+        var window = client.WxMainWindow;
+        var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
+        bubbleList.TapWho(who: who);
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
+
+    [Theory(DisplayName = "测试引用消息-主窗口")]
+    [InlineData("AI.Net", "@Alex Zhao 发些有意思的")]
+    [InlineData("秋歌", "她跳绳可以的")]
+    [InlineData("秋歌", "[视频]")]
+    [InlineData("gggccc", "我给过了")]
+    [InlineData("歪燕子", "太叼了")]
+    [InlineData(".NET-AI实时快讯3群", "hello world!")]
+    public async Task Test_Collect_Message_main_window(string who, string message)
+    {
+        var framework = _globalFixture.clientFactory;
+        var client = framework.GetWeChatClient(_wxClientName);
+        var window = client.WxMainWindow;
+        var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
+        bubbleList.CollectMessage(who: who, message: message);
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
+
+
+    [Theory(DisplayName = "测试引用消息-主窗口")]
+    [InlineData("AI.Net", "@Alex Zhao 发些有意思的")]
+    [InlineData("秋歌", "她跳绳可以的")]
+    [InlineData("秋歌", "[视频]")]
+    [InlineData("gggccc", "我给过了")]
+    [InlineData("歪燕子", "太叼了")]
+    [InlineData(".NET-AI实时快讯3群", "hello world!")]
+    public async Task Test_Referenced_Message_main_window(string who, string message)
+    {
+        var framework = _globalFixture.clientFactory;
+        var client = framework.GetWeChatClient(_wxClientName);
+        var window = client.WxMainWindow;
+        var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
+        bubbleList.ReferencedMessage(who: who, message: message);
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
+
     [Theory(DisplayName = "测试转发单条消息-主窗口")]
-    [InlineData("AI.Net", "@Alex Zhao 发些有意思的", "测试11")]
+    [InlineData("AI.Net", "@Alex Zhao 发些有意思的", "测试01")]
     [InlineData("秋歌", "她跳绳可以的", "测试11")]
     [InlineData("秋歌", "[视频]", "测试11")]
     [InlineData("gggccc", "但是我现在有工作", "测试11")]

@@ -68,7 +68,7 @@ namespace WeChatAuto.Components
         /// 被拍一拍的人
         /// 适用于拍一拍消息
         /// </summary>
-        public string BeClapPerson { get; set; } = "";
+        public string BeTap { get; set; } = "";
 
         public string BubbleHash
         {
@@ -93,7 +93,7 @@ namespace WeChatAuto.Components
                 this.GroupNickName,
                 this.MessageContent,
                 this.IsNew,
-                this.BeClapPerson,
+                this.BeTap,
                 this.BeReferencedPersion,
                 this.BeReferencedMessage,
                 MessageTime = this.MessageTime.HasValue ? this.MessageTime.Value.ToString() : "",

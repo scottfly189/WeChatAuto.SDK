@@ -163,6 +163,279 @@ namespace WeChatAuto.Components
             return bubbles;
         }
         /// <summary>
+        /// 收藏消息
+        /// </summary>
+        /// <param name="chatSimpleMessage">要收藏的消息<see cref="ChatSimpleMessage"/></param>
+        /// <param name="prevPageCount">如果当前页找不到，往前翻页的次数</param>
+        public void CollectMessage(ChatSimpleMessage chatSimpleMessage, int prevPageCount = 3)
+        {
+            _uiThreadInvoker.Run(automation =>
+            {
+                _PopupContextMenuCore(chatSimpleMessage, _CollectMessageCore, prevPageCount);
+            })
+            .GetAwaiter().GetResult();
+        }
+        /// <summary>
+        /// 拍一拍
+        /// 注意：此动作仅适用于群聊中,并且只能拍别人，不适用于单聊
+        /// </summary>
+        /// <param name="who">要拍一拍的好友昵称</param>
+        /// <param name="prevPageCount">如果当前页找不到，往前翻页的次数</param>
+        public void TapWho(string who, int prevPageCount = 3)
+        {
+            _uiThreadInvoker.Run(automation =>
+            {
+                _PopupWhoMenuCore(who, _TapWhoCore, prevPageCount);
+            })
+            .GetAwaiter().GetResult();
+        }
+        private void _PopupWhoMenuCore(string who, Action<Menu> action, int prevPageCount = 3)
+        {
+            var listItem = _LocateWhoMessage(who, prevPageCount);
+            if (listItem == null)
+            {
+                _logger.Error($"找不到消息：who={who}，停止拍一拍");
+                return;
+            }
+            Menu menu = _GetPopupWhoMenu(listItem);
+            if (menu == null)
+            {
+                _logger.Error($"找不到菜单：who={who}，停止拍一拍");
+                return;
+            }
+            action(menu);
+        }
+        private ListBoxItem _LocateWhoMessage(string who, int prevPageCount)
+        {
+            int index = 0; //向前翻页的索引
+            ListBoxItem result = null;
+            if (_BubbleListRoot.Patterns.Scroll.IsSupported)
+            {
+                var pattern = _BubbleListRoot.Patterns.Scroll.Pattern;
+                if (pattern != null && pattern.VerticallyScrollable)
+                {
+                    pattern.SetScrollPercent(0, 1);
+                }
+            }
+            while (index < prevPageCount)
+            {
+                var listItems = _GetListItemList();
+                listItems.Reverse();
+                var items = listItems.ToList();
+                foreach (var item in items)
+                {
+                    var subItems = item.FindAllByXPath("/Pane[1]/*");
+                    if (subItems != null && subItems.Length == 3)
+                    {
+                        ListBoxItem subItem = _SameWhoAndMove_(item.AsListBoxItem(), who);
+                        if (subItem != null)
+                        {
+                            result = subItem;
+                            break;
+                        }
+                    }
+                }
+                RandomWait.Wait(100, 800);
+                if (result != null)
+                {
+                    break;
+                }
+
+                //往上翻页
+                var (flowControl, nextIndex) = _PrevPageSearchWho(who, index);
+                if (!flowControl)
+                {
+                    break;
+                }
+                index = nextIndex;
+                _logger.Trace($"往上翻页{index}次，继续查找消息");
+            }
+            if (index >= prevPageCount)
+            {
+                _logger.Error($"往上翻页{index}次，仍然找不到消息，停止查找");
+            }
+            return result;
+        }
+        private ListBoxItem _SameWhoAndMove_(ListBoxItem selectItem, string who)
+        {
+            var subItems = selectItem.FindAllByXPath("/Pane[1]/*");
+            var button = selectItem.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button));
+            if (button == null)
+                return null;
+            var seachWho = button.Name;
+            if (_ChatBody.ChatType == ChatType.群聊)
+            {
+                if (subItems[0].ControlType == ControlType.Button)
+                {
+                    var pane = subItems[0].GetSibling(1);
+                    if (pane != null && pane.ControlType == ControlType.Pane)
+                    {
+                        seachWho = pane.FindFirstByXPath(@"//Text")?.Name;
+                    }
+                }
+            }
+            else
+            {
+                _logger.Error($"不是群聊，无法拍一拍");
+                return null;
+            }
+            if (seachWho == who)
+            {
+                var baseRect = _BubbleListRoot.BoundingRectangle;
+                var listItems = _GetListItemList();
+                listItems.Reverse();
+                var foundItem = listItems.FirstOrDefault(u => u.Name == selectItem.Name && u.Properties.RuntimeId.Value.SequenceEqual(selectItem.Properties.RuntimeId.Value))?.AsListBoxItem();
+                _logger.Trace($"foundItem的RuntimeId：{string.Join("-", foundItem.Properties.RuntimeId.Value)}");
+                while (foundItem != null && foundItem.BoundingRectangle.Top < baseRect.Top)
+                {
+                    if (_BubbleListRoot.Patterns.Scroll.IsSupported)
+                    {
+                        var pattern = _BubbleListRoot.Patterns.Scroll.Pattern;
+                        if (pattern != null)
+                        {
+                            pattern.SetScrollPercent(0, System.Math.Max(pattern.VerticalScrollPercent - pattern.VerticalViewSize, 0));
+                            listItems = _GetListItemList();
+                            listItems.Reverse();
+                            foundItem = listItems.FirstOrDefault(u => u.Name == selectItem.Name && u.Properties.RuntimeId.Value.SequenceEqual(selectItem.Properties.RuntimeId.Value))?.AsListBoxItem();
+                            _logger.Trace($"foundItem的RuntimeId：{string.Join("-", foundItem.Properties.RuntimeId.Value)}");
+                        }
+                        RandomWait.Wait(100, 800);
+                    }
+                    else
+                    {
+                        _logger.Error("消息列表不可滚动，无法定位消息");
+                        break;
+                    }
+                }
+                //foundItem.BoundingRectangle.Top < baseRect.Top满足要求了，但是可能foundItem.BoundingRectangle.Bottom > baseRect.Bottom，所以需要继续往上翻页
+                if (foundItem != null && foundItem.BoundingRectangle.Bottom > baseRect.Bottom)
+                {
+                    var pattern = _BubbleListRoot.Patterns.Scroll.Pattern;
+                    if (pattern != null)
+                    {
+                        //往下移一半的距离
+                        pattern.SetScrollPercent(0, System.Math.Min(pattern.VerticalScrollPercent + pattern.VerticalViewSize / 2, 1));
+                    }
+                    RandomWait.Wait(100, 800);
+                }
+                foundItem?.DrawHighlightExt();
+
+                return selectItem;
+            }
+            return null;
+        }
+
+        private Menu _GetPopupWhoMenu(ListBoxItem listItem)
+        {
+            RandomWait.Wait(100, 800);
+            //点击右键
+            var subItems = listItem.FindAllByXPath("/Pane[1]/*");
+            var button = subItems[0];
+            if (button != null && button.ControlType == ControlType.Button)
+            {
+                button.DrawHighlightExt();
+                button.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                button.RightClick();
+                RandomWait.Wait(100, 1500);
+                var menu = Retry.WhileNull(() => _SelfWindow.FindFirstChild(cf => cf.Menu()).AsMenu(),
+                    TimeSpan.FromSeconds(5),
+                    TimeSpan.FromMilliseconds(200));
+                if (menu.Success)
+                {
+                    menu.Result.DrawHighlightExt();
+                    return menu.Result;
+                }
+                else
+                {
+                    _logger.Error($"找不到菜单");
+                }
+            }
+            else
+            {
+                _logger.Error($"找不到第一个位置是Button的元素");
+            }
+            return null;
+        }
+
+        private void _TapWhoCore(Menu menu)
+        {
+            var menuItem = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("拍一拍")));
+            if (menuItem != null)
+            {
+                menuItem.DrawHighlightExt();
+                menuItem.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                menuItem.ClickEnhance(_SelfWindow);
+                RandomWait.Wait(100, 800);
+            }
+            else
+            {
+                _logger.Error($"找不到拍一拍菜单项，停止拍一拍");
+                return;
+            }
+        }
+        /// <summary>
+        /// 收藏消息
+        /// </summary>
+        /// <param name="who">要收藏的好友昵称</param>
+        /// <param name="message">要收藏的消息内容</param>
+        public void CollectMessage(string who, string message, int prevPageCount = 3)
+          => CollectMessage(new ChatSimpleMessage { Who = who, Message = message }, prevPageCount);
+        /// <summary>
+        /// 收藏消息核心
+        /// </summary>
+        /// <param name="menu">菜单<see cref="Menu"/></param>
+        private void _CollectMessageCore(Menu menu)
+        {
+            var menuItem = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("收藏")));
+            if (menuItem != null)
+            {
+                menuItem.DrawHighlightExt();
+                menuItem.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                menuItem.ClickEnhance(_SelfWindow);
+                RandomWait.Wait(100, 800);
+            }
+            else
+            {
+                _logger.Error($"找不到收藏菜单项，停止收藏");
+            }
+        }
+        /// <summary>
+        /// 引用消息
+        /// </summary>
+        /// <param name="chatSimpleMessage">要引用的消息<see cref="ChatSimpleMessage"/></param>
+        /// <param name="prevPageCount">如果当前页找不到，往前翻页的次数</param>
+        public void ReferencedMessage(ChatSimpleMessage chatSimpleMessage, int prevPageCount = 3)
+        {
+            _uiThreadInvoker.Run(automation =>
+            {
+                _PopupContextMenuCore(chatSimpleMessage, _ReferencedMessageCore, prevPageCount);
+            })
+            .GetAwaiter().GetResult();
+        }
+        /// <summary>
+        /// 引用消息
+        /// </summary>
+        /// <param name="who">要引用的好友昵称</param>
+        /// <param name="message">要引用的消息内容</param>
+        /// <param name="prevPageCount">如果当前页找不到，往前翻页的次数</param>
+        public void ReferencedMessage(string who, string message, int prevPageCount = 3)
+          => ReferencedMessage(new ChatSimpleMessage { Who = who, Message = message }, prevPageCount);
+        private void _ReferencedMessageCore(Menu menu)
+        {
+            var menuItem = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("引用")));
+            if (menuItem != null)
+            {
+                menuItem.DrawHighlightExt();
+                menuItem.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                menuItem.ClickEnhance(_SelfWindow);
+                RandomWait.Wait(100, 800);
+            }
+            else
+            {
+                _logger.Error($"找不到引用菜单项，停止引用");
+            }
+        }
+        /// <summary>
         /// 转发单条消息
         /// 流程：
         /// 1. 找到这一条消息,倒序找，这里注意一点，如果找不到消息，往前翻三页找不到，则不会转发此消息,日志显示错误，但不会报错.
@@ -172,14 +445,24 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="to">要转发给谁</param>
         /// <param name="chatSimpleMessage">要转发的消息<see cref="ChatSimpleMessage"/></param>
-        public void ForwardSingleMessage(ChatSimpleMessage chatSimpleMessage, string to)
+        /// <param name="prevPageCount">如果当前页找不到，往前翻页的次数</param>
+        public void ForwardSingleMessage(ChatSimpleMessage chatSimpleMessage, string to, int prevPageCount = 3)
         {
             _uiThreadInvoker.Run(automation =>
             {
-                _PopupContextMenuCore(chatSimpleMessage, (menu) => _ForwardSingleMessageCore(menu, to));
+                _PopupContextMenuCore(chatSimpleMessage, (menu) => _ForwardSingleMessageCore(menu, to), prevPageCount);
             })
             .GetAwaiter().GetResult();
         }
+        /// <summary>
+        /// 转发单条消息
+        /// </summary>
+        /// <param name="who">要转发的好友昵称</param>
+        /// <param name="message">要转发的消息内容</param>
+        /// <param name="to">要转发给谁</param>
+        /// <param name="prevPageCount">如果当前页找不到，往前翻页的次数</param>
+        public void ForwardSingleMessage(string who, string message, string to, int prevPageCount = 3)
+          => ForwardSingleMessage(new ChatSimpleMessage { Who = who, Message = message }, to, prevPageCount);
         private void _ForwardSingleMessageCore(Menu menu, string to)
         {
             var menuItem = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("转发...")));
@@ -224,9 +507,9 @@ namespace WeChatAuto.Components
             }
         }
 
-        private void _PopupContextMenuCore(ChatSimpleMessage chatSimpleMessage, Action<Menu> action)
+        private void _PopupContextMenuCore(ChatSimpleMessage chatSimpleMessage, Action<Menu> action, int prevPageCount = 3)
         {
-            var listItem = _LocateSingleMessage(chatSimpleMessage);
+            var listItem = _LocateSingleMessage(chatSimpleMessage, prevPageCount);
             if (listItem == null)
             {
                 _logger.Error($"找不到消息：who={chatSimpleMessage.Who},message={chatSimpleMessage.Message}，停止转发");
@@ -306,7 +589,8 @@ namespace WeChatAuto.Components
             return _BubbleListRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
         }
 
-        private ListBoxItem _LocateSingleMessage(ChatSimpleMessage chatSimpleMessage)
+
+        private ListBoxItem _LocateSingleMessage(ChatSimpleMessage chatSimpleMessage, int prevPageCount)
         {
             int index = 0; //向前翻页的索引
             ListBoxItem result = null;
@@ -318,7 +602,7 @@ namespace WeChatAuto.Components
                     pattern.SetScrollPercent(0, 1);
                 }
             }
-            while (index < 3)
+            while (index < prevPageCount)
             {
                 var listItems = _GetListItemList();
                 listItems.Reverse();
@@ -351,9 +635,9 @@ namespace WeChatAuto.Components
                 index = nextIndex;
                 _logger.Trace($"往上翻页{index}次，继续查找消息");
             }
-            if (index >= 3)
+            if (index >= prevPageCount)
             {
-                _logger.Error($"往上翻页{index}次，仍然找不到消息：who={chatSimpleMessage.Who},message={chatSimpleMessage.Message}，停止查找");
+                _logger.Error($"往上翻页{index}次，仍然找不到消息，停止查找");
             }
             return result;
         }
@@ -454,14 +738,32 @@ namespace WeChatAuto.Components
             }
         }
 
-        /// <summary>
-        /// 转发单条消息
-        /// </summary>
-        /// <param name="who">要转发的好友昵称</param>
-        /// <param name="message">要转发的消息内容</param>
-        /// <param name="to">要转发给谁</param>
-        public void ForwardSingleMessage(string who, string message, string to)
-          => ForwardSingleMessage(new ChatSimpleMessage { Who = who, Message = message }, to);
+        private (bool flowControl, int nextIndex) _PrevPageSearchWho(string who, int index)
+        {
+            //往上翻页
+            index++;
+            var loadMoreButton = _BubbleListRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_LOOK_MORE)))?.AsButton();
+            if (loadMoreButton != null)
+            {
+                var pattern = _BubbleListRoot.Patterns.Scroll.Pattern;
+                if (pattern != null && pattern.VerticallyScrollable)
+                {
+                    pattern.SetScrollPercent(0, 0);
+                }
+                loadMoreButton = _BubbleListRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_LOOK_MORE)))?.AsButton();
+                loadMoreButton.DrawHighlightExt();
+                loadMoreButton.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                loadMoreButton.Click();
+                RandomWait.Wait(100, 1000);
+                return (flowControl: true, nextIndex: index);
+            }
+            else
+            {
+                _logger.Error($"不存在who={who}的消息,停止查找");
+                return (flowControl: false, nextIndex: index);
+            }
+        }
+
         /// <summary>
         /// 解析气泡为Bubble对象,Bubble对象可能为空
         /// </summary>
@@ -2250,7 +2552,7 @@ namespace WeChatAuto.Components
                 {
                     bubbleItem.MessageSource = MessageSourceType.自己发送消息;
                     bubbleItem.Who = "我";
-                    bubbleItem.BeClapPerson = Regex.Match(title, @"""([^""]+)""").Groups[1].Value;
+                    bubbleItem.BeTap = Regex.Match(title, @"""([^""]+)""").Groups[1].Value;
                 }
                 else
                 {
@@ -2259,7 +2561,7 @@ namespace WeChatAuto.Components
                         bubbleItem.MessageSource = MessageSourceType.好友消息;
                         bubbleItem.Who = Regex.Match(title, @"^""([^""]+)""").Groups[1].Value;
                         bubbleItem.GroupNickName = bubbleItem.Who;
-                        bubbleItem.BeClapPerson = "我";
+                        bubbleItem.BeTap = "我";
                     }
                     else
                     {
@@ -2276,7 +2578,7 @@ namespace WeChatAuto.Components
                             }
                             else if (index == 1)
                             {
-                                bubbleItem.BeClapPerson = m.Groups[1].Value;
+                                bubbleItem.BeTap = m.Groups[1].Value;
                             }
                         }
                     }
@@ -2317,13 +2619,13 @@ namespace WeChatAuto.Components
                 {
                     bubbleItem.MessageSource = MessageSourceType.自己发送消息;
                     bubbleItem.Who = "我";
-                    bubbleItem.BeClapPerson = Regex.Match(title, @"""([^""]+)""$").Groups[1].Value;
+                    bubbleItem.BeTap = Regex.Match(title, @"""([^""]+)""$").Groups[1].Value;
                 }
                 else
                 {
                     bubbleItem.MessageSource = MessageSourceType.好友消息;
                     bubbleItem.Who = Regex.Match(title, @"^""([^""]+)""").Groups[1].Value;
-                    bubbleItem.BeClapPerson = "我";
+                    bubbleItem.BeTap = "我";
                 }
                 bubbleItem.MessageContent = title;
                 list.Add(bubbleItem);
