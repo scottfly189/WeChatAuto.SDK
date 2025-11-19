@@ -169,7 +169,7 @@ public class WeChatClientTests
         var clientFactory = _globalFixture.clientFactory;
         var client = clientFactory.GetWeChatClient(_wxClientName);
         var atUserOneOf = atUser is string ? OneOf<string, string[]>.FromT0((string)atUser) : OneOf<string, string[]>.FromT1((string[])atUser);
-        await client.SendWho(who, "想发什么❓\r\n引用  的消息 : 发消息玩玩", atUserOneOf, isOpenChat);
+        await client.SendWho(who, message, atUserOneOf, isOpenChat);
         _output.WriteLine($"测试标识：{flag}");
         Assert.True(result);
         await Task.CompletedTask;

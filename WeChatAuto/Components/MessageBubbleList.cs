@@ -178,17 +178,22 @@ namespace WeChatAuto.Components
             .GetAwaiter().GetResult();
         }
 
-        private List<AutomationElement> _GetListItemList() => _BubbleListRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
+        private List<AutomationElement> _GetListItemList()
+        {
+            _BubbleListRoot = _SelfWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByName("消息")));
+            if (_BubbleListRoot == null)
+                throw new Exception("消息列表根节点获取失败");
+            return _BubbleListRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
+        }
 
         private ListBoxItem _LocateSingleMessage(ChatSimpleMessage chatSimpleMessage)
         {
             int index = 0; //向前翻页的索引
             ListBoxItem result = null;
-            IScrollPattern pattern = null;
             if (_BubbleListRoot.Patterns.Scroll.IsSupported)
             {
-                pattern = _BubbleListRoot.Patterns.Scroll.Pattern;
-                if (pattern != null)
+                var pattern = _BubbleListRoot.Patterns.Scroll.Pattern;
+                if (pattern != null && pattern.VerticallyScrollable)
                 {
                     pattern.SetScrollPercent(0, 1);
                 }
@@ -211,6 +216,11 @@ namespace WeChatAuto.Components
                         }
                     }
                 }
+                RandomWait.Wait(100, 800);
+                if (result != null)
+                {
+                    break;
+                }
 
                 //往上翻页
                 var (flowControl, nextIndex) = _PrevPageSearch(chatSimpleMessage, index);
@@ -226,7 +236,7 @@ namespace WeChatAuto.Components
         private ListBoxItem _SameMessageAndMove_(ListBoxItem item, ChatSimpleMessage chatSimpleMessage)
         {
             var subItems = item.FindAllByXPath("/Pane[1]/*");
-            var button = item.FindFirstChild(cf => cf.ByControlType(ControlType.Button));
+            var button = item.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button));
             if (button == null)
                 return null;
             var who = button.Name;
@@ -243,11 +253,7 @@ namespace WeChatAuto.Components
             }
             if (item.Name.Contains(chatSimpleMessage.Message) && who == chatSimpleMessage.Who)
             {
-                //检查item的可见性
-                _BubbleListRoot = _SelfWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByName("消息")));
-                if (_BubbleListRoot == null)
-                    throw new Exception("消息列表根节点获取失败");
-                var baseRect = item.BoundingRectangle;
+                var baseRect = _BubbleListRoot.BoundingRectangle;
                 var listItems = _GetListItemList();
                 listItems.Reverse();
                 var foundItem = listItems.FirstOrDefault(u => u.Name == item.Name)?.AsListBoxItem();
@@ -264,6 +270,7 @@ namespace WeChatAuto.Components
                             listItems.Reverse();
                             foundItem = listItems.FirstOrDefault(u => u.Name == item.Name)?.AsListBoxItem();
                         }
+                        RandomWait.Wait(100, 800);
                     }
                     else
                     {
@@ -271,7 +278,7 @@ namespace WeChatAuto.Components
                         break;
                     }
                 }
-                foundItem.DrawHighlightExt();
+                foundItem?.DrawHighlightExt();
 
                 return item;
             }
@@ -291,6 +298,14 @@ namespace WeChatAuto.Components
             var loadMoreButton = _BubbleListRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_LOOK_MORE)))?.AsButton();
             if (loadMoreButton != null)
             {
+                var pattern = _BubbleListRoot.Patterns.Scroll.Pattern;
+                if (pattern != null && pattern.VerticallyScrollable)
+                {
+                    pattern.SetScrollPercent(0, 0);
+                }
+                loadMoreButton = _BubbleListRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName(WeChatConstant.WECHAT_CHAT_BOX_CONTENT_LOOK_MORE)))?.AsButton();
+                loadMoreButton.DrawHighlightExt();
+                loadMoreButton.WaitUntilClickable(TimeSpan.FromSeconds(5));
                 loadMoreButton.Click();
                 RandomWait.Wait(100, 1000);
                 return (flowControl: true, nextIndex: index);

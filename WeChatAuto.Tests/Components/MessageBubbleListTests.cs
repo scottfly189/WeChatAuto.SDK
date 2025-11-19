@@ -121,10 +121,13 @@ public class MessageBubbleListTests
         Assert.Equal(ChatType.群聊, window.MainChatContent.ChatBody.BubbleListObject.GetChatType());
     }
 
-    [Theory(DisplayName = "测试转发单条消息")]
+    [Theory(DisplayName = "测试转发单条消息-主窗口")]
     [InlineData("AI.Net", "@Alex Zhao 发些有意思的", "测试11")]
+    [InlineData("秋歌", "她跳绳可以的", "测试11")]
+    [InlineData("gggccc", "但是我现在有工作", "测试11")]
+    [InlineData("歪燕子", "不会英文啊", "测试11")]
     [InlineData(".NET-AI实时快讯3群", "hello world!", "测试11")]
-    public async Task Test_Forward_Single_Message(string who, string message, string to)
+    public async Task Test_Forward_Single_Message_main_window(string who, string message, string to)
     {
         var framework = _globalFixture.clientFactory;
         var client = framework.GetWeChatClient(_wxClientName);
@@ -134,4 +137,29 @@ public class MessageBubbleListTests
         Assert.True(true);
         await Task.CompletedTask;
     }
+
+    [Theory(DisplayName = "测试转发单条消息-子窗口")]
+    [InlineData("AI.Net", "AI.Net", "@Alex Zhao 发些有意思的", "测试11")]
+    [InlineData("秋歌", "秋歌", "她跳绳可以的", "测试11")]
+    [InlineData("gggccc", "gggccc", "但是我有工作", "测试11")]
+    [InlineData("gggccc", "gggccc", "但是我有工作2", "测试11")]
+    [InlineData(".NET-AI实时快讯3群", ".NET-AI实时快讯3群", "hello world!", "测试11")]
+    public async Task Test_Forward_Single_Message_sub_window(string subWinName, string who, string message, string to)
+    {
+        var framework = _globalFixture.clientFactory;
+        var client = framework.GetWeChatClient(_wxClientName);
+        var window = client.WxMainWindow;
+        var subWin = window.SubWinList.GetSubWin(subWinName);
+        if (subWin == null)
+        {
+            _output.WriteLine("子窗口不存在");
+            Assert.True(false);
+            return;
+        }
+        var subBubbleList = subWin.ChatContent.ChatBody.BubbleListObject;
+        subBubbleList.ForwardSingleMessage(who: who, message: message, to: to);
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
+
 }
