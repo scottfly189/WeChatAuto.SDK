@@ -259,7 +259,7 @@ namespace WeChatAuto.Components
         private ListBoxItem _SameWhoAndMove_(ListBoxItem selectItem, string who)
         {
             var subItems = selectItem.FindAllByXPath("/Pane[1]/*");
-            var button = selectItem.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button));
+            var button = subItems.FirstOrDefault(cf => cf.ControlType == ControlType.Button);
             if (button == null)
                 return null;
             var seachWho = button.Name;
@@ -538,6 +538,7 @@ namespace WeChatAuto.Components
                     button.GetParent().DrawHighlightExt();
                     button.GetParent().WaitUntilClickable(TimeSpan.FromSeconds(5));
                     button.GetParent().RightClick();
+                    _ImageVedioPreProcess(button, listItem);
                 }
                 else
                 {
@@ -545,7 +546,15 @@ namespace WeChatAuto.Components
                     var texts = pane.FindAllByXPath(xPath);
                     if (texts != null && texts.Length > 0)
                     {
-                        var text = texts[1];
+                        AutomationElement text = null;
+                        if (texts.Length > 1)
+                        {
+                            text = texts[1];
+                        }
+                        else
+                        {
+                            text = texts[0];
+                        }
                         var parentPane = text.GetParent();
                         parentPane.DrawHighlightExt();
                         parentPane.WaitUntilClickable(TimeSpan.FromSeconds(5));
@@ -581,6 +590,157 @@ namespace WeChatAuto.Components
             return null;
         }
 
+        /// <summary>
+        /// 图片和视频预处理
+        /// </summary>
+        /// <param name="button"></param>
+        /// <param name="listItem"></param>
+        private void _ImageVedioPreProcess(AutomationElement button, ListBoxItem listItem)
+        {
+            //如果出现"图片查看"，则关闭
+            _CloseImageVedioPopupWin();
+            RandomWait.Wait(100, 1500);
+            var menu = Retry.WhileNull(() => _SelfWindow.FindFirstChild(cf => cf.Menu()).AsMenu(),
+                TimeSpan.FromSeconds(5),
+                TimeSpan.FromMilliseconds(200));
+            if (menu.Success)
+            {
+                if (listItem.Name.Contains("[语音]"))
+                {
+                    RandomWait.Wait(100, 1500);
+                    var menuItem = menu.Result.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("取消转文字")));
+                    if (menuItem != null)
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    RandomWait.Wait(100, 1500);
+                    var menuItem = menu.Result.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("引用")));
+                    if (menuItem != null)
+                    {
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                _logger.Error($"找不到菜单");
+            }
+            _SwtichFocus(listItem);
+            if (listItem.Name.Contains("[图片]"))
+            {
+                button.GetParent().DrawHighlightExt();
+                button.GetParent().WaitUntilClickable(TimeSpan.FromSeconds(5));
+                button.GetParent().RightClick();
+                RandomWait.Wait(100, 800);
+            }
+            else if (listItem.Name.Contains("[视频]"))
+            {
+                var index = 0;
+                button.Click();
+                RandomWait.Wait(500, 1500);
+                //如果出现"图片查看"，则关闭
+                _CloseImageVedioPopupWin();
+                _SelfWindow.Focus();
+                while (true && index < 20)
+                {
+                    button.GetParent().DrawHighlightExt();
+                    button.GetParent().WaitUntilClickable(TimeSpan.FromSeconds(5));
+                    button.GetParent().RightClick();
+                    RandomWait.Wait(100, 800);
+                    var menuResult = Retry.WhileNull(() => _SelfWindow.FindFirstChild(cf => cf.Menu()).AsMenu(),
+                        TimeSpan.FromSeconds(2),
+                        TimeSpan.FromMilliseconds(200));
+                    if (menuResult.Success)
+                    {
+                        var testMenu = menuResult.Result;
+                        var menuItem = testMenu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("引用")));
+                        if (menuItem != null)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            _SwtichFocus(listItem);
+                            RandomWait.Wait(500, 1000);
+                        }
+                    }
+                    index++;
+                }
+            }
+            else if (listItem.Name.Contains("[语音]"))
+            {
+                button.RightClick();
+                RandomWait.Wait(500, 1000);
+                var voiceMenu = Retry.WhileNull(() => _SelfWindow.FindFirstChild(cf => cf.Menu()).AsMenu(),
+                    TimeSpan.FromSeconds(2),
+                    TimeSpan.FromMilliseconds(200));
+                if (voiceMenu.Success)
+                {
+                    var voiceMenuItem = voiceMenu.Result.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("语音转文字")));
+                    if (voiceMenuItem != null)
+                    {
+                        voiceMenuItem.DrawHighlightExt();
+                        RandomWait.Wait(500, 1000);
+                        voiceMenuItem.Click();
+                        var index = 0;
+                        while (true && index < 20)
+                        {
+                            RandomWait.Wait(500, 800);
+                            button.WaitUntilClickable(TimeSpan.FromSeconds(3));
+                            button.RightClick();
+                            RandomWait.Wait(100, 1500);
+                            var menuResult = Retry.WhileNull(() => _SelfWindow.FindFirstChild(cf => cf.Menu()).AsMenu(),
+                                TimeSpan.FromSeconds(2),
+                                TimeSpan.FromMilliseconds(200));
+                            if (menuResult.Success)
+                            {
+                                var testMenu = menuResult.Result;
+                                var menuItem = testMenu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("取消转文字")));
+                                if (menuItem != null)
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    _SwtichFocus(listItem);
+                                    RandomWait.Wait(500, 1000);
+                                }
+                            }
+
+                            index++;
+                        }
+                    }
+                }
+                else
+                {
+                    _logger.Error($"找不到语音菜单");
+                }
+            }
+        }
+        //关闭图片和视频弹窗
+        private void _CloseImageVedioPopupWin()
+        {
+            var win = Retry.WhileNull(() => _SelfWindow.Automation.GetDesktop().FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("ImagePreviewWnd")).And(cf.ByProcessId(_SelfWindow.Properties.ProcessId))),
+                TimeSpan.FromSeconds(2),
+                TimeSpan.FromMilliseconds(200));
+            if (win.Success)
+            {
+                win.Result.AsWindow().Close();
+            }
+        }
+        private void _SwtichFocus(ListBoxItem listItem)
+        {
+            var pane = listItem.GetParent().GetParent().GetParent().GetSibling(1);
+            var edit = pane.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit));
+            if (edit != null)
+            {
+                edit.Click();
+                RandomWait.Wait(100, 800);
+            }
+        }
         private List<AutomationElement> _GetListItemList()
         {
             _BubbleListRoot = _SelfWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByName("消息")));
@@ -645,7 +805,7 @@ namespace WeChatAuto.Components
         private ListBoxItem _SameMessageAndMove_(ListBoxItem selectItem, ChatSimpleMessage chatSimpleMessage)
         {
             var subItems = selectItem.FindAllByXPath("/Pane[1]/*");
-            var button = selectItem.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button));
+            var button = subItems.FirstOrDefault(cf => cf.ControlType == ControlType.Button);
             if (button == null)
                 return null;
             var who = button.Name;

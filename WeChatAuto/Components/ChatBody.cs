@@ -39,14 +39,17 @@ namespace WeChatAuto.Components
         private CancellationTokenSource _pollingTimerCancellationTokenSource = new CancellationTokenSource();
         private volatile bool _isProcessing = false; // 标记是否正在处理消息
         private ChatType _ChatType;
+        private ChatContent _ChatContent;
+        public ChatContent ChatContent => _ChatContent;
         public ChatType ChatType => _ChatType;
         public ChatBody(Window window, AutomationElement chatBodyRoot, IWeChatWindow wxWindow, string title, ChatType chatType,
-          UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow, IServiceProvider serviceProvider)
+          UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow, IServiceProvider serviceProvider,ChatContent chatContent)
         {
             _Window = window;
             _logger = serviceProvider.GetRequiredService<AutoLogger<ChatBody>>();
             _ChatBodyRoot = chatBodyRoot;
             _WxWindow = wxWindow;
+            _ChatContent = chatContent;
             _Title = title;
             _ChatType = chatType;
             _uiMainThreadInvoker = uiThreadInvoker;

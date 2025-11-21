@@ -9,6 +9,9 @@ using WeChatAuto.Utils;
 using WxAutoCommon.Utils;
 using System;
 using Microsoft.Extensions.DependencyInjection;
+using FlaUI.Core.Tools;
+using System.Drawing;
+using FlaUI.Core.Capturing;
 
 namespace WeChatAuto.Components
 {
@@ -23,6 +26,7 @@ namespace WeChatAuto.Components
         private UIThreadInvoker _uiMainThreadInvoker;
         private readonly IServiceProvider _serviceProvider;
         private WeChatMainWindow _MainWxWindow;    //主窗口对象
+        private AutomationElement OwerChatContentRoot => Retry.WhileNull(() => _Window.FindFirstByXPath(_XPath), TimeSpan.FromSeconds(1), TimeSpan.FromMilliseconds(200)).Result;
         private volatile bool _disposed = false;
         public AutomationElement ChatContentRoot
         {
@@ -42,10 +46,33 @@ namespace WeChatAuto.Components
         public ChatHeader ChatHeader => GetChatHeader();
         public ChatBody ChatBody => GetChatBody();
         public ChatType ChatType => GetChatType();
+
         /// <summary>
         /// 聊天标题
         /// </summary>
         public string FullTitle => GetFullTitle();
+        /// <summary>
+        /// 获取聊天内容截图
+        /// </summary>
+        /// <param name="inThread">调用是否需要在UI线程中执行,默认是True，单独调用应该为true，内部调用应该设定为false,因为内部调用已经在UI线程中执行了</param>
+        /// <returns>聊天内容截图</returns>
+        public Image GetOwerChatContentImage(bool inThread = true)
+        {
+            Func<Image> func = () =>
+            {
+                var image = FlaUI.Core.Capturing.Capture.Element(OwerChatContentRoot);
+                image.ApplyOverlays(new MouseOverlay(image), new InfoOverlay(image));
+                return image.Bitmap;
+            };
+            if (inThread)
+            {
+                return _uiMainThreadInvoker.Run(automation => func()).GetAwaiter().GetResult();
+            }
+            else
+            {
+                return func();
+            }
+        }
         /// <summary>
         /// 聊天人数
         /// </summary>
@@ -216,7 +243,7 @@ namespace WeChatAuto.Components
             var title = GetFullTitle();
             var chatBodyRoot = _uiMainThreadInvoker.Run(automation => ChatContentRoot.FindFirstByXPath("/Pane[2]")).GetAwaiter().GetResult();
             DrawHightlightHelper.DrawHightlight(chatBodyRoot, _uiMainThreadInvoker);
-            var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow, title, this.ChatType, _uiMainThreadInvoker, this._MainWxWindow, _serviceProvider);
+            var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow, title, this.ChatType, _uiMainThreadInvoker, this._MainWxWindow, _serviceProvider, this);
             if (_ChatContentType == ChatContentType.SubWindow)
             {
                 _SubWinCacheChatBody = chatBody;

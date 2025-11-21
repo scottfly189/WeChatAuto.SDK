@@ -126,7 +126,7 @@ public class MessageBubbleListTests
     [InlineData("秋歌")]
     [InlineData("gggccc")]
     [InlineData("歪燕子")]
-    [InlineData(".NET-AI实时快讯3群")]
+    [InlineData("歪脖子")]
     public async Task Test_Tap_Who_Message_main_window(string who)
     {
         var framework = _globalFixture.clientFactory;
@@ -138,39 +138,129 @@ public class MessageBubbleListTests
         await Task.CompletedTask;
     }
 
-    [Theory(DisplayName = "测试引用消息-主窗口")]
-    [InlineData("AI.Net", "@Alex Zhao 发些有意思的")]
-    [InlineData("秋歌", "她跳绳可以的")]
-    [InlineData("秋歌", "[视频]")]
-    [InlineData("gggccc", "我给过了")]
-    [InlineData("歪燕子", "太叼了")]
-    [InlineData(".NET-AI实时快讯3群", "hello world!")]
+    [Theory(DisplayName = "测试拍一拍消息-子窗口")]
+    [InlineData("测试11", "AI.Net")]
+    [InlineData("测试11", "秋歌")]
+    [InlineData("歪脖子的模版交流群", "gggccc")]
+    [InlineData("歪脖子的模版交流群", "歪燕子")]
+    [InlineData("歪脖子的模版交流群", "歪脖子")]
+    public async Task Test_Tap_Who_Message_sub_window(string subWinName, string who)
+    {
+        var framework = _globalFixture.clientFactory;
+        var client = framework.GetWeChatClient(_wxClientName);
+        var window = client.WxMainWindow;
+        var subWin = window.SubWinList.GetSubWin(subWinName);
+        if (subWin == null)
+        {
+            _output.WriteLine("子窗口不存在");
+            Assert.True(false);
+            return;
+        }
+        var bubbleList = subWin.ChatContent.ChatBody.BubbleListObject;
+        bubbleList.TapWho(who: who);
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
+
+    [Theory(DisplayName = "测试收藏消息-主窗口")]
+    [InlineData("AI.Net", "@Alex Zhao 发些有意思的")]  //主窗口-群聊 - 文字
+    [InlineData("Alex Zhao", "好吧，谢谢")]  //主窗口-群聊 - 文字
+    [InlineData("秋歌", "那我免打扰了")] //主窗口-群聊 - 文字
+    [InlineData("秋歌", "[视频]")] //主窗口-群聊 - 视频
+    [InlineData("AI.Net", "[图片]")] //主窗口-群聊 - 图片
+    [InlineData("Alex Zhao", "[图片]")]  //主窗口-群聊 - 文字
+    [InlineData("AI.Net", "[视频]")] //主窗口-群聊 - 视频
+    [InlineData("AI.Net", "[语音]")] //主窗口-群聊 - 语音
+    [InlineData("Alex Zhao", "[语音]")]  //主窗口-群聊 - 语音
+    [InlineData("Alex Zhao", "[视频]")]  //主窗口-群聊 - 语音
     public async Task Test_Collect_Message_main_window(string who, string message)
     {
         var framework = _globalFixture.clientFactory;
         var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
         var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
-        bubbleList.CollectMessage(who: who, message: message);
+        bubbleList.CollectMessage(who: who, message: message, 10);
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
+
+    [Theory(DisplayName = "测试收藏消息-子窗口")]
+    [InlineData("测试11","AI.Net", "@Alex Zhao 发些有意思的")]  //主窗口-群聊 - 文字
+    [InlineData("测试11","Alex Zhao", "好吧，谢谢")]  //主窗口-群聊 - 文字
+    [InlineData("测试11","秋歌", "那我免打扰了")] //主窗口-群聊 - 文字
+    [InlineData("测试11","秋歌", "[视频]")] //主窗口-群聊 - 视频
+    [InlineData("测试11","AI.Net", "[图片]")] //主窗口-群聊 - 图片
+    [InlineData("测试11","Alex Zhao", "[图片]")]  //主窗口-群聊 - 文字
+    [InlineData("测试11","AI.Net", "[视频]")] //主窗口-群聊 - 视频
+    [InlineData("测试11","AI.Net", "[语音]")] //主窗口-群聊 - 语音
+    [InlineData("测试11","Alex Zhao", "[语音]")]  //主窗口-群聊 - 语音
+    [InlineData("测试11","Alex Zhao", "[视频]")]  //主窗口-群聊 - 语音
+    public async Task Test_Collect_Message_Sub_Window(string subWinName, string who, string message)
+    {
+        var framework = _globalFixture.clientFactory;
+        var client = framework.GetWeChatClient(_wxClientName);
+        var window = client.WxMainWindow;
+        var subWin = window.SubWinList.GetSubWin(subWinName);
+        if (subWin == null)
+        {
+            _output.WriteLine("子窗口不存在");
+            Assert.True(false);
+            return;
+        }
+        var bubbleList = subWin.ChatContent.ChatBody.BubbleListObject;
+        bubbleList.CollectMessage(who: who, message: message, 10);
         Assert.True(true);
         await Task.CompletedTask;
     }
 
 
     [Theory(DisplayName = "测试引用消息-主窗口")]
-    [InlineData("AI.Net", "@Alex Zhao 发些有意思的")]
-    [InlineData("秋歌", "她跳绳可以的")]
-    [InlineData("秋歌", "[视频]")]
-    [InlineData("gggccc", "我给过了")]
-    [InlineData("歪燕子", "太叼了")]
-    [InlineData(".NET-AI实时快讯3群", "hello world!")]
+    [InlineData("AI.Net", "@Alex Zhao 发些有意思的")]  //主窗口-群聊 - 文字
+    [InlineData("Alex Zhao", "好吧，谢谢")]  //主窗口-群聊 - 文字
+    [InlineData("秋歌", "那我免打扰了")] //主窗口-群聊 - 文字
+    [InlineData("秋歌", "[视频]")] //主窗口-群聊 - 视频
+    [InlineData("AI.Net", "[图片]")] //主窗口-群聊 - 图片
+    [InlineData("Alex Zhao", "[图片]")]  //主窗口-群聊 - 文字
+    [InlineData("AI.Net", "[视频]")] //主窗口-群聊 - 视频
+    [InlineData("AI.Net", "[语音]")] //主窗口-群聊 - 语音
+    [InlineData("Alex Zhao", "[语音]")]  //主窗口-群聊 - 语音
+    [InlineData("Alex Zhao", "[视频]")]  //主窗口-群聊 - 语音
     public async Task Test_Referenced_Message_main_window(string who, string message)
     {
         var framework = _globalFixture.clientFactory;
         var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
         var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
-        bubbleList.ReferencedMessage(who: who, message: message);
+        bubbleList.ReferencedMessage(who: who, message: message,10);
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
+
+    [Theory(DisplayName = "测试引用消息-子窗口")]
+    [InlineData("测试11","AI.Net", "@Alex Zhao 发些有意思的")]  //主窗口-群聊 - 文字
+    [InlineData("测试11","Alex Zhao", "好吧，谢谢")]  //主窗口-群聊 - 文字
+    [InlineData("测试11","秋歌", "那我免打扰了")] //主窗口-群聊 - 文字
+    [InlineData("测试11","秋歌", "[视频]")] //主窗口-群聊 - 视频
+    [InlineData("测试11","AI.Net", "[图片]")] //主窗口-群聊 - 图片
+    [InlineData("测试11","Alex Zhao", "[图片]")]  //主窗口-群聊 - 文字
+    [InlineData("测试11","AI.Net", "[视频]")] //主窗口-群聊 - 视频
+    [InlineData("测试11","AI.Net", "[语音]")] //主窗口-群聊 - 语音
+    [InlineData("测试11","Alex Zhao", "[语音]")]  //主窗口-群聊 - 语音
+    [InlineData("测试11","Alex Zhao", "[视频]")]  //主窗口-群聊 - 语音
+    public async Task Test_Referenced_Message_sub_window(string subWinName, string who, string message)
+    {
+        var framework = _globalFixture.clientFactory;
+        var client = framework.GetWeChatClient(_wxClientName);
+        var window = client.WxMainWindow;
+        var subWin = window.SubWinList.GetSubWin(subWinName);
+        if (subWin == null)
+        {
+            _output.WriteLine("子窗口不存在");
+            Assert.True(false);
+            return;
+        }
+        var bubbleList = subWin.ChatContent.ChatBody.BubbleListObject;
+        bubbleList.ReferencedMessage(who: who, message: message, 10);
         Assert.True(true);
         await Task.CompletedTask;
     }
@@ -188,7 +278,7 @@ public class MessageBubbleListTests
         var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
         var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
-        bubbleList.ForwardSingleMessage(who: who, message: message, to: to);
+        bubbleList.ForwardSingleMessage(who: who, message: message, to: to, 10);
         Assert.True(true);
         await Task.CompletedTask;
     }
