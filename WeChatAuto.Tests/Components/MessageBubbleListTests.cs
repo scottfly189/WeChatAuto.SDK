@@ -185,16 +185,16 @@ public class MessageBubbleListTests
     }
 
     [Theory(DisplayName = "测试收藏消息-子窗口")]
-    [InlineData("测试11","AI.Net", "@Alex Zhao 发些有意思的")]  //主窗口-群聊 - 文字
-    [InlineData("测试11","Alex Zhao", "好吧，谢谢")]  //主窗口-群聊 - 文字
-    [InlineData("测试11","秋歌", "那我免打扰了")] //主窗口-群聊 - 文字
-    [InlineData("测试11","秋歌", "[视频]")] //主窗口-群聊 - 视频
-    [InlineData("测试11","AI.Net", "[图片]")] //主窗口-群聊 - 图片
-    [InlineData("测试11","Alex Zhao", "[图片]")]  //主窗口-群聊 - 文字
-    [InlineData("测试11","AI.Net", "[视频]")] //主窗口-群聊 - 视频
-    [InlineData("测试11","AI.Net", "[语音]")] //主窗口-群聊 - 语音
-    [InlineData("测试11","Alex Zhao", "[语音]")]  //主窗口-群聊 - 语音
-    [InlineData("测试11","Alex Zhao", "[视频]")]  //主窗口-群聊 - 语音
+    [InlineData("测试11", "AI.Net", "@Alex Zhao 发些有意思的")]  //主窗口-群聊 - 文字
+    [InlineData("测试11", "Alex Zhao", "好吧，谢谢")]  //主窗口-群聊 - 文字
+    [InlineData("测试11", "秋歌", "那我免打扰了")] //主窗口-群聊 - 文字
+    [InlineData("测试11", "秋歌", "[视频]")] //主窗口-群聊 - 视频
+    [InlineData("测试11", "AI.Net", "[图片]")] //主窗口-群聊 - 图片
+    [InlineData("测试11", "Alex Zhao", "[图片]")]  //主窗口-群聊 - 文字
+    [InlineData("测试11", "AI.Net", "[视频]")] //主窗口-群聊 - 视频
+    [InlineData("测试11", "AI.Net", "[语音]")] //主窗口-群聊 - 语音
+    [InlineData("测试11", "Alex Zhao", "[语音]")]  //主窗口-群聊 - 语音
+    [InlineData("测试11", "Alex Zhao", "[视频]")]  //主窗口-群聊 - 语音
     public async Task Test_Collect_Message_Sub_Window(string subWinName, string who, string message)
     {
         var framework = _globalFixture.clientFactory;
@@ -231,22 +231,22 @@ public class MessageBubbleListTests
         var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
         var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
-        bubbleList.ReferencedMessage(who: who, message: message,10);
+        bubbleList.ReferencedMessage(who: who, message: message, 10);
         Assert.True(true);
         await Task.CompletedTask;
     }
 
     [Theory(DisplayName = "测试引用消息-子窗口")]
-    [InlineData("测试11","AI.Net", "@Alex Zhao 发些有意思的")]  //主窗口-群聊 - 文字
-    [InlineData("测试11","Alex Zhao", "好吧，谢谢")]  //主窗口-群聊 - 文字
-    [InlineData("测试11","秋歌", "那我免打扰了")] //主窗口-群聊 - 文字
-    [InlineData("测试11","秋歌", "[视频]")] //主窗口-群聊 - 视频
-    [InlineData("测试11","AI.Net", "[图片]")] //主窗口-群聊 - 图片
-    [InlineData("测试11","Alex Zhao", "[图片]")]  //主窗口-群聊 - 文字
-    [InlineData("测试11","AI.Net", "[视频]")] //主窗口-群聊 - 视频
-    [InlineData("测试11","AI.Net", "[语音]")] //主窗口-群聊 - 语音
-    [InlineData("测试11","Alex Zhao", "[语音]")]  //主窗口-群聊 - 语音
-    [InlineData("测试11","Alex Zhao", "[视频]")]  //主窗口-群聊 - 语音
+    [InlineData("测试11", "AI.Net", "@Alex Zhao 发些有意思的")]  //主窗口-群聊 - 文字
+    [InlineData("测试11", "Alex Zhao", "好吧，谢谢")]  //主窗口-群聊 - 文字
+    [InlineData("测试11", "秋歌", "那我免打扰了")] //主窗口-群聊 - 文字
+    [InlineData("测试11", "秋歌", "[视频]")] //主窗口-群聊 - 视频
+    [InlineData("测试11", "AI.Net", "[图片]")] //主窗口-群聊 - 图片
+    [InlineData("测试11", "Alex Zhao", "[图片]")]  //主窗口-群聊 - 文字
+    [InlineData("测试11", "AI.Net", "[视频]")] //主窗口-群聊 - 视频
+    [InlineData("测试11", "AI.Net", "[语音]")] //主窗口-群聊 - 语音
+    [InlineData("测试11", "Alex Zhao", "[语音]")]  //主窗口-群聊 - 语音
+    [InlineData("测试11", "Alex Zhao", "[视频]")]  //主窗口-群聊 - 语音
     public async Task Test_Referenced_Message_sub_window(string subWinName, string who, string message)
     {
         var framework = _globalFixture.clientFactory;
@@ -272,6 +272,10 @@ public class MessageBubbleListTests
     [InlineData("gggccc", "但是我现在有工作", "测试11")]
     [InlineData("歪燕子", "不会英文啊", "测试11")]
     [InlineData(".NET-AI实时快讯3群", "hello world!", "测试11")]
+    [InlineData("AI.Net", "[图片]", "测试01")]
+    [InlineData("Alex Zhao", "[图片]", "测试01")]
+    [InlineData("AI.Net", "[视频]", "测试01")]
+    [InlineData("Alex Zhao", "[视频]", "测试01")]
     public async Task Test_Forward_Single_Message_main_window(string who, string message, string to)
     {
         var framework = _globalFixture.clientFactory;
