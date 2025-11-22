@@ -436,6 +436,49 @@ namespace WeChatAuto.Components
             }
         }
         /// <summary>
+        /// 转发多条消息
+        /// </summary>
+        /// <param name="to">要转发给谁</param>
+        /// <param name="rowCount">要转发多少条消息，默认是最后的10条消息,如果当前没有十条，则转发所有消息</param>
+        public void ForwardMultipleMessage(string to, int rowCount = 10)
+        {
+            _uiThreadInvoker.Run(automation =>
+            {
+                List<ListBoxItem> _SelectItems = _PreMultipleMessage(rowCount);  //前置操作，如果有图片、视频、语音，则先处理
+                _SelectMultipleMessage(_SelectItems);  //选择要转发多少条消息
+                _ForwardMessageCore(to);  //转发消息
+            })
+            .GetAwaiter().GetResult();
+        }
+
+        private List<ListBoxItem> _PreMultipleMessage(int rowCount)
+        {
+            if (_BubbleListRoot.Patterns.Scroll.IsSupported)
+            {
+                var pattern = _BubbleListRoot.Patterns.Scroll.Pattern;
+                if (pattern != null && pattern.VerticallyScrollable)
+                {
+                    pattern.SetScrollPercent(0, 1);
+                }
+            }
+            var listItems = _GetListItemList();
+            listItems.Reverse();
+            if (listItems.Count() > rowCount)
+            {
+
+                listItems = listItems.Take(rowCount).ToList();
+            }
+            return listItems.Select(item => item.AsListBoxItem()).ToList();
+        }
+
+        private void _SelectMultipleMessage(List<ListBoxItem> _SelectItems)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+        /// <summary>
         /// 转发单条消息
         /// 流程：
         /// 1. 找到这一条消息,倒序找，这里注意一点，如果找不到消息，往前翻三页找不到，则不会转发此消息,日志显示错误，但不会报错.
@@ -472,38 +515,43 @@ namespace WeChatAuto.Components
                 menuItem.WaitUntilClickable(TimeSpan.FromSeconds(5));
                 RandomWait.Wait(100, 800);
                 menuItem.ClickEnhance(_SelfWindow);
-                RandomWait.Wait(100, 800);
-                var windowResult = Retry.WhileNull(() => _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("SelectContactWnd"))),
-                  TimeSpan.FromSeconds(5),
-                  TimeSpan.FromMilliseconds(200));
-                if (windowResult.Success)
-                {
-                    windowResult.Result.DrawHighlightExt();
-                    windowResult.Result.WaitUntilClickable(TimeSpan.FromSeconds(5));
-                    var window = windowResult.Result;
-                    var searchTextBox = window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByName("搜索")));
-                    searchTextBox.Focus();
-                    searchTextBox.DrawHighlightExt();
-                    searchTextBox.ClickEnhance(window.AsWindow());
-                    Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
-                    Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
-                    RandomWait.Wait(100, 800);
-                    Keyboard.Type(to);
-                    RandomWait.Wait(100, 800);
-                    Keyboard.Press(VirtualKeyShort.RETURN);
-                    RandomWait.Wait(100, 800);
-                    var sendButton = window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("发送")));
-                    sendButton.DrawHighlightExt();
-                    sendButton.ClickEnhance(window.AsWindow());
-                }
-                else
-                {
-                    _logger.Error($"找不到转发窗口，停止转发");
-                }
+                _ForwardMessageCore(to);
             }
             else
             {
                 _logger.Error($"找不到转发菜单项，停止转发");
+            }
+        }
+
+        private void _ForwardMessageCore(string to)
+        {
+            RandomWait.Wait(100, 800);
+            var windowResult = Retry.WhileNull(() => _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("SelectContactWnd"))),
+              TimeSpan.FromSeconds(5),
+              TimeSpan.FromMilliseconds(200));
+            if (windowResult.Success)
+            {
+                windowResult.Result.DrawHighlightExt();
+                windowResult.Result.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                var window = windowResult.Result;
+                var searchTextBox = window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Edit).And(cf.ByName("搜索")));
+                searchTextBox.Focus();
+                searchTextBox.DrawHighlightExt();
+                searchTextBox.ClickEnhance(window.AsWindow());
+                Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                RandomWait.Wait(100, 800);
+                Keyboard.Type(to);
+                RandomWait.Wait(100, 800);
+                Keyboard.Press(VirtualKeyShort.RETURN);
+                RandomWait.Wait(100, 800);
+                var sendButton = window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("发送")));
+                sendButton.DrawHighlightExt();
+                sendButton.ClickEnhance(window.AsWindow());
+            }
+            else
+            {
+                _logger.Error($"找不到转发窗口，停止转发");
             }
         }
 
