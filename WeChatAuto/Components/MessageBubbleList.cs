@@ -8,7 +8,6 @@ using WxAutoCommon.Utils;
 using System.Text.RegularExpressions;
 using WxAutoCommon.Interface;
 using WeChatAuto.Extentions;
-using Microsoft.Win32.SafeHandles;
 using System.Globalization;
 using WeChatAuto.Utils;
 using WeChatAuto.Models;
@@ -18,6 +17,7 @@ using System.Drawing;
 using FlaUI.Core.Tools;
 using FlaUI.Core.Input;
 using FlaUI.Core.WindowsAPI;
+using FlaUI.Core.Capturing;
 
 namespace WeChatAuto.Components
 {
@@ -475,10 +475,10 @@ namespace WeChatAuto.Components
                 _SelectMultipleMessage(_WillProcessItems);  //选择要转发多少条消息
                 _ForwardMessageCore(to);  //转发消息
                 _ProcessMaybeError();
-                // if (isCapture)
-                // {
-                //     _CaptureMultipleMessage(_WillProcessItems, to);
-                // }
+                if (isCapture)
+                {
+                    _CaptureMultipleMessage(_WillProcessItems, to);
+                }
             })
             .GetAwaiter().GetResult();
         }
@@ -502,8 +502,98 @@ namespace WeChatAuto.Components
 
         private void _CaptureMultipleMessage(List<ListBoxItem> selectItems, string to)
         {
-            throw new NotImplementedException();
+            var lastItem = selectItems.LastOrDefault();
+            List<Image> images = new List<Image>();
+            lastItem = _GetItemNewestVersion_(lastItem);
+            if (lastItem != null)
+            {
+                lastItem = _FindAndLocation_(ref lastItem);  //定位
+                var image = FlaUI.Core.Capturing.Capture.Element(_BubbleListRoot);
+                image.ApplyOverlays(new MouseOverlay(image), new InfoOverlay(image));
+                images.Add(image.Bitmap);
+            }
+            if (_BubbleListRoot.Patterns.Scroll.IsSupported)
+            {
+                var pattern = _BubbleListRoot.Patterns.Scroll.Pattern;
+                if (pattern != null && pattern.VerticallyScrollable)
+                {
+                    while (pattern.VerticalScrollPercent < 1)
+                    {
+                        pattern.SetScrollPercent(0, System.Math.Min(pattern.VerticalScrollPercent + pattern.VerticalViewSize, 1));
+                        RandomWait.Wait(100, 800);
+                        var image = FlaUI.Core.Capturing.Capture.Element(_BubbleListRoot);
+                        image.ApplyOverlays(new MouseOverlay(image), new InfoOverlay(image));
+                        images.Add(image.Bitmap);
+                    }
+                }
+            }
+            _PasteImagesToWho(to, images);
         }
+
+        private void _PasteImagesToWho(string to, List<Image> images)
+        {
+            // 将List<Image>（Bitmap）放到系统剪切板
+            if (images == null || images.Count == 0)
+            {
+                _logger.Error("没有可粘贴的图片（Bitmap）到剪切板");
+                return;
+            }
+
+            if (_PutToClipboard(images))
+            {
+                string from = "";
+                
+                
+            }
+            else
+            {
+                _logger.Error("将图片放入剪贴板失败");
+                return;
+            }
+        }
+
+        private bool _PutToClipboard(List<Image> images)
+        {
+            try
+            {
+                // 构建一个DataObject保存多张图片
+                System.Windows.Forms.DataObject dataObject = new System.Windows.Forms.DataObject();
+
+                // 创建一个包含所有Bitmap的Image数组
+                var bitmaps = images.OfType<System.Drawing.Bitmap>().ToArray();
+
+                if (bitmaps.Length == 1)
+                {
+                    // 单张图片直接设置
+                    dataObject.SetData(System.Windows.Forms.DataFormats.Bitmap, true, bitmaps[0]);
+                }
+                else
+                {
+                    // 多张图片放入FileDrop（构造虚拟文件流，部分微信支持粘贴多图）
+                    // 临时保存到磁盘，再以FileDrop放入剪贴板
+                    var tempFiles = new List<string>();
+                    foreach (var bmp in bitmaps)
+                    {
+                        // 创建临时文件
+                        string tempPath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), $"{Guid.NewGuid()}.png");
+                        bmp.Save(tempPath, System.Drawing.Imaging.ImageFormat.Png);
+                        tempFiles.Add(tempPath);
+                    }
+                    dataObject.SetData(System.Windows.Forms.DataFormats.FileDrop, tempFiles.ToArray());
+                }
+
+                // 设置到剪贴板（在UI线程内执行更安全）
+                System.Windows.Forms.Clipboard.SetDataObject(dataObject, true);
+                _logger.Info($"已将{images.Count}张图片放入剪贴板");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error($"粘贴图片到剪贴板出错: {ex}");
+                return false;
+            }
+        }
+
         //前置处理图片、视频、语音消息
         private void _PreImageVedioMessage(List<ListBoxItem> selectItems)
         {
