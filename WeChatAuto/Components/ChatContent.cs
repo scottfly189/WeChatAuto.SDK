@@ -39,6 +39,7 @@ namespace WeChatAuto.Components
                 return _ChatContentRoot;
             }
         }
+        public AutomationElement NewChatContentRoot => Retry.WhileNull(() => _Window.FindFirstByXPath(_XPath), TimeSpan.FromSeconds(1), TimeSpan.FromMilliseconds(200)).Result;
         private ChatHeader _SubWinCacheChatHeader;
         private ChatBody _SubWinCacheChatBody;
         //注意：下面代码：如果是子窗口，则会返回固定的ChatHeader和ChatBody，不会重新获取，

@@ -461,7 +461,7 @@ namespace WeChatAuto.Components
         /// 转发会做如下预处理：
         /// 1、图片，会自动测试是否能够转发，直到能转发为止;
         /// 2、视频，会自动下载，并且测试是否能够转发，直到能转发为止
-        /// 3、语单，会自行语音转文字
+        /// 3、语音，会自行语音转文字
         /// </summary>
         /// <param name="to">要转发给谁</param>
         /// <param name="isCapture">是否要转发的内容进行截图，默认是true</param>
@@ -508,7 +508,7 @@ namespace WeChatAuto.Components
             if (lastItem != null)
             {
                 lastItem = _FindAndLocation_(ref lastItem);  //定位
-                var image = FlaUI.Core.Capturing.Capture.Element(_BubbleListRoot);
+                var image = FlaUI.Core.Capturing.Capture.Element(_ChatBody.ChatContent.NewChatContentRoot);
                 image.ApplyOverlays(new MouseOverlay(image), new InfoOverlay(image));
                 images.Add(image.Bitmap);
             }
@@ -521,7 +521,7 @@ namespace WeChatAuto.Components
                     {
                         pattern.SetScrollPercent(0, System.Math.Min(pattern.VerticalScrollPercent + pattern.VerticalViewSize, 1));
                         RandomWait.Wait(100, 800);
-                        var image = FlaUI.Core.Capturing.Capture.Element(_BubbleListRoot);
+                        var image = FlaUI.Core.Capturing.Capture.Element(_ChatBody.ChatContent.NewChatContentRoot);
                         image.ApplyOverlays(new MouseOverlay(image), new InfoOverlay(image));
                         images.Add(image.Bitmap);
                     }
