@@ -225,6 +225,7 @@ public class MessageBubbleListTests
     [InlineData("AI.Net", "[语音]")] //主窗口-群聊 - 语音
     [InlineData("Alex Zhao", "[语音]")]  //主窗口-群聊 - 语音
     [InlineData("Alex Zhao", "[视频]")]  //主窗口-群聊 - 语音
+    [InlineData("Hosuke", "🏰 Google DeepMind工程负责人Paige Bailey发布短视频及图像，展现创意视觉“空中城堡”作品。 @👩‍💻 Paige Bailey  🖼️🎬\n------------------\n⚡ PufferLib在部分场景实现了对微模型核函数12倍加速，挑战PyTorch对小模型的优化瓶颈。 @Joseph Suarez 🐡  🖼️\n------------------\n📊 Perplexity Finance推出股票组件交易量统计及详细工具提示功能，提升用户交互体验。 @Aravind Srinivas  🎬\n------------------\n🤖 OpenAI正开发代号「Shallotpeat」的新模型，旨在解决预训练过程中的缺陷，可能涉及预训练流程的重大调整。 @Haider.  \n------------------\n📍 Twitter新推出的账号定位信息功能被用户指出实现不理想，显示位置混乱。 @Edward Grefenstette  🖼️\n------------------\n🚀 谷歌内部指示每六个月将AI服务能力扩大一倍，以满足Gemini模型带动的爆发式需求。 @Chubby♨️  🖼️🔗\n------------------\n🤖 Perplexity CEO确认新模型C正处于训练和评估阶段，官方将于近期公布更多信息。 @Aravind Srinivas  🖼️\n\nhttps://t.zsxq.com/XHHy8")]
     public async Task Test_Referenced_Message_main_window(string who, string message)
     {
         var framework = _globalFixture.clientFactory;
@@ -296,6 +297,7 @@ public class MessageBubbleListTests
     [InlineData("Alex Zhao", "[图片]", "测试01")]
     [InlineData("AI.Net", "[视频]", "测试01")]
     [InlineData("Alex Zhao", "[视频]", "测试01")]
+    [InlineData("Hosuke", "🏰 Google DeepMind工程负责人Paige Bailey发布短视频及图像，展现创意视觉“空中城堡”作品。 @👩‍💻 Paige Bailey  🖼️🎬\n------------------\n⚡ PufferLib在部分场景实现了对微模型核函数12倍加速，挑战PyTorch对小模型的优化瓶颈。 @Joseph Suarez 🐡  🖼️\n------------------\n📊 Perplexity Finance推出股票组件交易量统计及详细工具提示功能，提升用户交互体验。 @Aravind Srinivas  🎬\n------------------\n🤖 OpenAI正开发代号「Shallotpeat」的新模型，旨在解决预训练过程中的缺陷，可能涉及预训练流程的重大调整。 @Haider.  \n------------------\n📍 Twitter新推出的账号定位信息功能被用户指出实现不理想，显示位置混乱。 @Edward Grefenstette  🖼️\n------------------\n🚀 谷歌内部指示每六个月将AI服务能力扩大一倍，以满足Gemini模型带动的爆发式需求。 @Chubby♨️  🖼️🔗\n------------------\n🤖 Perplexity CEO确认新模型C正处于训练和评估阶段，官方将于近期公布更多信息。 @Aravind Srinivas  🖼️\n\nhttps://t.zsxq.com/XHHy8", "测试01")]
     public async Task Test_Forward_Single_Message_main_window(string who, string message, string to)
     {
         var framework = _globalFixture.clientFactory;

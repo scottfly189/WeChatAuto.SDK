@@ -852,7 +852,7 @@ namespace WeChatAuto.Components
                 _logger.Error($"找不到消息：who={chatSimpleMessage.Who},message={chatSimpleMessage.Message}，停止转发");
                 return;
             }
-            Menu menu = _GetPopupMenuShortMessageContent(listItem);
+            Menu menu = _GetPopupMenuExt(listItem);
             if (menu == null)
             {
                 _logger.Error($"找不到菜单：who={chatSimpleMessage.Who},message={chatSimpleMessage.Message}，停止转发");
