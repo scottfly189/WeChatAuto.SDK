@@ -876,19 +876,19 @@ namespace WeChatAuto.Components
                 Mouse.RightClick();
 
                 RandomWait.Wait(500, 1500);
-                var menu = Retry.WhileNull(() => _SelfWindow.FindFirstChild(cf => cf.Menu()).AsMenu(),
+                var menuResult = Retry.WhileNull(() => _SelfWindow.FindFirstChild(cf => cf.Menu()).AsMenu(),
                     TimeSpan.FromSeconds(5),
                     TimeSpan.FromMilliseconds(200));
-                if (menu.Success)
+                if (menuResult.Success)
                 {
-                    menu.Result.DrawHighlightExt();
-                    return menu.Result;
+                    menuResult.Result.DrawHighlightExt();
+                    return menuResult.Result;
                 }
                 else
                 {
                     _logger.Error($"找不到菜单");
                 }
-                return menu.Result;
+                return menuResult.Result;
             }
         }
         /// <summary>
@@ -1188,22 +1188,7 @@ namespace WeChatAuto.Components
 
         private ListBoxItem _SameMessageAndMove_(ListBoxItem selectItem, ChatSimpleMessage chatSimpleMessage)
         {
-            var subItems = selectItem.FindAllByXPath("/Pane[1]/*");
-            var button = subItems.FirstOrDefault(cf => cf.ControlType == ControlType.Button);
-            if (button == null)
-                return null;
-            var who = button.Name;
-            if (_ChatBody.ChatType == ChatType.群聊)
-            {
-                if (subItems[0].ControlType == ControlType.Button)
-                {
-                    var pane = subItems[0].GetSibling(1);
-                    if (pane != null && pane.ControlType == ControlType.Pane)
-                    {
-                        who = pane.FindFirstByXPath(@"//Text")?.Name;
-                    }
-                }
-            }
+            var who = _GetWhoFromListItem_(selectItem);
             if (selectItem.Name.Contains(chatSimpleMessage.Message) && who == chatSimpleMessage.Who)
             {
                 var baseRect = _BubbleListRoot.BoundingRectangle;
@@ -1211,39 +1196,6 @@ namespace WeChatAuto.Components
                 listItems.Reverse();
                 var foundItem = listItems.FirstOrDefault(u => u.Name == selectItem.Name && u.Properties.RuntimeId.Value.SequenceEqual(selectItem.Properties.RuntimeId.Value))?.AsListBoxItem();
                 foundItem = _FindAndLocate_(ref foundItem);
-                // _logger.Trace($"foundItem的RuntimeId：{string.Join("-", foundItem.Properties.RuntimeId.Value)}");
-                // while (foundItem != null && foundItem.BoundingRectangle.Top < baseRect.Top)
-                // {
-                //     if (_BubbleListRoot.Patterns.Scroll.IsSupported)
-                //     {
-                //         var pattern = _BubbleListRoot.Patterns.Scroll.Pattern;
-                //         if (pattern != null)
-                //         {
-                //             pattern.SetScrollPercent(0, System.Math.Max(pattern.VerticalScrollPercent - pattern.VerticalViewSize, 0));
-                //             listItems = _GetListItemList();
-                //             listItems.Reverse();
-                //             foundItem = listItems.FirstOrDefault(u => u.Name == selectItem.Name && u.Properties.RuntimeId.Value.SequenceEqual(selectItem.Properties.RuntimeId.Value))?.AsListBoxItem();
-                //             _logger.Trace($"foundItem的RuntimeId：{string.Join("-", foundItem.Properties.RuntimeId.Value)}");
-                //         }
-                //         RandomWait.Wait(100, 800);
-                //     }
-                //     else
-                //     {
-                //         _logger.Error("消息列表不可滚动，无法定位消息");
-                //         break;
-                //     }
-                // }
-                // //foundItem.BoundingRectangle.Top < baseRect.Top满足要求了，但是可能foundItem.BoundingRectangle.Bottom > baseRect.Bottom，所以需要继续往上翻页
-                // if (foundItem != null && foundItem.BoundingRectangle.Bottom > baseRect.Bottom)
-                // {
-                //     var pattern = _BubbleListRoot.Patterns.Scroll.Pattern;
-                //     if (pattern != null)
-                //     {
-                //         //往下移一半的距离
-                //         pattern.SetScrollPercent(0, System.Math.Min(pattern.VerticalScrollPercent + pattern.VerticalViewSize / 2, 1));
-                //     }
-                //     RandomWait.Wait(100, 800);
-                // }
                 foundItem?.DrawHighlightExt();
 
                 return selectItem;
