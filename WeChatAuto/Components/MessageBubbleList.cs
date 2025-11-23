@@ -474,12 +474,30 @@ namespace WeChatAuto.Components
                 _PreImageVedioMessage(_WillProcessItems);      //前置操作，如果有图片、视频、语音，则先处理
                 _SelectMultipleMessage(_WillProcessItems);  //选择要转发多少条消息
                 _ForwardMessageCore(to);  //转发消息
+                _ProcessMaybeError();
                 // if (isCapture)
                 // {
                 //     _CaptureMultipleMessage(_WillProcessItems, to);
                 // }
             })
             .GetAwaiter().GetResult();
+        }
+
+        private void _ProcessMaybeError()
+        {
+            var alertWin = Retry.WhileNull(() => _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("AlertDialog")).And(cf.ByProcessId(_SelfWindow.Properties.ProcessId))),
+                TimeSpan.FromSeconds(3),
+                TimeSpan.FromMilliseconds(200));
+            if (alertWin.Success)
+            {
+                RandomWait.Wait(100, 1500);
+                alertWin.Result.DrawHighlightExt();
+                alertWin.Result.AsWindow().Close();
+            }
+            else
+            {
+                _logger.Info($"没有找到可能的错误弹窗,正常退出");
+            }
         }
 
         private void _CaptureMultipleMessage(List<ListBoxItem> selectItems, string to)
