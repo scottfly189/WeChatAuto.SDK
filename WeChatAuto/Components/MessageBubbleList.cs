@@ -185,7 +185,7 @@ namespace WeChatAuto.Components
             _uiThreadInvoker.Run(automation =>
             {
                 //首先定位并找到此消息
-                var listItems = _GetListItemList();
+                var listItems = _GetListItems();
                 listItems.Reverse();
                 listItems = _FilterSystemMessage(listItems);
                 var item = listItems.ElementAt(lastRowIndex - 1).AsListBoxItem();
@@ -242,7 +242,7 @@ namespace WeChatAuto.Components
             }
             while (index < prevPageCount)
             {
-                var listItems = _GetListItemList();
+                var listItems = _GetListItems();
                 listItems.Reverse();
                 var items = listItems.ToList();
                 foreach (var item in items)
@@ -305,7 +305,7 @@ namespace WeChatAuto.Components
             if (seachWho == who)
             {
                 var baseRect = _BubbleListRoot.BoundingRectangle;
-                var listItems = _GetListItemList();
+                var listItems = _GetListItems();
                 listItems.Reverse();
                 var foundItem = listItems.FirstOrDefault(u => u.Name == selectItem.Name && u.Properties.RuntimeId.Value.SequenceEqual(selectItem.Properties.RuntimeId.Value))?.AsListBoxItem();
                 _logger.Trace($"foundItem的RuntimeId：{string.Join("-", foundItem.Properties.RuntimeId.Value)}");
@@ -313,40 +313,9 @@ namespace WeChatAuto.Components
                 {
                     //调整位置
                     foundItem = _FindAndLocation_(ref foundItem);
-
-                    // if (_BubbleListRoot.Patterns.Scroll.IsSupported)
-                    // {
-                    //     var pattern = _BubbleListRoot.Patterns.Scroll.Pattern;
-                    //     if (pattern != null)
-                    //     {
-                    //         pattern.SetScrollPercent(0, System.Math.Max(pattern.VerticalScrollPercent - pattern.VerticalViewSize, 0));
-                    //         listItems = _GetListItemList();
-                    //         listItems.Reverse();
-                    //         foundItem = listItems.FirstOrDefault(u => u.Name == selectItem.Name && u.Properties.RuntimeId.Value.SequenceEqual(selectItem.Properties.RuntimeId.Value))?.AsListBoxItem();
-                    //         _logger.Trace($"foundItem的RuntimeId：{string.Join("-", foundItem.Properties.RuntimeId.Value)}");
-                    //     }
-                    //     RandomWait.Wait(100, 800);
-                    // }
-                    // else
-                    // {
-                    //     _logger.Error("消息列表不可滚动，无法定位消息");
-                    //     break;
-                    // }
                 }
-                //foundItem.BoundingRectangle.Top < baseRect.Top满足要求了，但是可能foundItem.BoundingRectangle.Bottom > baseRect.Bottom，所以需要继续往上翻页
-                // if (foundItem != null && foundItem.BoundingRectangle.Bottom > baseRect.Bottom)
-                // {
-                //     var pattern = _BubbleListRoot.Patterns.Scroll.Pattern;
-                //     if (pattern != null)
-                //     {
-                //         //往下移一半的距离
-                //         pattern.SetScrollPercent(0, System.Math.Min(pattern.VerticalScrollPercent + pattern.VerticalViewSize / 2, 1));
-                //     }
-                //     RandomWait.Wait(100, 800);
-                // }
 
                 foundItem?.DrawHighlightExt();
-
                 return selectItem;
             }
             return null;
@@ -449,7 +418,7 @@ namespace WeChatAuto.Components
             _uiThreadInvoker.Run(automation =>
             {
                 //首先定位并找到此消息
-                var listItems = _GetListItemList();
+                var listItems = _GetListItems();
                 listItems.Reverse();
                 listItems = _FilterSystemMessage(listItems);
                 var item = listItems.ElementAt(lastRowIndex - 1).AsListBoxItem();
@@ -502,9 +471,9 @@ namespace WeChatAuto.Components
             _uiThreadInvoker.Run(automation =>
             {
                 List<ListBoxItem> _WillProcessItems = _GetWillForwardMessageList(rowCount);  //得到所有要转发的消息
-                _PreImageVedioMessage(_WillProcessItems);   //前置操作，如果有图片、视频、语音，则先处理
-                // _SelectMultipleMessage(_WillProcessItems);  //选择要转发多少条消息
-                // _ForwardMessageCore(to);  //转发消息
+                _PreImageVedioMessage(_WillProcessItems);      //前置操作，如果有图片、视频、语音，则先处理
+                _SelectMultipleMessage(_WillProcessItems);  //选择要转发多少条消息
+                _ForwardMessageCore(to);  //转发消息
                 // if (isCapture)
                 // {
                 //     _CaptureMultipleMessage(_WillProcessItems, to);
@@ -552,6 +521,44 @@ namespace WeChatAuto.Components
                 _logger.Error($"消息：{item.Name}，怎么调整都不在屏幕上，停止处理");
             }
         }
+        private CheckBox _FindAndLocationCheckItem_(ref CheckBox item)
+        {
+            Rectangle rect = new Rectangle(item.BoundingRectangle.X, item.BoundingRectangle.Y, item.BoundingRectangle.Width, item.BoundingRectangle.Height < 100 ? item.BoundingRectangle.Height : 100); ;
+            if (item.Name.Contains("[图片]") || item.Name.Contains("[视频]"))
+            {
+                rect = item.BoundingRectangle;
+            }
+
+            while (rect.Top < _BubbleListRoot.BoundingRectangle.Top || rect.Bottom > _BubbleListRoot.BoundingRectangle.Bottom)
+            {
+                if (_BubbleListRoot.Patterns.Scroll.IsSupported)
+                {
+                    var pattern = _BubbleListRoot.Patterns.Scroll.Pattern;
+                    if (pattern != null && pattern.VerticallyScrollable)
+                    {
+                        if (rect.Top < _BubbleListRoot.BoundingRectangle.Top)
+                        {
+                            _logger.Trace($"消息被遮挡，往上滚动");
+                            pattern.SetScrollPercent(0, System.Math.Max(pattern.VerticalScrollPercent - pattern.VerticalViewSize, 0));
+                        }
+                        if (rect.Bottom > _BubbleListRoot.BoundingRectangle.Bottom)
+                        {
+                            _logger.Trace($"消息被遮挡，往下滚动");
+                            pattern.SetScrollPercent(0, System.Math.Min(pattern.VerticalScrollPercent + pattern.VerticalViewSize / 3, 1));
+                        }
+                    }
+                }
+
+                RandomWait.Wait(100, 800);
+                item = _GetCheckBoxItemNewestVersion_(item);
+                rect = new Rectangle(item.BoundingRectangle.X, item.BoundingRectangle.Y, item.BoundingRectangle.Width, item.BoundingRectangle.Height < 100 ? item.BoundingRectangle.Height : 100); ;
+                if (item.Name.Contains("[图片]") || item.Name.Contains("[视频]"))
+                {
+                    rect = item.BoundingRectangle;
+                }
+            }
+            return item;
+        }
         //找到并定位消息,适用于长短文本消息
         private ListBoxItem _FindAndLocation_(ref ListBoxItem item)
         {
@@ -594,17 +601,40 @@ namespace WeChatAuto.Components
         //获取这条消息的最新版本
         private ListBoxItem _GetItemNewestVersion_(ListBoxItem item)
         {
-            var newListItems = _GetListItemList();
+            var newListItems = _GetListItems();
             var newItem = newListItems.FirstOrDefault(u => u.Name == item.Name && u.Properties.RuntimeId.Value.SequenceEqual(item.Properties.RuntimeId.Value))?.AsListBoxItem();
+            return newItem;
+        }
+        private CheckBox _GetCheckBoxItemNewestVersion_(CheckBox item)
+        {
+            var newListItems = _GetCheckListItems();
+            var newItem = newListItems.FirstOrDefault(u => u.Name == item.Name && u.Properties.RuntimeId.Value.SequenceEqual(item.Properties.RuntimeId.Value))?.AsCheckBox();
             return newItem;
         }
         //测试图片、视频、语音消息是否能够转发
         private void _TestImageVedioCore(ListBoxItem item)
         {
-            item.DrawHighlightExt();
-            _RightClickAutomationMessageEnhance(item, _SelfWindow, _BubbleListRoot);
-            RandomWait.Wait(100, 800);
-            _SwtichFocus(item);
+            if (item.Name.Contains("[图片]") || item.Name.Contains("[视频]") || item.Name.Contains("[语音]"))
+            {
+                RandomWait.Wait(100, 800);
+                //点击右键
+                var subItems = item.FindAllByXPath("/Pane[1]/*");
+                var pane = subItems[1];
+                if (pane != null && pane.ControlType == ControlType.Pane)
+                {
+                    var xPath = "//Button";
+                    var isReferenced = item.Name.Contains("\n引用  ");
+                    var button = pane.FindFirstByXPath(xPath)?.AsButton();
+                    if (button != null && !isReferenced)
+                    {
+                        button.GetParent().DrawHighlightExt();
+                        button.GetParent().WaitUntilClickable(TimeSpan.FromSeconds(5));
+                        button.GetParent().RightClick();
+                        _ImageVedioPreProcess(button, item);
+                        _SwtichFocus(item);
+                    }
+                }
+            }
         }
         //得到所有要转发的消息
         //这里要注意处理将系统消息排除掉
@@ -618,7 +648,7 @@ namespace WeChatAuto.Components
                     pattern.SetScrollPercent(0, 1);
                 }
             }
-            var listItems = _GetListItemList();
+            var listItems = _GetListItems();
             listItems = _FilterSystemMessage(listItems);
             listItems.Reverse();
             if (listItems.Count() > rowCount)
@@ -657,27 +687,100 @@ namespace WeChatAuto.Components
                 }
             }
             this._PopupMultipleForwardMenuCore(_SelectItems);
+            var menu = Retry.WhileNull(() => _SelfWindow.FindFirstChild(cf => cf.Menu()).AsMenu(),
+              TimeSpan.FromSeconds(3),
+              TimeSpan.FromMilliseconds(200));
+            if (menu.Success)
+            {
+                menu.Result.DrawHighlightExt();
+                var menuItem = menu.Result.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("多选")));
+                if (menuItem != null)
+                {
+                    menuItem.DrawHighlightExt();
+                    menuItem.WaitUntilClickable(TimeSpan.FromSeconds(3));
+                    menuItem.ClickEnhance(_SelfWindow);
+                    RandomWait.Wait(100, 800);
+                }
+                else
+                {
+                    _logger.Error($"找不到多选菜单项");
+                    return;
+                }
+            }
+            else
+            {
+                _logger.Error($"找不到菜单");
+            }
             foreach (ListBoxItem item in _SelectItems)
             {
-                _LocateSingleMessageAndProcess(item, _SelectThisMessageCore);
+                _LocateMessageAndSelect(item);
             }
             this._ConfirmMultipleForwardCore();
         }
+
+        private void _LocateMessageAndSelect(ListBoxItem item)
+        {
+            var checkItems = _GetCheckListItems();
+            var checkBox = checkItems.FirstOrDefault(u => u.Properties.RuntimeId.Value.SequenceEqual(item.Properties.RuntimeId.Value))?.AsCheckBox();
+            checkBox = _FindAndLocationCheckItem_(ref checkBox);
+            if (checkBox != null)
+            {
+                if (checkBox.ToggleState != ToggleState.On)
+                {
+                    checkBox.DrawHighlightExt();
+                    _ClickAutomationMessageEnhance(checkBox);
+                }
+                else
+                {
+                    _logger.Error($"消息：{item.Name}，已选择，停止选择");
+                }
+            }
+            else
+            {
+                _logger.Error($"找不到消息：{item.Name}，停止选择");
+            }
+        }
+
         //弹出多条转发菜单
         private void _PopupMultipleForwardMenuCore(List<ListBoxItem> _SelectItems)
         {
-            throw new NotImplementedException();
+            var firstItem = _SelectItems.FirstOrDefault();
+            if (firstItem != null)
+            {
+                firstItem = _FindAndLocation_(ref firstItem);
+                if (firstItem != null)
+                {
+                    _RightClickAutomationMessageEnhance(firstItem, _SelfWindow, _BubbleListRoot);
+                    RandomWait.Wait(500, 1500);
+                }
+            }
         }
         //确认多条转发
         private void _ConfirmMultipleForwardCore()
         {
-            throw new NotImplementedException();
+            var pane = _BubbleListRoot.GetParent().GetParent().GetSibling(1);
+            if (pane != null && pane.ControlType == ControlType.Pane)
+            {
+                pane.DrawHighlightExt();
+                var button = pane.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("合并转发")));
+                if (button != null)
+                {
+                    button.DrawHighlightExt();
+                    button.WaitUntilClickable(TimeSpan.FromSeconds(3));
+                    button.ClickEnhance(_SelfWindow);
+                    RandomWait.Wait(100, 800);
+                }
+                else
+                {
+                    _logger.Error($"找不到合并转发按钮");
+                }
+            }
+            else
+            {
+                _logger.Error($"找不到转发Pane");
+            }
         }
-        //选择这一条消息
-        private void _SelectThisMessageCore(ListBoxItem item)
-        {
-            throw new NotImplementedException();
-        }
+
 
         /// <summary>
         /// 自动化右键单击增强
@@ -691,12 +794,37 @@ namespace WeChatAuto.Components
             }
             else
             {
+                // var rect = new Rectangle(element.BoundingRectangle.X, element.BoundingRectangle.Y, element.BoundingRectangle.Width, element.BoundingRectangle.Height < 100 ? element.BoundingRectangle.Height : 100);
+                // var centerPoint = new Point(rect.X + rect.Width / 2, rect.Y + rect.Height / 2 + 10);
+                // window.Focus();
+                // Mouse.Position = centerPoint;
+                // RandomWait.Wait(100, 500);
+                // Mouse.RightClick();
+
                 var rect = new Rectangle(element.BoundingRectangle.X, element.BoundingRectangle.Y, element.BoundingRectangle.Width, element.BoundingRectangle.Height < 100 ? element.BoundingRectangle.Height : 100);
-                var centerPoint = new Point(rect.X + rect.Width / 2, rect.Y + rect.Height / 2 + 10);
-                window.Focus();
+                var centerPoint = new Point(rect.X + 120, rect.Y + 50);
+                _SelfWindow.Focus();
                 Mouse.Position = centerPoint;
                 RandomWait.Wait(100, 500);
                 Mouse.RightClick();
+                RandomWait.Wait(500, 1000);
+            }
+        }
+
+        public void _ClickAutomationMessageEnhance(CheckBox element)
+        {
+            if (element.BoundingRectangle.Bottom <= _BubbleListRoot.BoundingRectangle.Bottom)
+            {
+                element.ClickEnhance(_SelfWindow);
+            }
+            else
+            {
+                var rect = new Rectangle(element.BoundingRectangle.X, element.BoundingRectangle.Y, element.BoundingRectangle.Width, element.BoundingRectangle.Height < 100 ? element.BoundingRectangle.Height : 100);
+                var centerPoint = new Point(rect.X + rect.Width / 2, rect.Y + rect.Height / 2 + 10);
+                _SelfWindow.Focus();
+                Mouse.Position = centerPoint;
+                RandomWait.Wait(100, 500);
+                Mouse.LeftClick();
             }
         }
 
@@ -731,10 +859,10 @@ namespace WeChatAuto.Components
             _uiThreadInvoker.Run(automation =>
             {
                 //首先定位并找到此消息
-                var listItems = _GetListItemList();
+                var listItems = _GetListItems();
                 listItems.Reverse();
                 listItems = _FilterSystemMessage(listItems);
-                var item = listItems.ElementAt(lastRowIndex - 1).AsListBoxItem();
+                var item = listItems.ElementAtOrDefault(lastRowIndex - 1)?.AsListBoxItem();
                 if (item == null)
                 {
                     _logger.Error($"找不到消息：index={lastRowIndex}，停止转发");
@@ -888,13 +1016,7 @@ namespace WeChatAuto.Components
 
         private Menu _RightClickLongMessage_(ListBoxItem listItem)
         {
-            var rect = new Rectangle(listItem.BoundingRectangle.X, listItem.BoundingRectangle.Y, listItem.BoundingRectangle.Width, listItem.BoundingRectangle.Height < 100 ? listItem.BoundingRectangle.Height : 100);
-            var centerPoint = new Point(rect.X + 120, rect.Y + 60);
-            _SelfWindow.Focus();
-            Mouse.Position = centerPoint;
-            RandomWait.Wait(100, 500);
-            Mouse.RightClick();
-            RandomWait.Wait(500, 1500);
+            _RightClickLongMessageCore_(listItem);
 
             var menuResult = Retry.WhileNull(() => _SelfWindow.FindFirstChild(cf => cf.Menu()).AsMenu(),
                 TimeSpan.FromSeconds(5),
@@ -909,6 +1031,17 @@ namespace WeChatAuto.Components
                 _logger.Error($"找不到菜单");
             }
             return menuResult.Result;
+        }
+
+        private void _RightClickLongMessageCore_(AutomationElement listItem)
+        {
+            var rect = new Rectangle(listItem.BoundingRectangle.X, listItem.BoundingRectangle.Y, listItem.BoundingRectangle.Width, listItem.BoundingRectangle.Height < 100 ? listItem.BoundingRectangle.Height : 100);
+            var centerPoint = new Point(rect.X + 120, rect.Y + 50);
+            _SelfWindow.Focus();
+            Mouse.Position = centerPoint;
+            RandomWait.Wait(100, 500);
+            Mouse.RightClick();
+            RandomWait.Wait(500, 1500);
         }
 
         /// <summary>
@@ -1146,12 +1279,20 @@ namespace WeChatAuto.Components
                 RandomWait.Wait(100, 800);
             }
         }
-        private List<AutomationElement> _GetListItemList()
+        private List<AutomationElement> _GetListItems()
         {
             _BubbleListRoot = _SelfWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByName("消息")));
             if (_BubbleListRoot == null)
                 throw new Exception("消息列表根节点获取失败");
             return _BubbleListRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
+        }
+
+        private List<AutomationElement> _GetCheckListItems()
+        {
+            _BubbleListRoot = _SelfWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByName("消息")));
+            if (_BubbleListRoot == null)
+                throw new Exception("消息列表根节点获取失败");
+            return _BubbleListRoot.FindAllChildren(cf => cf.ByControlType(ControlType.CheckBox)).ToList();
         }
 
 
@@ -1169,7 +1310,7 @@ namespace WeChatAuto.Components
             }
             while (index < prevPageCount)
             {
-                var listItems = _GetListItemList();
+                var listItems = _GetListItems();
                 listItems.Reverse();
                 var items = listItems.Where(item => item.Name.Contains(chatSimpleMessage.Message)).ToList();
                 foreach (var item in items)
@@ -1213,7 +1354,7 @@ namespace WeChatAuto.Components
             if (selectItem.Name.Contains(chatSimpleMessage.Message) && who == chatSimpleMessage.Who)
             {
                 var baseRect = _BubbleListRoot.BoundingRectangle;
-                var listItems = _GetListItemList();
+                var listItems = _GetListItems();
                 listItems.Reverse();
                 var foundItem = listItems.FirstOrDefault(u => u.Name == selectItem.Name && u.Properties.RuntimeId.Value.SequenceEqual(selectItem.Properties.RuntimeId.Value))?.AsListBoxItem();
                 foundItem = _FindAndLocation_(ref foundItem);
