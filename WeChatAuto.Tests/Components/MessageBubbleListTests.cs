@@ -126,7 +126,7 @@ public class MessageBubbleListTests
     [InlineData("秋歌")]
     [InlineData("gggccc")]
     [InlineData("歪燕子")]
-    [InlineData("歪脖子")]
+    [InlineData("Hosuke")]
     public async Task Test_Tap_Who_Message_main_window(string who)
     {
         var framework = _globalFixture.clientFactory;
@@ -264,6 +264,26 @@ public class MessageBubbleListTests
         Assert.True(true);
         await Task.CompletedTask;
     }
+    [Theory(DisplayName = "测试转发单条消息-主窗口")]
+    [InlineData(1, "测试01")]
+    [InlineData(2, "测试01")]
+    [InlineData(3, "测试01")]
+    [InlineData(4, "测试01")]
+    [InlineData(5, "测试01")]
+    [InlineData(6, "测试01")]
+    [InlineData(7, "测试01")]
+    [InlineData(8, "测试01")]
+    [InlineData(9, "测试01")]
+    public async Task Test_Forward_Single_Message_main_window_index(int index, string to)
+    {
+        var framework = _globalFixture.clientFactory;
+        var client = framework.GetWeChatClient(_wxClientName);
+        var window = client.WxMainWindow;
+        var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
+        bubbleList.ForwardSingleMessage(lastRowIndex: index, to: to);
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
 
     [Theory(DisplayName = "测试转发单条消息-主窗口")]
     [InlineData("AI.Net", "@Alex Zhao 发些有意思的", "测试01")]
@@ -312,4 +332,44 @@ public class MessageBubbleListTests
         await Task.CompletedTask;
     }
 
+    [Theory(DisplayName = "测试转发多条消息-主窗口")]
+    [InlineData(5, "AI.Net")]
+    [InlineData(10, "测试01")]
+    [InlineData(15, "AI.Net")]
+    [InlineData(20, "AI.Net")]
+    [InlineData(25, "AI.Net")]
+    public async Task Test_Forward_Multiple_Message_main_window(int rowCount, string to)
+    {
+        var framework = _globalFixture.clientFactory;
+        var client = framework.GetWeChatClient(_wxClientName);
+        var window = client.WxMainWindow;
+        var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
+        bubbleList.ForwardMultipleMessage(to: to, rowCount: rowCount);
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
+
+    [Theory(DisplayName = "测试转发多条消息-子窗口")]
+    [InlineData(5, "测试11", "AI.Net")]
+    [InlineData(10, "测试11", "AI.Net")]
+    [InlineData(15, "测试11", "AI.Net")]
+    [InlineData(20, "测试11", "AI.Net")]
+    [InlineData(25, "测试11", "AI.Net")]
+    public async Task Test_Forward_Multiple_Message_sub_window(int rowCount, string to, string subWinName)
+    {
+        var framework = _globalFixture.clientFactory;
+        var client = framework.GetWeChatClient(_wxClientName);
+        var window = client.WxMainWindow;
+        var subWin = window.SubWinList.GetSubWin(subWinName);
+        if (subWin == null)
+        {
+            _output.WriteLine("子窗口不存在");
+            Assert.True(false);
+            return;
+        }
+        var bubbleList = subWin.ChatContent.ChatBody.BubbleListObject;
+        bubbleList.ForwardMultipleMessage(to: to, rowCount: rowCount);
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
 }

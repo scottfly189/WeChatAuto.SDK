@@ -1,9 +1,11 @@
+using System.Drawing;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
 using WeChatAuto.Extentions;
 using WeChatAuto.Services;
 using WxAutoCommon.Simulator;
+using WxAutoCommon.Utils;
 
 namespace WeChatAuto.Utils
 {
@@ -28,7 +30,11 @@ namespace WeChatAuto.Utils
                 element.Click();
             }
         }
-
+        /// <summary>
+        /// 双击增强
+        /// </summary>
+        /// <param name="element">元素</param>
+        /// <param name="window">窗口</param>
         public static void DblClickEnhance(this AutomationElement element, Window window)
         {
             if (WeAutomation.Config.EnableMouseKeyboardSimulator)
@@ -42,7 +48,6 @@ namespace WeChatAuto.Utils
                 Mouse.LeftClick();
                 Mouse.LeftClick();
             }
-        }
-
+        }   
     }
 }
