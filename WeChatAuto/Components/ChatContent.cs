@@ -165,9 +165,9 @@ namespace WeChatAuto.Components
             {
                 return new ChatHeader(string.Empty, null, _serviceProvider);
             }
-            if (Regex.IsMatch(title, @"^([^\(]+) \("))
+            if (Regex.IsMatch(title, @"^(.+) \(\d+\)$"))
             {
-                title = Regex.Match(title, @"^([^\(]+) \(").Groups[1].Value;
+                title = Regex.Match(title, @"^(.+) \(\d+\)$").Groups[1].Value;
             }
 
             title = title.Trim();

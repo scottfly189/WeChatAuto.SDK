@@ -18,6 +18,7 @@ using FlaUI.Core.Tools;
 using FlaUI.Core.Input;
 using FlaUI.Core.WindowsAPI;
 using FlaUI.Core.Capturing;
+using WeAutoCommon.Models;
 
 namespace WeChatAuto.Components
 {
@@ -468,22 +469,58 @@ namespace WeChatAuto.Components
         /// <param name="rowCount">要转发多少条消息，默认是最后的5条消息,如果当前没有十条，则转发所有消息</param>
         public void ForwardMultipleMessage(string to, bool isCapture = true, int rowCount = 5)
         {
-            _uiThreadInvoker.Run(automation =>
+            var result = _uiThreadInvoker.Run(automation =>
             {
                 List<ListBoxItem> _WillProcessItems = _GetWillForwardMessageList(rowCount);  //得到所有要转发的消息
-                _PreImageVedioMessage(_WillProcessItems);      //前置操作，如果有图片、视频、语音，则先处理
-                _SelectMultipleMessage(_WillProcessItems);  //选择要转发多少条消息
-                _ForwardMessageCore(to);  //转发消息
-                _ProcessMaybeError();
+
+                // 前置操作，如果有图片、视频、语音，则先处理
+                var r = EnsureSuccess(_PreImageVedioMessage(_WillProcessItems));
+                if (!r.Success) return r;
+
+                // 选择要转发多少条消息
+                r = EnsureSuccess(_SelectMultipleMessage(_WillProcessItems));
+                if (!r.Success) return r;
+
+                r = EnsureSuccess(_ProcessMaybeError());
+                if (!r.Success) return r;
+
+                // 转发消息
+                r = EnsureSuccess(_ForwardMessageCore(to));
+                if (!r.Success) return r;
+
+                r = EnsureSuccess(_ProcessMaybeError());
+                if (!r.Success) return r;
+
+                // 如果需要截图，则进行截图
                 if (isCapture)
                 {
-                    _CaptureMultipleMessage(_WillProcessItems, to);
+                    r = EnsureSuccess(_CaptureMultipleMessage(_WillProcessItems, to));
+                    if (!r.Success) return r;
                 }
+
+                return Result.Ok();
             })
             .GetAwaiter().GetResult();
+            if (result.Success && isCapture)
+            {
+                var from = this._ChatBody.ChatContent.ChatHeader.Title; //得到发送者
+                
+            }
+            else
+            {
+                _logger.Error($"转发失败: {result.Message}");
+            }
         }
 
-        private void _ProcessMaybeError()
+        /// <summary>
+        /// 检查结果，如果失败则返回失败，否则返回成功的结果以便继续链式调用
+        /// </summary>
+        private Result EnsureSuccess(Result result)
+        {
+            return result.Success ? Result.Ok() : Result.Fail(result.Message);
+        }
+
+        private Result _ProcessMaybeError()
         {
             var alertWin = Retry.WhileNull(() => _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("AlertDialog")).And(cf.ByProcessId(_SelfWindow.Properties.ProcessId))),
                 TimeSpan.FromSeconds(3),
@@ -493,14 +530,16 @@ namespace WeChatAuto.Components
                 RandomWait.Wait(100, 1500);
                 alertWin.Result.DrawHighlightExt();
                 alertWin.Result.AsWindow().Close();
+                return Result.Fail($"找到可能的错误弹窗，停止转发");
             }
             else
             {
                 _logger.Info($"没有找到可能的错误弹窗,正常退出");
+                return Result.Ok();
             }
         }
 
-        private void _CaptureMultipleMessage(List<ListBoxItem> selectItems, string to)
+        private Result _CaptureMultipleMessage(List<ListBoxItem> selectItems, string to)
         {
             var lastItem = selectItems.LastOrDefault();
             List<Image> images = new List<Image>();
@@ -527,28 +566,26 @@ namespace WeChatAuto.Components
                     }
                 }
             }
-            _PasteImagesToWho(to, images);
+            return _PasteImagesToWho(to, images);
         }
 
-        private void _PasteImagesToWho(string to, List<Image> images)
+        private Result _PasteImagesToWho(string to, List<Image> images)
         {
-            // 将List<Image>（Bitmap）放到系统剪切板
             if (images == null || images.Count == 0)
             {
                 _logger.Error("没有可粘贴的图片（Bitmap）到剪切板");
-                return;
+                return Result.Fail("没有可粘贴的图片（Bitmap）到剪切板");
             }
 
             if (_PutToClipboard(images))
             {
-                string from = "";
-                
-                
+                _logger.Info($"将图片放入剪贴板成功");
+                return Result.Ok();
             }
             else
             {
                 _logger.Error("将图片放入剪贴板失败");
-                return;
+                return Result.Fail("将图片放入剪贴板失败");
             }
         }
 
@@ -595,7 +632,7 @@ namespace WeChatAuto.Components
         }
 
         //前置处理图片、视频、语音消息
-        private void _PreImageVedioMessage(List<ListBoxItem> selectItems)
+        private Result _PreImageVedioMessage(List<ListBoxItem> selectItems)
         {
             if (_BubbleListRoot.Patterns.Scroll.IsSupported)
             {
@@ -609,6 +646,7 @@ namespace WeChatAuto.Components
             {
                 _LocateSingleMessageAndProcess(item, _TestImageVedioCore);
             }
+            return Result.Ok();
         }
         //定位消息并处理
         private void _LocateSingleMessageAndProcess(ListBoxItem item, Action<ListBoxItem> action)
@@ -632,7 +670,7 @@ namespace WeChatAuto.Components
         private CheckBox _FindAndLocationCheckItem_(ref CheckBox item)
         {
             Rectangle rect = new Rectangle(item.BoundingRectangle.X, item.BoundingRectangle.Y, item.BoundingRectangle.Width, item.BoundingRectangle.Height < 100 ? item.BoundingRectangle.Height : 100); ;
-            if (item.Name.Contains("[图片]") || item.Name.Contains("[视频]"))
+            if (item.Name.Contains("[图片]") || item.Name.Contains("[视频]") || item.Name.Contains("[语音]"))
             {
                 rect = item.BoundingRectangle;
             }
@@ -660,7 +698,7 @@ namespace WeChatAuto.Components
                 RandomWait.Wait(100, 800);
                 item = _GetCheckBoxItemNewestVersion_(item);
                 rect = new Rectangle(item.BoundingRectangle.X, item.BoundingRectangle.Y, item.BoundingRectangle.Width, item.BoundingRectangle.Height < 100 ? item.BoundingRectangle.Height : 100); ;
-                if (item.Name.Contains("[图片]") || item.Name.Contains("[视频]"))
+                if (item.Name.Contains("[图片]") || item.Name.Contains("[视频]") || item.Name.Contains("[语音]"))
                 {
                     rect = item.BoundingRectangle;
                 }
@@ -671,7 +709,7 @@ namespace WeChatAuto.Components
         private ListBoxItem _FindAndLocation_(ref ListBoxItem item)
         {
             Rectangle rect = new Rectangle(item.BoundingRectangle.X, item.BoundingRectangle.Y, item.BoundingRectangle.Width, item.BoundingRectangle.Height < 100 ? item.BoundingRectangle.Height : 100); ;
-            if (item.Name.Contains("[图片]") || item.Name.Contains("[视频]"))
+            if (item.Name.Contains("[图片]") || item.Name.Contains("[视频]") || item.Name.Contains("[语音]"))
             {
                 rect = item.BoundingRectangle;
             }
@@ -699,7 +737,7 @@ namespace WeChatAuto.Components
                 RandomWait.Wait(100, 800);
                 item = _GetItemNewestVersion_(item);
                 rect = new Rectangle(item.BoundingRectangle.X, item.BoundingRectangle.Y, item.BoundingRectangle.Width, item.BoundingRectangle.Height < 100 ? item.BoundingRectangle.Height : 100); ;
-                if (item.Name.Contains("[图片]") || item.Name.Contains("[视频]"))
+                if (item.Name.Contains("[图片]") || item.Name.Contains("[视频]") || item.Name.Contains("[语音]"))
                 {
                     rect = item.BoundingRectangle;
                 }
@@ -784,7 +822,7 @@ namespace WeChatAuto.Components
             return result;
         }
 
-        private void _SelectMultipleMessage(List<ListBoxItem> _SelectItems)
+        private Result _SelectMultipleMessage(List<ListBoxItem> _SelectItems)
         {
             if (_BubbleListRoot.Patterns.Scroll.IsSupported)
             {
@@ -812,18 +850,24 @@ namespace WeChatAuto.Components
                 else
                 {
                     _logger.Error($"找不到多选菜单项");
-                    return;
+                    return Result.Fail($"找不到多选菜单项");
                 }
             }
             else
             {
                 _logger.Error($"找不到菜单");
+                return Result.Fail($"找不到菜单");
             }
             foreach (ListBoxItem item in _SelectItems)
             {
                 _LocateMessageAndSelect(item);
             }
-            this._ConfirmMultipleForwardCore();
+            var result = this._ConfirmMultipleForwardCore();
+            if (!result.Success)
+            {
+                return Result.Fail(result.Message);
+            }
+            return Result.Ok();
         }
 
         private void _LocateMessageAndSelect(ListBoxItem item)
@@ -849,7 +893,7 @@ namespace WeChatAuto.Components
             }
         }
 
-        //弹出多条转发菜单
+        //弹出转发菜单
         private void _PopupMultipleForwardMenuCore(List<ListBoxItem> _SelectItems)
         {
             var firstItem = _SelectItems.FirstOrDefault();
@@ -864,7 +908,7 @@ namespace WeChatAuto.Components
             }
         }
         //确认多条转发
-        private void _ConfirmMultipleForwardCore()
+        private Result _ConfirmMultipleForwardCore()
         {
             var pane = _BubbleListRoot.GetParent().GetParent().GetSibling(1);
             if (pane != null && pane.ControlType == ControlType.Pane)
@@ -877,15 +921,18 @@ namespace WeChatAuto.Components
                     button.WaitUntilClickable(TimeSpan.FromSeconds(3));
                     button.ClickEnhance(_SelfWindow);
                     RandomWait.Wait(100, 800);
+                    return Result.Ok();
                 }
                 else
                 {
                     _logger.Error($"找不到合并转发按钮");
+                    return Result.Fail($"找不到合并转发按钮");
                 }
             }
             else
             {
                 _logger.Error($"找不到转发Pane");
+                return Result.Fail($"找不到转发Pane");
             }
         }
 
@@ -902,13 +949,6 @@ namespace WeChatAuto.Components
             }
             else
             {
-                // var rect = new Rectangle(element.BoundingRectangle.X, element.BoundingRectangle.Y, element.BoundingRectangle.Width, element.BoundingRectangle.Height < 100 ? element.BoundingRectangle.Height : 100);
-                // var centerPoint = new Point(rect.X + rect.Width / 2, rect.Y + rect.Height / 2 + 10);
-                // window.Focus();
-                // Mouse.Position = centerPoint;
-                // RandomWait.Wait(100, 500);
-                // Mouse.RightClick();
-
                 var rect = new Rectangle(element.BoundingRectangle.X, element.BoundingRectangle.Y, element.BoundingRectangle.Width, element.BoundingRectangle.Height < 100 ? element.BoundingRectangle.Height : 100);
                 var centerPoint = new Point(rect.X + 120, rect.Y + 50);
                 _SelfWindow.Focus();
@@ -1031,7 +1071,7 @@ namespace WeChatAuto.Components
             }
         }
 
-        private void _ForwardMessageCore(string to)
+        private Result _ForwardMessageCore(string to)
         {
             RandomWait.Wait(100, 800);
             var windowResult = Retry.WhileNull(() => _SelfWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("SelectContactWnd"))),
@@ -1056,10 +1096,12 @@ namespace WeChatAuto.Components
                 var sendButton = window.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("发送")));
                 sendButton.DrawHighlightExt();
                 sendButton.ClickEnhance(window.AsWindow());
+                return Result.Ok();
             }
             else
             {
                 _logger.Error($"找不到转发窗口，停止转发");
+                return Result.Fail($"找不到转发窗口，停止转发");
             }
         }
 

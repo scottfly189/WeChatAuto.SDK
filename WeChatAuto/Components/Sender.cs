@@ -20,6 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Threading;
 using System.Windows.Controls.Primitives;
 using FlaUI.Core.Patterns;
+using System.Drawing;
 
 namespace WeChatAuto.Components
 {
@@ -234,6 +235,12 @@ namespace WeChatAuto.Components
                 var button = SendButton;
                 button.ClickEnhance(_WxWindow.SelfWindow);
             }
+        }
+
+        public void PasteImageFiles(List<Image> images)
+        {
+            _Window.Focus();
+            
         }
         private void _AtUserActionCore(List<string> atUserList)
         {

@@ -33,7 +33,7 @@ namespace WeChatAuto.Components
         /// </summary>
         public void ClickChatInfoButton()
         {
-            ChatInfoButton?.Invoke();  //可能有问题，需要测试
+            ChatInfoButton?.Invoke(); 
         }
         /// <summary>
         /// 重写ToString方法

@@ -344,14 +344,15 @@ public class MessageBubbleListTests
     {
         try
         {
-        var framework = _globalFixture.clientFactory;
-        var client = framework.GetWeChatClient(_wxClientName);
-        var window = client.WxMainWindow;
-        var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
-        bubbleList.ForwardMultipleMessage(to: to, rowCount: rowCount);
-        Assert.True(true);
-        await Task.CompletedTask;
-        }catch(Exception)
+            var framework = _globalFixture.clientFactory;
+            var client = framework.GetWeChatClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
+            bubbleList.ForwardMultipleMessage(to: to, rowCount: rowCount);
+            Assert.True(true);
+            await Task.CompletedTask;
+        }
+        catch (Exception)
         {
             await Task.Delay(-1);
         }
