@@ -336,7 +336,7 @@ public class MessageBubbleListTests
 
     [Theory(DisplayName = "测试转发多条消息-主窗口")]
     [InlineData(5, "AI.Net")]
-    [InlineData(10, "测试01")]
+    [InlineData(10, "AI.Net")]
     [InlineData(15, "AI.Net")]
     [InlineData(20, "AI.Net")]
     [InlineData(25, "AI.Net")]

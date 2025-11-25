@@ -504,11 +504,9 @@ namespace WeChatAuto.Components
             if (result.Success && isCapture)
             {
                 var from = this._ChatBody.ChatContent.ChatHeader.Title; //得到发送者
-                //检查子窗口是否有to这个好友，如果没有，则打开子窗口
-                var subWin = this._ChatBody.ChatContent.MainWxWindow.PasteContentToWho(to);
-
+                this._ChatBody.ChatContent.MainWxWindow.PasteContentToWho(to).GetAwaiter().GetResult();
                 //转回from
-
+                this._ChatBody.ChatContent.MainWxWindow.FocusWho(from);
             }
             else
             {

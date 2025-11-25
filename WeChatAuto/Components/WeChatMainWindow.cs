@@ -337,10 +337,37 @@ namespace WeChatAuto.Components
                 AtUsers = atUserList,
             });
         }
-
+        /// <summary>
+        /// 聚焦到指定好友的聊天窗口
+        /// </summary>
+        /// <param name="who"></param>
+        /// <returns></returns>
         public void FocusWho(string who)
         {
+            try
+            {
+                if (_SubWindowIsOpen(who, "", subWin => subWin.SelfWindow.Focus()))
+                {
+                    return;
+                }
 
+                if (_IsInConversationFocusCore(who))
+                {
+                    return;
+                }
+
+                if (_IsSearchFocusCore(who))
+                {
+                    return;
+                }
+
+                throw new Exception($"错误：用户[{who}]不存在,请检查您的输入是否正确");
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("聚焦到指定好友的聊天窗口失败：" + ex.Message);
+                _logger.Error("聚焦到指定好友的聊天窗口失败：" + ex.Message);
+            }
         }
         /// <summary>
         /// 在指定好友的聊天窗口中粘贴图片，即执行Ctrl+V操作
@@ -625,6 +652,17 @@ namespace WeChatAuto.Components
             }
             return false;
         }
+        private bool _IsInConversationFocusCore(string who)
+        {
+            var conversations = this.Conversations.GetVisibleConversationTitles();
+            if (conversations.Contains(who))
+            {
+                this.Conversations.ClickConversation(who);
+                Wait.UntilInputIsProcessed();
+                return true;
+            }
+            return false;
+        }
         private bool _IsInConversationAndActionCore(string who, bool isOpenChat, Action action)
         {
             var conversations = this.Conversations.GetVisibleConversationTitles();
@@ -757,6 +795,21 @@ namespace WeChatAuto.Components
                 this.Conversations.DoubleClickConversation(who);
                 Wait.UntilInputIsProcessed();
                 await action();
+                return true;
+
+            }
+            this.Search.ClearText();
+            return false;
+        }
+        private bool _IsSearchFocusCore(string who)
+        {
+            this.Search.SearchChat(who);
+            RandomWait.Wait(300, 1500);
+            var conversations = this.Conversations.GetVisibleConversationTitles();
+            if (conversations.Contains(who))
+            {
+                this.Conversations.ClickConversation(who);
+                Wait.UntilInputIsProcessed();
                 return true;
 
             }

@@ -247,6 +247,9 @@ namespace WeChatAuto.Components
             textBox.Focus();
             textBox.ClickEnhance(_WxWindow.SelfWindow);
             Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_V);
+            RandomWait.Wait(300, 1500);
+            var button = GetSendButton();
+            button.ClickEnhance(_WxWindow.SelfWindow);
         }
         private void _AtUserActionCore(List<string> atUserList)
         {
