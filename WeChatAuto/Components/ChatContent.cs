@@ -26,6 +26,7 @@ namespace WeChatAuto.Components
         private UIThreadInvoker _uiMainThreadInvoker;
         private readonly IServiceProvider _serviceProvider;
         private WeChatMainWindow _MainWxWindow;    //主窗口对象
+        public WeChatMainWindow MainWxWindow => _MainWxWindow;
         private AutomationElement OwerChatContentRoot => Retry.WhileNull(() => _Window.FindFirstByXPath(_XPath), TimeSpan.FromSeconds(1), TimeSpan.FromMilliseconds(200)).Result;
         private volatile bool _disposed = false;
         public AutomationElement ChatContentRoot
@@ -52,6 +53,17 @@ namespace WeChatAuto.Components
         /// 聊天标题
         /// </summary>
         public string FullTitle => GetFullTitle();
+        public ChatContent(Window window, ChatContentType chatContentType, string xPath, IWeChatWindow wxWindow, UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow, IServiceProvider serviceProvider)
+        {
+            _logger = serviceProvider.GetRequiredService<AutoLogger<ChatContent>>();
+            _uiMainThreadInvoker = uiThreadInvoker;
+            _Window = window;
+            _ChatContentType = chatContentType;
+            _XPath = xPath;
+            _WxWindow = wxWindow;
+            _MainWxWindow = mainWxWindow;
+            _serviceProvider = serviceProvider;
+        }
         /// <summary>
         /// 获取聊天内容截图
         /// </summary>
@@ -78,17 +90,6 @@ namespace WeChatAuto.Components
         /// 聊天人数
         /// </summary>
         public int ChatMemberCount => GetChatMemberCount();
-        public ChatContent(Window window, ChatContentType chatContentType, string xPath, IWeChatWindow wxWindow, UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow, IServiceProvider serviceProvider)
-        {
-            _logger = serviceProvider.GetRequiredService<AutoLogger<ChatContent>>();
-            _uiMainThreadInvoker = uiThreadInvoker;
-            _Window = window;
-            _ChatContentType = chatContentType;
-            _XPath = xPath;
-            _WxWindow = wxWindow;
-            _MainWxWindow = mainWxWindow;
-            _serviceProvider = serviceProvider;
-        }
 
         private ChatType GetChatType()
         {

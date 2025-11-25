@@ -337,6 +337,43 @@ namespace WeChatAuto.Components
                 AtUsers = atUserList,
             });
         }
+
+        public void FocusWho(string who)
+        {
+
+        }
+        /// <summary>
+        /// 在指定好友的聊天窗口中粘贴图片，即执行Ctrl+V操作
+        /// </summary>
+        /// <param name="who"></param>
+        /// <returns></returns>
+        public async Task PasteContentToWho(string who)
+        {
+            try
+            {
+                if (_SubWindowIsOpen(who, "", subWin => subWin.ChatContent.ChatBody.Sender.PasteImageFiles()))
+                {
+                    return;
+                }
+
+                if (await _IsInConversationPasteImageFilesCore(who, () => this.PasteContentToWho(who)))
+                {
+                    return;
+                }
+
+                if (await _IsSearchPasteImageFilesCore(who, () => this.PasteContentToWho(who)))
+                {
+                    return;
+                }
+
+                throw new Exception($"错误：用户[{who}]不存在,请检查您的输入是否正确");
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("粘贴图片等失败：" + ex.Message);
+                _logger.Error("粘贴图片等操作失败：" + ex.Message);
+            }
+        }
         /// <summary>
         /// 批量发送消息
         /// 注意：此方法不会打开子聊天窗口
@@ -575,6 +612,19 @@ namespace WeChatAuto.Components
             }
             return false;
         }
+
+        private async Task<bool> _IsInConversationPasteImageFilesCore(string who, Func<Task> action)
+        {
+            var conversations = this.Conversations.GetVisibleConversationTitles();
+            if (conversations.Contains(who))
+            {
+                this.Conversations.DoubleClickConversation(who);
+                Wait.UntilInputIsProcessed();
+                await action();
+                return true;
+            }
+            return false;
+        }
         private bool _IsInConversationAndActionCore(string who, bool isOpenChat, Action action)
         {
             var conversations = this.Conversations.GetVisibleConversationTitles();
@@ -692,6 +742,23 @@ namespace WeChatAuto.Components
                     this.__SendCurrentMessageCore(message, atUserList);
                     return true;
                 }
+            }
+            this.Search.ClearText();
+            return false;
+        }
+        private async Task<bool> _IsSearchPasteImageFilesCore(string who, Func<Task> action)
+        {
+            this.Search.SearchChat(who);
+            await Task.Delay(1000);
+            var conversations = this.Conversations.GetVisibleConversationTitles();
+            if (conversations.Contains(who))
+            {
+
+                this.Conversations.DoubleClickConversation(who);
+                Wait.UntilInputIsProcessed();
+                await action();
+                return true;
+
             }
             this.Search.ClearText();
             return false;

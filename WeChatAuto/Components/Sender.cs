@@ -237,10 +237,16 @@ namespace WeChatAuto.Components
             }
         }
 
-        public void PasteImageFiles(List<Image> images)
+        /// <summary>
+        /// 粘贴图片等文件到输入框
+        /// </summary>
+        public void PasteImageFiles()
         {
             _Window.Focus();
-            
+            TextBox textBox = ContentArea;
+            textBox.Focus();
+            textBox.ClickEnhance(_WxWindow.SelfWindow);
+            Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_V);
         }
         private void _AtUserActionCore(List<string> atUserList)
         {
