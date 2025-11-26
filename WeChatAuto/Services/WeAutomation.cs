@@ -24,10 +24,10 @@ namespace WeChatAuto.Services
         /// <returns></returns>
         public static IServiceCollection AddWxAutomation(this IServiceCollection services, Action<WeChatConfig> options = default)
         {
+            SetProcessDpiAwareness();
             services.AddSingleton<WeChatClientFactory>();
             services.AddAutoLogger();
             options?.Invoke(_config);
-            SetProcessDpiAwareness();
             if (_config.EnableMouseKeyboardSimulator)
             {
                 services.AddKMSimulator(_config.KMDeiviceVID,
@@ -51,7 +51,7 @@ namespace WeChatAuto.Services
         /// 此方法必须在任何窗口创建之前调用
         /// </summary>
         /// <exception cref="Exception"></exception>
-        private static void SetProcessDpiAwareness()
+        public static void SetProcessDpiAwareness()
         {
             switch (WeAutomation.Config.ProcessDpiAwareness)
             {

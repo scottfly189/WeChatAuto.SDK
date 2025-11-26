@@ -22,7 +22,7 @@ namespace WeChatAuto.Tests.Components
         public void TestRefreshWxWindows()
         {
             var framework = _globalFixture.clientFactory;
-            framework.RefreshWxWindows();
+            framework._FetchAllWxWindows();
             _output.WriteLine($"微信客户端数量: {framework.WxClientList.Count}");
             foreach (var client in framework.WxClientList)
             {
