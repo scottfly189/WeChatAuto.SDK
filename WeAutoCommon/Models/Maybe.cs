@@ -11,18 +11,21 @@ namespace WeAutoCommon.Models
     {
         public T Value { get; set; }
         public bool HasValue { get; set; }
-
         private Maybe(T value, bool hasValue)
         {
             Value = value;
             HasValue = hasValue;
         }
-
         public static Maybe<T> Some(T value) => new Maybe<T>(value, true);
         public static Maybe<T> None() => new Maybe<T>(default, false);
+        public Maybe<U> Bind<U>(Func<T, Maybe<U>> binder)
+            => HasValue ? binder(Value) : Maybe<U>.None();
+        public Maybe<U> Map<U>(Func<T, U> mapper)
+            => HasValue ? Maybe<U>.Some(mapper(Value)) : Maybe<U>.None();
 
-        public Maybe<T> Bind(Func<T, Maybe<T>> func) => HasValue ? func(Value) : Maybe<T>.None();
-
-
+        public U Match<U>(Func<T, U> some, Func<U> none)
+            => HasValue ? some(Value) : none();
+        public T GetValueOrDefault(T defaultValue) => HasValue ? Value : defaultValue;
+        public T GetValueOrNull() => HasValue ? Value : default;
     }
 }

@@ -510,7 +510,7 @@ namespace WeChatAuto.Components
             }
             else
             {
-                _logger.Error($"转发失败: {result.Message}");
+                _logger.Error($"转发失败: {result.Error}");
             }
         }
 
@@ -519,7 +519,7 @@ namespace WeChatAuto.Components
         /// </summary>
         private Result EnsureSuccess(Result result)
         {
-            return result.Success ? Result.Ok() : Result.Fail(result.Message);
+            return result.Success ? Result.Ok() : Result.Fail(result.Error);
         }
 
         private Result _ProcessMaybeError()
@@ -867,7 +867,7 @@ namespace WeChatAuto.Components
             var result = this._ConfirmMultipleForwardCore();
             if (!result.Success)
             {
-                return Result.Fail(result.Message);
+                return Result.Fail(result.Error);
             }
             return Result.Ok();
         }

@@ -1,3 +1,5 @@
+using System;
+
 namespace WeAutoCommon.Models
 {
     /// <summary>
@@ -6,12 +8,12 @@ namespace WeAutoCommon.Models
     public class Result
     {
         public bool Success { get; set; }
-        public string Message { get; set; }
+        public string Error { get; set; }
 
-        protected Result(bool success, string message)
+        protected Result(bool success, string error)
         {
             Success = success;
-            Message = message;
+            Error = error;
         }
 
         public static Result Ok() => new Result(true, null);
@@ -24,13 +26,19 @@ namespace WeAutoCommon.Models
     public class Result<T> : Result
     {
         public T Value { get; set; }
-        private Result(bool success, string message, T data) : base(success, message)
+        private Result(bool success, string error, T data) : base(success, error)
         {
             Value = data;
         }
 
         public static Result<T> Ok(T value) => new Result<T>(true, null, value);
         public new static Result<T> Fail(string error) => new Result<T>(false, error, default);
+
+        public Result<U> Map<U>(Func<T, U> mapper)
+            => Success ? Result<U>.Ok(mapper(Value)) : Result<U>.Fail(Error);
+
+        public Result<U> Bind<U>(Func<T, Result<U>> binder)
+            => Success ? binder(Value) : Result<U>.Fail(Error);
     }
 
 }

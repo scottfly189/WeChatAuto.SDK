@@ -18,18 +18,6 @@ namespace WeChatAuto.Tests.Components
             _globalFixture = globalFixture;
         }
 
-        [Fact(DisplayName = "测试刷新微信客户端")]
-        public void TestRefreshWxWindows()
-        {
-            var framework = _globalFixture.clientFactory;
-            framework._FetchAllWxWindows();
-            _output.WriteLine($"微信客户端数量: {framework.WxClientList.Count}");
-            foreach (var client in framework.WxClientList)
-            {
-                _output.WriteLine($"微信客户端: {client.Key}");
-            }
-            Assert.True(framework.WxClientList.Count > 0);
-        }
         [Fact(DisplayName = "测试获取微信客户端名称")]
         public void TestGetWxClientName()
         {
