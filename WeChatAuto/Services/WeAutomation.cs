@@ -86,10 +86,7 @@ namespace WeChatAuto.Services
                 return _internalServiceProvider;
             }
 
-            if (_internalServices == null)
-            {
-                _internalServices = new ServiceCollection();
-            }
+            _internalServices = new ServiceCollection();
             _internalServiceProvider = AddWxAutomationCore(_internalServices, options).BuildServiceProvider();
             return _internalServiceProvider;
         }
