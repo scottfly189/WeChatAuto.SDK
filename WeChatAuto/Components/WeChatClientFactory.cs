@@ -119,10 +119,11 @@ namespace WeChatAuto.Components
             {
                 _uiTempThreadInvoker.Run(automation =>
                 {
-                    _GetTaskBarRoot(automation)
+                    var result = _GetTaskBarRoot(automation)
                     .Bind(taskBarRoot => _GetToolBar(taskBarRoot))
                     .Bind(toolBar => _GetNotifyButtons(toolBar))
-                    .Map(buttons => _ProcessNotifyButtons<AutomationElement[]>(automation, buttons));
+                    .Bind(buttons => _ProcessNotifyButtons(automation, buttons));
+                    return result;
                 }).GetAwaiter().GetResult();
             }
             catch (Exception ex)
@@ -135,7 +136,7 @@ namespace WeChatAuto.Components
                 _uiTempThreadInvoker?.Dispose();
             }
         }
-        private Result _ProcessNotifyButtons<U>(UIA3Automation automation, AutomationElement[] buttons)
+        private Maybe<bool> _ProcessNotifyButtons(UIA3Automation automation, AutomationElement[] buttons)
         {
             foreach (var wxNotifyButton in buttons)
             {
@@ -143,7 +144,7 @@ namespace WeChatAuto.Components
             }
             this._IsInit = true;
             _logger.Trace($"当前微信客户端数量: 共{_wxClientList.Count}个");
-            return Result.Ok();
+            return _IsInit.ToMaybe();
         }
         /// <summary>
         /// 初始化微信自动化整个框架

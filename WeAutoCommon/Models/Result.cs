@@ -39,6 +39,8 @@ namespace WeAutoCommon.Models
 
         public Result<U> Bind<U>(Func<T, Result<U>> binder)
             => Success ? binder(Value) : Result<U>.Fail(Error);
-    }
 
+        public U Match<U>(Func<T, U> ok, Func<string, U> fail)
+            => Success ? ok(Value) : fail(Error);
+    }
 }

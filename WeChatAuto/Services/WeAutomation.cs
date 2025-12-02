@@ -47,6 +47,14 @@ namespace WeChatAuto.Services
             return services;
         }
         /// <summary>
+        /// 获取微信客户端工厂,
+        /// </summary>
+        /// <returns></returns>
+        public static WeChatClientFactory GetWeChatClientFactory()
+        {
+            return GetServiceProvider().GetRequiredService<WeChatClientFactory>();
+        }
+        /// <summary>
         /// 设置进程DPI感知,如果使用库的应用已经设置DPI感知，此方法无效。
         /// 此方法必须在任何窗口创建之前调用
         /// </summary>

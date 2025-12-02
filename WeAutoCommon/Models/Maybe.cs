@@ -26,6 +26,5 @@ namespace WeAutoCommon.Models
         public U Match<U>(Func<T, U> some, Func<U> none)
             => HasValue ? some(Value) : none();
         public T GetValueOrDefault(T defaultValue) => HasValue ? Value : defaultValue;
-        public T GetValueOrNull() => HasValue ? Value : default;
     }
 }
