@@ -80,11 +80,11 @@ namespace WeChatAuto.Services
             {
                 throw new InvalidOperationException("不能同时使用AddWxAutomation和GetServiceProvider方法。如果已经使用AddWxAutomation初始化，请使用外部依赖注入容器。");
             }
+            _initializationMode = InitializationMode.InternalDI;
             if (_internalServiceProvider != null)
             {
                 return _internalServiceProvider;
             }
-            _initializationMode = InitializationMode.InternalDI;
 
             if (_internalServices == null)
             {
