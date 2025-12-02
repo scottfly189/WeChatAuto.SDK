@@ -1,6 +1,4 @@
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using WxAutoCommon.Configs;
 using WeChatAuto.Components;
@@ -12,7 +10,6 @@ namespace WeChatAuto.Services
 {
     public static class WeAutomation
     {
-        private static IServiceProvider _internalProvider = null;
         private static IServiceCollection _internalServices = null;
         private static WeChatConfig _config = new WeChatConfig();
         public static WeChatConfig Config => _config;
@@ -47,12 +44,17 @@ namespace WeChatAuto.Services
             return services;
         }
         /// <summary>
-        /// 获取微信客户端工厂,
+        /// 如果用户端没有依赖注入框架，则用此方法初始化
+        /// 注意：此方法与AddWxAutomation()方法不能同时使用
         /// </summary>
         /// <returns></returns>
-        public static WeChatClientFactory GetWeChatClientFactory()
+        public static IServiceProvider GetServiceProvider(Action<WeChatConfig> options = default)
         {
-            return GetServiceProvider().GetRequiredService<WeChatClientFactory>();
+            if (_internalServices == null)
+            {
+                _internalServices = new ServiceCollection();
+            }
+            return _internalServices.AddWxAutomation(options).BuildServiceProvider();
         }
         /// <summary>
         /// 设置进程DPI感知,如果使用库的应用已经设置DPI感知，此方法无效。
@@ -66,45 +68,14 @@ namespace WeChatAuto.Services
                 case 0:
                     return;
                 case 1:
-                    SetProcessDPIAware();
+                    DpiAwareness.SetProcessDPIAware();
                     break;
                 case 2:
-                    SetProcessDpiAwareness(2);
+                    DpiAwareness.SetProcessDpiAwareness(2);
                     break;
                 default:
                     throw new Exception("无效的DPI感知值");
             }
         }
-
-        /// <summary>
-        /// 如果用户端没有依赖注入框架，则用此方法初始化
-        /// 注意：此方法与AddWxAutomation()方法不能同时使用
-        /// </summary>
-        /// <returns></returns>
-        public static IServiceProvider GetServiceProvider(Action<WeChatConfig> options = default)
-        {
-            if (_internalServices == null)
-            {
-                _internalServices = new ServiceCollection();
-            }
-            if (_internalProvider == null)
-                _internalProvider = _internalServices.AddWxAutomation(options).BuildServiceProvider();
-            return _internalProvider;
-        }
-        /// <summary>
-        /// 设置进程DPI感知(旧方法)
-        /// 注意：此方法必须在任何窗口创建之前调用，如果使用库的应用已经设置DPI感知，调用此方法无效
-        /// </summary>
-        /// <returns>是否成功</returns>
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern bool SetProcessDPIAware();
-        /// <summary>
-        /// 设置进程DPI感知(新方法)
-        /// 注意：此方法必须在任何窗口创建之前调用
-        /// </summary>
-        /// <param name="value">DPI感知值</param>
-        /// <returns>是否成功</returns>
-        [DllImport("Shcore.dll")]
-        static extern int SetProcessDpiAwareness(int value);
     }
 }
