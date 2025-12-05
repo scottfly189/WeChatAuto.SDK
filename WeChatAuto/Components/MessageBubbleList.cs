@@ -564,7 +564,14 @@ namespace WeChatAuto.Components
                         RandomWait.Wait(100, 800);
                         var image = FlaUI.Core.Capturing.Capture.Element(_ChatBody.ChatContent.NewChatContentRoot);
                         image.ApplyOverlays(new MouseOverlay(image), new InfoOverlay(image));
-                        images.Add(image.Bitmap);
+                        if (images.Count < 9)
+                        {
+                            images.Add(image.Bitmap);
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                 }
             }
@@ -824,7 +831,7 @@ namespace WeChatAuto.Components
             return result;
         }
 
-        private Result _SelectMultipleMessage(List<ListBoxItem> _SelectItems)
+        private Result _SelectMultipleMessage(List<ListBoxItem> _WillProcessItems)
         {
             if (_BubbleListRoot.Patterns.Scroll.IsSupported)
             {
@@ -834,7 +841,7 @@ namespace WeChatAuto.Components
                     pattern.SetScrollPercent(0, 1);
                 }
             }
-            this._PopupMultipleForwardMenuCore(_SelectItems);
+            this._PopupMultipleForwardMenuCore(_WillProcessItems);  //弹出转发菜单
             var menu = Retry.WhileNull(() => _SelfWindow.FindFirstChild(cf => cf.Menu()).AsMenu(),
               TimeSpan.FromSeconds(3),
               TimeSpan.FromMilliseconds(200));
@@ -860,10 +867,11 @@ namespace WeChatAuto.Components
                 _logger.Error($"找不到菜单");
                 return Result.Fail($"找不到菜单");
             }
-            foreach (ListBoxItem item in _SelectItems)
+            foreach (ListBoxItem item in _WillProcessItems)
             {
                 _LocateMessageAndSelect(item);
             }
+
             var result = this._ConfirmMultipleForwardCore();
             if (!result.Success)
             {
@@ -965,12 +973,12 @@ namespace WeChatAuto.Components
         {
             if (element.BoundingRectangle.Bottom <= _BubbleListRoot.BoundingRectangle.Bottom)
             {
-                element.ClickEnhance(_SelfWindow);
+                element.Click();
             }
             else
             {
                 var rect = new Rectangle(element.BoundingRectangle.X, element.BoundingRectangle.Y, element.BoundingRectangle.Width, element.BoundingRectangle.Height < 100 ? element.BoundingRectangle.Height : 100);
-                var centerPoint = new Point(rect.X + rect.Width / 2, rect.Y + rect.Height / 2 + 10);
+                var centerPoint = new Point(rect.X + (rect.Width - 180) / 2, rect.Y + (rect.Height / 2) + 10);
                 _SelfWindow.Focus();
                 Mouse.Position = centerPoint;
                 RandomWait.Wait(100, 500);
