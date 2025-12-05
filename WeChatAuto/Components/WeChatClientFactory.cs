@@ -69,7 +69,7 @@ namespace WeChatAuto.Components
         {
             if (!_IsInit)
             {
-                _FetchAllWxWindows();
+                _FetchAllWxClients();
                 _IsInit = true;
             }
         }
@@ -103,10 +103,10 @@ namespace WeChatAuto.Components
         }
 
         /// <summary>
-        /// 重新获取微信窗口
+        /// 获取微信客户端
         /// </summary>
         /// <exception cref="Exception"></exception>
-        private void _FetchAllWxWindows()
+        private void _FetchAllWxClients()
         {
             if (_disposed)
             {
@@ -117,14 +117,11 @@ namespace WeChatAuto.Components
             UIThreadInvoker _uiTempThreadInvoker = new UIThreadInvoker("RefreshWxWindows");
             try
             {
-                _uiTempThreadInvoker.Run(automation =>
-                {
-                    var result = _GetTaskBarRoot(automation)
+                _uiTempThreadInvoker.Run(automation => _GetTaskBarRoot(automation)
                     .Bind(taskBarRoot => _GetToolBar(taskBarRoot))
                     .Bind(toolBar => _GetNotifyButtons(toolBar))
-                    .Bind(buttons => _ProcessNotifyButtons(automation, buttons));
-                    return result;
-                }).GetAwaiter().GetResult();
+                    .Bind(buttons => _ProcessNotifyButtons(automation, buttons))
+                ).GetAwaiter().GetResult();
             }
             catch (Exception ex)
             {

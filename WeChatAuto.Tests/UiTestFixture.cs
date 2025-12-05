@@ -10,7 +10,7 @@ public class UiTestFixture : IDisposable
     public WeChatClientFactory clientFactory => _Factory;
     public UiTestFixture()
     {
-        _serviceProvider = WeAutomation.GetServiceProvider(options =>
+        _serviceProvider = WeAutomation.Initialize(options =>
         {
             options.DebugMode = true;
             options.EnableMouseKeyboardSimulator = true;

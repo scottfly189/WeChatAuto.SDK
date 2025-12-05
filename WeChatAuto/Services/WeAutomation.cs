@@ -24,24 +24,35 @@ namespace WeChatAuto.Services
         }
 
         /// <summary>
-        /// 如果用户端已经有依赖注入框架，则直接使用此方法注入
+        /// 统一初始化入口 - 使用外部依赖注入框架
+        /// 当宿主应用已有依赖注入框架时使用此重载
         /// </summary>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddWxAutomation(this IServiceCollection services, Action<WeChatConfig> options = default)
+        /// <param name="services">依赖注入服务集合</param>
+        /// <param name="options">配置选项</param>
+        /// <returns>IServiceCollection，用于链式调用</returns>
+        public static IServiceCollection Initialize(IServiceCollection services, Action<WeChatConfig> options = default)
         {
             if (_initializationMode == InitializationMode.InternalDI)
             {
-                throw new InvalidOperationException("不能同时使用AddWxAutomation和GetServiceProvider方法。如果已经使用GetServiceProvider初始化，请使用GetServiceProvider返回的IServiceProvider。");
+                throw new InvalidOperationException("不能同时使用外部和内部依赖注入框架。如果已经使用无参数的Initialize方法初始化，请使用GetServiceProvider()获取IServiceProvider。");
             }
             _initializationMode = InitializationMode.ExternalDI;
             return AddWxAutomationCore(services, options);
         }
 
+        /// <summary>
+        /// 统一初始化入口 - 使用内部依赖注入框架
+        /// 当宿主应用没有依赖注入框架时使用此重载
+        /// </summary>
+        /// <param name="options">配置选项</param>
+        /// <returns>IServiceProvider，用于获取服务实例</returns>
+        public static IServiceProvider Initialize(Action<WeChatConfig> options = default) => GetServiceProvider(options);
+
+
         private static IServiceCollection AddWxAutomationCore(IServiceCollection services, Action<WeChatConfig> options)
         {
             options?.Invoke(_config);
-            SetProcessDpiAwareness();
+            DpiAwareness.SetProcessDpiAwareness();
 
             RegisterServices(services);
 
@@ -73,8 +84,9 @@ namespace WeChatAuto.Services
         /// 如果用户端没有依赖注入框架，则用此方法初始化
         /// 注意：此方法与AddWxAutomation()方法不能同时使用
         /// </summary>
-        /// <returns></returns>
-        public static IServiceProvider GetServiceProvider(Action<WeChatConfig> options = default)
+        /// <param name="options">配置选项</param>
+        /// <returns>IServiceProvider，用于获取服务实例</returns>
+        private static IServiceProvider GetServiceProvider(Action<WeChatConfig> options = default)
         {
             if (_initializationMode == InitializationMode.ExternalDI)
             {
@@ -90,26 +102,6 @@ namespace WeChatAuto.Services
             _internalServiceProvider = AddWxAutomationCore(_internalServices, options).BuildServiceProvider();
             return _internalServiceProvider;
         }
-        /// <summary>
-        /// 设置进程DPI感知,如果使用库的应用已经设置DPI感知，此方法无效。
-        /// 此方法必须在任何窗口创建之前调用
-        /// </summary>
-        /// <exception cref="Exception"></exception>
-        public static void SetProcessDpiAwareness()
-        {
-            switch (WeAutomation.Config.ProcessDpiAwareness)
-            {
-                case 0:
-                    return;
-                case 1:
-                    DpiAwareness.SetProcessDPIAware();
-                    break;
-                case 2:
-                    DpiAwareness.SetProcessDpiAwareness(2);
-                    break;
-                default:
-                    throw new Exception("无效的DPI感知值");
-            }
-        }
+
     }
 }
