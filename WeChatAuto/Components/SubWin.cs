@@ -71,7 +71,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 添加消息监听
         /// </summary>
-        /// <param name="callBack"></param>
+        /// <param name="callBack">参见:<see cref="MessageContext"/></param>
         public void AddMessageListener(Action<MessageContext> callBack)
         {
             if (_disposed)

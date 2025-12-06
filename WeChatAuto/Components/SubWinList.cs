@@ -28,7 +28,7 @@ namespace WeChatAuto.Components
     {
         private volatile bool _disposed = false;
         private ConcurrentBag<string> _MonitorSubWinNames = new ConcurrentBag<string>();     //守护子窗口名称列表
-        private Dictionary<string, SubWin> _SubWins = new Dictionary<string, SubWin>();      //所有子窗口列表,事实上手动关闭子窗口，这里并不会变化.
+        private Dictionary<string, SubWin> _SubWinsCache = new Dictionary<string, SubWin>();      //所有子窗口列表,事实上手动关闭子窗口，这里并不会变化.
         private Dictionary<string, Action<MessageContext>> _SubWinMessageListeners
             = new Dictionary<string, Action<MessageContext>>();  //所有子窗口消息监听器列表
         private CancellationTokenSource _MonitorSubWinCancellationTokenSource = new CancellationTokenSource();
@@ -42,17 +42,17 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 子窗口列表构造函数
         /// </summary>
-        /// <param name="window">主窗口FlaUI的window</param>
+        /// <param name="mainWindow">主窗口FlaUI的window</param>
         /// <param name="mainWeChatMainWindow">主窗口对象<see cref="WeChatMainWindow"/></param>
         /// <param name="uiMainThreadInvoker">主窗口UI线程执行器<see cref="UIThreadInvoker"/></param>
         /// <param name="serviceProvider">服务提供者<see cref="IServiceProvider"/></param>
-        public SubWinList(Window window, WeChatMainWindow mainWeChatMainWindow, UIThreadInvoker uiMainThreadInvoker,
+        public SubWinList(Window mainWindow, WeChatMainWindow mainWeChatMainWindow, UIThreadInvoker uiMainThreadInvoker,
           IServiceProvider serviceProvider)
         {
             _logger = serviceProvider.GetRequiredService<AutoLogger<SubWinList>>();
             _uiMainThreadInvoker = uiMainThreadInvoker;
             _MainWxWindow = mainWeChatMainWindow;
-            _MainWindow = window;
+            _MainWindow = mainWindow;
             _serviceProvider = serviceProvider;
             _InitMonitorSubWinThread();
             _MonitorSubWinTaskCompletionSource.Task.GetAwaiter().GetResult();
@@ -74,9 +74,9 @@ namespace WeChatAuto.Components
 
                         if (_MainWxWindow != null && _MainWxWindow.Client != null && !_MainWxWindow.Client.AppRunning)
                             return;
-                        var allOpenedSubWinNames = GetAllOpenedSubWinNames();   //获取所有打开的子窗口名称
                         if (!_MonitorSubWinNames.IsEmpty)
                         {
+                            var allOpenedSubWinNames = GetAllOpenedSubWinNames();   //获取所有打开的子窗口名称，事实上还是推送到主窗口的UI线程中获取，所以并没有提高效率。
                             await _MonitorSubWinCore(allOpenedSubWinNames);
                         }
                         await Task.Delay(WeAutomation.Config.MonitorSubWinInterval * 1000, _MonitorSubWinCancellationTokenSource.Token);
@@ -112,7 +112,7 @@ namespace WeChatAuto.Components
                     //取消监听子窗口,并从列表中移除
                     var subWin = this.GetSubWin(subWinName);
                     subWin.Dispose();
-                    _SubWins.Remove(subWinName);
+                    _SubWinsCache.Remove(subWinName);
                 }
                 foreach (var notExistSubWinName in willOpenSubWin)
                 {
@@ -140,17 +140,15 @@ namespace WeChatAuto.Components
                 var list = Retry.WhileNull(() => desktop.FindAllChildren(cf => cf.ByClassName("ChatWnd")
                         .And(cf.ByControlType(ControlType.Window)
                         .And(cf.ByProcessId(_MainWindow.Properties.ProcessId)))),
-                        timeout: TimeSpan.FromSeconds(10),
+                        timeout: TimeSpan.FromSeconds(5),
                         interval: TimeSpan.FromMilliseconds(200));
-
-                return list.Result.ToList().Select(subWin => subWin.Name).ToList();
+                if (list.Success && list.Result != null)
+                {
+                    return list.Result.ToList().Select(subWin => subWin.Name).ToList();
+                }
+                return new List<string>();
             }).GetAwaiter().GetResult();
-            if (subWinRetry != null)
-            {
-                Thread.Sleep(1000);
-                return subWinRetry;
-            }
-            return new List<string>();
+            return subWinRetry;
         }
         /// <summary>
         /// 判断子窗口是否打开
@@ -198,9 +196,9 @@ namespace WeChatAuto.Components
         /// <returns>子窗口对象<see cref="SubWin"/></returns>
         public SubWin GetSubWin(string name)
         {
-            if (_SubWins.ContainsKey(name))
+            if (_SubWinsCache.ContainsKey(name))
             {
-                return _SubWins[name];
+                return _SubWinsCache[name];
             }
             var subWin = _uiMainThreadInvoker.Run(automation =>
             {
@@ -215,7 +213,7 @@ namespace WeChatAuto.Components
             if (subWin.Success)
             {
                 var subWinObject = new SubWin(subWin.Result.AsWindow(), _MainWxWindow, _uiMainThreadInvoker, name, this, _serviceProvider);
-                _SubWins.Add(name, subWinObject);
+                _SubWinsCache.Add(name, subWinObject);
                 return subWinObject;
             }
             return null;
@@ -230,12 +228,12 @@ namespace WeChatAuto.Components
             foreach (var subWinName in subWinNames)
             {
                 GetSubWin(subWinName).Close();
-                foreach (var subWin in _SubWins)
-                {
-                    subWin.Value.Dispose();
-                }
-                _SubWins.Clear();
             }
+            foreach (var subWin in _SubWinsCache)
+            {
+                subWin.Value.Dispose();
+            }
+            _SubWinsCache.Clear();
         }
         /// <summary>
         /// 关闭指定子窗口
@@ -244,8 +242,8 @@ namespace WeChatAuto.Components
         public void CloseSubWin(string name)
         {
             GetSubWin(name).Close();
-            _SubWins[name].Dispose();
-            _SubWins.Remove(name);
+            _SubWinsCache[name].Dispose();
+            _SubWinsCache.Remove(name);
         }
         /// <summary>
         /// 注册守护子窗口监听
@@ -317,6 +315,11 @@ namespace WeChatAuto.Components
                 }
                 _MonitorSubWinCancellationTokenSource?.Dispose();
                 //will do: 释放所有子窗口
+                foreach (var subWin in _SubWinsCache)
+                {
+                    subWin.Value.Dispose();
+                }
+                _SubWinsCache.Clear();
             }
         }
     }

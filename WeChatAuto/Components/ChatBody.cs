@@ -41,6 +41,7 @@ namespace WeChatAuto.Components
         private volatile bool _isProcessing = false; // 标记是否正在处理消息
         private ChatType _ChatType;
         private ChatContent _ChatContent;
+        private UIThreadInvoker _PrivateThreadInvoker;    //私有线程，用于消息轮询检测
         public ChatContent ChatContent => _ChatContent;
         public ChatType ChatType => _ChatType;
         public ChatBody(Window window, AutomationElement chatBodyRoot, IWeChatWindow wxWindow, string title, ChatType chatType,
@@ -65,21 +66,20 @@ namespace WeChatAuto.Components
         /// <param name="callBack">回调函数,参数：消息上下文<see cref="MessageContext"/></param>
         public void AddListener(Action<MessageContext> callBack)
         {
-            var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
-            var bubbleListBox = _uiMainThreadInvoker.Run(automation =>
-            {
-                var listBox = _ChatBodyRoot.FindFirstByXPath(xPath);
-                return listBox;
-            }).GetAwaiter().GetResult();
-            StartMessagePolling(callBack, bubbleListBox);
+            StartMessagePolling(callBack);
         }
 
         /// <summary>
         /// 启动消息轮询检测
         /// </summary>
-        private void StartMessagePolling(Action<MessageContext> callBack, AutomationElement bubbleListRoot)
+        private void StartMessagePolling(Action<MessageContext> callBack)
         {
             // 初始化消息数量和内容哈希
+            if (_PrivateThreadInvoker == null)
+            {
+                _PrivateThreadInvoker = new UIThreadInvoker($"ChatBody_{_Title}_Owner_Invoker");
+                _logger.Info($"启动消息轮询检测，执行线程名称:{_PrivateThreadInvoker.ThreadName}");
+            }
             (int count, List<MessageBubble> bubbles) = GetCurrentMessage();
             _lastMessageCount = count;
             _lastBubbles = bubbles;
@@ -153,7 +153,7 @@ namespace WeChatAuto.Components
         {
             try
             {
-                var bubbles = BubbleListObject.GetVisibleBubbles();
+                var bubbles = BubbleListObject.GetVisibleBubblesByPolling(_PrivateThreadInvoker);
                 return (bubbles.Count, bubbles);
             }
             catch (Exception ex)
@@ -355,6 +355,8 @@ namespace WeChatAuto.Components
                 _pollingTimer = null;
                 _isProcessing = false; // 重置处理标志
                 _pollingTimerCancellationTokenSource?.Dispose();
+                _PrivateThreadInvoker?.Dispose();  //如果存在私有执行线程，则释放
+                _PrivateThreadInvoker = null;
             }
             _disposed = true;
         }

@@ -40,7 +40,7 @@ namespace WxAutoCommon.Configs
         /// <summary>
         /// 监听消息时间间隔，单位秒
         /// </summary>
-        public int ListenInterval { get; set; } = 3;
+        public int ListenInterval { get; set; } = 5;
         /// <summary>
         /// 朋友圈监听时间间隔，单位秒
         /// </summary>
