@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using WeChatAuto.Models;
 using FlaUI.Core.Capturing;
 using WxAutoCommon.Enums;
+using WeChatAuto.Extentions;
 
 
 namespace WeChatAuto.Components

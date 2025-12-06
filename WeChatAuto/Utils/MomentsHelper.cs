@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
+using WeChatAuto.Extentions;
 using WxAutoCommon.Models;
 
 namespace WeChatAuto.Utils

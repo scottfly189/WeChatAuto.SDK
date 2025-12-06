@@ -17,6 +17,7 @@ using WxAutoCommon.Enums;
 using WeChatAuto.Services;
 using Microsoft.Extensions.DependencyInjection;
 using WeChatAuto.Models;
+using WeChatAuto.Extentions;
 
 namespace WeChatAuto.Components
 {

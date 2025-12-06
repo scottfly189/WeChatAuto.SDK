@@ -7,7 +7,7 @@ using WeChatAuto.Services;
 using WxAutoCommon.Simulator;
 using WxAutoCommon.Utils;
 
-namespace WeChatAuto.Utils
+namespace WeChatAuto.Extentions
 {
     public static class ClickEnhanceExtentions
     {

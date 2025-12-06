@@ -1,7 +1,7 @@
 using FlaUI.Core.AutomationElements;
 using WeChatAuto.Services;
 
-namespace WeChatAuto.Utils
+namespace WeChatAuto.Extentions
 {
     public static class TypeNewStringExtentions
     {

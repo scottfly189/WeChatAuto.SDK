@@ -6,6 +6,7 @@ using WxAutoCommon.Utils;
 using WeChatAuto.Utils;
 using FlaUI.Core.Definitions;
 using System.Threading;
+using WeChatAuto.Extentions;
 
 namespace WeChatAuto.Components
 {

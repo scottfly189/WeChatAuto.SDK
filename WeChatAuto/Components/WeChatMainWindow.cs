@@ -1190,6 +1190,20 @@ namespace WeChatAuto.Components
             await _SubWinList.AddMessageListener(callBack, nickName);
         }
         /// <summary>
+        /// 添加消息监听，用户需要提供一个回调函数，当有消息时，会调用回调函数
+        /// 如果指定了回复者，可以根据设定的规则（如LLM大模型）转发消息给回复者，回复者进行回复后，转发回当前窗口(who)。
+        /// </summary>
+        /// <param name="nickName">好友名称</param>
+        /// <param name="replyer">回复者名称（微信昵称）</param>
+        /// <param name="callBack">回调函数,由使用者提供,参数：消息上下文<see cref="MessageContext"/></param>
+        public async Task AddMessageListener(string nickName, Action<MessageContext> callBack, string replyer=null)
+        {
+            await _SubWinList.CheckSubWinExistAndOpen(nickName);
+            await Task.Delay(500);
+            _SubWinList.RegisterMonitorSubWin(nickName);
+            await _SubWinList.AddMessageListener(callBack, nickName);
+        }
+        /// <summary>
         /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会调用回调函数
         /// 此方法需要自行处理好友是否通过，如果需要自动通过，请使用<see cref="AddNewFriendAutoPassedListener"/>
         /// </summary>
