@@ -230,9 +230,9 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.AddMessageListener("AI.Net", (newBubbles, bubblesList, sender, mainWindow, framework, serviceProvider) =>
+            await window.AddMessageListener("AI.Net", (messageContext) =>
             {
-                Trace.WriteLine($"消息: 收到新消息数量:{newBubbles.Count},当前可见消息数量:{bubblesList.Count}");
+                //Trace.WriteLine($"消息: 收到新消息数量:{newBubbles.Count},当前可见消息数量:{bubblesList.Count}");
             });
             Assert.True(true);
             await Task.Delay(6000000);
@@ -243,15 +243,15 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.AddMessageListener("歪脖子的模版交流群", (newBubbles, bubblesList, sender, mainWindow, framework, serviceProvider) =>
+            await window.AddMessageListener("歪脖子的模版交流群", (messageContext) =>
             {
-                Trace.WriteLine($"消息: 收到新消息数量:{newBubbles.Count},当前可见消息数量:{bubblesList.Count}");
-                foreach (var bubble in newBubbles)
-                {
-                    Trace.WriteLine($"消息: 新消息内容:{bubble.MessageContent}");
-                    //sender.SendMessage($"收到消息:{bubble.MessageContent}");
+                // Trace.WriteLine($"消息: 收到新消息数量:{newBubbles.Count},当前可见消息数量:{bubblesList.Count}");
+                // foreach (var bubble in newBubbles)
+                // {
+                //     Trace.WriteLine($"消息: 新消息内容:{bubble.MessageContent}");
+                //     //sender.SendMessage($"收到消息:{bubble.MessageContent}");
 
-                }
+                // }
             });
             Assert.True(true);
             await Task.Delay(6000000);

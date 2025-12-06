@@ -1179,16 +1179,10 @@ namespace WeChatAuto.Components
         #region 监听消息
         /// <summary>
         /// 添加消息监听，用户需要提供一个回调函数，当有消息时，会调用回调函数
-        /// callBack回调函数参数：
-        /// 1.新消息气泡<see cref="MessageBubble"/>
-        /// 2.包含新消息气泡的列表<see cref="List{MessageBubble}"/>，适用于给LLM大模型提供上下文
-        /// 3.发送者<see cref="Sender"/>，可以用此对象发送消息、发送文件、发送表情等
-        /// 4.当前微信窗口对象<see cref="WeChatMainWindow"/>，适用于全部操作，如给指定好友发送消息、发送文件、发送表情等
-        /// 5.服务提供者<see cref="IServiceProvider"/>，适用于使用者传入服务提供者，用于有户获取自己注入的服务
         /// </summary>
         /// <param name="nickName">好友名称</param>
-        /// <param name="callBack">回调函数,由好友提供</param>
-        public async Task AddMessageListener(string nickName, Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider> callBack)
+        /// <param name="callBack">回调函数,由使用者提供,参数：消息上下文<see cref="MessageContext"/></param>
+        public async Task AddMessageListener(string nickName, Action<MessageContext> callBack)
         {
             await _SubWinList.CheckSubWinExistAndOpen(nickName);
             await Task.Delay(500);
@@ -1219,11 +1213,11 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会自动通过此用户，并且将此用户打开到子窗口，当有新消息时，会调用回调函数
         /// </summary>
-        /// <param name="callBack">回调函数</param>
+        /// <param name="callBack">回调函数,参数：消息上下文<see cref="MessageContext"/></param>
         /// <param name="keyWord">关键字</param>
         /// <param name="suffix">后缀</param>
         /// <param name="label">标签</param>
-        public void AddNewFriendAutoPassedAndOpenSubWinListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider> callBack, string keyWord = null, string suffix = null, string label = null)
+        public void AddNewFriendAutoPassedAndOpenSubWinListener(Action<MessageContext> callBack, string keyWord = null, string suffix = null, string label = null)
         {
             _AddNewFriendListener(nickNameList =>
             {

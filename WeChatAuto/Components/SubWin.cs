@@ -18,6 +18,7 @@ using WeChatAuto.Extentions;
 using WeChatAuto.Utils;
 using WxAutoCommon.Simulator;
 using WeChatAuto.Services;
+using WeChatAuto.Models;
 
 namespace WeChatAuto.Components
 {
@@ -71,7 +72,7 @@ namespace WeChatAuto.Components
         /// 添加消息监听
         /// </summary>
         /// <param name="callBack"></param>
-        public void AddMessageListener(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider> callBack)
+        public void AddMessageListener(Action<MessageContext> callBack)
         {
             if (_disposed)
             {
