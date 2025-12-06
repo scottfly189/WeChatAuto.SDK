@@ -303,25 +303,6 @@ namespace WeChatAuto.Services
         /// <param name="element">元素</param>
         public static void LeftDblClickWithDpiAware(Window window, AutomationElement element)
         {
-            #region 版本一： 加了DPI感知，但是在进程中把dpi设置为System_DPI_Aware，导致点击不准确，但保留此版本，以备不时之需
-            // double scale = GetScaleForWindow(window.Properties.NativeWindowHandle.Value);
-            // int width = (int)(element.BoundingRectangle.Width * scale) - 2 * WeAutomation.Config.OffsetOfClick;
-            // int height = (int)(element.BoundingRectangle.Height * scale) - 2 * WeAutomation.Config.OffsetOfClick;
-            // var point = new Point();
-            // if (width <= 0 || height <= 0)
-            // {
-            //     point = window.GetDpiAwarePoint(element);
-            //     LeftClick(point);
-            //     return;
-            // }
-            // var random = new Random();
-            // var offsetX = random.Next(1, width + 1);
-            // var offsetY = random.Next(1, height + 1);
-            // point = new Point((int)(element.BoundingRectangle.Left * scale + WeAutomation.Config.OffsetOfClick + offsetX), (int)(element.BoundingRectangle.Top * scale + WeAutomation.Config.OffsetOfClick + offsetY));
-
-            // LeftDoubleClick(point);
-            #endregion
-
             int width = element.BoundingRectangle.Width - 2 * WeAutomation.Config.OffsetOfClick;
             int height = element.BoundingRectangle.Height - 2 * WeAutomation.Config.OffsetOfClick;
             var point = element.BoundingRectangle.Center();
