@@ -70,16 +70,21 @@ namespace WeChatAuto.Components
         /// </summary>
         public string BeTap { get; set; } = "";
 
+        public int[] RuntimeId { get; set; }
+
         public string BubbleHash
         {
             get
             {
-                using (var sha256 = System.Security.Cryptography.SHA256.Create())
-                {
-                    var content = $"{this.MessageType.ToString()}|{this.MessageSource.ToString()}|{this.Who}|{this.MessageContent}";
-                    var hashBytes = sha256.ComputeHash(System.Text.Encoding.UTF8.GetBytes(content));
-                    return Convert.ToBase64String(hashBytes);
-                }
+                //使用RuntimeId作为哈希值
+                return string.Join("-", this.RuntimeId);
+                // 暂时不使用哈希值，因为计算速度问题
+                // using (var sha256 = System.Security.Cryptography.SHA256.Create())
+                // {
+                //     var content = $"{this.MessageType.ToString()}|{this.MessageSource.ToString()}|{this.Who}|{this.MessageContent}";
+                //     var hashBytes = sha256.ComputeHash(System.Text.Encoding.UTF8.GetBytes(content));
+                //     return Convert.ToBase64String(hashBytes);
+                // }
             }
         }
 

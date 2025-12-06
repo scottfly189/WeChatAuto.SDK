@@ -15,12 +15,14 @@ namespace WeChatAuto.Utils
     {
         private UIThreadInvoker _uiThreadInvoker;
         private AutomationElement _BubbleListRoot;
+        private AutoLogger<MessageBubbleList> _logger;
         private string _Title;
-        public MessageBubbleParser(UIThreadInvoker uiThreadInvoker, AutomationElement bubbleListRoot, string title)
+        public MessageBubbleParser(UIThreadInvoker uiThreadInvoker, AutomationElement bubbleListRoot, string title, AutoLogger<MessageBubbleList> logger)
         {
             _uiThreadInvoker = uiThreadInvoker;
             _BubbleListRoot = bubbleListRoot;
             _Title = title;
+            _logger = logger;
         }
         /// <summary>
         /// 获取聊天类型
@@ -37,7 +39,7 @@ namespace WeChatAuto.Utils
                 return ChatType.好友;
             }
         }
-        public Object _ParseBubble(AutomationElement listItem, ref DateTime? dateTime)
+        public Object ParseBubble(AutomationElement listItem, ref DateTime? dateTime)
         {
             var listItemChildren = _uiThreadInvoker.Run(automation => listItem.FindAllChildren()).GetAwaiter().GetResult();
             if (listItemChildren.Count() == 0)
@@ -47,21 +49,23 @@ namespace WeChatAuto.Utils
 
             if (listItemChildren.Count() == 1)
             {
-
                 if (string.IsNullOrEmpty(listItemChildren[0].Name))
                 {
                     //非时间消息
+                    _logger.Debug($"非时间消息，气泡名称:{listItem.Name}");
                     return _ParseMessage(listItem, dateTime);
                 }
                 else
                 {
                     //系统消息，并且是时间消息
+                    _logger.Debug($"系统消息，并且是时间消息，气泡名称:{listItem.Name}");
                     return _ParseTimeMessage(listItemChildren[0], ref dateTime);
                 }
 
             }
 
-            throw new Exception("气泡解析失败");
+            _logger.Error($"气泡解析失败，气泡名称:{listItem.Name}");
+            return null;
         }
         #region 解释消息各类私有方法
         /// <summary>
@@ -1880,12 +1884,21 @@ namespace WeChatAuto.Utils
             {
                 var bubbleItem = new MessageBubble();
                 bubbleItem.MessageType = MessageType.拍一拍;
+                bubbleItem.RuntimeId = item.Properties.RuntimeId.Value;
                 var title = item.Name;
-                if (title.StartsWith(WeChatConstant.MESSAGES_I))
+                if (title.StartsWith("我"))
                 {
                     bubbleItem.MessageSource = MessageSourceType.自己发送消息;
                     bubbleItem.Who = "我";
-                    bubbleItem.BeTap = Regex.Match(title, @"""([^""]+)""$").Groups[1].Value;
+                    var match = Regex.Match(title, @"""([^""]+)""$");
+                    if (match.Success)
+                    {
+                        bubbleItem.BeTap = Regex.Match(title, @"""([^""]+)""$").Groups[1].Value;
+                    }
+                    else
+                    {
+                        bubbleItem.BeTap = "我";
+                    }
                 }
                 else
                 {

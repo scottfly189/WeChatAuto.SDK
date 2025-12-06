@@ -125,7 +125,7 @@ namespace WeChatAuto.Components
                 }
                 catch (Exception ex)
                 {
-                    _logger.Trace($"轮询检测异常: {ex.Message}");
+                    _logger.Error($"轮询检测异常: {ex.Message}，仅记录异常，不做处理");
                 }
                 finally
                 {

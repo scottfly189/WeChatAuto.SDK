@@ -152,19 +152,29 @@ namespace WeChatAuto.Components
             var listItemList = _uiThreadInvoker.Run(automation => _BubbleListRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).GetAwaiter().GetResult();
             List<MessageBubble> bubbles = new List<MessageBubble>();
             DateTime? dateTime = null;
-            MessageBubbleParser messageBubbleParser = new MessageBubbleParser(_uiThreadInvoker, _BubbleListRoot, _Title);
+            MessageBubbleParser messageBubbleParser = new MessageBubbleParser(_uiThreadInvoker, _BubbleListRoot, _Title, _logger);
             for (int i = 0; i < listItemList.Count; i++)
             {
-                var bubble = messageBubbleParser._ParseBubble(listItemList[i], ref dateTime);
+                var bubble = messageBubbleParser.ParseBubble(listItemList[i], ref dateTime);
                 if (bubble != null)
                 {
                     if (bubble is MessageBubble)
                     {
-                        bubbles.Add(bubble as MessageBubble);
+                        var item = bubble as MessageBubble;
+                        item.RuntimeId = listItemList[i].Properties.RuntimeId.Value;
+                        bubbles.Add(item);
                     }
                     else
                     {
-                        bubbles.AddRange(bubble as List<MessageBubble>);
+                        var list = bubble as List<MessageBubble>;
+                        foreach (var item in list)
+                        {
+                            if (item.RuntimeId == default(int[]))
+                            {
+                                item.RuntimeId = listItemList[i].Properties.RuntimeId.Value;
+                            }
+                        }
+                        bubbles.AddRange(list);
                     }
                 }
             }
@@ -172,29 +182,67 @@ namespace WeChatAuto.Components
         }
         private AutomationElement _GetPrivateBubbleListRoot(UIThreadInvoker privateThreadInvoker)
         {
-            return null;
+            var fRuntimeId = _BubbleListRoot.Properties.RuntimeId.Value;
+            var bubbleListBox = privateThreadInvoker.Run(automation =>
+            {
+                var desktop = automation.GetDesktop();
+                var windowResult = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByProcessId(_WxWindow.ProcessId)).And(cf.ByClassName("WeChatMainWndForPC"))
+                  .And(cf.ByName(_Title))), TimeSpan.FromSeconds(3), TimeSpan.FromMilliseconds(200));
+                if (windowResult.Success)
+                {
+                    var window = windowResult.Result.AsWindow();
+                    var listBoxs = Retry.WhileNull(() => window.FindAllDescendants(cf => cf.ByControlType(ControlType.List).And(cf.ByName("消息"))),
+                      TimeSpan.FromSeconds(3),
+                      TimeSpan.FromMilliseconds(200)).Result;
+                    if (listBoxs != null && listBoxs.Count() > 0)
+                    {
+                        var item = listBoxs.Where(u => u.Properties.RuntimeId.Value.SequenceEqual(fRuntimeId)).FirstOrDefault();
+                        return item;
+                    }
+                    return null;
+                }
+                return null;
+            }).GetAwaiter().GetResult();
+            return bubbleListBox;
         }
         //通过私有线程获取气泡列表
         public List<MessageBubble> GetVisibleNativeBubblesByPolling(UIThreadInvoker privateThreadInvoker)
         {
-            var listItemList = privateThreadInvoker.Run(automation => _GetPrivateBubbleListRoot(privateThreadInvoker).FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).GetAwaiter().GetResult();
+            var bubbleListRoot = _GetPrivateBubbleListRoot(privateThreadInvoker);
+            if (bubbleListRoot == null)
+            {
+                _logger.Error($"获取气泡列表根节点失败，停止获取气泡列表");
+                throw new Exception("获取气泡列表根节点失败，停止获取气泡列表");
+            }
+            var listItems = privateThreadInvoker.Run(automation => bubbleListRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).GetAwaiter().GetResult();
             List<MessageBubble> bubbles = new List<MessageBubble>();
-            // DateTime? dateTime = null;
-            // for (int i = 0; i < listItemList.Count; i++)
-            // {
-            //     var bubble = _ParseBubble(listItemList[i], ref dateTime);
-            //     if (bubble != null)
-            //     {
-            //         if (bubble is MessageBubble)
-            //         {
-            //             bubbles.Add(bubble as MessageBubble);
-            //         }
-            //         else
-            //         {
-            //             bubbles.AddRange(bubble as List<MessageBubble>);
-            //         }
-            //     }
-            // }
+            DateTime? dateTime = null;
+            MessageBubbleParser messageBubbleParser = new MessageBubbleParser(privateThreadInvoker, bubbleListRoot, _Title, _logger);
+            for (int i = 0; i < listItems.Count; i++)
+            {
+                var bubble = messageBubbleParser.ParseBubble(listItems[i], ref dateTime);
+                if (bubble != null)
+                {
+                    if (bubble is MessageBubble)
+                    {
+                        var item = bubble as MessageBubble;
+                        item.RuntimeId = listItems[i].Properties.RuntimeId.Value;
+                        bubbles.Add(item);
+                    }
+                    else
+                    {
+                        var list = bubble as List<MessageBubble>;
+                        foreach (var item in list)
+                        {
+                            if (item.RuntimeId == default(int[]))
+                            {
+                                item.RuntimeId = listItems[i].Properties.RuntimeId.Value;
+                            }
+                        }
+                        bubbles.AddRange(list);
+                    }
+                }
+            }
             return bubbles;
         }
         /// <summary>
