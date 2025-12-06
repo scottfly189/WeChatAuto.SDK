@@ -4,8 +4,17 @@ using WeChatAuto.Components;
 
 namespace WeChatAuto.Models
 {
-    public class MessageContext
+    public sealed class MessageContext
     {
+        public MessageContext(List<MessageBubble> newMessages, List<MessageBubble> allMessages, Sender sender, WeChatClient ownerClient, WeChatClientFactory systemClientFactory, IServiceProvider serviceProvider)
+        {
+            NewMessages = newMessages;
+            AllMessages = allMessages;
+            Sender = sender;
+            OwnerClient = ownerClient;
+            SystemClientFactory = systemClientFactory;
+            ServiceProvider = serviceProvider;
+        }
         /// <summary>
         /// 新消息气泡列表
         /// 参考<see cref="MessageBubble"/>

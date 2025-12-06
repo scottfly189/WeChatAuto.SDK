@@ -3,13 +3,14 @@ using WxAutoCommon.Enums;
 using Newtonsoft.Json;
 using System;
 using WeChatAuto.Models;
+using System.Linq;
 
 namespace WeChatAuto.Components
 {
     /// <summary>
     /// 聊天内容区气泡
     /// </summary>
-    public class MessageBubble
+    public class MessageBubble : IEquatable<MessageBubble>
     {
         /// <summary>
         /// 消息类型
@@ -72,6 +73,32 @@ namespace WeChatAuto.Components
 
         public int[] RuntimeId { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (obj is MessageBubble messageBubble)
+            {
+                if (messageBubble.RuntimeId == default(int[]))
+                {
+                    return false;
+                }
+                if (this.RuntimeId == default(int[]))
+                {
+                    return false;
+                }
+                return this.RuntimeId.SequenceEqual(messageBubble.RuntimeId);
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.RuntimeId.GetHashCode();
+        }
+
         public string BubbleHash
         {
             get
@@ -129,6 +156,23 @@ namespace WeChatAuto.Components
         public bool IsInvokable()
         {
             return this.ClickActionButton != null;
+        }
+
+        public bool Equals(MessageBubble other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            if (other.RuntimeId == default(int[]))
+            {
+                return false;
+            }
+            if (this.RuntimeId == default(int[]))
+            {
+                return false;
+            }
+            return this.RuntimeId.SequenceEqual(other.RuntimeId);
         }
     }
 }

@@ -45,7 +45,7 @@ namespace WeChatAuto.Components
         public ChatContent ChatContent => _ChatContent;
         public ChatType ChatType => _ChatType;
         public ChatBody(Window window, AutomationElement chatBodyRoot, IWeChatWindow wxWindow, string title, ChatType chatType,
-          UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow, IServiceProvider serviceProvider,ChatContent chatContent)
+          UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow, IServiceProvider serviceProvider, ChatContent chatContent)
         {
             _Window = window;
             _logger = serviceProvider.GetRequiredService<AutoLogger<ChatBody>>();
@@ -111,8 +111,7 @@ namespace WeChatAuto.Components
                     if (currentCount != _lastMessageCount || !_CompareBabbleHash(currentBubbles, _lastBubbles))
                     {
                         System.Threading.Thread.Sleep(300); // 等待消息完全加载
-                        //WillDo: 处理新消息
-                        //ProcessNewMessages(callBack, currentBubbles);
+                        ProcessNewMessages(callBack, currentBubbles);
                         _lastMessageCount = currentCount;
                         _lastBubbles = currentBubbles;
                         return;
@@ -165,36 +164,37 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 处理新消息
         /// </summary>
-        private void ProcessNewMessages(Action<List<MessageBubble>, List<MessageBubble>, Sender, WeChatMainWindow, WeChatClientFactory, IServiceProvider> callBack, List<MessageBubble> currentBubbles)
+        private void ProcessNewMessages(Action<MessageContext> callBack, List<MessageBubble> currentBubbles)
         {
             try
             {
                 var lastFriendMessageList = GetFirendMessageList(_lastBubbles);
                 var currentFriendMessageList = GetFirendMessageList(currentBubbles);
-                List<MessageBubble> newBubbles = new List<MessageBubble>();
-                if (lastFriendMessageList.Count <= 3)
-                {
-                    newBubbles = currentFriendMessageList.Skip(lastFriendMessageList.Count).ToList();
-                }
-                else
-                {
-                    var currentCompareList = currentFriendMessageList.Take(3).Select(item => item.MessageContent).ToList();
-                    var index = 0;
-                    for (int i = 0; i < lastFriendMessageList.Count; i++)
-                    {
-                        var tempBubbles = lastFriendMessageList.Skip(i).Take(3).Select(item => item.MessageContent).ToList();
-                        if (tempBubbles.SequenceEqual(currentCompareList))
-                        {
-                            index = i;
-                            break;
-                        }
-                    }
-                    var skip = lastFriendMessageList.Count - index;
-                    newBubbles = currentFriendMessageList.Skip(skip).ToList();
-                }
+                List<MessageBubble> newBubbles = currentFriendMessageList.Except(lastFriendMessageList).ToList();
+                // if (lastFriendMessageList.Count <= 3)
+                // {
+                //     newBubbles = currentFriendMessageList.Skip(lastFriendMessageList.Count).ToList();
+                // }
+                // else
+                // {
+                //     var currentCompareList = currentFriendMessageList.Take(3).Select(item => item.MessageContent).ToList();
+                //     var index = 0;
+                //     for (int i = 0; i < lastFriendMessageList.Count; i++)
+                //     {
+                //         var tempBubbles = lastFriendMessageList.Skip(i).Take(3).Select(item => item.MessageContent).ToList();
+                //         if (tempBubbles.SequenceEqual(currentCompareList))
+                //         {
+                //             index = i;
+                //             break;
+                //         }
+                //     }
+                //     var skip = lastFriendMessageList.Count - index;
+                //     newBubbles = currentFriendMessageList.Skip(skip).ToList();
+                // }
                 if (newBubbles.Count > 0)
                 {
-                    callBack(newBubbles, currentBubbles, Sender, _MainWxWindow, _MainWxWindow.weChatClientFactory, _serviceProvider);
+                    MessageContext messageContext = new MessageContext(newBubbles, currentBubbles, Sender, _MainWxWindow.Client, _MainWxWindow.weChatClientFactory, _serviceProvider);
+                    callBack(messageContext);
                 }
             }
             catch (Exception ex)
@@ -257,7 +257,7 @@ namespace WeChatAuto.Components
         {
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
             var bubbleListRoot = _uiMainThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).GetAwaiter().GetResult();
-            MessageBubbleList bubbleListObject = new MessageBubbleList(_Window, bubbleListRoot, _WxWindow, _Title, _uiMainThreadInvoker,this, _serviceProvider);
+            MessageBubbleList bubbleListObject = new MessageBubbleList(_Window, bubbleListRoot, _WxWindow, _Title, _uiMainThreadInvoker, this, _serviceProvider);
             return bubbleListObject;
         }
         /// <summary>
