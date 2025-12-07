@@ -173,6 +173,7 @@ namespace WeChatAuto.Components
                 List<MessageBubble> newBubbles = currentFriendMessageList.Except(lastFriendMessageList).ToList();
                 if (newBubbles.Count > 0)
                 {
+                    newBubbles = currentBubbles.Except(_lastBubbles).ToList();
                     MessageContext messageContext = new MessageContext(newBubbles, currentBubbles, Sender, _MainWxWindow.Client, _MainWxWindow.weChatClientFactory, _serviceProvider);
                     callBack(messageContext);
                 }
@@ -186,6 +187,31 @@ namespace WeChatAuto.Components
         private bool _subWinIsOpen()
         {
             var subWinIsOpen = _uiMainThreadInvoker.Run(automation =>
+            {
+                try
+                {
+                    var desktop = automation.GetDesktop();
+                    var isOpen = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("ChatWnd")
+                            .And(cf.ByControlType(ControlType.Window)
+                            .And(cf.ByProcessId(_WxWindow.ProcessId))
+                            .And(cf.ByName(_Title)))),
+                            timeout: TimeSpan.FromSeconds(5),
+                            interval: TimeSpan.FromMilliseconds(200));
+                    return isOpen.Success && isOpen.Result != null;
+                }
+                catch (Exception ex)
+                {
+                    _logger.Trace($"判断子窗口是否打开异常: {ex.Message}");
+                    return false;
+                }
+            }).GetAwaiter().GetResult();
+
+            return subWinIsOpen;
+        }
+
+        private bool _subWinIsOpenPrivatez(UIThreadInvoker privateThreadInvoker)
+        {
+            var subWinIsOpen = privateThreadInvoker.Run(automation =>
             {
                 try
                 {

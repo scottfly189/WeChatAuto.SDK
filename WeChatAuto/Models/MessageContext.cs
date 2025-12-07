@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WeChatAuto.Components;
 
 namespace WeChatAuto.Models
@@ -45,5 +46,74 @@ namespace WeChatAuto.Models
         /// 参考<see cref="IServiceProvider"/>
         /// </summary>
         public IServiceProvider ServiceProvider { get; set; }
+
+        #region 获取消息及消息列表
+        /// <summary>
+        /// 获取新消息
+        /// </summary>
+        /// <returns>新消息列表,参考<see cref="MessageBubble"/></returns>
+        public List<MessageBubble> GetNewMessages()
+        {
+            return NewMessages;
+        }
+        /// <summary>
+        /// 获取所有消息
+        /// </summary>
+        /// <returns>所有消息列表,参考<see cref="MessageBubble"/></returns>
+        public List<MessageBubble> GetAllMessages()
+        {
+            return AllMessages;
+        }
+        /// <summary>
+        /// 获取最后几条消息
+        /// </summary>
+        /// <param name="count">最后几条消息的数量</param>
+        /// <returns>最后几条消息列表,参考<see cref="MessageBubble"/></returns>
+        public List<MessageBubble> GetLastMessages(int count)
+        {
+            return AllMessages.Skip(AllMessages.Count - count).ToList();
+        }
+        /// <summary>
+        /// 获取LLM上下文消息
+        /// </summary>
+        /// <returns>LLM上下文消息列表</returns>
+        public List<string> GetLLMContextMessages()
+        {
+            return AllMessages.Select(item => $"{item.Who}: {item.MessageContent}").ToList();
+        }
+        /// <summary>
+        /// 获取最后几条LLM上下文消息
+        /// </summary>
+        /// <param name="count">最后几条消息的数量</param>
+        /// <returns>最后几条LLM上下文消息列表</returns>
+        public List<string> GetLLMContextMessages(int count)
+        {
+            return AllMessages.Skip(AllMessages.Count - count).Select(item => $"{item.Who}: {item.MessageContent}").ToList();
+        }
+        /// <summary>
+        /// 获取LLM上下文消息元组
+        /// </summary>
+        /// <returns>LLM上下文消息元组列表</returns>
+        public List<(string who, string message)> GetLLMContextMessagesTuple()
+        {
+            return AllMessages.Select(item => (item.Who, item.MessageContent)).ToList();
+        }
+
+        /// <summary>
+        /// 获取最后几条LLM上下文消息元组
+        /// </summary>
+        /// <param name="count">最后几条消息的数量</param>
+        /// <returns>最后几条LLM上下文消息元组列表</returns>
+        /// <returns></returns>
+        public List<(string who, string message)> GetLLMContextMessagesTuple(int count)
+        {
+            return AllMessages.Skip(AllMessages.Count - count).Select(item => (item.Who, item.MessageContent)).ToList();
+        }
+
+        #endregion
+        #region 内部聊天发送消息、发送文件、发送表情等
+        #endregion
+        #region 向聊天好友外的好友发送消息、发送文件、发送表情等
+        #endregion
     }
 }

@@ -130,8 +130,8 @@ namespace WeChatAuto.Components
         public List<MessageBubble> GetVisibleBubblesByPolling(UIThreadInvoker privateThreadInvoker)
         {
             var bubbles = GetVisibleNativeBubblesByPolling(privateThreadInvoker);
-            return bubbles.Where(item => item.MessageSource != MessageSourceType.系统消息 &&
-                                       item.MessageSource != MessageSourceType.其他消息).ToList();
+            return bubbles.Where(item => (item.MessageSource != MessageSourceType.系统消息) &&
+                                         (item.MessageSource != MessageSourceType.其他消息)).ToList();
         }
         /// <summary>
         /// 获取可见气泡列表,仅返回气泡标题

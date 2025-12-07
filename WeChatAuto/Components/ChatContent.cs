@@ -243,6 +243,10 @@ namespace WeChatAuto.Components
                 return _SubWinCacheChatBody;
             }
             var title = GetFullTitle();
+            if (Regex.IsMatch(title, @"^(.+) \(\d+\)$"))
+            {
+                title = Regex.Match(title, @"^(.+) \(\d+\)$").Groups[1].Value;
+            }
             var chatBodyRoot = _uiMainThreadInvoker.Run(automation => ChatContentRoot.FindFirstByXPath("/Pane[2]")).GetAwaiter().GetResult();
             DrawHightlightHelper.DrawHightlight(chatBodyRoot, _uiMainThreadInvoker);
             var chatBody = new ChatBody(_Window, chatBodyRoot, _WxWindow, title, this.ChatType, _uiMainThreadInvoker, this._MainWxWindow, _serviceProvider, this);

@@ -29,6 +29,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 群昵称
         /// 适用于群聊消息
+        /// 后期做了简化：群聊中GroupNickName=who
         /// </summary>
         public string GroupNickName { get; set; } = "";
 
@@ -96,7 +97,7 @@ namespace WeChatAuto.Components
 
         public override int GetHashCode()
         {
-            return this.RuntimeId.GetHashCode();
+            return string.Join("-", this.RuntimeId).GetHashCode();
         }
 
         public string BubbleHash

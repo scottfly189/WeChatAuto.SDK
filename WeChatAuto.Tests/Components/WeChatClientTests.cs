@@ -370,7 +370,9 @@ public class WeChatClientTests
     }
     [Theory(DisplayName = "测试添加消息监听-单个好友")]
     [InlineData("AI.Net")]
+    [InlineData("秋歌")]
     [InlineData("测试11")]
+    [InlineData("歪脖子的模版交流群")]
     public async Task TestAddMessageListener_single(string who)
     {
         var clientFactory = _globalFixture.clientFactory;
@@ -380,6 +382,11 @@ public class WeChatClientTests
             foreach (var message in messageContext.NewMessages)
             {
                 Trace.WriteLine($"收到消息：{message.Who}：{message.MessageContent}");
+            }
+            var allMessages = messageContext.AllMessages.Skip(messageContext.AllMessages.Count - 5).ToList();
+            foreach (var message in allMessages)
+            {
+                Trace.WriteLine($"    ...收到所有消息：{message.Who}：{message.MessageContent}");
             }
         });
         await Task.Delay(-1);

@@ -55,13 +55,13 @@ namespace WeChatAuto.Utils
                 if (string.IsNullOrEmpty(listItemChildren[0].Name))
                 {
                     //非时间消息
-                    _logger.Debug($"解析非时间消息：{listItem.Name}");
+                    //_logger.Debug($"解析非时间消息：{listItem.Name}");
                     return _ParseMessage(listItem, dateTime);
                 }
                 else
                 {
                     //系统消息，并且是时间消息
-                    _logger.Debug($"解析系统消息，并且是时间消息：{listItem.Name}");
+                    //_logger.Debug($"解析系统消息，并且是时间消息：{listItem.Name}");
                     return _ParseTimeMessage(listItemChildren[0], ref dateTime);
                 }
 
@@ -218,7 +218,7 @@ namespace WeChatAuto.Utils
                 bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            bubble.GroupNickName = __GetGroupNickName(children);
+            bubble.GroupNickName = __GetGroupNickName(children, bubble);
             return bubble;
         }
 
@@ -323,7 +323,7 @@ namespace WeChatAuto.Utils
             {
                 bubble.Who = children[0].AsButton().Name;
                 bubble.MessageSource = MessageSourceType.好友消息;
-                bubble.GroupNickName = __GetGroupNickName(children);
+                bubble.GroupNickName = __GetGroupNickName(children, bubble);
             }
             else
             {
@@ -619,7 +619,7 @@ namespace WeChatAuto.Utils
             var bubble = new MessageBubble();
             bubble.MessageTime = dateTime;
             bubble.MessageType = MessageType.微信转账;
-            bubble.GroupNickName = __GetGroupNickName(children);
+            bubble.GroupNickName = __GetGroupNickName(children, bubble);
             if (children.Count() != 3)
             {
                 throw new Exception("微信转账消息解析失败");
@@ -730,7 +730,7 @@ namespace WeChatAuto.Utils
             }
             bubble.ClickActionButton = button[0].AsButton();
             bubble.MessageContent = listItem.Name;
-            bubble.GroupNickName = __GetGroupNickName(children);
+            bubble.GroupNickName = __GetGroupNickName(children, bubble);
             return bubble;
         }
 
@@ -842,7 +842,7 @@ namespace WeChatAuto.Utils
                 }
             }
             bubble.MessageContent = string.IsNullOrEmpty(result) ? "笔记" : result;
-            bubble.GroupNickName = __GetGroupNickName(children);
+            bubble.GroupNickName = __GetGroupNickName(children, bubble);
             return bubble;
         }
 
@@ -944,7 +944,7 @@ namespace WeChatAuto.Utils
                 }
             }
             bubble.MessageContent = result.Trim();
-            bubble.GroupNickName = __GetGroupNickName(children);
+            bubble.GroupNickName = __GetGroupNickName(children, bubble);
             return bubble;
         }
 
@@ -1043,7 +1043,7 @@ namespace WeChatAuto.Utils
                 }
             }
             bubble.MessageContent = result.Trim();
-            bubble.GroupNickName = __GetGroupNickName(children);
+            bubble.GroupNickName = __GetGroupNickName(children, bubble);
             return bubble;
         }
         /// <summary>
@@ -1144,7 +1144,7 @@ namespace WeChatAuto.Utils
                 }
             }
             bubble.MessageContent = result.Trim();
-            bubble.GroupNickName = __GetGroupNickName(children);
+            bubble.GroupNickName = __GetGroupNickName(children, bubble);
             return bubble;
         }
 
@@ -1242,7 +1242,7 @@ namespace WeChatAuto.Utils
                 }
             }
             bubble.MessageContent = result.Trim();
-            bubble.GroupNickName = __GetGroupNickName(children);
+            bubble.GroupNickName = __GetGroupNickName(children, bubble);
             return bubble;
         }
         /// <summary>
@@ -1323,7 +1323,7 @@ namespace WeChatAuto.Utils
                 bubble.Who = "我";
                 bubble.MessageSource = MessageSourceType.自己发送消息;
             }
-            bubble.GroupNickName = __GetGroupNickName(children);
+            bubble.GroupNickName = __GetGroupNickName(children,bubble);
             var button = _uiThreadInvoker.Run(automation => children[1].FindFirstDescendant(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
             if (button == null)
             {
@@ -1334,7 +1334,7 @@ namespace WeChatAuto.Utils
             return bubble;
         }
 
-        private string __GetGroupNickName(AutomationElement[] rootPanelChildren)
+        private string __GetGroupNickName(AutomationElement[] rootPanelChildren, MessageBubble bubble)
         {
             if (rootPanelChildren.Length != 3)
             {
@@ -1342,15 +1342,16 @@ namespace WeChatAuto.Utils
             }
             if (rootPanelChildren[0].ControlType == ControlType.Button)
             {
-                //这里要判断群聊窗口是否打开昵称
                 var wxName = rootPanelChildren[0].AsButton().Name;
                 var label = _uiThreadInvoker.Run(automation => rootPanelChildren[1].FindFirstChild(cf => cf.ByControlType(ControlType.Pane)).FindFirstChild(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
                 if (label != null)
                 {
+                    bubble.Who = wxName;
                     return label.AsLabel().Name;
                 }
                 else
                 {
+                    bubble.Who = wxName;
                     return wxName;
                 }
             }
@@ -1461,7 +1462,7 @@ namespace WeChatAuto.Utils
             {
                 bubble.MessageContent = locationContent.Trim();
             }
-            bubble.GroupNickName = __GetGroupNickName(children);
+            bubble.GroupNickName = __GetGroupNickName(children, bubble);
             return bubble;
         }
 
@@ -1560,7 +1561,7 @@ namespace WeChatAuto.Utils
                 }
             }
             bubble.MessageContent = result.Trim();
-            bubble.GroupNickName = __GetGroupNickName(children);
+            bubble.GroupNickName = __GetGroupNickName(children, bubble);
             return bubble;
         }
         /// <summary>
@@ -1665,7 +1666,7 @@ namespace WeChatAuto.Utils
                 }
             }
             bubble.MessageContent = result.Trim();
-            bubble.GroupNickName = __GetGroupNickName(children);
+            bubble.GroupNickName = __GetGroupNickName(children, bubble);
 
             return bubble;
         }
@@ -1774,7 +1775,7 @@ namespace WeChatAuto.Utils
                 }
             }
             bubble.MessageContent = result.Trim();
-            bubble.GroupNickName = __GetGroupNickName(children);
+            bubble.GroupNickName = __GetGroupNickName(children, bubble);
             return bubble;
         }
 
