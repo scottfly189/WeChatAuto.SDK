@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using OneOf;
 using Xunit.Abstractions;
 
@@ -366,6 +367,22 @@ public class WeChatClientTests
             _output.WriteLine($"Who: {bubbleTitle.Who}, Message: {bubbleTitle.Message}");
         }
         await Task.CompletedTask;
+    }
+    [Theory(DisplayName = "测试添加消息监听-单个好友")]
+    [InlineData("AI.Net")]
+    [InlineData("测试11")]
+    public async Task TestAddMessageListener_single(string who)
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        await client.AddMessageListener(who, (messageContext) =>
+        {
+            foreach (var message in messageContext.NewMessages)
+            {
+                Trace.WriteLine($"收到消息：{message.Who}：{message.MessageContent}");
+            }
+        });
+        await Task.Delay(-1);
     }
     #endregion
 }

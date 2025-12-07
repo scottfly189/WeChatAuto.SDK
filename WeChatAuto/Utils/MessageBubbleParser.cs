@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
+using Microsoft.Extensions.DependencyInjection;
 using WeChatAuto.Components;
 using WxAutoCommon.Enums;
 using WxAutoCommon.Utils;
@@ -15,14 +16,16 @@ namespace WeChatAuto.Utils
     {
         private UIThreadInvoker _uiThreadInvoker;
         private AutomationElement _BubbleListRoot;
-        private AutoLogger<MessageBubbleList> _logger;
+        private AutoLogger<MessageBubbleParser> _logger;
+        private IServiceProvider _serviceProvider;
         private string _Title;
-        public MessageBubbleParser(UIThreadInvoker uiThreadInvoker, AutomationElement bubbleListRoot, string title, AutoLogger<MessageBubbleList> logger)
+        public MessageBubbleParser(UIThreadInvoker uiThreadInvoker, AutomationElement bubbleListRoot, string title, IServiceProvider serviceProvider)
         {
             _uiThreadInvoker = uiThreadInvoker;
             _BubbleListRoot = bubbleListRoot;
             _Title = title;
-            _logger = logger;
+            _serviceProvider = serviceProvider;
+            _logger = serviceProvider.GetRequiredService<AutoLogger<MessageBubbleParser>>();
         }
         /// <summary>
         /// 获取聊天类型
@@ -52,13 +55,13 @@ namespace WeChatAuto.Utils
                 if (string.IsNullOrEmpty(listItemChildren[0].Name))
                 {
                     //非时间消息
-                    _logger.Debug($"非时间消息，气泡名称:{listItem.Name}");
+                    _logger.Debug($"解析非时间消息：{listItem.Name}");
                     return _ParseMessage(listItem, dateTime);
                 }
                 else
                 {
                     //系统消息，并且是时间消息
-                    _logger.Debug($"系统消息，并且是时间消息，气泡名称:{listItem.Name}");
+                    _logger.Debug($"解析系统消息，并且是时间消息：{listItem.Name}");
                     return _ParseTimeMessage(listItemChildren[0], ref dateTime);
                 }
 

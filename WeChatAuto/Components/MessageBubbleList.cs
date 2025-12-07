@@ -152,7 +152,7 @@ namespace WeChatAuto.Components
             var listItemList = _uiThreadInvoker.Run(automation => _BubbleListRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).GetAwaiter().GetResult();
             List<MessageBubble> bubbles = new List<MessageBubble>();
             DateTime? dateTime = null;
-            MessageBubbleParser messageBubbleParser = new MessageBubbleParser(_uiThreadInvoker, _BubbleListRoot, _Title, _logger);
+            MessageBubbleParser messageBubbleParser = new MessageBubbleParser(_uiThreadInvoker, _BubbleListRoot, _Title, _serviceProvider);
             for (int i = 0; i < listItemList.Count; i++)
             {
                 var bubble = messageBubbleParser.ParseBubble(listItemList[i], ref dateTime);
@@ -186,7 +186,7 @@ namespace WeChatAuto.Components
             var bubbleListBox = privateThreadInvoker.Run(automation =>
             {
                 var desktop = automation.GetDesktop();
-                var windowResult = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByProcessId(_WxWindow.ProcessId)).And(cf.ByClassName("WeChatMainWndForPC"))
+                var windowResult = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByProcessId(_WxWindow.ProcessId)).And(cf.ByClassName("ChatWnd"))
                   .And(cf.ByName(_Title))), TimeSpan.FromSeconds(3), TimeSpan.FromMilliseconds(200));
                 if (windowResult.Success)
                 {
@@ -217,7 +217,7 @@ namespace WeChatAuto.Components
             var listItems = privateThreadInvoker.Run(automation => bubbleListRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).GetAwaiter().GetResult();
             List<MessageBubble> bubbles = new List<MessageBubble>();
             DateTime? dateTime = null;
-            MessageBubbleParser messageBubbleParser = new MessageBubbleParser(privateThreadInvoker, bubbleListRoot, _Title, _logger);
+            MessageBubbleParser messageBubbleParser = new MessageBubbleParser(privateThreadInvoker, bubbleListRoot, _Title, _serviceProvider);
             for (int i = 0; i < listItems.Count; i++)
             {
                 var bubble = messageBubbleParser.ParseBubble(listItems[i], ref dateTime);

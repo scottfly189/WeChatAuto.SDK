@@ -157,7 +157,7 @@ namespace WeChatAuto.Components
             }
             catch (Exception ex)
             {
-                _logger.Trace($"获取当前消息异常: {ex.Message}");
+                _logger.Error($"获取当前消息异常: {ex.Message}");
                 return (_lastMessageCount, _lastBubbles);
             }
         }
@@ -171,26 +171,6 @@ namespace WeChatAuto.Components
                 var lastFriendMessageList = GetFirendMessageList(_lastBubbles);
                 var currentFriendMessageList = GetFirendMessageList(currentBubbles);
                 List<MessageBubble> newBubbles = currentFriendMessageList.Except(lastFriendMessageList).ToList();
-                // if (lastFriendMessageList.Count <= 3)
-                // {
-                //     newBubbles = currentFriendMessageList.Skip(lastFriendMessageList.Count).ToList();
-                // }
-                // else
-                // {
-                //     var currentCompareList = currentFriendMessageList.Take(3).Select(item => item.MessageContent).ToList();
-                //     var index = 0;
-                //     for (int i = 0; i < lastFriendMessageList.Count; i++)
-                //     {
-                //         var tempBubbles = lastFriendMessageList.Skip(i).Take(3).Select(item => item.MessageContent).ToList();
-                //         if (tempBubbles.SequenceEqual(currentCompareList))
-                //         {
-                //             index = i;
-                //             break;
-                //         }
-                //     }
-                //     var skip = lastFriendMessageList.Count - index;
-                //     newBubbles = currentFriendMessageList.Skip(skip).ToList();
-                // }
                 if (newBubbles.Count > 0)
                 {
                     MessageContext messageContext = new MessageContext(newBubbles, currentBubbles, Sender, _MainWxWindow.Client, _MainWxWindow.weChatClientFactory, _serviceProvider);
