@@ -1346,8 +1346,9 @@ namespace WeChatAuto.Utils
                 var label = _uiThreadInvoker.Run(automation => rootPanelChildren[1].FindFirstChild(cf => cf.ByControlType(ControlType.Pane)).FindFirstChild(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
                 if (label != null)
                 {
-                    bubble.Who = wxName;
-                    return label.AsLabel().Name;
+                    var groupNickName = label.AsLabel().Name;
+                    bubble.Who = groupNickName;
+                    return groupNickName;
                 }
                 else
                 {

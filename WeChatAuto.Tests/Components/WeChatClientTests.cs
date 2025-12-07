@@ -381,6 +381,7 @@ public class WeChatClientTests
         {
             foreach (var message in messageContext.NewMessages)
             {
+                Trace.WriteLine($"收到消息：{message.ToString()}");
                 Trace.WriteLine($"收到消息：{message.Who}：{message.MessageContent}");
             }
             var allMessages = messageContext.AllMessages.Skip(messageContext.AllMessages.Count - 5).ToList();

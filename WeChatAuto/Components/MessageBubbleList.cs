@@ -186,8 +186,13 @@ namespace WeChatAuto.Components
             var bubbleListBox = privateThreadInvoker.Run(automation =>
             {
                 var desktop = automation.GetDesktop();
+                var title = _Title;
+                if (Regex.IsMatch(title, @"^(.+) \(\d+\)$"))
+                {
+                    title = Regex.Match(title, @"^(.+) \(\d+\)$").Groups[1].Value;
+                }
                 var windowResult = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByProcessId(_WxWindow.ProcessId)).And(cf.ByClassName("ChatWnd"))
-                  .And(cf.ByName(_Title))), TimeSpan.FromSeconds(3), TimeSpan.FromMilliseconds(200));
+                  .And(cf.ByName(title))), TimeSpan.FromSeconds(3), TimeSpan.FromMilliseconds(200));
                 if (windowResult.Success)
                 {
                     var window = windowResult.Result.AsWindow();

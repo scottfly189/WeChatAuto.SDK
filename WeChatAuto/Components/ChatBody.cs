@@ -18,6 +18,7 @@ using WeChatAuto.Services;
 using Microsoft.Extensions.DependencyInjection;
 using WeChatAuto.Models;
 using WeChatAuto.Extentions;
+using System.Text.RegularExpressions;
 
 namespace WeChatAuto.Components
 {
@@ -78,6 +79,7 @@ namespace WeChatAuto.Components
             if (_PrivateThreadInvoker == null)
             {
                 _PrivateThreadInvoker = new UIThreadInvoker($"ChatBody_{_Title}_Owner_Invoker");
+                RandomWait.Wait(500, 1500);
                 _logger.Info($"启动消息轮询检测，执行线程名称:{_PrivateThreadInvoker.ThreadName}");
             }
             (int count, List<MessageBubble> bubbles) = GetCurrentMessage();
@@ -102,7 +104,7 @@ namespace WeChatAuto.Components
                     }
 
                     _isProcessing = true; // 标记开始处理
-                    if (!_subWinIsOpen())
+                    if (!_subWinIsOpenPrivate(_PrivateThreadInvoker))
                     {
                         _logger.Trace("子窗口未打开，跳过本次检测");
                         return;
@@ -191,10 +193,15 @@ namespace WeChatAuto.Components
                 try
                 {
                     var desktop = automation.GetDesktop();
+                    var title = _Title;
+                    if (Regex.IsMatch(title, @"^(.+) \(\d+\)$"))
+                    {
+                        title = Regex.Match(title, @"^(.+) \(\d+\)$").Groups[1].Value;
+                    }
                     var isOpen = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("ChatWnd")
                             .And(cf.ByControlType(ControlType.Window)
                             .And(cf.ByProcessId(_WxWindow.ProcessId))
-                            .And(cf.ByName(_Title)))),
+                            .And(cf.ByName(title)))),
                             timeout: TimeSpan.FromSeconds(5),
                             interval: TimeSpan.FromMilliseconds(200));
                     return isOpen.Success && isOpen.Result != null;
@@ -209,17 +216,22 @@ namespace WeChatAuto.Components
             return subWinIsOpen;
         }
 
-        private bool _subWinIsOpenPrivatez(UIThreadInvoker privateThreadInvoker)
+        private bool _subWinIsOpenPrivate(UIThreadInvoker privateThreadInvoker)
         {
             var subWinIsOpen = privateThreadInvoker.Run(automation =>
             {
                 try
                 {
                     var desktop = automation.GetDesktop();
+                    var title = _Title;
+                    if (Regex.IsMatch(title, @"^(.+) \(\d+\)$"))
+                    {
+                        title = Regex.Match(title, @"^(.+) \(\d+\)$").Groups[1].Value;
+                    }
                     var isOpen = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("ChatWnd")
                             .And(cf.ByControlType(ControlType.Window)
                             .And(cf.ByProcessId(_WxWindow.ProcessId))
-                            .And(cf.ByName(_Title)))),
+                            .And(cf.ByName(title)))),
                             timeout: TimeSpan.FromSeconds(5),
                             interval: TimeSpan.FromMilliseconds(200));
                     return isOpen.Success && isOpen.Result != null;

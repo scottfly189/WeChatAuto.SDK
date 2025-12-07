@@ -14,10 +14,12 @@ namespace WeChatAuto.Components
     {
         /// <summary>
         /// 消息类型
+        /// 参见: <see cref="MessageType"/>
         /// </summary>
         public MessageType MessageType { get; set; }
         /// <summary>
         /// 消息来源类型
+        /// 参见: <see cref="MessageSourceType"/>
         /// </summary>
         public MessageSourceType MessageSource { get; set; }
 
@@ -106,16 +108,8 @@ namespace WeChatAuto.Components
             {
                 //使用RuntimeId作为哈希值
                 return string.Join("-", this.RuntimeId);
-                // 暂时不使用哈希值，因为计算速度问题
-                // using (var sha256 = System.Security.Cryptography.SHA256.Create())
-                // {
-                //     var content = $"{this.MessageType.ToString()}|{this.MessageSource.ToString()}|{this.Who}|{this.MessageContent}";
-                //     var hashBytes = sha256.ComputeHash(System.Text.Encoding.UTF8.GetBytes(content));
-                //     return Convert.ToBase64String(hashBytes);
-                // }
             }
         }
-
         public override string ToString()
         {
             var serializableObject = new
@@ -131,6 +125,7 @@ namespace WeChatAuto.Components
                 this.BeReferencedMessage,
                 MessageTime = this.MessageTime.HasValue ? this.MessageTime.Value.ToString() : "",
                 BubbleHash = this.BubbleHash,
+                RuntimeId = string.Join("-", this.RuntimeId)
             };
             return JsonConvert.SerializeObject(serializableObject, Formatting.Indented);
         }
