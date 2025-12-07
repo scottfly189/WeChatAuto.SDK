@@ -31,7 +31,7 @@ namespace WeChatAuto.Components
         private IServiceProvider _serviceProvider;
         private IWeChatWindow _WxWindow;
         private AutoLogger<MessageBubbleList> _logger;
-        private string _Title;
+        private string _FullTitle;
         private AutomationElement _BubbleListRoot;
         private UIThreadInvoker _uiThreadInvoker;
         public List<MessageBubble> Bubbles => GetVisibleBubbles();
@@ -45,7 +45,7 @@ namespace WeChatAuto.Components
             _SelfWindow = selfWindow;
             _BubbleListRoot = bubbleListRoot;
             _WxWindow = wxWindow;
-            _Title = title;
+            _FullTitle = title;
             _uiThreadInvoker = uiThreadInvoker;
             _ChatBody = chatBody;
         }
@@ -56,7 +56,7 @@ namespace WeChatAuto.Components
         /// <returns>聊天类型<see cref="ChatType"/></returns>
         public ChatType GetChatType()
         {
-            if (Regex.IsMatch(_Title, @"\s\([\d]+\)$"))
+            if (Regex.IsMatch(_FullTitle, @"\s\([\d]+\)$"))
             {
                 return ChatType.群聊;
             }
@@ -152,7 +152,7 @@ namespace WeChatAuto.Components
             var listItemList = _uiThreadInvoker.Run(automation => _BubbleListRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).GetAwaiter().GetResult();
             List<MessageBubble> bubbles = new List<MessageBubble>();
             DateTime? dateTime = null;
-            MessageBubbleParser messageBubbleParser = new MessageBubbleParser(_uiThreadInvoker, _BubbleListRoot, _Title, _serviceProvider);
+            MessageBubbleParser messageBubbleParser = new MessageBubbleParser(_uiThreadInvoker, _BubbleListRoot, _FullTitle, _serviceProvider);
             for (int i = 0; i < listItemList.Count; i++)
             {
                 var bubble = messageBubbleParser.ParseBubble(listItemList[i], ref dateTime);
@@ -186,7 +186,7 @@ namespace WeChatAuto.Components
             var bubbleListBox = privateThreadInvoker.Run(automation =>
             {
                 var desktop = automation.GetDesktop();
-                var title = _Title;
+                var title = _FullTitle;
                 if (Regex.IsMatch(title, @"^(.+) \(\d+\)$"))
                 {
                     title = Regex.Match(title, @"^(.+) \(\d+\)$").Groups[1].Value;
@@ -222,7 +222,7 @@ namespace WeChatAuto.Components
             var listItems = privateThreadInvoker.Run(automation => bubbleListRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()).GetAwaiter().GetResult();
             List<MessageBubble> bubbles = new List<MessageBubble>();
             DateTime? dateTime = null;
-            MessageBubbleParser messageBubbleParser = new MessageBubbleParser(privateThreadInvoker, bubbleListRoot, _Title, _serviceProvider);
+            MessageBubbleParser messageBubbleParser = new MessageBubbleParser(privateThreadInvoker, bubbleListRoot, _FullTitle, _serviceProvider);
             for (int i = 0; i < listItems.Count; i++)
             {
                 var bubble = messageBubbleParser.ParseBubble(listItems[i], ref dateTime);

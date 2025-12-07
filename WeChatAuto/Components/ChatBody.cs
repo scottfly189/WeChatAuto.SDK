@@ -28,7 +28,7 @@ namespace WeChatAuto.Components
         private readonly IServiceProvider _serviceProvider;
         private Window _Window;
         private IWeChatWindow _WxWindow;
-        private string _Title;
+        private string _FullTitle;  //未做处理的聊天标题，包含群聊人数
         private AutomationElement _ChatBodyRoot;
         private WeChatMainWindow _MainWxWindow;
         private UIThreadInvoker _uiMainThreadInvoker;
@@ -53,7 +53,7 @@ namespace WeChatAuto.Components
             _ChatBodyRoot = chatBodyRoot;
             _WxWindow = wxWindow;
             _ChatContent = chatContent;
-            _Title = title;
+            _FullTitle = title;
             _ChatType = chatType;
             _uiMainThreadInvoker = uiThreadInvoker;
             _MainWxWindow = mainWxWindow;
@@ -78,7 +78,7 @@ namespace WeChatAuto.Components
             // 初始化消息数量和内容哈希
             if (_PrivateThreadInvoker == null)
             {
-                _PrivateThreadInvoker = new UIThreadInvoker($"ChatBody_{_Title}_Owner_Invoker");
+                _PrivateThreadInvoker = new UIThreadInvoker($"ChatBody_{_FullTitle}_Owner_Invoker");
                 RandomWait.Wait(500, 1500);
                 _logger.Info($"启动消息轮询检测，执行线程名称:{_PrivateThreadInvoker.ThreadName}");
             }
@@ -176,6 +176,7 @@ namespace WeChatAuto.Components
                 if (newBubbles.Count > 0)
                 {
                     newBubbles = currentBubbles.Except(_lastBubbles).ToList();
+                    newBubbles.ForEach(item => item.IsNew = true);
                     MessageContext messageContext = new MessageContext(newBubbles, currentBubbles, Sender, _MainWxWindow.Client, _MainWxWindow.weChatClientFactory, _serviceProvider);
                     callBack(messageContext);
                 }
@@ -193,7 +194,7 @@ namespace WeChatAuto.Components
                 try
                 {
                     var desktop = automation.GetDesktop();
-                    var title = _Title;
+                    var title = _FullTitle;
                     if (Regex.IsMatch(title, @"^(.+) \(\d+\)$"))
                     {
                         title = Regex.Match(title, @"^(.+) \(\d+\)$").Groups[1].Value;
@@ -223,7 +224,7 @@ namespace WeChatAuto.Components
                 try
                 {
                     var desktop = automation.GetDesktop();
-                    var title = _Title;
+                    var title = _FullTitle;
                     if (Regex.IsMatch(title, @"^(.+) \(\d+\)$"))
                     {
                         title = Regex.Match(title, @"^(.+) \(\d+\)$").Groups[1].Value;
@@ -275,7 +276,7 @@ namespace WeChatAuto.Components
         {
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
             var bubbleListRoot = _uiMainThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).GetAwaiter().GetResult();
-            MessageBubbleList bubbleListObject = new MessageBubbleList(_Window, bubbleListRoot, _WxWindow, _Title, _uiMainThreadInvoker, this, _serviceProvider);
+            MessageBubbleList bubbleListObject = new MessageBubbleList(_Window, bubbleListRoot, _WxWindow, _FullTitle, _uiMainThreadInvoker, this, _serviceProvider);
             return bubbleListObject;
         }
         /// <summary>
@@ -355,7 +356,7 @@ namespace WeChatAuto.Components
             var xPath = "/Pane[2]";
             var senderRoot = _uiMainThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).GetAwaiter().GetResult();
             DrawHightlightHelper.DrawHightlight(senderRoot, _uiMainThreadInvoker);
-            var sender = new Sender(_Window, senderRoot, _WxWindow, _Title, _uiMainThreadInvoker, _serviceProvider);
+            var sender = new Sender(_Window, senderRoot, _WxWindow, _FullTitle, _uiMainThreadInvoker, _serviceProvider);
             return sender;
         }
 

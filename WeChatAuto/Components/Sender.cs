@@ -31,6 +31,7 @@ namespace WeChatAuto.Components
     {
         private readonly AutoLogger<Sender> _logger;
         private Window _Window;
+        private string _FullTitle;
         private IWeChatWindow _WxWindow;
         private AutomationElement _SenderRoot;
         private UIThreadInvoker _uiThreadInvoker;
@@ -49,6 +50,7 @@ namespace WeChatAuto.Components
             _Window = window;
             _WxWindow = wxWindow;
             _SenderRoot = senderRoot;
+            _FullTitle = title;
             _uiThreadInvoker = uiThreadInvoker;
             _serviceProvider = serviceProvider;
             _logger = serviceProvider.GetRequiredService<AutoLogger<Sender>>();
