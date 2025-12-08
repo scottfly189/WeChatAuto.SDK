@@ -79,9 +79,10 @@ namespace WeChatAuto.Components
         /// 获取所有气泡标题列表
         /// 注意：可能速度比较慢,但是信息比较全
         /// </summary>
+        /// <param name="pageCount">获取的气泡数量，默认是10页,可以指定获取的页数，如果指定为-1，则获取所有气泡</param>
         /// <returns>所有气泡标题列表<see cref="ChatSimpleMessage"/></returns>
-        public List<ChatSimpleMessage> GetAllChatHistory()
-          => _ChatBody.GetAllChatHistory();
+        public List<ChatSimpleMessage> GetAllChatHistory(int pageCount = 10)
+          => _ChatBody.GetAllChatHistory(pageCount);
 
 
         /// <summary>

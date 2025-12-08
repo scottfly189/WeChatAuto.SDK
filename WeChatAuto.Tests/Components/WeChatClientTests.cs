@@ -380,15 +380,44 @@ public class WeChatClientTests
         var client = clientFactory.GetWeChatClient(_wxClientName);
         await client.AddMessageListener(who, (messageContext) =>
         {
+            var index = 0;
             foreach (var message in messageContext.NewMessages)
             {
-                Trace.WriteLine($"收到消息：{message.ToString()}");
-                Trace.WriteLine($"收到消息：{message.Who}：{message.MessageContent}");
+                index++;
+                Trace.WriteLine($"收到消息：{index}：{message.ToString()}");
+                Trace.WriteLine($"收到消息：{index}：{message.Who}：{message.MessageContent}");
             }
             var allMessages = messageContext.AllMessages.Skip(messageContext.AllMessages.Count - 5).ToList();
+            index = 0;
             foreach (var message in allMessages)
             {
-                Trace.WriteLine($"    ...收到所有消息：{message.Who}：{message.MessageContent}");
+                index++;
+                Trace.WriteLine($"...收到所有消息的前5条之第{index}条：{message.Who}：{message.MessageContent}");
+                Trace.WriteLine($".................详细之第{index}条：{message.ToString()}");
+            }
+            if (messageContext.IsBeAt())
+            {
+                var messageBubble = messageContext.MessageBubbleIsBeAt().FirstOrDefault();
+                if (messageBubble != null)
+                {
+                    messageContext.SendMessage("我被@了！！！！我马上就回复你！！！！", new List<string> { messageBubble.Who });
+                }
+                else
+                {
+                    messageContext.SendMessage("我被@了！！！！我马上就回复你！！！！");
+                }
+            }
+            if (messageContext.IsBeReferenced())
+            {
+                messageContext.SendMessage("我被引用了！！！！");
+            }
+            if (messageContext.IsBeTap())
+            {
+                messageContext.SendMessage("我被拍一拍了[微笑]！！！！");
+            }
+            if (!messageContext.IsBeAt() && !messageContext.IsBeReferenced() && !messageContext.IsBeTap())
+            {
+                messageContext.SendMessage($"我收到了你的消息：{messageContext.NewMessages.FirstOrDefault()?.MessageContent}");
             }
         });
         await Task.Delay(-1);

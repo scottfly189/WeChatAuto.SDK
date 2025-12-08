@@ -45,6 +45,8 @@ namespace WeChatAuto.Components
         private UIThreadInvoker _PrivateThreadInvoker;    //私有线程，用于消息轮询检测
         public ChatContent ChatContent => _ChatContent;
         public ChatType ChatType => _ChatType;
+        public string nickName;
+        public string NickName => nickName;
         public ChatBody(Window window, AutomationElement chatBodyRoot, IWeChatWindow wxWindow, string title, ChatType chatType,
           UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow, IServiceProvider serviceProvider, ChatContent chatContent)
         {
@@ -58,6 +60,7 @@ namespace WeChatAuto.Components
             _uiMainThreadInvoker = uiThreadInvoker;
             _MainWxWindow = mainWxWindow;
             _serviceProvider = serviceProvider;
+            nickName = _MainWxWindow.NickName;
             _logger.Info($"本次ChatBody的窗口名称:{_Window.Name},ProcessId:{_WxWindow.ProcessId},运行线程名称:{uiThreadInvoker.ThreadName}");
         }
         /// <summary>
@@ -177,7 +180,8 @@ namespace WeChatAuto.Components
                 {
                     newBubbles = currentBubbles.Except(_lastBubbles).ToList();
                     newBubbles.ForEach(item => item.IsNew = true);
-                    MessageContext messageContext = new MessageContext(newBubbles, currentBubbles, Sender, _MainWxWindow.Client, _MainWxWindow.weChatClientFactory, _serviceProvider);
+                    MessageContext messageContext = new MessageContext(newBubbles, currentBubbles, Sender, _MainWxWindow.Client,
+                     _MainWxWindow.weChatClientFactory, _serviceProvider, nickName);
                     callBack(messageContext);
                 }
             }
