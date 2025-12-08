@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using FlaUI.Core.Tools;
 using System.Drawing;
 using FlaUI.Core.Capturing;
+using WeChatAuto.Extentions;
 
 namespace WeChatAuto.Components
 {
@@ -27,7 +28,7 @@ namespace WeChatAuto.Components
         private readonly IServiceProvider _serviceProvider;
         private WeChatMainWindow _MainWxWindow;    //主窗口对象
         public WeChatMainWindow MainWxWindow => _MainWxWindow;
-        private AutomationElement OwerChatContentRoot => Retry.WhileNull(() => _Window.FindFirstByXPath(_XPath), TimeSpan.FromSeconds(1), TimeSpan.FromMilliseconds(200)).Result;
+        private AutomationElement OwerChatContentRoot => _GetChatContentRoot_();
         private volatile bool _disposed = false;
         public AutomationElement ChatContentRoot
         {
@@ -35,7 +36,7 @@ namespace WeChatAuto.Components
             {
                 if (_ChatContentRoot == null)
                 {
-                    _ChatContentRoot = _Window.FindFirstByXPath(_XPath);
+                    _ChatContentRoot = _GetChatContentRoot_();
                 }
                 return _ChatContentRoot;
             }
@@ -48,6 +49,18 @@ namespace WeChatAuto.Components
         public ChatHeader ChatHeader => GetChatHeader();
         public ChatBody ChatBody => GetChatBody();
         public ChatType ChatType => GetChatType();
+
+        private AutomationElement _GetChatContentRoot_()
+        {
+            var listbox = Retry.WhileNull(()=>_Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByName("消息"))),
+              TimeSpan.FromSeconds(1),TimeSpan.FromMilliseconds(200)).Result;
+            if (listbox == null)
+            {
+                throw new Exception("消息列表根节点获取失败");
+            }
+            RandomWait.Wait(100, 500);
+            return listbox.GetParent().GetParent().GetParent().GetParent();
+        }
 
         /// <summary>
         /// 聊天标题

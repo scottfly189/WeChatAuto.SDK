@@ -560,21 +560,22 @@ namespace WeChatAuto.Components
         /// <see cref="ChatSimpleMessage"/>
         /// </summary>
         /// <param name="who">好友名称</param>
+        /// <param name="pageCount">获取的气泡数量，默认是10页,可以指定获取的页数，如果指定为-1，则获取所有气泡</param>
         /// <returns>所有气泡标题列表</returns>
-        public List<ChatSimpleMessage> GetAllChatHistory(string who)
+        public List<ChatSimpleMessage> GetAllChatHistory(string who,int pageCount = 10)
         {
             var (success, subWin) = _SubWindowIsOpenExt(who);
             if (success)
             {
-                return subWin.ChatContent.ChatBody.GetAllChatHistory();
+                return subWin.ChatContent.ChatBody.GetAllChatHistory(pageCount);
             }
             if (_IsInConversationNotOpenAndActionCoreExt(who))
             {
-                return this.MainChatContent.ChatBody.GetAllChatHistory();
+                return this.MainChatContent.ChatBody.GetAllChatHistory(pageCount);
             }
             if (_IsSearchAndNotOpenAndActionExt(who))
             {
-                return this.MainChatContent.ChatBody.GetAllChatHistory();
+                return this.MainChatContent.ChatBody.GetAllChatHistory(pageCount);
             }
             _logger.Error($"无法找到{who}的聊天窗口，无法获取所有气泡标题列表");
             return null;

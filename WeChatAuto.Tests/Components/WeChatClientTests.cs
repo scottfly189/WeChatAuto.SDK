@@ -373,6 +373,7 @@ public class WeChatClientTests
     [InlineData("秋歌")]
     [InlineData("测试11")]
     [InlineData("歪脖子的模版交流群")]
+    [InlineData("前端攻城狮")]
     public async Task TestAddMessageListener_single(string who)
     {
         var clientFactory = _globalFixture.clientFactory;

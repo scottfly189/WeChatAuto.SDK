@@ -283,8 +283,9 @@ namespace WeChatAuto.Components
         /// 获取聊天内容区所有气泡列表,如果消息没有显示全，则会滚动消息至最顶部，然后获取所有气泡标题
         /// 速度会比较快
         /// </summary>
+        /// <param name="pageCount">获取的气泡数量，默认是10页,可以指定获取的页数，如果指定为-1，则获取所有气泡</param>
         /// <returns>聊天内容区所有气泡列表,仅返回气泡标题</returns>
-        public List<ChatSimpleMessage> GetAllChatHistory()
+        public List<ChatSimpleMessage> GetAllChatHistory(int pageCount = 10)
         {
             if (_ChatType != ChatType.好友 && _ChatType != ChatType.群聊)
             {
@@ -298,8 +299,10 @@ namespace WeChatAuto.Components
                 var list = new List<ChatSimpleMessage>();
                 Button moreButton = listBox.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("查看更多消息"))).AsButton();
                 //显示全部消息
-                while (moreButton != null)
+                var index = 0;
+                while (moreButton != null && (index < pageCount || pageCount == -1))
                 {
+                    index++;
                     var pattern = listBox.Patterns.Scroll.Pattern;
                     if (pattern != null)
                     {
