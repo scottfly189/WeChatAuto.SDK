@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeMini", "WeMini\WeMini.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeMp", "WeMp\WeMp.csproj", "{E299E726-DE17-4898-B665-57E1A77DDE34}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeChatAuto.MCP", "WeChatAuto.MCP\WeChatAuto.MCP.csproj", "{FD159E5C-5409-4298-A667-D4499799A974}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,18 @@ Global
 		{E299E726-DE17-4898-B665-57E1A77DDE34}.Release|x64.Build.0 = Release|Any CPU
 		{E299E726-DE17-4898-B665-57E1A77DDE34}.Release|x86.ActiveCfg = Release|Any CPU
 		{E299E726-DE17-4898-B665-57E1A77DDE34}.Release|x86.Build.0 = Release|Any CPU
+		{FD159E5C-5409-4298-A667-D4499799A974}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD159E5C-5409-4298-A667-D4499799A974}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD159E5C-5409-4298-A667-D4499799A974}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FD159E5C-5409-4298-A667-D4499799A974}.Debug|x64.Build.0 = Debug|Any CPU
+		{FD159E5C-5409-4298-A667-D4499799A974}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FD159E5C-5409-4298-A667-D4499799A974}.Debug|x86.Build.0 = Debug|Any CPU
+		{FD159E5C-5409-4298-A667-D4499799A974}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD159E5C-5409-4298-A667-D4499799A974}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD159E5C-5409-4298-A667-D4499799A974}.Release|x64.ActiveCfg = Release|Any CPU
+		{FD159E5C-5409-4298-A667-D4499799A974}.Release|x64.Build.0 = Release|Any CPU
+		{FD159E5C-5409-4298-A667-D4499799A974}.Release|x86.ActiveCfg = Release|Any CPU
+		{FD159E5C-5409-4298-A667-D4499799A974}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
