@@ -18,7 +18,7 @@ public sealed class WeChatClientTool
         return await Task.FromResult(JsonSerializer.Serialize(clientNames));
     }
 
-    [McpServerTool, Description("获取当前微信客户端名称,系统默认使用获得的第一个微信客户端名称作为当前微信客户端名称")]
+    [McpServerTool, Description("获取当前使用的微信客户端名称,系统默认使用获得的第一个微信客户端名称作为当前微信客户端名称")]
     public async Task<string> GetCurrentWeChatClientName()
     {
         var clientName = _weChatClientService.GetCurrentWeChatClientName();
@@ -67,12 +67,29 @@ public sealed class WeChatClientTool
         return await Task.FromResult(JsonSerializer.Serialize(result));
     }
 
-    [McpServerTool, Description("发送消息给指定多个好友(或者群聊昵称)，并@指定多个好友,仅适用于群聊")]
+    [McpServerTool, Description("发送消息给指定多个好友(或者群聊昵称)")]
     public async Task<string> SendMessagesWithAtUsers(
         [Description("好友或者群聊昵称列表")] string[] whos,
         [Description("消息内容")] string message)
     {
         var result = await _weChatClientService.SendWhos(whos, message);
         return await Task.FromResult(JsonSerializer.Serialize(result));
+    }
+
+    [McpServerTool, Description("发起语音聊天,适用于群聊中发起语音聊天")]
+    public async Task<string> SendVoiceChats(
+        [Description("群聊名称")] string groupName,
+        [Description("好友名称列表,可以指定多个好友名称")] string[] whos)
+    {
+        _weChatClientService.SendVoiceChats(groupName, whos);
+        return await Task.FromResult(JsonSerializer.Serialize(new { success = true }));
+    }
+    
+    [McpServerTool, Description("发起视频聊天,适用于单个好友")]
+    public async Task<string> SendVideoChat(
+        [Description("好友名称,微信好友昵称")] string who)
+    {
+        _weChatClientService.SendVideoChat(who);
+        return await Task.FromResult(JsonSerializer.Serialize(new { success = true }));
     }
 }

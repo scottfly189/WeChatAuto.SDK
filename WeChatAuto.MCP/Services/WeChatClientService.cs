@@ -117,6 +117,30 @@ public class WeChatClientService : IDisposable
         await client.SendWhos(whos, message);
         return WeAutoCommon.Models.Result.Ok();
     }
+    /// <summary>
+    /// 发起语音聊天,适用于群聊中发起语音聊天
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <param name="whos">好友名称列表</param>
+    /// <returns>是否发起成功</returns>
+    /// <param name="whos"></param>
+    public void SendVoiceChats(string groupName, string[] whos)
+    {
+        var clientName = GetCurrentWeChatClientName();
+        var client = _weChatClientFactory.GetWeChatClient(clientName);
+        client.SendVoiceChats(groupName, whos);
+    }
+    /// <summary>
+    /// 发起视频聊天,适用于单个好友
+    /// </summary>
+    /// <param name="who">好友名称</param>
+    /// <returns>是否发起成功</returns>
+    public void SendVideoChat(string who)
+    {
+        var clientName = GetCurrentWeChatClientName();
+        var client = _weChatClientFactory.GetWeChatClient(clientName);
+        client.SendVideoChat(who);
+    }
 
     public void Dispose()
     {

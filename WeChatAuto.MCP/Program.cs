@@ -26,8 +26,7 @@ WeAutomation.Initialize(builder.Services, options =>
 }).AddMcpServer()
     .WithStdioServerTransport()
     .WithToolsFromAssembly()
-    .WithPromptsFromAssembly()
-    .WithResources<WeChatHistoryResource>();
+    .WithPromptsFromAssembly();
 
 builder.Services.AddSingleton<WeChatClientService>();
 

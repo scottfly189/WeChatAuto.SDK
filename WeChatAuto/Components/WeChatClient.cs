@@ -241,7 +241,7 @@ namespace WeChatAuto.Components
     /// </summary>
     /// <param name="who">好友名称</param>
     /// <param name="isOpenChat">是否打开子聊天窗口,默认是False:不打开,True:打开</param>
-    public void SendVoiceChat(string who, bool isOpenChat = false) => WxMainWindow.SendVoiceChat(who, isOpenChat);
+    public void SendVoiceChat(string who, bool isOpenChat = true) => WxMainWindow.SendVoiceChat(who, isOpenChat);
     /// <summary>
     /// 发起语音聊天,适用于群聊中发起语音聊天
     /// </summary>

@@ -95,6 +95,7 @@ namespace WeChatAuto.Components
             }
             voiceChatButton.DrawHighlightExt(_uiThreadInvoker);
             RandomWait.Wait(300, 800);
+            _Window.Focus();
             voiceChatButton.ClickEnhance(_Window);
             _AddChatGroupMember(whos);
         }
