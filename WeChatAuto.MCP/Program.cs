@@ -27,7 +27,7 @@ WeAutomation.Initialize(builder.Services, options =>
     .WithStdioServerTransport()
     .WithToolsFromAssembly()
     .WithPromptsFromAssembly()
-    .WithResourcesFromAssembly();
+    .WithResources<WeChatHistoryResource>();
 
 builder.Services.AddSingleton<WeChatClientService>();
 

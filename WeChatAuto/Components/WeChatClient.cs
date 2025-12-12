@@ -18,6 +18,7 @@ using WeChatAuto.Models;
 using FlaUI.Core.Capturing;
 using WxAutoCommon.Enums;
 using WeChatAuto.Extentions;
+using WeAutoCommon.Models;
 
 
 namespace WeChatAuto.Components
@@ -290,7 +291,7 @@ namespace WeChatAuto.Components
     /// <param name="who">好友名称，可以是好友，也可以是群聊名称</param>
     /// <param name="count">获取的气泡数量，默认是10页,可以指定获取的页数，如果指定为-1，则获取所有气泡</param>
     /// <returns>所有气泡标题列表</returns>
-    public List<ChatSimpleMessage> GetAllChatHistory(string who,int pageCount = 10)
+    public List<ChatSimpleMessage> GetChatAllHistory(string who,int pageCount = 10)
       => WxMainWindow.GetAllChatHistory(who,pageCount);
     #endregion
 
@@ -340,6 +341,12 @@ namespace WeChatAuto.Components
     /// <returns>返回会话标题列表</returns>
     public List<string> GetVisibleConversationTitles()
       => WxMainWindow.Conversations.GetVisibleConversationTitles();
+    /// <summary>
+    /// 查找并打开好友或者群聊昵称,如果找到，则打开好友或者群聊窗口
+    /// </summary>
+    /// <param name="who">好友或者群聊昵称</param>
+    public WeAutoCommon.Models.Result FindAndOpenFriendOrGroup(string who)
+      => WxMainWindow.FindAndOpenFriendOrGroup(who);
     #endregion
 
     #region 群聊操作

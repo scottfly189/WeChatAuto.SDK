@@ -360,7 +360,7 @@ public class WeChatClientTests
     {
         var clientFactory = _globalFixture.clientFactory;
         var client = clientFactory.GetWeChatClient(_wxClientName);
-        var bubbleTitleList = client.GetAllChatHistory(who);
+        var bubbleTitleList = client.GetChatAllHistory(who);
         Assert.True(bubbleTitleList != null);
         foreach (var bubbleTitle in bubbleTitleList)
         {

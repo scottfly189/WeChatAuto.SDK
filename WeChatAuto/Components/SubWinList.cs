@@ -160,12 +160,20 @@ namespace WeChatAuto.Components
             var subWin = _uiMainThreadInvoker.Run(automation =>
              {
                  var desktop = automation.GetDesktop();
-                 return Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("ChatWnd")
+                 var result = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("ChatWnd")
                          .And(cf.ByControlType(ControlType.Window)
                          .And(cf.ByProcessId(_MainWindow.Properties.ProcessId))
                          .And(cf.ByName(name)))),
                          timeout: TimeSpan.FromSeconds(5),
                          interval: TimeSpan.FromMilliseconds(200));
+                 if (result.Success)
+                 {
+                     if (result.Result.AsWindow() != null)
+                     {
+                         result.Result.AsWindow().Focus();
+                    }
+                }
+                 return result;
              }).GetAwaiter().GetResult();
 
             return subWin.Success;
@@ -176,16 +184,20 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public async Task CheckSubWinExistAndOpen(string name)
+        public async Task<bool> CheckSubWinExistAndOpen(string name)
         {
             if (!CheckSubWinIsOpen(name))
             {
-                await _MainWxWindow.OpenSubWinDispatch(new ChatActionMessage()
+                return await _MainWxWindow.OpenSubWinDispatch(new ChatActionMessage()
                 {
                     Type = ActionType.打开子窗口,
                     ToUser = name,
                     IsOpenSubWin = true
                 });
+            }
+            else
+            {
+                return true;
             }
         }
 

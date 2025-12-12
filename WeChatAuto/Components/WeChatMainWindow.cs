@@ -23,6 +23,8 @@ using Microsoft.Extensions.Logging;
 using WeChatAuto.Services;
 using WeChatAuto.Extentions;
 using WeChatAuto.Models;
+using OneOf.Types;
+using WeAutoCommon.Models;
 
 
 
@@ -562,7 +564,7 @@ namespace WeChatAuto.Components
         /// <param name="who">好友名称</param>
         /// <param name="pageCount">获取的气泡数量，默认是10页,可以指定获取的页数，如果指定为-1，则获取所有气泡</param>
         /// <returns>所有气泡标题列表</returns>
-        public List<ChatSimpleMessage> GetAllChatHistory(string who,int pageCount = 10)
+        public List<ChatSimpleMessage> GetAllChatHistory(string who, int pageCount = 10)
         {
             var (success, subWin) = _SubWindowIsOpenExt(who);
             if (success)
@@ -758,6 +760,17 @@ namespace WeChatAuto.Components
             }
             return false;
         }
+        /// <summary>
+        /// 查找并打开好友或者群聊昵称,如果找到，则打开好友或者群聊窗口
+        /// </summary>
+        /// <param name="who">好友或者群聊昵称</param>
+        /// <returns>是否找到并打开会话</returns>
+        public WeAutoCommon.Models.Result FindAndOpenFriendOrGroup(string who)
+        {
+            var result = this.SubWinList.CheckSubWinExistAndOpen(who).GetAwaiter().GetResult();
+            return result ? Result.Ok() : Result.Fail("无法找到好友或者群聊昵称");
+        }
+
         //此用户是否在搜索结果中
         private async Task<bool> _IsSearch(string who, string message, bool isOpenChat, List<string> atUserList = null)
         {
@@ -1197,7 +1210,7 @@ namespace WeChatAuto.Components
         /// <param name="nickName">好友名称</param>
         /// <param name="replyer">回复者名称（微信昵称）</param>
         /// <param name="callBack">回调函数,由使用者提供,参数：消息上下文<see cref="MessageContext"/></param>
-        public async Task AddMessageListener(string nickName, Action<MessageContext> callBack, string replyer=null)
+        public async Task AddMessageListener(string nickName, Action<MessageContext> callBack, string replyer = null)
         {
             await _SubWinList.CheckSubWinExistAndOpen(nickName);
             await Task.Delay(500);

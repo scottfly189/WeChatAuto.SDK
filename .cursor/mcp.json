@@ -1,6 +1,6 @@
 {
-	"servers": {
-		"wechat_mcp_server": {
+    "mcpServers": {
+        "wechat_mcp_server": {
 			"type": "stdio",
 			"command": "dotnet",
 			"args": [
@@ -9,6 +9,5 @@
                 "D:/repo/wxauto.net/WeChatAuto.SDK/WeChatAuto.MCP/WeChatAuto.MCP.csproj"
 			]
 		}
-	}
-
+    }
 }
