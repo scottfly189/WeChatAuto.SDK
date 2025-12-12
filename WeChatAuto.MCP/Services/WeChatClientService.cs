@@ -133,7 +133,7 @@ public class WeChatClientService : IDisposable
         _disposed = true;
         if (disposing)
         {
-            _weChatClientFactory.Dispose();
+            _weChatClientFactory?.Dispose();
         }
     }
     ~WeChatClientService()

@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.Text.Json;
 
 var builder = Host.CreateApplicationBuilder(args);
-builder.Services.AddLogging(logging  =>
+builder.Services.AddLogging(logging =>
 {
     logging.ClearProviders();
     logging.AddConsole(options =>
@@ -48,18 +48,5 @@ catch (Exception ex)
 }
 finally
 {
-    try
-    {
-        Alert.Show("MCP服务已停止");
-        // 在 host dispose 之前获取并清理服务
-        var service = host.Services.GetService<WeChatClientService>();
-        service?.Dispose();
-    }
-    catch (Exception ex)
-    {
-        // 清理过程中的异常不应该阻止 host 的释放
-        Alert.Show($"清理资源时发生异常: {ex.Message}");
-    }
-    // 确保 host 被正确释放
-    host?.Dispose();
+    Alert.Show("MCP服务已停止");
 }
