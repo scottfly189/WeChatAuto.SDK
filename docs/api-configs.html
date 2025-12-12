@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>配置类 API - WeChatAuto.SDK</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <h1>WeChatAuto.SDK</h1>
+        <p>微信自动化开发框架</p>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-item">
+          <a href="index.html">简介</a>
+        </div>
+        <div class="nav-group">开始</div>
+        <div class="nav-item">
+          <a href="getting-started.html">快速上手</a>
+        </div>
+        <div class="nav-group">指南</div>
+        <div class="nav-item">
+          <a href="basics.html">基础使用</a>
+        </div>
+        <div class="nav-group">API</div>
+        <div class="nav-item">
+          <a href="api.html">API 概览</a>
+        </div>
+        <div class="nav-group">核心组件</div>
+        <div class="nav-item">
+          <a href="api-wechat-client.html">WeChatClient</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-wechat-client-factory.html">WeChatClientFactory</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-wechat-main-window.html">WeChatMainWindow</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-sub-win-list.html">SubWinList</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-sub-win.html">SubWin</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-navigation.html">Navigation</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-moments.html">Moments</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-message-bubble-list.html">MessageBubbleList</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-message-bubble.html">MessageBubble</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-conversation-list.html">ConversationList</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-chat-header.html">ChatHeader</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-chat-content.html">ChatContent</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-chat-body.html">ChatBody</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-address-book-list.html">AddressBookList</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-sender.html">Sender</a>
+        </div>
+        <div class="nav-group">工具类</div>
+        <div class="nav-item">
+          <a href="api-utils.html">工具类 (Utils)</a>
+        </div>
+        <div class="nav-group">公共类</div>
+        <div class="nav-item">
+          <a href="api-models.html">数据模型 (Models)</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-enums.html">枚举类型 (Enums)</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-configs.html" class="active">配置类 (Configs)</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-common-utils.html">公共工具类 (Common Utils)</a>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- 主内容 -->
+    <main class="main-content">
+      <h1>配置类 (Configs)</h1>
+      
+      <p>WeAutoCommon 库中的配置类，用于配置微信自动化的各种选项。</p>
+
+      <h2>WeChatConfig</h2>
+      <p>微信自动化参数配置类，包含所有可配置的选项。</p>
+
+      <h3>属性</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>属性</th>
+            <th>类型</th>
+            <th>默认值</th>
+            <th>说明</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>ApiKey</code></td>
+            <td>string</td>
+            <td>""</td>
+            <td>接口KEY</td>
+          </tr>
+          <tr>
+            <td><code>DefaultSavePath</code></td>
+            <td>string</td>
+            <td>wxauto_download</td>
+            <td>下载文件/图片默认保存路径</td>
+          </tr>
+          <tr>
+            <td><code>CheckAppRunningInterval</code></td>
+            <td>int</td>
+            <td>3</td>
+            <td>检查微信客户端是否运行的时间间隔（秒）</td>
+          </tr>
+          <tr>
+            <td><code>AppRetryWaitTime</code></td>
+            <td>int</td>
+            <td>10</td>
+            <td>微信客户端退出时的重试等待时间（秒）</td>
+          </tr>
+          <tr>
+            <td><code>EnableCheckAppRunning</code></td>
+            <td>bool</td>
+            <td>true</td>
+            <td>是否启用检查微信客户端是否运行</td>
+          </tr>
+          <tr>
+            <td><code>ListenInterval</code></td>
+            <td>int</td>
+            <td>5</td>
+            <td>监听消息时间间隔（秒）</td>
+          </tr>
+          <tr>
+            <td><code>MomentsListenInterval</code></td>
+            <td>int</td>
+            <td>10</td>
+            <td>朋友圈监听时间间隔（秒）</td>
+          </tr>
+          <tr>
+            <td><code>NewUserListenerInterval</code></td>
+            <td>int</td>
+            <td>5</td>
+            <td>新用户监听时间间隔（秒）</td>
+          </tr>
+          <tr>
+            <td><code>MonitorSubWinInterval</code></td>
+            <td>int</td>
+            <td>5</td>
+            <td>监听子窗口时间间隔（秒）</td>
+          </tr>
+          <tr>
+            <td><code>DebugMode</code></td>
+            <td>bool</td>
+            <td>false</td>
+            <td>是否启用调试模式</td>
+          </tr>
+          <tr>
+            <td><code>CaptureUIPath</code></td>
+            <td>string</td>
+            <td>Captures</td>
+            <td>出错后捕获UI保存路径</td>
+          </tr>
+          <tr>
+            <td><code>EnableRecordVideo</code></td>
+            <td>bool</td>
+            <td>false</td>
+            <td>是否启用视频录制</td>
+          </tr>
+          <tr>
+            <td><code>TargetVideoPath</code></td>
+            <td>string</td>
+            <td>Videos</td>
+            <td>视频录制保存路径</td>
+          </tr>
+          <tr>
+            <td><code>EnableMouseKeyboardSimulator</code></td>
+            <td>bool</td>
+            <td>false</td>
+            <td>是否启用鼠标键盘模拟器</td>
+          </tr>
+          <tr>
+            <td><code>KMDeiviceVID</code></td>
+            <td>int</td>
+            <td>0x2612</td>
+            <td>键鼠模拟器设备VID</td>
+          </tr>
+          <tr>
+            <td><code>KMDeivicePID</code></td>
+            <td>int</td>
+            <td>0x1701</td>
+            <td>键鼠模拟器设备PID</td>
+          </tr>
+          <tr>
+            <td><code>KMVerifyUserData</code></td>
+            <td>string</td>
+            <td>""</td>
+            <td>键鼠模拟器验证用户数据</td>
+          </tr>
+          <tr>
+            <td><code>OffsetOfClick</code></td>
+            <td>int</td>
+            <td>5</td>
+            <td>点击偏移量（像素）</td>
+          </tr>
+          <tr>
+            <td><code>OutputStringType</code></td>
+            <td>int</td>
+            <td>4</td>
+            <td>输出字符串编码类型</td>
+          </tr>
+          <tr>
+            <td><code>MouseMoveMode</code></td>
+            <td>int</td>
+            <td>0</td>
+            <td>鼠标移动模式</td>
+          </tr>
+          <tr>
+            <td><code>ProcessDpiAwareness</code></td>
+            <td>int</td>
+            <td>1</td>
+            <td>进程DPI感知值（0:不设置, 1:系统DPI感知, 2:每显示器DPI感知）</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>使用示例</h3>
+      <pre><code class="language-csharp">// 初始化时配置
+WeAutomation.Initialize(services, options =>
+{
+    options.DebugMode = true;
+    options.EnableRecordVideo = true;
+    options.TargetVideoPath = @"C:\Videos";
+    options.ListenInterval = 2; // 2秒检查一次消息
+    options.EnableMouseKeyboardSimulator = false;
+});
+
+// 运行时访问配置
+var config = WeAutomation.Config;
+if (config.DebugMode)
+{
+    Console.WriteLine("调试模式已启用");
+}</code></pre>
+
+      <h2>WeMettingConfig</h2>
+      <p>会议配置类，用于微信会议相关的配置。</p>
+
+      <h2>Language</h2>
+      <p>语言配置静态类。</p>
+      
+      <h3>属性</h3>
+      <ul>
+        <li><code>CurrentLanguage</code> - 当前语言（默认 Chinese）</li>
+        <li><code>Chinese</code> - 中文常量 "Cn"</li>
+        <li><code>ChineseTraditional</code> - 繁体中文常量 "CnT"</li>
+        <li><code>English</code> - 英文常量 "En"</li>
+      </ul>
+
+      <h2>相关资源</h2>
+      <ul>
+        <li><a href="api.html">API 概览</a></li>
+        <li><a href="getting-started.html">快速上手</a> - 查看配置示例</li>
+      </ul>
+    </main>
+  </div>
+</body>
+</html>
+

@@ -28,7 +28,70 @@
         </div>
         <div class="nav-group">API</div>
         <div class="nav-item">
-          <a href="api.html" class="active">组件 API</a>
+          <a href="api.html" class="active">API 概览</a>
+        </div>
+        <div class="nav-group">核心组件</div>
+        <div class="nav-item">
+          <a href="api-wechat-client.html">WeChatClient</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-wechat-client-factory.html">WeChatClientFactory</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-wechat-main-window.html">WeChatMainWindow</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-sub-win-list.html">SubWinList</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-sub-win.html">SubWin</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-navigation.html">Navigation</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-moments.html">Moments</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-message-bubble-list.html">MessageBubbleList</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-message-bubble.html">MessageBubble</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-conversation-list.html">ConversationList</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-chat-header.html">ChatHeader</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-chat-content.html">ChatContent</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-chat-body.html">ChatBody</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-address-book-list.html">AddressBookList</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-sender.html">Sender</a>
+        </div>
+        <div class="nav-group">工具类</div>
+        <div class="nav-item">
+          <a href="api-utils.html">工具类 (Utils)</a>
+        </div>
+        <div class="nav-group">公共类</div>
+        <div class="nav-item">
+          <a href="api-models.html">数据模型 (Models)</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-enums.html">枚举类型 (Enums)</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-configs.html">配置类 (Configs)</a>
+        </div>
+        <div class="nav-item">
+          <a href="api-common-utils.html">公共工具类 (Common Utils)</a>
         </div>
       </nav>
     </aside>
@@ -37,492 +100,119 @@
     <main class="main-content">
       <h1>组件 API</h1>
       
-      <p>本文档详细介绍了 WeChatAuto.SDK 中所有核心组件的 API。</p>
+      <p>本文档详细介绍了 WeChatAuto.SDK 中所有组件的 API。点击左侧菜单查看各个组件的详细说明。</p>
 
-      <h2>WeAutomation</h2>
-      <p>微信自动化框架的初始化服务类。</p>
-
-      <h3>方法</h3>
+      <h2>核心组件</h2>
       
-      <h4>Initialize</h4>
-      <pre><code class="language-csharp">public static IServiceCollection Initialize(
-    IServiceCollection services, 
-    Action&lt;WeChatConfig&gt; options = default
-)</code></pre>
-      <p>初始化微信自动化框架（使用外部依赖注入框架）。</p>
-      <p><strong>参数：</strong></p>
-      <ul>
-        <li><code>services</code> - 服务集合</li>
-        <li><code>options</code> - 配置选项（可选）</li>
-      </ul>
-      <p><strong>返回：</strong> IServiceCollection，用于链式调用</p>
-
-      <h4>Config</h4>
-      <pre><code class="language-csharp">public static WeChatConfig Config { get; }</code></pre>
-      <p>获取当前配置对象。</p>
-
-      <h2>WeChatClientFactory</h2>
-      <p>微信客户端工厂，管理多个微信客户端实例。</p>
-
-      <h3>属性</h3>
-      <ul>
-        <li><code>WxClientList</code> - 微信客户端列表（Dictionary&lt;string, WeChatClient&gt;）</li>
-      </ul>
-
-      <h3>方法</h3>
-      
-      <h4>GetWxClientNames</h4>
-      <pre><code class="language-csharp">public List&lt;string&gt; GetWxClientNames()</code></pre>
-      <p>获取所有微信客户端名称列表。</p>
-
-      <h4>GetWeChatClient</h4>
-      <pre><code class="language-csharp">public WeChatClient GetWeChatClient(string name)</code></pre>
-      <p>根据名称获取微信客户端。</p>
-      <p><strong>参数：</strong></p>
-      <ul>
-        <li><code>name</code> - 微信客户端名称（微信昵称）</li>
-      </ul>
-      <p><strong>异常：</strong> 如果客户端不存在，抛出 Exception</p>
-
-      <h4>GetWxClientList</h4>
-      <pre><code class="language-csharp">public Dictionary&lt;string, WeChatClient&gt; GetWxClientList()</code></pre>
-      <p>获取所有微信客户端字典。</p>
-
-      <h2>WeChatClient</h2>
-      <p>微信客户端，表示一个微信实例。</p>
-
-      <h3>属性</h3>
-      <ul>
-        <li><code>NickName</code> - 微信昵称（string）</li>
-        <li><code>WxNotifyIcon</code> - 微信通知图标（WeChatNotifyIcon）</li>
-        <li><code>WxMainWindow</code> - 微信主窗口（WeChatMainWindow）</li>
-        <li><code>AppRunning</code> - 应用是否正在运行（bool）</li>
-      </ul>
-
-      <h3>方法</h3>
-
-      <h4>ClickNotifyIcon</h4>
-      <pre><code class="language-csharp">public void ClickNotifyIcon()</code></pre>
-      <p>点击通知图标，使微信客户端窗口显示或获取焦点。</p>
-
-      <h4>SearchFriendOrGroup</h4>
-      <pre><code class="language-csharp">public Result FindAndOpenFriendOrGroup(string who)</code></pre>
-      <p>查找并打开好友或群聊。</p>
-      <p><strong>参数：</strong></p>
-      <ul>
-        <li><code>who</code> - 好友或群聊名称</li>
-      </ul>
-      <p><strong>返回：</strong> Result，表示操作是否成功</p>
-
-      <h4>SendWho</h4>
-      <pre><code class="language-csharp">public async Task SendWho(
-    string who, 
-    string message, 
-    OneOf&lt;string, string[]&gt; atUser = default, 
-    bool isOpenChat = true
-)</code></pre>
-      <p>发送消息给单个好友。</p>
-      <p><strong>参数：</strong></p>
-      <ul>
-        <li><code>who</code> - 好友名称</li>
-        <li><code>message</code> - 消息内容</li>
-        <li><code>atUser</code> - 被@的用户（群聊时使用，可选）</li>
-        <li><code>isOpenChat</code> - 是否打开子聊天窗口（默认 true）</li>
-      </ul>
-
-      <h4>SendWhos</h4>
-      <pre><code class="language-csharp">public async Task SendWhos(
-    string[] whos, 
-    string message, 
-    OneOf&lt;string, string[]&gt; atUser = default, 
-    bool isOpenChat = true
-)</code></pre>
-      <p>批量发送消息给多个好友。</p>
-
-      <h4>GetChatAllHistory</h4>
-      <pre><code class="language-csharp">public List&lt;ChatSimpleMessage&gt; GetChatAllHistory(
-    string who, 
-    int pageCount = 10
-)</code></pre>
-      <p>获取指定好友或群聊的聊天记录。</p>
-      <p><strong>参数：</strong></p>
-      <ul>
-        <li><code>who</code> - 好友或群聊名称</li>
-        <li><code>pageCount</code> - 获取的页数（默认 10，-1 表示获取所有）</li>
-      </ul>
-
-      <h4>SendVoiceChat</h4>
-      <pre><code class="language-csharp">public void SendVoiceChat(string who, bool isOpenChat = true)</code></pre>
-      <p>发起语音聊天（单个好友）。</p>
-
-      <h4>SendVoiceChats</h4>
-      <pre><code class="language-csharp">public void SendVoiceChats(string groupName, string[] whos)</code></pre>
-      <p>发起语音聊天（群聊，多个好友）。</p>
-
-      <h4>SendVideoChat</h4>
-      <pre><code class="language-csharp">public void SendVideoChat(string who)</code></pre>
-      <p>发起视频聊天（单个好友）。</p>
-
-      <h4>UpdateGroupNotice</h4>
-      <pre><code class="language-csharp">public async Task&lt;ChatResponse&gt; UpdateGroupNotice(
-    string groupName, 
-    string notice
-)</code></pre>
-      <p>更新群公告。</p>
-
-      <h4>ClearChatGroupHistory</h4>
-      <pre><code class="language-csharp">public async Task ClearChatGroupHistory(string groupName)</code></pre>
-      <p>清空聊天记录。</p>
-
-      <h4>ForwardMessage</h4>
-      <pre><code class="language-csharp">public async Task&lt;bool&gt; ForwardMessage(
-    string fromWho, 
-    string toWho, 
-    int rowCount = 5
-)</code></pre>
-      <p>转发消息。</p>
-      <p><strong>参数：</strong></p>
-      <ul>
-        <li><code>fromWho</code> - 消息来源（好友或群聊名称）</li>
-        <li><code>toWho</code> - 消息目标（好友或群聊名称）</li>
-        <li><code>rowCount</code> - 转发的行数（默认 5）</li>
-      </ul>
-
-      <h4>CaptureUI</h4>
-      <pre><code class="language-csharp">public string CaptureUI(string fileName = "")</code></pre>
-      <p>屏幕截图。</p>
-
-      <h2>WeChatMainWindow</h2>
-      <p>微信主窗口，封装微信窗口的所有组件。</p>
-
-      <h3>属性</h3>
-      <ul>
-        <li><code>NickName</code> - 微信昵称</li>
-        <li><code>ToolBar</code> - 工具栏</li>
-        <li><code>Navigation</code> - 导航栏</li>
-        <li><code>Search</code> - 搜索组件</li>
-        <li><code>Conversations</code> - 会话列表</li>
-        <li><code>AddressBook</code> - 通讯录</li>
-        <li><code>MainChatContent</code> - 主聊天窗口</li>
-        <li><code>SubWinList</code> - 子窗口列表</li>
-        <li><code>Moments</code> - 朋友圈</li>
-      </ul>
-
-      <h2>ChatContent</h2>
-      <p>聊天内容区，表示一个聊天窗口。</p>
-
-      <h3>属性</h3>
-      <ul>
-        <li><code>FullTitle</code> - 聊天标题（string）</li>
-        <li><code>ChatHeader</code> - 聊天头部（ChatHeader）</li>
-        <li><code>ChatBody</code> - 聊天主体（ChatBody）</li>
-        <li><code>ChatType</code> - 聊天类型（ChatType）</li>
-        <li><code>ChatMemberCount</code> - 聊天人数（int）</li>
-      </ul>
-
-      <h3>方法</h3>
-
-      <h4>GetOwerChatContentImage</h4>
-      <pre><code class="language-csharp">public Image GetOwerChatContentImage(bool inThread = true)</code></pre>
-      <p>获取聊天内容截图。</p>
-
-      <h2>ChatBody</h2>
-      <p>聊天主体，包含消息气泡列表和发送器。</p>
-
-      <h3>属性</h3>
-      <ul>
-        <li><code>MessageBubbleList</code> - 消息气泡列表（MessageBubbleList）</li>
-        <li><code>Sender</code> - 消息发送器（Sender）</li>
-        <li><code>ChatContent</code> - 所属聊天内容区（ChatContent）</li>
-        <li><code>ChatType</code> - 聊天类型（ChatType）</li>
-        <li><code>NickName</code> - 微信昵称（string）</li>
-      </ul>
-
-      <h3>方法</h3>
-
-      <h4>AddListener</h4>
-      <pre><code class="language-csharp">public void AddListener(Action&lt;MessageContext&gt; callBack)</code></pre>
-      <p>添加消息监听。</p>
-      <p><strong>参数：</strong></p>
-      <ul>
-        <li><code>callBack</code> - 回调函数，参数为 MessageContext</li>
-      </ul>
-      <div class="alert alert-warning">
-        <strong>注意：</strong> 消息回调函数会在新线程中执行，请注意线程安全。
-        如果在回调函数中操作 UI，请切换到 UI 线程。
+      <div class="features">
+        <div class="feature-card">
+          <h3><a href="api-wechat-client.html">WeChatClient</a></h3>
+          <p>微信客户端，表示一个微信实例。提供消息发送、接收、群聊管理等核心功能。</p>
+        </div>
+        <div class="feature-card">
+          <h3><a href="api-wechat-client-factory.html">WeChatClientFactory</a></h3>
+          <p>微信客户端工厂，管理多个微信客户端实例，支持多微信实例管理。</p>
+        </div>
+        <div class="feature-card">
+          <h3><a href="api-wechat-main-window.html">WeChatMainWindow</a></h3>
+          <p>微信主窗口，封装微信窗口的所有组件，包括工具栏、导航栏、搜索等。</p>
+        </div>
+        <div class="feature-card">
+          <h3><a href="api-chat-content.html">ChatContent</a></h3>
+          <p>聊天内容区，表示一个聊天窗口，包含聊天头部和聊天主体。</p>
+        </div>
+        <div class="feature-card">
+          <h3><a href="api-chat-body.html">ChatBody</a></h3>
+          <p>聊天主体，包含消息气泡列表和发送器，提供消息监听功能。</p>
+        </div>
+        <div class="feature-card">
+          <h3><a href="api-sender.html">Sender</a></h3>
+          <p>消息发送器，负责发送消息、文件、表情等。</p>
+        </div>
       </div>
 
-      <h4>StopListener</h4>
-      <pre><code class="language-csharp">public void StopListener()</code></pre>
-      <p>停止消息监听。</p>
-
-      <h4>GetAllChatHistory</h4>
-      <pre><code class="language-csharp">public List&lt;ChatSimpleMessage&gt; GetAllChatHistory(int pageCount = 10)</code></pre>
-      <p>获取所有聊天记录。</p>
-      <p><strong>参数：</strong></p>
+      <h2>窗口和列表组件</h2>
+      
       <ul>
-        <li><code>pageCount</code> - 获取的页数（默认 10，-1 表示获取所有）</li>
+        <li><a href="api-sub-win-list.html"><strong>SubWinList</strong></a> - 子窗口列表，管理所有弹出子窗口</li>
+        <li><a href="api-sub-win.html"><strong>SubWin</strong></a> - 子窗口，表示微信的弹出窗口</li>
+        <li><a href="api-conversation-list.html"><strong>ConversationList</strong></a> - 会话列表，管理微信主窗口左侧的会话列表</li>
+        <li><a href="api-address-book-list.html"><strong>AddressBookList</strong></a> - 通讯录列表，管理通讯录功能</li>
+        <li><a href="api-message-bubble-list.html"><strong>MessageBubbleList</strong></a> - 消息气泡列表，管理聊天中的所有消息气泡</li>
+        <li><a href="api-message-bubble.html"><strong>MessageBubble</strong></a> - 消息气泡，表示一条消息</li>
+        <li><a href="api-chat-header.html"><strong>ChatHeader</strong></a> - 聊天头部，包含聊天标题和信息按钮</li>
       </ul>
 
-      <h2>Sender</h2>
-      <p>消息发送器，负责发送消息、文件、表情等。</p>
-
-      <h3>属性</h3>
+      <h2>功能组件</h2>
+      
       <ul>
-        <li><code>ContentArea</code> - 输入框（TextBox）</li>
-        <li><code>SendButton</code> - 发送按钮（Button）</li>
-        <li><code>ToolBarButtons</code> - 工具栏按钮列表</li>
+        <li><a href="api-navigation.html"><strong>Navigation</strong></a> - 导航栏，提供微信主窗口的导航功能</li>
+        <li><a href="api-moments.html"><strong>Moments</strong></a> - 朋友圈，管理朋友圈相关功能</li>
       </ul>
 
-      <h3>方法</h3>
-
-      <h4>SendMessage</h4>
-      <pre><code class="language-csharp">public void SendMessage(
-    string message, 
-    List&lt;string&gt; atUserList = null
-)</code></pre>
-      <p>发送文字消息。</p>
-      <p><strong>参数：</strong></p>
+      <h2>工具类</h2>
+      
+      <p><a href="api-utils.html"><strong>工具类 (Utils)</strong></a> - WeChatAuto 库中的工具类集合，包括：</p>
       <ul>
-        <li><code>message</code> - 消息内容</li>
-        <li><code>atUserList</code> - 被@的用户列表（群聊时使用，可选）</li>
+        <li>AutoLogger - 自动日志记录器</li>
+        <li>WeChatCaptureImage - 微信截图</li>
+        <li>WeChatRecordVideo - 微信视频录制</li>
+        <li>WxLocator - 微信定位器</li>
+        <li>MessageBubbleParser - 消息气泡解析器</li>
+        <li>MomentsHelper - 朋友圈助手</li>
+        <li>以及其他辅助工具类</li>
       </ul>
 
-      <h4>SendFile</h4>
-      <pre><code class="language-csharp">public void SendFile(string[] files)</code></pre>
-      <p>发送文件。</p>
-      <p><strong>参数：</strong></p>
+      <h2>公共类</h2>
+      
+      <h3>数据模型</h3>
+      <p><a href="api-models.html"><strong>数据模型 (Models)</strong></a> - WeAutoCommon 库中的数据模型：</p>
       <ul>
-        <li><code>files</code> - 文件路径数组</li>
+        <li>Result&lt;T&gt; - 结果封装类</li>
+        <li>Maybe&lt;T&gt; - 可选值类型</li>
+        <li>Conversation - 会话模型</li>
+        <li>ChatResponse - 聊天响应</li>
+        <li>MomentItem - 朋友圈项</li>
+        <li>以及其他数据模型</li>
       </ul>
 
-      <h4>SendEmoji</h4>
-      <pre><code class="language-csharp">public void SendEmoji(
-    OneOf&lt;int, string&gt; emoji, 
-    List&lt;string&gt; atUserList = null
-)</code></pre>
-      <p>发送表情。</p>
-      <p><strong>参数：</strong></p>
+      <h3>枚举类型</h3>
+      <p><a href="api-enums.html"><strong>枚举类型 (Enums)</strong></a> - 所有枚举类型定义：</p>
       <ul>
-        <li><code>emoji</code> - 表情索引或名称</li>
-        <li><code>atUserList</code> - 被@的用户列表（可选）</li>
+        <li>ChatType - 聊天类型</li>
+        <li>MessageType - 消息类型</li>
+        <li>MessageSourceType - 消息来源类型</li>
+        <li>NavigationType - 导航类型</li>
+        <li>以及其他枚举类型</li>
       </ul>
 
-      <h4>SendVoiceChat</h4>
-      <pre><code class="language-csharp">public void SendVoiceChat()</code></pre>
-      <p>发起单个语音聊天。</p>
-
-      <h4>SendVoiceChats</h4>
-      <pre><code class="language-csharp">public void SendVoiceChats(string[] whos)</code></pre>
-      <p>发起多个语音聊天（群聊）。</p>
-
-      <h4>SendVideoChat</h4>
-      <pre><code class="language-csharp">public void SendVideoChat()</code></pre>
-      <p>发起视频聊天。</p>
-
-      <h4>SendLiveStreaming</h4>
-      <pre><code class="language-csharp">public void SendLiveStreaming()</code></pre>
-      <p>发起直播（群聊）。</p>
-
-      <h4>PasteImageFiles</h4>
-      <pre><code class="language-csharp">public void PasteImageFiles()</code></pre>
-      <p>粘贴图片文件到输入框。</p>
-
-      <h2>MessageBubble</h2>
-      <p>消息气泡，表示一条消息。</p>
-
-      <h3>属性</h3>
+      <h3>配置类</h3>
+      <p><a href="api-configs.html"><strong>配置类 (Configs)</strong></a> - 配置选项：</p>
       <ul>
-        <li><code>MessageType</code> - 消息类型（MessageType）</li>
-        <li><code>MessageSource</code> - 消息来源类型（MessageSourceType）</li>
-        <li><code>Who</code> - 发送者名称（string）</li>
-        <li><code>GroupNickName</code> - 群昵称（string）</li>
-        <li><code>MessageContent</code> - 消息内容（string）</li>
-        <li><code>MessageTime</code> - 消息时间（DateTime?）</li>
-        <li><code>IsNew</code> - 是否是新消息（bool）</li>
-        <li><code>BeReferencedPersion</code> - 被引用消息的人（string）</li>
-        <li><code>BeReferencedMessage</code> - 被引用消息的内容（string）</li>
-        <li><code>BeTap</code> - 被拍一拍的人（string）</li>
-        <li><code>RuntimeId</code> - 运行时ID（int[]）</li>
-        <li><code>BubbleHash</code> - 气泡哈希值（string）</li>
+        <li>WeChatConfig - 微信配置</li>
+        <li>WeMettingConfig - 会议配置</li>
       </ul>
 
-      <h3>方法</h3>
-
-      <h4>ToChatSimpleMessage</h4>
-      <pre><code class="language-csharp">public ChatSimpleMessage ToChatSimpleMessage()</code></pre>
-      <p>转换为 ChatSimpleMessage。</p>
-
-      <h4>IsInvokable</h4>
-      <pre><code class="language-csharp">public bool IsInvokable()</code></pre>
-      <p>判断是否可点击。</p>
-
-      <h4>RrettyPrint</h4>
-      <pre><code class="language-csharp">public string RrettyPrint()</code></pre>
-      <p>格式化输出。</p>
-
-      <h2>MessageBubbleList</h2>
-      <p>消息气泡列表，管理聊天中的所有消息气泡。</p>
-
-      <h3>方法</h3>
-
-      <h4>GetAllBubbles</h4>
-      <pre><code class="language-csharp">public List&lt;MessageBubble&gt; GetAllBubbles()</code></pre>
-      <p>获取所有消息气泡。</p>
-
-      <h4>GetNewMessages</h4>
-      <pre><code class="language-csharp">public List&lt;MessageBubble&gt; GetNewMessages()</code></pre>
-      <p>获取新消息。</p>
-
-      <h4>GetVisibleBubblesByPolling</h4>
-      <pre><code class="language-csharp">public List&lt;MessageBubble&gt; GetVisibleBubblesByPolling(
-    UIThreadInvoker uiThreadInvoker
-)</code></pre>
-      <p>通过轮询获取可见的消息气泡。</p>
-
-      <h2>MessageContext</h2>
-      <p>消息上下文，包含消息处理所需的所有信息。</p>
-
-      <h3>属性</h3>
+      <h3>公共工具类</h3>
+      <p><a href="api-common-utils.html"><strong>公共工具类 (Common Utils)</strong></a> - WeAutoCommon 库中的工具类：</p>
       <ul>
-        <li><code>OwnerNickName</code> - 当前微信昵称（string）</li>
-        <li><code>NewMessages</code> - 新消息列表（List&lt;MessageBubble&gt;）</li>
-        <li><code>AllMessages</code> - 所有消息列表（List&lt;MessageBubble&gt;）</li>
-        <li><code>Sender</code> - 发送器（Sender）</li>
-        <li><code>OwnerClient</code> - 当前微信客户端（WeChatClient）</li>
-        <li><code>SystemClientFactory</code> - 系统微信客户端工厂（WeChatClientFactory）</li>
-        <li><code>ServiceProvider</code> - 服务提供者（IServiceProvider）</li>
+        <li>UIThreadInvoker - UI线程调用器</li>
+        <li>RandomWait - 随机等待</li>
+        <li>EmojiListHelper - 表情列表助手</li>
+        <li>IMEHelper - 输入法助手</li>
+        <li>以及其他工具类</li>
       </ul>
 
-      <h2>ConversationList</h2>
-      <p>会话列表，管理微信主窗口左侧的会话列表。</p>
-
-      <h3>方法</h3>
-
-      <h4>GetAllConversations</h4>
-      <pre><code class="language-csharp">public List&lt;Conversation&gt; GetAllConversations()</code></pre>
-      <p>获取所有会话。</p>
-
-      <h4>FindConversationByTitle</h4>
-      <pre><code class="language-csharp">public Conversation FindConversationByTitle(string title)</code></pre>
-      <p>根据标题查找会话。</p>
-
-      <h4>ClickConversation</h4>
-      <pre><code class="language-csharp">public void ClickConversation(string title)</code></pre>
-      <p>点击会话。</p>
-
-      <h2>Conversation</h2>
-      <p>会话模型。</p>
-
-      <h3>属性</h3>
+      <h2>快速查找</h2>
+      
+      <p>使用左侧导航菜单快速定位到需要的 API 文档。所有 API 文档都包含：</p>
       <ul>
-        <li><code>ConversationType</code> - 会话类型（ConversationType）</li>
-        <li><code>ConversationTitle</code> - 会话标题（string）</li>
-        <li><code>ConversationContent</code> - 会话内容（string）</li>
-        <li><code>IsCompanyGroup</code> - 是否是企业群（bool）</li>
-        <li><code>HasNotRead</code> - 是否有未读消息（bool）</li>
-        <li><code>Time</code> - 会话时间（string）</li>
-        <li><code>IsDoNotDisturb</code> - 是否免打扰（bool）</li>
-        <li><code>IsTop</code> - 是否置顶（bool）</li>
+        <li>类的概述和用途说明</li>
+        <li>完整的属性列表</li>
+        <li>详细的方法说明（包括参数和返回值）</li>
+        <li>使用示例代码</li>
+        <li>相关类型和枚举的链接</li>
       </ul>
-
-      <h2>枚举类型</h2>
-
-      <h3>ChatType</h3>
-      <pre><code class="language-csharp">public enum ChatType
-{
-    好友,        // 与好友单聊
-    群聊,        // 群聊
-    公众号,      // 公众号
-    订阅号,      // 订阅号
-    服务通知,    // 服务通知
-    腾讯新闻,    // 腾讯新闻
-    微信团队,    // 微信团队
-    其他         // 其他类型
-}</code></pre>
-
-      <h3>MessageType</h3>
-      <pre><code class="language-csharp">public enum MessageType
-{
-    文字,        图片,  语音,  视频,  文件,
-    聊天记录,    位置,  个人名片,  视频号,
-    视频号直播,  红包,  微信转账,  小程序,
-    链接,        表情,  时间,  引用,  笔记,
-    拍一拍,      撤回消息,  其他
-}</code></pre>
-
-      <h3>MessageSourceType</h3>
-      <pre><code class="language-csharp">public enum MessageSourceType
-{
-    好友发送消息,
-    自己发送消息,
-    系统消息,
-    其他消息
-}</code></pre>
-
-      <h2>结果类型</h2>
-
-      <h3>Result</h3>
-      <pre><code class="language-csharp">public class Result
-{
-    public bool Success { get; set; }
-    public string Error { get; set; }
-    
-    public static Result Ok();
-    public static Result Fail(string error);
-}</code></pre>
-
-      <h3>Result&lt;T&gt;</h3>
-      <pre><code class="language-csharp">public class Result&lt;T&gt; : Result
-{
-    public T Value { get; set; }
-    
-    public static Result&lt;T&gt; Ok(T value);
-    public static Result&lt;T&gt; Fail(string error);
-    
-    public Result&lt;U&gt; Map&lt;U&gt;(Func&lt;T, U&gt; mapper);
-    public Result&lt;U&gt; Bind&lt;U&gt;(Func&lt;T, Result&lt;U&gt;&gt; binder);
-    public U Match&lt;U&gt;(Func&lt;T, U&gt; ok, Func&lt;string, U&gt; fail);
-}</code></pre>
-
-      <h2>使用示例</h2>
-
-      <h3>完整示例：自动回复机器人</h3>
-      <pre><code class="language-csharp">var factory = serviceProvider.GetRequiredService&lt;WeChatClientFactory&gt;();
-var client = factory.GetWeChatClient("微信昵称");
-
-// 打开好友
-client.FindAndOpenFriendOrGroup("好友名称");
-
-// 获取聊天内容区
-var chatContent = client.WxMainWindow.MainChatContent;
-var chatBody = chatContent.ChatBody;
-
-// 添加消息监听
-chatBody.AddListener(messageContext =>
-{
-    foreach (var message in messageContext.NewMessages)
-    {
-        // 只处理好友发送的消息
-        if (message.MessageSource == MessageSourceType.好友发送消息)
-        {
-            var reply = message.MessageContent switch
-            {
-                "你好" => "你好！",
-                "在吗" => "在的，有什么事吗？",
-                _ => "我收到了你的消息：" + message.MessageContent
-            };
-            
-            messageContext.Sender.SendMessage(reply);
-        }
-    }
-});
-
-// 保持程序运行
-Console.WriteLine("自动回复机器人已启动，按任意键退出...");
-Console.ReadKey();
-
-chatBody.StopListener();</code></pre>
 
       <h2>相关资源</h2>
       <ul>
@@ -533,4 +223,3 @@ chatBody.StopListener();</code></pre>
   </div>
 </body>
 </html>
-
