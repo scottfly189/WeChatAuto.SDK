@@ -244,6 +244,7 @@ namespace WeChatAuto.Components
             {
                 return;
             }
+            _disposed = true;
             if (WeAutomation.Config.EnableMouseKeyboardSimulator)
             {
                 KMSimulatorService.CloseDevice();
@@ -261,7 +262,6 @@ namespace WeChatAuto.Components
                     client.Value?.Dispose();
                 }
             }
-            _disposed = true;
         }
     }
 }

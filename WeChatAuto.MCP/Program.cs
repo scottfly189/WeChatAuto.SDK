@@ -35,5 +35,31 @@ Alert.Show($"当前进程ID: {Process.GetCurrentProcess().Id}");
 
 var host = builder.Build();
 
-//运行MCP服务
-await host.RunAsync();
+try
+{
+    //运行MCP服务
+    await host.RunAsync();
+}
+catch (Exception ex)
+{
+    // 记录异常（如果需要）
+    Alert.Show($"MCP服务运行异常: {ex.Message}");
+    throw;
+}
+finally
+{
+    try
+    {
+        Alert.Show("MCP服务已停止");
+        // 在 host dispose 之前获取并清理服务
+        var service = host.Services.GetService<WeChatClientService>();
+        service?.Dispose();
+    }
+    catch (Exception ex)
+    {
+        // 清理过程中的异常不应该阻止 host 的释放
+        Alert.Show($"清理资源时发生异常: {ex.Message}");
+    }
+    // 确保 host 被正确释放
+    host?.Dispose();
+}

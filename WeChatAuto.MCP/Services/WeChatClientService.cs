@@ -7,8 +7,9 @@ using WeAutoCommon.Models;
 /// <summary>
 /// 微信客户端服务,提供微信客户端的获取、设置等操作
 /// </summary>
-public class WeChatClientService
+public class WeChatClientService : IDisposable
 {
+    private volatile bool _disposed = false;
     private readonly WeChatClientFactory _weChatClientFactory;
     /// <summary>
     /// 微信客户端服务构造函数
@@ -115,6 +116,29 @@ public class WeChatClientService
         var client = _weChatClientFactory.GetWeChatClient(clientName);
         await client.SendWhos(whos, message);
         return WeAutoCommon.Models.Result.Ok();
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+    
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+        {
+            return;
+        }
+        _disposed = true;
+        if (disposing)
+        {
+            _weChatClientFactory.Dispose();
+        }
+    }
+    ~WeChatClientService()
+    {
+        Dispose(false);
     }
 
 }
