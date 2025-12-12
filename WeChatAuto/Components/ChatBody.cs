@@ -32,7 +32,7 @@ namespace WeChatAuto.Components
         private AutomationElement _ChatBodyRoot;
         private WeChatMainWindow _MainWxWindow;
         private UIThreadInvoker _uiMainThreadInvoker;
-        public MessageBubbleList BubbleListObject => GetBubbleListObject();
+        public MessageBubbleList MessageBubbleList => GetBubbleListObject();
         public Sender Sender => GetSender();
         private System.Threading.Timer _pollingTimer;
         private int _lastMessageCount = 0;
@@ -157,7 +157,7 @@ namespace WeChatAuto.Components
         {
             try
             {
-                var bubbles = BubbleListObject.GetVisibleBubblesByPolling(_PrivateThreadInvoker);
+                var bubbles = MessageBubbleList.GetVisibleBubblesByPolling(_PrivateThreadInvoker);
                 return (bubbles.Count, bubbles);
             }
             catch (Exception ex)
@@ -275,7 +275,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 获取聊天内容区可见气泡列表
         /// </summary>
-        /// <returns>聊天内容区可见气泡列表对象<see cref="MessageBubbleList"/></returns>
+        /// <returns>聊天内容区可见气泡列表对象<see cref="Components.MessageBubbleList"/></returns>
         public MessageBubbleList GetBubbleListObject()
         {
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";

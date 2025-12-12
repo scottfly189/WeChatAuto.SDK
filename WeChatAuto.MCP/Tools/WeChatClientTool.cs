@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics.Contracts;
 using System.Text.Json;
 using ModelContextProtocol.Server;
 using WeChatAuto.Components;
@@ -25,12 +26,6 @@ public sealed class WeChatClientTool
         return await Task.FromResult(clientName ?? string.Empty);
     }
 
-    [McpServerTool, Description("查找并打开好友或者群聊昵称,如果找到，则打开好友或者群聊窗口")]
-    public async Task<string> FindAndOpenFriendOrGroup([Description("好友或者群聊昵称")] string who)
-    {
-        var result = _weChatClientService.FindAndOpenFriendOrGroup(who);
-        return await Task.FromResult(JsonSerializer.Serialize(result));
-    }
 
     [McpServerTool, Description("获取指定好友或者群聊的所有聊天记录，默认获取10页聊天记录，如果指定页数，则获取指定页数的聊天记录")]
     public async Task<string> GetChatAllHistory([Description("好友或者群聊昵称")] string who, [Description("获取的聊天记录数量，默认是10页,可以指定获取的页数,如果指定页数，则获取指定页数的聊天记录")] int pageCount = 10)
@@ -68,7 +63,7 @@ public sealed class WeChatClientTool
     }
 
     [McpServerTool, Description("发送消息给指定多个好友(或者群聊昵称)")]
-    public async Task<string> SendMessagesWithAtUsers(
+    public async Task<string> SendMessages(
         [Description("好友或者群聊昵称列表")] string[] whos,
         [Description("消息内容")] string message)
     {
@@ -84,12 +79,38 @@ public sealed class WeChatClientTool
         _weChatClientService.SendVoiceChats(groupName, whos);
         return await Task.FromResult(JsonSerializer.Serialize(new { success = true }));
     }
-    
+
     [McpServerTool, Description("发起视频聊天,适用于单个好友")]
     public async Task<string> SendVideoChat(
         [Description("好友名称,微信好友昵称")] string who)
     {
         _weChatClientService.SendVideoChat(who);
         return await Task.FromResult(JsonSerializer.Serialize(new { success = true }));
+    }
+    [McpServerTool, Description("发布群聊公告")]
+    public async Task<string> PublishGroupChatNotice(
+        [Description("微信群聊名称")] string groupName,
+        [Description("公告内容")] string notice)
+    {
+        var result = await _weChatClientService.PublishGroupChatNotice(groupName, notice);
+        return await Task.FromResult(JsonSerializer.Serialize(result));
+    }
+
+    [McpServerTool, Description("删除聊天记录(或者说聊天内容)")]
+    public async Task<string> ClearChatGroupHistory(
+        [Description("微信好友或者群聊名称")] string groupName)
+    {
+        await _weChatClientService.ClearChatGroupHistory(groupName);
+        return await Task.FromResult(JsonSerializer.Serialize(new { success = true }));
+    }
+
+    [McpServerTool, Description("转发消息,默认转发5行消息，可以指定转发行数")]
+    public async Task<string> ForwardMessage(
+        [Description("转发消息的来源,可以是好友名称，也可以是群聊名称")] string fromWho,
+        [Description("转发消息的接收者,可以是好友名称，也可以是群聊名称")] string toWho,
+        [Description("转发消息的行数,默认是5行,可以指定转发行数")] int rowCount = 5)
+    {
+        var result = await _weChatClientService.ForwardMessage(fromWho, toWho, rowCount);
+        return await Task.FromResult(JsonSerializer.Serialize(result));
     }
 }

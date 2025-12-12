@@ -3,6 +3,7 @@ using ModelContextProtocol.Protocol;
 using WeChatAuto.Components;
 using WeChatAuto.Models;
 using WeAutoCommon.Models;
+using WxAutoCommon.Models;
 
 /// <summary>
 /// 微信客户端服务,提供微信客户端的获取、设置等操作
@@ -140,6 +141,43 @@ public class WeChatClientService : IDisposable
         var clientName = GetCurrentWeChatClientName();
         var client = _weChatClientFactory.GetWeChatClient(clientName);
         client.SendVideoChat(who);
+    }
+    /// <summary>
+    /// 发布群聊公告
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <param name="notice">公告内容</param>
+    /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
+    public async Task<ChatResponse> PublishGroupChatNotice(string groupName, string notice)
+    {
+        var clientName = GetCurrentWeChatClientName();
+        var client = _weChatClientFactory.GetWeChatClient(clientName);
+        return await client.UpdateGroupNotice(groupName, notice);
+    }
+
+    /// <summary>
+    /// 删除群聊内容
+    /// </summary>
+    /// <param name="groupName">群聊名称</param>
+    /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
+    public async Task ClearChatGroupHistory(string groupName)
+    {
+        var clientName = GetCurrentWeChatClientName();
+        var client = _weChatClientFactory.GetWeChatClient(clientName);
+        await client.ClearChatGroupHistory(groupName);
+    }
+    /// <summary>
+    /// 转发消息
+    /// </summary>
+    /// <param name="fromWho">转发消息的来源,可以是好友名称，也可以是群聊名称</param>
+    /// <param name="toWho">转发消息的接收者,可以是好友名称，也可以是群聊名称</param>
+    /// <param name="rowCount">转发消息的行数</param>
+    /// <returns>是否转发成功</returns>
+    public async Task<bool> ForwardMessage(string fromWho, string toWho, int rowCount = 5)
+    {
+        var clientName = GetCurrentWeChatClientName();
+        var client = _weChatClientFactory.GetWeChatClient(clientName);
+        return await client.ForwardMessage(fromWho, toWho, rowCount);
     }
 
     public void Dispose()

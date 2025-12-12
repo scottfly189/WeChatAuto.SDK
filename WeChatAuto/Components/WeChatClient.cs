@@ -293,6 +293,16 @@ namespace WeChatAuto.Components
     /// <returns>所有气泡标题列表</returns>
     public List<ChatSimpleMessage> GetChatAllHistory(string who,int pageCount = 10)
       => WxMainWindow.GetAllChatHistory(who,pageCount);
+
+    /// <summary>
+    /// 转发消息
+    /// </summary>
+    /// <param name="fromWho">转发消息的来源,可以是好友名称，也可以是群聊名称</param>
+    /// <param name="toWho">转发消息的接收者,可以是好友名称，也可以是群聊名称</param>
+    /// <param name="rowCount">转发消息的行数</param>
+    /// <returns>是否转发成功</returns>
+    public async Task<bool> ForwardMessage(string fromWho, string toWho, int rowCount = 5)
+      => await WxMainWindow.ForwardMessage(fromWho, toWho, rowCount);
     #endregion
 
     #region 会话操作

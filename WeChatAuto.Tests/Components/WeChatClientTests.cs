@@ -422,5 +422,17 @@ public class WeChatClientTests
         });
         await Task.Delay(-1);
     }
+    [Theory(DisplayName = "测试转发消息")]
+    [InlineData("AI.Net", "测试11", 5)]
+    [InlineData("测试11", "AI.Net", 5)]
+    [InlineData("歪脖子的模版交流群", "AI.Net", 5)]
+    [InlineData("AI.Net", "歪脖子的模版交流群", 5)]
+    public async Task TestForwardMessage(string fromWho, string toWho, int rowCount = 5)
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        var result = await client.ForwardMessage(fromWho, toWho, rowCount);
+        Assert.True(result);
+    }
     #endregion
 }

@@ -25,7 +25,7 @@ public class MessageBubbleListTests
         var framework = _globalFixture.clientFactory;
         var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
-        var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
+        var bubbleList = window.MainChatContent.ChatBody.MessageBubbleList;
         var chatSimpleMessages = bubbleList.ChatSimpleMessages;
         _output.WriteLine($"获取到的气泡标题列表数量：{chatSimpleMessages.Count}");
         foreach (var chatSimpleMessage in chatSimpleMessages)
@@ -41,7 +41,7 @@ public class MessageBubbleListTests
         var framework = _globalFixture.clientFactory;
         var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
-        var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
+        var bubbleList = window.MainChatContent.ChatBody.MessageBubbleList;
         var bubbles = bubbleList.Bubbles;
         _output.WriteLine($"获取到的气泡列表数量：{bubbles.Count}");
         foreach (var bubble in bubbles)
@@ -68,7 +68,7 @@ public class MessageBubbleListTests
             Assert.True(false);
             return;
         }
-        var subBubbleList = subWin.ChatContent.ChatBody.BubbleListObject;
+        var subBubbleList = subWin.ChatContent.ChatBody.MessageBubbleList;
         var subBubbles = subBubbleList.Bubbles;
         foreach (var bubble in subBubbles)
         {
@@ -94,7 +94,7 @@ public class MessageBubbleListTests
             Assert.True(false);
             return;
         }
-        var subBubbleList = subWin.ChatContent.ChatBody.BubbleListObject;
+        var subBubbleList = subWin.ChatContent.ChatBody.MessageBubbleList;
         var subBubbles = subBubbleList.Bubbles;
         foreach (var bubble in subBubbles)
         {
@@ -114,11 +114,11 @@ public class MessageBubbleListTests
         var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
         await window.SendWho("AI.Net", "hello world!");
-        _output.WriteLine(window.MainChatContent.ChatBody.BubbleListObject.GetChatType().ToString());
-        Assert.Equal(ChatType.好友, window.MainChatContent.ChatBody.BubbleListObject.GetChatType());
+        _output.WriteLine(window.MainChatContent.ChatBody.MessageBubbleList.GetChatType().ToString());
+        Assert.Equal(ChatType.好友, window.MainChatContent.ChatBody.MessageBubbleList.GetChatType());
         await window.SendWho(".NET-AI实时快讯3群", "hello world!");
-        _output.WriteLine(window.MainChatContent.ChatBody.BubbleListObject.GetChatType().ToString());
-        Assert.Equal(ChatType.群聊, window.MainChatContent.ChatBody.BubbleListObject.GetChatType());
+        _output.WriteLine(window.MainChatContent.ChatBody.MessageBubbleList.GetChatType().ToString());
+        Assert.Equal(ChatType.群聊, window.MainChatContent.ChatBody.MessageBubbleList.GetChatType());
     }
 
     [Theory(DisplayName = "测试拍一拍消息-主窗口")]
@@ -132,7 +132,7 @@ public class MessageBubbleListTests
         var framework = _globalFixture.clientFactory;
         var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
-        var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
+        var bubbleList = window.MainChatContent.ChatBody.MessageBubbleList;
         bubbleList.TapWho(who: who);
         Assert.True(true);
         await Task.CompletedTask;
@@ -156,7 +156,7 @@ public class MessageBubbleListTests
             Assert.True(false);
             return;
         }
-        var bubbleList = subWin.ChatContent.ChatBody.BubbleListObject;
+        var bubbleList = subWin.ChatContent.ChatBody.MessageBubbleList;
         bubbleList.TapWho(who: who);
         Assert.True(true);
         await Task.CompletedTask;
@@ -178,7 +178,7 @@ public class MessageBubbleListTests
         var framework = _globalFixture.clientFactory;
         var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
-        var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
+        var bubbleList = window.MainChatContent.ChatBody.MessageBubbleList;
         bubbleList.CollectMessage(who: who, message: message, 10);
         Assert.True(true);
         await Task.CompletedTask;
@@ -207,7 +207,7 @@ public class MessageBubbleListTests
             Assert.True(false);
             return;
         }
-        var bubbleList = subWin.ChatContent.ChatBody.BubbleListObject;
+        var bubbleList = subWin.ChatContent.ChatBody.MessageBubbleList;
         bubbleList.CollectMessage(who: who, message: message, 10);
         Assert.True(true);
         await Task.CompletedTask;
@@ -231,7 +231,7 @@ public class MessageBubbleListTests
         var framework = _globalFixture.clientFactory;
         var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
-        var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
+        var bubbleList = window.MainChatContent.ChatBody.MessageBubbleList;
         bubbleList.ReferencedMessage(who: who, message: message, 10);
         Assert.True(true);
         await Task.CompletedTask;
@@ -260,7 +260,7 @@ public class MessageBubbleListTests
             Assert.True(false);
             return;
         }
-        var bubbleList = subWin.ChatContent.ChatBody.BubbleListObject;
+        var bubbleList = subWin.ChatContent.ChatBody.MessageBubbleList;
         bubbleList.ReferencedMessage(who: who, message: message, 10);
         Assert.True(true);
         await Task.CompletedTask;
@@ -280,7 +280,7 @@ public class MessageBubbleListTests
         var framework = _globalFixture.clientFactory;
         var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
-        var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
+        var bubbleList = window.MainChatContent.ChatBody.MessageBubbleList;
         bubbleList.ForwardSingleMessage(lastRowIndex: index, to: to);
         Assert.True(true);
         await Task.CompletedTask;
@@ -303,7 +303,7 @@ public class MessageBubbleListTests
         var framework = _globalFixture.clientFactory;
         var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
-        var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
+        var bubbleList = window.MainChatContent.ChatBody.MessageBubbleList;
         bubbleList.ForwardSingleMessage(who: who, message: message, to: to, 10);
         Assert.True(true);
         await Task.CompletedTask;
@@ -328,7 +328,7 @@ public class MessageBubbleListTests
             Assert.True(false);
             return;
         }
-        var subBubbleList = subWin.ChatContent.ChatBody.BubbleListObject;
+        var subBubbleList = subWin.ChatContent.ChatBody.MessageBubbleList;
         subBubbleList.ForwardSingleMessage(who: who, message: message, to: to);
         Assert.True(true);
         await Task.CompletedTask;
@@ -347,7 +347,7 @@ public class MessageBubbleListTests
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var bubbleList = window.MainChatContent.ChatBody.BubbleListObject;
+            var bubbleList = window.MainChatContent.ChatBody.MessageBubbleList;
             bubbleList.ForwardMultipleMessage(to: to, rowCount: rowCount);
             Assert.True(true);
             await Task.CompletedTask;
@@ -376,7 +376,7 @@ public class MessageBubbleListTests
             Assert.True(false);
             return;
         }
-        var bubbleList = subWin.ChatContent.ChatBody.BubbleListObject;
+        var bubbleList = subWin.ChatContent.ChatBody.MessageBubbleList;
         bubbleList.ForwardMultipleMessage(to: to, rowCount: rowCount);
         Assert.True(true);
         await Task.CompletedTask;

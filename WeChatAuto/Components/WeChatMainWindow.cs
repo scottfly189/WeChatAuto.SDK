@@ -761,6 +761,27 @@ namespace WeChatAuto.Components
             return false;
         }
         /// <summary>
+        /// 转发消息
+        /// </summary>
+        /// <param name="fromWho">转发消息的来源,可以是好友名称，也可以是群聊名称</param>
+        /// <param name="toWho">转发消息的接收者,可以是好友名称，也可以是群聊名称</param>
+        /// <param name="rowCount">转发消息的行数</param>
+        /// <returns>是否转发成功</returns>
+        public async Task<bool> ForwardMessage(string fromWho, string toWho, int rowCount = 5)
+        {
+            if (await this.SubWinList.CheckSubWinExistAndOpen(fromWho))
+            {
+                var subWin = this.SubWinList.GetSubWin(fromWho);
+                if (subWin != null)
+                {
+                    subWin.ChatContent.ChatBody.MessageBubbleList.ForwardMultipleMessage(toWho, true, rowCount);
+                    return await Task.FromResult(true);
+                }
+            }
+
+            return await Task.FromResult(false);
+        }
+        /// <summary>
         /// 查找并打开好友或者群聊昵称,如果找到，则打开好友或者群聊窗口
         /// </summary>
         /// <param name="who">好友或者群聊昵称</param>
@@ -1212,10 +1233,8 @@ namespace WeChatAuto.Components
         /// <param name="callBack">回调函数,由使用者提供,参数：消息上下文<see cref="MessageContext"/></param>
         public async Task AddMessageListener(string nickName, Action<MessageContext> callBack, string replyer = null)
         {
-            await _SubWinList.CheckSubWinExistAndOpen(nickName);
-            await Task.Delay(500);
-            _SubWinList.RegisterMonitorSubWin(nickName);
-            await _SubWinList.AddMessageListener(callBack, nickName);
+            //will do
+            await Task.FromResult(true);
         }
         /// <summary>
         /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会调用回调函数

@@ -171,8 +171,8 @@ namespace WeChatAuto.Components
                      if (result.Result.AsWindow() != null)
                      {
                          result.Result.AsWindow().Focus();
-                    }
-                }
+                     }
+                 }
                  return result;
              }).GetAwaiter().GetResult();
 
@@ -210,6 +210,17 @@ namespace WeChatAuto.Components
         {
             if (_SubWinsCache.ContainsKey(name))
             {
+                if (!CheckSubWinIsOpen(name))
+                {
+                    _SubWinsCache.Remove(name);
+                    _MainWxWindow.OpenSubWinDispatch(new ChatActionMessage()
+                    {
+                        Type = ActionType.打开子窗口,
+                        ToUser = name,
+                        IsOpenSubWin = true
+                    }).GetAwaiter().GetResult();
+                    return GetSubWin(name);
+                }
                 return _SubWinsCache[name];
             }
             var subWin = _uiMainThreadInvoker.Run(automation =>
