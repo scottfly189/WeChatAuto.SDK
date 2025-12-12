@@ -1,0 +1,90 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .box { fill: #f6f8fa; stroke: #42b983; stroke-width: 2; }
+      .text { font-family: Arial, sans-serif; font-size: 14px; fill: #2c3e50; }
+      .title { font-weight: bold; font-size: 16px; }
+      .arrow { stroke: #42b983; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .diamond { fill: #42b983; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#42b983" />
+    </marker>
+  </defs>
+  
+  <!-- WeChatClientFactory -->
+  <rect x="50" y="50" width="180" height="60" class="box" rx="5"/>
+  <text x="140" y="80" class="text title" text-anchor="middle">WeChatClientFactory</text>
+  
+  <!-- WeChatClient -->
+  <rect x="300" y="50" width="150" height="60" class="box" rx="5"/>
+  <text x="375" y="80" class="text title" text-anchor="middle">WeChatClient</text>
+  
+  <!-- WeChatNotifyIcon -->
+  <rect x="300" y="150" width="150" height="50" class="box" rx="5"/>
+  <text x="375" y="180" class="text" text-anchor="middle">WeChatNotifyIcon</text>
+  
+  <!-- WeChatMainWindow -->
+  <rect x="300" y="230" width="150" height="60" class="box" rx="5"/>
+  <text x="375" y="260" class="text title" text-anchor="middle">WeChatMainWindow</text>
+  
+  <!-- ChatContent -->
+  <rect x="500" y="230" width="120" height="60" class="box" rx="5"/>
+  <text x="560" y="260" class="text title" text-anchor="middle">ChatContent</text>
+  
+  <!-- ChatHeader -->
+  <rect x="500" y="320" width="120" height="50" class="box" rx="5"/>
+  <text x="560" y="350" class="text" text-anchor="middle">ChatHeader</text>
+  
+  <!-- ChatBody -->
+  <rect x="500" y="390" width="120" height="60" class="box" rx="5"/>
+  <text x="560" y="420" class="text title" text-anchor="middle">ChatBody</text>
+  
+  <!-- MessageBubbleList -->
+  <rect x="650" y="390" width="130" height="50" class="box" rx="5"/>
+  <text x="715" y="420" class="text" text-anchor="middle">MessageBubbleList</text>
+  
+  <!-- Sender -->
+  <rect x="650" y="460" width="130" height="50" class="box" rx="5"/>
+  <text x="715" y="490" class="text" text-anchor="middle">Sender</text>
+  
+  <!-- MessageBubble -->
+  <rect x="650" y="530" width="130" height="50" class="box" rx="5"/>
+  <text x="715" y="560" class="text" text-anchor="middle">MessageBubble</text>
+  
+  <!-- 其他组件 -->
+  <rect x="50" y="320" width="120" height="50" class="box" rx="5"/>
+  <text x="110" y="350" class="text" text-anchor="middle">ConversationList</text>
+  
+  <rect x="50" y="390" width="120" height="50" class="box" rx="5"/>
+  <text x="110" y="420" class="text" text-anchor="middle">AddressBookList</text>
+  
+  <rect x="50" y="460" width="120" height="50" class="box" rx="5"/>
+  <text x="110" y="490" class="text" text-anchor="middle">Search</text>
+  
+  <!-- 关系箭头 -->
+  <line x1="230" y1="80" x2="300" y2="80" class="arrow"/>
+  <line x1="375" y1="110" x2="375" y2="150" class="arrow"/>
+  <line x1="375" y1="110" x2="375" y2="230" class="arrow"/>
+  <line x1="450" y1="260" x2="500" y2="260" class="arrow"/>
+  <line x1="560" y1="290" x2="560" y2="320" class="arrow"/>
+  <line x1="560" y1="290" x2="560" y2="390" class="arrow"/>
+  <line x1="620" y1="420" x2="650" y2="420" class="arrow"/>
+  <line x1="620" y1="450" x2="650" y2="460" class="arrow"/>
+  <line x1="715" y1="440" x2="715" y2="530" class="arrow"/>
+  
+  <!-- 关系标注 -->
+  <text x="265" y="75" class="text" font-size="12" fill="#42b983">1..*</text>
+  <text x="350" y="135" class="text" font-size="12" fill="#42b983">1</text>
+  <text x="350" y="215" class="text" font-size="12" fill="#42b983">1</text>
+  <text x="475" y="255" class="text" font-size="12" fill="#42b983">1</text>
+  <text x="545" y="310" class="text" font-size="12" fill="#42b983">1</text>
+  <text x="545" y="380" class="text" font-size="12" fill="#42b983">1</text>
+  <text x="635" y="415" class="text" font-size="12" fill="#42b983">1</text>
+  <text x="635" y="485" class="text" font-size="12" fill="#42b983">1</text>
+  <text x="680" y="485" class="text" font-size="12" fill="#42b983">1..*</text>
+  
+  <!-- 标题 -->
+  <text x="400" y="30" class="text title" font-size="18" text-anchor="middle">WeChatAuto.SDK 类关系图</text>
+</svg>
+

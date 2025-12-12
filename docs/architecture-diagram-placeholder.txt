@@ -1,0 +1,44 @@
+架构图占位说明
+
+请将 WeChatAuto.SDK 类关系图保存为 architecture-diagram.png 文件，放在此目录下。
+
+架构图应展示以下类关系：
+
+1. WeChatClientFactory
+   - 创建和管理多个 WeChatClient 实例
+   - 关系：1..* WeChatClient
+
+2. WeChatClient
+   - 包含 WeChatNotifyIcon（通知图标）
+   - 包含 WeChatMainWindow（主窗口）
+   - 关系：1 WeChatNotifyIcon, 1 WeChatMainWindow
+
+3. WeChatMainWindow
+   - 包含多个子组件：
+     - ToolBar（工具栏）
+     - Navigation（导航栏）
+     - Search（搜索）
+     - ConversationList（会话列表）
+     - AddressBookList（通讯录）
+     - ChatContent（主聊天窗口）
+     - SubWinList（子窗口列表）
+     - Moments（朋友圈）
+
+4. ChatContent
+   - 包含 ChatHeader（聊天头部）
+   - 包含 ChatBody（聊天主体）
+   - 关系：1 ChatHeader, 1 ChatBody
+
+5. ChatBody
+   - 包含 MessageBubbleList（消息气泡列表）
+   - 包含 Sender（发送器）
+   - 关系：1 MessageBubbleList, 1 Sender
+
+6. MessageBubbleList
+   - 包含多个 MessageBubble（消息气泡）
+   - 关系：1..* MessageBubble
+
+7. SubWin（子窗口）
+   - 也包含 ChatContent
+   - 架构同主窗口的 ChatContent
+
