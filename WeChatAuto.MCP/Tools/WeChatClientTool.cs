@@ -34,7 +34,7 @@ public sealed class WeChatClientTool
         return await Task.FromResult(JsonSerializer.Serialize(result));
     }
 
-    [McpServerTool, Description("发送消息给指定好友(或者群聊昵称)")]
+    [McpServerTool, Description("发送文字消息给指定好友(或者群聊昵称)。这是发送普通文字消息的标准方法，需要提供消息内容。如果只是发送文字消息，请使用此方法而不是其他方法。")]
     public async Task<string> SendMessage(
         [Description("好友或者群聊昵称")] string who,
         [Description("消息内容")] string message)
@@ -43,7 +43,7 @@ public sealed class WeChatClientTool
         return await Task.FromResult(JsonSerializer.Serialize(new { success = true }));
     }
 
-    [McpServerTool, Description("发送消息给指定好友(或者群聊昵称)，并@指定一个好友,仅适用于群聊")]
+    [McpServerTool, Description("发送文字消息给指定好友(或者群聊昵称)，并@指定一个好友,仅适用于群聊")]
     public async Task<string> SendMessageWithAtUser(
         [Description("好友或者群聊昵称")] string who,
         [Description("消息内容")] string message,
@@ -52,7 +52,7 @@ public sealed class WeChatClientTool
         await _weChatClientService.SendMessage(who, message, atUser);
         return await Task.FromResult(JsonSerializer.Serialize(new { success = true }));
     }
-    [McpServerTool, Description("发送消息给指定好友(或者群聊昵称)，并@指定多个好友,仅适用于群聊")]
+    [McpServerTool, Description("发送文字消息给指定好友(或者群聊昵称)，并@指定多个好友,仅适用于群聊")]
     public async Task<string> SendMessageWithAtUsers(
         [Description("好友或者群聊昵称")] string who,
         [Description("消息内容")] string message,
@@ -62,7 +62,7 @@ public sealed class WeChatClientTool
         return await Task.FromResult(JsonSerializer.Serialize(result));
     }
 
-    [McpServerTool, Description("发送消息给指定多个好友(或者群聊昵称)")]
+    [McpServerTool, Description("发送文字消息给指定多个好友(或者群聊昵称)")]
     public async Task<string> SendMessages(
         [Description("好友或者群聊昵称列表")] string[] whos,
         [Description("消息内容")] string message)
@@ -71,8 +71,8 @@ public sealed class WeChatClientTool
         return await Task.FromResult(JsonSerializer.Serialize(result));
     }
 
-    [McpServerTool, Description("发起语音聊天,适用于群聊中发起语音聊天")]
-    public async Task<string> SendVoiceChats(
+    [McpServerTool, Description("发起语音通话(语音聊天)给指定好友或者群聊。注意：这不是发送消息的方法，而是发起实时语音通话。如果需要发送文字消息，请使用SendMessage等方法。")]
+    public async Task<string> StartVoiceChats(
         [Description("群聊名称")] string groupName,
         [Description("好友名称列表,可以指定多个好友名称")] string[] whos)
     {
@@ -80,8 +80,8 @@ public sealed class WeChatClientTool
         return await Task.FromResult(JsonSerializer.Serialize(new { success = true }));
     }
 
-    [McpServerTool, Description("发起视频聊天,适用于单个好友")]
-    public async Task<string> SendVideoChat(
+    [McpServerTool, Description("发起视频通话(视频聊天)给指定好友。注意：这不是发送消息的方法，而是发起实时视频通话。如果需要发送文字消息，请使用SendMessage等方法。")]
+    public async Task<string> StartVideoChat(
         [Description("好友名称,微信好友昵称")] string who)
     {
         _weChatClientService.SendVideoChat(who);
