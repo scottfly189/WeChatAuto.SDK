@@ -30,7 +30,8 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 输入搜索内容，并回车
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">搜索内容</param>
+        /// <param name="isClear">是否清空搜索框,默认是False:不清空,True:清空</param>
         public void SearchSomething(string text, bool isClear = false)
         {
             var searchEdit = _uiMainThreadInvoker.Run(automation=>Retry.WhileNull(() => _WxWindow.Window.FindFirstByXPath($"//Edit[@Name='{WeChatConstant.WECHAT_SESSION_SEARCH}']"),

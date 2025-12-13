@@ -289,7 +289,7 @@ namespace WeChatAuto.Components
     /// <see cref="ChatSimpleMessage"/>
     /// </summary>
     /// <param name="who">好友名称，可以是好友，也可以是群聊名称</param>
-    /// <param name="count">获取的气泡数量，默认是10页,可以指定获取的页数，如果指定为-1，则获取所有气泡</param>
+    /// <param name="pageCount">获取的气泡数量，默认是10页,可以指定获取的页数，如果指定为-1，则获取所有气泡</param>
     /// <returns>所有气泡标题列表</returns>
     public List<ChatSimpleMessage> GetChatAllHistory(string who,int pageCount = 10)
       => WxMainWindow.GetAllChatHistory(who,pageCount);

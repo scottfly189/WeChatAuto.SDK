@@ -495,7 +495,7 @@ namespace WeChatAuto.Utils
         /// <summary>
         /// 解析小程序消息
         /// </summary>
-        /// <param name="listItem"></param>
+        /// <param name="root"></param>
         /// <returns></returns>
         private bool _ParseMiniProgram(AutomationElement root)
         {
@@ -1784,7 +1784,7 @@ namespace WeChatAuto.Utils
         /// 解析拍一拍消息
         /// </summary>
         /// <param name="listItem"></param>
-        /// <param name="dateStr"></param>
+        /// <param name="dateTime"></param>
         /// <returns></returns>
         private List<MessageBubble> _ParsePickUp(AutomationElement listItem, DateTime? dateTime)
         {

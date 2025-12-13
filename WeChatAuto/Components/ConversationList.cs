@@ -288,7 +288,8 @@ namespace WeChatAuto.Components
         /// 获取会话标题
         /// </summary>
         /// <param name="item"></param>
-        /// <returns></returns>
+        /// <param name="conversation">会话对象<see cref="Conversation"/></param>
+        /// <returns>会话标题</returns>
         private string _GetConversationTitle(ListBoxItem item, Conversation conversation)
         {
             var xPath = "/Pane/Button";
@@ -425,9 +426,8 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 是否是企业群
         /// </summary>
-        /// <param name="item"></param>
-        /// <param name="conversation"></param>
-        /// <returns></returns>
+        /// <param name="item">会话列表项<see cref="ListBoxItem"/></param>
+        /// <returns>是否是企业群</returns>
         private bool _IsCompanyGroup(ListBoxItem item)
         {
             var xPath = "/Pane/Pane/Pane[1]/Pane[2]";

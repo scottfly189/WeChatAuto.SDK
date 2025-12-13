@@ -2,6 +2,7 @@ using System;
 
 namespace WeAutoCommon.Models
 {
+
     /// <summary>
     /// Result类，用于封装操作结果
     /// </summary>
@@ -20,7 +21,7 @@ namespace WeAutoCommon.Models
         public static Result Fail(string error) => new Result(false, error);
     }
     /// <summary>
-    /// Result<T>类，用于封装操作结果
+    /// Result的泛型类，用于封装操作结果
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class Result<T> : Result

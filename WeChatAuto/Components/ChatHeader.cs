@@ -22,6 +22,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="title">聊天标题</param>
         /// <param name="chatInfoButton">聊天信息按钮</param>
+        /// <param name="serviceProvider">服务提供者<see cref="IServiceProvider"/></param>
         public ChatHeader(string title, Button chatInfoButton, IServiceProvider serviceProvider)
         {
             Title = title;

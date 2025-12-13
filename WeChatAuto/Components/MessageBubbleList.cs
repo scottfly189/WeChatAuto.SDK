@@ -463,6 +463,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="who">要收藏的好友昵称</param>
         /// <param name="message">要收藏的消息内容</param>
+        /// <param name="prevPageCount">如果当前页找不到，往前翻页的次数</param>
         public void CollectMessage(string who, string message, int prevPageCount = 3)
           => CollectMessage(new ChatSimpleMessage { Who = who, Message = message }, prevPageCount);
         /// <summary>

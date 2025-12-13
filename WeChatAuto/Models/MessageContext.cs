@@ -224,7 +224,6 @@ namespace WeChatAuto.Models
         /// </summary>
         /// <param name="who">好友名称</param>
         /// <param name="files">文件路径列表</param>
-        /// <param name="files"></param>
         /// <returns></returns>
         public async Task SendFileToFriend(string who, string[] files)
         {

@@ -73,8 +73,9 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 微信客户端窗口构造函数
         /// </summary>
-        /// <param name="window">微信窗口<see cref="Window"/></param>
-        /// <param name="notifyIcon">微信通知图标<see cref="WeChatNotifyIcon"/></param>
+        /// <param name="weChatClientFactory">微信客户端工厂<see cref="WeChatClientFactory"/></param>
+        /// <param name="serviceProvider">服务提供者<see cref="IServiceProvider"/></param>
+        /// <param name="topWindowProcessId">窗口进程ID</param>
         public WeChatMainWindow(WeChatClientFactory weChatClientFactory, IServiceProvider serviceProvider, int topWindowProcessId)
         {
             _uiMainThreadInvoker = new UIThreadInvoker($"WeChatMainWindow_processId_{topWindowProcessId}_Main_Invoker");
@@ -498,6 +499,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <param name="whos">好友名称列表</param>
+        /// <param name="isOpenChat">是否打开子聊天窗口,默认是True:打开,False:不打开</param>
         public void SendVoiceChats(string groupName, string[] whos, bool isOpenChat = true)
         {
             if (_SubWindowIsOpen(groupName, "", subWin => subWin.ChatContent.ChatBody.Sender.SendVoiceChats(whos)))
@@ -540,6 +542,7 @@ namespace WeChatAuto.Components
         /// 发起直播,适用于群聊中发起直播，单个好友没有直播功能
         /// </summary>
         /// <param name="groupName">群聊名称</param>
+        /// <param name="isOpenChat">是否打开子聊天窗口,默认是False:不打开,True:打开</param>
         public void SendLiveStreaming(string groupName, bool isOpenChat = false)
         {
             if (_SubWindowIsOpen(groupName, "", subWin => subWin.ChatContent.ChatBody.Sender.SendLiveStreaming()))
@@ -587,6 +590,7 @@ namespace WeChatAuto.Components
         /// 可能存在不能发送消息的窗口情况，因为当前可能是非聊天窗口
         /// </summary>
         /// <param name="message">消息内容</param>
+        /// <param name="atUserList">被@的用户列表</param>
         private void __SendCurrentMessageCore(string message, List<string> atUserList = null)
         {
             this.MainChatContent.ChatBody.Sender.SendMessage(message, atUserList);
@@ -1865,7 +1869,7 @@ namespace WeChatAuto.Components
         /// 判断子窗口是否打开
         /// </summary>
         /// <param name="name">子窗口名称</param>
-        /// <param name="notInActionThread">是否不在Action线程中执行，默认不在Action线程中执行</param>
+        /// <param name="inActionThread">是否在Action线程中执行，默认在Action线程中执行</param>
         /// <returns>如果子窗口存在，则返回true，否则返回false</returns>
         private (bool success, Window window) __CheckSubWinIsOpen(string name, bool inActionThread = true)
         {

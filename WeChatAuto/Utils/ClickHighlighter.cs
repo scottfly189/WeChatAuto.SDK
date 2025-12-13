@@ -4,12 +4,12 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using WeChatAuto.Services;
 
-/// <summary>
-/// 点击高亮器
-/// </summary>
 
 namespace WeChatAuto.Utils
 {
+    /// <summary>
+    /// 点击高亮器
+    /// </summary>
     public static class ClickHighlighter
     {
         [DllImport("user32.dll")]

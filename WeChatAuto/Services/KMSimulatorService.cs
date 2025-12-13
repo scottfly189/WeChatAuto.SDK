@@ -437,6 +437,7 @@ namespace WeChatAuto.Services
         /// </summary>
         /// <param name="window">窗口</param>
         /// <param name="element">元素</param>
+        /// <param name="count">滚轮数量</param>
         public static void MouseWheel(Window window, AutomationElement element, int count = 3)
         {
             var point = element.BoundingRectangle.Center();
@@ -475,11 +476,11 @@ namespace WeChatAuto.Services
         }
         #endregion
 
-        /// <summary>
-        /// 获取窗口缩放比例
-        /// </summary>
-        /// <param name="hwnd">窗口句柄</param>
-        /// <returns>缩放比例</returns>
+        // /// <summary>
+        // /// 获取窗口缩放比例
+        // /// </summary>
+        // /// <param name="hwnd">窗口句柄</param>
+        // /// <returns>缩放比例</returns>
         // public static double GetScaleForWindow(IntPtr hwnd)
         // {
         //     return DpiHelper.GetWindowDpi(hwnd) / 96.0;

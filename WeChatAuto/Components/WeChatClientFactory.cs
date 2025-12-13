@@ -95,7 +95,7 @@ namespace WeChatAuto.Components
         /// 获取微信客户端列表
         /// 微信客户端请参见<see cref="WeChatClient"/>
         /// </summary>
-        /// <returns>微信客户端列表<see cref="Dictionary{string, WeChatClient}"/></returns>
+        /// <returns>微信客户端列表</returns>
         public Dictionary<string, WeChatClient> GetWxClientList()
         {
             Init();
@@ -194,7 +194,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 获取通知按钮元素
         /// </summary>
-        /// <param name="toolBarResult"></param>
+        /// <param name="toolBar">工具栏元素<see cref="AutomationElement"/></param>
         /// <returns></returns>
         private Maybe<AutomationElement[]> _GetNotifyButtons(AutomationElement toolBar)
         {

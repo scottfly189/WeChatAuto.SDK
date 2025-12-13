@@ -44,6 +44,9 @@ namespace WeChatAuto.Components
         /// <param name="window">窗口<see cref="Window"/></param>
         /// <param name="senderRoot">发送者根元素<see cref="AutomationElement"/></param>
         /// <param name="wxWindow">微信窗口封装<see cref="WeChatMainWindow"/></param>
+        /// <param name="title">发送者标题</param>
+        /// <param name="uiThreadInvoker">UI线程执行器<see cref="UIThreadInvoker"/></param>
+        /// <param name="serviceProvider">服务提供者<see cref="IServiceProvider"/></param>
         /// </summary>
         public Sender(Window window, AutomationElement senderRoot, IWeChatWindow wxWindow, string title, UIThreadInvoker uiThreadInvoker, IServiceProvider serviceProvider)
         {
@@ -218,6 +221,7 @@ namespace WeChatAuto.Components
         /// 发送消息
         /// </summary>
         /// <param name="message">消息内容</param>
+        /// <param name="atUserList">被@的用户列表</param>
         public void SendMessage(string message, List<string> atUserList = null)
         {
             if (atUserList == null || atUserList.Count == 0)
@@ -404,6 +408,7 @@ namespace WeChatAuto.Components
         /// 发送表情
         /// </summary>
         /// <param name="emoji">表情名称或者描述或者索引</param>
+        /// <param name="atUserList">被@的用户列表</param>
         public void SendEmoji(OneOf<int, string> emoji, List<string> atUserList = null)
         {
             var message = "";

@@ -30,9 +30,7 @@ namespace WeChatAuto.Components
         /// 工具栏构造函数
         /// </summary>
         /// <param name="mainWindow">主窗口</param>
-        /// <param name="notifyIcon">通知图标</param>
         /// <param name="uiThreadInvoker">UI线程执行器</param>
-        /// <param name="serviceProvider">服务提供者</param>
         /// <param name="serviceProvider">服务提供者</param>
         public ToolBar(Window mainWindow, UIThreadInvoker uiThreadInvoker, IServiceProvider serviceProvider)
         {

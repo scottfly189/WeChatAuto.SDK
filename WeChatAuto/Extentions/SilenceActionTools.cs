@@ -30,7 +30,8 @@ namespace WeChatAuto.Extentions
         /// <summary>
         /// 静默输入文本
         /// </summary>
-        /// <param name="element">输入框<see cref="TextBox"/></param>
+        /// <param name="wxWindow">微信窗口封装<see cref="IWeChatWindow"/></param>
+        /// <param name="edit">输入框<see cref="TextBox"/></param>
         /// <param name="text">文本</param>
         public static void SilenceEnterText(this IWeChatWindow wxWindow, TextBox edit, string text)
           => wxWindow.SelfWindow.SilenceEnterText(edit, text);

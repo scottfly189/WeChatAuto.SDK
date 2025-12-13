@@ -16,7 +16,6 @@ using WxAutoCommon.Models;
 using WxAutoCommon.Utils;
 using WeChatAuto.Extentions;
 using WeChatAuto.Utils;
-using WxAutoCommon.Simulator;
 using WeChatAuto.Services;
 using WeChatAuto.Models;
 
@@ -37,9 +36,7 @@ namespace WeChatAuto.Components
         private SubWinList _SubWinList;
         private ChatBody _ChatBodyCache;
         public Window SelfWindow { get => _SelfWindow; set => _SelfWindow = value; }
-        /// <summary>
-        /// 昵称
-        /// </summary>
+        //子窗口昵称
         public string NickName { get; set; }
         public ChatContent ChatContent => _ChatContent;
         public int ProcessId => _ProcessId;
@@ -50,9 +47,11 @@ namespace WeChatAuto.Components
         /// 子窗口构造函数
         /// </summary>
         /// <param name="window">子窗口FlaUI的window</param>
-        /// <param name="wxWindow">主窗口的微信窗口对象</param>
-        /// <param name="subWinList">子窗口列表</param>
-        /// <param name="serviceProvider">服务提供者</param>
+        /// <param name="wxWindow">主窗口的微信窗口对象<see cref="WeChatMainWindow"/></param>
+        /// <param name="uiMainThreadInvoker">UI线程执行器<see cref="UIThreadInvoker"/></param>
+        /// <param name="title">子窗口标题</param>
+        /// <param name="subWinList">子窗口列表对象<see cref="SubWinList"/></param>
+        /// <param name="serviceProvider">服务提供者<see cref="IServiceProvider"/></param>
         public SubWin(Window window, WeChatMainWindow wxWindow, UIThreadInvoker uiMainThreadInvoker, string title,
           SubWinList subWinList, IServiceProvider serviceProvider)
         {
@@ -947,8 +946,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 删除群聊,与退出群聊不同，退出群聊是退出群聊，删除群聊会删除自有群的所有好友，然后退出群聊
         /// </summary>
-        /// <param name="groupName">群聊名称</param>
-        /// <returns>微信响应结果</returns>
+        /// <returns>响应结果<see cref="ChatResponse"/></returns>
         public ChatResponse DeleteOwnerChatGroup()
         {
             ChatResponse result = new ChatResponse();
