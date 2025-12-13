@@ -124,7 +124,6 @@ public class WeChatClientService : IDisposable
     /// <param name="groupName">群聊名称</param>
     /// <param name="whos">好友名称列表</param>
     /// <returns>是否发起成功</returns>
-    /// <param name="whos"></param>
     public void SendVoiceChats(string groupName, string[] whos)
     {
         var clientName = GetCurrentWeChatClientName();
