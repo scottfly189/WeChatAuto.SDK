@@ -12,7 +12,7 @@ WeChatAuto.SDK 是一款面向 AI 的微信 PC 客户端自动化 SDK，基于 .
 - 📱 **朋友圈操作** - 点赞、评论、监听朋友圈动态
 - 📋 **通讯录管理** - 自动添加好友、管理联系人、处理新好友请求
 - 👂 **事件监听** - 消息监听(提供LLM上下文)、朋友圈监听、新好友监听等
-- 🛡️ **风控保护** - 支持键鼠模拟器，降低被风控风险
+- 🛡️ **降低风控** - 同时支持纯软件自动化以及结合硬件键鼠模拟器的自动化操作，满足不同业务需求和安全等级场景下的使用选择。
 - 🔧 **易于集成** - 支持依赖注入，可轻松集成到现有项目
 - 🚀 **多微信实例支持** - 同时管理多个微信客户端实例
 - 😊 **AI 友好集成** - 原生支持 LLM 上下文对接并提供 MCP Server，便于对接主流智能体与平台（如 MEAI、SK、MAF），助力智能应用高效闭环与创新集成
@@ -86,121 +86,6 @@ var client = factory.GetWeChatClient("微信昵称");
 await client.SendWho("好友名称", "Hello, World!");
 ```
 
-## 📖 功能示例
-
-### 发送消息
-
-```csharp
-// 发送给单个好友
-await client.SendWho("好友名称", "消息内容");
-
-// 批量发送消息
-await client.SendWhos(new[] { "好友1", "好友2" }, "消息内容");
-
-// 群聊中 @ 用户
-await client.SendWho("群聊名称", "消息内容", "被@的用户");
-
-// 群聊中 @ 多个用户
-await client.SendWho("群聊名称", "消息内容", new[] { "用户1", "用户2" });
-
-// 发送表情
-await client.SendEmoji("好友名称", "微笑");
-
-// 发送文件
-await client.SendFile("好友名称", "文件路径");
-```
-
-### 群聊管理
-
-```csharp
-// 获取群成员列表
-var members = await client.GetChatGroupMemberList("群聊名称");
-
-// 创建群聊
-var result = client.CreateOrUpdateOwnerChatGroup("群聊名称", new[] { "成员1", "成员2" });
-
-// 添加群成员
-await client.AddOwnerChatGroupMember("群聊名称", "新成员");
-
-// 移除群成员
-await client.RemoveOwnerChatGroupMember("群聊名称", "成员名称");
-
-// 更新群公告
-await client.UpdateGroupNotice("群聊名称", "群公告内容");
-
-// 设置群聊置顶
-client.SetChatTop("群聊名称", true);
-```
-
-### 朋友圈操作
-
-```csharp
-// 打开朋友圈
-client.OpenMoments();
-
-// 获取朋友圈列表
-var moments = client.GetMomentsList(20);
-
-// 点赞朋友圈
-client.LikeMoments("好友名称");
-
-// 回复朋友圈
-client.ReplyMoments("好友名称", "评论内容");
-```
-
-### 通讯录管理
-
-```csharp
-// 获取所有好友
-var friends = client.GetAllFriends();
-
-// 添加好友
-client.AddFriend("微信号或手机号", "标签");
-
-// 通过新好友请求
-var passedFriends = client.PassedAllNewFriend("关键字", "后缀", "标签");
-
-// 移除好友
-client.RemoveFriend("好友昵称");
-```
-
-### 事件监听
-
-```csharp
-// 消息监听
-await client.AddMessageListener("好友名称", (messageContext) =>
-{
-    Console.WriteLine($"收到消息: {messageContext.Message}");
-    // 处理消息逻辑
-});
-
-// 朋友圈监听
-client.AddMomentsListener("好友名称", autoLike: true, (momentsContext, serviceProvider) =>
-{
-    Console.WriteLine($"好友发了朋友圈");
-    // 处理朋友圈逻辑
-});
-
-// 新好友监听（自动通过）
-client.AddNewFriendAutoPassedListener((newFriends) =>
-{
-    Console.WriteLine($"新好友: {string.Join(", ", newFriends)}");
-}, keyWord: "关键字", suffix: "后缀", label: "标签");
-```
-
-### 会话管理
-
-```csharp
-// 获取会话列表
-var conversations = client.GetVisibleConversations();
-
-// 点击会话
-client.ClickConversation("会话名称");
-
-// 查找并打开好友或群聊
-var result = client.FindAndOpenFriendOrGroup("名称");
-```
-
 ## ⚙️ 配置选项
 
 ```csharp
@@ -239,31 +124,6 @@ WeAutomation.Initialize(options =>
 });
 ```
 
-## 🏗️ 项目结构
-
-```
-WeChatAuto.SDK/
-├── WeAutoCommon/          # 公共库
-│   ├── Configs/           # 配置类
-│   ├── Enums/            # 枚举定义
-│   ├── Models/           # 数据模型
-│   └── Utils/            # 工具类
-├── WeChatAuto/           # 核心库
-│   ├── Components/       # 核心组件
-│   ├── Services/         # 服务类
-│   └── Utils/           # 工具类
-├── WeChatAuto.MCP/       # MCP 协议支持
-└── WeChatAuto.Tests/     # 测试项目
-```
-
-## 🔧 技术栈
-
-- **FlaUI** - UI 自动化框架
-- **Microsoft.Extensions.DependencyInjection** - 依赖注入
-- **Microsoft.Extensions.Logging** - 日志记录
-- **OneOf** - 联合类型支持
-- **Newtonsoft.Json** - JSON 序列化
-
 ## ⚠️ 注意事项
 
 1. **风控风险**：频繁操作可能触发微信风控机制，建议：
@@ -271,11 +131,20 @@ WeChatAuto.SDK/
    - 控制操作频率
    - 避免短时间内大量操作
 
-2. **微信版本**：本 SDK 基于微信 PC 客户端的 UI 结构，不同版本可能存在兼容性问题。
+2. **微信版本**：本 SDK 基于微信 PC 客户端(版本号:3.9.12.55)的 UI 结构开发，不同版本可能存在兼容性问题。
 
 3. **多实例支持**：支持同时管理多个微信客户端，通过微信昵称区分不同实例。
 
 4. **资源释放**：使用完毕后请调用 `Dispose()` 方法释放资源。
+
+## 🎈 关于键鼠模拟器
+
+键鼠模拟器是一类专门的硬件设备，能够模拟物理键盘和鼠标的真实输入。相较于直接调用 PostMessage、SetInput 等 API 进行注入，这类传统软件方式往往会留下可被识别的痕迹，极易被微信等应用检测为自动化行为并引发风控。而键鼠模拟器通过硬件底层发送信号，模拟出的输入和人手操作无异，从而高度还原人类使用方式，在风控安全性和隐蔽性方面具备天然优势。
+
+实际测试表明，在微信某些高敏感操作场景（比如群聊内加好友）下，借助键鼠模拟器能有效降低被风控的概率。需要注意的是，即便是手动操作，部分极端高风险情况下也有可能触发风控。因此，强烈建议在高敏感度和易风控场景优先考虑且规范使用键鼠模拟器，以获得更稳定和安全的自动化体验。
+
+本 SDK 同时支持纯软件自动化以及结合硬件键鼠模拟器的自动化操作，满足不同业务需求和安全等级场景下的使用选择。
+
 
 ## 📝 许可证
 
@@ -283,11 +152,28 @@ WeChatAuto.SDK/
 
 ## 🤝 贡献
 
-欢迎提交 Issue 和 Pull Request！
+欢迎提交 Issue 和 Pull Request！我会第一时间解决
 
-## 📚 更多文档
+## 😂 关于微信4.X
 
-详细的 API 文档请参考 [文档站点](docs/index.md)。
+微信4.x.x版本目前正在研发支持中，新方案基于机器视觉实现。不过，目前受限于机器视觉技术，对聊天记录的监控仍存在难度，暂不支持在生产环境中使用。如果你有更优的解决思路或建议，欢迎随时交流讨论！
+
+
+## 😊 关于VIP
+
+由于时间和精力有限，为了更好地投入研发和持续改进产品，本人目前仅为**已购买VIP服务的客户**提供优先和深入的技术支持。这样做，是希望通过区分服务对象，专注为VIP客户带来更高品质、更有保障的体验。当然，广大普通用户依然欢迎通过 Issue 反馈和交流，只是服务响应的优先级和深度会有所不同。
+
+**😄 VIP 客户可享受以下专属服务保障：**
+- 💡 **BUG 优先响应**：出现 Bug 时，第一时间定位和解决，保障 VIP 项目的稳定运行。
+- 📚 **完整开发文档**：提供详细、及时更新的 API 开发文档，助力集成与开发效率。
+- 🎬 **系统教学视频**：涵盖入门到进阶的全流程教学视频，帮助用户高效掌握 SDK。
+- 👥 **VIP 技术交流群**：专属 VIP 交流群，优先、及时解答问题，实时高效支持。
+
+**😊 非 VIP 客户：**  
+
+欢迎通过 Issue 提问或反馈问题，我会在时间允许情况下进行处理，但响应和解决可能会有延迟，敬请谅解。
+
+如需升级成为 VIP，或了解 VIP 具体权益和支持方案，请与我联系。感谢理解与支持，让我有更多精力专注于技术创新与完善！
 
 ## 🙏 致谢
 
