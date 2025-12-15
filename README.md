@@ -1,4 +1,4 @@
-# WECHATAUTO.SDK - 而向AI的现代化微信自动化框架
+# WECHATAUTO.SDK - 面向AI的现代化微信自动化框架
 
 [![.NET](https://img.shields.io/badge/.NET-4.8%20%7C%206.0%2B-blue)](https://dotnet.microsoft.com/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
@@ -86,43 +86,28 @@ var client = factory.GetWeChatClient("微信昵称");
 await client.SendWho("好友名称", "Hello, World!");
 ```
 
-## ⚙️ 配置选项
+## ⚙️ 架构概览
+### 🚀 WeChatAuto.SDK 架构图
 
-```csharp
-WeAutomation.Initialize(options =>
-{
-    // 调试模式
-    options.DebugMode = true;
-    
-    // 启用键鼠模拟器（降低风控风险）
-    options.EnableMouseKeyboardSimulator = true;
-    options.KMDeiviceVID = 0x30FA;
-    options.KMDeivicePID = 0x0300;
-    options.KMVerifyUserData = "验证数据";
-    
-    // 启用视频录制
-    options.EnableRecordVideo = true;
-    options.TargetVideoPath = "录制视频保存路径";
-    
-    // UI 截图保存路径
-    options.CaptureUIPath = "截图保存路径";
-    
-    // 监听间隔（秒）
-    options.ListenInterval = 5;
-    options.MomentsListenInterval = 10;
-    options.NewUserListenerInterval = 5;
-    
-    // 风控检查间隔（秒）
-    options.CheckAppRunningInterval = 3;
-    options.EnableCheckAppRunning = true;
-    
-    // 鼠标移动模式
-    options.MouseMoveMode = 8;
-    
-    // DPI 感知
-    options.ProcessDpiAwareness = 1;
-});
-```
+> 敬请关注后续更新，目前最主要提供了微信聊天的自动化，后期会提供对腾迅会议、微信公众号/订阅号等的自动化与MCP Server,如果您有什么建议，也可以跟我提。
+
+![WeChatAuto.SDK架构图](./Resources/article.png)
+
+### 🚀 主要类与关系
+
+> WeChatAuto.SDK 采用 POM（页面对象模型）设计思想，针对微信的各类操作场景提供了清晰、模块化的对象抽象，大幅提升了自动化脚本的可读性与可维护性。
+
+![WeChatAuto.SDK 主要类关系示意](./Resources/class.png)
+
+### ⛷️ 开发计划
+
+- 持续迭代优化核心功能，提升稳定性与兼容性
+- 推出更丰富的自动化操作场景，满足多样化业务需求
+- 完善开发文档与示例，提高使用与扩展的便捷性
+- 社区需求优先，欢迎反馈建议 
+
+
+
 
 ## ⚠️ 注意事项
 
@@ -145,6 +130,7 @@ WeAutomation.Initialize(options =>
 
 本 SDK 同时支持纯软件自动化以及结合硬件键鼠模拟器的自动化操作，满足不同业务需求和安全等级场景下的使用选择。
 
+关于键鼠模拟器更深度的了解，请参见：[键鼠模拟器](https://github.com/scottfly189/SKSimulator)
 
 ## 📝 许可证
 
@@ -156,22 +142,23 @@ WeAutomation.Initialize(options =>
 
 ## 😂 关于微信4.X
 
-微信4.x.x版本目前正在研发支持中，新方案基于机器视觉实现。不过，目前受限于机器视觉技术，对聊天记录的监控仍存在难度，暂不支持在生产环境中使用。如果你有更优的解决思路或建议，欢迎随时交流讨论！
+微信4.x.x版本目前正在研发中，新方案基于机器视觉实现。不过，目前受限于机器视觉技术，对聊天记录的监控仍存在难度，暂不支持在生产环境中使用。如果你有更优的解决思路或建议，欢迎随时交流讨论！
 
 
 ## 😊 关于VIP
 
 由于时间和精力有限，为了更好地投入研发和持续改进产品，本人目前仅为**已购买VIP服务的客户**提供优先和深入的技术支持。这样做，是希望通过区分服务对象，专注为VIP客户带来更高品质、更有保障的体验。当然，广大普通用户依然欢迎通过 Issue 反馈和交流，只是服务响应的优先级和深度会有所不同。
 
-**😄 VIP 客户可享受以下专属服务保障：**
+**🎉 VIP 客户可享受以下专属服务保障：**
 - 💡 **BUG 优先响应**：出现 Bug 时，第一时间定位和解决，保障 VIP 项目的稳定运行。
 - 📚 **完整开发文档**：提供详细、及时更新的 API 开发文档，助力集成与开发效率。
 - 🎬 **系统教学视频**：涵盖入门到进阶的全流程教学视频，帮助用户高效掌握 SDK。
 - 👥 **VIP 技术交流群**：专属 VIP 交流群，优先、及时解答问题，实时高效支持。
+- 🚀 **专属 VIP 私有仓库**：VIP 客户将获专属私有仓库，会不定期提供丰富的应用层扩展与独享内容。
 
 **😊 非 VIP 客户：**  
 
-欢迎通过 Issue 提问或反馈问题，我会在时间允许情况下进行处理，但响应和解决可能会有延迟，敬请谅解。
+WeChatAuto.SDK的非VIP与VIP的核心代码层面完全一致，非VIP没有任何功能与代码层面的限制，同样欢迎非VIP通过 Issue 提问或反馈问题，我会在时间允许情况下进行处理，但响应和解决可能会有延迟，敬请谅解。
 
 如需升级成为 VIP，或了解 VIP 具体权益和支持方案，请与我联系。感谢理解与支持，让我有更多精力专注于技术创新与完善！
 
