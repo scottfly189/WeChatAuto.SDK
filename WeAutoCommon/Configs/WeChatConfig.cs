@@ -13,11 +13,6 @@ namespace WxAutoCommon.Configs
     public class WeChatConfig
     {
         /// <summary>
-        /// 接口KEY
-        /// </summary>
-        public string ApiKey { get; set; } = "";
-
-        /// <summary>
         /// 下载文件/图片默认保存路径
         /// </summary>
         public string DefaultSavePath { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "wxauto_download");
