@@ -4,8 +4,8 @@ using FlaUI.Core;
 using WeChatAuto.Components;
 using Xunit.Abstractions;
 using WeChatAuto.Services;
-using WxAutoCommon.Models;
-using WxAutoCommon.Configs;
+using WeAutoCommon.Models;
+using WeAutoCommon.Configs;
 
 namespace WeChatAuto.Tests.Components
 {

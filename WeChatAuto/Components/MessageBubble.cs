@@ -1,5 +1,5 @@
 using FlaUI.Core.AutomationElements;
-using WxAutoCommon.Enums;
+using WeAutoCommon.Enums;
 using Newtonsoft.Json;
 using System;
 using WeChatAuto.Models;

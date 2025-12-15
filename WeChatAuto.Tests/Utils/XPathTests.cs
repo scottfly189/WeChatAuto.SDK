@@ -1,9 +1,9 @@
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Tools;
-using WxAutoCommon.Enums;
-using WxAutoCommon.Models;
+using WeAutoCommon.Enums;
+using WeAutoCommon.Models;
 using WeChatAuto.Services;
-using WxAutoCommon.Configs;
+using WeAutoCommon.Configs;
 using Xunit;
 using Xunit.Abstractions;
 

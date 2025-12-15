@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WxAutoCommon.Enums;
+using WeAutoCommon.Enums;
 
-namespace WxAutoCommon.Models
+namespace WeAutoCommon.Models
 {
     /// <summary>
     /// 聊天消息或者操作类型

@@ -3,10 +3,10 @@ using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
 using FlaUI.Core.WindowsAPI;
-using WxAutoCommon.Enums;
-using WxAutoCommon.Utils;
+using WeAutoCommon.Enums;
+using WeAutoCommon.Utils;
 using WeChatAuto.Utils;
-using WxAutoCommon.Interface;
+using WeAutoCommon.Interface;
 using WeChatAuto.Extentions;
 using Microsoft.Extensions.DependencyInjection;
 

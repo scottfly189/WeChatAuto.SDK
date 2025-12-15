@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace WxAutoCommon.Simulator
+namespace WeAutoCommon.Simulator
 {
     public class Skm
     {

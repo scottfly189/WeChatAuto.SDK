@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using WxAutoCommon.Configs;
-using WxAutoCommon.Models;
+using WeAutoCommon.Configs;
+using WeAutoCommon.Models;
 
-namespace WxAutoCommon.Utils
+namespace WeAutoCommon.Utils
 {
     /// <summary>
     /// 微信界面文本标识符集合

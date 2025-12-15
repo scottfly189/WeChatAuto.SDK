@@ -1,6 +1,6 @@
 using FlaUI.Core.AutomationElements;
 
-namespace WxAutoCommon.Interface
+namespace WeAutoCommon.Interface
 {
     /// <summary>
     /// 微信窗口接口

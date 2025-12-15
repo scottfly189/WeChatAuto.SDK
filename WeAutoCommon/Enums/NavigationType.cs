@@ -1,4 +1,4 @@
-namespace WxAutoCommon.Enums
+namespace WeAutoCommon.Enums
 {
     /// <summary>
     /// 导航栏类型

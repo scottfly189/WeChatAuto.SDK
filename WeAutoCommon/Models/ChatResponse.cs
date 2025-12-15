@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace WxAutoCommon.Models
+namespace WeAutoCommon.Models
 {
     /// <summary>
     /// 微信响应结果

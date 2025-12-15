@@ -1,24 +1,23 @@
 using FlaUI.Core.Definitions;
 using FlaUI.Core.AutomationElements;
 using System.Collections.Generic;
-using WxAutoCommon.Utils;
+using WeAutoCommon.Utils;
 using System;
-using WxAutoCommon.Models;
+using WeAutoCommon.Models;
 using OneOf;
 using WeChatAuto.Utils;
 using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using WeChatAuto.Services;
 using FlaUI.Core.Tools;
-using WxAutoCommon.Exceptions;
+using WeAutoCommon.Exceptions;
 using FlaUI.UIA3;
-using WxAutoCommon.Simulator;
+using WeAutoCommon.Simulator;
 using System.Threading.Tasks;
 using WeChatAuto.Models;
 using FlaUI.Core.Capturing;
-using WxAutoCommon.Enums;
+using WeAutoCommon.Enums;
 using WeChatAuto.Extentions;
-using WeAutoCommon.Models;
 
 
 namespace WeChatAuto.Components

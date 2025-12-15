@@ -1,8 +1,8 @@
 
 using FlaUI.Core.AutomationElements;
-using WxAutoCommon.Configs;
-using WxAutoCommon.Models;
-using WxAutoCommon.Utils;
+using WeAutoCommon.Configs;
+using WeAutoCommon.Models;
+using WeAutoCommon.Utils;
 using WeChatAuto.Services;
 
 namespace WeChatAuto.Utils

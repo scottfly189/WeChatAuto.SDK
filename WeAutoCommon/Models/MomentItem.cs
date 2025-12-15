@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace WxAutoCommon.Models
+namespace WeAutoCommon.Models
 {
     public class MomentItem : IEquatable<MomentItem>,ICloneable
     {

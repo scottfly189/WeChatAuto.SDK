@@ -1,4 +1,4 @@
-namespace WxAutoCommon.Models
+namespace WeAutoCommon.Models
 {
     /// <summary>
     /// 表情项

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Tools;
-using WxAutoCommon.Simulator;
+using WeAutoCommon.Simulator;
 
 namespace WeChatAuto.Services
 {

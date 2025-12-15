@@ -9,10 +9,11 @@ using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
 using FlaUI.Core.WindowsAPI;
 using Microsoft.Extensions.DependencyInjection;
-using WxAutoCommon.Models;
-using WxAutoCommon.Utils;
+using WeAutoCommon.Models;
+using WeAutoCommon.Utils;
 using WeChatAuto.Extentions;
 using WeChatAuto.Utils;
+using WeAutoCommon.Enums;
 
 namespace WeChatAuto.Components
 {
@@ -40,7 +41,7 @@ namespace WeChatAuto.Components
         /// <returns>好友列表</returns>
         public List<string> GetAllFriends()
         {
-            _MainWin.Navigation.SwitchNavigation(WxAutoCommon.Enums.NavigationType.通讯录);
+            _MainWin.Navigation.SwitchNavigation(NavigationType.通讯录);
             try
             {
                 var result = _GetAllFriendsCore();
@@ -53,7 +54,7 @@ namespace WeChatAuto.Components
             }
             finally
             {
-                _MainWin.Navigation.SwitchNavigation(WxAutoCommon.Enums.NavigationType.聊天);
+                _MainWin.Navigation.SwitchNavigation(WeAutoCommon.Enums.NavigationType.聊天);
             }
         }
         /// <summary>
@@ -63,7 +64,7 @@ namespace WeChatAuto.Components
         /// <returns>是否存在</returns>
         public bool LocateFriend(string friendName)
         {
-            _MainWin.Navigation.SwitchNavigation(WxAutoCommon.Enums.NavigationType.通讯录);
+            _MainWin.Navigation.SwitchNavigation(NavigationType.通讯录);
             bool result = _uiMainThreadInvoker.Run(automation =>
             {
                 bool existTag = false;
@@ -133,7 +134,7 @@ namespace WeChatAuto.Components
             }
             finally
             {
-                _MainWin.Navigation.SwitchNavigation(WxAutoCommon.Enums.NavigationType.通讯录);
+                _MainWin.Navigation.SwitchNavigation(NavigationType.通讯录);
             }
             return list;
         }
@@ -144,7 +145,7 @@ namespace WeChatAuto.Components
         /// <returns>待添加好友昵称列表</returns>
         public List<string> GetAllWillAddFriends(string keyWord = null)
         {
-            _MainWin.Navigation.SwitchNavigation(WxAutoCommon.Enums.NavigationType.通讯录);
+            _MainWin.Navigation.SwitchNavigation(NavigationType.通讯录);
             try
             {
                 List<string> list = _GetAllWillAddFriendsCore(keyWord);
@@ -159,7 +160,7 @@ namespace WeChatAuto.Components
             }
             finally
             {
-                _MainWin.Navigation.SwitchNavigation(WxAutoCommon.Enums.NavigationType.聊天);
+                _MainWin.Navigation.SwitchNavigation(NavigationType.聊天);
             }
         }
 
@@ -172,7 +173,7 @@ namespace WeChatAuto.Components
         /// <returns>通过的新好友昵称列表</returns>
         public List<string> PassedAllNewFriend(string keyWord = null, string suffix = null, string label = null)
         {
-            _MainWin.Navigation.SwitchNavigation(WxAutoCommon.Enums.NavigationType.通讯录);
+            _MainWin.Navigation.SwitchNavigation(NavigationType.通讯录);
             try
             {
                 List<string> list = _PassedAllNewFriendCore(keyWord, suffix, label);
@@ -187,7 +188,7 @@ namespace WeChatAuto.Components
             }
             finally
             {
-                _MainWin.Navigation.SwitchNavigation(WxAutoCommon.Enums.NavigationType.聊天);
+                _MainWin.Navigation.SwitchNavigation(NavigationType.聊天);
             }
         }
         /// <summary>
@@ -271,7 +272,7 @@ namespace WeChatAuto.Components
             }
             finally
             {
-                _MainWin.Navigation.SwitchNavigation(WxAutoCommon.Enums.NavigationType.聊天);
+                _MainWin.Navigation.SwitchNavigation(NavigationType.聊天);
             }
         }
 
@@ -285,7 +286,7 @@ namespace WeChatAuto.Components
         public List<(string friendName, bool isSuccess, string errMessage)> AddFriends(List<string> friendNames, string label = "")
         {
             List<(string friendName, bool isSuccess, string errMessage)> resultList = new List<(string friendName, bool isSuccess, string errMessage)>();
-            _MainWin.Navigation.SwitchNavigation(WxAutoCommon.Enums.NavigationType.通讯录);
+            _MainWin.Navigation.SwitchNavigation(NavigationType.通讯录);
             try
             {
                 resultList = _uiMainThreadInvoker.Run(automation =>
@@ -436,7 +437,7 @@ namespace WeChatAuto.Components
             }
             finally
             {
-                _MainWin.Navigation.SwitchNavigation(WxAutoCommon.Enums.NavigationType.聊天);
+                _MainWin.Navigation.SwitchNavigation(NavigationType.聊天);
             }
         }
         /// <summary>

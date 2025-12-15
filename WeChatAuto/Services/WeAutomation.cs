@@ -1,6 +1,6 @@
 using System;
 using Microsoft.Extensions.DependencyInjection;
-using WxAutoCommon.Configs;
+using WeAutoCommon.Configs;
 using WeChatAuto.Components;
 using WeChatAuto.Extentions;
 using WeChatAuto.Utils;

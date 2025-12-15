@@ -1,4 +1,4 @@
-namespace WxAutoCommon.Enums
+namespace WeAutoCommon.Enums
 {
     /// <summary>
     /// 聊天类型

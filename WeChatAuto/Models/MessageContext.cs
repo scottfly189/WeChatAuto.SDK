@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using OneOf;
 using WeChatAuto.Components;
-using WxAutoCommon.Enums;
+using WeAutoCommon.Enums;
 
 namespace WeChatAuto.Models
 {

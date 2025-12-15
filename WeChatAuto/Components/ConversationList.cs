@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using FlaUI.Core.AutomationElements;
 using System.Linq;
-using WxAutoCommon.Utils;
+using WeAutoCommon.Utils;
 using FlaUI.Core.Definitions;
-using WxAutoCommon.Models;
-using WxAutoCommon.Enums;
+using WeAutoCommon.Models;
+using WeAutoCommon.Enums;
 using System;
 using FlaUI.Core.Tools;
 using FlaUI.Core.Conditions;
@@ -14,7 +14,7 @@ using WeChatAuto.Extentions;
 using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using WeChatAuto.Services;
-using WxAutoCommon.Simulator;
+using WeAutoCommon.Simulator;
 
 namespace WeChatAuto.Components
 {

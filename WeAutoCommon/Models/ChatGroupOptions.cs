@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-namespace WxAutoCommon.Models
+namespace WeAutoCommon.Models
 {
     public class ChatGroupOptions
     {

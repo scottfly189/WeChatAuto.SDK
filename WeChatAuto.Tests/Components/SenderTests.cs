@@ -1,9 +1,9 @@
 using Xunit;
 using Xunit.Abstractions;
 using WeChatAuto.Components;
-using WxAutoCommon.Models;
+using WeAutoCommon.Models;
 using WeChatAuto.Services;
-using WxAutoCommon.Configs;
+using WeAutoCommon.Configs;
 
 namespace WeChatAuto.Tests.Components;
 

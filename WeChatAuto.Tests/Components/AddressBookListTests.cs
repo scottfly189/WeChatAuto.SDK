@@ -2,8 +2,8 @@ using FlaUI.Core.AutomationElements;
 using WeChatAuto.Components;
 using Xunit;
 using Xunit.Abstractions;
-using WxAutoCommon.Models;
-using WxAutoCommon.Configs;
+using WeAutoCommon.Models;
+using WeAutoCommon.Configs;
 using WeChatAuto.Services;
 
 namespace WeChatAuto.Tests.Components

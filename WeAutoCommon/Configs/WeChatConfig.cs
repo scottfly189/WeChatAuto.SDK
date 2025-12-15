@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.IO;
 
-namespace WxAutoCommon.Configs
+namespace WeAutoCommon.Configs
 {
     /// <summary>
     /// 微信自动化参数配置类

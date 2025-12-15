@@ -2,7 +2,7 @@ using System;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Input;
 using Microsoft.Extensions.DependencyInjection;
-using WxAutoCommon.Utils;
+using WeAutoCommon.Utils;
 using WeChatAuto.Utils;
 using FlaUI.Core.Definitions;
 using System.Threading;

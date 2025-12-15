@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using WeChatAuto.Extentions;
-using WxAutoCommon.Models;
+using WeAutoCommon.Models;
 
 namespace WeChatAuto.Utils
 {

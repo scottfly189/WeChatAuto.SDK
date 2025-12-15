@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
-using WxAutoCommon.Utils;
+using WeAutoCommon.Utils;
 using System;
 using System.Linq;
 using WeChatAuto.Utils;

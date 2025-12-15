@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace WxAutoCommon.Utils
+namespace WeAutoCommon.Utils
 {
     /// <summary>
     /// Win11专用IME控制工具类

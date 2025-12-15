@@ -4,8 +4,8 @@ using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
 using WeChatAuto.Extentions;
 using WeChatAuto.Services;
-using WxAutoCommon.Simulator;
-using WxAutoCommon.Utils;
+using WeAutoCommon.Simulator;
+using WeAutoCommon.Utils;
 
 namespace WeChatAuto.Extentions
 {

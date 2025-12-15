@@ -1,6 +1,6 @@
 using FlaUI.Core.AutomationElements;
 
-namespace WxAutoCommon.Utils
+namespace WeAutoCommon.Utils
 {
     public static class AutomationValid
     {

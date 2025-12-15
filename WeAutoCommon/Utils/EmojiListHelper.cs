@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using WxAutoCommon.Models;
+using WeAutoCommon.Models;
 
-namespace WxAutoCommon.Utils
+namespace WeAutoCommon.Utils
 {
     /// <summary>
     /// 表情列表帮助类

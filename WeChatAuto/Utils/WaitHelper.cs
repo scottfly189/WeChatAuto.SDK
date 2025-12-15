@@ -2,7 +2,7 @@ using System;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Input;
 using FlaUI.Core.Tools;
-using WxAutoCommon.Utils;
+using WeAutoCommon.Utils;
 
 namespace WeChatAuto.Utils
 {

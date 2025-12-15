@@ -10,8 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using WeChatAuto.Components;
 using WeChatAuto.Extentions;
 using WeChatAuto.Services;
-using WxAutoCommon.Models;
-using WxAutoCommon.Simulator;
+using WeAutoCommon.Models;
+using WeAutoCommon.Simulator;
 
 namespace WeChatAuto.Utils
 {

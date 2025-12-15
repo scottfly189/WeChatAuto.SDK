@@ -3,7 +3,6 @@ using ModelContextProtocol.Protocol;
 using WeChatAuto.Components;
 using WeChatAuto.Models;
 using WeAutoCommon.Models;
-using WxAutoCommon.Models;
 
 /// <summary>
 /// 微信客户端服务,提供微信客户端的获取、设置等操作

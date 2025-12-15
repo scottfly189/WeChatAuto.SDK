@@ -1,6 +1,6 @@
 using System;
 
-namespace WxAutoCommon.Exceptions
+namespace WeAutoCommon.Exceptions
 {
     /// <summary>
     /// 窗口不存在异常

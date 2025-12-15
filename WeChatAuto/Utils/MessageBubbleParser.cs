@@ -7,8 +7,8 @@ using FlaUI.Core.AutomationElements;
 using FlaUI.Core.Definitions;
 using Microsoft.Extensions.DependencyInjection;
 using WeChatAuto.Components;
-using WxAutoCommon.Enums;
-using WxAutoCommon.Utils;
+using WeAutoCommon.Enums;
+using WeAutoCommon.Utils;
 
 namespace WeChatAuto.Utils
 {

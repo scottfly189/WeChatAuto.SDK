@@ -5,17 +5,17 @@ using FlaUI.Core.AutomationElements;
 using FlaUI.Core.WindowsAPI;
 using System.Collections.Generic;
 using System.Linq;
-using WxAutoCommon.Utils;
-using WxAutoCommon.Enums;
-using WxAutoCommon.Interface;
+using WeAutoCommon.Utils;
+using WeAutoCommon.Enums;
+using WeAutoCommon.Interface;
 using FlaUI.Core.Input;
 using System.Threading.Tasks;
 using OneOf;
-using WxAutoCommon.Models;
+using WeAutoCommon.Models;
 using System;
 using WeChatAuto.Utils;
 using System.Threading;
-using WxAutoCommon.Configs;
+using WeAutoCommon.Configs;
 using FlaUI.Core.Tools;
 using System.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +24,6 @@ using WeChatAuto.Services;
 using WeChatAuto.Extentions;
 using WeChatAuto.Models;
 using OneOf.Types;
-using WeAutoCommon.Models;
 
 
 

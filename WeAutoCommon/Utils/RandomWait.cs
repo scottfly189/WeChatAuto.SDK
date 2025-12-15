@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace WxAutoCommon.Utils
+namespace WeAutoCommon.Utils
 {
     public static class RandomWait
     {

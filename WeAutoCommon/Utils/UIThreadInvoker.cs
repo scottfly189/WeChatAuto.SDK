@@ -6,7 +6,7 @@ using FlaUI.UIA3;
 using FlaUI.Core.AutomationElements;
 using System.Diagnostics;
 
-namespace WxAutoCommon.Utils
+namespace WeAutoCommon.Utils
 {
     /// <summary>
     /// 用于在UI线程中执行操作的类

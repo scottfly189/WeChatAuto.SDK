@@ -1,8 +1,8 @@
 using FlaUI.Core.AutomationElements;
-using WxAutoCommon.Enums;
+using WeAutoCommon.Enums;
 using Newtonsoft.Json;
 
-namespace WxAutoCommon.Models
+namespace WeAutoCommon.Models
 {
     /// <summary>
     /// 会话

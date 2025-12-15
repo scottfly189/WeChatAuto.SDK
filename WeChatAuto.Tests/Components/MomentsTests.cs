@@ -1,10 +1,10 @@
 using FlaUI.Core.AutomationElements;
-using WxAutoCommon.Enums;
-using WxAutoCommon.Models;
+using WeAutoCommon.Enums;
+using WeAutoCommon.Models;
 using WeChatAuto.Services;
 using WeChatAuto.Utils;
 using Xunit.Abstractions;
-using WxAutoCommon.Configs;
+using WeAutoCommon.Configs;
 
 
 namespace WeChatAuto.Tests.Components
