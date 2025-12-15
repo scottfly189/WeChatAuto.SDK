@@ -12,7 +12,7 @@ namespace WeChatAuto.Tests.Components
     [Collection("UiTestCollection")]
     public class MomentsTests
     {
-        private readonly string _wxClientName = "Alex Zhao";
+        private readonly string _wxClientName = "Alex";
         private readonly ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public MomentsTests(ITestOutputHelper output, UiTestFixture globalFixture)
@@ -79,7 +79,7 @@ namespace WeChatAuto.Tests.Components
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var moments = window.Moments;
-            moments.LikeMoments(new string[] { "兵哥-程序员", "我是欧阳", "无际²", "Alex Zhao", "阮宙园-上海-融资", "顾自己", "Hans-文韬", "雨飞", "尚万虎-数学老师", "小城女人" });
+            moments.LikeMoments(new string[] { "兵哥-程序员", "我是欧阳", "无际²", "Alex", "阮宙园-上海-融资", "顾自己", "Hans-文韬", "雨飞", "尚万虎-数学老师", "小城女人" });
             Assert.True(true);
         }
 
@@ -90,7 +90,7 @@ namespace WeChatAuto.Tests.Components
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var moments = window.Moments;
-            moments.ReplyMoments("Alex Zhao", "测试回复朋友圈");
+            moments.ReplyMoments("Alex", "测试回复朋友圈");
             Assert.True(true);
         }
         [Fact(DisplayName = "测试添加朋友圈监听")]
@@ -100,7 +100,7 @@ namespace WeChatAuto.Tests.Components
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             var moments = window.Moments;
-            moments.AddMomentsListener("Alex Zhao", true, (momentsContext, serviceProvider) =>
+            moments.AddMomentsListener("Alex", true, (momentsContext, serviceProvider) =>
             {
                 momentsContext.DoReply("呵呵，测试成功！");
             });

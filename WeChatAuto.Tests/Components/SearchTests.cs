@@ -8,7 +8,7 @@ namespace WeChatAuto.Tests.Components
     [Collection("UiTestCollection")]
     public class SearchTests
     {
-        private readonly string _wxClientName = "Alex Zhao";
+        private readonly string _wxClientName = "Alex";
         private readonly ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public SearchTests(ITestOutputHelper output, UiTestFixture globalFixture)

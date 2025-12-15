@@ -10,7 +10,7 @@ namespace WeChatAuto.Tests.Components
     [Collection("UiTestCollection")]
     public class ChatContentTests
     {
-        private readonly string _wxClientName = "Alex Zhao";
+        private readonly string _wxClientName = "Alex";
         private readonly ITestOutputHelper _output;
         private UiTestFixture _globalFixture;
         public ChatContentTests(ITestOutputHelper output, UiTestFixture globalFixture)

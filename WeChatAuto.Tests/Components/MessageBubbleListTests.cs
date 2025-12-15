@@ -10,7 +10,7 @@ namespace WeChatAuto.Tests.Components;
 [Collection("UiTestCollection")]
 public class MessageBubbleListTests
 {
-    private readonly string _wxClientName = "Alex Zhao";
+    private readonly string _wxClientName = "Alex";
     private readonly ITestOutputHelper _output;
     private UiTestFixture _globalFixture;
     public MessageBubbleListTests(ITestOutputHelper output, UiTestFixture globalFixture)
@@ -163,16 +163,16 @@ public class MessageBubbleListTests
     }
 
     [Theory(DisplayName = "测试收藏消息-主窗口")]
-    [InlineData("AI.Net", "@Alex Zhao 发些有意思的")]  //主窗口-群聊 - 文字
-    [InlineData("Alex Zhao", "好吧，谢谢")]  //主窗口-群聊 - 文字
+    [InlineData("AI.Net", "@Alex 发些有意思的")]  //主窗口-群聊 - 文字
+    [InlineData("Alex", "好吧，谢谢")]  //主窗口-群聊 - 文字
     [InlineData("秋歌", "那我免打扰了")] //主窗口-群聊 - 文字
     [InlineData("秋歌", "[视频]")] //主窗口-群聊 - 视频
     [InlineData("AI.Net", "[图片]")] //主窗口-群聊 - 图片
-    [InlineData("Alex Zhao", "[图片]")]  //主窗口-群聊 - 文字
+    [InlineData("Alex", "[图片]")]  //主窗口-群聊 - 文字
     [InlineData("AI.Net", "[视频]")] //主窗口-群聊 - 视频
     [InlineData("AI.Net", "[语音]")] //主窗口-群聊 - 语音
-    [InlineData("Alex Zhao", "[语音]")]  //主窗口-群聊 - 语音
-    [InlineData("Alex Zhao", "[视频]")]  //主窗口-群聊 - 语音
+    [InlineData("Alex", "[语音]")]  //主窗口-群聊 - 语音
+    [InlineData("Alex", "[视频]")]  //主窗口-群聊 - 语音
     public async Task Test_Collect_Message_main_window(string who, string message)
     {
         var framework = _globalFixture.clientFactory;
@@ -185,16 +185,16 @@ public class MessageBubbleListTests
     }
 
     [Theory(DisplayName = "测试收藏消息-子窗口")]
-    [InlineData("测试11", "AI.Net", "@Alex Zhao 发些有意思的")]  //主窗口-群聊 - 文字
-    [InlineData("测试11", "Alex Zhao", "好吧，谢谢")]  //主窗口-群聊 - 文字
+    [InlineData("测试11", "AI.Net", "@Alex 发些有意思的")]  //主窗口-群聊 - 文字
+    [InlineData("测试11", "Alex", "好吧，谢谢")]  //主窗口-群聊 - 文字
     [InlineData("测试11", "秋歌", "那我免打扰了")] //主窗口-群聊 - 文字
     [InlineData("测试11", "秋歌", "[视频]")] //主窗口-群聊 - 视频
     [InlineData("测试11", "AI.Net", "[图片]")] //主窗口-群聊 - 图片
-    [InlineData("测试11", "Alex Zhao", "[图片]")]  //主窗口-群聊 - 文字
+    [InlineData("测试11", "Alex", "[图片]")]  //主窗口-群聊 - 文字
     [InlineData("测试11", "AI.Net", "[视频]")] //主窗口-群聊 - 视频
     [InlineData("测试11", "AI.Net", "[语音]")] //主窗口-群聊 - 语音
-    [InlineData("测试11", "Alex Zhao", "[语音]")]  //主窗口-群聊 - 语音
-    [InlineData("测试11", "Alex Zhao", "[视频]")]  //主窗口-群聊 - 语音
+    [InlineData("测试11", "Alex", "[语音]")]  //主窗口-群聊 - 语音
+    [InlineData("测试11", "Alex", "[视频]")]  //主窗口-群聊 - 语音
     public async Task Test_Collect_Message_Sub_Window(string subWinName, string who, string message)
     {
         var framework = _globalFixture.clientFactory;
@@ -215,16 +215,16 @@ public class MessageBubbleListTests
 
 
     [Theory(DisplayName = "测试引用消息-主窗口")]
-    [InlineData("AI.Net", "@Alex Zhao 发些有意思的")]  //主窗口-群聊 - 文字
-    [InlineData("Alex Zhao", "好吧，谢谢")]  //主窗口-群聊 - 文字
+    [InlineData("AI.Net", "@Alex 发些有意思的")]  //主窗口-群聊 - 文字
+    [InlineData("Alex", "好吧，谢谢")]  //主窗口-群聊 - 文字
     [InlineData("秋歌", "那我免打扰了")] //主窗口-群聊 - 文字
     [InlineData("秋歌", "[视频]")] //主窗口-群聊 - 视频
     [InlineData("AI.Net", "[图片]")] //主窗口-群聊 - 图片
-    [InlineData("Alex Zhao", "[图片]")]  //主窗口-群聊 - 文字
+    [InlineData("Alex", "[图片]")]  //主窗口-群聊 - 文字
     [InlineData("AI.Net", "[视频]")] //主窗口-群聊 - 视频
     [InlineData("AI.Net", "[语音]")] //主窗口-群聊 - 语音
-    [InlineData("Alex Zhao", "[语音]")]  //主窗口-群聊 - 语音
-    [InlineData("Alex Zhao", "[视频]")]  //主窗口-群聊 - 语音
+    [InlineData("Alex", "[语音]")]  //主窗口-群聊 - 语音
+    [InlineData("Alex", "[视频]")]  //主窗口-群聊 - 语音
     [InlineData("Hosuke", "🏰 Google DeepMind工程负责人Paige Bailey发布短视频及图像，展现创意视觉“空中城堡”作品。 @👩‍💻 Paige Bailey  🖼️🎬\n------------------\n⚡ PufferLib在部分场景实现了对微模型核函数12倍加速，挑战PyTorch对小模型的优化瓶颈。 @Joseph Suarez 🐡  🖼️\n------------------\n📊 Perplexity Finance推出股票组件交易量统计及详细工具提示功能，提升用户交互体验。 @Aravind Srinivas  🎬\n------------------\n🤖 OpenAI正开发代号「Shallotpeat」的新模型，旨在解决预训练过程中的缺陷，可能涉及预训练流程的重大调整。 @Haider.  \n------------------\n📍 Twitter新推出的账号定位信息功能被用户指出实现不理想，显示位置混乱。 @Edward Grefenstette  🖼️\n------------------\n🚀 谷歌内部指示每六个月将AI服务能力扩大一倍，以满足Gemini模型带动的爆发式需求。 @Chubby♨️  🖼️🔗\n------------------\n🤖 Perplexity CEO确认新模型C正处于训练和评估阶段，官方将于近期公布更多信息。 @Aravind Srinivas  🖼️\n\nhttps://t.zsxq.com/XHHy8")]
     public async Task Test_Referenced_Message_main_window(string who, string message)
     {
@@ -238,16 +238,16 @@ public class MessageBubbleListTests
     }
 
     [Theory(DisplayName = "测试引用消息-子窗口")]
-    [InlineData("测试11", "AI.Net", "@Alex Zhao 发些有意思的")]  //主窗口-群聊 - 文字
-    [InlineData("测试11", "Alex Zhao", "好吧，谢谢")]  //主窗口-群聊 - 文字
+    [InlineData("测试11", "AI.Net", "@Alex 发些有意思的")]  //主窗口-群聊 - 文字
+    [InlineData("测试11", "Alex", "好吧，谢谢")]  //主窗口-群聊 - 文字
     [InlineData("测试11", "秋歌", "那我免打扰了")] //主窗口-群聊 - 文字
     [InlineData("测试11", "秋歌", "[视频]")] //主窗口-群聊 - 视频
     [InlineData("测试11", "AI.Net", "[图片]")] //主窗口-群聊 - 图片
-    [InlineData("测试11", "Alex Zhao", "[图片]")]  //主窗口-群聊 - 文字
+    [InlineData("测试11", "Alex", "[图片]")]  //主窗口-群聊 - 文字
     [InlineData("测试11", "AI.Net", "[视频]")] //主窗口-群聊 - 视频
     [InlineData("测试11", "AI.Net", "[语音]")] //主窗口-群聊 - 语音
-    [InlineData("测试11", "Alex Zhao", "[语音]")]  //主窗口-群聊 - 语音
-    [InlineData("测试11", "Alex Zhao", "[视频]")]  //主窗口-群聊 - 语音
+    [InlineData("测试11", "Alex", "[语音]")]  //主窗口-群聊 - 语音
+    [InlineData("测试11", "Alex", "[视频]")]  //主窗口-群聊 - 语音
     public async Task Test_Referenced_Message_sub_window(string subWinName, string who, string message)
     {
         var framework = _globalFixture.clientFactory;
@@ -287,16 +287,16 @@ public class MessageBubbleListTests
     }
 
     [Theory(DisplayName = "测试转发单条消息-主窗口")]
-    [InlineData("AI.Net", "@Alex Zhao 发些有意思的", "测试01")]
+    [InlineData("AI.Net", "@Alex 发些有意思的", "测试01")]
     [InlineData("秋歌", "她跳绳可以的", "测试11")]
     [InlineData("秋歌", "[视频]", "测试11")]
     [InlineData("gggccc", "但是我现在有工作", "测试11")]
     [InlineData("歪燕子", "不会英文啊", "测试11")]
     [InlineData(".NET-AI实时快讯3群", "hello world!", "测试11")]
     [InlineData("AI.Net", "[图片]", "测试01")]
-    [InlineData("Alex Zhao", "[图片]", "测试01")]
+    [InlineData("Alex", "[图片]", "测试01")]
     [InlineData("AI.Net", "[视频]", "测试01")]
-    [InlineData("Alex Zhao", "[视频]", "测试01")]
+    [InlineData("Alex", "[视频]", "测试01")]
     [InlineData("Hosuke", "🏰 Google DeepMind工程负责人Paige Bailey发布短视频及图像，展现创意视觉“空中城堡”作品。 @👩‍💻 Paige Bailey  🖼️🎬\n------------------\n⚡ PufferLib在部分场景实现了对微模型核函数12倍加速，挑战PyTorch对小模型的优化瓶颈。 @Joseph Suarez 🐡  🖼️\n------------------\n📊 Perplexity Finance推出股票组件交易量统计及详细工具提示功能，提升用户交互体验。 @Aravind Srinivas  🎬\n------------------\n🤖 OpenAI正开发代号「Shallotpeat」的新模型，旨在解决预训练过程中的缺陷，可能涉及预训练流程的重大调整。 @Haider.  \n------------------\n📍 Twitter新推出的账号定位信息功能被用户指出实现不理想，显示位置混乱。 @Edward Grefenstette  🖼️\n------------------\n🚀 谷歌内部指示每六个月将AI服务能力扩大一倍，以满足Gemini模型带动的爆发式需求。 @Chubby♨️  🖼️🔗\n------------------\n🤖 Perplexity CEO确认新模型C正处于训练和评估阶段，官方将于近期公布更多信息。 @Aravind Srinivas  🖼️\n\nhttps://t.zsxq.com/XHHy8", "测试01")]
     public async Task Test_Forward_Single_Message_main_window(string who, string message, string to)
     {
@@ -310,7 +310,7 @@ public class MessageBubbleListTests
     }
 
     [Theory(DisplayName = "测试转发单条消息-子窗口")]
-    [InlineData("测试11", "AI.Net", "@Alex Zhao 发些有意思的", "测试11")]
+    [InlineData("测试11", "AI.Net", "@Alex 发些有意思的", "测试11")]
     [InlineData("测试11", "秋歌", "她跳绳可以的", "测试11")]
     [InlineData("测试11", "秋歌", "[视频]", "测试11")]
     [InlineData("歪脖子的模版交流群", "gggccc", "但是我现在有工作", "测试11")]
