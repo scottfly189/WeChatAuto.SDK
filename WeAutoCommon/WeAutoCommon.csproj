@@ -16,6 +16,21 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
+  <PropertyGroup>
+    <PackageId>WeAutoCommon</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>Alex Zhao</Authors>
+    <PackageIcon>icon.png</PackageIcon>
+    <Product>WeChatAuto.SDK</Product>
+    <Description>WeChatAuto.SDK is a modern WeChat automation framework for AI integration.</Description>
+    <Copyright>Copyright 2025 Alex Zhao</Copyright>
+    <RepositoryUrl>https://github.com/scottfly189/WeChatAuto.SDK</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>update the package icon.</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>WeChat, Automation, AI, MCP</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>    
 
   <ItemGroup>
     <PackageReference Include="FlaUI.Core" Version="5.0.0" />
@@ -34,6 +49,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>x86\skm.dll</TargetPath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\"/>
+    <None Include="..\Images\icon.png" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
