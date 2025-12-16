@@ -91,7 +91,7 @@ await client.SendWho("好友名称", "Hello, World!");
 
 > 敬请关注后续更新，目前最主要提供了微信聊天的自动化，后期会提供对腾迅会议、微信公众号/订阅号等的自动化与MCP Server,如果您有什么建议，也可以跟我提。
 
-![WeChatAuto.SDK架构图]("./Images/article.png")
+![WeChatAuto.SDK架构图](./Images/article.png)
 
 ### 🚀 主要类与关系
 
