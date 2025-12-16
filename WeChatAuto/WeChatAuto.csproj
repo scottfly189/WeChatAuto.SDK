@@ -16,6 +16,20 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
+  <PropertyGroup>
+    <PackageId>WeChatAuto.SDK</PackageId>
+    <Version>0.9.1</Version>
+    <Authors>Alex Zhao</Authors>
+    <Product>WeChatAuto.SDK</Product>
+    <Description>WeChatAuto.SDK is a modern WeChat automation framework for AI integration.</Description>
+    <Copyright>Copyright 2025 Alex Zhao</Copyright>
+    <RepositoryUrl>https://github.com/scottfly189/WeChatAuto.SDK</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>Initial a test version.</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>WeChat, Automation, AI, MCP</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>  
 
   <ItemGroup>
     <PackageReference Include="FlaUI.Core" Version="5.0.0" />
@@ -31,6 +45,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WeAutoCommon\WeAutoCommon.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
