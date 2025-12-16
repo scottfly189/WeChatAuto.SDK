@@ -18,14 +18,15 @@
   </PropertyGroup>
   <PropertyGroup>
     <PackageId>WeChatAuto.SDK</PackageId>
-    <Version>0.9.1</Version>
+    <PackageVersion>0.9.4</PackageVersion>
     <Authors>Alex Zhao</Authors>
+    <PackageIcon>icon.png</PackageIcon>
     <Product>WeChatAuto.SDK</Product>
     <Description>WeChatAuto.SDK is a modern WeChat automation framework for AI integration.</Description>
     <Copyright>Copyright 2025 Alex Zhao</Copyright>
     <RepositoryUrl>https://github.com/scottfly189/WeChatAuto.SDK</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>Initial a test version.</PackageReleaseNotes>
+    <PackageReleaseNotes>update the package icon.</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>WeChat, Automation, AI, MCP</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -49,6 +50,7 @@
 
   <ItemGroup>
     <None Include="..\README.md" Pack="true" PackagePath="\"/>
+    <None Include="..\Images\icon.png" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
