@@ -91,13 +91,13 @@ await client.SendWho("好友名称", "Hello, World!");
 
 > 敬请关注后续更新，目前最主要提供了微信聊天的自动化，后期会提供对腾迅会议、微信公众号/订阅号等的自动化与MCP Server,如果您有什么建议，也可以跟我提。
 
-![WeChatAuto.SDK架构图](./images/article.png)
+![WeChatAuto.SDK架构图](https://github.com/scottfly189/WeChatAuto.SDK/blob/master/Images/article.png)
 
 ### 🚀 主要类与关系
 
 > WeChatAuto.SDK 采用 POM（页面对象模型）设计思想，针对微信的各类操作场景提供了清晰、模块化的对象抽象，大幅提升了自动化脚本的可读性与可维护性。
 
-![WeChatAuto.SDK 主要类关系示意](./images/class.png)
+![WeChatAuto.SDK 主要类关系示意](https://github.com/scottfly189/WeChatAuto.SDK/blob/master/Images/class.png)
 
 ### ⛷️ 开发计划
 
