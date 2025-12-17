@@ -25,7 +25,7 @@ public class WeChatClientService : IDisposable
     /// <returns>微信客户端名称列表</returns>
     public List<string> GetAllWeChatClientNames()
     {
-        return _weChatClientFactory.GetWxClientNames();
+        return _weChatClientFactory.GetWeChatClientNames();
     }
 
     /// <summary>

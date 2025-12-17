@@ -44,7 +44,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 微信客户端列表
         /// </summary>
-        public Dictionary<string, WeChatClient> WxClientList
+        public Dictionary<string, WeChatClient> WeChatClientList
         {
             get
             {
@@ -56,7 +56,7 @@ namespace WeChatAuto.Components
         /// 获取客户端名称列表
         /// </summary>
         /// <returns></returns>
-        public List<string> GetWxClientNames()
+        public List<string> GetWeChatClientNames()
         {
             Init();
             return _wxClientList.Keys.ToList();
@@ -96,7 +96,7 @@ namespace WeChatAuto.Components
         /// 微信客户端请参见<see cref="WeChatClient"/>
         /// </summary>
         /// <returns>微信客户端列表</returns>
-        public Dictionary<string, WeChatClient> GetWxClientList()
+        public Dictionary<string, WeChatClient> GetWeChatClientList()
         {
             Init();
             return _wxClientList;

@@ -4,7 +4,7 @@
     <TargetFrameworks>
       net48;
       net481;
-      net6.0-windows;
+      net6.0-windows7.0;
       net7.0-windows;
       net8.0-windows;
       net9.0-windows;
@@ -18,7 +18,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PackageId>WeAutoCommon</PackageId>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>1.0.1</PackageVersion>
     <Authors>Alex Zhao</Authors>
     <PackageIcon>icon.png</PackageIcon>
     <Product>WeChatAuto.SDK</Product>
