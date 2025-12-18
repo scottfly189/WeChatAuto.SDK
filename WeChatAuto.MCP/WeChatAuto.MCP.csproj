@@ -27,14 +27,14 @@
     <!-- Set recommended package metadata -->
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageId>WeChatAuto.MCP</PackageId>
-    <PackageVersion>1.0.2</PackageVersion>
+    <PackageVersion>1.0.3</PackageVersion>
     <PackageTags>AI; MCP; server; stdio; WeChatAuto.SDK; 微信自动化</PackageTags>
-    <Description>WeChatAuto.MCP 是一个基于 WeChatAuto.SDK 的 MCP Server，用于微信自动化。</Description>
+    <Description>WeChatAuto.MCP 是一个基于 WeChatAuto.SDK 的 MCP Server，用于微信桌面端自动化。</Description>
 
     <Copyright>Copyright 2025 Alex Zhao</Copyright>
     <RepositoryUrl>https://github.com/scottfly189/WeChatAuto.SDK</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>update the package icon.</PackageReleaseNotes>
+    <PackageReleaseNotes>create the MCP server.</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 

@@ -1,78 +1,49 @@
-# MCP Server
+# 关于WeChatAuto.MCP MCP Server
+WeChatAuto.MCP 是一个基于 WeChatAuto.SDK 的 MCP Server，用于微信自动化。
 
-This README was created using the C# MCP server project template.
-It demonstrates how you can easily create an MCP server using C# and publish it as a NuGet package.
+## 本地开发与调试
 
-The MCP server is built as a self-contained application and does not require the .NET runtime to be installed on the target machine.
-However, since it is self-contained, it must be built for each target platform separately.
-By default, the template is configured to build for:
-* `win-x64`
-* `win-arm64`
-
-If your users require more platforms to be supported, update the list of runtime identifiers in the project's `<RuntimeIdentifiers />` element.
-
-See [aka.ms/nuget/mcp/guide](https://aka.ms/nuget/mcp/guide) for the full guide.
-
-Please note that this template is currently in an early preview stage. If you have feedback, please take a [brief survey](http://aka.ms/dotnet-mcp-template-survey).
-
-## Checklist before publishing to NuGet.org
-
-- Test the MCP server locally using the steps below.
-- Update the package metadata in the .csproj file, in particular the `<PackageId>`.
-- Update `.mcp/server.json` to declare your MCP server's inputs.
-  - See [configuring inputs](https://aka.ms/nuget/mcp/guide/configuring-inputs) for more details.
-- Pack the project using `dotnet pack`.
-
-The `bin/Release` directory will contain the package file (.nupkg), which can be [published to NuGet.org](https://learn.microsoft.com/nuget/nuget-org/publish-a-package).
-
-## Developing locally
-
-To test this MCP server from source code (locally) without using a built MCP server package, you can configure your IDE to run the project directly using `dotnet run`.
+如需在本地不通过已编译的 MCP 服务包测试该 MCP Server，可以通过配置 IDE 直接运行源码。
 
 ```json
 {
   "servers": {
-    "WeChatAuto.MCP2": {
+    "WeChatAuto.MCP": {
       "type": "stdio",
       "command": "dotnet",
       "args": [
         "run",
         "--project",
-        "<PATH TO PROJECT DIRECTORY>"
+        "<项目目录路径>"
       ]
     }
   }
 }
 ```
 
-## Testing the MCP Server
+## 测试 MCP Server
 
-Once configured, you can ask Copilot Chat for a random number, for example, `Give me 3 random numbers`. It should prompt you to use the `get_random_number` tool on the `WeChatAuto.MCP2` MCP server and show you the results.
+配置好后，你可以在 Copilot Chat 中通过人工智能自动化操作微信桌面客户端
 
-## Publishing to NuGet.org
 
-1. Run `dotnet pack -c Release` to create the NuGet package
-2. Publish to NuGet.org with `dotnet nuget push bin/Release/*.nupkg --api-key <your-api-key> --source https://api.nuget.org/v3/index.json`
+## 从 NuGet.org 使用 MCP Server
 
-## Using the MCP Server from NuGet.org
 
-Once the MCP server package is published to NuGet.org, you can configure it in your preferred IDE. Both VS Code and Visual Studio use the `dnx` command to download and install the MCP server package from NuGet.org.
+- **VS Code**：在 `<工作区目录>/.vscode/mcp.json` 文件中配置
+- **Visual Studio**：在 `<解决方案目录>\.mcp.json` 文件中配置
 
-- **VS Code**: Create a `<WORKSPACE DIRECTORY>/.vscode/mcp.json` file
-- **Visual Studio**: Create a `<SOLUTION DIRECTORY>\.mcp.json` file
-
-For both VS Code and Visual Studio, the configuration file uses the following server definition:
+两者配置文件内容如下：
 
 ```json
 {
   "servers": {
-    "WeChatAuto.MCP2": {
+    "WeChatAuto.MCP": {
       "type": "stdio",
       "command": "dnx",
       "args": [
-        "<your package ID here>",
+        "WeChatAuto.MCP",
         "--version",
-        "<your package version here>",
+        "1.0.2",
         "--yes"
       ]
     }
@@ -80,15 +51,3 @@ For both VS Code and Visual Studio, the configuration file uses the following se
 }
 ```
 
-## More information
-
-.NET MCP servers use the [ModelContextProtocol](https://www.nuget.org/packages/ModelContextProtocol) C# SDK. For more information about MCP:
-
-- [Official Documentation](https://modelcontextprotocol.io/)
-- [Protocol Specification](https://spec.modelcontextprotocol.io/)
-- [GitHub Organization](https://github.com/modelcontextprotocol)
-
-Refer to the VS Code or Visual Studio documentation for more information on configuring and using MCP servers:
-
-- [Use MCP servers in VS Code (Preview)](https://code.visualstudio.com/docs/copilot/chat/mcp-servers)
-- [Use MCP servers in Visual Studio (Preview)](https://learn.microsoft.com/visualstudio/ide/mcp-servers)
