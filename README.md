@@ -193,7 +193,29 @@ public class LLMService
 
 ```
 
-> 前置步骤如Demo01,可以通过注入的messageContext对象执行各种操作,也可以通过messageContext对象获得依赖注入容器，执行自己的业务逻辑;
+> 前置步骤跟Demo01一致,可以通过注入的messageContext对象执行各种操作,也可以通过messageContext对象获得依赖注入容器，执行自己的业务逻辑;
+
+#### 示例三 - MCP Server的使用 - 以vscode为例讲解
+- 进入源码的.vscode\mcp.json,修改配置如下:
+
+```
+{
+	"servers": {
+		"wechat_mcp_server": {
+			"type": "stdio",
+			"command": "dotnet",
+			"args": [
+				"run",
+                "--project",
+                "改成你的WeChatAuto.MCP.csproj的路径"
+			]
+		}
+	}
+}
+```
+
+- 在mcp.json页面点击"Start"按钮启动mcp server  
+- 启动GitHub Copilot Chat,在Chat页提问: 请帮我给微信好友:AI.Net发送消息：Hello world!
 
 ## ⚙️ 架构概览
 ### 🚀 WeChatAuto.SDK 架构图
