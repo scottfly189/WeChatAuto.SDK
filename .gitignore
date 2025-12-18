@@ -56,3 +56,4 @@ node_modules/
 /package-lock.json
 Videos
 ffmpeg
+pack.cmd
