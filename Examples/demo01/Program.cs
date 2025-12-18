@@ -16,5 +16,5 @@ var clentNames = clientFactory.GetWeChatClientNames();
 //获取第一个微信客户端
 var wxClient = clientFactory.GetWeChatClient(clentNames.First());  
  //通过第一个微信客户端发送消息给AI.Net好友昵称，请修改成自己的好友昵称
-wxClient?.SendWho("AI.Net","你好，欢迎使用AI.Net微信自动化框架！"); 
+wxClient?.SendWho("AI.Net","你好，欢迎使用WeChatAuto.SDK微信自动化框架！"); 
 

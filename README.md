@@ -35,7 +35,7 @@ dotnet add package WeChatAuto.SDK
 
 ### 基本使用
 
-#### 示例一：
+#### 示例一 - 给好友（或群聊昵称）发送消息：
 
 - 步骤一：新建项目，如下所示:
 
@@ -89,29 +89,111 @@ wxClient?.SendWho("AI.Net","你好，欢迎使用AI.Net微信自动化框架！"
 > 2. 如果是手动管理WeChatClientFactory,请在应用结束时运行clientFactory.Dispose(),或者象示例一一样将代码放入using块自动释放
 
 
-#### 示例二：
+#### 示例二 - 演示监听好友（或者群聊昵称）的消息,使用消息上下文获取消息并回复,并且还演示了如何通过依赖注入获取消息上下文的注入对象：
+- 前置步骤：安装依赖
+
+```
+dotnet add package WeChatAuto.SdK
+dotnet add package Microsoft.Extensions.Hosting
+```
+- 将项目demo02的Program.cs修改成如下
 
 ```csharp
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using WeChatAuto.Services;
 using WeChatAuto.Components;
+using Microsoft.Extensions.DependencyInjection;
+using FlaUI.Core.Logging;
+using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 
-var services = new ServiceCollection();
+var builder = Host.CreateApplicationBuilder(args);
 
-// 初始化 SDK
-WeAutomation.Initialize(services, options =>
+WeAutomation.Initialize(builder.Services, options =>
 {
+    //开启调试模式，调试模式会在获得焦点时边框高亮，生产环境建议关闭
     options.DebugMode = true;
-    options.EnableMouseKeyboardSimulator = false;
+    //开启录制视频功能，录制的视频会保存在项目的运行目录下的Videos文件夹中
+    //options.EnableRecordVideo = true;  
 });
 
-var serviceProvider = services.BuildServiceProvider();
-var factory = serviceProvider.GetRequiredService<WeChatClientFactory>();
+//这里注入自已的服务（或者对象），如LLM服务等
+builder.Services.AddSingleton<LLMService>();
 
-// 使用微信客户端
-var client = factory.GetWeChatClient("微信昵称");
-await client.SendWho("好友名称", "Hello, World!");
+var serviceProvider = builder.Services.BuildServiceProvider();
+var clientFactory = serviceProvider.GetRequiredService<WeChatClientFactory>();
+// 得到名称为"Alex"的微信客户端实例，测试时请将AI.net替换为你自己的微信昵称
+var client = clientFactory.GetWeChatClient("Alex");
+await client.AddMessageListener("测试11", (messageContext) =>
+{
+    var index = 0;
+    foreach (var message in messageContext.NewMessages)
+    {
+        index++;
+        Console.WriteLine($"收到消息：{index}：{message.ToString()}");
+        Console.WriteLine($"收到消息：{index}：{message.Who}：{message.MessageContent}");
+    }
+    var allMessages = messageContext.AllMessages.Skip(messageContext.AllMessages.Count - 10).ToList();
+    index = 0;
+    foreach (var message in allMessages)
+    {
+        index++;
+        Console.WriteLine($"...收到所有消息的前10条之第{index}条：{message.Who}：{message.MessageContent}");
+        Console.WriteLine($".................详细之第{index}条：{message.ToString()}");
+    }
+    if (messageContext.IsBeAt())
+    {
+        var messageBubble = messageContext.MessageBubbleIsBeAt().FirstOrDefault();
+        if (messageBubble != null)
+        {
+            messageContext.SendMessage("我被@了！！！！我马上就回复你！！！！", new List<string> { messageBubble.Who });
+        }
+        else
+        {
+            messageContext.SendMessage("我被@了！！！！我马上就回复你！！！！");
+        }
+    }
+    if (messageContext.IsBeReferenced())
+    {
+        messageContext.SendMessage("我被引用了！！！！");
+    }
+    if (messageContext.IsBeTap())
+    {
+        messageContext.SendMessage("我被拍一拍了[微笑]！！！！");
+    }
+    if (!messageContext.IsBeAt() && !messageContext.IsBeReferenced() && !messageContext.IsBeTap())
+    {
+        messageContext.SendMessage($"我收到了{messageContext.NewMessages.FirstOrDefault()?.Who}的消息：{messageContext.NewMessages.FirstOrDefault()?.MessageContent}");
+    }
+    //可以通过注入的服务容器获取你注入的服务实例，然后调用你的业务逻辑,一般都是LLM的自动回复逻辑
+    var llmService = messageContext.ServiceProvider.GetRequiredService<LLMService>();
+    llmService.DoSomething();
+});
+
+
+var app = builder.Build();
+await app.RunAsync();
+
+/// <summary>
+/// 一个包含LLM服务的Service类，用于注入到MessageContext中
+/// </summary>
+public class LLMService
+{
+    private ILogger<LLMService> _logger;
+    public LLMService(ILogger<LLMService> logger)
+    {
+        _logger = logger;
+    }
+
+    public void DoSomething()
+    {
+        _logger.LogInformation("这里是你注入的服务实例，可以在这里编写你的业务逻辑  ");
+    }
+}
+
 ```
+
+> 前置步骤如Demo01,可以通过注入的messageContext对象执行各种操作,也可以通过messageContext对象获得依赖注入容器，执行自己的业务逻辑;
 
 ## ⚙️ 架构概览
 ### 🚀 WeChatAuto.SDK 架构图

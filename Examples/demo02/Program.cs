@@ -2,6 +2,9 @@
 using WeChatAuto.Services;
 using WeChatAuto.Components;
 using Microsoft.Extensions.DependencyInjection;
+using FlaUI.Core.Logging;
+using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -18,14 +21,71 @@ builder.Services.AddSingleton<LLMService>();
 
 var serviceProvider = builder.Services.BuildServiceProvider();
 var clientFactory = serviceProvider.GetRequiredService<WeChatClientFactory>();
-// 得到名称为"AI.net"的微信客户端实例，测试时请将AI.net替换为你自己的微信昵称
-var client = clientFactory.GetWeChatClient("AI.net");
+// 得到名称为"Alex"的微信客户端实例，测试时请将AI.net替换为你自己的微信昵称
+var client = clientFactory.GetWeChatClient("Alex");
+await client.AddMessageListener("测试11", (messageContext) =>
+{
+    var index = 0;
+    foreach (var message in messageContext.NewMessages)
+    {
+        index++;
+        Console.WriteLine($"收到消息：{index}：{message.ToString()}");
+        Console.WriteLine($"收到消息：{index}：{message.Who}：{message.MessageContent}");
+    }
+    var allMessages = messageContext.AllMessages.Skip(messageContext.AllMessages.Count - 10).ToList();
+    index = 0;
+    foreach (var message in allMessages)
+    {
+        index++;
+        Console.WriteLine($"...收到所有消息的前10条之第{index}条：{message.Who}：{message.MessageContent}");
+        Console.WriteLine($".................详细之第{index}条：{message.ToString()}");
+    }
+    if (messageContext.IsBeAt())
+    {
+        var messageBubble = messageContext.MessageBubbleIsBeAt().FirstOrDefault();
+        if (messageBubble != null)
+        {
+            messageContext.SendMessage("我被@了！！！！我马上就回复你！！！！", new List<string> { messageBubble.Who });
+        }
+        else
+        {
+            messageContext.SendMessage("我被@了！！！！我马上就回复你！！！！");
+        }
+    }
+    if (messageContext.IsBeReferenced())
+    {
+        messageContext.SendMessage("我被引用了！！！！");
+    }
+    if (messageContext.IsBeTap())
+    {
+        messageContext.SendMessage("我被拍一拍了[微笑]！！！！");
+    }
+    if (!messageContext.IsBeAt() && !messageContext.IsBeReferenced() && !messageContext.IsBeTap())
+    {
+        messageContext.SendMessage($"我收到了{messageContext.NewMessages.FirstOrDefault()?.Who}的消息：{messageContext.NewMessages.FirstOrDefault()?.MessageContent}");
+    }
+    //可以通过注入的服务容器获取你注入的服务实例，然后调用你的业务逻辑,一般都是LLM的自动回复逻辑
+    var llmService = messageContext.ServiceProvider.GetRequiredService<LLMService>();
+    llmService.DoSomething();
+});
 
 
 var app = builder.Build();
 await app.RunAsync();
 
+/// <summary>
+/// 一个包含LLM服务的Service类，用于注入到MessageContext中
+/// </summary>
 public class LLMService
 {
-    public string LLMDoSomething() => "Hello World!";
+    private ILogger<LLMService> _logger;
+    public LLMService(ILogger<LLMService> logger)
+    {
+        _logger = logger;
+    }
+
+    public void DoSomething()
+    {
+        _logger.LogInformation("这里是你注入的服务实例，可以在这里编写你的业务逻辑  ");
+    }
 }
