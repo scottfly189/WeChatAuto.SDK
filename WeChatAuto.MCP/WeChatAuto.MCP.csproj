@@ -1,24 +1,60 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net10.0-windows</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-  </PropertyGroup>
-  <PropertyGroup>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);1591</NoWarn>
-  </PropertyGroup>  
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!-- 允许项目引用回退到 net10.0-windows 版本 -->
+    <AssetTargetFallback>$(AssetTargetFallback);net10.0-windows</AssetTargetFallback>
+    <!-- 抑制兼容性警告：由于 PackAsTool 不支持 -windows 后缀，MCP 项目必须使用 net10.0，
+         而引用的项目使用 net10.0-windows，NuGet 会回退到 net48。功能上不受影响，因为
+         .NET Core 可以运行 .NET Framework 程序集 -->
+    <NoWarn>$(NoWarn);NU1701;NU1702</NoWarn>
 
+    <!-- Set up the NuGet package to be an MCP server -->
+    <PackAsTool>true</PackAsTool>
+    <PackageType>McpServer</PackageType>
+
+    <!-- Set up the MCP server to be a self-contained application that does not rely on a shared framework -->
+    <SelfContained>true</SelfContained>
+    <PublishSelfContained>true</PublishSelfContained>
+
+    <!-- Set up the MCP server to be a single file executable -->
+    <PublishSingleFile>true</PublishSingleFile>
+
+    <!-- Set recommended package metadata -->
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageId>WeChatAuto.MCP</PackageId>
+    <PackageVersion>1.0.2</PackageVersion>
+    <PackageTags>AI; MCP; server; stdio; WeChatAuto.SDK; 微信自动化</PackageTags>
+    <Description>WeChatAuto.MCP 是一个基于 WeChatAuto.SDK 的 MCP Server，用于微信自动化。</Description>
+
+    <Copyright>Copyright 2025 Alex Zhao</Copyright>
+    <RepositoryUrl>https://github.com/scottfly189/WeChatAuto.SDK</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>update the package icon.</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <!-- Include additional files for browsing the MCP server. -->
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.1" />
-    <PackageReference Include="ModelContextProtocol" Version="0.5.0-preview.1" />
+    <None Include=".mcp\server.json" Pack="true" PackagePath="/.mcp/" />
+    <None Include="README.md" Pack="true" PackagePath="/" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
+    <PackageReference Include="ModelContextProtocol" Version="0.5.0-preview.1" />
+    <!-- 直接引用 FlaUI，确保 NuGet 为 net10.0 选择正确的 .NET 版本而不是回退到 .NET Framework -->
+    <PackageReference Include="FlaUI.Core" Version="5.0.0" />
+    <PackageReference Include="FlaUI.UIA3" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\wechatauto\wechatauto.csproj" />
     <ProjectReference Include="..\WeAutoCommon\WeAutoCommon.csproj" />
-    <ProjectReference Include="..\WeChatAuto\WeChatAuto.csproj" />
   </ItemGroup>
 
 </Project>

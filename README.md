@@ -35,34 +35,61 @@ dotnet add package WeChatAuto.SDK
 
 ### 基本使用
 
-#### 方式一：使用内部依赖注入（适用于独立应用）
+#### 示例一：
 
-```csharp
-using WeChatAuto.Services;
-using WeChatAuto.Components;
-using Microsoft.Extensions.DependencyInjection;
+- 步骤一：新建项目，如下所示:
 
-// 初始化 SDK
-var serviceProvider = WeAutomation.Initialize(options =>
-{
-    options.DebugMode = true;
-    options.EnableMouseKeyboardSimulator = false;
-});
-
-// 获取微信客户端工厂
-var factory = serviceProvider.GetRequiredService<WeChatClientFactory>();
-
-// 获取所有微信客户端
-var clients = factory.WxClientList;
-
-// 获取第一个微信客户端
-var client = clients.Values.First();
-
-// 发送消息
-await client.SendWho("好友名称", "Hello, World!");
+```
+dotnet new console -n demo01
 ```
 
-#### 方式二：使用外部依赖注入（适用于已有 DI 框架的应用）
+- 步骤二：将demo01.csproj项目文件的net10.0**修改**成net10.0-windows,如下所示:
+
+```
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+```
+
+- 步骤三：安装依赖
+
+```
+dotnet add package WeChatAuto.SdK
+dotnet add package Microsoft.Extensions.DependencyInjection
+```
+- 步骤四：项目demo01的Program.cs修改成如下：
+
+```csharp
+using Microsoft.Extensions.DependencyInjection;
+using WeChatAuto.Components;
+using WeChatAuto.Services;
+
+// 初始化WeAutomation服务
+var serviceProvider = WeAutomation.Initialize(options =>
+{
+    options.DebugMode = true;   //开启调试模式，调试模式会在获得焦点时边框高亮，生产环境建议关闭
+    //options.EnableRecordVideo = true;  //开启录制视频功能，录制的视频会保存在项目的运行目录下的Videos文件夹中
+});
+
+using var clientFactory = serviceProvider.GetRequiredService<WeChatClientFactory>();
+Console.WriteLine($"当前客户端打开的微信客户端为：{string.Join(",", clientFactory.GetWeChatClientNames())}，共计{clientFactory.GetWeChatClientNames().Count}个微信客户端。");
+//获取当前打开的微信客户端名称列表
+var clentNames = clientFactory.GetWeChatClientNames();    
+//获取第一个微信客户端
+var wxClient = clientFactory.GetWeChatClient(clentNames.First());  
+ //通过微信客户端发送消息给好友昵称AI.Net，测试时请把AI.Net修改成自己的好友昵称
+wxClient?.SendWho("AI.Net","你好，欢迎使用AI.Net微信自动化框架！"); 
+```
+
+> **注意**：  
+> 1. 本项目仅支持 Windows 系统，请务必将项目文件的 TargetFramework 设置为 netxx.0-windows（如 net10.0-windows），否则编译时会出现警告。后续不再赘述。  
+> 2. 如果是手动管理WeChatClientFactory,请在应用结束时运行clientFactory.Dispose(),或者象示例一一样将代码放入using块自动释放
+
+
+#### 示例二：
 
 ```csharp
 using Microsoft.Extensions.DependencyInjection;
@@ -142,10 +169,10 @@ await client.SendWho("好友名称", "Hello, World!");
 | 朋友圈 | 点赞朋友圈 | ✅ |  |
 | 朋友圈 | 自动评论朋友圈 | ✅ |  |
 | MCP | MCP Server | ✅ |  |
-| 企业客服 |  | ❌ | 根据公司知识库回答问题 |
-| 企业督办 |  | ❌ | 企业客服的各种督办场景 |
-| 腾迅会议 |  | ❌ | 对腾迅会议的自动化 |
-| 公众号/订阅号 |  | ❌ | 对公众号/订阅号的自动化 |
+| 企业客服 | 自动根据企业知识库回答客户问题 | ❌ | 根据公司知识库回答问题 |
+| 企业督办 | 企业客户群提出问题的督办 | ❌ | 企业客服的各种督办场景 |
+| 腾迅会议 | 自动安排腾迅会议 | ❌ | 对腾迅会议的自动化 |
+| 公众号/订阅号 | 自动发布公众号/订阅号文章 | ❌ | 对公众号/订阅号的自动化 |
 | 效率 | 计划任务 | ❌ |  |
 
 
