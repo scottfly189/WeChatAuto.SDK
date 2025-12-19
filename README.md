@@ -86,10 +86,11 @@ wxClient?.SendWho("AI.Net","你好，欢迎使用AI.Net微信自动化框架！"
 
 > **注意**：  
 > 1. 本项目仅支持 Windows 系统，请务必将项目文件的 TargetFramework 设置为 netxx.0-windows（如 net10.0-windows），否则编译时会出现警告。后续不再赘述。  
-> 2. 如果是手动管理WeChatClientFactory,请在应用结束时运行clientFactory.Dispose(),或者象示例一一样将代码放入using块自动释放
+> 2. 如果是手动管理WeChatClientFactory,请在应用结束时运行clientFactory.Dispose(),或者象示例一一样将代码放入using块自动释放,如果把WeChatAuto.SDK加入您的库的依赖注入容器，则不存在此问题。
+> 3. WeAutomation.Initialize()方法有两个重载，分别适用于：加入外部依赖注入与使用内部依赖注入。
 
 
-#### 示例二 - 演示监听好友（或者群聊昵称）的消息,使用消息上下文获取消息并回复,并且还演示了如何通过依赖注入获取消息上下文的注入对象：
+#### 示例二 - 演示监听好友（或者群聊昵称）的消息,使用消息上下文获取消息并回复,并且还演示了如何通过依赖注入获取消息上下文的注入对象,执行自己的业务逻辑：
 - 前置步骤：安装依赖
 
 ```
@@ -127,6 +128,7 @@ var client = clientFactory.GetWeChatClient("Alex");
 await client.AddMessageListener("测试11", (messageContext) =>
 {
     var index = 0;
+    //显示收到的消息
     foreach (var message in messageContext.NewMessages)
     {
         index++;
@@ -135,12 +137,14 @@ await client.AddMessageListener("测试11", (messageContext) =>
     }
     var allMessages = messageContext.AllMessages.Skip(messageContext.AllMessages.Count - 10).ToList();
     index = 0;
+    //显示所有消息的后十条
     foreach (var message in allMessages)
     {
         index++;
         Console.WriteLine($"...收到所有消息的前10条之第{index}条：{message.Who}：{message.MessageContent}");
         Console.WriteLine($".................详细之第{index}条：{message.ToString()}");
     }
+    //是否有人@我
     if (messageContext.IsBeAt())
     {
         var messageBubble = messageContext.MessageBubbleIsBeAt().FirstOrDefault();
@@ -153,16 +157,19 @@ await client.AddMessageListener("测试11", (messageContext) =>
             messageContext.SendMessage("我被@了！！！！我马上就回复你！！！！");
         }
     }
+    //是否有人引用了我的消息
     if (messageContext.IsBeReferenced())
     {
         messageContext.SendMessage("我被引用了！！！！");
     }
+    //是否有人拍了拍我
     if (messageContext.IsBeTap())
     {
         messageContext.SendMessage("我被拍一拍了[微笑]！！！！");
     }
     if (!messageContext.IsBeAt() && !messageContext.IsBeReferenced() && !messageContext.IsBeTap())
     {
+        //回复消息，这里可以引入大模型自动回复
         messageContext.SendMessage($"我收到了{messageContext.NewMessages.FirstOrDefault()?.Who}的消息：{messageContext.NewMessages.FirstOrDefault()?.MessageContent}");
     }
     //可以通过注入的服务容器获取你注入的服务实例，然后调用你的业务逻辑,一般都是LLM的自动回复逻辑
@@ -175,7 +182,7 @@ var app = builder.Build();
 await app.RunAsync();
 
 /// <summary>
-/// 一个包含LLM服务的Service类，用于注入到MessageContext中
+/// 一个包含LLM服务的Service类，用于注入到依赖注入容器.
 /// </summary>
 public class LLMService
 {
@@ -193,7 +200,7 @@ public class LLMService
 
 ```
 
-> 前置步骤跟Demo01一致,可以通过注入的messageContext对象执行各种操作,也可以通过messageContext对象获得依赖注入容器，执行自己的业务逻辑;
+> 前置步骤跟Demo01一致,可以通过messageContext对象执行各种操作,也可以通过messageContext对象获得依赖注入容器，获取自己的对象，执行自己的业务逻辑;
 
 #### 示例三 - MCP Server的使用 - 以vscode为例讲解
 - 进入源码的.vscode\mcp.json,修改配置如下:

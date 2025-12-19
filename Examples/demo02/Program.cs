@@ -2,8 +2,6 @@
 using WeChatAuto.Services;
 using WeChatAuto.Components;
 using Microsoft.Extensions.DependencyInjection;
-using FlaUI.Core.Logging;
-using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 
 var builder = Host.CreateApplicationBuilder(args);
@@ -26,12 +24,14 @@ var client = clientFactory.GetWeChatClient("Alex");
 await client.AddMessageListener("测试11", (messageContext) =>
 {
     var index = 0;
+    //打印收到最新消息
     foreach (var message in messageContext.NewMessages)
     {
         index++;
         Console.WriteLine($"收到消息：{index}：{message.ToString()}");
         Console.WriteLine($"收到消息：{index}：{message.Who}：{message.MessageContent}");
     }
+    //打印收到所有消息的后十条
     var allMessages = messageContext.AllMessages.Skip(messageContext.AllMessages.Count - 10).ToList();
     index = 0;
     foreach (var message in allMessages)
@@ -40,6 +40,7 @@ await client.AddMessageListener("测试11", (messageContext) =>
         Console.WriteLine($"...收到所有消息的前10条之第{index}条：{message.Who}：{message.MessageContent}");
         Console.WriteLine($".................详细之第{index}条：{message.ToString()}");
     }
+    //是否有人@我
     if (messageContext.IsBeAt())
     {
         var messageBubble = messageContext.MessageBubbleIsBeAt().FirstOrDefault();
@@ -52,16 +53,19 @@ await client.AddMessageListener("测试11", (messageContext) =>
             messageContext.SendMessage("我被@了！！！！我马上就回复你！！！！");
         }
     }
+    //是否有人引用了我的消息
     if (messageContext.IsBeReferenced())
     {
         messageContext.SendMessage("我被引用了！！！！");
     }
+    //是否有人拍了拍我
     if (messageContext.IsBeTap())
     {
         messageContext.SendMessage("我被拍一拍了[微笑]！！！！");
     }
     if (!messageContext.IsBeAt() && !messageContext.IsBeReferenced() && !messageContext.IsBeTap())
     {
+        //回复消息，这里可以引入大模型自动回复
         messageContext.SendMessage($"我收到了{messageContext.NewMessages.FirstOrDefault()?.Who}的消息：{messageContext.NewMessages.FirstOrDefault()?.MessageContent}");
     }
     //可以通过注入的服务容器获取你注入的服务实例，然后调用你的业务逻辑,一般都是LLM的自动回复逻辑
@@ -83,7 +87,6 @@ public class LLMService
     {
         _logger = logger;
     }
-
     public void DoSomething()
     {
         _logger.LogInformation("这里是你注入的服务实例，可以在这里编写你的业务逻辑  ");
