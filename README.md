@@ -104,8 +104,6 @@ using Microsoft.Extensions.Hosting;
 using WeChatAuto.Services;
 using WeChatAuto.Components;
 using Microsoft.Extensions.DependencyInjection;
-using FlaUI.Core.Logging;
-using System.Diagnostics;
 using Microsoft.Extensions.Logging;
 
 var builder = Host.CreateApplicationBuilder(args);
@@ -128,16 +126,16 @@ var client = clientFactory.GetWeChatClient("Alex");
 await client.AddMessageListener("测试11", (messageContext) =>
 {
     var index = 0;
-    //显示收到的消息
+    //打印收到最新消息
     foreach (var message in messageContext.NewMessages)
     {
         index++;
         Console.WriteLine($"收到消息：{index}：{message.ToString()}");
         Console.WriteLine($"收到消息：{index}：{message.Who}：{message.MessageContent}");
     }
+    //打印收到所有消息的后十条
     var allMessages = messageContext.AllMessages.Skip(messageContext.AllMessages.Count - 10).ToList();
     index = 0;
-    //显示所有消息的后十条
     foreach (var message in allMessages)
     {
         index++;
@@ -182,7 +180,7 @@ var app = builder.Build();
 await app.RunAsync();
 
 /// <summary>
-/// 一个包含LLM服务的Service类，用于注入到依赖注入容器.
+/// 一个包含LLM服务的Service类，用于注入到MessageContext中
 /// </summary>
 public class LLMService
 {
@@ -191,12 +189,12 @@ public class LLMService
     {
         _logger = logger;
     }
-
     public void DoSomething()
     {
         _logger.LogInformation("这里是你注入的服务实例，可以在这里编写你的业务逻辑  ");
     }
 }
+
 
 ```
 
