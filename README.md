@@ -123,6 +123,7 @@ var serviceProvider = builder.Services.BuildServiceProvider();
 var clientFactory = serviceProvider.GetRequiredService<WeChatClientFactory>();
 // 得到名称为"Alex"的微信客户端实例，测试时请将AI.net替换为你自己的微信昵称
 var client = clientFactory.GetWeChatClient("Alex");
+// 监听微信群测试11
 await client.AddMessageListener("测试11", (messageContext) =>
 {
     var index = 0;
