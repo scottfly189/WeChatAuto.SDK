@@ -21,7 +21,7 @@ WeChatAuto.SDK 是一款面向 AI 的微信 PC 客户端自动化 SDK，基于 .
 
 - Windows 操作系统
 - .NET Framework 4.8+ 或 .NET 6.0+ (Windows)，支持.NET的框架有:net48;net481;net6.0-windows; net7.0-windows;net8.0-windows;net9.0-windows;net10.0-windows;
-- 微信 PC 客户端已安装并运行
+- 微信 PC 客户端已安装并运行,本 SDK 基于微信 PC 客户端(版本号:3.9.12.55)的 UI 结构开发，不同版本可能存在兼容性问题。
 
 ## 🚀 快速开始
 
@@ -302,8 +302,6 @@ public class LLMService
 2. **微信版本**：本 SDK 基于微信 PC 客户端(版本号:3.9.12.55)的 UI 结构开发，不同版本可能存在兼容性问题。
 
 3. **多实例支持**：支持同时管理多个微信客户端，通过微信昵称区分不同实例。
-
-4. **资源释放**：使用完毕后请调用 `Dispose()` 方法释放资源。
 
 ## 🎈 关于键鼠模拟器
 
