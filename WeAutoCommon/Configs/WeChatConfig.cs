@@ -17,11 +17,11 @@ namespace WeAutoCommon.Configs
         /// </summary>
         public string DefaultSavePath { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "wxauto_download");
 
-        /// <summary>
-        /// 检查微信客户端是否运行的时间间隔，单位秒
-        /// 用于风控退出时的重试机制
-        /// </summary>
-        public int CheckAppRunningInterval { get; set; } = 3;
+        // /// <summary>
+        // /// 检查微信客户端是否运行的时间间隔，单位秒
+        // /// 用于风控退出时的重试机制
+        // /// </summary>
+        // public int CheckAppRunningInterval { get; set; } = 3;
         /// <summary>
         /// 微信客户端退出时的重试等待时间，单位秒,默认等候10秒
         /// </summary>
