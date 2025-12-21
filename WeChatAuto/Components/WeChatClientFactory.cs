@@ -159,7 +159,7 @@ namespace WeChatAuto.Components
             WeChatMainWindow wxMainWindow = new WeChatMainWindow(this, _serviceProvider, topWindowProcessId.Result);
             WeChatNotifyIcon wxNotifyIcon = new WeChatNotifyIcon(wxNotifyButton.AsButton(), _serviceProvider, wxMainWindow);
 
-            var client = new WeChatClient(wxNotifyIcon, wxMainWindow, _serviceProvider, WeAutomation.Config.EnableCheckAppRunning);
+            var client = new WeChatClient(wxNotifyIcon, wxMainWindow, _serviceProvider);
             wxMainWindow.Client = client;
             var NickNameButton = Retry.WhileNull(() => wxTempwindow.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]")?.AsButton(),
               timeout: TimeSpan.FromSeconds(5),

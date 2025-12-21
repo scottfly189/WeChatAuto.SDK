@@ -49,8 +49,8 @@ namespace WeChatAuto.Components
     /// <param name="wxNotifyIcon">微信客户端通知图标类</param>
     /// <param name="wxWindow">微信客户端窗口类</param>
     /// <param name="serviceProvider">服务提供者</param>
-    /// <param name="enableCheckAppRunning">是否启用运行检查风控退出监听</param>
-    public WeChatClient(WeChatNotifyIcon wxNotifyIcon, WeChatMainWindow wxWindow, IServiceProvider serviceProvider, bool enableCheckAppRunning = true)
+    // /// <param name="enableCheckAppRunning">是否启用运行检查风控退出监听</param>
+    public WeChatClient(WeChatNotifyIcon wxNotifyIcon, WeChatMainWindow wxWindow, IServiceProvider serviceProvider)
     {
       _logger = serviceProvider.GetRequiredService<AutoLogger<WeChatClient>>();
       WxNotifyIcon = wxNotifyIcon;
