@@ -16,8 +16,8 @@ using WeAutoCommon.Simulator;
 namespace WeChatAuto.Utils
 {
     /// <summary>
-    /// 朋友圈上下文
-    /// 最主要提供给终端用户使用，用于获取朋友圈内容列表，并进行点赞、回复评论等操作
+    /// 朋友圈动态上下文
+    /// 最主要提供给终端用户使用，用于获取朋友圈动态内容列表，并进行点赞、回复评论等操作
     /// </summary>
     public class MomentsContext
     {
@@ -51,42 +51,42 @@ namespace WeChatAuto.Utils
             return _moment.ReplyItems;
         }
         /// <summary>
-        /// 获取朋友圈内容项
+        /// 获取朋友圈动态内容项
         /// 此内容项可以做为大模型提供上下文信息。
-        /// 如：朋友圈发表内容、朋友圈时间等。
+        /// 如：朋友圈动态发表内容、朋友圈动态时间等。
         /// </summary>
-        /// <returns>朋友圈内容项<see cref="MomentItem"/></returns>
+        /// <returns>朋友圈动态内容项<see cref="MomentItem"/></returns>
         public MomentItem GetMomentItem() => _moment;
         /// <summary>
-        /// 获取朋友圈内容
+        /// 获取朋友圈动态内容
         /// 此内容可以做为大模型提供上下文信息。
-        /// 如：朋友圈发表内容、朋友圈时间等。
+        /// 如：朋友圈动态发表内容、朋友圈动态时间等。
         /// </summary>
-        /// <returns>朋友圈内容</returns>
+        /// <returns>朋友圈动态内容</returns>
         public string GetMomentContent()
         {
             return _moment.ListItemName;
         }
         /// <summary>
-        /// 获取朋友圈列表项唯一标识
+        /// 获取朋友圈动态列表项唯一标识
         /// 此标识可以做为大模型提供上下文信息。
-        /// 如：朋友圈记录唯一标识。
+        /// 如：朋友圈动态记录唯一标识。
         /// </summary>
-        /// <returns>朋友圈列表项唯一标识</returns>
+        /// <returns>朋友圈动态列表项唯一标识</returns>
         public string GetMomentKey()
         {
             return _moment.ListItemKey;
         }
         /// <summary>
-        /// 是否是我最后一个回复的人，供大模型自动回复时参考。
+        /// 是否是我最后一个回复的人，供大模型自动回复朋友圈动态时参考。
         /// </summary>
-        /// <returns>是否是我最后一个回复的人</returns>
+        /// <returns>是否是我最后一个回复朋友圈动态的人</returns>
         public bool IsMyEndReply()
         {
             return _moment.IsMyEndReply;
         }
         /// <summary>
-        /// 是否包含我的回复，供大模型自动回复时参考。
+        /// 回复列表中是否包含我的回复，供大模型自动回复时参考。
         /// </summary>
         /// <returns>是否包含我的回复</returns>
         public bool IsIncludeMyReply()
@@ -94,9 +94,9 @@ namespace WeChatAuto.Utils
             return _moment.IsIncludeMyReply;
         }
         /// <summary>
-        /// 是否是我点赞的，供大模型自动回复时参考。
+        /// 是否我点赞过朋友圈动态，供大模型自动回复时参考。
         /// </summary>
-        /// <returns>是否是我点赞的</returns>
+        /// <returns>是否我点赞过朋友圈动态</returns>
         public bool IsMyLiked()
         {
             return _moment.IsMyLiked;
