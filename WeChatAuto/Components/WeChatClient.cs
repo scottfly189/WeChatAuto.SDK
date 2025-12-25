@@ -433,7 +433,7 @@ namespace WeChatAuto.Components
     public ChatResponse ChageOwerChatGroupMemo(string groupName, string newMemo)
       => WxMainWindow.ChageOwerChatGroupMemo(groupName, newMemo);
     /// <summary>
-    /// 改变自有群群名
+    /// 修改群名，适用于自有群群名
     /// </summary>
     /// <param name="oldGroupName">旧群名称</param>
     /// <param name="newGroupName">新群名称</param>
@@ -608,33 +608,33 @@ namespace WeChatAuto.Components
     /// 参考<see cref="MessageContext"/>
     /// </summary>
     /// <param name="nickName">好友名称</param>
-    /// <param name="callBack">回调函数,由好友提供,参数：消息上下文<see cref="MessageContext"/></param>
+    /// <param name="callBack">回调函数,由用户提供,参数：消息上下文<see cref="MessageContext"/></param>
     public async Task AddMessageListener(string nickName, Action<MessageContext> callBack)
       => await WxMainWindow.AddMessageListener(nickName, callBack);
     /// <summary>
-    /// 移除监听消息
+    /// 移除消息监听
     /// </summary>
     /// <param name="nickName">好友名称</param>
     public void StopMessageListener(string nickName)
       => WxMainWindow.StopMessageListener(nickName);
     /// <summary>
-    /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会调用回调函数
+    /// 添加新好友申请监听，用户需要提供一个回调函数，当有新好友时添加你为好友时，会调用回调函数
     /// 此方法需要自行处理好友是否通过，如果需要自动通过，请使用<see cref="AddNewFriendAutoPassedListener"/>
     /// </summary>
     /// <param name="callBack">回调函数</param>
     public void AddNewFriendCustomPassedListener(Action<List<string>> callBack)
       => WxMainWindow.AddNewFriendCustomPassedListener(callBack);
     /// <summary>
-    /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会调用回调函数
+    /// 添加新用户申请监听，用户需要提供一个回调函数，当有新用户申请添加你为好友时，会自动通过并调用回调函数
     /// </summary>
-    /// <param name="callBack">回调函数</param>
-    /// <param name="keyWord">关键字</param>
-    /// <param name="suffix">后缀</param>
-    /// <param name="label">标签</param>
+    /// <param name="callBack">回调函数，由用户自定义</param>
+    /// <param name="keyWord">关键字,如果设置了关键字，此好友监听只监听包含关键字的新好友，如果没有设置关键字，则监听所有新好友</param>
+    /// <param name="suffix">后缀,如果设置了后缀，添加好友时，会自动在好友昵称后添加后缀</param>
+    /// <param name="label">标签,如果设置了标签，添加好友时，会自动添加微信标签</param>
     public void AddNewFriendAutoPassedListener(Action<List<string>> callBack, string keyWord = null, string suffix = null, string label = null)
       => WxMainWindow.AddNewFriendAutoPassedListener(callBack, keyWord, suffix, label);
     /// <summary>
-    /// 移除新用户监听
+    /// 移除新用户申请监听
     /// </summary>
     public void StopNewUserListener()
       => WxMainWindow.StopNewUserListener();
@@ -648,7 +648,7 @@ namespace WeChatAuto.Components
     public void AddNewFriendAutoPassedAndOpenSubWinListener(Action<MessageContext> callBack, string keyWord = null, string suffix = null, string label = null)
       => WxMainWindow.AddNewFriendAutoPassedAndOpenSubWinListener(callBack, keyWord, suffix, label);
     /// <summary>
-    /// 添加朋友圈监听,当监听到指定的好友发朋友圈时，可以自动点赞，或者执行其他操作，如：回复评论等
+    /// 添加朋友圈动态监听,当监听到指定的好友发朋友圈动态时，可以自动点赞，或者执行其他操作，如：回复评论等
     /// </summary>
     /// <param name="nickNameOrNickNames">监听的好友名称或好友名称列表</param>
     /// <param name="autoLike">是否自动点赞</param>
