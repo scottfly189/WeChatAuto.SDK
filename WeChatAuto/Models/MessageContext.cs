@@ -82,9 +82,9 @@ namespace WeChatAuto.Models
             return AllMessages.Skip(AllMessages.Count - count).ToList();
         }
         /// <summary>
-        /// 获取LLM上下文消息
+        /// 获取适用于LLM上下文的上下文消息
         /// </summary>
-        /// <returns>LLM上下文消息列表</returns>
+        /// <returns>适用于LLM上下文的上下文消息列表</returns>
         public List<string> GetLLMContextMessages()
         {
             return AllMessages.Select(item => $"{item.Who}: {item.MessageContent}").ToList();
@@ -127,9 +127,9 @@ namespace WeChatAuto.Models
             return NewMessages.Any(item => item.MessageType == MessageType.拍一拍 && item.BeTap == OwnerNickName);
         }
         /// <summary>
-        /// 是否被@
+        /// 是否被其他人@我
         /// </summary>
-        /// <returns>是否被@</returns>
+        /// <returns>是否被其他人@我</returns>
         public bool IsBeAt()
         {
             return MessageBubbleIsBeAt().Count > 0;
@@ -181,7 +181,7 @@ namespace WeChatAuto.Models
         #endregion
         #region 内部聊天发送消息、发送文件、发送表情等
         /// <summary>
-        /// 发送消息
+        /// 发送文字消息
         /// </summary>
         /// <param name="message">消息内容</param>
         /// <param name="atUserList">被@的用户列表</param>
