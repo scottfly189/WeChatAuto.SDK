@@ -68,7 +68,7 @@ namespace WeChatAuto.Services
                 services.AddKMSimulator(_config.KMDeiviceVID,
                                         _config.KMDeivicePID,
                                         _config.KMVerifyUserData,
-                                        _config.OutputStringType);
+                                        _config.KMOutputStringType);
             }
             services.AddSingleton<WeChatCaptureImage>(_ =>
             {

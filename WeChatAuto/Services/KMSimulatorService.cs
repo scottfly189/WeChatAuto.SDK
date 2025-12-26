@@ -25,7 +25,7 @@ namespace WeChatAuto.Services
             OpenDevice(deviceId);
             VerifyUserData(verifyUserData);
             SetOutputMode(outputStringType);
-            SetMouseMode(WeAutomation.Config.MouseMoveMode);
+            SetMouseMode(WeAutomation.Config.KMMouseMoveMode);
         }
         private static void VerifyUserData(string verifyUserData)
         {
@@ -272,8 +272,8 @@ namespace WeChatAuto.Services
             // LeftClick(point);
             #endregion
             //最新版本
-            int width = element.BoundingRectangle.Width - 2 * WeAutomation.Config.OffsetOfClick;
-            int height = element.BoundingRectangle.Height - 2 * WeAutomation.Config.OffsetOfClick;
+            int width = element.BoundingRectangle.Width - 2 * WeAutomation.Config.KMOffsetOfClick;
+            int height = element.BoundingRectangle.Height - 2 * WeAutomation.Config.KMOffsetOfClick;
             var point = element.BoundingRectangle.Center();
             if (width <= 0 || height <= 0)
             {
@@ -283,8 +283,8 @@ namespace WeChatAuto.Services
             var random = new Random();
             var offsetX = random.Next(1, width + 1);
             var offsetY = random.Next(1, height + 1);
-            var x = element.BoundingRectangle.Left + WeAutomation.Config.OffsetOfClick + offsetX;
-            var y = element.BoundingRectangle.Top + WeAutomation.Config.OffsetOfClick + offsetY;
+            var x = element.BoundingRectangle.Left + WeAutomation.Config.KMOffsetOfClick + offsetX;
+            var y = element.BoundingRectangle.Top + WeAutomation.Config.KMOffsetOfClick + offsetY;
             if (x <= element.BoundingRectangle.Left || x >= element.BoundingRectangle.Right || y <= element.BoundingRectangle.Top || y >= element.BoundingRectangle.Bottom)
             {
                 LeftClick(point);
@@ -303,8 +303,8 @@ namespace WeChatAuto.Services
         /// <param name="element">元素</param>
         public static void LeftDblClickWithDpiAware(Window window, AutomationElement element)
         {
-            int width = element.BoundingRectangle.Width - 2 * WeAutomation.Config.OffsetOfClick;
-            int height = element.BoundingRectangle.Height - 2 * WeAutomation.Config.OffsetOfClick;
+            int width = element.BoundingRectangle.Width - 2 * WeAutomation.Config.KMOffsetOfClick;
+            int height = element.BoundingRectangle.Height - 2 * WeAutomation.Config.KMOffsetOfClick;
             var point = element.BoundingRectangle.Center();
             if (width <= 0 || height <= 0)
             {
@@ -314,8 +314,8 @@ namespace WeChatAuto.Services
             var random = new Random();
             var offsetX = random.Next(1, width + 1);
             var offsetY = random.Next(1, height + 1);
-            var x = element.BoundingRectangle.Left + WeAutomation.Config.OffsetOfClick + offsetX;
-            var y = element.BoundingRectangle.Top + WeAutomation.Config.OffsetOfClick + offsetY;
+            var x = element.BoundingRectangle.Left + WeAutomation.Config.KMOffsetOfClick + offsetX;
+            var y = element.BoundingRectangle.Top + WeAutomation.Config.KMOffsetOfClick + offsetY;
             if (x <= element.BoundingRectangle.Left || x >= element.BoundingRectangle.Right || y <= element.BoundingRectangle.Top || y >= element.BoundingRectangle.Bottom)
             {
                 LeftDoubleClick(point);

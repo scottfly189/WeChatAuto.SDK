@@ -88,15 +88,15 @@ namespace WeAutoCommon.Configs
         /// 点击偏移量,单位像素
         /// 为了避免每次点击都点击到同一个位置，可以设置一个偏移量，实际点击位置为点击位置减去偏移量的一个随机值
         /// </summary>
-        public int OffsetOfClick { get; set; } = 5;
+        public int KMOffsetOfClick { get; set; } = 5;
         /// <summary>
         /// 输出字符串编码类型,默认使用剪贴板粘贴输出字符串。优点是输出字符多时速度更快且不受输入法影响
         /// </summary>
-        public int OutputStringType { get; set; } = 4;
+        public int KMOutputStringType { get; set; } = 4;
         /// <summary>
         /// 鼠标移动模式
         /// </summary>
-        public int MouseMoveMode { get; set; } = 0;
+        public int KMMouseMoveMode { get; set; } = 0;
         /// <summary>
         /// 进程DPI感知值,如果使用库的应用已经设置DPI感知，此参数无效。
         /// 0: 不设置,进程对DPI完全不知晓，按逻辑像素绘制，可能会出现点击不准确的情况。

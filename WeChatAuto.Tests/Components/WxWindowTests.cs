@@ -290,7 +290,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.CreateOrUpdateOwnerChatGroup("测试11", new string[] { "AI.Net", "秋歌" });
+            var result = window.CreateOrUpdateOwnerChatGroup("测试11", new string[] { "AI.Net", "秋收" });
             _output.WriteLine($"创建群聊结果: {result.Message}");
             Assert.True(result.Success);
         }
@@ -483,7 +483,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = await window.AddChatGroupMemberToFriends(groupName, new string[] { "AI.Net", "秋歌" }, 5, "你好呀", "测试标签");
+            var result = await window.AddChatGroupMemberToFriends(groupName, new string[] { "AI.Net", "秋收" }, 5, "你好呀", "测试标签");
             _output.WriteLine($"添加群聊成员为好友结果: {result.Message}");
             Assert.True(result.Success);
             await Task.Delay(-1);
