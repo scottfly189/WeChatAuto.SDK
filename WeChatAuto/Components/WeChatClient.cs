@@ -172,7 +172,7 @@ namespace WeChatAuto.Components
     /// <param name="nickNames">好友昵称或好友昵称列表</param>
     public void LikeMoments(OneOf<string, string[]> nickNames) => WxMainWindow.Moments.LikeMoments(nickNames);
     /// <summary>
-    /// 回复朋友圈
+    /// 回复朋友圈动态
     /// </summary>
     /// <param name="nickNames">好友昵称或好友昵称列表</param>
     /// <param name="replyContent">回复内容</param>
