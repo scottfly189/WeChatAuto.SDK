@@ -98,7 +98,7 @@ namespace WeChatAuto.Components
 
         #region 群聊操作
 
-        #region 群基础操作，适用于自有群与他有群
+        #region 群基础操作，适用于自有群与外部群
         /// <summary>
         /// 更新群聊选项
         /// </summary>
@@ -1319,9 +1319,9 @@ namespace WeChatAuto.Components
         }
 
         #endregion
-        #region 他有群特定操作
+        #region 外部群特定操作
         /// <summary>
-        /// 邀请群聊成员,适用于他有群
+        /// 邀请群聊成员,适用于外部群
         /// </summary>
         /// <param name="memberName">成员名称</param>
         /// <param name="helloText">打招呼文本</param>
@@ -1381,7 +1381,7 @@ namespace WeChatAuto.Components
             }).GetAwaiter().GetResult();
         }
         /// <summary>
-        /// 添加群聊里面的好友为自己的好友,适用于他有群
+        /// 添加群聊里面的好友为自己的好友,适用于外部群
         /// </summary>
         /// <param name="memberName">成员名称</param>
         /// <param name="intervalSecond">间隔时间</param>
@@ -1393,7 +1393,7 @@ namespace WeChatAuto.Components
             return this.AddChatGroupMemberToFriends(memberName, intervalSecond, helloText, "");
         }
         /// <summary>
-        /// 添加群聊里面的好友为自己的好友,适用于从他有群中添加好友为自己的好友
+        /// 添加群聊里面的好友为自己的好友,适用于从外部群中添加好友为自己的好友
         /// </summary>
         /// <param name="memberName">成员名称</param>
         /// <param name="intervalSecond">间隔时间</param>
@@ -1683,7 +1683,7 @@ namespace WeChatAuto.Components
             }
         }
         /// <summary>
-        /// 添加群聊里面的所有好友为自己的好友,适用于从他有群中添加所有好友为自己的好友
+        /// 添加群聊里面的所有好友为自己的好友,适用于从外部群中添加所有好友为自己的好友
         /// </summary>
         /// <param name="intervalSecond">间隔时间</param>
         /// <param name="exceptList">排除列表</param>
@@ -1694,7 +1694,7 @@ namespace WeChatAuto.Components
             return this.AddAllChatGroupMemberToFriends(exceptList, intervalSecond, helloText, "");
         }
         /// <summary>
-        /// 添加群聊里面的所有好友为自己的好友,适用于从他有群中添加所有好友为自己的好友
+        /// 添加群聊里面的所有好友为自己的好友,适用于从外部群中添加所有好友为自己的好友
         /// </summary>
         /// <param name="exceptList">排除列表</param>
         /// <param name="intervalSecond">间隔时间</param>

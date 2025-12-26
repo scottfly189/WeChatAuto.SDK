@@ -213,7 +213,7 @@ namespace WeChatAuto.Models
         /// </summary>
         /// <param name="who">好友名称</param>
         /// <param name="message">消息内容</param>
-        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
+        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
         /// <returns></returns>
         public async Task SendMessageToFriend(string who, string message, OneOf<string, string[]> atUser = default)
         {
@@ -234,7 +234,7 @@ namespace WeChatAuto.Models
         /// </summary>
         /// <param name="who">好友名称</param>
         /// <param name="emoji">表情名称或者描述或者索引</param>
-        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
+        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
         /// <returns></returns>
         public async Task SendEmojiToFriend(string who, OneOf<int, string> emoji, OneOf<string, string[]> atUser = default)
         {
