@@ -116,12 +116,12 @@ public sealed class WeChatClientTool
     /// 发起语音通话(语音聊天)给指定好友或者群聊。注意：这不是发送消息的方法，而是发起实时语音通话。如果需要发送文字消息，请使用SendMessage等方法。
     /// </summary>
     /// <param name="groupName">群聊名称</param>
-    /// <param name="whos">好友名称列表,可以指定多个好友名称</param>
+    /// <param name="whos">好友昵称列表,可以指定多个好友昵称</param>
     /// <returns>是否发起成功</returns>
     [McpServerTool, Description("发起语音通话(语音聊天)给指定好友或者群聊。注意：这不是发送消息的方法，而是发起实时语音通话。如果需要发送文字消息，请使用SendMessage等方法。")]
     public async Task<string> StartVoiceChats(
         [Description("群聊名称")] string groupName,
-        [Description("好友名称列表,可以指定多个好友名称")] string[] whos)
+        [Description("好友昵称列表,可以指定多个好友昵称")] string[] whos)
     {
         _weChatClientService.SendVoiceChats(groupName, whos);
         return await Task.FromResult(JsonSerializer.Serialize(new { success = true }));
@@ -129,12 +129,12 @@ public sealed class WeChatClientTool
     /// <summary>
     /// 发起视频通话(视频聊天)给指定好友。注意：这不是发送消息的方法，而是发起实时视频通话。如果需要发送文字消息，请使用SendMessage等方法。
     /// </summary>
-    /// <param name="who">好友名称,微信好友昵称</param>
+    /// <param name="who">好友昵称,微信好友昵称</param>
     /// <returns>是否发起成功</returns>
     /// <returns></returns>
     [McpServerTool, Description("发起视频通话(视频聊天)给指定好友。注意：这不是发送消息的方法，而是发起实时视频通话。如果需要发送文字消息，请使用SendMessage等方法。")]
     public async Task<string> StartVideoChat(
-        [Description("好友名称,微信好友昵称")] string who)
+        [Description("好友昵称,微信好友昵称")] string who)
     {
         _weChatClientService.SendVideoChat(who);
         return await Task.FromResult(JsonSerializer.Serialize(new { success = true }));
@@ -168,14 +168,14 @@ public sealed class WeChatClientTool
     /// <summary>
     /// 转发消息,默认转发5行消息，可以指定转发行数
     /// </summary>
-    /// <param name="fromWho">转发消息的来源,可以是好友名称，也可以是群聊名称</param>
-    /// <param name="toWho">转发消息的接收者,可以是好友名称，也可以是群聊名称</param>
+    /// <param name="fromWho">转发消息的来源,可以是好友昵称，也可以是群聊名称</param>
+    /// <param name="toWho">转发消息的接收者,可以是好友昵称，也可以是群聊名称</param>
     /// <param name="rowCount">转发消息的行数,默认是5行,可以指定转发行数</param>
     /// <returns>是否转发成功</returns>
     [McpServerTool, Description("转发消息,默认转发5行消息，可以指定转发行数")]
     public async Task<string> ForwardMessage(
-        [Description("转发消息的来源,可以是好友名称，也可以是群聊名称")] string fromWho,
-        [Description("转发消息的接收者,可以是好友名称，也可以是群聊名称")] string toWho,
+        [Description("转发消息的来源,可以是好友昵称，也可以是群聊名称")] string fromWho,
+        [Description("转发消息的接收者,可以是好友昵称，也可以是群聊名称")] string toWho,
         [Description("转发消息的行数,默认是5行,可以指定转发行数")] int rowCount = 5)
     {
         var result = await _weChatClientService.ForwardMessage(fromWho, toWho, rowCount);

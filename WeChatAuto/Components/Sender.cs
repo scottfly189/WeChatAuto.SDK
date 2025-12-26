@@ -87,7 +87,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 发起多个语音聊天
         /// </summary>
-        /// <param name="whos">好友名称列表</param>
+        /// <param name="whos">好友昵称列表</param>
         public void SendVoiceChats(string[] whos)
         {
             var voiceChatButton = GetToolBarButton(ChatBoxToolBarType.语音聊天);

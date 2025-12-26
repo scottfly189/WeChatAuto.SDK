@@ -305,7 +305,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 停止消息监听
         /// </summary>
-        /// <param name="who">好友名称</param>
+        /// <param name="who">好友昵称</param>
         public void StopMessageListener(string who)
         {
             _SubWinMessageListeners.Remove(who);

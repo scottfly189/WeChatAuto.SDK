@@ -211,7 +211,7 @@ namespace WeChatAuto.Models
         /// <summary>
         /// 向聊天好友外的好友发送消息
         /// </summary>
-        /// <param name="who">好友名称</param>
+        /// <param name="who">好友昵称</param>
         /// <param name="message">消息内容</param>
         /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
         /// <returns></returns>
@@ -222,7 +222,7 @@ namespace WeChatAuto.Models
         /// <summary>
         /// 向聊天好友外的好友发送文件
         /// </summary>
-        /// <param name="who">好友名称</param>
+        /// <param name="who">好友昵称</param>
         /// <param name="files">文件路径列表</param>
         /// <returns></returns>
         public async Task SendFileToFriend(string who, string[] files)
@@ -232,7 +232,7 @@ namespace WeChatAuto.Models
         /// <summary>
         /// 向聊天好友外的好友发送表情
         /// </summary>
-        /// <param name="who">好友名称</param>
+        /// <param name="who">好友昵称</param>
         /// <param name="emoji">表情名称或者描述或者索引</param>
         /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
         /// <returns></returns>

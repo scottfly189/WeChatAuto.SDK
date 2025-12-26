@@ -462,13 +462,13 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 点赞朋友圈
         /// </summary>
-        /// <param name="nickNames">好友名称或好友名称列表</param>
+        /// <param name="nickNames">好友昵称或好友昵称列表</param>
         public void LikeMoments(OneOf<string, string[]> nickNames) => this._LikeMomentsCore(nickNames);
 
         /// <summary>
         /// 点赞朋友圈
         /// </summary>
-        /// <param name="nickNames">好友名称或好友名称列表</param>
+        /// <param name="nickNames">好友昵称或好友昵称列表</param>
         /// <param name="willDoList">待处理列表</param>
         private void _LikeMomentsCore(OneOf<string, string[]> nickNames, List<MomentItem> willDoList = null)
         {
@@ -522,7 +522,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 回复朋友圈
         /// </summary>
-        /// <param name="nickNames">好友名称或好友名称列表</param>
+        /// <param name="nickNames">好友昵称或好友昵称列表</param>
         /// <param name="replyContent">回复内容</param>
         public void ReplyMoments(OneOf<string, string[]> nickNames, string replyContent)
         {
@@ -659,7 +659,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 添加朋友圈监听,当监听到指定的好友发朋友圈时，可以自动点赞，或者执行其他操作，如：回复评论等
         /// </summary>
-        /// <param name="nickNameOrNickNames">监听的好友名称或好友名称列表</param>
+        /// <param name="nickNameOrNickNames">监听的好友昵称或好友昵称列表</param>
         /// <param name="autoLike">是否自动点赞</param>
         /// <param name="action">回调函数,参数：朋友圈上下文<see cref="MomentsContext"/>,服务提供者<see cref="IServiceProvider"/>，适用于使用者获取自己注入的服务</param>
         public void AddMomentsListener(OneOf<string, List<string>> nickNameOrNickNames, bool autoLike = true,
@@ -756,7 +756,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 点赞朋友圈并回复评论
         /// </summary>
-        /// <param name="nickNames">好友名称或好友名称列表</param>
+        /// <param name="nickNames">好友昵称或好友昵称列表</param>
         /// <param name="willDoList">待处理列表</param>
         /// <param name="action">回调函数,参数：朋友圈上下文<see cref="MomentsContext"/>,服务提供者<see cref="IServiceProvider"/>，适用于使用者获取自己注入的服务</param>
         /// <param name="autoLike">是否自动点赞</param>

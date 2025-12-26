@@ -12,7 +12,7 @@ namespace WeAutoCommon.Models
         }
         private string _MyNickName;
         /// <summary>
-        /// 好友名称
+        /// 好友昵称
         /// </summary>
         public string Who { get; set; }
         /// <summary>

@@ -342,6 +342,10 @@ WeChatAuto.SDK的非VIP与VIP的核心代码层面完全一致，非VIP没有任
 
 欢迎提交 Issue 和 Pull Request！
 
+## 🙏 致谢
+
+在这里感谢那些还在为自由和正义而奋斗的人们🎉🎉
+
 ---
 
 **免责声明**：
