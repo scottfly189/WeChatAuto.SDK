@@ -186,7 +186,7 @@ namespace WeChatAuto.Components
     /// </summary>
     /// <param name="who">好友名称</param>
     /// <param name="message">消息内容</param>
-    /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
+    /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
     /// <param name="isOpenChat">是否打开子聊天窗口,默认是True:打开,False:不打开</param>
     public async Task SendWho(string who, string message, OneOf<string, string[]> atUser = default, bool isOpenChat = true)
     {
@@ -204,7 +204,7 @@ namespace WeChatAuto.Components
     /// </summary>
     /// <param name="whos">好友名称列表</param>
     /// <param name="message">消息内容</param>
-    /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
+    /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
     /// <param name="isOpenChat">是否打开子聊天窗口,默认是True:打开,False:不打开</param>
     public async Task SendWhos(string[] whos, string message, OneOf<string, string[]> atUser = default, bool isOpenChat = true)
     {
@@ -222,7 +222,7 @@ namespace WeChatAuto.Components
     /// </summary>
     /// <param name="who">好友名称</param>
     /// <param name="emoji">表情名称或者描述或者索引,具体索引或者描述等请参考<see cref="EmojiListHelper"/>或者<see cref="EmojiItem"/></param>
-    /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
+    /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
     /// <param name="isOpenChat">是否打开子聊天窗口</param>
     public async Task SendEmoji(string who, OneOf<int, string> emoji, OneOf<string, string[]> atUser = default, bool isOpenChat = false)
       => await WxMainWindow.SendEmoji(who, emoji, atUser, isOpenChat);
@@ -231,7 +231,7 @@ namespace WeChatAuto.Components
     /// </summary>
     /// <param name="whos">好友名称列表</param>
     /// <param name="emoji">表情名称或者描述或者索引,具体索引或者描述等请参考<see cref="EmojiListHelper"/>或者<see cref="EmojiItem"/></param>
-    /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
+    /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
     /// <param name="isOpenChat">是否打开子聊天窗口</param>
     public async Task SendEmojis(string[] whos, OneOf<int, string> emoji, OneOf<string, string[]> atUser = default, bool isOpenChat = false)
       => await WxMainWindow.SendEmojis(whos, emoji, atUser, isOpenChat);
@@ -389,7 +389,7 @@ namespace WeChatAuto.Components
     public async Task<string> GetGroupOwner(string groupName)
       => await WxMainWindow.GetGroupOwner(groupName);
     /// <summary>
-    /// 清空群聊历史
+    /// 清空群聊历史聊天记录
     /// </summary>
     /// <param name="groupName">群聊名称</param>
     public async Task ClearChatGroupHistory(string groupName)
@@ -490,7 +490,7 @@ namespace WeChatAuto.Components
     public async Task<ChatResponse> RemoveOwnerChatGroupMember(string groupName, OneOf<string, string[]> memberName)
       => await WxMainWindow.RemoveOwnerChatGroupMember(groupName, memberName);
     /// <summary>
-    /// 邀请群聊成员,适用于他有群
+    /// 邀请群聊成员,适用于外部群
     /// </summary>
     /// <param name="groupName">群聊名称</param>
     /// <param name="memberName">成员名称</param>
@@ -499,7 +499,7 @@ namespace WeChatAuto.Components
     public async Task<ChatResponse> InviteChatGroupMember(string groupName, OneOf<string, string[]> memberName, string helloText = "")
       => await WxMainWindow.InviteChatGroupMember(groupName, memberName, helloText);
     /// <summary>
-    /// 添加群聊里面的好友为自己的好友,适用于从他有群中添加好友为自己的好友
+    /// 添加群聊里面的好友为自己的好友,适用于从外部群中添加好友为自己的好友
     /// </summary>
     /// <param name="groupName">群聊名称</param>
     /// <param name="memberName">成员名称</param>
@@ -510,7 +510,7 @@ namespace WeChatAuto.Components
     public async Task<ChatResponse> AddChatGroupMemberToFriends(string groupName, OneOf<string, string[]> memberName, int intervalSecond = 5, string helloText = "", string label = "")
       => await WxMainWindow.AddChatGroupMemberToFriends(groupName, memberName, intervalSecond, helloText, label);
     /// <summary>
-    /// 添加群聊里面的所有好友为自己的好友,适用于从他有群中添加所有好友为自己的好友
+    /// 添加群聊里面的所有好友为自己的好友,适用于从外部群中添加所有好友为自己的好友
     /// 风控提醒：
     /// 1、此方法容易触发微信风控机制，建议使用分页添加，并使用键鼠模拟器的方式增加好友。
     /// 1、微信对于加好友每天有数量的限制，实际测试一天只能加20多个，超出数量会返回[操作过于频繁，请稍后再试。]消息.
@@ -522,13 +522,14 @@ namespace WeChatAuto.Components
     /// <param name="helloText">打招呼文本</param>
     /// <param name="label">好友标签,方便归类管理</param>
     /// <param name="pageNo">起始页码,从1开始,如果从0开始，表示不使用分页，全部添加好友，但容易触发微信风控机制，建议使用分页添加</param>
-    /// <param name="pageSize">页数量</param>
+    /// <param name="pageSize">每页数量</param>
     /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
     public async Task<ChatResponse> AddAllChatGroupMemberToFriends(string groupName, List<string> exceptList = null, int intervalSecond = 3,
         string helloText = "", string label = "", int pageNo = 1, int pageSize = 15)
       => await WxMainWindow.AddAllChatGroupMemberToFriends(groupName, exceptList, intervalSecond, helloText, label, pageNo, pageSize);
     /// <summary>
-    /// 添加群聊里面的所有好友为自己的好友,适用于从他有群中添加所有好友为自己的好友
+    /// 添加群聊里面的所有好友为自己的好友,适用于从外部群中添加所有好友为自己的好友
+    /// 注意：此方法容易触发微信风控机制，建议使用分页添加，并使用键鼠模拟器的方式增加好友。
     /// </summary>
     /// <param name="groupName">群聊名称</param>
     /// <param name="options">添加群聊成员为好友的选项<see cref="AddGroupMemberOptions"/></param>

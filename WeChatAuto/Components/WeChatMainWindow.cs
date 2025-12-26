@@ -310,7 +310,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="who">好友名称</param>
         /// <param name="message">消息内容</param>
-        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
+        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
         public async Task SendWho(string who, string message, OneOf<string, string[]> atUser = default)
         {
             var atUserList = new List<string>();
@@ -409,7 +409,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="whos">好友名称列表</param>
         /// <param name="message">消息内容</param>
-        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
+        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
         public async Task SendWhos(string[] whos, string message, OneOf<string, string[]> atUser = default)
         {
             foreach (var who in whos)
@@ -423,7 +423,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="who">好友名称</param>
         /// <param name="message">消息内容</param>
-        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
+        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
         public async Task SendWhoAndOpenChat(string who, string message, OneOf<string, string[]> atUser = default)
         {
             var atUserList = new List<string>();
@@ -458,7 +458,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="whos">好友名称列表</param>
         /// <param name="message">消息内容</param>
-        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
+        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
         public async Task SendWhosAndOpenChat(string[] whos, string message, OneOf<string, string[]> atUser = default)
         {
             foreach (var who in whos)
@@ -1004,7 +1004,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="who">好友名称</param>
         /// <param name="emoji">表情名称</param>
-        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
+        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
         public async Task SendEmoji(string who, OneOf<int, string> emoji, OneOf<string, string[]> atUser = default, bool isOpenChat = false)
         {
@@ -1021,7 +1021,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="whos">好友名称列表</param>
         /// <param name="emoji">表情名称</param>
-        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，他有群不能@所有人</param>
+        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
         public async Task SendEmojis(string[] whos, OneOf<int, string> emoji, OneOf<string, string[]> atUser = default, bool isOpenChat = false)
         {
@@ -1305,7 +1305,7 @@ namespace WeChatAuto.Components
         #endregion
 
         #region 群聊操作
-        #region 群基础操作，适用于自有群与他有群
+        #region 群基础操作，适用于自有群与外部群
         /// <summary>
         /// 更新群聊选项
         /// </summary>
@@ -1369,7 +1369,7 @@ namespace WeChatAuto.Components
             return subWin.GetGroupOwner();
         }
         /// <summary>
-        /// 清空群聊历史
+        /// 清空群聊历史聊天记录
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         public async Task ClearChatGroupHistory(string groupName)
@@ -2369,7 +2369,7 @@ namespace WeChatAuto.Components
             return subWin.RemoveOwnerChatGroupMember(memberName);
         }
         /// <summary>
-        /// 邀请群聊成员,适用于他有群
+        /// 邀请群聊成员,适用于外部群
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <param name="memberName">成员名称</param>
@@ -2384,7 +2384,7 @@ namespace WeChatAuto.Components
         }
 
         /// <summary>
-        /// 添加群聊里面的好友为自己的好友,适用于从他有群中添加好友为自己的好友
+        /// 添加群聊里面的好友为自己的好友,适用于从外部群中添加好友为自己的好友
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <param name="memberName">成员名称</param>
@@ -2396,7 +2396,7 @@ namespace WeChatAuto.Components
             return await this.AddChatGroupMemberToFriends(groupName, memberName, intervalSecond, helloText, "");
         }
         /// <summary>
-        /// 添加群聊里面的好友为自己的好友,适用于从他有群中添加好友为自己的好友
+        /// 添加群聊里面的好友为自己的好友,适用于从外部群中添加好友为自己的好友
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <param name="memberName">成员名称</param>
@@ -2413,7 +2413,7 @@ namespace WeChatAuto.Components
         }
 
         /// <summary>
-        /// 添加群聊里面的所有好友为自己的好友,适用于从他有群中添加所有好友为自己的好友
+        /// 添加群聊里面的所有好友为自己的好友,适用于从外部群中添加所有好友为自己的好友
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <param name="exceptList">排除列表</param>
@@ -2426,7 +2426,7 @@ namespace WeChatAuto.Components
         }
 
         /// <summary>
-        /// 添加群聊里面的所有好友为自己的好友,适用于从他有群中添加所有好友为自己的好友
+        /// 添加群聊里面的所有好友为自己的好友,适用于从外部群中添加所有好友为自己的好友
         /// 风控提醒：
         /// 1、此方法容易触发微信风控机制，建议使用分页添加，并使用键鼠模拟器的方式增加好友。
         /// 1、微信对于加好友每天有数量的限制，实际测试一天只能加20多个，超出数量会返回[操作过于频繁，请稍后再试。]消息.
@@ -2449,7 +2449,7 @@ namespace WeChatAuto.Components
             return subWin.AddAllChatGroupMemberToFriends(exceptList, intervalSecond, helloText, label, pageNo, pageSize);
         }
         /// <summary>
-        /// 添加群聊里面的所有好友为自己的好友,适用于从他有群中添加所有好友为自己的好友
+        /// 添加群聊里面的所有好友为自己的好友,适用于从外部群中添加所有好友为自己的好友
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <param name="options">添加群聊成员为好友的选项<see cref="AddGroupMemberOptions"/></param>

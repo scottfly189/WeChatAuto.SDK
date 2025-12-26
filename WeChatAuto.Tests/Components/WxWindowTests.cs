@@ -373,8 +373,8 @@ namespace WeChatAuto.Tests.Components
         }
 
         [Theory(DisplayName = "测试设置消息免打扰")]
-        [InlineData("他有群01", true, true)]
-        [InlineData("他有群01", false, true)]
+        [InlineData("外部群01", true, true)]
+        [InlineData("外部群01", false, true)]
         public void Test_SetMessageWithoutInterruption(string friendName, bool isMessageWithoutInterruption, bool resultFlag)
         {
             var framework = _globalFixture.clientFactory;
@@ -386,8 +386,8 @@ namespace WeChatAuto.Tests.Components
         }
 
         [Theory(DisplayName = "测试设置保存到通讯录")]
-        [InlineData("他有群01", true, true)]
-        [InlineData("他有群01", false, true)]
+        [InlineData("外部群01", true, true)]
+        [InlineData("外部群01", false, true)]
         public void Test_SetSaveToAddress(string friendName, bool isSaveToAddress, bool resultFlag)
         {
             var framework = _globalFixture.clientFactory;
@@ -399,8 +399,8 @@ namespace WeChatAuto.Tests.Components
         }
 
         [Theory(DisplayName = "测试设置聊天置顶")]
-        [InlineData("他有群02", true)]
-        [InlineData("他有群02", false)]
+        [InlineData("外部群02", true)]
+        [InlineData("外部群02", false)]
         public void Test_SetChatTop(string friendName, bool isChatTop)
         {
             var framework = _globalFixture.clientFactory;
@@ -462,9 +462,9 @@ namespace WeChatAuto.Tests.Components
             Assert.True(true);
         }
 
-        [Theory(DisplayName = "测试邀请群聊成员,适用于他有群")]
-        [InlineData("他有群01")]
-        [InlineData("他有群02")]
+        [Theory(DisplayName = "测试邀请群聊成员,适用于外部群")]
+        [InlineData("外部群01")]
+        [InlineData("外部群02")]
         public async Task Test_InviteChatGroupMember(string groupName)
         {
             var framework = _globalFixture.clientFactory;
@@ -475,9 +475,9 @@ namespace WeChatAuto.Tests.Components
             Assert.True(result.Success);
         }
 
-        [Theory(DisplayName = "测试添加群聊成员为好友,适用于他有群")]
-        [InlineData("他有群01")]
-        [InlineData("他有群02")]
+        [Theory(DisplayName = "测试添加群聊成员为好友,适用于外部群")]
+        [InlineData("外部群01")]
+        [InlineData("外部群02")]
         public async Task Test_AddChatGroupMemberToFriends(string groupName)
         {
             var framework = _globalFixture.clientFactory;
@@ -490,9 +490,9 @@ namespace WeChatAuto.Tests.Components
         }
 
 
-        [Theory(DisplayName = "测试添加群聊成员为好友,适用于他有群")]
-        [InlineData("他有群01")]
-        [InlineData("他有群02")]
+        [Theory(DisplayName = "测试添加群聊成员为好友,适用于外部群")]
+        [InlineData("外部群01")]
+        [InlineData("外部群02")]
         [InlineData("歪脖子的模版交流群")]
         public async Task Test_AddAllChatGroupMemberToFriends(string groupName)
         {
@@ -505,9 +505,9 @@ namespace WeChatAuto.Tests.Components
             await Task.Delay(-1);
         }
 
-        [Theory(DisplayName = "测试添加群聊成员为好友,适用于他有群,分页添加")]
-        [InlineData("他有群01")]
-        [InlineData("他有群02")]
+        [Theory(DisplayName = "测试添加群聊成员为好友,适用于外部群,分页添加")]
+        [InlineData("外部群01")]
+        [InlineData("外部群02")]
         [InlineData("歪脖子的模版交流群")]
         public async Task Test_AddAllChatGroupMemberToFriends_Page(string groupName)
         {
