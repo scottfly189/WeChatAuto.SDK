@@ -55,7 +55,7 @@ public class WeChatClientService : IDisposable
     /// 获取所有气泡标题列表，默认获取10页气泡标题列表
     /// <see cref="ChatSimpleMessage"/>
     /// </summary>
-    /// <param name="who">好友名称，可以是好友，也可以是群聊名称</param>
+    /// <param name="who">好友昵称，可以是好友，也可以是群聊名称</param>
     /// <param name="pageCount">获取的气泡数量，默认是10页,可以指定获取的页数，如果指定为-1，则获取所有气泡</param>
     /// <returns>所有气泡标题列表</returns>
     public List<ChatSimpleMessage> GetChatAllHistory(string who, int pageCount = 10)
@@ -67,7 +67,7 @@ public class WeChatClientService : IDisposable
     /// <summary>
     /// 发送消息给指定好友
     /// </summary>
-    /// <param name="who">好友名称</param>
+    /// <param name="who">好友昵称</param>
     /// <param name="message">消息内容</param>
     /// <returns>是否发送成功</returns>
     public async Task<string> SendMessage(string who, string message)
@@ -121,7 +121,7 @@ public class WeChatClientService : IDisposable
     /// 发起语音聊天,适用于群聊中发起语音聊天
     /// </summary>
     /// <param name="groupName">群聊名称</param>
-    /// <param name="whos">好友名称列表</param>
+    /// <param name="whos">好友昵称列表</param>
     /// <returns>是否发起成功</returns>
     public void SendVoiceChats(string groupName, string[] whos)
     {
@@ -132,7 +132,7 @@ public class WeChatClientService : IDisposable
     /// <summary>
     /// 发起视频聊天,适用于单个好友
     /// </summary>
-    /// <param name="who">好友名称</param>
+    /// <param name="who">好友昵称</param>
     /// <returns>是否发起成功</returns>
     public void SendVideoChat(string who)
     {
@@ -167,8 +167,8 @@ public class WeChatClientService : IDisposable
     /// <summary>
     /// 转发消息
     /// </summary>
-    /// <param name="fromWho">转发消息的来源,可以是好友名称，也可以是群聊名称</param>
-    /// <param name="toWho">转发消息的接收者,可以是好友名称，也可以是群聊名称</param>
+    /// <param name="fromWho">转发消息的来源,可以是好友昵称，也可以是群聊名称</param>
+    /// <param name="toWho">转发消息的接收者,可以是好友昵称，也可以是群聊名称</param>
     /// <param name="rowCount">转发消息的行数</param>
     /// <returns>是否转发成功</returns>
     public async Task<bool> ForwardMessage(string fromWho, string toWho, int rowCount = 5)

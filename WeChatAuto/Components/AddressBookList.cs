@@ -60,7 +60,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 定位好友
         /// </summary>
-        /// <param name="friendName">好友名称</param>
+        /// <param name="friendName">好友昵称</param>
         /// <returns>是否存在</returns>
         public bool LocateFriend(string friendName)
         {
@@ -282,7 +282,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="friendNames">微信号/手机号列表</param>
         /// <param name="label">用户标签</param>
-        /// <returns>好友名称列表和是否成功</returns>
+        /// <returns>好友昵称列表和是否成功</returns>
         public List<(string friendName, bool isSuccess, string errMessage)> AddFriends(List<string> friendNames, string label = "")
         {
             List<(string friendName, bool isSuccess, string errMessage)> resultList = new List<(string friendName, bool isSuccess, string errMessage)>();

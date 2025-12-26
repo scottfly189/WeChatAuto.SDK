@@ -88,7 +88,7 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 搜索聊天
     /// </summary>
-    /// <param name="who">好友名称,可以是群聊名称也可以是好友名称</param>
+    /// <param name="who">好友昵称,可以是群聊名称也可以是好友昵称</param>
     public void SearchChat(string who) => WxMainWindow.Search.SearchChat(who);
     /// <summary>
     /// 在通讯录页面搜索联系人
@@ -169,12 +169,12 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 朋友圈点赞
     /// </summary>
-    /// <param name="nickNames">好友名称或好友名称列表</param>
+    /// <param name="nickNames">好友昵称或好友昵称列表</param>
     public void LikeMoments(OneOf<string, string[]> nickNames) => WxMainWindow.Moments.LikeMoments(nickNames);
     /// <summary>
     /// 回复朋友圈
     /// </summary>
-    /// <param name="nickNames">好友名称或好友名称列表</param>
+    /// <param name="nickNames">好友昵称或好友昵称列表</param>
     /// <param name="replyContent">回复内容</param>
     public void ReplyMoments(OneOf<string, string[]> nickNames, string replyContent)
       => WxMainWindow.Moments.ReplyMoments(nickNames, replyContent);
@@ -184,7 +184,7 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 单个发送消息，发送消息给单个好友
     /// </summary>
-    /// <param name="who">好友名称</param>
+    /// <param name="who">好友昵称</param>
     /// <param name="message">消息内容</param>
     /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
     /// <param name="isOpenChat">是否打开子聊天窗口,默认是True:打开,False:不打开</param>
@@ -202,7 +202,7 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 批量发送消息
     /// </summary>
-    /// <param name="whos">好友名称列表</param>
+    /// <param name="whos">好友昵称列表</param>
     /// <param name="message">消息内容</param>
     /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
     /// <param name="isOpenChat">是否打开子聊天窗口,默认是True:打开,False:不打开</param>
@@ -220,7 +220,7 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 发送表情
     /// </summary>
-    /// <param name="who">好友名称</param>
+    /// <param name="who">好友昵称</param>
     /// <param name="emoji">表情名称或者描述或者索引,具体索引或者描述等请参考<see cref="EmojiListHelper"/>或者<see cref="EmojiItem"/></param>
     /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
     /// <param name="isOpenChat">是否打开子聊天窗口</param>
@@ -229,7 +229,7 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 发送表情
     /// </summary>
-    /// <param name="whos">好友名称列表</param>
+    /// <param name="whos">好友昵称列表</param>
     /// <param name="emoji">表情名称或者描述或者索引,具体索引或者描述等请参考<see cref="EmojiListHelper"/>或者<see cref="EmojiItem"/></param>
     /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
     /// <param name="isOpenChat">是否打开子聊天窗口</param>
@@ -238,20 +238,20 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 发起语音聊天,适用于单个好友
     /// </summary>
-    /// <param name="who">好友名称</param>
+    /// <param name="who">好友昵称</param>
     /// <param name="isOpenChat">是否打开子聊天窗口,默认是False:不打开,True:打开</param>
     public void SendVoiceChat(string who, bool isOpenChat = true) => WxMainWindow.SendVoiceChat(who, isOpenChat);
     /// <summary>
     /// 发起语音聊天,适用于群聊中发起语音聊天
     /// </summary>
     /// <param name="groupName">群聊名称</param>
-    /// <param name="whos">好友名称列表</param>
+    /// <param name="whos">好友昵称列表</param>
     /// <param name="isOpenChat">是否打开子聊天窗口,默认是False:不打开,True:打开</param>
     public void SendVoiceChats(string groupName, string[] whos, bool isOpenChat = true) => WxMainWindow.SendVoiceChats(groupName, whos, isOpenChat);
     /// <summary>
     /// 发起视频聊天,适用于单个好友,群聊没有视频聊天功能
     /// </summary>
-    /// <param name="who">好友名称</param>
+    /// <param name="who">好友昵称</param>
     /// <param name="isOpenChat">是否打开子聊天窗口,默认是False:不打开,True:打开</param>
     public void SendVideoChat(string who, bool isOpenChat = false) => WxMainWindow.SendVideoChat(who, isOpenChat);
     /// <summary>
@@ -269,7 +269,7 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 给指定好友发送文件
     /// </summary>
-    /// <param name="who">好友名称</param>
+    /// <param name="who">好友昵称</param>
     /// <param name="files">文件路径,可以是单个文件路径，也可以是多个文件路径</param>
     /// <param name="isOpenChat">是否打开子聊天窗口</param>
     public async Task SendFile(string who, OneOf<string, string[]> files, bool isOpenChat = false)
@@ -277,7 +277,7 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 给多个好友发送文件
     /// </summary>
-    /// <param name="whos">好友名称列表</param>
+    /// <param name="whos">好友昵称列表</param>
     /// <param name="files">文件路径,可以是单个文件路径，也可以是多个文件路径</param>
     /// <param name="isOpenChat">是否打开子聊天窗口</param>
     public async Task SendFiles(string[] whos, OneOf<string, string[]> files, bool isOpenChat = false)
@@ -287,7 +287,7 @@ namespace WeChatAuto.Components
     /// 获取所有气泡标题列表
     /// <see cref="ChatSimpleMessage"/>
     /// </summary>
-    /// <param name="who">好友名称，可以是好友，也可以是群聊名称</param>
+    /// <param name="who">好友昵称，可以是好友，也可以是群聊名称</param>
     /// <param name="pageCount">获取的气泡数量，默认是10页,可以指定获取的页数，如果指定为-1，则获取所有气泡</param>
     /// <returns>所有气泡标题列表</returns>
     public List<ChatSimpleMessage> GetChatAllHistory(string who,int pageCount = 10)
@@ -296,8 +296,8 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 转发消息
     /// </summary>
-    /// <param name="fromWho">转发消息的来源,可以是好友名称，也可以是群聊名称</param>
-    /// <param name="toWho">转发消息的接收者,可以是好友名称，也可以是群聊名称</param>
+    /// <param name="fromWho">转发消息的来源,可以是好友昵称，也可以是群聊名称</param>
+    /// <param name="toWho">转发消息的接收者,可以是好友昵称，也可以是群聊名称</param>
     /// <param name="rowCount">转发消息的行数</param>
     /// <returns>是否转发成功</returns>
     public async Task<bool> ForwardMessage(string fromWho, string toWho, int rowCount = 5)
@@ -460,7 +460,7 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 检查好友是否存在,好友可以为群聊与普通好友
     /// </summary>
-    /// <param name="friendName">好友名称</param>
+    /// <param name="friendName">好友昵称</param>
     /// <param name="doubleClick">是否双击,True:是,False:否</param>
     /// <returns>是否存在,True:是,False:否</returns>
     public bool CheckFriendExist(string friendName, bool doubleClick = false)
@@ -548,7 +548,7 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 定位好友
     /// </summary>
-    /// <param name="friendName">好友名称</param>
+    /// <param name="friendName">好友昵称</param>
     /// <returns>是否存在</returns>
     public bool LocateFriend(string friendName)
       => WxMainWindow.AddressBook.LocateFriend(friendName);
@@ -588,7 +588,7 @@ namespace WeChatAuto.Components
     /// </summary>
     /// <param name="friendNames">微信号/手机号列表</param>
     /// <param name="label">用户标签</param>
-    /// <returns>好友名称列表和是否成功</returns>
+    /// <returns>好友昵称列表和是否成功</returns>
     public List<(string friendName, bool isSuccess, string errMessage)> AddFriends(List<string> friendNames, string label = "")
       => WxMainWindow.AddressBook.AddFriends(friendNames, label);
     /// <summary>
@@ -608,14 +608,14 @@ namespace WeChatAuto.Components
     /// 添加消息监听，用户需要提供一个回调函数，当有消息时，会调用回调函数
     /// 参考<see cref="MessageContext"/>
     /// </summary>
-    /// <param name="nickName">好友名称</param>
+    /// <param name="nickName">好友昵称</param>
     /// <param name="callBack">回调函数,由用户提供,参数：消息上下文<see cref="MessageContext"/></param>
     public async Task AddMessageListener(string nickName, Action<MessageContext> callBack)
       => await WxMainWindow.AddMessageListener(nickName, callBack);
     /// <summary>
     /// 移除消息监听
     /// </summary>
-    /// <param name="nickName">好友名称</param>
+    /// <param name="nickName">好友昵称</param>
     public void StopMessageListener(string nickName)
       => WxMainWindow.StopMessageListener(nickName);
     /// <summary>
@@ -651,7 +651,7 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 添加朋友圈动态监听,当监听到指定的好友发朋友圈动态时，可以自动点赞，或者执行其他操作，如：回复评论等
     /// </summary>
-    /// <param name="nickNameOrNickNames">监听的好友名称或好友名称列表</param>
+    /// <param name="nickNameOrNickNames">监听的好友昵称或好友昵称列表</param>
     /// <param name="autoLike">是否自动点赞</param>
     /// <param name="action">朋友圈对象<see cref="MomentsContext"/>,可以通过Monents对象调用回复评论等操作,服务提供者<see cref="IServiceProvider"/>，适用于使用者获取自己注入的服务</param>
     public void AddMomentsListener(OneOf<string, List<string>> nickNameOrNickNames, bool autoLike = true, Action<MomentsContext, IServiceProvider> action = null)

@@ -57,18 +57,18 @@ public sealed class WeChatPrompt
     批量发送消息给指定多个好友或者群聊，请根据好友或者群聊昵称列表: {whos} 发送消息: {message}
     """;
     /// <summary>
-    /// 发起语音聊天,适用于群聊中发起语音聊天，可以指定多个好友名称
+    /// 发起语音聊天,适用于群聊中发起语音聊天，可以指定多个好友昵称
     /// </summary>
-    [McpServerPrompt, Description("发起语音聊天,适用于群聊中发起语音聊天，可以指定多个好友名称")]
-    public static string SendVoiceChatsPrompt([Description("群聊名称")] string groupName, [Description("好友名称列表,可以指定多个好友名称")] string[] whos) => $"""
-    发起语音聊天，请根据群聊名称: {groupName} 和好友名称列表: {whos} 发起语音聊天
+    [McpServerPrompt, Description("发起语音聊天,适用于群聊中发起语音聊天，可以指定多个好友昵称")]
+    public static string SendVoiceChatsPrompt([Description("群聊名称")] string groupName, [Description("好友昵称列表,可以指定多个好友昵称")] string[] whos) => $"""
+    发起语音聊天，请根据群聊名称: {groupName} 和好友昵称列表: {whos} 发起语音聊天
     """;
     /// <summary>
     /// 发起视频聊天,适用于单个好友
     /// </summary>
     [McpServerPrompt, Description("发起视频聊天,适用于单个好友")]
-    public static string SendVideoChatPrompt([Description("好友名称,微信好友昵称")] string who) => $"""
-    发起视频聊天,请根据好友名称: {who} 发起视频聊天
+    public static string SendVideoChatPrompt([Description("好友昵称,微信好友昵称")] string who) => $"""
+    发起视频聊天,请根据好友昵称: {who} 发起视频聊天
     """;
     /// <summary>
     /// 获取指定好友或者群聊的聊天记录并进行摘要，并发送给指定好友或者群聊的提示词
@@ -82,7 +82,7 @@ public sealed class WeChatPrompt
     /// 转发消息,默认转发5行消息，可以指定转发行数
     /// </summary>
     [McpServerPrompt, Description("转发消息,默认转发5行消息，可以指定转发行数")]
-    public static string ForwardMessagePrompt([Description("转发消息的来源,可以是好友名称，也可以是群聊名称")] string fromWho, [Description("转发消息的接收者,可以是好友名称，也可以是群聊名称")] string toWho, [Description("转发消息的行数,默认是5行,可以指定转发行数")] int rowCount = 5) => $"""
+    public static string ForwardMessagePrompt([Description("转发消息的来源,可以是好友昵称，也可以是群聊名称")] string fromWho, [Description("转发消息的接收者,可以是好友昵称，也可以是群聊名称")] string toWho, [Description("转发消息的行数,默认是5行,可以指定转发行数")] int rowCount = 5) => $"""
     请帮我从 {fromWho} 转发消息给 {toWho} ，转发消息的行数: {rowCount}
     """;
     /// <summary>

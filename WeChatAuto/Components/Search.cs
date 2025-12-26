@@ -74,7 +74,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 搜索聊天
         /// </summary>
-        /// <param name="who">好友名称,可以是群聊名称也可以是好友名称</param>
+        /// <param name="who">好友昵称,可以是群聊名称也可以是好友昵称</param>
         public void SearchChat(string who)
         {
             _WxWindow.Navigation.SwitchNavigation(NavigationType.聊天);

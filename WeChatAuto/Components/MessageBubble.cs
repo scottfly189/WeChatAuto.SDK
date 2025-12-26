@@ -24,7 +24,7 @@ namespace WeChatAuto.Components
         public MessageSourceType MessageSource { get; set; }
 
         /// <summary>
-        /// 发送者，好友或者群聊好友名称
+        /// 发送者，好友或者群聊好友昵称
         /// </summary>
         public string Who { get; set; }
 

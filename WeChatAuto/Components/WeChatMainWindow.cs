@@ -308,7 +308,7 @@ namespace WeChatAuto.Components
         /// 单个发送消息，发送消息给单个好友
         /// 注意：此方法不会打开子窗口
         /// </summary>
-        /// <param name="who">好友名称</param>
+        /// <param name="who">好友昵称</param>
         /// <param name="message">消息内容</param>
         /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
         public async Task SendWho(string who, string message, OneOf<string, string[]> atUser = default)
@@ -407,7 +407,7 @@ namespace WeChatAuto.Components
         /// 批量发送消息
         /// 注意：此方法不会打开子聊天窗口
         /// </summary>
-        /// <param name="whos">好友名称列表</param>
+        /// <param name="whos">好友昵称列表</param>
         /// <param name="message">消息内容</param>
         /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
         public async Task SendWhos(string[] whos, string message, OneOf<string, string[]> atUser = default)
@@ -421,7 +421,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 单个发送消息，发送消息给单个好友，并打开子聊天窗口
         /// </summary>
-        /// <param name="who">好友名称</param>
+        /// <param name="who">好友昵称</param>
         /// <param name="message">消息内容</param>
         /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
         public async Task SendWhoAndOpenChat(string who, string message, OneOf<string, string[]> atUser = default)
@@ -456,7 +456,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 批量发送消息，发送消息给多个好友，并打开子聊天窗口
         /// </summary>
-        /// <param name="whos">好友名称列表</param>
+        /// <param name="whos">好友昵称列表</param>
         /// <param name="message">消息内容</param>
         /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
         public async Task SendWhosAndOpenChat(string[] whos, string message, OneOf<string, string[]> atUser = default)
@@ -470,7 +470,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 发起语音聊天,适用于单个好友
         /// </summary>
-        /// <param name="who">好友名称</param>
+        /// <param name="who">好友昵称</param>
         /// <param name="isOpenChat">是否打开子聊天窗口,默认是False:不打开,True:打开</param>
         public void SendVoiceChat(string who, bool isOpenChat = false)
         {
@@ -497,7 +497,7 @@ namespace WeChatAuto.Components
         /// 发起语音聊天,适用于群聊中发起语音聊天
         /// </summary>
         /// <param name="groupName">群聊名称</param>
-        /// <param name="whos">好友名称列表</param>
+        /// <param name="whos">好友昵称列表</param>
         /// <param name="isOpenChat">是否打开子聊天窗口,默认是True:打开,False:不打开</param>
         public void SendVoiceChats(string groupName, string[] whos, bool isOpenChat = true)
         {
@@ -519,7 +519,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 发起视频聊天,适用于单个好友,群聊没有视频聊天功能
         /// </summary>
-        /// <param name="who">好友名称</param>
+        /// <param name="who">好友昵称</param>
         /// <param name="isOpenChat">是否打开子聊天窗口,默认是False:不打开,True:打开</param>
         public void SendVideoChat(string who, bool isOpenChat = false)
         {
@@ -563,7 +563,7 @@ namespace WeChatAuto.Components
         /// 获取所有气泡标题列表
         /// <see cref="ChatSimpleMessage"/>
         /// </summary>
-        /// <param name="who">好友名称</param>
+        /// <param name="who">好友昵称</param>
         /// <param name="pageCount">获取的气泡数量，默认是10页,可以指定获取的页数，如果指定为-1，则获取所有气泡</param>
         /// <returns>所有气泡标题列表</returns>
         public List<ChatSimpleMessage> GetAllChatHistory(string who, int pageCount = 10)
@@ -766,8 +766,8 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 转发消息
         /// </summary>
-        /// <param name="fromWho">转发消息的来源,可以是好友名称，也可以是群聊名称</param>
-        /// <param name="toWho">转发消息的接收者,可以是好友名称，也可以是群聊名称</param>
+        /// <param name="fromWho">转发消息的来源,可以是好友昵称，也可以是群聊名称</param>
+        /// <param name="toWho">转发消息的接收者,可以是好友昵称，也可以是群聊名称</param>
         /// <param name="rowCount">转发消息的行数</param>
         /// <returns>是否转发成功</returns>
         public async Task<bool> ForwardMessage(string fromWho, string toWho, int rowCount = 5)
@@ -969,7 +969,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 给指定好友发送文件
         /// </summary>
-        /// <param name="who">好友名称</param>
+        /// <param name="who">好友昵称</param>
         /// <param name="files">文件路径,可以是单个文件路径，也可以是多个文件路径</param>
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
         public async Task SendFile(string who, OneOf<string, string[]> files, bool isOpenChat = false)
@@ -984,7 +984,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 给多个好友发送文件
         /// </summary>
-        /// <param name="whos">好友名称列表</param>
+        /// <param name="whos">好友昵称列表</param>
         /// <param name="files">文件路径,可以是单个文件路径，也可以是多个文件路径</param>
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
         public async Task SendFiles(string[] whos, OneOf<string, string[]> files, bool isOpenChat = false)
@@ -1002,7 +1002,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 发送表情
         /// </summary>
-        /// <param name="who">好友名称</param>
+        /// <param name="who">好友昵称</param>
         /// <param name="emoji">表情名称</param>
         /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
@@ -1019,7 +1019,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 发送表情
         /// </summary>
-        /// <param name="whos">好友名称列表</param>
+        /// <param name="whos">好友昵称列表</param>
         /// <param name="emoji">表情名称</param>
         /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
@@ -1036,7 +1036,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 发送消息核心方法
         /// </summary>
-        /// <param name="who">好友名称</param>
+        /// <param name="who">好友昵称</param>
         /// <param name="message">消息内容</param>
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
         /// <param name="atUserList">被@的用户列表</param>
@@ -1218,7 +1218,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 添加消息监听，用户需要提供一个回调函数，当有消息时，会调用回调函数
         /// </summary>
-        /// <param name="nickName">好友名称</param>
+        /// <param name="nickName">好友昵称</param>
         /// <param name="callBack">回调函数,由使用者提供,参数：消息上下文<see cref="MessageContext"/></param>
         public async Task AddMessageListener(string nickName, Action<MessageContext> callBack)
         {
@@ -1231,7 +1231,7 @@ namespace WeChatAuto.Components
         /// 添加消息监听，用户需要提供一个回调函数，当有消息时，会调用回调函数
         /// 如果指定了回复者，可以根据设定的规则（如LLM大模型）转发消息给回复者，回复者进行回复后，转发回当前窗口(who)。
         /// </summary>
-        /// <param name="nickName">好友名称</param>
+        /// <param name="nickName">好友昵称</param>
         /// <param name="replyer">回复者名称（微信昵称）</param>
         /// <param name="callBack">回调函数,由使用者提供,参数：消息上下文<see cref="MessageContext"/></param>
         public async Task AddMessageListener(string nickName, Action<MessageContext> callBack, string replyer = null)
@@ -1290,7 +1290,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 移除监听消息
         /// </summary>
-        /// <param name="nickName">好友名称</param>
+        /// <param name="nickName">好友昵称</param>
         public void StopMessageListener(string nickName)
         {
             _SubWinList.StopMessageListener(nickName);
@@ -1418,7 +1418,7 @@ namespace WeChatAuto.Components
                 }
                 else
                 {
-                    //3.如果会话列表没有好友，则打开搜索框，输入好友名称搜索.
+                    //3.如果会话列表没有好友，则打开搜索框，输入好友昵称搜索.
                     this.__SearchChat(groupName);
                     var (success3, item3) = __CheckConversationExist(groupName, false);
                     if (success3)
@@ -1530,7 +1530,7 @@ namespace WeChatAuto.Components
                 }
                 else
                 {
-                    //3.如果会话列表没有好友，则打开搜索框，输入好友名称搜索.
+                    //3.如果会话列表没有好友，则打开搜索框，输入好友昵称搜索.
                     this.__SearchChat(groupName);
                     var (success3, item3) = __CheckConversationExist(groupName, false);
                     if (success3)
@@ -2038,7 +2038,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 检查好友是否存在,好友可以为群聊与普通好友
         /// </summary>
-        /// <param name="friendName">好友名称</param>
+        /// <param name="friendName">好友昵称</param>
         /// <param name="doubleClick">是否双击,True:是,False:否</param>
         /// <returns>是否存在,True:是,False:否</returns>
         public bool CheckFriendExist(string friendName, bool doubleClick = false)
