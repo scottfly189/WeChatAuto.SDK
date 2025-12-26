@@ -334,7 +334,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.ChageOwerChatGroupMemo("测试09", "测试09新的备注6");
+            var result = window.ChangeOwnerChatGroupMemo("测试09", "测试09新的备注6");
             _output.WriteLine($"更新群聊备注结果: {result.Message}");
             Assert.True(result.Success);
             await Task.CompletedTask;
@@ -346,7 +346,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var result = window.ChangeOwerChatGroupName("测试09", "测试09-01");
+            var result = window.ChangeOwnerChatGroupName("测试09", "测试09-01");
             _output.WriteLine($"更新群聊名称结果: {result.Message}");
             Assert.True(result.Success);
             await Task.Delay(40 * 1_000);

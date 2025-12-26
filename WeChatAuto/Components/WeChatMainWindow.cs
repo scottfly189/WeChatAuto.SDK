@@ -1565,7 +1565,7 @@ namespace WeChatAuto.Components
         /// <param name="groupName">群聊名称</param>
         /// <param name="newMemo">新备注</param>
         /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
-        public ChatResponse ChageOwerChatGroupMemo(string groupName, string newMemo)
+        public ChatResponse ChangeOwnerChatGroupMemo(string groupName, string newMemo)
         {
             ChatResponse result = new ChatResponse();
             try
@@ -1619,7 +1619,7 @@ namespace WeChatAuto.Components
         /// <param name="oldGroupName">旧群名称</param>
         /// <param name="newGroupName">新群名称</param>
         /// <returns>微信响应结果</returns>
-        public ChatResponse ChangeOwerChatGroupName(string oldGroupName, string newGroupName)
+        public ChatResponse ChangeOwnerChatGroupName(string oldGroupName, string newGroupName)
         {
             ChatResponse result = new ChatResponse();
             try

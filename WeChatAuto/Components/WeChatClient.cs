@@ -430,16 +430,16 @@ namespace WeChatAuto.Components
     /// <param name="groupName">群聊名称</param>
     /// <param name="newMemo">新备注</param>
     /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
-    public ChatResponse ChageOwerChatGroupMemo(string groupName, string newMemo)
-      => WxMainWindow.ChageOwerChatGroupMemo(groupName, newMemo);
+    public ChatResponse ChangeOwnerChatGroupMemo(string groupName, string newMemo)
+      => WxMainWindow.ChangeOwnerChatGroupMemo(groupName, newMemo);
     /// <summary>
     /// 修改群名，适用于自有群群名
     /// </summary>
     /// <param name="oldGroupName">旧群名称</param>
     /// <param name="newGroupName">新群名称</param>
     /// <returns>微信响应结果</returns>
-    public ChatResponse ChangeOwerChatGroupName(string oldGroupName, string newGroupName)
-      => WxMainWindow.ChangeOwerChatGroupName(oldGroupName, newGroupName);
+    public ChatResponse ChangeOwnerChatGroupName(string oldGroupName, string newGroupName)
+      => WxMainWindow.ChangeOwnerChatGroupName(oldGroupName, newGroupName);
     /// <summary>
     /// 更新群聊公告
     /// </summary>
@@ -584,7 +584,6 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 添加好友
     /// 注意：不能添加太频繁，否则可能会触发微信的风控机制，导致加好友失败
-    /// willdo:有必要吗？
     /// </summary>
     /// <param name="friendNames">微信号/手机号列表</param>
     /// <param name="label">用户标签</param>
