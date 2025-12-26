@@ -30,7 +30,7 @@ public class SenderTests
         mainWindow.Conversations.DoubleClickConversation(".NET-AI实时快讯3群");
         var subWin = mainWindow.SubWinList.GetSubWin(".NET-AI实时快讯3群");
         var sender = subWin.ChatContent.ChatBody.Sender;
-        sender.SendMessage("你好，世界！", "秋歌");
+        sender.SendMessage("你好，世界！", "秋收");
         Assert.True(true);
         await Task.Delay(5000);
         mainWindow.SubWinList.CloseAllSubWins();

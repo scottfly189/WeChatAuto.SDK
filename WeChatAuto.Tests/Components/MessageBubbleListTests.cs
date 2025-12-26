@@ -123,7 +123,7 @@ public class MessageBubbleListTests
 
     [Theory(DisplayName = "测试拍一拍消息-主窗口")]
     [InlineData("AI.Net")]
-    [InlineData("秋歌")]
+    [InlineData("秋收")]
     [InlineData("gggccc")]
     [InlineData("歪燕子")]
     [InlineData("Hosuke")]
@@ -140,7 +140,7 @@ public class MessageBubbleListTests
 
     [Theory(DisplayName = "测试拍一拍消息-子窗口")]
     [InlineData("测试11", "AI.Net")]
-    [InlineData("测试11", "秋歌")]
+    [InlineData("测试11", "秋收")]
     [InlineData("歪脖子的模版交流群", "gggccc")]
     [InlineData("歪脖子的模版交流群", "歪燕子")]
     [InlineData("歪脖子的模版交流群", "歪脖子")]
@@ -165,8 +165,8 @@ public class MessageBubbleListTests
     [Theory(DisplayName = "测试收藏消息-主窗口")]
     [InlineData("AI.Net", "@Alex 发些有意思的")]  //主窗口-群聊 - 文字
     [InlineData("Alex", "好吧，谢谢")]  //主窗口-群聊 - 文字
-    [InlineData("秋歌", "那我免打扰了")] //主窗口-群聊 - 文字
-    [InlineData("秋歌", "[视频]")] //主窗口-群聊 - 视频
+    [InlineData("秋收", "那我免打扰了")] //主窗口-群聊 - 文字
+    [InlineData("秋收", "[视频]")] //主窗口-群聊 - 视频
     [InlineData("AI.Net", "[图片]")] //主窗口-群聊 - 图片
     [InlineData("Alex", "[图片]")]  //主窗口-群聊 - 文字
     [InlineData("AI.Net", "[视频]")] //主窗口-群聊 - 视频
@@ -187,8 +187,8 @@ public class MessageBubbleListTests
     [Theory(DisplayName = "测试收藏消息-子窗口")]
     [InlineData("测试11", "AI.Net", "@Alex 发些有意思的")]  //主窗口-群聊 - 文字
     [InlineData("测试11", "Alex", "好吧，谢谢")]  //主窗口-群聊 - 文字
-    [InlineData("测试11", "秋歌", "那我免打扰了")] //主窗口-群聊 - 文字
-    [InlineData("测试11", "秋歌", "[视频]")] //主窗口-群聊 - 视频
+    [InlineData("测试11", "秋收", "那我免打扰了")] //主窗口-群聊 - 文字
+    [InlineData("测试11", "秋收", "[视频]")] //主窗口-群聊 - 视频
     [InlineData("测试11", "AI.Net", "[图片]")] //主窗口-群聊 - 图片
     [InlineData("测试11", "Alex", "[图片]")]  //主窗口-群聊 - 文字
     [InlineData("测试11", "AI.Net", "[视频]")] //主窗口-群聊 - 视频
@@ -217,8 +217,8 @@ public class MessageBubbleListTests
     [Theory(DisplayName = "测试引用消息-主窗口")]
     [InlineData("AI.Net", "@Alex 发些有意思的")]  //主窗口-群聊 - 文字
     [InlineData("Alex", "好吧，谢谢")]  //主窗口-群聊 - 文字
-    [InlineData("秋歌", "那我免打扰了")] //主窗口-群聊 - 文字
-    [InlineData("秋歌", "[视频]")] //主窗口-群聊 - 视频
+    [InlineData("秋收", "那我免打扰了")] //主窗口-群聊 - 文字
+    [InlineData("秋收", "[视频]")] //主窗口-群聊 - 视频
     [InlineData("AI.Net", "[图片]")] //主窗口-群聊 - 图片
     [InlineData("Alex", "[图片]")]  //主窗口-群聊 - 文字
     [InlineData("AI.Net", "[视频]")] //主窗口-群聊 - 视频
@@ -240,8 +240,8 @@ public class MessageBubbleListTests
     [Theory(DisplayName = "测试引用消息-子窗口")]
     [InlineData("测试11", "AI.Net", "@Alex 发些有意思的")]  //主窗口-群聊 - 文字
     [InlineData("测试11", "Alex", "好吧，谢谢")]  //主窗口-群聊 - 文字
-    [InlineData("测试11", "秋歌", "那我免打扰了")] //主窗口-群聊 - 文字
-    [InlineData("测试11", "秋歌", "[视频]")] //主窗口-群聊 - 视频
+    [InlineData("测试11", "秋收", "那我免打扰了")] //主窗口-群聊 - 文字
+    [InlineData("测试11", "秋收", "[视频]")] //主窗口-群聊 - 视频
     [InlineData("测试11", "AI.Net", "[图片]")] //主窗口-群聊 - 图片
     [InlineData("测试11", "Alex", "[图片]")]  //主窗口-群聊 - 文字
     [InlineData("测试11", "AI.Net", "[视频]")] //主窗口-群聊 - 视频
@@ -288,8 +288,8 @@ public class MessageBubbleListTests
 
     [Theory(DisplayName = "测试转发单条消息-主窗口")]
     [InlineData("AI.Net", "@Alex 发些有意思的", "测试01")]
-    [InlineData("秋歌", "她跳绳可以的", "测试11")]
-    [InlineData("秋歌", "[视频]", "测试11")]
+    [InlineData("秋收", "她跳绳可以的", "测试11")]
+    [InlineData("秋收", "[视频]", "测试11")]
     [InlineData("gggccc", "但是我现在有工作", "测试11")]
     [InlineData("歪燕子", "不会英文啊", "测试11")]
     [InlineData(".NET-AI实时快讯3群", "hello world!", "测试11")]
@@ -311,8 +311,8 @@ public class MessageBubbleListTests
 
     [Theory(DisplayName = "测试转发单条消息-子窗口")]
     [InlineData("测试11", "AI.Net", "@Alex 发些有意思的", "测试11")]
-    [InlineData("测试11", "秋歌", "她跳绳可以的", "测试11")]
-    [InlineData("测试11", "秋歌", "[视频]", "测试11")]
+    [InlineData("测试11", "秋收", "她跳绳可以的", "测试11")]
+    [InlineData("测试11", "秋收", "[视频]", "测试11")]
     [InlineData("歪脖子的模版交流群", "gggccc", "但是我现在有工作", "测试11")]
     [InlineData("歪脖子的模版交流群", "gggccc", "但是我现在有工作2", "测试11")]
     [InlineData(".NET-AI实时快讯3群", ".NET-AI实时快讯3群", "hello world!", "测试11")]

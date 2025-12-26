@@ -157,10 +157,10 @@ public class WeChatClientTests
     [InlineData("测试11", "你好，世界2！", "", false, true, 2)]
     [InlineData("AI.Net", "你好，世界3！", "", true, true, 3)]
     [InlineData("测试11", "你好，世界4!", "", true, true, 4)]
-    [InlineData("测试11", "你好，世界5！", new string[] { "AI.Net", "秋歌" }, false, true, 5)]
+    [InlineData("测试11", "你好，世界5！", new string[] { "AI.Net", "秋收" }, false, true, 5)]
     [InlineData("超级猩球2", "你好，世界6！", new string[] { "杨奇峰", "V姐", "土豆核", "土豆核2" }, false, true, 6)]
     [InlineData("歪脖子的模版交流群", "好晚，大家睡着没有？", new string[] { "直脖子", "使不得先生", "常" }, false, true, 7)]
-    [InlineData("测试11", "你好，世界5！", new string[] { "AI.Net", "秋歌" }, true, true, 8)]
+    [InlineData("测试11", "你好，世界5！", new string[] { "AI.Net", "秋收" }, true, true, 8)]
     [InlineData("歪脖子的模版交流群", "好晚，大家睡着没有？", new string[] { "直脖子", "使不得先生", "常" }, true, true, 9)]
     [InlineData("测试11", "你好，世界10！", "所有人", false, true, 10)]
     [InlineData("测试11", "你好，世界11！", "所有人", true, true, 11)]
@@ -182,7 +182,7 @@ public class WeChatClientTests
     [InlineData(new string[] { "AI.Net", "测试11", ".NET-AI实时快讯3群" }, "你好，世界1！", "", false, true, 1)]
     [InlineData(new string[] { "AI.Net", "测试11", ".NET-AI实时快讯3群" }, "你好，世界3！", "", true, true, 2)]
     [InlineData(new string[] { "测试11" }, "你好，世界4!", "", true, true, 3)]
-    [InlineData(new string[] { "测试01", "测试11", ".NET-AI实时快讯3群" }, "你好，世界5！", new string[] { "AI.Net", "秋歌" }, false, true, 4)]
+    [InlineData(new string[] { "测试01", "测试11", ".NET-AI实时快讯3群" }, "你好，世界5！", new string[] { "AI.Net", "秋收" }, false, true, 4)]
     [InlineData(new string[] { "歪脖子的模版交流群" }, "今日大家都没有休息？", new string[] { "直脖子", "使不得先生", "常" }, true, true, 5)]
     public async Task TestSendWhos(string[] whos, string message, object atUser,
         bool isOpenChat = true, bool result = true, int flag = 0)
@@ -198,8 +198,8 @@ public class WeChatClientTests
     [Theory(DisplayName = "测试发送表情")]
     [InlineData("AI.Net", 1, new string[] { }, false)]
     [InlineData("AI.Net", 2, new string[] { }, true)]
-    [InlineData("测试11", 3, new string[] { "AI.Net", "秋歌" }, false)]
-    [InlineData("测试11", 4, new string[] { "AI.Net", "秋歌" }, true)]
+    [InlineData("测试11", 3, new string[] { "AI.Net", "秋收" }, false)]
+    [InlineData("测试11", 4, new string[] { "AI.Net", "秋收" }, true)]
     public async Task TestSendEmoji(string who, int emoji, object atUser, bool isOpenChat = false)
     {
         var clientFactory = _globalFixture.clientFactory;
@@ -212,8 +212,8 @@ public class WeChatClientTests
     [Theory(DisplayName = "测试发送表情-发送给多个好友")]
     [InlineData(new string[] { "AI.Net", "测试11", ".NET-AI实时快讯3群" }, 1, new string[] { }, false)]
     [InlineData(new string[] { "AI.Net", "测试11", ".NET-AI实时快讯3群" }, 2, new string[] { }, true)]
-    [InlineData(new string[] { "测试11", ".NET-AI实时快讯3群" }, 3, new string[] { "AI.Net", "秋歌" }, false)]
-    [InlineData(new string[] { "测试11", ".NET-AI实时快讯3群" }, 4, new string[] { "AI.Net", "秋歌" }, true)]
+    [InlineData(new string[] { "测试11", ".NET-AI实时快讯3群" }, 3, new string[] { "AI.Net", "秋收" }, false)]
+    [InlineData(new string[] { "测试11", ".NET-AI实时快讯3群" }, 4, new string[] { "AI.Net", "秋收" }, true)]
     public async Task TestSendEmojis(string[] whos, int emoji, object atUser, bool isOpenChat = false)
     {
         var clientFactory = _globalFixture.clientFactory;
@@ -241,7 +241,7 @@ public class WeChatClientTests
     // 1.接收人不在会话中;2.接收人在会话中;3.接收人在会话中，但是在一些特殊一点的位置;4、接收人在子窗口中.
     //加强@测试,完成@谁与@全部人,群聊中
     [Theory(DisplayName = "测试发起语音聊天-群聊")]
-    [InlineData("秋歌", "智影工坊", "土豆核")]
+    [InlineData("秋收", "智影工坊", "土豆核")]
     public async Task TestSendVoiceChat_Group(params string[] whos)
     {
         var clientFactory = _globalFixture.clientFactory;
@@ -370,7 +370,7 @@ public class WeChatClientTests
     }
     [Theory(DisplayName = "测试添加消息监听-单个好友")]
     [InlineData("AI.Net")]
-    [InlineData("秋歌")]
+    [InlineData("秋收")]
     [InlineData("测试11")]
     [InlineData("歪脖子的模版交流群")]
     [InlineData("前端攻城狮")]
