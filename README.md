@@ -332,7 +332,7 @@ public class LLMService
 
 WeChatAuto.SDK的非VIP与VIP的核心代码层面完全一致，非VIP没有任何功能与代码层面的限制，同样欢迎非VIP通过 Issue 提问或反馈问题，我会在时间允许情况下进行处理，但响应和解决可能会有延迟，敬请谅解。
 
-如需升级成为 VIP，或了解 VIP 具体权益和支持方案，请与我联系。感谢理解与支持，让我有更多精力专注于技术创新与完善！
+如需升级成为 VIP，或了解 VIP 具体权益和支持方案，👉[请与我联系](https://github.com/scottfly189/scottfly189/blob/main/README_cn.md)。感谢理解与支持，让我有更多精力专注于技术创新与完善！
 
 ## 📝 许可证
 
