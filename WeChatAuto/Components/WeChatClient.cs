@@ -609,8 +609,9 @@ namespace WeChatAuto.Components
     /// </summary>
     /// <param name="nickName">好友昵称</param>
     /// <param name="callBack">回调函数,由用户提供,参数：消息上下文<see cref="MessageContext"/></param>
-    public async Task AddMessageListener(string nickName, Action<MessageContext> callBack)
-      => await WxMainWindow.AddMessageListener(nickName, callBack);
+    /// <param name="senderAction">适用于当开始消息监听时,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
+    public async Task AddMessageListener(string nickName, Action<MessageContext> callBack, Action<Sender> senderAction = null)
+      => await WxMainWindow.AddMessageListener(nickName, callBack, senderAction);
     /// <summary>
     /// 移除消息监听
     /// </summary>
@@ -632,11 +633,12 @@ namespace WeChatAuto.Components
     /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会自动通过此用户，并且将此用户打开到子窗口，当有新消息时，会调用回调函数
     /// </summary>
     /// <param name="callBack">回调函数,参数：消息上下文<see cref="MessageContext"/></param>
+    /// <param name="senderAction">适用于新用户通过后,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
     /// <param name="keyWord">关键字</param>
     /// <param name="suffix">后缀</param>
     /// <param name="label">标签</param>
-    public void AddNewFriendAutoPassedAndOpenSubWinListener(Action<MessageContext> callBack, string keyWord = null, string suffix = null, string label = null)
-      => WxMainWindow.AddNewFriendAutoPassedAndOpenSubWinListener(callBack, keyWord, suffix, label);
+    public void AddNewFriendAutoPassedAndOpenSubWinListener(Action<MessageContext> callBack, Action<Sender> senderAction = null, string keyWord = null, string suffix = null, string label = null)
+      => WxMainWindow.AddNewFriendAutoPassedAndOpenSubWinListener(callBack, senderAction, keyWord, suffix, label);
 
     /// <summary>
     /// 移除新用户申请监听

@@ -1220,12 +1220,13 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="nickName">好友昵称</param>
         /// <param name="callBack">回调函数,由使用者提供,参数：消息上下文<see cref="MessageContext"/></param>
-        public async Task AddMessageListener(string nickName, Action<MessageContext> callBack)
+        /// <param name="senderAction">适用于当开始消息监听时,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
+        public async Task AddMessageListener(string nickName, Action<MessageContext> callBack,Action<Sender> senderAction = null)
         {
             await _SubWinList.CheckSubWinExistAndOpen(nickName);
             await Task.Delay(500);
             _SubWinList.RegisterMonitorSubWin(nickName);
-            await _SubWinList.AddMessageListener(callBack, nickName);
+            await _SubWinList.AddMessageListener(callBack, nickName, senderAction);
         }
         /// <summary>
         /// 添加消息监听，用户需要提供一个回调函数，当有消息时，会调用回调函数
@@ -1234,7 +1235,7 @@ namespace WeChatAuto.Components
         /// <param name="nickName">好友昵称</param>
         /// <param name="replyer">回复者名称（微信昵称）</param>
         /// <param name="callBack">回调函数,由使用者提供,参数：消息上下文<see cref="MessageContext"/></param>
-        public async Task AddMessageListener(string nickName, Action<MessageContext> callBack, string replyer = null)
+        public async Task AddTransferMessageListener(string nickName, Action<MessageContext> callBack, string replyer = null)
         {
             //will do
             await Task.FromResult(true);
@@ -1255,16 +1256,17 @@ namespace WeChatAuto.Components
         /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会自动通过此用户，并且将此用户打开到子窗口，当有新消息时，会调用回调函数
         /// </summary>
         /// <param name="callBack">回调函数,参数：消息上下文<see cref="MessageContext"/></param>
+        /// <param name="senderAction">适用于新用户通过后,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
         /// <param name="keyWord">关键字</param>
         /// <param name="suffix">后缀</param>
         /// <param name="label">标签</param>
-        public void AddNewFriendAutoPassedAndOpenSubWinListener(Action<MessageContext> callBack, string keyWord = null, string suffix = null, string label = null)
+        public void AddNewFriendAutoPassedAndOpenSubWinListener(Action<MessageContext> callBack, Action<Sender> senderAction = null, string keyWord = null, string suffix = null, string label = null)
         {
             _AddNewFriendListener(nickNameList =>
             {
                 nickNameList.ForEach(async nickName =>
                 {
-                    await this.AddMessageListener(nickName, callBack);
+                    await this.AddMessageListener(nickName, callBack, senderAction);
                 });
             }, new FriendListenerOptions() { KeyWord = keyWord, Suffix = suffix, Label = label });
         }

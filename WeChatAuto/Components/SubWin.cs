@@ -71,7 +71,8 @@ namespace WeChatAuto.Components
         /// 添加消息监听
         /// </summary>
         /// <param name="callBack">参见:<see cref="MessageContext"/></param>
-        public void AddMessageListener(Action<MessageContext> callBack)
+        /// <param name="senderAction">适用于当开始消息监听时,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
+        public void AddMessageListener(Action<MessageContext> callBack, Action<Sender> senderAction = null)
         {
             if (_disposed)
             {
@@ -81,7 +82,7 @@ namespace WeChatAuto.Components
             {
                 _ChatBodyCache = _ChatContent.ChatBody;
             }
-            _ChatBodyCache.AddListener(callBack);
+            _ChatBodyCache.AddListener(callBack, senderAction);
         }
         /// <summary>
         /// 停止消息监听

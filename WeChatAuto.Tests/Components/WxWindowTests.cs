@@ -233,7 +233,7 @@ namespace WeChatAuto.Tests.Components
             await window.AddMessageListener("AI.Net", (messageContext) =>
             {
                 //Trace.WriteLine($"消息: 收到新消息数量:{newBubbles.Count},当前可见消息数量:{bubblesList.Count}");
-            });
+            }, null);
             Assert.True(true);
             await Task.Delay(6000000);
         }

@@ -294,12 +294,13 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="callBack">回调函数</param>
         /// <param name="who">好友或者群聊名称</param>
-        public async Task AddMessageListener(Action<MessageContext> callBack, string who)
+        /// <param name="senderAction">适用于当开始消息监听时,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
+        public async Task AddMessageListener(Action<MessageContext> callBack, string who, Action<Sender> senderAction = null)
         {
             await this.CheckSubWinExistAndOpen(who);
             await Task.Delay(500);
             var subWin = this.GetSubWin(who);
-            subWin.AddMessageListener(callBack);
+            subWin.AddMessageListener(callBack, senderAction);
             _SubWinMessageListeners.Add(who, callBack);
         }
         /// <summary>
