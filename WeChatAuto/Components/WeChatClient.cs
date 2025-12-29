@@ -609,9 +609,9 @@ namespace WeChatAuto.Components
     /// </summary>
     /// <param name="nickName">好友昵称</param>
     /// <param name="callBack">回调函数,由用户提供,参数：消息上下文<see cref="MessageContext"/></param>
-    /// <param name="senderAction">适用于当开始消息监听时,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
-    public async Task AddMessageListener(string nickName, Action<MessageContext> callBack, Action<Sender> senderAction = null)
-      => await WxMainWindow.AddMessageListener(nickName, callBack, senderAction);
+    /// <param name="firstMessageAction">适用于当开始消息监听时,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
+    public async Task AddMessageListener(string nickName, Action<MessageContext> callBack, Action<Sender> firstMessageAction = null)
+      => await WxMainWindow.AddMessageListener(nickName, callBack, firstMessageAction);
     /// <summary>
     /// 移除消息监听
     /// </summary>

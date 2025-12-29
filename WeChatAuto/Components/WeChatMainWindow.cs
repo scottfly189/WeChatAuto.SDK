@@ -1220,13 +1220,13 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="nickName">好友昵称</param>
         /// <param name="callBack">回调函数,由使用者提供,参数：消息上下文<see cref="MessageContext"/></param>
-        /// <param name="senderAction">适用于当开始消息监听时,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
-        public async Task AddMessageListener(string nickName, Action<MessageContext> callBack,Action<Sender> senderAction = null)
+        /// <param name="firstMessageAction">适用于当开始消息监听时,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
+        public async Task AddMessageListener(string nickName, Action<MessageContext> callBack,Action<Sender> firstMessageAction = null)
         {
             await _SubWinList.CheckSubWinExistAndOpen(nickName);
             await Task.Delay(500);
             _SubWinList.RegisterMonitorSubWin(nickName);
-            await _SubWinList.AddMessageListener(callBack, nickName, senderAction);
+            await _SubWinList.AddMessageListener(callBack, nickName, firstMessageAction);
         }
         /// <summary>
         /// 添加消息监听，用户需要提供一个回调函数，当有消息时，会调用回调函数

@@ -68,10 +68,10 @@ namespace WeChatAuto.Components
         /// 注意：消息回调函数会在新线程中执行，请注意线程安全，如果在回调函数中操作UI，请切换到UI线程.
         /// </summary>
         /// <param name="callBack">回调函数,参数：消息上下文<see cref="MessageContext"/></param>
-        /// <param name="senderAction">适用于当开始消息监听时,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
-        public void AddListener(Action<MessageContext> callBack, Action<Sender> senderAction = null)
+        /// <param name="firstMessageAction">适用于当开始消息监听时,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
+        public void AddListener(Action<MessageContext> callBack, Action<Sender> firstMessageAction = null)
         {
-            senderAction?.Invoke(Sender);
+            firstMessageAction?.Invoke(Sender);
             StartMessagePolling(callBack);
         }
 

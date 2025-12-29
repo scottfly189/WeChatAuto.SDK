@@ -71,6 +71,9 @@ await client.AddMessageListener("测试11", (messageContext) =>
     //可以通过注入的服务容器获取你注入的服务实例，然后调用你的业务逻辑,一般都是LLM的自动回复逻辑
     var llmService = messageContext.ServiceProvider.GetRequiredService<LLMService>();
     llmService.DoSomething();
+},sender=>
+{
+    sender.SendMessage("你好啊！我是AI.Net,很高兴认识你！","");
 });
 
 

@@ -383,7 +383,10 @@ namespace WeChatAuto.Components
                 atUser.Switch(
                     (string user) =>
                     {
-                        atUserList.Add(user);
+                        if (!string.IsNullOrWhiteSpace(user))
+                        {
+                            atUserList.Add(user);
+                        }
                     },
                     (string[] atUsers) =>
                     {
