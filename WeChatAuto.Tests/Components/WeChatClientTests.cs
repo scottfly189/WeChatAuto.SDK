@@ -439,7 +439,7 @@ public class WeChatClientTests
     {
         var clientFactory = _globalFixture.clientFactory;
         var client = clientFactory.GetWeChatClient(_wxClientName);
-        client.AddNewFriendAutoPassedListener(list =>
+        client.AddFriendRequestAutoAcceptListener(list =>
         {
             Trace.WriteLine($"添加好友: {list.Count}");
             foreach (var item in list)

@@ -620,25 +620,26 @@ namespace WeChatAuto.Components
       => WxMainWindow.StopMessageListener(nickName);
 
     /// <summary>
-    /// 添加新用户申请监听，用户需要提供一个回调函数，当有新用户申请添加你为好友时，会自动通过并调用回调函数
+    /// 添加新好友申请监听，用户需要提供一个回调函数，当有新用户申请添加你为好友时，会自动通过并调用回调函数
     /// </summary>
     /// <param name="callBack">回调函数，由用户自定义</param>
     /// <param name="keyWord">关键字,如果设置了关键字，此好友监听只监听包含关键字的新好友，如果没有设置关键字，则监听所有新好友</param>
     /// <param name="suffix">后缀,如果设置了后缀，添加好友时，会自动在好友昵称后添加后缀</param>
     /// <param name="label">标签,如果设置了标签，添加好友时，会自动添加微信标签</param>
-    public void AddNewFriendAutoPassedListener(Action<List<string>> callBack, string keyWord = null, string suffix = null, string label = null)
+    public void AddFriendRequestAutoAcceptListener(Action<List<string>> callBack, string keyWord = null, string suffix = null, string label = null)
       => WxMainWindow.AddNewFriendAutoPassedListener(callBack, keyWord, suffix, label);
 
     /// <summary>
-    /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会自动通过此用户，并且将此用户打开到子窗口，当有新消息时，会调用回调函数
+    /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会自动通过此用户，并且将此用户打开到子窗口，当有新消息时，会调用回调函数,
+    /// 也适用于自动通过好友申请后，首先发送一些信息（如：发送文字、表情、文件等）给好友的场景
     /// </summary>
     /// <param name="callBack">回调函数,参数：消息上下文<see cref="MessageContext"/></param>
-    /// <param name="senderAction">适用于新用户通过后,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
+    /// <param name="firstMessageAction">适用于新用户通过后,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
     /// <param name="keyWord">关键字</param>
     /// <param name="suffix">后缀</param>
     /// <param name="label">标签</param>
-    public void AddNewFriendAutoPassedAndOpenSubWinListener(Action<MessageContext> callBack, Action<Sender> senderAction = null, string keyWord = null, string suffix = null, string label = null)
-      => WxMainWindow.AddNewFriendAutoPassedAndOpenSubWinListener(callBack, senderAction, keyWord, suffix, label);
+    public void AddFriendRequestAutoAcceptAndOpenChatListener(Action<MessageContext> callBack, Action<Sender> firstMessageAction = null, string keyWord = null, string suffix = null, string label = null)
+      => WxMainWindow.AddFriendRequestAutoAcceptAndOpenChatListener(callBack, firstMessageAction, keyWord, suffix, label);
 
     /// <summary>
     /// 移除新用户申请监听
