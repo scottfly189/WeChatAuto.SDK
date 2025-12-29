@@ -222,7 +222,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="message">消息内容</param>
         /// <param name="atUserList">被@的好友列表</param>
-        public void SendMessage(string message, List<string> atUserList = null)
+        private void SendMessage(string message, List<string> atUserList = null)
         {
             if (atUserList == null || atUserList.Count == 0)
             {
@@ -242,6 +242,37 @@ namespace WeChatAuto.Components
                 var button = SendButton;
                 button.ClickEnhance(_WxWindow.SelfWindow);
             }
+        }
+
+                /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <param name="message">消息内容</param>
+        /// <param name="atUser">被@的好友</param>
+        public void SendMessage(string message, OneOf<string, string[],List<string>> atUser = default)
+        {
+            var atUserList = new List<string>();
+            if (atUser.Value != default)
+            {
+                atUser.Switch(
+                    (string user) =>
+                    {
+                        if (!string.IsNullOrWhiteSpace(user))
+                        {
+                            atUserList.Add(user);
+                        }
+                    },
+                    (string[] atUsers) =>
+                    {
+                        atUserList.AddRange(atUsers);
+                    },
+                    (List<string> atUsers) =>
+                    {
+                        atUserList = atUsers;
+                    }
+                );
+            }
+            this.SendMessage(message, atUserList);
         }
 
         /// <summary>
@@ -369,32 +400,6 @@ namespace WeChatAuto.Components
                 Keyboard.Type(" ");
                 RandomWait.Wait(300, 800);
             }
-        }
-        /// <summary>
-        /// 发送消息
-        /// </summary>
-        /// <param name="message">消息内容</param>
-        /// <param name="atUser">被@的好友</param>
-        public void SendMessage(string message, OneOf<string, string[]> atUser = default)
-        {
-            var atUserList = new List<string>();
-            if (atUser.Value != default)
-            {
-                atUser.Switch(
-                    (string user) =>
-                    {
-                        if (!string.IsNullOrWhiteSpace(user))
-                        {
-                            atUserList.Add(user);
-                        }
-                    },
-                    (string[] atUsers) =>
-                    {
-                        atUserList.AddRange(atUsers);
-                    }
-                );
-            }
-            this.SendMessage(message, atUserList);
         }
         /// <summary>
         /// 发送文件

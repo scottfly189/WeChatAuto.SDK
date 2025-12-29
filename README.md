@@ -178,7 +178,7 @@ await client.AddMessageListener("测试11", (messageContext) =>
 sender =>
 {
     //发送文本消息
-    sender.SendMessage("你好啊！我是AI.Net,很高兴认识你！", "");
+    sender.SendMessage("你好啊！我是AI.Net,很高兴认识你！");
     //发送表情
     //sender.SendEmoji(1);
     //发送文件,改成你的文件路径

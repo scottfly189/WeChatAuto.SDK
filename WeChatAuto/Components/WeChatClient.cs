@@ -661,7 +661,7 @@ namespace WeChatAuto.Components
     public void StopMomentsListener()
       => WxMainWindow.Moments.StopMomentsListener();
     #endregion
-    #region 风控退出监听
+    #region 风控退出监听，暂时不启用，有问题
     // /// <summary>
     // /// 添加运行检查风控退出监听
     // /// </summary>
