@@ -450,5 +450,21 @@ public class WeChatClientTests
         Assert.True(true);
         await Task.Delay(-1);
     }
+
+    [Fact(DisplayName = "添加新好友申请监听-自动通过并打开子窗口")]
+    public async Task TesstAddFriendRequestAutoAcceptAndOpenChatListener()
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        client.AddFriendRequestAutoAcceptAndOpenChatListener(messageContext =>
+        {
+            messageContext.Sender.SendMessage($"收到{messageContext.NewMessages.FirstOrDefault()?.Who}的好友消息：{messageContext.NewMessages.FirstOrDefault()?.MessageContent}");
+        }, sender =>
+        {
+            sender.SendMessage("你好，新朋友，你从哪里来？我是alex，很高兴认识你！");
+        }, "测试", "test", "测试标签");
+        Assert.True(true);
+        await Task.Delay(-1);
+    }
     #endregion
 }
