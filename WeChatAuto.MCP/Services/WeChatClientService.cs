@@ -78,11 +78,11 @@ public class WeChatClientService : IDisposable
         return JsonSerializer.Serialize(new { success = true });
     }
     /// <summary>
-    /// 发送消息给指定好友(或者群聊昵称)，并@指定用户,仅适用于群聊
+    /// 发送消息给指定好友(或者群聊昵称)，并@指定好友,仅适用于群聊
     /// </summary>
     /// <param name="who">好友或者群聊昵称</param>
     /// <param name="message">消息内容</param>
-    /// <param name="atUser">被@的用户,仅适用于群聊</param>
+    /// <param name="atUser">被@的好友,仅适用于群聊</param>
     public async Task SendMessage(string who, string message, string atUser = "")
     {
         var clientName = GetCurrentWeChatClientName();
@@ -90,11 +90,11 @@ public class WeChatClientService : IDisposable
         await client.SendWho(who, message, atUser);
     }
     /// <summary>
-    /// 发送消息给指定好友(或者群聊昵称)，并@指定用户,仅适用于群聊
+    /// 发送消息给指定好友(或者群聊昵称)，并@指定好友,仅适用于群聊
     /// </summary>
     /// <param name="who">好友或者群聊昵称</param>
     /// <param name="message">消息内容</param>
-    /// <param name="atUsers">被@的用户,仅适用于群聊</param>
+    /// <param name="atUsers">被@的好友,仅适用于群聊</param>
     /// <returns>操作结果</returns>
     public async Task<WeAutoCommon.Models.Result> SendMessage(string who, string message, string[] atUsers)
     {

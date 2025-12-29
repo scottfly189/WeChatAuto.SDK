@@ -43,11 +43,11 @@ public sealed class WeChatPrompt
     发送消息给指定好友或者群聊，请根据好友或者群聊昵称: {who} 发送消息: {message}
     """;
     /// <summary>
-    /// 发送消息给指定好友或者群聊，并@指定用户
+    /// 发送消息给指定好友或者群聊，并@指定好友
     /// </summary>
-    [McpServerPrompt, Description("发送消息给指定好友或者群聊，并@指定用户")]
-    public static string SendMessageWithAtUserPrompt([Description("好友或者群聊昵称")] string who, [Description("消息内容")] string message, [Description("被@的用户")] string atUser) => $"""
-    发送消息给指定好友或者群聊，请根据好友或者群聊昵称: {who} 发送消息: {message}，并@指定用户: {atUser}
+    [McpServerPrompt, Description("发送消息给指定好友或者群聊，并@指定好友")]
+    public static string SendMessageWithAtUserPrompt([Description("好友或者群聊昵称")] string who, [Description("消息内容")] string message, [Description("被@的好友")] string atUser) => $"""
+    发送消息给指定好友或者群聊，请根据好友或者群聊昵称: {who} 发送消息: {message}，并@指定好友: {atUser}
     """;
     /// <summary>
     /// 批量发送消息给指定多个好友或者群聊的提示词
