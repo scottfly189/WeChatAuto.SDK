@@ -83,7 +83,7 @@ namespace WeAutoCommon.Configs
         /// 键鼠模拟器设备PID
         /// </summary>
         public int KMDeivicePID { get; set; } = 0x1701;
-        public string KMVerifyUserData { get; set; } = "";
+        public string KMVerifyUserData { get; set; } = "4F6A21981BE675822DEE7B9BC39F3791";
         /// <summary>
         /// 点击偏移量,单位像素
         /// 为了避免每次点击都点击到同一个位置，可以设置一个偏移量，实际点击位置为点击位置减去偏移量的一个随机值

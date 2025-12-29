@@ -617,13 +617,7 @@ namespace WeChatAuto.Components
     /// <param name="nickName">好友昵称</param>
     public void StopMessageListener(string nickName)
       => WxMainWindow.StopMessageListener(nickName);
-    /// <summary>
-    /// 添加新好友申请监听，用户需要提供一个回调函数，当有新好友时添加你为好友时，会调用回调函数
-    /// 此方法需要自行处理好友是否通过，如果需要自动通过，请使用<see cref="AddNewFriendAutoPassedListener"/>
-    /// </summary>
-    /// <param name="callBack">回调函数</param>
-    public void AddNewFriendCustomPassedListener(Action<List<string>> callBack)
-      => WxMainWindow.AddNewFriendCustomPassedListener(callBack);
+
     /// <summary>
     /// 添加新用户申请监听，用户需要提供一个回调函数，当有新用户申请添加你为好友时，会自动通过并调用回调函数
     /// </summary>
@@ -633,20 +627,23 @@ namespace WeChatAuto.Components
     /// <param name="label">标签,如果设置了标签，添加好友时，会自动添加微信标签</param>
     public void AddNewFriendAutoPassedListener(Action<List<string>> callBack, string keyWord = null, string suffix = null, string label = null)
       => WxMainWindow.AddNewFriendAutoPassedListener(callBack, keyWord, suffix, label);
-    /// <summary>
-    /// 移除新用户申请监听
-    /// </summary>
-    public void StopNewUserListener()
-      => WxMainWindow.StopNewUserListener();
+
     /// <summary>
     /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会自动通过此用户，并且将此用户打开到子窗口，当有新消息时，会调用回调函数
     /// </summary>
-    /// <param name="callBack">回调函数</param>
+    /// <param name="callBack">回调函数,参数：消息上下文<see cref="MessageContext"/></param>
     /// <param name="keyWord">关键字</param>
     /// <param name="suffix">后缀</param>
     /// <param name="label">标签</param>
     public void AddNewFriendAutoPassedAndOpenSubWinListener(Action<MessageContext> callBack, string keyWord = null, string suffix = null, string label = null)
       => WxMainWindow.AddNewFriendAutoPassedAndOpenSubWinListener(callBack, keyWord, suffix, label);
+
+    /// <summary>
+    /// 移除新用户申请监听
+    /// </summary>
+    public void StopNewUserListener()
+      => WxMainWindow.StopNewUserListener();
+
     /// <summary>
     /// 添加朋友圈动态监听,当监听到指定的好友发朋友圈动态时，可以自动点赞，或者执行其他操作，如：回复评论等
     /// </summary>

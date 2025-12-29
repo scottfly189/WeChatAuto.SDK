@@ -6,8 +6,6 @@ namespace WeAutoCommon.Simulator
     public class Skm
     {
         [DllImport("skm.dll")]
-        public static extern UInt32 HKMGetVersion();//获得当前模块版本
-        [DllImport("skm.dll")]
         public static extern UInt32 HKMSearchDevice(UInt32 Vid, UInt32 Pid, UInt32 DeviceType);//查找设备
         [DllImport("skm.dll")]
         public static extern UInt32 HKMSearchDevice2(UInt32 Vid, UInt32 Pid, UInt32 SN, UInt32 DeviceType);//查找设备

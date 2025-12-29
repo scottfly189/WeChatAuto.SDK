@@ -434,5 +434,21 @@ public class WeChatClientTests
         var result = await client.ForwardMessage(fromWho, toWho, rowCount);
         Assert.True(result);
     }
+    [Fact(DisplayName = "添加新用户申请监听")]
+    public async Task TesstAddNewFriendAutoPassedListener()
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        client.AddNewFriendAutoPassedListener(list =>
+        {
+            Trace.WriteLine($"添加好友: {list.Count}");
+            foreach (var item in list)
+            {
+                Trace.WriteLine($"好友: {item}");
+            }
+        }, "测试", "test", "测试标签");
+        Assert.True(true);
+        await Task.Delay(-1);
+    }
     #endregion
 }

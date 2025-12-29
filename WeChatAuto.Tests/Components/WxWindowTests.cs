@@ -195,19 +195,19 @@ namespace WeChatAuto.Tests.Components
             await Task.Delay(60000);
         }
 
-        [Fact(DisplayName = "测试添加新好友监听-自定义通过")]
-        public async Task Test_AddNewFriendCustomPassedListener()
-        {
-            var framework = _globalFixture.clientFactory;
-            var client = framework.GetWeChatClient(_wxClientName);
-            var window = client.WxMainWindow;
-            window.AddNewFriendCustomPassedListener(list =>
-            {
-                _output.WriteLine($"添加好友: {list.Count}");
-            });
-            Assert.True(true);
-            await Task.Delay(600000000);
-        }
+        // [Fact(DisplayName = "测试添加新好友监听-自定义通过")]
+        // public async Task Test_AddNewFriendCustomPassedListener()
+        // {
+        //     var framework = _globalFixture.clientFactory;
+        //     var client = framework.GetWeChatClient(_wxClientName);
+        //     var window = client.WxMainWindow;
+        //     window.AddNewFriendCustomPassedListener(list =>
+        //     {
+        //         _output.WriteLine($"添加好友: {list.Count}");
+        //     });
+        //     Assert.True(true);
+        //     await Task.Delay(600000000);
+        // }
 
         //实际测试好象长时间放置线程有问题.
         [Fact(DisplayName = "测试添加新好友监听-自动通过")]

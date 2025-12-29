@@ -1241,15 +1241,6 @@ namespace WeChatAuto.Components
         }
         /// <summary>
         /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会调用回调函数
-        /// 此方法需要自行处理好友是否通过，如果需要自动通过，请使用<see cref="AddNewFriendAutoPassedListener"/>
-        /// </summary>
-        /// <param name="callBack">回调函数</param>
-        public void AddNewFriendCustomPassedListener(Action<List<string>> callBack)
-        {
-            _AddNewFriendListener(callBack, null);
-        }
-        /// <summary>
-        /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会调用回调函数
         /// </summary>
         /// <param name="callBack">回调函数</param>
         /// <param name="keyWord">关键字</param>
