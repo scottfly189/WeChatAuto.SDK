@@ -71,9 +71,16 @@ await client.AddMessageListener("测试11", (messageContext) =>
     //可以通过注入的服务容器获取你注入的服务实例，然后调用你的业务逻辑,一般都是LLM的自动回复逻辑
     var llmService = messageContext.ServiceProvider.GetRequiredService<LLMService>();
     llmService.DoSomething();
-},sender=>
+},
+//下面的firstMessageAction可选，适用于添加消息监听时，需要我首先发送一些消息给好友的场景
+sender =>
 {
-    sender.SendMessage("你好啊！我是AI.Net,很高兴认识你！","");
+    //发送文本消息
+    sender.SendMessage("你好啊！我是AI.Net,很高兴认识你！", "");
+    //发送表情
+    //sender.SendEmoji(1);
+    //发送文件,改成你的文件路径
+    //sender.SendFile(new string[] { @"C:\Users\Administrator\Desktop\me\avatar.png" });
 });
 
 

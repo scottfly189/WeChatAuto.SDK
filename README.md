@@ -123,7 +123,6 @@ var serviceProvider = builder.Services.BuildServiceProvider();
 var clientFactory = serviceProvider.GetRequiredService<WeChatClientFactory>();
 // 得到名称为"Alex"的微信客户端实例，测试时请将AI.net替换为你自己的微信昵称
 var client = clientFactory.GetWeChatClient("Alex");
-// 监听微信群测试11
 await client.AddMessageListener("测试11", (messageContext) =>
 {
     var index = 0;
@@ -174,6 +173,16 @@ await client.AddMessageListener("测试11", (messageContext) =>
     //可以通过注入的服务容器获取你注入的服务实例，然后调用你的业务逻辑,一般都是LLM的自动回复逻辑
     var llmService = messageContext.ServiceProvider.GetRequiredService<LLMService>();
     llmService.DoSomething();
+},
+//下面的firstMessageAction可选，适用于添加消息监听时，需要我首先发送一些消息给好友的场景
+sender =>
+{
+    //发送文本消息
+    sender.SendMessage("你好啊！我是AI.Net,很高兴认识你！", "");
+    //发送表情
+    //sender.SendEmoji(1);
+    //发送文件,改成你的文件路径
+    //sender.SendFile(new string[] { @"C:\Users\Administrator\Desktop\me\avatar.png" });
 });
 
 
@@ -195,8 +204,6 @@ public class LLMService
         _logger.LogInformation("这里是你注入的服务实例，可以在这里编写你的业务逻辑  ");
     }
 }
-
-
 ```
 
 > 前置步骤跟Demo01一致,可以通过messageContext对象执行各种操作,也可以通过messageContext对象获得依赖注入容器，获取自己的对象，执行自己的业务逻辑;
