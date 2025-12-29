@@ -105,7 +105,7 @@ namespace WeChatAuto.Components
             }).GetAwaiter().GetResult();
         }
         /// <summary>
-        /// 初始化新用户监听
+        /// 初始化新好友监听
         /// </summary>
         private void _InitNewUserListener()
         {
@@ -129,13 +129,13 @@ namespace WeChatAuto.Components
                 }
                 catch (OperationCanceledException)
                 {
-                    Trace.WriteLine($"新用户监听线程[{_newUserListenerThread.Name}]已停止，正常取消,不做处理");
-                    _logger.Info($"新用户监听线程[{_newUserListenerThread.Name}]已停止，正常取消,不做处理");
+                    Trace.WriteLine($"新好友监听线程[{_newUserListenerThread.Name}]已停止，正常取消,不做处理");
+                    _logger.Info($"新好友监听线程[{_newUserListenerThread.Name}]已停止，正常取消,不做处理");
                 }
                 catch (Exception e)
                 {
-                    Trace.WriteLine($"新用户监听线程[{_newUserListenerThread.Name}]异常，异常信息：" + e.Message);
-                    _logger.Error($"新用户监听线程[{_newUserListenerThread.Name}]异常，异常信息：" + e.Message);
+                    Trace.WriteLine($"新好友监听线程[{_newUserListenerThread.Name}]异常，异常信息：" + e.Message);
+                    _logger.Error($"新好友监听线程[{_newUserListenerThread.Name}]异常，异常信息：" + e.Message);
                     throw;
                 }
             });
@@ -183,8 +183,8 @@ namespace WeChatAuto.Components
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine("新用户监听线程异常，异常信息：" + ex.Message);
-                    _logger.Error("新用户监听线程异常，异常信息：" + ex.Message);
+                    Trace.WriteLine("新好友监听线程异常，异常信息：" + ex.Message);
+                    _logger.Error("新好友监听线程异常，异常信息：" + ex.Message);
                     return false;
                 }
             }).GetAwaiter().GetResult();
@@ -310,7 +310,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="who">好友昵称</param>
         /// <param name="message">消息内容</param>
-        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
+        /// <param name="atUser">被@的好友,最主要用于群聊中@人,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
         public async Task SendWho(string who, string message, OneOf<string, string[]> atUser = default)
         {
             var atUserList = new List<string>();
@@ -363,7 +363,7 @@ namespace WeChatAuto.Components
                     return;
                 }
 
-                throw new Exception($"错误：用户[{who}]不存在,请检查您的输入是否正确");
+                throw new Exception($"错误：好友[{who}]不存在,请检查您的输入是否正确");
             }
             catch (Exception ex)
             {
@@ -395,7 +395,7 @@ namespace WeChatAuto.Components
                     return;
                 }
 
-                throw new Exception($"错误：用户[{who}]不存在,请检查您的输入是否正确");
+                throw new Exception($"错误：好友[{who}]不存在,请检查您的输入是否正确");
             }
             catch (Exception ex)
             {
@@ -409,7 +409,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="whos">好友昵称列表</param>
         /// <param name="message">消息内容</param>
-        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
+        /// <param name="atUser">被@的好友,最主要用于群聊中@人,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
         public async Task SendWhos(string[] whos, string message, OneOf<string, string[]> atUser = default)
         {
             foreach (var who in whos)
@@ -423,7 +423,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="who">好友昵称</param>
         /// <param name="message">消息内容</param>
-        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
+        /// <param name="atUser">被@的好友,最主要用于群聊中@人,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
         public async Task SendWhoAndOpenChat(string who, string message, OneOf<string, string[]> atUser = default)
         {
             var atUserList = new List<string>();
@@ -458,7 +458,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="whos">好友昵称列表</param>
         /// <param name="message">消息内容</param>
-        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
+        /// <param name="atUser">被@的好友,最主要用于群聊中@人,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
         public async Task SendWhosAndOpenChat(string[] whos, string message, OneOf<string, string[]> atUser = default)
         {
             foreach (var who in whos)
@@ -589,7 +589,7 @@ namespace WeChatAuto.Components
         /// 可能存在不能发送消息的窗口情况，因为当前可能是非聊天窗口
         /// </summary>
         /// <param name="message">消息内容</param>
-        /// <param name="atUserList">被@的用户列表</param>
+        /// <param name="atUserList">被@的好友列表</param>
         private void __SendCurrentMessageCore(string message, List<string> atUserList = null)
         {
             this.MainChatContent.ChatBody.Sender.SendMessage(message, atUserList);
@@ -1004,7 +1004,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="who">好友昵称</param>
         /// <param name="emoji">表情名称</param>
-        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
+        /// <param name="atUser">被@的好友,最主要用于群聊中@人,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
         public async Task SendEmoji(string who, OneOf<int, string> emoji, OneOf<string, string[]> atUser = default, bool isOpenChat = false)
         {
@@ -1021,7 +1021,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="whos">好友昵称列表</param>
         /// <param name="emoji">表情名称</param>
-        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
+        /// <param name="atUser">被@的好友,最主要用于群聊中@人,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
         public async Task SendEmojis(string[] whos, OneOf<int, string> emoji, OneOf<string, string[]> atUser = default, bool isOpenChat = false)
         {
@@ -1039,7 +1039,7 @@ namespace WeChatAuto.Components
         /// <param name="who">好友昵称</param>
         /// <param name="message">消息内容</param>
         /// <param name="isOpenChat">是否打开子聊天窗口</param>
-        /// <param name="atUserList">被@的用户列表</param>
+        /// <param name="atUserList">被@的好友列表</param>
         private async Task SendMessageCore(string who, string message, bool isOpenChat = false, List<string> atUserList = null)
         {
             try
@@ -1079,7 +1079,7 @@ namespace WeChatAuto.Components
                         return;
                     }
 
-                    throw new Exception($"错误：用户[{who}]不存在,请检查您的输入是否正确");
+                    throw new Exception($"错误：好友[{who}]不存在,请检查您的输入是否正确");
                 }
             }
             catch (Exception ex)
@@ -1241,7 +1241,7 @@ namespace WeChatAuto.Components
             await Task.FromResult(true);
         }
         /// <summary>
-        /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会调用回调函数
+        /// 添加新好友监听，用户需要提供一个回调函数，当有新好友时，会调用回调函数
         /// </summary>
         /// <param name="callBack">回调函数</param>
         /// <param name="keyWord">关键字</param>
@@ -1253,10 +1253,10 @@ namespace WeChatAuto.Components
         }
 
         /// <summary>
-        /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会自动通过此用户，并且将此用户打开到子窗口，当有新消息时，会调用回调函数
+        /// 添加新好友监听，用户需要提供一个回调函数，当有新好友时，会自动通过此好友，并且将此好友打开到子窗口，当有新消息时，会调用回调函数
         /// </summary>
         /// <param name="callBack">回调函数,参数：消息上下文<see cref="MessageContext"/></param>
-        /// <param name="senderAction">适用于新用户通过后,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
+        /// <param name="senderAction">适用于新好友通过后,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
         /// <param name="keyWord">关键字</param>
         /// <param name="suffix">后缀</param>
         /// <param name="label">标签</param>
@@ -1272,7 +1272,7 @@ namespace WeChatAuto.Components
         }
 
         /// <summary>
-        /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会调用回调函数
+        /// 添加新好友监听，用户需要提供一个回调函数，当有新好友时，会调用回调函数
         /// </summary>
         /// <param name="callBack">回调函数</param>
         /// <param name="options">监听选项</param>
@@ -1289,7 +1289,7 @@ namespace WeChatAuto.Components
             _SubWinList.StopMessageListener(nickName);
         }
         /// <summary>
-        /// 移除新用户监听
+        /// 移除新好友监听
         /// </summary>
         public void StopNewUserListener()
         {
@@ -2323,7 +2323,7 @@ namespace WeChatAuto.Components
         }
         /// <summary>
         /// 删除群聊，适用于自有群,与退出群聊不同，退出群聊是退出群聊，删除群聊会删除自有群的所有好友，然后退出群聊
-        /// willdo: 这里有一个问题，如果删除群的用户很多，则需要滚屏才能全部选中。
+        /// willdo: 这里有一个问题，如果删除群的好友很多，则需要滚屏才能全部选中。
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <returns>微信响应结果<see cref="ChatResponse"/></returns>

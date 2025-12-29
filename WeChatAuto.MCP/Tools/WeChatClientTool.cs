@@ -70,13 +70,13 @@ public sealed class WeChatClientTool
     /// </summary>
     /// <param name="who">好友或者群聊昵称</param>
     /// <param name="message">消息内容</param>
-    /// <param name="atUser">被@的用户,仅适用于群聊</param>
+    /// <param name="atUser">被@的好友,仅适用于群聊</param>
     /// <returns>是否发送成功</returns>
     [McpServerTool, Description("发送文字消息给指定好友(或者群聊昵称)，并@指定一个好友,仅适用于群聊")]
     public async Task<string> SendMessageWithAtUser(
         [Description("好友或者群聊昵称")] string who,
         [Description("消息内容")] string message,
-        [Description("被@的用户,仅适用于群聊")] string atUser)
+        [Description("被@的好友,仅适用于群聊")] string atUser)
     {
         await _weChatClientService.SendMessage(who, message, atUser);
         return await Task.FromResult(JsonSerializer.Serialize(new { success = true }));
@@ -86,13 +86,13 @@ public sealed class WeChatClientTool
     /// </summary>
     /// <param name="who">好友或者群聊昵称</param>
     /// <param name="message">消息内容</param>
-    /// <param name="atUsers">被@的用户列表,仅适用于群聊</param>
+    /// <param name="atUsers">被@的好友列表,仅适用于群聊</param>
     /// <returns>是否发送成功</returns>
     [McpServerTool, Description("发送文字消息给指定好友(或者群聊昵称)，并@指定多个好友,仅适用于群聊")]
     public async Task<string> SendMessageWithAtUsers(
         [Description("好友或者群聊昵称")] string who,
         [Description("消息内容")] string message,
-        [Description("被@的用户列表,仅适用于群聊")] string[] atUsers)
+        [Description("被@的好友列表,仅适用于群聊")] string[] atUsers)
     {
         var result = await _weChatClientService.SendMessage(who, message, atUsers);
         return await Task.FromResult(JsonSerializer.Serialize(result));

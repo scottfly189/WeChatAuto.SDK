@@ -42,7 +42,7 @@ namespace WeAutoCommon.Configs
         public int MomentsListenInterval { get; set; } = 10;
 
         /// <summary>
-        /// 新用户监听时间间隔，单位秒
+        /// 新好友监听时间间隔，单位秒
         /// </summary>
         public int NewUserListenerInterval { get; set; } = 5;
 

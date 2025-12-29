@@ -221,7 +221,7 @@ namespace WeChatAuto.Components
         /// 发送消息
         /// </summary>
         /// <param name="message">消息内容</param>
-        /// <param name="atUserList">被@的用户列表</param>
+        /// <param name="atUserList">被@的好友列表</param>
         public void SendMessage(string message, List<string> atUserList = null)
         {
             if (atUserList == null || atUserList.Count == 0)
@@ -294,7 +294,7 @@ namespace WeChatAuto.Components
                             {
                                 if (listItem.IsOffscreen)
                                 {
-                                    //滚动列表使@用户可见
+                                    //滚动列表使@好友可见
                                     while (listItem.IsOffscreen)
                                     {
                                         double currentPercent = pattern.VerticalScrollPercent;
@@ -332,19 +332,19 @@ namespace WeChatAuto.Components
                             }
                             else
                             {
-                                _logger.Info($"未找到@用户【{atUser}】,可能未显示在列表中,将采用键盘输入方式输入@用户");
+                                _logger.Info($"未找到@好友【{atUser}】,可能未显示在列表中,将采用键盘输入方式输入@好友");
                                 this._CustomTypeAtUser(atUser);
                             }
                         }
                         else
                         {
-                            _logger.Info($"未找到@用户{atUser},将采用键盘输入方式输入@用户");
+                            _logger.Info($"未找到@好友{atUser},将采用键盘输入方式输入@好友");
                             this._CustomTypeAtUser(atUser);
                         }
                     }
                     else
                     {
-                        _logger.Warn($"未找到@用户菜单窗口");
+                        _logger.Warn($"未找到@好友菜单窗口");
                     }
                 }
             }).GetAwaiter().GetResult();
@@ -374,7 +374,7 @@ namespace WeChatAuto.Components
         /// 发送消息
         /// </summary>
         /// <param name="message">消息内容</param>
-        /// <param name="atUser">被@的用户</param>
+        /// <param name="atUser">被@的好友</param>
         public void SendMessage(string message, OneOf<string, string[]> atUser = default)
         {
             var atUserList = new List<string>();
@@ -411,7 +411,7 @@ namespace WeChatAuto.Components
         /// 发送表情
         /// </summary>
         /// <param name="emoji">表情名称或者描述或者索引</param>
-        /// <param name="atUserList">被@的用户列表</param>
+        /// <param name="atUserList">被@的好友列表</param>
         public void SendEmoji(OneOf<int, string> emoji, List<string> atUserList = null)
         {
             var message = "";

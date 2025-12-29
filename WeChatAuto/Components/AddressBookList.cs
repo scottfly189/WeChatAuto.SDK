@@ -169,7 +169,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="keyWord">关键字,如果设置关键字，则通过包含关键字的新好友，如果没有设置，则通过所有新好友</param>
         /// <param name="suffix">后缀,如果设置后缀，则在此好友昵称后添加后缀</param>
-        /// <param name="label">用户标签</param>
+        /// <param name="label">好友标签</param>
         /// <returns>通过的新好友昵称列表</returns>
         public List<string> PassedAllNewFriend(string keyWord = null, string suffix = null, string label = null)
         {
@@ -281,7 +281,7 @@ namespace WeChatAuto.Components
         /// 添加好友
         /// </summary>
         /// <param name="friendNames">微信号/手机号列表</param>
-        /// <param name="label">用户标签</param>
+        /// <param name="label">好友标签</param>
         /// <returns>好友昵称列表和是否成功</returns>
         public List<(string friendName, bool isSuccess, string errMessage)> AddFriends(List<string> friendNames, string label = "")
         {
@@ -389,17 +389,17 @@ namespace WeChatAuto.Components
                                     }
                                     else
                                     {
-                                        rList.Add((item, true, "此用户可能以前添加过，所以直接通过"));
+                                        rList.Add((item, true, "此好友可能以前添加过，所以直接通过"));
                                     }
                                 }
                                 else
                                 {
-                                    rList.Add((item, false, "此用户可能已经添加过"));
+                                    rList.Add((item, false, "此好友可能已经添加过"));
                                 }
                             }
                             else
                             {
-                                //增加用户可能腾迅返回问题,如：手机号或者微信号无效、不存在等问题
+                                //增加好友可能腾迅返回问题,如：手机号或者微信号无效、不存在等问题
                                 xPath = "/Pane[2]/Pane/Pane[1]/Pane[2]/Pane/List";
                                 var listBox = _Window.FindFirstByXPath(xPath)?.AsListBox();
                                 var firstChild = listBox.FindFirstChild()?.AsListBoxItem();
@@ -445,7 +445,7 @@ namespace WeChatAuto.Components
         /// 注意：不能添加太频繁，否则可能会触发微信的风控机制，导致加好友失败
         /// </summary>
         /// <param name="friendName">微信号/手机号</param>
-        /// <param name="label">用户标签</param>
+        /// <param name="label">好友标签</param>
         /// <returns>是否成功</returns>
         public bool AddFriend(string friendName, string label = "")
         {
@@ -457,7 +457,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="keyWord">关键字,如果设置关键字，则返回包含关键字的新好友，如果没有设置，则返回所有新好友</param>
         /// <param name="suffix">后缀,如果设置后缀，则在此好友昵称后添加后缀</param>
-        /// <param name="label">用户标签</param>
+        /// <param name="label">好友标签</param>
         /// <returns></returns>
         private List<string> _PassedAllNewFriendCore(string keyWord = null, string suffix = null, string label = null)
         {
@@ -523,7 +523,7 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <param name="button">按钮</param>
         /// <param name="suffix">后缀</param>
-        /// <param name="label">用户标签</param>
+        /// <param name="label">好友标签</param>
         private string _ConfirmFriend(AutomationElement button, string suffix = null, string label = null)
         {
             var buttonName = "";

@@ -184,7 +184,7 @@ namespace WeChatAuto.Models
         /// 发送消息
         /// </summary>
         /// <param name="message">消息内容</param>
-        /// <param name="atUserList">被@的用户列表</param>
+        /// <param name="atUserList">被@的好友列表</param>
         public void SendMessage(string message, List<string> atUserList = null)
         {
             Sender.SendMessage(message, atUserList);
@@ -201,7 +201,7 @@ namespace WeChatAuto.Models
         /// 发送表情
         /// </summary>
         /// <param name="emoji">表情名称或者描述或者索引</param>
-        /// <param name="atUserList">被@的用户列表</param>
+        /// <param name="atUserList">被@的好友列表</param>
         public void SendEmoji(OneOf<int, string> emoji, List<string> atUserList = null)
         {
             Sender.SendEmoji(emoji, atUserList);
@@ -213,7 +213,7 @@ namespace WeChatAuto.Models
         /// </summary>
         /// <param name="who">好友昵称</param>
         /// <param name="message">消息内容</param>
-        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
+        /// <param name="atUser">被@的好友,最主要用于群聊中@人,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
         /// <returns></returns>
         public async Task SendMessageToFriend(string who, string message, OneOf<string, string[]> atUser = default)
         {
@@ -234,7 +234,7 @@ namespace WeChatAuto.Models
         /// </summary>
         /// <param name="who">好友昵称</param>
         /// <param name="emoji">表情名称或者描述或者索引</param>
-        /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
+        /// <param name="atUser">被@的好友,最主要用于群聊中@人,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
         /// <returns></returns>
         public async Task SendEmojiToFriend(string who, OneOf<int, string> emoji, OneOf<string, string[]> atUser = default)
         {

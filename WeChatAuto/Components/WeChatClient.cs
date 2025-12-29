@@ -186,7 +186,7 @@ namespace WeChatAuto.Components
     /// </summary>
     /// <param name="who">好友昵称</param>
     /// <param name="message">消息内容</param>
-    /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
+    /// <param name="atUser">被@的好友,最主要用于群聊中@人,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
     /// <param name="isOpenChat">是否打开子聊天窗口,默认是True:打开,False:不打开</param>
     public async Task SendWho(string who, string message, OneOf<string, string[]> atUser = default, bool isOpenChat = true)
     {
@@ -204,7 +204,7 @@ namespace WeChatAuto.Components
     /// </summary>
     /// <param name="whos">好友昵称列表</param>
     /// <param name="message">消息内容</param>
-    /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
+    /// <param name="atUser">被@的好友,最主要用于群聊中@人,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
     /// <param name="isOpenChat">是否打开子聊天窗口,默认是True:打开,False:不打开</param>
     public async Task SendWhos(string[] whos, string message, OneOf<string, string[]> atUser = default, bool isOpenChat = true)
     {
@@ -222,7 +222,7 @@ namespace WeChatAuto.Components
     /// </summary>
     /// <param name="who">好友昵称</param>
     /// <param name="emoji">表情名称或者描述或者索引,具体索引或者描述等请参考<see cref="EmojiListHelper"/>或者<see cref="EmojiItem"/></param>
-    /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
+    /// <param name="atUser">被@的好友,最主要用于群聊中@人,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
     /// <param name="isOpenChat">是否打开子聊天窗口</param>
     public async Task SendEmoji(string who, OneOf<int, string> emoji, OneOf<string, string[]> atUser = default, bool isOpenChat = false)
       => await WxMainWindow.SendEmoji(who, emoji, atUser, isOpenChat);
@@ -231,7 +231,7 @@ namespace WeChatAuto.Components
     /// </summary>
     /// <param name="whos">好友昵称列表</param>
     /// <param name="emoji">表情名称或者描述或者索引,具体索引或者描述等请参考<see cref="EmojiListHelper"/>或者<see cref="EmojiItem"/></param>
-    /// <param name="atUser">被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</param>
+    /// <param name="atUser">被@的好友,最主要用于群聊中@人,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
     /// <param name="isOpenChat">是否打开子聊天窗口</param>
     public async Task SendEmojis(string[] whos, OneOf<int, string> emoji, OneOf<string, string[]> atUser = default, bool isOpenChat = false)
       => await WxMainWindow.SendEmojis(whos, emoji, atUser, isOpenChat);
@@ -475,7 +475,7 @@ namespace WeChatAuto.Components
       => await WxMainWindow.AddOwnerChatGroupMember(groupName, memberName);
     /// <summary>
     /// 删除群聊，适用于自有群,与退出群聊不同，退出群聊是退出群聊，删除群聊会删除自有群的所有好友，然后退出群聊
-    /// willdo: 这里有一个问题，如果删除群的用户很多，则需要滚屏才能全部选中。
+    /// willdo: 这里有一个问题，如果删除群的好友很多，则需要滚屏才能全部选中。
     /// </summary>
     /// <param name="groupName">群聊名称</param>
     /// <returns>微信响应结果<see cref="ChatResponse"/></returns>
@@ -570,7 +570,7 @@ namespace WeChatAuto.Components
     /// </summary>
     /// <param name="keyWord">关键字,如果设置关键字，则通过包含关键字的新好友，如果没有设置，则通过所有新好友</param>
     /// <param name="suffix">后缀,如果设置后缀，则在此好友昵称后添加后缀</param>
-    /// <param name="label">用户标签</param>
+    /// <param name="label">好友标签</param>
     /// <returns>通过的新好友昵称列表</returns>
     public List<string> PassedAllNewFriend(string keyWord = null, string suffix = null, string label = null)
       => WxMainWindow.AddressBook.PassedAllNewFriend(keyWord, suffix, label);
@@ -586,7 +586,7 @@ namespace WeChatAuto.Components
     /// 注意：不能添加太频繁，否则可能会触发微信的风控机制，导致加好友失败
     /// </summary>
     /// <param name="friendNames">微信号/手机号列表</param>
-    /// <param name="label">用户标签</param>
+    /// <param name="label">好友标签</param>
     /// <returns>好友昵称列表和是否成功</returns>
     public List<(string friendName, bool isSuccess, string errMessage)> AddFriends(List<string> friendNames, string label = "")
       => WxMainWindow.AddressBook.AddFriends(friendNames, label);
@@ -596,13 +596,13 @@ namespace WeChatAuto.Components
     /// willdo:有必要吗？
     /// </summary>
     /// <param name="friendName">微信号/手机号</param>
-    /// <param name="label">用户标签</param>
+    /// <param name="label">好友标签</param>
     /// <returns>是否成功</returns>
     public bool AddFriend(string friendName, string label = "")
       => WxMainWindow.AddressBook.AddFriend(friendName, label);
     #endregion
 
-    #region 所有监听操作，包括消息监听、朋友圈监听、新用户监听
+    #region 所有监听操作，包括消息监听、朋友圈监听、新好友监听
     /// <summary>
     /// 添加消息监听，用户需要提供一个回调函数，当有消息时，会调用回调函数
     /// 参考<see cref="MessageContext"/>
@@ -620,7 +620,7 @@ namespace WeChatAuto.Components
       => WxMainWindow.StopMessageListener(nickName);
 
     /// <summary>
-    /// 添加新好友申请监听，用户需要提供一个回调函数，当有新用户申请添加你为好友时，会自动通过并调用回调函数
+    /// 添加新好友申请监听，用户需要提供一个回调函数，当有新好友申请添加你为好友时，会自动通过并调用回调函数
     /// </summary>
     /// <param name="callBack">回调函数，由用户自定义</param>
     /// <param name="keyWord">关键字,如果设置了关键字，此好友监听只监听包含关键字的新好友，如果没有设置关键字，则监听所有新好友</param>
@@ -630,11 +630,11 @@ namespace WeChatAuto.Components
       => WxMainWindow.AddNewFriendAutoPassedListener(callBack, keyWord, suffix, label);
 
     /// <summary>
-    /// 添加新用户监听，用户需要提供一个回调函数，当有新用户时，会自动通过此用户，并且将此用户打开到子窗口，当有新消息时，会调用回调函数,
+    /// 添加新好友监听，用户需要提供一个回调函数，当有新好友时，会自动通过此好友，并且将此好友打开到子窗口，当有新消息时，会调用回调函数,
     /// 也适用于自动通过好友申请后，首先发送一些信息（如：发送文字、表情、文件等）给好友的场景
     /// </summary>
     /// <param name="callBack">回调函数,参数：消息上下文<see cref="MessageContext"/></param>
-    /// <param name="firstMessageAction">适用于新用户通过后,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
+    /// <param name="firstMessageAction">适用于新好友通过后,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
     /// <param name="keyWord">关键字</param>
     /// <param name="suffix">后缀</param>
     /// <param name="label">标签</param>
@@ -642,7 +642,7 @@ namespace WeChatAuto.Components
       => WxMainWindow.AddFriendRequestAutoAcceptAndOpenChatListener(callBack, firstMessageAction, keyWord, suffix, label);
 
     /// <summary>
-    /// 移除新用户申请监听
+    /// 移除新好友申请监听
     /// </summary>
     public void StopNewUserListener()
       => WxMainWindow.StopNewUserListener();
