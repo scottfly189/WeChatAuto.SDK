@@ -12,12 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
     <ProjectReference Include="..\..\weautocommon\weautocommon.csproj" />
     <ProjectReference Include="..\..\wechatauto\WeChatAuto.csproj" />
-=======
-    <ProjectReference Include="..\..\WeChatAuto\WeChatAuto.csproj" />
->>>>>>> master
   </ItemGroup>
 
 </Project>
