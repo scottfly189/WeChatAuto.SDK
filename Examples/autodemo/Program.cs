@@ -14,15 +14,18 @@ var client = clientFactory.GetWeChatClient("Alex");
 
 client.AddFriendRequestAutoAcceptAndOpenChatListener((context) =>
 {
-    // Console.WriteLine($"收到好友请求：{messageContext.Sender.NickName}");
-    // //自动接受好友请求
-    // client.AcceptFriendRequest(messageContext.Sender.UserName);
-    //return WeAutoCommon.Models.Result.Ok();
-    context.SendMessage($"我收到您发的消息\"{context.GetAllMessages().LastOrDefault()?.MessageContent}\",不过我还没有接入LLM大模型，无法回答您的问题，还是让我带您拓体验一下wechatauto.sdk的一些基本功能吧,如果有什么问题，可以事后联系作者！");
+    context.SendMessage($"我收到您发的消息\"{context.GetAllMessages().LastOrDefault()?.MessageContent}\",不过我还没有接入LLM大模型，无法回答您的问题，还是让我带您体验一下wechatauto.sdk的一些基本功能吧,如果有什么问题，可以事后联系作者！");
 }, async (sender) =>
 {
-    sender.SendMessage("你好，我是wechatauto.sdk测试功能导航机器人，很高兴认识你！现在让我带你体验一下wechatauto.sdk的部分功能....咱们开始咯....");
+    sender.SendMessage("亲，终于盼到你了，我是wechatauto.sdk测试功能导航机器人，很高兴认识你！现在让我带你体验一下wechatauto.sdk的部分功能....咱们开始咯....我准备发送图片消息:");
     await Task.Delay(1000);
+    sender.SendFile(new string[] { $"{AppContext.BaseDirectory}/Images/1.png" });
+    await Task.Delay(1000);
+    sender.SendMessage("我准备发送表情消息:");
+    sender.SendEmoji(1);
+    await Task.Delay(1000);
+    sender.SendMessage("我准备发送视频文件:");
+    sender.SendFile(new string[] { $"{AppContext.BaseDirectory}/Videos/1.mp4" });
 },"wechatauto","test","wechatauto");
 
 await Task.Delay(-1);

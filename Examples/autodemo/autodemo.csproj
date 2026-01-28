@@ -16,4 +16,15 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="Images\1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+       <TargetPath>Images\1.png</TargetPath>
+    </None>
+    <None Include="Videos\1.mp4">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+       <TargetPath>Videos\1.mp4</TargetPath>
+    </None>
+  </ItemGroup>
+
 </Project>
