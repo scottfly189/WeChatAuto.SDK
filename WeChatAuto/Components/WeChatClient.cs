@@ -49,8 +49,8 @@ namespace WeChatAuto.Components
     /// <param name="wxNotifyIcon">微信客户端通知图标类</param>
     /// <param name="wxWindow">微信客户端窗口类</param>
     /// <param name="serviceProvider">服务提供者</param>
-    /// <param name="enableCheckAppRunning">是否启用运行检查风控退出监听</param>
-    public WeChatClient(WeChatNotifyIcon wxNotifyIcon, WeChatMainWindow wxWindow, IServiceProvider serviceProvider, bool enableCheckAppRunning = true)
+    // /// <param name="enableCheckAppRunning">是否启用运行检查风控退出监听</param>
+    public WeChatClient(WeChatNotifyIcon wxNotifyIcon, WeChatMainWindow wxWindow, IServiceProvider serviceProvider)
     {
       _logger = serviceProvider.GetRequiredService<AutoLogger<WeChatClient>>();
       WxNotifyIcon = wxNotifyIcon;
@@ -238,8 +238,8 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 发起语音聊天,适用于单个好友
     /// </summary>
-    /// <param name="who">好友昵称</param>
-    /// <param name="isOpenChat">是否打开子聊天窗口,默认是False:不打开,True:打开</param>
+    /// <param name="who">好友名称</param>
+    /// <param name="isOpenChat">是否打开子聊天窗口,默认是True,False:不打开,True:打开</param>
     public void SendVoiceChat(string who, bool isOpenChat = true) => WxMainWindow.SendVoiceChat(who, isOpenChat);
     /// <summary>
     /// 发起语音聊天,适用于群聊中发起语音聊天
@@ -638,8 +638,9 @@ namespace WeChatAuto.Components
     /// <param name="keyWord">关键字</param>
     /// <param name="suffix">后缀</param>
     /// <param name="label">标签</param>
-    public void AddFriendRequestAutoAcceptAndOpenChatListener(Action<MessageContext> callBack, Action<Sender> firstMessageAction = null, string keyWord = null, string suffix = null, string label = null)
-      => WxMainWindow.AddFriendRequestAutoAcceptAndOpenChatListener(callBack, firstMessageAction, keyWord, suffix, label);
+    /// <param name="isMonitorSubWin">是否监听子窗口,如果为true，则监听子窗口，如果为false，则不监听子窗口,默认监听子窗口</param>
+    public void AddFriendRequestAutoAcceptAndOpenChatListener(Action<MessageContext> callBack, Action<Sender> firstMessageAction = null, string keyWord = null, string suffix = null, string label = null,bool isMonitorSubWin = true)
+      => WxMainWindow.AddFriendRequestAutoAcceptAndOpenChatListener(callBack, firstMessageAction, keyWord, suffix, label, isMonitorSubWin);
 
     /// <summary>
     /// 移除新好友申请监听

@@ -59,6 +59,8 @@ namespace WeChatAuto.Components
             _logger = serviceProvider.GetRequiredService<AutoLogger<Sender>>();
             _logger.Info($"Sender对象使用线程：{uiThreadInvoker.ThreadName}");
         }
+
+        public string FullTitle => _FullTitle;
         /// <summary>
         /// 获取工具栏按钮
         /// </summary>
