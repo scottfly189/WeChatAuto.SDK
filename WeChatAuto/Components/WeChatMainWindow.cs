@@ -1221,11 +1221,15 @@ namespace WeChatAuto.Components
         /// <param name="nickName">好友昵称</param>
         /// <param name="callBack">回调函数,由使用者提供,参数：消息上下文<see cref="MessageContext"/></param>
         /// <param name="firstMessageAction">适用于当开始消息监听时,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
-        public async Task AddMessageListener(string nickName, Action<MessageContext> callBack,Action<Sender> firstMessageAction = null)
+        /// <param name="isMonitorSubWin">是否监听子窗口,如果为true，则监听子窗口，如果为false，则不监听子窗口,默认监听子窗口</param>
+        public async Task AddMessageListener(string nickName, Action<MessageContext> callBack,Action<Sender> firstMessageAction = null,bool isMonitorSubWin = true)
         {
             await _SubWinList.CheckSubWinExistAndOpen(nickName);
             await Task.Delay(500);
-            _SubWinList.RegisterMonitorSubWin(nickName);
+            if (isMonitorSubWin)
+            {
+                _SubWinList.RegisterMonitorSubWin(nickName);
+            }
             await _SubWinList.AddMessageListener(callBack, nickName, firstMessageAction);
         }
         /// <summary>
@@ -1260,13 +1264,14 @@ namespace WeChatAuto.Components
         /// <param name="keyWord">关键字</param>
         /// <param name="suffix">后缀</param>
         /// <param name="label">标签</param>
-        public void AddFriendRequestAutoAcceptAndOpenChatListener(Action<MessageContext> callBack, Action<Sender> senderAction = null, string keyWord = null, string suffix = null, string label = null)
+        /// <param name="isMonitorSubWin">是否监听子窗口,如果为true，则监听子窗口，如果为false，则不监听子窗口,默认监听子窗口</param>
+        public void AddFriendRequestAutoAcceptAndOpenChatListener(Action<MessageContext> callBack, Action<Sender> senderAction = null, string keyWord = null, string suffix = null, string label = null,bool isMonitorSubWin = true)
         {
             _AddNewFriendListener(nickNameList =>
             {
                 nickNameList.ForEach(async nickName =>
                 {
-                    await this.AddMessageListener(nickName, callBack, senderAction);
+                    await this.AddMessageListener(nickName, callBack, senderAction, isMonitorSubWin);
                 });
             }, new FriendListenerOptions() { KeyWord = keyWord, Suffix = suffix, Label = label });
         }
@@ -2128,7 +2133,7 @@ namespace WeChatAuto.Components
                                 finishButton.Focus();
                                 finishButton.WaitUntilClickable();
                                 finishButton.Click();
-                                Thread.Sleep(1000);
+                                RandomWait.Wait(1000,3000);
                                 //修改名字
                                 var checkAddWinRresult = Retry.WhileNotNull(() => _MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("AddMemberWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
                                 if (checkAddWinRresult.Success)
@@ -2139,7 +2144,7 @@ namespace WeChatAuto.Components
                                     var cListItems = cListItemBox?.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))?.ToList();
                                     cListItems = cListItems?.Where(item => !item.Name.EndsWith("已置顶"))?.ToList();
                                     var firstItemName = list[0].ToString();
-                                    var firstItem = cListItems?.FirstOrDefault(item => item.Name.StartsWith(firstItemName));
+                                    var firstItem = cListItems?.FirstOrDefault(item => item.Name.StartsWith(firstItemName) || item.Name.Contains("、"+firstItemName));
                                     if (firstItem != null)
                                     {
                                         firstItem.DrawHighlightExt();
