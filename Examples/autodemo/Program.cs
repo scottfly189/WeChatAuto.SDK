@@ -21,7 +21,7 @@ client.AddFriendRequestAutoAcceptAndOpenChatListener((context) =>
 }, async (sender) =>
 {
     index++;
-    sender.SendMessage("亲，终于盼到你了，我是wechatauto.sdk测试功能导航机器人，很高兴认识你！现在让我带你体验一下wechatauto.sdk的部分功能....咱们开始咯....我准备发送图片消息:");
+    sender.SendMessage("亲，终于盼到你了，我是wechatauto.sdk测试导航机器人，很高兴认识你！现在让我带你体验一下wechatauto.sdk的部分功能..大概1分钟时间..咱们开始咯....我准备发送图片消息:");
     await RandomWait.WaitAsync(1000, 3000);
     sender.SendFile(new string[] { $"{AppContext.BaseDirectory}/Images/1.png" });
     await RandomWait.WaitAsync(1000, 3000);
@@ -36,18 +36,18 @@ client.AddFriendRequestAutoAcceptAndOpenChatListener((context) =>
     var groupName = "wechatauto测试群" + index;
     client.CreateOrUpdateOwnerChatGroup(groupName, new string[] { "khcgb", sender.FullTitle });
     await RandomWait.WaitAsync(1000, 5000);
-    await client.SendWho(groupName, "欢迎来到群聊!大家可以一起开心聊天了...", "所有人");
+    await client.SendWho(groupName, "欢迎来到群聊!大家可以一起开心聊天了...🎉🎉", "所有人");
     await RandomWait.WaitAsync(1000, 5000);
     await client.SendWho(groupName, "群里面的Alex是作者，有什么问题可以联系他...", sender.FullTitle);
     await RandomWait.WaitAsync(2000, 5000);
-    await client.SendWho(groupName, "群聊里可以进行一些经典操作：如发送消息，修改群备注，自动增加好友，删除好友等等...这些功能等您探索哦.", sender.FullTitle);
+    await client.SendWho(groupName, "群聊里可以进行一些经典操作：如发送消息，修改群备注，自动增加好友，删除好友等等...这些功能等您探索哦😊.");
     await RandomWait.WaitAsync(2000, 5000);
-    await client.SendWho(groupName, "现在进行群删除操作....我会把群所有人都清空，然后把群也删除掉...", sender.FullTitle);
+    await client.SendWho(groupName, "接下来将清空群成员，并删除该群聊，请稍候...", sender.FullTitle);
     await RandomWait.WaitAsync(3000, 10000);
     await client.DeleteOwnerChatGroup(groupName);
-    sender.SendMessage("怎么样?....是不是很智能，呵呵,WeChatAuto天生为人工智能而生，接入LLM更智能哦!");
+    sender.SendMessage("怎么样?....是不是很智能，呵呵😊,WeChatAuto天生为人工智能而生，接入LLM更智能哦🎉🎉🚀🚀");
     await RandomWait.WaitAsync(2000, 5000);
-    sender.SendMessage("为了不占用资源，我把您删除哦！如果你以后有需要请重新加我....温馨提示：请备注: wechatauto ,否则可能不会通过");
+    sender.SendMessage("感谢您的体验，为了节省资源，我将暂时把您移除好友。如果之后还有需要，欢迎随时加我哦！温馨提示：添加时请备注“wechatauto”，这样更容易通过好友申请。祝您生活愉快，我们下次再见！");
     client.RemoveFriend(sender.FullTitle);
 }, "test", "test", "wechatauto", false);
 

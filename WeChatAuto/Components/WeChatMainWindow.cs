@@ -122,9 +122,10 @@ namespace WeChatAuto.Components
                             break;
                         if (_newUserActionList.Count > 0)
                         {
+                            //如果用户设置了新好友监听，则获取新好友申请列表
                             await _FetchNewUserNoticeAction(_newUserListenerCancellationTokenSource.Token);
                         }
-                        Thread.Sleep(WeAutomation.Config.NewUserListenerInterval * 1000);
+                        await Task.Delay(WeAutomation.Config.NewUserListenerInterval * 1000);
                     }
                 }
                 catch (OperationCanceledException)
@@ -144,6 +145,11 @@ namespace WeChatAuto.Components
             _newUserListenerThread.IsBackground = true;
             _newUserListenerThread.Start();
         }
+        /// <summary>
+        /// 获取新好友申请
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         private async Task _FetchNewUserNoticeAction(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -200,7 +206,7 @@ namespace WeChatAuto.Components
                         Payload = item.options,
                         IsOpenSubWin = false,
                     };
-                    var result = await this.AddFriendDispatch(msg);
+                    var result = await this.AddFriendDispatch(msg);  //得到这次所有新增好友的昵称列表，实际已经通过
                     if (result != null && result is List<string> list)
                     {
                         item.callBack(list);
