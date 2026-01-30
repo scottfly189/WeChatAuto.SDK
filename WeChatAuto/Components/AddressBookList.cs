@@ -204,10 +204,13 @@ namespace WeChatAuto.Components
                 var result = this.LocateFriend(nickName);
                 if (result)
                 {
-                    _MainWin.StopMessageListener(nickName);
+                    _MainWin.StopMessageListener(nickName);    //停止消息监听
                     result = _uiMainThreadInvoker.Run(automation =>
                     {
-                        return _RemoveFriendCore(nickName);
+                        var resultTag = _RemoveFriendCore(nickName);
+                        //点击新的朋友按钮 - 复原 - 以利于下次操作
+                        _SwitchToNewFriend();
+                        return resultTag;
                     }).GetAwaiter().GetResult();
                 }
                 else
@@ -227,6 +230,20 @@ namespace WeChatAuto.Components
             {
                 _MainWin.Navigation.SwitchNavigation(NavigationType.聊天);
             }
+        }
+        /// <summary>
+        /// 切换到 新的朋友 页面
+        /// </summary>
+        private void _SwitchToNewFriend()
+        {
+            var root = _Window.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/List[@Name='联系人'][@IsOffscreen='false']")?.AsListBox();
+            var scrollPattern = root.Patterns.Scroll.Pattern;
+            scrollPattern.SetScrollPercent(0, 0);
+            var rList = new List<string>();
+            var newFriendItem = root.FindFirstChild(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByText("新的朋友"))).AsListBoxItem();
+            var button = newFriendItem.FindFirstByXPath("//Button[@Name='ContactListItem'][@IsOffscreen='false']").AsButton();
+            button.WaitUntilClickable(TimeSpan.FromSeconds(5));
+            button.Click();
         }
 
         /// <summary>

@@ -312,6 +312,10 @@ namespace WeChatAuto.Components
             UnregisterMonitorSubWin(who); //取消守护子窗口监听
             _logger.Info($"停止守护子窗口监听: {who}");
             GetSubWin(who).StopListener(); //停止消息监听
+            if (_SubWinsCache.ContainsKey(who))
+            {
+                _SubWinsCache.Remove(who);
+            }
             _logger.Info($"停止消息监听: {who}");
             _SubWinMessageListeners.Remove(who); //移除消息监听
             _logger.Info($"移除SubWinList的监听列表成员: {who}");
