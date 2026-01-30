@@ -40,7 +40,9 @@ client.AddFriendRequestAutoAcceptAndOpenChatListener((context) =>
     await RandomWait.WaitAsync(1000, 5000);
     await client.SendWho(groupName, "群里面的Alex是作者，有什么问题可以联系他...", sender.FullTitle);
     await RandomWait.WaitAsync(2000, 5000);
-    await client.SendWho(groupName, "群聊里可以进行一些经典操作：如发送消息，修改群备注，自动增加好友，删除好友等等...这些功能等您探索哦😊.");
+    await client.SendFile(groupName, new string[] { $"{AppContext.BaseDirectory}/Images/1.png" });
+    await RandomWait.WaitAsync(2000, 5000);
+    await client.SendWho(groupName, "群聊里可以进行一些经典操作：如发送消息，监听群消息，修改群备注，自动增加群好友，删除好友等等...这些功能等您探索哦😊.");
     await RandomWait.WaitAsync(2000, 5000);
     await client.SendWho(groupName, "接下来将清空群成员，并删除该群聊，请稍候...", sender.FullTitle);
     await RandomWait.WaitAsync(3000, 10000);
@@ -51,7 +53,7 @@ client.AddFriendRequestAutoAcceptAndOpenChatListener((context) =>
     sender.SendMessage("感谢您的体验，为了节省资源，我将暂时把您移除好友。如果之后还有需要，欢迎随时加我哦！温馨提示：添加时请备注“wechatauto”，这样更容易通过好友申请。祝您生活愉快，我们下次再见！");
     await RandomWait.WaitAsync(2000, 5000);
     client.RemoveFriend(sender.FullTitle);
-}, "test", "test", "wechatauto", false);
+}, "test", "test", "wechatauto");
 
 await Task.Delay(-1);
 client.StopNewUserListener();

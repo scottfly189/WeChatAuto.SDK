@@ -238,7 +238,7 @@ namespace WeChatAuto.Components
             _Conversations = new ConversationList(_MainWindow, this, _uiMainThreadInvoker, _serviceProvider);  // 会话列表
             _AddressBook = new AddressBookList(_MainWindow, this, _uiMainThreadInvoker, _serviceProvider);  // 通讯录
             _moments = new Moments(_MainWindow, this, _uiMainThreadInvoker, _serviceProvider);
-            _SubWinList = new SubWinList(_MainWindow, this, _uiMainThreadInvoker, _serviceProvider);
+            _SubWinList = new SubWinList(_MainWindow, this, _uiMainThreadInvoker, _serviceProvider); //子窗口管理列表
             //这里是主聊天窗口的ChatContent,子窗口也有ChatContent,但是是不同的对象，要注意传入的参数！
             _WxMainChatContent = new ChatContent(_MainWindow, ChatContentType.Inline, "/Pane[2]/Pane/Pane[2]/Pane/Pane/Pane/Pane", this, _uiMainThreadInvoker, this, _serviceProvider);
         }
@@ -1270,14 +1270,13 @@ namespace WeChatAuto.Components
         /// <param name="keyWord">关键字</param>
         /// <param name="suffix">后缀</param>
         /// <param name="label">标签</param>
-        /// <param name="isMonitorSubWin">是否监听子窗口,如果为true，则监听子窗口，如果为false，则不监听子窗口,默认监听子窗口</param>
-        public void AddFriendRequestAutoAcceptAndOpenChatListener(Action<MessageContext> callBack, Action<Sender> senderAction = null, string keyWord = null, string suffix = null, string label = null,bool isMonitorSubWin = true)
+        public void AddFriendRequestAutoAcceptAndOpenChatListener(Action<MessageContext> callBack, Action<Sender> senderAction = null, string keyWord = null, string suffix = null, string label = null)
         {
             _AddNewFriendListener(nickNameList =>
             {
                 nickNameList.ForEach(async nickName =>
                 {
-                    await this.AddMessageListener(nickName, callBack, senderAction, isMonitorSubWin);
+                    await this.AddMessageListener(nickName, callBack, senderAction, false);
                 });
             }, new FriendListenerOptions() { KeyWord = keyWord, Suffix = suffix, Label = label });
         }

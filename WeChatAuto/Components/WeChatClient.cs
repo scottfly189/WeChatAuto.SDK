@@ -638,9 +638,8 @@ namespace WeChatAuto.Components
     /// <param name="keyWord">关键字</param>
     /// <param name="suffix">后缀</param>
     /// <param name="label">标签</param>
-    /// <param name="isMonitorSubWin">是否监听子窗口,如果为true，则监听子窗口，如果为false，则不监听子窗口,默认监听子窗口</param>
-    public void AddFriendRequestAutoAcceptAndOpenChatListener(Action<MessageContext> callBack, Action<Sender> firstMessageAction = null, string keyWord = null, string suffix = null, string label = null,bool isMonitorSubWin = true)
-      => WxMainWindow.AddFriendRequestAutoAcceptAndOpenChatListener(callBack, firstMessageAction, keyWord, suffix, label, isMonitorSubWin);
+    public void AddFriendRequestAutoAcceptAndOpenChatListener(Action<MessageContext> callBack, Action<Sender> firstMessageAction = null, string keyWord = null, string suffix = null, string label = null)
+      => WxMainWindow.AddFriendRequestAutoAcceptAndOpenChatListener(callBack, firstMessageAction, keyWord, suffix, label);
 
     /// <summary>
     /// 移除新好友申请监听
