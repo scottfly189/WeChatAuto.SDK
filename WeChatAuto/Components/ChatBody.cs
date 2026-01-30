@@ -71,8 +71,8 @@ namespace WeChatAuto.Components
         /// <param name="firstMessageAction">适用于当开始消息监听时,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
         public void AddListener(Action<MessageContext> callBack, Action<Sender> firstMessageAction = null)
         {
-            firstMessageAction?.Invoke(Sender);
-            StartMessagePolling(callBack);
+            StartMessagePolling(callBack); //启动消息轮询检测
+            firstMessageAction?.Invoke(Sender); //执行第一次消息发送
         }
 
         /// <summary>
@@ -264,17 +264,17 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 停止消息监听
         /// </summary>
-        public void StopListener()
-        {
-            if (_disposed)
-            {
-                return;
-            }
-            _isProcessing = true;
-            _pollingTimer?.Dispose();
-            _pollingTimer = null;
-            _isProcessing = false; // 重置处理标志
-        }
+        public void StopListener() => this.Dispose();
+        // {
+        //     if (_disposed)
+        //     {
+        //         return;
+        //     }
+        //     _isProcessing = true;
+        //     _pollingTimer?.Dispose();
+        //     _pollingTimer = null;
+        //     _isProcessing = false; // 重置处理标志
+        // }
         /// <summary>
         /// 获取聊天内容区可见气泡列表
         /// </summary>

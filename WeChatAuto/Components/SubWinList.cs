@@ -28,7 +28,7 @@ namespace WeChatAuto.Components
     {
         private volatile bool _disposed = false;
         private ConcurrentBag<string> _MonitorSubWinNames = new ConcurrentBag<string>();     //守护子窗口名称列表
-        private Dictionary<string, SubWin> _SubWinsCache = new Dictionary<string, SubWin>();      //所有子窗口列表,事实上手动关闭子窗口，这里并不会变化.
+        private Dictionary<string, SubWin> _SubWinsCache = new Dictionary<string, SubWin>();      //所有子窗口列表缓存,事实上手动关闭子窗口，这里并不会变化.
         private Dictionary<string, Action<MessageContext>> _SubWinMessageListeners
             = new Dictionary<string, Action<MessageContext>>();  //所有子窗口消息监听器列表
         private CancellationTokenSource _MonitorSubWinCancellationTokenSource = new CancellationTokenSource();
@@ -309,10 +309,15 @@ namespace WeChatAuto.Components
         /// <param name="who">好友昵称</param>
         public void StopMessageListener(string who)
         {
-            _SubWinMessageListeners.Remove(who);
-            GetSubWin(who).StopListener();
+            UnregisterMonitorSubWin(who); //取消守护子窗口监听
+            _logger.Info($"停止守护子窗口监听: {who}");
+            GetSubWin(who).StopListener(); //停止消息监听
+            _logger.Info($"停止消息监听: {who}");
+            _SubWinMessageListeners.Remove(who); //移除消息监听
+            _logger.Info($"移除SubWinList的监听列表成员: {who}");
         }
 
+        #region 释放资源
         public void Dispose()
         {
             Dispose(true);
@@ -346,5 +351,6 @@ namespace WeChatAuto.Components
                 _SubWinsCache.Clear();
             }
         }
+        #endregion
     }
 }

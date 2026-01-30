@@ -13,7 +13,7 @@ using var clientFactory = serviceProvider.GetRequiredService<WeChatClientFactory
 // 请修改为你的微信昵称
 var client = clientFactory.GetWeChatClient("Alex");
 
-var index = 0;
+var index = 100;
 
 client.AddFriendRequestAutoAcceptAndOpenChatListener((context) =>
 {
