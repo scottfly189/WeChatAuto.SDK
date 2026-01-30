@@ -41,25 +41,43 @@ namespace WeChatAuto.Components
         private CancellationTokenSource _pollingTimerCancellationTokenSource = new CancellationTokenSource();
         private volatile bool _isProcessing = false; // 标记是否正在处理消息
         private ChatType _ChatType;
-        private ChatContent _ChatContent;
         private UIThreadInvoker _PrivateThreadInvoker;    //私有线程，用于消息轮询检测
         public ChatContent ChatContent => _ChatContent;
         public ChatType ChatType => _ChatType;
         public string nickName;
         public string NickName => nickName;
-        public ChatBody(Window window, AutomationElement chatBodyRoot, IWeChatWindow wxWindow, string title, ChatType chatType,
+
+        private ChatContent _ChatContent;
+
+        private AutomationElement _GetChatBodyRoot_()
+        {
+            return _uiMainThreadInvoker.Run(automation =>
+            {
+                var listbox = Retry.WhileNull(() => _Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByName("消息"))),
+                   timeout: TimeSpan.FromSeconds(1), interval: TimeSpan.FromMilliseconds(200)).Result;
+                if (listbox == null)
+                {
+                    throw new Exception("消息列表根节点获取失败");
+                }
+                RandomWait.Wait(100, 500);
+                var ChatContentRoot = listbox.GetParent().GetParent().GetParent().GetParent();
+                var chatBodyRoot = ChatContentRoot.FindFirstByXPath("/Pane[2]");
+                return chatBodyRoot;
+            }).GetAwaiter().GetResult();
+        }
+        public ChatBody(Window window, IWeChatWindow wxWindow, string title, ChatType chatType,
           UIThreadInvoker uiThreadInvoker, WeChatMainWindow mainWxWindow, IServiceProvider serviceProvider, ChatContent chatContent)
         {
             _Window = window;
             _logger = serviceProvider.GetRequiredService<AutoLogger<ChatBody>>();
-            _ChatBodyRoot = chatBodyRoot;
             _WxWindow = wxWindow;
-            _ChatContent = chatContent;
             _FullTitle = title;
             _ChatType = chatType;
             _uiMainThreadInvoker = uiThreadInvoker;
             _MainWxWindow = mainWxWindow;
             _serviceProvider = serviceProvider;
+            _ChatContent = chatContent;
+            _ChatBodyRoot = _GetChatBodyRoot_();
             nickName = _MainWxWindow.NickName;
             _logger.Info($"本次ChatBody的窗口名称:{_Window.Name},ProcessId:{_WxWindow.ProcessId},运行线程名称:{uiThreadInvoker.ThreadName}");
         }
@@ -265,16 +283,7 @@ namespace WeChatAuto.Components
         /// 停止消息监听
         /// </summary>
         public void StopListener() => this.Dispose();
-        // {
-        //     if (_disposed)
-        //     {
-        //         return;
-        //     }
-        //     _isProcessing = true;
-        //     _pollingTimer?.Dispose();
-        //     _pollingTimer = null;
-        //     _isProcessing = false; // 重置处理标志
-        // }
+
         /// <summary>
         /// 获取聊天内容区可见气泡列表
         /// </summary>
@@ -364,7 +373,11 @@ namespace WeChatAuto.Components
         public Sender GetSender()
         {
             var xPath = "/Pane[2]";
-            var senderRoot = _uiMainThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).GetAwaiter().GetResult();
+            var senderRoot = _uiMainThreadInvoker.Run(automation =>
+            {
+                var result = Retry.WhileNull(() => _ChatBodyRoot.FindFirstByXPath(xPath), timeout: TimeSpan.FromSeconds(5), interval: TimeSpan.FromMilliseconds(200));
+                return result.Success ? result.Result : null;
+            }).GetAwaiter().GetResult();
             DrawHightlightHelper.DrawHightlight(senderRoot, _uiMainThreadInvoker);
             var sender = new Sender(_Window, senderRoot, _WxWindow, _FullTitle, _uiMainThreadInvoker, _serviceProvider);
             return sender;

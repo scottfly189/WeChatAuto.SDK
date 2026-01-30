@@ -2176,7 +2176,7 @@ namespace WeChatAuto.Components
             Trace.WriteLine("临时群名称：" + tempName);
             result.Success = true;
             result.Message = "创建群聊成功";
-            _logger.Info("创建临时群名称：" + tempName + "成功，下一步修改成正确的群名");
+            _logger.Info("创建临时群名称：" + tempName + "成功!");
             return result;
         }
 
@@ -2345,7 +2345,10 @@ namespace WeChatAuto.Components
                 await _SubWinList.CheckSubWinExistAndOpen(groupName);
                 await Task.Delay(500);
                 var subWin = _SubWinList.GetSubWin(groupName);
+                _SubWinList.StopMessageListener(groupName);
+                _logger.Info($"停止消息监听: {groupName}");
                 result = subWin.DeleteOwnerChatGroup();
+                _logger.Info($"删除自有群成功: {groupName}");
                 return result;
             }
             catch (Exception ex)
