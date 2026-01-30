@@ -193,6 +193,7 @@ namespace WeChatAuto.Components
         }
         /// <summary>
         /// 移除好友
+        /// 注意： 如果删除好友，从通讯录删除好友后，同步的，应该将监听删除
         /// </summary>
         /// <param name="nickName">好友昵称</param>
         /// <returns>是否成功</returns>
@@ -205,56 +206,7 @@ namespace WeChatAuto.Components
                 {
                     result = _uiMainThreadInvoker.Run(automation =>
                     {
-                        var listBox = _Window.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/List[@Name='联系人'][@IsOffscreen='false']")?.AsListBox();
-                        var listItems = listBox.FindFirstChild(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(nickName))).AsListBoxItem();
-                        if (listItems != null)
-                        {
-                            listItems.Focus();
-                            listItems.Click();
-                            Thread.Sleep(600);
-                            var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Button[@Name='更多']";
-                            var moreButton = _Window.FindFirstByXPath(xPath)?.AsButton();
-                            if (moreButton != null)
-                            {
-                                moreButton.Focus();
-                                moreButton.WaitUntilClickable(TimeSpan.FromSeconds(5));
-                                moreButton.Click();
-                                Thread.Sleep(600);
-                                var menu = _Window.FindFirstChild(cf => cf.Menu()).AsMenu();
-                                if (menu != null)
-                                {
-                                    var deleItem = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("删除联系人"))).AsListBoxItem();
-                                    if (deleItem != null)
-                                    {
-                                        deleItem.Focus();
-                                        deleItem.WaitUntilClickable(TimeSpan.FromSeconds(5));
-                                        deleItem.Click();
-                                        Thread.Sleep(600);
-                                        var conformButton = _Window.FindFirstByXPath("/Pane[1]/Pane/Pane/Button[@Name='删除']")?.AsButton();
-                                        conformButton.Focus();
-                                        conformButton.WaitUntilClickable(TimeSpan.FromSeconds(5));
-                                        conformButton.Click();
-                                        return true;
-                                    }
-                                    else
-                                    {
-                                        return false;
-                                    }
-                                }
-                                else
-                                {
-                                    return false;
-                                }
-                            }
-                            else
-                            {
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            return false;
-                        }
+                        return _RemoveFriendCore(nickName, nickName => _MainWin.StopMessageListener(nickName));
                     }).GetAwaiter().GetResult();
                 }
                 else
@@ -273,6 +225,68 @@ namespace WeChatAuto.Components
             finally
             {
                 _MainWin.Navigation.SwitchNavigation(NavigationType.聊天);
+            }
+        }
+
+        /// <summary>
+        /// 删除好友核心方法
+        /// </summary>
+        /// <param name="nickName">好友昵称</param>
+        /// <param name="stopListenerAction">停止监听动作</param>
+        /// <returns>是否成功</returns>
+        private bool _RemoveFriendCore(string nickName,Action<string> stopListenerAction = null)
+        {
+            var listBox = _Window.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/List[@Name='联系人'][@IsOffscreen='false']")?.AsListBox();
+            var listItems = listBox.FindFirstChild(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(nickName))).AsListBoxItem();
+            if (listItems != null)
+            {
+                listItems.Focus();
+                listItems.Click();
+                Thread.Sleep(600);
+                var xPath = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Button[@Name='更多']";
+                var moreButton = _Window.FindFirstByXPath(xPath)?.AsButton();
+                if (moreButton != null)
+                {
+                    moreButton.Focus();
+                    moreButton.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                    moreButton.Click();
+                    Thread.Sleep(600);
+                    var menu = _Window.FindFirstChild(cf => cf.Menu()).AsMenu();
+                    if (menu != null)
+                    {
+                        var deleItem = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("删除联系人"))).AsListBoxItem();
+                        if (deleItem != null)
+                        {
+                            deleItem.Focus();
+                            deleItem.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                            deleItem.Click();
+                            Thread.Sleep(600);
+                            var conformButton = _Window.FindFirstByXPath("/Pane[1]/Pane/Pane/Button[@Name='删除']")?.AsButton();
+                            conformButton.Focus();
+                            conformButton.WaitUntilClickable(TimeSpan.FromSeconds(5));
+                            conformButton.Click();
+                            //如果此好友在监听中，则停止此好友的监听
+                            stopListenerAction?.Invoke(nickName);
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
             }
         }
 
