@@ -204,9 +204,10 @@ namespace WeChatAuto.Components
                 var result = this.LocateFriend(nickName);
                 if (result)
                 {
+                    _MainWin.StopMessageListener(nickName);
                     result = _uiMainThreadInvoker.Run(automation =>
                     {
-                        return _RemoveFriendCore(nickName, nickName => _MainWin.StopMessageListener(nickName));
+                        return _RemoveFriendCore(nickName);
                     }).GetAwaiter().GetResult();
                 }
                 else
@@ -232,9 +233,8 @@ namespace WeChatAuto.Components
         /// 删除好友核心方法
         /// </summary>
         /// <param name="nickName">好友昵称</param>
-        /// <param name="stopListenerAction">停止监听动作</param>
         /// <returns>是否成功</returns>
-        private bool _RemoveFriendCore(string nickName,Action<string> stopListenerAction = null)
+        private bool _RemoveFriendCore(string nickName)
         {
             var listBox = _Window.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/List[@Name='联系人'][@IsOffscreen='false']")?.AsListBox();
             var listItems = listBox.FindFirstChild(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName(nickName))).AsListBoxItem();
@@ -265,8 +265,7 @@ namespace WeChatAuto.Components
                             conformButton.Focus();
                             conformButton.WaitUntilClickable(TimeSpan.FromSeconds(5));
                             conformButton.Click();
-                            //如果此好友在监听中，则停止此好友的监听
-                            stopListenerAction?.Invoke(nickName);
+
                             return true;
                         }
                         else
