@@ -50,6 +50,12 @@ client.AddFriendRequestAutoAcceptAndOpenChatListener((context) =>
     await RandomWait.WaitAsync(2000, 5000);
     sender.SendMessage("怎么样?....是不是很Cool?呵呵😊,WeChatAuto天生为人工智能而生，我的源码在github的VIP库里，您可以下载源码进行深度学习，另外，当您接入LLM大模型后将更智能哦🎉🎉🚀🚀");
     await RandomWait.WaitAsync(2000, 5000);
+    sender.SendMessage("另外：在Telegram上可以讨论WeChatAuto.SDK,请用Telegram加入下面的群:");
+    await RandomWait.WaitAsync(2000, 5000);
+    sender.SendMessage("Telegram技术交流群: https://t.me/+1yUjlnKiXQtiZWU1");
+    await RandomWait.WaitAsync(2000, 5000);
+    sender.SendMessage("更新通知Channel: https://t.me/+7gLw2qWmFiRmNzVl");
+    await RandomWait.WaitAsync(2000, 5000);
     sender.SendMessage("感谢您的体验，为了节省资源，我将暂时把您移除好友。如果之后还有需要，欢迎随时加我哦！温馨提示：添加时请备注“wechatauto”，这样更容易通过好友申请。祝您生活愉快，我们下次再见！");
     await RandomWait.WaitAsync(2000, 5000);
     client.RemoveFriend(sender.FullTitle);

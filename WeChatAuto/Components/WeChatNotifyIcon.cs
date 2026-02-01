@@ -21,27 +21,10 @@ namespace WeChatAuto.Components
         public WeChatNotifyIcon(Button notifyIcon, IServiceProvider serviceProvider, WeChatMainWindow wxMainWindow)
         {
             _wxMainWindow = wxMainWindow;
-            _NotifyIcon = _GetNotifyIcon(notifyIcon);
+            _NotifyIcon = notifyIcon;
             _serviceProvider = serviceProvider;
         }
-
-        // 获取通知图标
-        private Button _GetNotifyIcon(Button refToNotifyIcon)
-        {
-            var actionThreaderInvoker = _wxMainWindow.UiMainThreadInvoker;
-            var returnButton = actionThreaderInvoker.Run(automation =>
-            {
-                var taskBarRoot = automation.GetDesktop().FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd")));
-                var button = Retry.WhileNull(() => taskBarRoot.FindFirstDescendant(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NOTIFY_ICON)
-                        .And(cf.ByClassName("ToolbarWindow32").And(cf.ByControlType(ControlType.ToolBar))))
-                        .FindFirstChild(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME).And(cf.ByControlType(ControlType.Button))
-                        .And(cf.ByAutomationId(refToNotifyIcon.AutomationId))),
-                        timeout: TimeSpan.FromSeconds(5));
-                return button.Result.AsButton();
-            }).GetAwaiter().GetResult();
-
-            return returnButton;
-        }
+        
         /// <summary>
         /// 点击通知图标
         /// </summary>s
