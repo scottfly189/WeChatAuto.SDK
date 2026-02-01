@@ -13,14 +13,13 @@ using var clientFactory = serviceProvider.GetRequiredService<WeChatClientFactory
 // 请修改为你的微信昵称
 var client = clientFactory.GetWeChatClient("Alex");
 
-var index = 100;
+var suffix = $"_{Guid.NewGuid().ToString("N").Substring(0, 8)}";
 
 client.AddFriendRequestAutoAcceptAndOpenChatListener((context) =>
 {
     context.SendMessage($"我收到您发的消息\"{context.GetAllMessages().LastOrDefault()?.MessageContent}\",不过我还没有接入LLM大模型，无法回答您的问题，还是让我带您体验一下wechatauto.sdk的一些基本功能吧,如果有什么问题，可以事后联系作者！");
 }, async (sender) =>
 {
-    index++;
     sender.SendMessage("亲，终于盼到你了，我是wechatauto.sdk测试导航机器人，很高兴认识你！现在让我带你体验一下wechatauto.sdk的部分功能..大概1分钟时间..咱们开始咯....我准备发送图片消息:");
     await RandomWait.WaitAsync(1000, 3000);
     sender.SendFile(new string[] { $"{AppContext.BaseDirectory}/Images/1.png" });
@@ -33,7 +32,7 @@ client.AddFriendRequestAutoAcceptAndOpenChatListener((context) =>
     await Task.Delay(10000);
     sender.SendMessage("现在...我准备拉你到一个测试群里，请稍候...");
     await RandomWait.WaitAsync(1000, 5000);
-    var groupName = "wechatauto测试群" + index;
+    var groupName = "wechatauto测试群" + suffix;
     client.CreateOrUpdateOwnerChatGroup(groupName, new string[] { "khcgb", sender.FullTitle });
     await RandomWait.WaitAsync(1000, 5000);
     await client.SendWho(groupName, "欢迎来到群聊!大家可以一起开心聊天了...🎉🎉", "所有人");
