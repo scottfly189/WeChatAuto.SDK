@@ -119,7 +119,7 @@ namespace WeChatAuto.Components
             {
                 _uiTempThreadInvoker.Run(automation => _GetTaskBarRoot(automation)
                     .Bind(taskBarRoot => _GetToolBar(taskBarRoot))
-                    .Bind(toolBar => _GetNotifyButtons(toolBar))
+                    .BindOrElse(toolBar => _GetNotifyButtons(toolBar), () => _GetNotifyButtonsVersion2(automation))
                     .Bind(buttons => _ProcessNotifyButtons(automation, buttons))
                 ).GetAwaiter().GetResult();
             }
@@ -132,6 +132,73 @@ namespace WeChatAuto.Components
             {
                 _uiTempThreadInvoker?.Dispose();
             }
+        }
+        /// <summary>
+        /// 获取任务栏根元素
+        /// </summary>
+        /// <param name="automation"></param>
+        /// <returns></returns>
+        private Maybe<AutomationElement> _GetTaskBarRoot(UIA3Automation automation)
+        {
+            var result = Retry.WhileNull(() => automation.GetDesktop().FindFirstChild(cf =>
+                          cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd"))),
+                          timeout: TimeSpan.FromSeconds(5),
+                          interval: TimeSpan.FromMilliseconds(200)).Result;
+            return result.ToMaybe();
+        }
+        /// <summary>
+        /// 获取工具栏元素
+        /// </summary>
+        /// <param name="taskBarRoot"></param>
+        /// <returns></returns>
+        private Maybe<AutomationElement> _GetToolBar(AutomationElement taskBarRoot)
+        {
+            //用户提示通知区域
+            var result = Retry.WhileNull(() => taskBarRoot.FindFirstDescendant(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NOTIFY_ICON)
+                          .And(cf.ByClassName("ToolbarWindow32").And(cf.ByControlType(ControlType.ToolBar)))),
+                          timeout: TimeSpan.FromSeconds(5));
+            //window操作系统不同，可能存在元素结构的不一样,要注意处理
+            return result.Success ? Maybe<AutomationElement>.Some(result.Result) : Maybe<AutomationElement>.None();
+        }
+        /// <summary>
+        /// 获取通知按钮元素
+        /// </summary>
+        /// <param name="toolBar">工具栏元素<see cref="AutomationElement"/></param>
+        /// <returns></returns>
+        private Maybe<AutomationElement[]> _GetNotifyButtons(AutomationElement toolBar)
+        {
+            RandomWait.Wait(100, 600);
+            //微信
+            var result = Retry.WhileNull(() => toolBar.FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME)
+                          .And(cf.ByControlType(ControlType.Button))),
+                          timeout: TimeSpan.FromSeconds(5),
+                          interval: TimeSpan.FromMilliseconds(200)).Result;
+            return result.ToMaybe();
+        }
+
+        /// <summary>
+        /// 另外一个window版本获取状态栏通知按钮元素的版本
+        /// 
+        /// window11的不同版本，对于微信桌面版的通知按钮元素的获取方式不同，所以需要根据不同的版本获取不同的元素
+        /// </summary>
+        /// <param name="automation"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        private Maybe<AutomationElement[]> _GetNotifyButtonsVersion2(UIA3Automation automation)
+        {
+            var taskBarRootRetry = Retry.WhileNull(() => automation.GetDesktop().FindFirstChild(cf =>
+              cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd"))),
+              timeout: TimeSpan.FromSeconds(5),
+              interval: TimeSpan.FromMilliseconds(200));
+            if (taskBarRootRetry.Success)
+            {
+                var taskBarRoot = taskBarRootRetry.Result;
+                var xPath = "/Pane[@ClassName='Windows.UI.Input.InputSite.WindowClass']/Button[@ClassName='SystemTray.NormalButton'][@Name='微信']";
+                var result = Retry.WhileNull(() => taskBarRoot.FindAllByXPath(xPath),
+                          timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
+                return result.Success ? Maybe<AutomationElement[]>.Some(result.Result) : throw new Exception("获取通知按钮元素失败");
+            }
+            throw new Exception("获取任务栏根元素失败");
         }
         private Maybe<bool> _ProcessNotifyButtons(UIA3Automation automation, AutomationElement[] buttons)
         {
@@ -166,45 +233,7 @@ namespace WeChatAuto.Components
               interval: TimeSpan.FromMilliseconds(200)).Result;
             _wxClientList.Add(NickNameButton.Name, client);
         }
-        /// <summary>
-        /// 获取任务栏根元素
-        /// </summary>
-        /// <param name="automation"></param>
-        /// <returns></returns>
-        private Maybe<AutomationElement> _GetTaskBarRoot(UIA3Automation automation)
-        {
-            var result = Retry.WhileNull(() => automation.GetDesktop().FindFirstChild(cf =>
-                          cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd"))),
-                          timeout: TimeSpan.FromSeconds(5),
-                          interval: TimeSpan.FromMilliseconds(200)).Result;
-            return result.ToMaybe();
-        }
-        /// <summary>
-        /// 获取工具栏元素
-        /// </summary>
-        /// <param name="taskBarRoot"></param>
-        /// <returns></returns>
-        private Maybe<AutomationElement> _GetToolBar(AutomationElement taskBarRoot)
-        {
-            var result = Retry.WhileNull(() => taskBarRoot.FindFirstDescendant(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NOTIFY_ICON)
-                          .And(cf.ByClassName("ToolbarWindow32").And(cf.ByControlType(ControlType.ToolBar)))),
-                          timeout: TimeSpan.FromSeconds(5)).Result;
-            return result.ToMaybe();
-        }
-        /// <summary>
-        /// 获取通知按钮元素
-        /// </summary>
-        /// <param name="toolBar">工具栏元素<see cref="AutomationElement"/></param>
-        /// <returns></returns>
-        private Maybe<AutomationElement[]> _GetNotifyButtons(AutomationElement toolBar)
-        {
-            RandomWait.Wait(100, 600);
-            var result = Retry.WhileNull(() => toolBar.FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME)
-                          .And(cf.ByControlType(ControlType.Button))),
-                          timeout: TimeSpan.FromSeconds(5),
-                          interval: TimeSpan.FromMilliseconds(200)).Result;
-            return result.ToMaybe();
-        }
+
         /// <summary>
         /// 获取顶部窗口进程ID
         /// </summary>
