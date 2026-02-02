@@ -7,6 +7,8 @@
 [Rr]elease*/
 x64/
 x86/
+!x64/skm.dll
+!x86/skm.dll
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
@@ -55,5 +57,6 @@ node_modules/
 .history
 /package-lock.json
 Videos
+!Examples/autodemo/Videos/
 ffmpeg
 pack.cmd
