@@ -7,8 +7,8 @@
 [Rr]elease*/
 x64/
 x86/
-!x64/skm.dll
-!x86/skm.dll
+!WeAutoCommon/Simulator/x64/
+!WeAutoCommon/Simulator/x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
