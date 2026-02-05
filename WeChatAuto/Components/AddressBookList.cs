@@ -177,6 +177,7 @@ namespace WeChatAuto.Components
             try
             {
                 List<string> list = _PassedAllNewFriendCore(keyWord, suffix, label);
+                _RetrySwitchNewFriend();
                 return list;
             }
             catch (Exception ex)
@@ -190,6 +191,31 @@ namespace WeChatAuto.Components
             {
                 _MainWin.Navigation.SwitchNavigation(NavigationType.聊天);
             }
+        }
+        private void _RetrySwitchNewFriend()
+        {
+            RandomWait.Wait(1000, 3000);
+            _uiMainThreadInvoker.Run(automation =>
+            {
+                var root = _Window.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/List[@Name='联系人'][@IsOffscreen='false']")?.AsListBox();
+                var scrollPattern = root.Patterns.Scroll.Pattern;
+                scrollPattern.SetScrollPercent(0, 0);
+                var items = root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByName("新的朋友").Not())).ToList();
+                var firstFriendItem = items.First(u => u.Name != "" && u.Name != null && u.Name != "新的朋友");
+                if (firstFriendItem != null)
+                {
+                    firstFriendItem.DrawHighlightExt();
+                    firstFriendItem.Click();
+                }
+                RandomWait.Wait(500, 3000);
+                var newFriendItem = root.FindFirstChild(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByText("新的朋友"))).AsListBoxItem();
+                if (newFriendItem != null)
+                {
+                    newFriendItem.DrawHighlightExt();
+                    newFriendItem.Click();
+                }
+                RandomWait.Wait(500, 3000);
+            }).GetAwaiter().GetResult();
         }
         /// <summary>
         /// 移除好友
