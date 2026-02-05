@@ -502,6 +502,7 @@ namespace WeChatAuto.Components
                 button.WaitUntilClickable(TimeSpan.FromSeconds(5));
                 button.Click();
                 Thread.Sleep(600);
+                _PreProcessUserDetailPage();
                 var panelRoot = _Window.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/Pane/List[@Name='新的朋友'][@IsOffscreen='false']")?.AsListBox();
                 var subList = panelRoot?.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
                 foreach (var item in subList)
@@ -534,6 +535,20 @@ namespace WeChatAuto.Components
             }).GetAwaiter().GetResult();
             return list;
         }
+        /// <summary>
+        /// 预处理用户详情页面
+        /// 有时候可能用户点击了详情页，导致监听新用户申请失效
+        /// </summary>
+        private void _PreProcessUserDetailPage()
+        {
+            var xPath = "/Pane[2]/Pane/Pane[2]/Pane/Pane[1]/Button";
+            var button = _Window.FindFirstByXPath(xPath)?.AsButton();
+            if (button != null)
+            {
+                button.Click();
+            }
+        }
+
         private void _SwitchFriend(AutomationElement root)
         {
             var topItems = root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
