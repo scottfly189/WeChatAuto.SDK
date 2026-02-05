@@ -14,8 +14,8 @@ public class UiTestFixture : IDisposable
         {
             options.DebugMode = true;
             options.EnableMouseKeyboardSimulator = true;
-            options.KMDeiviceVID = 0x2612;
-            options.KMDeivicePID = 0x1701;
+            options.KMDeviceVID = 0x2612;
+            options.KMDevicePID = 0x1701;
             options.KMVerifyUserData = "4F6A21981BE675822DEE7B9BC39F3791";
             options.KMMouseMoveMode = 8;
             options.EnableRecordVideo = true;

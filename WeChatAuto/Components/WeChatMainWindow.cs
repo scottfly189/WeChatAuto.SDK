@@ -206,7 +206,7 @@ namespace WeChatAuto.Components
                         Payload = item.options,
                         IsOpenSubWin = false,
                     };
-                    var result = await this.AddFriendDispatch(msg);  //得到这次所有新增好友的昵称列表，实际已经通过
+                    var result = await this._AddFriendCore(msg);  //得到这次所有新增好友的昵称列表，实际已经通过
                     if (result != null && result is List<string> list)
                     {
                         item.callBack(list);
@@ -255,10 +255,6 @@ namespace WeChatAuto.Components
         public async Task SendFileDispatch(ChatActionMessage msg)
         {
             await this.SendFileCore(msg);
-        }
-        public async Task<List<string>> AddFriendDispatch(ChatActionMessage msg)
-        {
-            return await this.AddFriendCore(msg);
         }
         public async Task<bool> OpenSubWinDispatch(ChatActionMessage msg)
         {
@@ -1192,7 +1188,7 @@ namespace WeChatAuto.Components
                 throw;
             }
         }
-        private async Task<List<string>> AddFriendCore(ChatActionMessage msg)
+        private async Task<List<string>> _AddFriendCore(ChatActionMessage msg)
         {
             List<string> list = null;
             FriendListenerOptions options = (FriendListenerOptions)msg.Payload;

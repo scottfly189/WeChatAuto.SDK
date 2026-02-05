@@ -65,8 +65,8 @@ namespace WeChatAuto.Services
             services.AddAutoLogger();
             if (_config.EnableMouseKeyboardSimulator)
             {
-                services.AddKMSimulator(_config.KMDeiviceVID,
-                                        _config.KMDeivicePID,
+                services.AddKMSimulator(_config.KMDeviceVID,
+                                        _config.KMDevicePID,
                                         _config.KMVerifyUserData,
                                         _config.KMOutputStringType);
             }

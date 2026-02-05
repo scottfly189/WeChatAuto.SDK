@@ -78,11 +78,14 @@ namespace WeAutoCommon.Configs
         /// <summary>
         /// 键鼠模拟器设备VID
         /// </summary>
-        public int KMDeiviceVID { get; set; } = 0x2612;
+        public int KMDeviceVID { get; set; } = 0x2612;
         /// <summary>
         /// 键鼠模拟器设备PID
         /// </summary>
-        public int KMDeivicePID { get; set; } = 0x1701;
+        public int KMDevicePID { get; set; } = 0x1701;
+        /// <summary>
+        /// 键鼠模拟器校验数据
+        /// </summary>
         public string KMVerifyUserData { get; set; } = "4F6A21981BE675822DEE7B9BC39F3791";
         /// <summary>
         /// 点击偏移量,单位像素

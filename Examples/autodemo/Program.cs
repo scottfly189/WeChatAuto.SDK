@@ -4,9 +4,34 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 using WeAutoCommon.Utils;
 
+/*************************************************************
+此demo为一个完整的自动化脚本，包括：
+1. 自动接受好友请求
+2. 自动打开聊天窗口
+3. 自动发送消息
+4. 自动发送文件
+5. 自动发送表情
+6. 自动发送视频
+7. 自动创建群聊
+8. 自动@所有人
+9. 自动修改群备注
+10. 自动增加群好友
+11. 自动发送群聊消息
+12. 自动清空群成员
+13. 自动删除群聊
+14. 自动解散群聊
+15. 自动删除好友
+等部分全流程功能,请换成你自己的微信号和昵称，以及文件和图片路径
+注意：由于微信风控的限制，一天之内不能太多的删除好友，删除群聊，所以使用时请谨慎.
+*/
+
 var serviceProvider = WeAutomation.Initialize(options =>
 {
     options.DebugMode = true;
+    options.EnableMouseKeyboardSimulator = true;
+    //下面的内容可选，如果需要使用键鼠模拟器，请填写设备VID和PID，并启用键鼠模拟器，如果有校验数据，请填写校验数据
+    options.KMDevicePID = 0x1701;
+    options.KMDeviceVID = 0x2612;
 });
 
 using var clientFactory = serviceProvider.GetRequiredService<WeChatClientFactory>();
