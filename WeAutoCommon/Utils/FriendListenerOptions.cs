@@ -14,5 +14,10 @@ namespace WeAutoCommon.Utils
         /// 标签
         /// </summary>
         public string Label { get; set; }
+
+        /// <summary>
+        /// 添加好友成功后是否删除好友申请按钮，默认删除
+        /// </summary>
+        public bool IsDelet { get; set; } = true;
     }
 }

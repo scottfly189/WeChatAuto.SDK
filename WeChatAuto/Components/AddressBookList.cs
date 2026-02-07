@@ -170,13 +170,14 @@ namespace WeChatAuto.Components
         /// <param name="keyWord">关键字,如果设置关键字，则通过包含关键字的新好友，如果没有设置，则通过所有新好友</param>
         /// <param name="suffix">后缀,如果设置后缀，则在此好友昵称后添加后缀</param>
         /// <param name="label">好友标签</param>
+        /// <param name="isDelet">添加好友成功后是否删除好友申请按钮，默认删除</param>
         /// <returns>通过的新好友昵称列表</returns>
-        public List<string> PassedAllNewFriend(string keyWord = null, string suffix = null, string label = null)
+        public List<string> PassedAllNewFriend(string keyWord = null, string suffix = null, string label = null, bool isDelet = true)
         {
             _MainWin.Navigation.SwitchNavigation(NavigationType.通讯录);
             try
             {
-                List<string> list = _PassedAllNewFriendCore(keyWord, suffix, label);
+                List<string> list = _PassedAllNewFriendCore(keyWord, suffix, label, isDelet);
                 _RetrySwitchNewFriend();
                 return list;
             }
@@ -192,6 +193,9 @@ namespace WeChatAuto.Components
                 _MainWin.Navigation.SwitchNavigation(NavigationType.聊天);
             }
         }
+        /// <summary>
+        /// 重试切换到新的朋友页面,目的是去除通知图标
+        /// </summary>
         private void _RetrySwitchNewFriend()
         {
             RandomWait.Wait(1000, 3000);
@@ -514,8 +518,9 @@ namespace WeChatAuto.Components
         /// <param name="keyWord">关键字,如果设置关键字，则返回包含关键字的新好友，如果没有设置，则返回所有新好友</param>
         /// <param name="suffix">后缀,如果设置后缀，则在此好友昵称后添加后缀</param>
         /// <param name="label">好友标签</param>
+        /// <param name="isDelet">添加好友成功后是否删除好友申请按钮，默认删除</param>
         /// <returns></returns>
-        private List<string> _PassedAllNewFriendCore(string keyWord = null, string suffix = null, string label = null)
+        private List<string> _PassedAllNewFriendCore(string keyWord = null, string suffix = null, string label = null, bool isDelet = true)
         {
             List<string> list = _uiMainThreadInvoker.Run(automation =>
             {
@@ -540,6 +545,8 @@ namespace WeChatAuto.Components
                         if (string.IsNullOrEmpty(keyWord))
                         {
                             var buttonName = this._ConfirmFriend(button, suffix, label);
+                            //这里加一个判断，如果isDelet为true，则删除好友申请按钮
+                            this._DeleteFriendRequestButton(isDelet, item.Name);
                             this._SwitchFriend(root);
                             rList.Add(buttonName);
                         }
@@ -551,6 +558,8 @@ namespace WeChatAuto.Components
                             if (query != null)
                             {
                                 buttonName = this._ConfirmFriend(button, suffix, label);
+                                //这里加一个判断，如果isDelet为true，则删除好友申请按钮
+                                this._DeleteFriendRequestButton(isDelet, item.Name);
                                 this._SwitchFriend(root);
                                 rList.Add(buttonName);
                             }
@@ -561,13 +570,50 @@ namespace WeChatAuto.Components
             }).GetAwaiter().GetResult();
             return list;
         }
+        private void _DeleteFriendRequestButton(bool isDelet, string buttonName)
+        {
+            if (!isDelet)
+                return;
+            RandomWait.Wait(3000, 8000);
+            var panelRoot = _Window.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/Pane/List[@Name='新的朋友'][@IsOffscreen='false']")?.AsListBox();
+            var subList = panelRoot?.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
+            var items = subList?.Where(u => u.Name == buttonName).ToList();
+            if (items.Count > 0)
+            {
+                foreach (var item in items)
+                {
+                    var button = item.FindFirstByXPath("//Button[@Name='接受'][@IsOffscreen='false']")?.AsButton();
+                    if (button == null)
+                    {
+                        item.RightClick();
+                        RandomWait.Wait(500, 2000);
+                        var menuRetry = Retry.WhileNull(() => _Window.FindFirstChild(cf => cf.Menu()).AsMenu(), TimeSpan.FromSeconds(3), TimeSpan.FromMilliseconds(200));
+                        if (menuRetry.Success)
+                        {
+                            var menu = menuRetry.Result;
+                            var menuItem = menu.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("删除"))).AsListBoxItem();
+                            if (menuItem != null)
+                            {
+                                menuItem.Click();
+                                RandomWait.Wait(500, 2000);
+                            }
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                _logger.Debug($"找不到好友申请按钮: {buttonName}");
+            }
+        }
         /// <summary>
         /// 预处理用户详情页面
         /// 有时候可能用户点击了详情页，导致监听新用户申请失效
         /// </summary>
         private void _PreProcessUserDetailPage()
         {
-            var xPath = "/Pane[2]/Pane/Pane[2]/Pane/Pane[1]/Button";
+            var xPath = "/Pane[2]/Pane/Pane[2]/Pane/Pane[1]/Button | /Pane[2]/Pane/Pane[2]/Pane/Pane/Pane[1]/Button";
             var button = _Window.FindFirstByXPath(xPath)?.AsButton();
             if (button != null)
             {
