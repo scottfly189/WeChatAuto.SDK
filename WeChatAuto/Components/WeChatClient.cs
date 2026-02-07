@@ -638,8 +638,9 @@ namespace WeChatAuto.Components
     /// <param name="keyWord">关键字</param>
     /// <param name="suffix">后缀</param>
     /// <param name="label">标签</param>
-    public void AddFriendRequestAutoAcceptAndOpenChatListener(Action<MessageContext> callBack, Action<Sender> firstMessageAction = null, string keyWord = null, string suffix = null, string label = null)
-      => WxMainWindow.AddFriendRequestAutoAcceptAndOpenChatListener(callBack, firstMessageAction, keyWord, suffix, label);
+    /// <param name="isDelet">添加好友成功后是否删除好友申请按钮，默认删除</param>
+    public void AddFriendRequestAutoAcceptAndOpenChatListener(Action<MessageContext> callBack, Action<Sender> firstMessageAction = null, string keyWord = null, string suffix = null, string label = null, bool isDelet = true)
+      => WxMainWindow.AddFriendRequestAutoAcceptAndOpenChatListener(callBack, firstMessageAction, keyWord, suffix, label, isDelet);
 
     /// <summary>
     /// 移除新好友申请监听

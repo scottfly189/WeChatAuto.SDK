@@ -291,6 +291,7 @@ namespace WeChatAuto.Components
         public MessageBubbleList GetBubbleListObject()
         {
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
+            _ChatBodyRoot = _GetChatBodyRoot_();
             var bubbleListRoot = _uiMainThreadInvoker.Run(automation => _ChatBodyRoot.FindFirstByXPath(xPath)).GetAwaiter().GetResult();
             MessageBubbleList bubbleListObject = new MessageBubbleList(_Window, bubbleListRoot, _WxWindow, _FullTitle, _uiMainThreadInvoker, this, _serviceProvider);
             return bubbleListObject;
@@ -309,6 +310,7 @@ namespace WeChatAuto.Components
                 return new List<ChatSimpleMessage>();
             }
             var xPath = $"/Pane/Pane/List[@Name='{WeChatConstant.WECHAT_CHAT_BOX_MESSAGE}']";
+            _ChatBodyRoot = _GetChatBodyRoot_();
             var rList = _uiMainThreadInvoker.Run(automation =>
             {
                 var listBox = _ChatBodyRoot.FindFirstByXPath(xPath);
@@ -373,6 +375,7 @@ namespace WeChatAuto.Components
         public Sender GetSender()
         {
             var xPath = "/Pane[2]";
+            _ChatBodyRoot = _GetChatBodyRoot_();
             var senderRoot = _uiMainThreadInvoker.Run(automation =>
             {
                 var result = Retry.WhileNull(() => _ChatBodyRoot.FindFirstByXPath(xPath), timeout: TimeSpan.FromSeconds(5), interval: TimeSpan.FromMilliseconds(200));

@@ -1197,7 +1197,7 @@ namespace WeChatAuto.Components
                 if (options != null)
                 {
                     //自动通过新好友后返回
-                    list = _AddressBook.PassedAllNewFriend(options.KeyWord, options.Suffix, options.Label);
+                    list = _AddressBook.PassedAllNewFriend(options.KeyWord, options.Suffix, options.Label,options.IsDelet);
                 }
                 else
                 {
@@ -1266,7 +1266,8 @@ namespace WeChatAuto.Components
         /// <param name="keyWord">关键字</param>
         /// <param name="suffix">后缀</param>
         /// <param name="label">标签</param>
-        public void AddFriendRequestAutoAcceptAndOpenChatListener(Action<MessageContext> callBack, Action<Sender> senderAction = null, string keyWord = null, string suffix = null, string label = null)
+        /// <param name="isDelet">添加好友成功后是否删除好友申请按钮，默认删除</param>
+        public void AddFriendRequestAutoAcceptAndOpenChatListener(Action<MessageContext> callBack, Action<Sender> senderAction = null, string keyWord = null, string suffix = null, string label = null, bool isDelet = true)
         {
             _AddNewFriendListener(nickNameList =>
             {
@@ -1274,7 +1275,7 @@ namespace WeChatAuto.Components
                 {
                     await this.AddMessageListener(nickName, callBack, senderAction, false);
                 });
-            }, new FriendListenerOptions() { KeyWord = keyWord, Suffix = suffix, Label = label });
+            }, new FriendListenerOptions() { KeyWord = keyWord, Suffix = suffix, Label = label, IsDelet = isDelet });
         }
 
         /// <summary>
