@@ -18,7 +18,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PackageId>WeAutoCommon</PackageId>
-    <PackageVersion>1.1.6</PackageVersion>
+    <PackageVersion>1.1.7</PackageVersion>
     <Authors>Alex Zhao</Authors>
     <PackageIcon>icon.png</PackageIcon>
     <Product>WeChatAuto.SDK</Product>
