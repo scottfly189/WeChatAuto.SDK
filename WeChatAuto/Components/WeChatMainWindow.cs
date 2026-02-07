@@ -1271,9 +1271,13 @@ namespace WeChatAuto.Components
         {
             _AddNewFriendListener(nickNameList =>
             {
-                nickNameList.ForEach(async nickName =>
+                // 使用 Task.Run 来执行异步操作，避免阻塞回调
+                Task.Run(async () =>
                 {
-                    await this.AddMessageListener(nickName, callBack, senderAction, false);
+                    foreach (var nickName in nickNameList)
+                    {
+                        await this.AddMessageListener(nickName, callBack, senderAction, false);
+                    }
                 });
             }, new FriendListenerOptions() { KeyWord = keyWord, Suffix = suffix, Label = label, IsDelet = isDelet });
         }
@@ -2101,12 +2105,13 @@ namespace WeChatAuto.Components
                             {
                                 searchTextBox.Focus();
                                 searchTextBox.Click();
+                                RandomWait.Wait(1000, 4000);
                                 Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
                                 Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
                                 Thread.Sleep(200);
                                 Keyboard.Type(member);
                                 Wait.UntilInputIsProcessed();
-                                Thread.Sleep(1000);
+                                RandomWait.Wait(1000, 4000);
                                 //选择的列表中打上勾
                                 var listBox = AddMemberWnd.FindFirstByXPath("//List[@Name='请勾选需要添加的联系人']")?.AsListBox();
                                 if (listBox != null)
@@ -2124,7 +2129,7 @@ namespace WeChatAuto.Components
                                             itemButton.WaitUntilClickable();
                                             itemButton.Click();
                                         }
-                                        Thread.Sleep(300);
+                                        RandomWait.Wait(1000, 4000);
                                     }
                                 }
                             }
@@ -2135,14 +2140,14 @@ namespace WeChatAuto.Components
                                 finishButton.Focus();
                                 finishButton.WaitUntilClickable();
                                 finishButton.Click();
-                                RandomWait.Wait(1000,3000);
+                                RandomWait.Wait(1000,5000);
                                 //修改名字
                                 var checkAddWinRresult = Retry.WhileNotNull(() => _MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("AddMemberWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
                                 if (checkAddWinRresult.Success)
                                 {
                                     xPath = "//List[@Name='会话']";
                                     var cListItemBox = _MainWindow.FindFirstByXPath(xPath)?.AsListBox();
-                                    Thread.Sleep(300);
+                                    RandomWait.Wait(1000,5000);
                                     var cListItems = cListItemBox?.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))?.ToList();
                                     cListItems = cListItems?.Where(item => !item.Name.EndsWith("已置顶"))?.ToList();
                                     var firstItemName = list[0].ToString();
@@ -2160,7 +2165,7 @@ namespace WeChatAuto.Components
                                             itemButton.RightClick();
                                             this._OpenUpdateGroupNameWindow(groupName);
                                         }
-                                        Thread.Sleep(300);
+                                        RandomWait.Wait(1000,5000);
                                         return firstItem.Name;
                                     }
                                 }

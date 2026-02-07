@@ -1123,6 +1123,7 @@ namespace WeChatAuto.Components
         /// </summary>
         private void _ClickAddConfirmButton()
         {
+            RandomWait.Wait(1000, 4000);
             var addMemberWin = Retry.WhileNull(() => _SelfWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("AddMemberWnd")).And(cf.ByClassName("AddMemberWnd")))?.AsWindow(),
              TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200))?.Result;
             if (addMemberWin != null)
@@ -1133,7 +1134,7 @@ namespace WeChatAuto.Components
                     finishButton.WaitUntilClickable();
                     finishButton.Focus();
                     finishButton.Click();
-                    Thread.Sleep(300);
+                    RandomWait.Wait(1000, 4000);
                 }
             }
         }
@@ -1153,13 +1154,14 @@ namespace WeChatAuto.Components
                     var searchTextBox = addMemberWin.FindFirstByXPath("//Edit[@Name='搜索']")?.AsTextBox();
                     searchTextBox.Focus();
                     searchTextBox.Click();
+                    RandomWait.Wait(1000, 4000);
                     Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
                     Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
-                    Thread.Sleep(1000);
+                    RandomWait.Wait(1000, 4000);
                     Keyboard.Type(item);
                     // Keyboard.Press(VirtualKeyShort.RETURN);
                     Wait.UntilInputIsProcessed();
-                    Thread.Sleep(300);
+                    RandomWait.Wait(1000, 4000);
                     var listBoxRoot = addMemberWin.FindFirstByXPath("//List[@Name='请勾选需要添加的联系人']")?.AsListBox();
                     var listItems = listBoxRoot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList();
                     var listItem = listItems.FirstOrDefault(cf => cf.Name.Trim() == item).AsListBoxItem();
@@ -1168,7 +1170,7 @@ namespace WeChatAuto.Components
                         var button = listItem.FindFirstByXPath("//Button")?.AsButton();
                         button?.Click();
                     }
-                    Thread.Sleep(300);
+                    RandomWait.Wait(1000, 4000);
                 }
             }
         }
