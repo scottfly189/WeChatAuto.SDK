@@ -663,6 +663,7 @@ namespace WeChatAuto.Components
                     Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
                     Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
                     Keyboard.Type(value);
+                    RandomWait.Wait(800, 3000);
                     buttonName = value;
                 }
                 //处理标签
@@ -677,12 +678,13 @@ namespace WeChatAuto.Components
                     labelEdit.Click();
                     Keyboard.Press(VirtualKeyShort.RETURN);
                     Wait.UntilInputIsProcessed();
+                    RandomWait.Wait(800, 3000);
                 }
 
                 var confirmButton = confirmWindow.FindFirstByXPath("//Button[@Name='确定'][@IsOffscreen='false']").AsButton();
                 confirmButton.WaitUntilClickable(TimeSpan.FromSeconds(5));
                 confirmButton.Click();
-                Thread.Sleep(600);
+                RandomWait.Wait(800, 3000);
             }
             return buttonName;
         }
