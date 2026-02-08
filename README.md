@@ -18,7 +18,8 @@ WeChatAuto.SDK 是一款面向 AI 的微信 PC 客户端自动化 SDK，基于 .
 - 🚀 **现有应用集成** - 由于是SDK库，所以方便在现有系统集成
 - 😊 **AI 友好集成** - 原生支持 LLM 上下文对接并提供 MCP Server，便于对接主流智能体与平台（如 MEAI、SK、MAF），助力智能应用高效闭环与创新集成
 
-**👉 如需体验**，请点击链接进入: [我要体验](./MD/Experience.md)
+**👉 如需体验**，请点击链接进入: [我要体验](./MD/Experience.md)，也可以参见网友做的介绍视频: [微信轻松接入人工智能（一） - WeChatAuto.SDK功能介绍](https://www.bilibili.com/video/BV1PHFZzsEkf?vd_source=bfba6dfea0475f14a68ac5bc4ec2e165
+)
 
 > 如果觉得有帮助，欢迎点赞、Star和Fork本项目，以免失联，感谢支持！
 
@@ -360,6 +361,31 @@ WeChatAuto.SDK的非VIP与VIP的核心代码层面完全一致，非VIP没有任
 ## 🙏 致谢
 
 在这里感谢那些还在为自由和正义而奋斗的人们🎉🎉
+
+---
+
+## 🎁 入门视频
+
+[【微信轻松接入人工智能（一） - WeChatAuto.SDK功能介绍】](https://www.bilibili.com/video/BV1PHFZzsEkf?vd_source=bfba6dfea0475f14a68ac5bc4ec2e165
+)
+
+[【微信轻松接入人工智能（二）- WeChatAuto.SDK发送消息】](https://www.bilibili.com/video/BV17qFZzVEix?vd_source=bfba6dfea0475f14a68ac5bc4ec2e165
+)
+
+[【微信轻松接入人工智能（三）- WeChatAuto.SDK发送消息2】](https://www.bilibili.com/video/BV1LrFZz6EGa?vd_source=bfba6dfea0475f14a68ac5bc4ec2e165
+)
+
+[【微信轻松接入人工智能（四）- WeChatAuto.SDK消息监听】](https://www.bilibili.com/video/BV1vrFZz6Ezf?vd_source=bfba6dfea0475f14a68ac5bc4ec2e165
+)
+
+[【微信轻松接入人工智能（五）- WeChatAuto.SDK群聊中@好友】](https://www.bilibili.com/video/BV1i6FZz3Exc?vd_source=bfba6dfea0475f14a68ac5bc4ec2e165
+)
+
+[【微信轻松接入人工智能（六）- WeChatAuto.SDK的MCP-Server的使用介绍】](https://www.bilibili.com/video/BV1j6FZz3EGu?vd_source=bfba6dfea0475f14a68ac5bc4ec2e165
+)
+
+更多入门视频，请加入VIP
+
 
 ---
 
