@@ -114,7 +114,7 @@ namespace WeChatAuto.Components
                 try
                 {
                     _newUserListenerStarted.SetResult(true);
-                    while (!_newUserListenerCancellationTokenSource.Token.IsCancellationRequested)
+                    while (!_disposed && !_newUserListenerCancellationTokenSource.Token.IsCancellationRequested)
                     {
                         if (_disposed)
                             break;
