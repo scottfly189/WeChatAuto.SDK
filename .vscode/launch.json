@@ -5,6 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "demo03 Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/Examples/demo03/demo03.csproj"
+        },
+        {
+            "name": "demo02 Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/Examples/demo02/demo02.csproj"
+        },
+        {
             "name": "demo01 Debug",
             "type": "dotnet",
             "request": "launch",
@@ -21,6 +33,5 @@
             "type": "coreclr",
             "request": "attach"
         }
-
     ]
 }
