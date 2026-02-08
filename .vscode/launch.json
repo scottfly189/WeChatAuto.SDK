@@ -5,13 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "demo01 Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/Examples/demo01/demo01.csproj"
+        },
+        {
             "name": "autodemo debug",
             "type": "dotnet",
             "request": "launch",
             "projectPath": "${workspaceFolder}/Examples/autodemo/autodemo.csproj"
         },
         {
-            "name": ".NET Core Attach",
+            "name": "mcp server debug",
             "type": "coreclr",
             "request": "attach"
         }
