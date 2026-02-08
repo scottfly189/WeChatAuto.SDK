@@ -58,5 +58,6 @@ node_modules/
 /package-lock.json
 Videos
 !Examples/autodemo/Videos/
+!Examples/autodemo2/Videos/
 ffmpeg
 pack.cmd
