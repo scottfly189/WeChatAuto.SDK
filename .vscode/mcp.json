@@ -6,7 +6,7 @@
 			"args": [
 				"run",
                 "--project",
-                "D:\\repo\\WeChatAuto.SDK\\WeChatAuto.SDK\\src\\WeChatAuto.MCP\\WeChatAuto.MCP.csproj"
+                "D:/repo/WeChatAuto.SDK/WeChatAuto.SDK/src/WeChatAuto.MCP/WeChatAuto.MCP.csproj"
 			]
 		}
 	}
