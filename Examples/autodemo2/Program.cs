@@ -28,7 +28,6 @@ using var clientFactory = serviceProvider.GetRequiredService<WeChatClientFactory
 // 请修改为你的微信昵称
 var client = clientFactory.GetWeChatClient("Alex");
 
-var suffix = $"_{Guid.NewGuid().ToString("N").Substring(0, 8)}";
 var semaphore = new SemaphoreSlim(1, 1); // 初始计数为1，保证同一时间只有一个任务执行
 
 client.AddFriendRequestAutoAcceptAndOpenChatListener((context) =>
@@ -54,31 +53,34 @@ client.AddFriendRequestAutoAcceptAndOpenChatListener((context) =>
         var groupName = "人工智能自动化技术讨论群";
         client.CreateOrUpdateOwnerChatGroup(groupName, new string[] { sender.FullTitle });
         await RandomWait.WaitAsync(1000, 5000);
-        await client.SendWho(groupName, $"欢迎{sender.FullTitle}来到本群!大家可以一起开心讨论人工智能自动化技术🎉🎉", "所有人");
+        await client.SendWho(groupName, $"欢迎🎉🎉{sender.FullTitle}🎉🎉来到本群!大家可以一起开心讨论人工智能自动化技术🎉🎉", "所有人");
         await RandomWait.WaitAsync(1000, 5000);
         await client.SendWho(groupName, "另外:群里面的Alex是作者，有什么问题可以联系他...", sender.FullTitle);
         await RandomWait.WaitAsync(2000, 5000);
         await client.SendFile(groupName, new string[] { $"{AppContext.BaseDirectory}/Images/1.png" });
         await RandomWait.WaitAsync(2000, 5000);
-        await client.SendWho(groupName, """
-        另外：谨记群规:
-        - 本群为严谨的技术讨论群，核心主题为：
-        人工智能在自动化领域中的应用、实践与原理。
-        - 禁止讨论任何政治或涉政敏感话题。
-          该类内容与群定位无关，且无法产生建设性讨论。
-        - 禁止发布关于公司、人事、职场抱怨、情绪宣泄等内容。
-          本群不提供情绪价值，仅聚焦技术本身。
-        - 禁止分享个人生活相关内容，包括但不限于：
-          旅游、美食、日常琐事、个人动态等。
-        请将公共讨论资源留给技术话题，踩红线必T
+        await client.SendWho(groupName,
+"""
+群规（请务必阅读）
 
-        欢迎内容：
-        - 技术问题与实践经验
-        - 架构设计、实现思路、踩坑总结
-        - 对 AI + 自动化 的独立思考与专业见解
+- 本群为严谨的技术讨论群，核心主题为：
+人工智能在自动化领域中的应用、实践与原理。
+- 禁止讨论任何政治或涉政敏感话题。
+该类内容与群定位无关，且无法产生建设性讨论。
+- 禁止发布关于公司、人事、职场抱怨、情绪宣泄等内容。
+本群不提供情绪价值，仅聚焦技术本身。
+- 禁止分享个人生活相关内容，包括但不限于：
+旅游、美食、日常琐事、个人动态等。
 
-        理性讨论，观点自由；聚焦技术，拒绝灌水,祝您在本群玩得开心😊
-        """, sender.FullTitle);
+请将公共讨论资源留给技术话题，踩红线必T
+
+欢迎内容：
+ 技术问题与实践经验
+ 架构设计、实现思路、踩坑总结
+ 对 AI + 自动化 的独立思考与专业见解
+
+🎉 理性讨论，观点自由；聚焦技术，拒绝灌水。祝您在本群玩得开心😊
+""", sender.FullTitle);
         sender.SendMessage("怎么样?....是不是很Cool?呵呵😊,WeChatAuto天生为人工智能而生，我的源码在github的VIP库里，您可以下载源码进行深度学习，另外，当您接入LLM大模型后将更智能哦🎉🎉🚀🚀");
         await RandomWait.WaitAsync(2000, 5000);
         sender.SendMessage("另外：在Telegram上也可以讨论WeChatAuto.SDK,请用Telegram加入下面的群:");
