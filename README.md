@@ -237,19 +237,6 @@ public class LLMService
 - 在mcp.json页面点击"Start"按钮启动mcp server  
 - 启动GitHub Copilot Chat,在Chat页提问: 请帮我给微信好友:AI.Net发送消息：Hello world!
 
-## ⚙️ 架构概览
-### 🚀 WeChatAuto.SDK 架构图
-
-> 敬请关注后续更新，目前最主要提供了微信聊天的自动化，后期会提供对腾迅会议、微信公众号/订阅号等的自动化与MCP Server,如果您有什么建议，也可以跟我提。
-
-![WeChatAuto.SDK架构图](https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/Images/article.png)
-
-### 🚀 主要类与关系
-
-> WeChatAuto.SDK 采用 POM（页面对象模型）设计思想，针对微信的各类操作场景提供了清晰、模块化的对象抽象，大幅提升了自动化脚本的可读性与可维护性。
-
-![WeChatAuto.SDK 主要类关系示意](https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/Images/class.png)
-
 ### ⛷️ 开发计划
 
 | 类别 | 功能 | 完成度 | 备注 |
@@ -326,12 +313,6 @@ public class LLMService
 
 关于键鼠模拟器更深度的了解，请参见：[键鼠模拟器](https://github.com/scottfly189/SKSimulator)
 
-## 😂 关于微信4.X
-
-微信4.x.x版本目前正在研发中，新方案基于机器视觉实现。不过，目前受限于机器视觉技术，对聊天记录的监控仍存在难度，暂不支持在生产环境中使用。如果你有更优的解决思路或建议，欢迎随时交流讨论！
-
-> Btw：近期有一个想法：因为桌面端存在缺陷，功能不足，所以放弃桌面端机器视觉方案，桌面端 配合 App端自动化，有同路人吗？ 欢迎加我讨论😁
-
 
 ## 😊 关于VIP
 
@@ -384,7 +365,7 @@ WeChatAuto.SDK的非VIP与VIP的核心代码层面完全一致，非VIP没有任
 [【微信轻松接入人工智能（六）- WeChatAuto.SDK的MCP-Server的使用介绍】](https://www.bilibili.com/video/BV1j6FZz3EGu?vd_source=bfba6dfea0475f14a68ac5bc4ec2e165
 )
 
-更多入门视频，请加入VIP
+更多入门视频，或想深度学习，请加入VIP
 
 
 ---
