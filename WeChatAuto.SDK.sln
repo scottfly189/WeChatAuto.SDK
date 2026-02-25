@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.34902.97
+# Visual Studio Version 18
+VisualStudioVersion = 18.2.11415.280
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeChatAuto", "WeChatAuto\WeChatAuto.csproj", "{4B6E2057-BD42-4562-A519-E4FCB3B6AC14}"
 EndProject
@@ -27,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "demo02", "Examples\demo02\d
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "demo03", "Examples\demo03\demo03.csproj", "{B2EC3B8F-A224-419B-84B9-4C855F2AF001}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wechatauto", "wechatauto", "{05D2EF68-5034-A2E5-0B9C-1AEF90607035}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeChatAuto4_X", "WeChatAuto4_X\WeChatAuto4_X.csproj", "{59513900-8661-49A7-9BE4-7D0FCAD3B2CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -159,6 +159,18 @@ Global
 		{B2EC3B8F-A224-419B-84B9-4C855F2AF001}.Release|x64.Build.0 = Release|Any CPU
 		{B2EC3B8F-A224-419B-84B9-4C855F2AF001}.Release|x86.ActiveCfg = Release|Any CPU
 		{B2EC3B8F-A224-419B-84B9-4C855F2AF001}.Release|x86.Build.0 = Release|Any CPU
+		{59513900-8661-49A7-9BE4-7D0FCAD3B2CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59513900-8661-49A7-9BE4-7D0FCAD3B2CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59513900-8661-49A7-9BE4-7D0FCAD3B2CC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{59513900-8661-49A7-9BE4-7D0FCAD3B2CC}.Debug|x64.Build.0 = Debug|Any CPU
+		{59513900-8661-49A7-9BE4-7D0FCAD3B2CC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{59513900-8661-49A7-9BE4-7D0FCAD3B2CC}.Debug|x86.Build.0 = Debug|Any CPU
+		{59513900-8661-49A7-9BE4-7D0FCAD3B2CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59513900-8661-49A7-9BE4-7D0FCAD3B2CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59513900-8661-49A7-9BE4-7D0FCAD3B2CC}.Release|x64.ActiveCfg = Release|Any CPU
+		{59513900-8661-49A7-9BE4-7D0FCAD3B2CC}.Release|x64.Build.0 = Release|Any CPU
+		{59513900-8661-49A7-9BE4-7D0FCAD3B2CC}.Release|x86.ActiveCfg = Release|Any CPU
+		{59513900-8661-49A7-9BE4-7D0FCAD3B2CC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
