@@ -246,12 +246,12 @@ namespace WeChatAuto.Components
             }
         }
 
-                /// <summary>
+        /// <summary>
         /// 发送消息
         /// </summary>
         /// <param name="message">消息内容</param>
         /// <param name="atUser">被@的好友</param>
-        public void SendMessage(string message, OneOf<string, string[],List<string>> atUser = default)
+        public void SendMessage(string message, OneOf<string, string[], List<string>> atUser = default)
         {
             var atUserList = new List<string>();
             if (atUser.Value != default)

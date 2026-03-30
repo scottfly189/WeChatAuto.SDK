@@ -181,6 +181,17 @@ namespace WeChatAuto.Components
     #endregion
 
     #region 消息操作
+
+    /// <summary>
+    /// 给当前主聊天窗口发送消息
+    /// 注意：此方法不会给子窗口发送消息，并且要确保聊天窗口在主窗口是打开状态
+    /// 如果当前窗口是非聊天窗口，则会报错
+    /// </summary>
+    /// <param name="message">消息内容</param>
+    /// <param name="atUser">被@的好友,最主要用于群聊中@好友,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
+    public async Task SendWho(string message, OneOf<string, string[]> atUser = default)
+      => await WxMainWindow.SendWho(message, atUser);
+
     /// <summary>
     /// 单个发送消息，发送消息给单个好友
     /// </summary>
@@ -290,8 +301,8 @@ namespace WeChatAuto.Components
     /// <param name="who">好友昵称，可以是好友，也可以是群聊名称</param>
     /// <param name="pageCount">获取的气泡数量，默认是10页,可以指定获取的页数，如果指定为-1，则获取所有气泡</param>
     /// <returns>所有气泡标题列表</returns>
-    public List<ChatSimpleMessage> GetChatAllHistory(string who,int pageCount = 10)
-      => WxMainWindow.GetAllChatHistory(who,pageCount);
+    public List<ChatSimpleMessage> GetChatAllHistory(string who, int pageCount = 10)
+      => WxMainWindow.GetAllChatHistory(who, pageCount);
 
     /// <summary>
     /// 转发消息

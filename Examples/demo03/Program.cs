@@ -10,6 +10,11 @@ using Microsoft.Extensions.DependencyInjection;
 var serviceProvider = WeAutomation.Initialize(options =>
 {
     options.DebugMode = true;
+    //可以启用键鼠模拟器，如果启用，请填写设备VID和PID，并启用键鼠模拟器，如果有校验数据，请填写校验数据
+    // options.EnableMouseKeyboardSimulator = true;
+    // options.KMDevicePID=0x1701;
+    // options.KMDeviceVID=0x2612;
+    // options.KMVerifyUserData="4F6A21981BE675822DEE7B9BC39F3791";
 });
 
 using var clientFactory = serviceProvider.GetRequiredService<WeChatClientFactory>();

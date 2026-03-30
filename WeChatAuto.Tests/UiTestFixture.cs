@@ -13,12 +13,12 @@ public class UiTestFixture : IDisposable
         _serviceProvider = WeAutomation.Initialize(options =>
         {
             options.DebugMode = true;
-            options.EnableMouseKeyboardSimulator = true;
-            options.KMDeviceVID = 0x2612;
-            options.KMDevicePID = 0x1701;
-            options.KMVerifyUserData = "4F6A21981BE675822DEE7B9BC39F3791";
-            options.KMMouseMoveMode = 8;
-            options.EnableRecordVideo = true;
+            // options.EnableMouseKeyboardSimulator = true;
+            // options.KMDeviceVID = 0x2612;
+            // options.KMDevicePID = 0x1701;
+            // options.KMVerifyUserData = "4F6A21981BE675822DEE7B9BC39F3791";
+            // options.KMMouseMoveMode = 8;
+            // options.EnableRecordVideo = true;
         });
         _Factory = _serviceProvider.GetRequiredService<WeChatClientFactory>();
 
