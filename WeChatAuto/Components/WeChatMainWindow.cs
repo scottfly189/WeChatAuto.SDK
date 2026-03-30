@@ -306,13 +306,36 @@ namespace WeChatAuto.Components
         }
         #endregion
         #region 发送消息操作
+
+        /// <summary>
+        /// 给当前主聊天窗口发送消息
+        /// 注意：此方法不会给子窗口发送消息，并且要确保聊天窗口在主窗口是打开状态
+        /// 如果当前窗口是非聊天窗口，则会报错
+        /// </summary>
+        /// <param name="message">消息内容</param>
+        /// <param name="atUser">被@的好友,最主要用于群聊中@好友,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
+        /// <returns></returns>
+        public async Task SendWho(string message, OneOf<string, string[]> atUser = default)
+        {
+            var atUserList = new List<string>();
+            _ = atUser.Value != default ? atUserList = atUser.IsT0 ? new List<string> { atUser.AsT0 } : atUser.AsT1.ToList() : null;
+            await this.SendMessageDispatch(new ChatActionMessage()
+            {
+                Type = ActionType.发送消息,
+                ToUser = "",
+                Message = message,
+                IsOpenSubWin = false,
+                AtUsers = atUserList,
+            });
+        }
+
         /// <summary>
         /// 单个发送消息，发送消息给单个好友
         /// 注意：此方法不会打开子窗口
         /// </summary>
         /// <param name="who">好友昵称</param>
         /// <param name="message">消息内容</param>
-        /// <param name="atUser">被@的好友,最主要用于群聊中@人,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
+        /// <param name="atUser">被@的好友,最主要用于群聊中@好友,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
         public async Task SendWho(string who, string message, OneOf<string, string[]> atUser = default)
         {
             var atUserList = new List<string>();
@@ -1197,7 +1220,7 @@ namespace WeChatAuto.Components
                 if (options != null)
                 {
                     //自动通过新好友后返回
-                    list = _AddressBook.PassedAllNewFriend(options.KeyWord, options.Suffix, options.Label,options.IsDelet);
+                    list = _AddressBook.PassedAllNewFriend(options.KeyWord, options.Suffix, options.Label, options.IsDelet);
                 }
                 else
                 {
@@ -1224,7 +1247,7 @@ namespace WeChatAuto.Components
         /// <param name="callBack">回调函数,由使用者提供,参数：消息上下文<see cref="MessageContext"/></param>
         /// <param name="firstMessageAction">适用于当开始消息监听时,发送一些信息（如：发送文字、表情、文件等）给好友的场景,参数：发送者<see cref="Sender"/></param>
         /// <param name="isMonitorSubWin">是否监听子窗口,如果为true，则监听子窗口，如果为false，则不监听子窗口,默认监听子窗口</param>
-        public async Task AddMessageListener(string nickName, Action<MessageContext> callBack,Action<Sender> firstMessageAction = null,bool isMonitorSubWin = true)
+        public async Task AddMessageListener(string nickName, Action<MessageContext> callBack, Action<Sender> firstMessageAction = null, bool isMonitorSubWin = true)
         {
             await _SubWinList.CheckSubWinExistAndOpen(nickName);
             await Task.Delay(500);
@@ -2140,18 +2163,18 @@ namespace WeChatAuto.Components
                                 finishButton.Focus();
                                 finishButton.WaitUntilClickable();
                                 finishButton.Click();
-                                RandomWait.Wait(1000,5000);
+                                RandomWait.Wait(1000, 5000);
                                 //修改名字
                                 var checkAddWinRresult = Retry.WhileNotNull(() => _MainWindow.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByName("AddMemberWnd"))), TimeSpan.FromSeconds(5), TimeSpan.FromMilliseconds(200));
                                 if (checkAddWinRresult.Success)
                                 {
                                     xPath = "//List[@Name='会话']";
                                     var cListItemBox = _MainWindow.FindFirstByXPath(xPath)?.AsListBox();
-                                    RandomWait.Wait(1000,5000);
+                                    RandomWait.Wait(1000, 5000);
                                     var cListItems = cListItemBox?.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem))?.ToList();
                                     cListItems = cListItems?.Where(item => !item.Name.EndsWith("已置顶"))?.ToList();
                                     var firstItemName = list[0].ToString();
-                                    var firstItem = cListItems?.FirstOrDefault(item => item.Name.StartsWith(firstItemName) || item.Name.Contains("、"+firstItemName));
+                                    var firstItem = cListItems?.FirstOrDefault(item => item.Name.StartsWith(firstItemName) || item.Name.Contains("、" + firstItemName));
                                     if (firstItem != null)
                                     {
                                         firstItem.DrawHighlightExt();
@@ -2165,7 +2188,7 @@ namespace WeChatAuto.Components
                                             itemButton.RightClick();
                                             this._OpenUpdateGroupNameWindow(groupName);
                                         }
-                                        RandomWait.Wait(1000,5000);
+                                        RandomWait.Wait(1000, 5000);
                                         return firstItem.Name;
                                     }
                                 }

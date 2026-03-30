@@ -139,6 +139,17 @@ namespace WeChatAuto.Tests.Components
             await Task.Delay(30000);
         }
 
+        [Fact(DisplayName = "测试发送消息-当前聊天窗口")]
+        public async Task Test_SendWho_MainChat()
+        {
+            var framework = _globalFixture.clientFactory;
+            var client = framework.GetWeChatClient(_wxClientName);
+            var window = client.WxMainWindow;
+            await window.SendWho("你好，世界666111！");
+            Assert.True(true);
+            await Task.Delay(30000);
+        }
+
         [Fact(DisplayName = "测试发送消息-批量")]
         public async Task Test_SendWhos()
         {
