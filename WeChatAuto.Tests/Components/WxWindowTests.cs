@@ -80,7 +80,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.SendWho("AI.Net", "你好，世界222！");
+            await window.SendWho("你好，世界222！");
             Assert.True(true);
             await Task.Delay(60000);
         }

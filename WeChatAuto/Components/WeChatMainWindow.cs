@@ -306,7 +306,7 @@ namespace WeChatAuto.Components
         }
         #endregion
         #region 发送消息操作
-
+        
         /// <summary>
         /// 给当前主聊天窗口发送消息
         /// 注意：此方法不会给子窗口发送消息，并且要确保聊天窗口在主窗口是打开状态
