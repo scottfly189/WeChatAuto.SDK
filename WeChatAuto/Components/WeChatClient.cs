@@ -183,19 +183,9 @@ namespace WeChatAuto.Components
     #region 消息操作
 
     /// <summary>
-    /// 给当前主聊天窗口发送消息
-    /// 注意：此方法不会给子窗口发送消息，并且要确保聊天窗口在主窗口是打开状态
-    /// 如果当前窗口是非聊天窗口，则会报错
-    /// </summary>
-    /// <param name="message">消息内容</param>
-    /// <param name="atUser">被@的好友,最主要用于群聊中@好友,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
-    public async Task SendWho(string message, OneOf<string, string[]> atUser = default)
-      => await WxMainWindow.SendWho(message, atUser);
-
-    /// <summary>
     /// 单个发送消息，发送消息给单个好友
     /// </summary>
-    /// <param name="who">好友昵称</param>
+    /// <param name="who">好友昵称,如果为空，则给主窗口的当前聊天窗口发送消息,要确保当前聊天窗口是可发送消息的窗口</param>
     /// <param name="message">消息内容</param>
     /// <param name="atUser">被@的好友,最主要用于群聊中@人,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
     /// <param name="isOpenChat">是否打开子聊天窗口,默认是True:打开,False:不打开</param>
@@ -280,7 +270,7 @@ namespace WeChatAuto.Components
     /// <summary>
     /// 给指定好友发送文件
     /// </summary>
-    /// <param name="who">好友昵称</param>
+    /// <param name="who">好友昵称,可以为空，如果为空，则给主窗口的当前聊天窗口发送文件,要确保当前聊天窗口是可发送文件的窗口</param>
     /// <param name="files">文件路径,可以是单个文件路径，也可以是多个文件路径</param>
     /// <param name="isOpenChat">是否打开子聊天窗口</param>
     public async Task SendFile(string who, OneOf<string, string[]> files, bool isOpenChat = false)
