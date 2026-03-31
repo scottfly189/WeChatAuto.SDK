@@ -308,32 +308,10 @@ namespace WeChatAuto.Components
         #region 发送消息操作
         
         /// <summary>
-        /// 给当前主聊天窗口发送消息
-        /// 注意：此方法不会给子窗口发送消息，并且要确保聊天窗口在主窗口是打开状态
-        /// 如果当前窗口是非聊天窗口，则会报错
-        /// </summary>
-        /// <param name="message">消息内容</param>
-        /// <param name="atUser">被@的好友,最主要用于群聊中@好友,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
-        /// <returns></returns>
-        public async Task SendWho(string message, OneOf<string, string[]> atUser = default)
-        {
-            var atUserList = new List<string>();
-            _ = atUser.Value != default ? atUserList = atUser.IsT0 ? new List<string> { atUser.AsT0 } : atUser.AsT1.ToList() : null;
-            await this.SendMessageDispatch(new ChatActionMessage()
-            {
-                Type = ActionType.发送消息,
-                ToUser = "",
-                Message = message,
-                IsOpenSubWin = false,
-                AtUsers = atUserList,
-            });
-        }
-
-        /// <summary>
         /// 单个发送消息，发送消息给单个好友
         /// 注意：此方法不会打开子窗口
         /// </summary>
-        /// <param name="who">好友昵称</param>
+        /// <param name="who">好友昵称,如果为空，则给主窗口的当前聊天窗口发送消息，要确保当前聊天窗口是可发送消息的窗口</param>
         /// <param name="message">消息内容</param>
         /// <param name="atUser">被@的好友,最主要用于群聊中@好友,可以是一个好友，也可以是多个好友，如果是自有群，可以@所有人，也可以@单个好友，外部群不能@所有人</param>
         public async Task SendWho(string who, string message, OneOf<string, string[]> atUser = default)
@@ -358,7 +336,7 @@ namespace WeChatAuto.Components
             await this.SendMessageDispatch(new ChatActionMessage()
             {
                 Type = ActionType.发送消息,
-                ToUser = who,
+                ToUser = string.IsNullOrWhiteSpace(who) ? "" : who,
                 Message = message,
                 IsOpenSubWin = false,
                 AtUsers = atUserList,
@@ -1139,6 +1117,11 @@ namespace WeChatAuto.Components
         //发送文件核心方法
         private async Task _SendFileCore(string[] files, string who, bool isOpenChat)
         {
+            if (string.IsNullOrWhiteSpace(who))
+            {
+                this.MainChatContent.ChatBody.Sender.SendFile(files);
+                return;
+            }
             if (_SubWindowIsOpen(who, "", subWin => subWin.ChatContent.ChatBody.Sender.SendFile(files)))
             {
                 return;

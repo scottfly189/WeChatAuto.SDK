@@ -80,10 +80,22 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.SendWho("你好，世界222！");
+            await window.SendWho("", "你好，世界222！");
             Assert.True(true);
-            await Task.Delay(60000);
+            await Task.Delay(10000);
         }
+
+        [Fact(DisplayName = "测试发送emoji消息-当前聊天窗口-确保打开是测试人的聊天窗口")]
+        public async Task Test_SendWho_CurrentChat_Emoji()
+        {
+            var framework = _globalFixture.clientFactory;
+            var client = framework.GetWeChatClient(_wxClientName);
+            var window = client.WxMainWindow;
+            await window.SendEmoji("", 1);
+            Assert.True(true);
+            await Task.Delay(10000);
+        }
+
         [Fact(DisplayName = "测试发送消息-非当前聊天窗口,但是在会话列表中")]
         public async Task Test_SendWho_NotCurrentChat_InConversationList()
         {
@@ -128,6 +140,17 @@ namespace WeChatAuto.Tests.Components
             await Task.Delay(30000);
         }
 
+        [Fact(DisplayName = "测试发送消息-主窗口的当前窗口")]
+        public async Task Test_SendWho_current_user()
+        {
+            var framework = _globalFixture.clientFactory;
+            var client = framework.GetWeChatClient(_wxClientName);
+            var window = client.WxMainWindow;
+            await window.SendWho("", "你好，世界555！");
+            Assert.True(true);
+            await Task.Delay(30000);
+        }
+
         [Fact(DisplayName = "测试发送消息")]
         public async Task Test_SendWhoAndOpenChat()
         {
@@ -139,16 +162,6 @@ namespace WeChatAuto.Tests.Components
             await Task.Delay(30000);
         }
 
-        [Fact(DisplayName = "测试发送消息-当前聊天窗口")]
-        public async Task Test_SendWho_MainChat()
-        {
-            var framework = _globalFixture.clientFactory;
-            var client = framework.GetWeChatClient(_wxClientName);
-            var window = client.WxMainWindow;
-            await window.SendWho("你好，世界666111！");
-            Assert.True(true);
-            await Task.Delay(30000);
-        }
 
         [Fact(DisplayName = "测试发送消息-批量")]
         public async Task Test_SendWhos()
@@ -178,9 +191,20 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            await window.SendFile("AI.Net", @"C:\Users\Administrator\Desktop\ssss\logo.png", false);
+            await window.SendFile("AI.Net", @"C:\Users\Administrator\Desktop\me\1.png", false);
             Assert.True(true);
-            await Task.Delay(60000);
+            await Task.Delay(10000);
+        }
+
+        [Fact(DisplayName = "测试发送文件-当前好友发送图片")]
+        public async Task Test_File_image_currentuser()
+        {
+            var framework = _globalFixture.clientFactory;
+            var client = framework.GetWeChatClient(_wxClientName);
+            var window = client.WxMainWindow;
+            await window.SendFile("", @"C:\Users\Administrator\Desktop\me\1.png", false);
+            Assert.True(true);
+            await Task.Delay(10000);
         }
 
         [Fact(DisplayName = "测试发送文件-发送视频")]
