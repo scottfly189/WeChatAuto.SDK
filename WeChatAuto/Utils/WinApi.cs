@@ -9,6 +9,14 @@ namespace WeChatAuto.Utils
     {
         delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
 
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern void keybd_event(
+        byte bVk,        // 虚拟键码
+        byte bScan,      // 硬件扫描码，一般填 0
+        uint dwFlags,    // 0 = 按下, 2 = 松开
+        UIntPtr dwExtraInfo
+    );
+
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 

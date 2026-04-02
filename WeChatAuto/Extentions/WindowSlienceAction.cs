@@ -22,6 +22,10 @@ namespace WeChatAuto.Extentions
     /// </summary>
     public static class WindowSlienceAction
     {
+        const int VK_SHIFT = 0x10;
+        const int VK_RETURN = 0x0D;
+        const int WM_KEYDOWN = 0x0100;
+        const int WM_KEYUP = 0x0101;
         /// <summary>
         /// 静默点击
         /// 最好保证是最近刷新的元素，这样支持窗口移动.
@@ -71,6 +75,21 @@ namespace WeChatAuto.Extentions
             IntPtr lParam = (IntPtr)((y << 16) | (x & 0xFFFF));
             foreach (char c in text)
             {
+                if (c == '\n')
+                    continue;
+                if (c == '\r')
+                {
+                    // 按下 Shift
+                    WinApi.keybd_event(VK_SHIFT, 0, 0, UIntPtr.Zero);
+                    // 按下 Enter
+                    WinApi.keybd_event(VK_RETURN, 0, 0, UIntPtr.Zero);
+                    // 松开 Enter
+                    WinApi.keybd_event(VK_RETURN, 0, 2, UIntPtr.Zero);
+                    // 松开 Shift
+                    WinApi.keybd_event(VK_SHIFT, 0, 2, UIntPtr.Zero);
+                    Thread.Sleep(500);
+                    continue;
+                }
                 User32.SendMessage(hwnd, WindowsMessages.WM_CHAR, (IntPtr)c, IntPtr.Zero);
             }
 

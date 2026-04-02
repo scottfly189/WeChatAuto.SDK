@@ -175,6 +175,18 @@ public class WeChatClientTests
         Assert.True(result);
         await Task.CompletedTask;
     }
+
+    [Fact(DisplayName = "测试发送消息给单个好友-带样式")]
+    public async Task TestSendWhoWithStyle()
+    {
+        var clientFactory = _globalFixture.clientFactory;
+        var client = clientFactory.GetWeChatClient(_wxClientName);
+        await client.SendWho("", "你好，\r\n世界1！");
+        Assert.True(true);
+        await Task.CompletedTask;
+    }
+
+
     //注意重点测试：
     // 1.接收人不在会话中;2.接收人在会话中;3.接收人在会话中，但是在一些特殊一点的位置;4、接收人在子窗口中.
     //加强@测试,完成@谁与@全部人,群聊中
