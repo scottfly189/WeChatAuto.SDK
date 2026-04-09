@@ -1260,7 +1260,9 @@ namespace WeChatAuto.Components
                 }
                 else
                 {
-                    //子窗口获取   
+                    //子窗口获取
+                    SubWin subWin = this.SubWinList.GetSubWin(who);
+                    info = await subWin.GetWxId();
                 }
             }
             return info;
@@ -1328,16 +1330,6 @@ namespace WeChatAuto.Components
 
         }
 
-        /// <summary>
-        /// 在通讯录列表中，通过好友昵称获取wxid.
-        /// </summary>
-        /// <param name="who">好友昵称，不能为空</param>
-        /// <returns>个人信息<see cref="FriendInfo"/></returns>
-        public async Task<FriendInfo> GetWxidFromAddressBook(string who)
-        {
-            //ArgumentNullException.ThrowIfNull(who);
-            return new FriendInfo() { NickName = _nickName, WxId = "" };
-        }
         /// <summary>
         /// 通过手机号码，获取好友的wxid.
         /// </summary>
