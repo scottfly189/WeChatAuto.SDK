@@ -574,6 +574,18 @@ namespace WeChatAuto.Tests.Components
             _output.WriteLine(wxid.ToString());
             Assert.NotNull(wxid);
         }
+
+        [Theory(DisplayName = "测试获得好友的wxid")]
+        [InlineData("AI.Net")]
+        public async Task TestGetWxIdWithWho(string who)
+        {
+            var framework = _globalFixture.clientFactory;
+            var client = framework.GetWeChatClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var wxid = await window.GetWxid(who);
+            _output.WriteLine(wxid.ToString());
+            Assert.NotNull(wxid);
+        }
         #endregion
     }
 }

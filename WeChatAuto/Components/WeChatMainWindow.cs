@@ -1248,7 +1248,20 @@ namespace WeChatAuto.Components
             else
             {
                 //查找并获取好友的wxid,要区分出是子窗口还是主窗口
-
+                var subWinList = this.SubWinList.GetAllOpenedSubWinNames();
+                var subItem = subWinList.Find(x => x.Equals(who));
+                if (string.IsNullOrEmpty(subItem))
+                {
+                    //主窗口获取
+                    this._Search.SearchChat(who);
+                    Random rand = new Random((int)DateTime.Now.Ticks);
+                    await Task.Delay(rand.Next(500, 1500));
+                    info = await __GetCurrentChatWxId();
+                }
+                else
+                {
+                    //子窗口获取   
+                }
             }
             return info;
         }
