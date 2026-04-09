@@ -108,18 +108,19 @@ namespace WeChatAuto.Components
                 button.ClickEnhance(_Window);
                 RetryResult<FriendInfo> retryResult = Retry.WhileNull(() =>
                 {
-                    FriendInfo info = new FriendInfo();
-                    var path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[1]/Text";
+                    FriendInfo result = new FriendInfo();
+                    path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[1]/Text";
                     var label = _Window.FindFirstByXPath(path).AsLabel();
-                    info.NickName = label.Name;
+                    result.NickName = label.Name;
                     path = "/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[2]";
                     label = _Window.FindFirstByXPath(path).AsLabel();
-                    info.WxId = label.Name;
-                    return info;
+                    result.WxId = label.Name;
+                    return result;
                 }, timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
                 return retryResult.Success ? retryResult.Result : null;
             });
-            await Task.Delay(Random.Shared.Next(300, 1000));
+            Random rand = new Random(DateTime.Now.Millisecond);
+            await Task.Delay(rand.Next(300, 1000));
             SwitchNavigation(NavigationType.聊天);
             return info;
         }

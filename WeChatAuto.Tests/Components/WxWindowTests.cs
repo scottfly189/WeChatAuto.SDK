@@ -562,5 +562,18 @@ namespace WeChatAuto.Tests.Components
             await Task.Delay(-1);
         }
         #endregion
+
+        #region 获取微信id
+        [Fact(DisplayName = "测试获得当前好友的wxid")]
+        public async Task TestGetWxId()
+        {
+            var framework = _globalFixture.clientFactory;
+            var client = framework.GetWeChatClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var wxid = await window.GetWxid("");
+            _output.WriteLine(wxid.ToString());
+            Assert.NotNull(wxid);
+        }
+        #endregion
     }
 }

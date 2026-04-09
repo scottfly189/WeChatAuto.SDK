@@ -55,7 +55,6 @@ namespace WeChatAuto.Components
         public SubWinList SubWinList => _SubWinList;  // 子窗口列表
         public int ProcessId { get; private set; }
         private string _nickName;
-        private string _wxid;
         public string NickName => _nickName;
         public Window Window => _MainWindow;
         public WeChatClient Client { get; set; }
@@ -1234,13 +1233,86 @@ namespace WeChatAuto.Components
             return await Navigation.GetWxId();
         }
         /// <summary>
-        /// 在会话列表中，通过好友昵称获得wxid
+        /// 通过好友昵称获得wxid
         /// </summary>
         /// <param name="who">好友昵称，可以为空，如果为空，则获取当前聊天的窗口的好友的wxid</param>
         /// <returns>个人信息<see cref="FriendInfo"/></returns>
-        public async Task<FriendInfo> GetWxidFromSession(string who)
+        public async Task<FriendInfo> GetWxid(string who)
         {
-            return new FriendInfo() { NickName = _nickName, WxId = "" };
+            FriendInfo info = new FriendInfo();
+            if (string.IsNullOrWhiteSpace(who))
+            {
+                //获取当前聊天窗口的好友的wxid
+                info = await __GetCurrentChatWxId();
+            }
+            else
+            {
+                //查找并获取好友的wxid,要区分出是子窗口还是主窗口
+
+            }
+            return info;
+        }
+        private async Task<FriendInfo> __GetCurrentChatWxId()
+        {
+            try
+            {
+                FriendInfo info = await _uiMainThreadInvoker.Run(automation =>
+                {
+                    FriendInfo result = new FriendInfo();
+                    var path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[1]/Pane/Text";
+                    var nickNameElement = this.SelfWindow.FindFirstByXPath(path) == null ? throw new Exception("当前聊天窗口对象不是好友") :
+                        this.SelfWindow.FindFirstByXPath(path);
+                    result.NickName = nickNameElement.AsLabel().Name;
+                    DrawHightlightHelper.DrawHighlightExt(nickNameElement);
+                    path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[2]/Button[@Name='聊天信息']";
+                    var buttonElement = this.SelfWindow.FindFirstByXPath(path) == null ? throw new Exception("当前聊天窗口对象不是好友") :
+                        this.SelfWindow.FindFirstByXPath(path);
+                    DrawHightlightHelper.DrawHighlightExt(buttonElement);
+                    Random rand = new Random(DateTime.Now.Millisecond);
+                    Task.Delay(rand.Next(300, 1000));
+                    var button = buttonElement.AsButton();
+                    button.ClickEnhance(this.SelfWindow);
+
+                    var retryButton = Retry.WhileNull(() =>
+                    {
+                        path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/List/ListItem[1]/Pane/Pane/Button";
+                        buttonElement = this.SelfWindow.FindFirstByXPath(path);
+                        return buttonElement.AsButton();
+                    }, timeout: TimeSpan.FromSeconds(4), interval: TimeSpan.FromMilliseconds(200));
+                    if (retryButton.Success)
+                    {
+                        Task.Delay(rand.Next(500, 1500));
+                        retryButton.Result.ClickEnhance(this.SelfWindow);
+                        Task.Delay(rand.Next(500, 1500));
+                        var retryWxId = Retry.WhileNull(() =>
+                        {
+                            path = "/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[2]";
+                            var label = this.SelfWindow.FindFirstByXPath(path);
+                            return label.AsLabel();
+                        }, timeout: TimeSpan.FromSeconds(5), interval: TimeSpan.FromMilliseconds(200));
+
+                        if (retryWxId.Success)
+                        {
+                            result.WxId = retryWxId.Result.Name;
+                            Task.Delay(rand.Next(300, 800));
+                            path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[1]/Edit";
+                            var sender = this.SelfWindow.FindFirstByXPath(path);
+                            sender.ClickEnhance(this.SelfWindow);
+                            Task.Delay(300);
+                            sender.ClickEnhance(this.SelfWindow);
+                        }
+                    }
+
+                    return result;
+                });
+                return info;
+            }
+            catch (Exception)
+            {
+                //如果发生错误：如当前窗口不是好友聊天窗口，则返回空
+                return new FriendInfo();
+            }
+
         }
 
         /// <summary>
