@@ -12,6 +12,8 @@ using WeChatAuto.Extentions;
 using WeChatAuto.Utils;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using WeAutoCommon.Models;
+using System.Threading.Tasks;
 
 namespace WeChatAuto.Components
 {
@@ -93,6 +95,35 @@ namespace WeChatAuto.Components
             }).GetAwaiter().GetResult();
             SwitchNavigation(NavigationType.聊天);
         }
+        /// <summary>
+        /// 通过导航栏获得窗口的wxid
+        /// </summary>
+        /// <returns>个人信息<see cref="FriendInfo"/></returns>
+        public async Task<FriendInfo> GetWxId()
+        {
+            var info = await _uiMainThreadInvoker.Run<FriendInfo>(automation=>
+            {
+                var path = "/Pane/Pane/ToolBar/Button[1]";
+                var button = _Window.FindFirstByXPath(path).AsButton();
+                button.ClickEnhance(_Window);
+                RetryResult<FriendInfo> retryResult = Retry.WhileNull(() =>
+                {
+                    FriendInfo info = new FriendInfo();
+                    var path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[1]/Text";
+                    var label = _Window.FindFirstByXPath(path).AsLabel();
+                    info.NickName = label.Name;
+                    path = "/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[2]";
+                    label = _Window.FindFirstByXPath(path).AsLabel();
+                    info.WxId = label.Name;
+                    return info;
+                }, timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
+                return retryResult.Success ? retryResult.Result : null;
+            });
+            await Task.Delay(Random.Shared.Next(300, 1000));
+            SwitchNavigation(NavigationType.聊天);
+            return info;
+        }
+
         /// <summary>
         /// 切换导航栏
         /// </summary>

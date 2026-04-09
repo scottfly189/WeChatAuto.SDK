@@ -52,6 +52,18 @@ namespace WeChatAuto.Tests.Components
             Assert.True(true);
         }
 
+        [Fact(DisplayName = "测试获得当前owner的wxid")]
+        public async Task TestGetWxId()
+        {
+            var framework = _globalFixture.clientFactory;
+            var client = framework.GetWeChatClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var navigation = window.Navigation;
+            var wxid = await navigation.GetWxId();
+            _output.WriteLine(wxid.ToString());
+            Assert.NotNull(wxid);
+        }
+
         [Fact(DisplayName = "测试当前导航栏")]
         public async Task TestCurrentNavigationElement()
         {

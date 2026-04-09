@@ -24,6 +24,7 @@ using WeChatAuto.Services;
 using WeChatAuto.Extentions;
 using WeChatAuto.Models;
 using OneOf.Types;
+using System.Diagnostics.CodeAnalysis;
 
 
 
@@ -54,6 +55,7 @@ namespace WeChatAuto.Components
         public SubWinList SubWinList => _SubWinList;  // 子窗口列表
         public int ProcessId { get; private set; }
         private string _nickName;
+        private string _wxid;
         public string NickName => _nickName;
         public Window Window => _MainWindow;
         public WeChatClient Client { get; set; }
@@ -306,7 +308,7 @@ namespace WeChatAuto.Components
         }
         #endregion
         #region 发送消息操作
-        
+
         /// <summary>
         /// 单个发送消息，发送消息给单个好友
         /// 注意：此方法不会打开子窗口
@@ -1220,6 +1222,47 @@ namespace WeChatAuto.Components
                 throw;
             }
         }
+        #endregion
+
+        #region 获取wxid的接口
+        /// <summary>
+        /// 获取我的个人信息
+        /// </summary>
+        /// <returns>个人信息<see cref="FriendInfo"/></returns>
+        public async Task<FriendInfo> GetOwnerInfo()
+        {
+            return await Navigation.GetWxId();
+        }
+        /// <summary>
+        /// 在会话列表中，通过好友昵称获得wxid
+        /// </summary>
+        /// <param name="who">好友昵称，可以为空，如果为空，则获取当前聊天的窗口的好友的wxid</param>
+        /// <returns>个人信息<see cref="FriendInfo"/></returns>
+        public async Task<FriendInfo> GetWxidFromSession(string who)
+        {
+            return new FriendInfo() { NickName = _nickName, WxId = "" };
+        }
+
+        /// <summary>
+        /// 在通讯录列表中，通过好友昵称获取wxid.
+        /// </summary>
+        /// <param name="who">好友昵称，不能为空</param>
+        /// <returns>个人信息<see cref="FriendInfo"/></returns>
+        public async Task<FriendInfo> GetWxidFromAddressBook(string who)
+        {
+            //ArgumentNullException.ThrowIfNull(who);
+            return new FriendInfo() { NickName = _nickName, WxId = "" };
+        }
+        /// <summary>
+        /// 通过手机号码，获取好友的wxid.
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <returns>个人信息<see cref="FriendInfo"/></returns>
+        public async Task<FriendInfo> GetWxidFromPhoneNumber(string phone)
+        {
+            return new FriendInfo() { NickName = _nickName, WxId = "" };
+        }
+
         #endregion
 
         #region 监听消息
