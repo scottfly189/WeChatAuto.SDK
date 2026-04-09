@@ -61,6 +61,12 @@ namespace WeChatAuto.Components
         }
 
         public string FullTitle => _FullTitle;
+
+        public void Focuse()
+        {
+            
+        }
+
         /// <summary>
         /// 获取工具栏按钮
         /// </summary>

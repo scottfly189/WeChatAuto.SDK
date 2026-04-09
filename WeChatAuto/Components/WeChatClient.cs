@@ -663,6 +663,22 @@ namespace WeChatAuto.Components
     public void StopMomentsListener()
       => WxMainWindow.Moments.StopMomentsListener();
     #endregion
+
+    #region 获取wxid的接口
+    /// <summary>
+    /// 获取我的个人信息
+    /// </summary>
+    /// <returns>个人信息<see cref="FriendInfo"/></returns>
+    public async Task<FriendInfo> GetOwnerInfo() => await WxMainWindow.GetOwnerInfo();
+
+    /// <summary>
+    /// 通过好友昵称获得wxid
+    /// </summary>
+    /// <param name="who">好友昵称，可以为空，如果为空，则获取当前聊天的窗口的好友的wxid</param>
+    /// <returns>个人信息<see cref="FriendInfo"/></returns>
+    public async Task<FriendInfo> GetWxid(string who) => await WxMainWindow.GetWxid(who);
+    #endregion
+
     #region 风控退出监听，暂时不启用，有问题
     // /// <summary>
     // /// 添加运行检查风控退出监听

@@ -18,6 +18,8 @@ using WeChatAuto.Extentions;
 using WeChatAuto.Utils;
 using WeChatAuto.Services;
 using WeChatAuto.Models;
+using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace WeChatAuto.Components
 {
@@ -151,6 +153,69 @@ namespace WeChatAuto.Components
                 _SelfWindow.SilenceClickExt(edit);
             }
         }
+
+        public async Task<FriendInfo> GetWxId()
+        {
+            FriendInfo info = new FriendInfo();
+            try
+            {
+                await _uiMainThreadInvoker.Run(automation =>
+                {
+                    _SelfWindow.Focus();
+                    var path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text";
+                    var label = _SelfWindow.FindFirstByXPath(path) == null ? throw new Exception("当前聊天窗口对象不是好友") :
+                        _SelfWindow.FindFirstByXPath(path);
+                    DrawHightlightHelper.DrawHighlightExt(label);
+                    info.NickName = label.Name;
+                    path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Button[@Name='聊天信息']";
+                    var button = _SelfWindow.FindFirstByXPath(path) == null ? throw new Exception("当前聊天窗口对象不是好友") :
+                        _SelfWindow.FindFirstByXPath(path);
+                    DrawHightlightHelper.DrawHighlightExt(button);
+                    Random rand = new Random(DateTime.Now.Millisecond);
+                    Task.Delay(rand.Next(300, 1000));
+                    button.ClickEnhance(_SelfWindow);
+
+                    var retryButton = Retry.WhileNull(() =>
+                    {
+                        path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/List/ListItem[1]/Pane/Pane/Button";
+                        var buttonElement = this.SelfWindow.FindFirstByXPath(path);
+                        return buttonElement.AsButton();
+                    }, timeout: TimeSpan.FromSeconds(4), interval: TimeSpan.FromMilliseconds(200));
+                    if (retryButton.Success)
+                    {
+                        DrawHightlightHelper.DrawHighlightExt(retryButton.Result);
+                        Task.Delay(rand.Next(500, 1500));
+                        retryButton.Result.ClickEnhance(this.SelfWindow);
+                        Task.Delay(rand.Next(500, 1500));
+                        var retryWxId = Retry.WhileNull(() =>
+                        {
+                            path = "/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[2]";
+                            label = this.SelfWindow.FindFirstByXPath(path);
+                            return label.AsLabel();
+                        }, timeout: TimeSpan.FromSeconds(5), interval: TimeSpan.FromMilliseconds(200));
+
+                        if (retryWxId.Success)
+                        {
+                            DrawHightlightHelper.DrawHighlightExt(retryWxId.Result);
+                            info.WxId = retryWxId.Result.Name;
+                            Task.Delay(rand.Next(300, 800));
+                            path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[1]/Edit[@Name='输入']";
+                            var sender = this.SelfWindow.FindFirstByXPath(path);
+                            DrawHightlightHelper.DrawHighlightExt(sender);
+                            sender.ClickEnhance(this.SelfWindow);
+                            Task.Delay(300);
+                            sender.ClickEnhance(this.SelfWindow);
+                        }
+                    }
+                });
+                return info;
+            }
+            catch (Exception)
+            {
+                return info;
+            }
+        }
+
         /// <summary>
         /// 初始化群聊选项
         /// </summary>
