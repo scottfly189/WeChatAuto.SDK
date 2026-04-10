@@ -58,8 +58,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var navigation = window.Navigation;
-            await navigation.SaveOwnerAvator(@"c:\avator.png");
+            await client.SaveOwnerAvator(@"c:\avator.png");
             Assert.True(true);
         }
 

@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using WeChatAutoSDK_WebSupport.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using WeChatAuto.Components;
 using WeChatAuto.Services;
+using WeChatAutoSDK_WebSupport.Properties;
+using WeChatAutoSDK_WebSupport.Utils;
 
 namespace WeChatAutoSDK_WebSupport
 {
@@ -32,6 +33,12 @@ namespace WeChatAutoSDK_WebSupport
             this.btnStart.Click += BtnStart_Click;
             this.Load += MainForm_Load;
             this.FormClosing += MainForm_FormClosing;
+            this.Shown += MainForm_Shown;
+        }
+
+        private async void MainForm_Shown(object? sender, EventArgs e)
+        {
+            await InitWeChatAutoSDK();
         }
 
         private void MainForm_FormClosing(object? sender, FormClosingEventArgs e)
@@ -40,11 +47,25 @@ namespace WeChatAutoSDK_WebSupport
             clientFactory?.Dispose(); //释放.
         }
 
+        private void InitAvator(string path,string nickName)
+        {
+            pnlAvator.Controls.Clear();
+            AntdUI.Avatar avator = new AntdUI.Avatar();
+            avator.Image = Image.FromFile(path);
+            avator.ImageFit = AntdUI.TFit.Fill;
+            avator.Name = nickName;
+            avator.Radius = 6;
+            avator.Size = new Size(64, 64);
+            avator.Text = "";
+            pnlAvator.Controls.Add(avator);
+
+        }
+
         private async void MainForm_Load(object? sender, EventArgs e)
         {
 
 
-            await InitWeChatAutoSDK();
+            
         }
 
         private async Task InitWeChatAutoSDK()
@@ -69,6 +90,7 @@ namespace WeChatAutoSDK_WebSupport
                 var weixinName = item.Key;
                 var client = item.Value;
                 await _CheckAvator(item.Key,item.Value);
+
             }
         }
 
@@ -86,8 +108,15 @@ namespace WeChatAutoSDK_WebSupport
             }
             path = Path.Combine(path,$"avator.png");
             if (File.Exists(path))
+            {
+                InitAvator(path, name!);
                 return;
+            }
+                
             //获得头像.
+            await client!.SaveOwnerAvator(path);
+            InitAvator(path, name!);
+
         }
 
         private Task StartWebApiAsync()

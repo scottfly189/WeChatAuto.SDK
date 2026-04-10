@@ -51,7 +51,7 @@
             btnStart = new AntdUI.Button();
             pageTools = new AntdUI.TabPage();
             panel1 = new AntdUI.Panel();
-            flowPanel1 = new AntdUI.FlowPanel();
+            pnlAvator = new AntdUI.FlowPanel();
             pageHeader1.SuspendLayout();
             pnlMain.SuspendLayout();
             panel4.SuspendLayout();
@@ -252,7 +252,7 @@
             txtLog.Margin = new Padding(2, 3, 2, 3);
             txtLog.Name = "txtLog";
             txtLog.ReadOnly = true;
-            txtLog.Size = new Size(231, 425);
+            txtLog.Size = new Size(231, 494);
             txtLog.TabIndex = 2;
             txtLog.Text = "";
             // 
@@ -321,7 +321,7 @@
             // panel1
             // 
             panel1.Back = Color.DarkBlue;
-            panel1.Controls.Add(flowPanel1);
+            panel1.Controls.Add(pnlAvator);
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
             panel1.Margin = new Padding(2, 3, 2, 3);
@@ -331,16 +331,17 @@
             panel1.TabIndex = 0;
             panel1.Text = "panel1";
             // 
-            // flowPanel1
+            // pnlAvator
             // 
-            flowPanel1.BackColor = Color.Transparent;
-            flowPanel1.Dock = DockStyle.Fill;
-            flowPanel1.Location = new Point(0, 0);
-            flowPanel1.Margin = new Padding(2, 3, 2, 3);
-            flowPanel1.Name = "flowPanel1";
-            flowPanel1.Size = new Size(73, 703);
-            flowPanel1.TabIndex = 0;
-            flowPanel1.Text = "flowPanel1";
+            pnlAvator.Align = AntdUI.TAlignFlow.Center;
+            pnlAvator.BackColor = Color.Transparent;
+            pnlAvator.Dock = DockStyle.Fill;
+            pnlAvator.Gap = 5;
+            pnlAvator.Location = new Point(0, 0);
+            pnlAvator.Name = "pnlAvator";
+            pnlAvator.Padding = new Padding(0, 10, 0, 0);
+            pnlAvator.Size = new Size(73, 703);
+            pnlAvator.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -392,5 +393,6 @@
         private AntdUI.Tabs tabsWX;
         private AntdUI.TabPage tabPage1;
         private AntdUI.TabPage tabPage2;
+        private AntdUI.FlowPanel pnlAvator;
     }
 }
