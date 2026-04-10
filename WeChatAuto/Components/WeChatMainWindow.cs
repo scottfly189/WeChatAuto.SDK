@@ -1327,7 +1327,6 @@ namespace WeChatAuto.Components
                 //如果发生错误：如当前窗口不是好友聊天窗口，则返回空
                 return new FriendInfo();
             }
-
         }
 
         /// <summary>
@@ -1337,7 +1336,80 @@ namespace WeChatAuto.Components
         /// <returns>个人信息<see cref="FriendInfo"/></returns>
         public async Task<FriendInfo> GetWxidFromPhoneNumber(string phone)
         {
-            return new FriendInfo() { NickName = _nickName, WxId = "" };
+            FriendInfo info = new FriendInfo();
+            try
+            {
+                this.Navigation.SwitchNavigation(NavigationType.通讯录);
+                var path = "/Pane/Pane/Pane/Pane/Pane/Button[@Name='添加朋友']";
+                await _uiMainThreadInvoker.Run(automation =>
+                {
+                    var buttonRetry = Retry.WhileNull(() =>
+                        {
+                            return this.SelfWindow.FindFirstByXPath(path);
+                        }, timeout: TimeSpan.FromSeconds(5), interval: TimeSpan.FromMilliseconds(200));
+                    var button = buttonRetry.Success ? buttonRetry.Result : throw new Exception("发生错误，没有找到按钮！");
+                    DrawHightlightHelper.DrawHighlightExt(button);
+                    Random rand = new Random((int)DateTime.Now.Ticks);
+                    Task.Delay(rand.Next(500, 1200));
+                    button.ClickEnhance(this.SelfWindow);
+                    Task.Delay(rand.Next(500, 1200));
+                    var textRetry = Retry.WhileNull(() =>
+                    {
+                        path = "/Pane[2]/Pane/Pane[1]/Pane[1]/Pane/Text";
+                        return this.SelfWindow.FindFirstByXPath(path);
+                    }, timeout: TimeSpan.FromSeconds(5), interval: TimeSpan.FromMilliseconds(200));
+                    var text = textRetry.Success ? textRetry.Result : throw new Exception("发生错误，没有找到文本框");
+                    text.Focus();
+                    text.Click();
+                    Keyboard.Type(phone);
+                    RandomWait.Wait(800, 2000);
+                    path = "/Pane/Pane/Pane/Pane[2]/Pane/List/ListItem[1]";
+                    var listItemRetry = Retry.WhileNull(() => this.SelfWindow.FindFirstByXPath(path).AsListBoxItem()
+                    , timeout: TimeSpan.FromSeconds(5), interval: TimeSpan.FromMilliseconds(200));
+                    var listItem = listItemRetry.Success ? listItemRetry.Result : null;
+                    if (listItem != null)
+                    {
+                        if (listItem.Name.Contains($"搜索：{phone}"))
+                        {
+                            DrawHightlightHelper.DrawHighlightExt(listItem);
+                            listItem.ClickEnhance(this.SelfWindow);
+                            RandomWait.Wait(500, 1200);
+                            var panelRetry = Retry.WhileNull(() =>
+                            {
+                                var desktop = automation.GetDesktop();
+                                var panel = desktop.FindFirstChild(u => u.ByControlType(ControlType.Pane).And(u.ByName("微信")).And(u.ByProcessId(this._MainWindow.Properties.ProcessId)));
+                                return panel;
+                            }, timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
+                            if (panelRetry.Success)
+                            {
+                                var pane = panelRetry.Result;
+                                DrawHightlightHelper.DrawHighlightExt(pane);
+                                path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[2]";
+                                var wxId = pane.FindFirstByXPath(path);
+                                if (wxId != null)
+                                {
+                                    DrawHightlightHelper.DrawHighlightExt(wxId);
+                                    info.WxId = wxId.Name.Trim();
+                                    path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane[1]/Text";
+                                    var label = pane.FindFirstByXPath(path);
+                                    DrawHightlightHelper.DrawHighlightExt(label);
+                                    info.NickName = label.Name.Trim();
+                                }
+                            }
+                        }
+                    }
+                });
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.ToString());
+            }
+            finally
+            {
+                this.Navigation.SwitchNavigation(NavigationType.聊天);
+            }
+            return info;
         }
 
         #endregion
