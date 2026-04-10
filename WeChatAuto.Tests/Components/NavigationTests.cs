@@ -52,6 +52,17 @@ namespace WeChatAuto.Tests.Components
             Assert.True(true);
         }
 
+        [Fact(DisplayName = "测试保存自己的头像")]
+        public async Task TestSaveAvator()
+        {
+            var framework = _globalFixture.clientFactory;
+            var client = framework.GetWeChatClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var navigation = window.Navigation;
+            await navigation.SaveOwnerAvator(@"c:\avator.png");
+            Assert.True(true);
+        }
+
         [Fact(DisplayName = "测试获得当前owner的wxid")]
         public async Task TestGetWxId()
         {

@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using WeAutoCommon.Models;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace WeChatAuto.Components
 {
@@ -101,7 +102,7 @@ namespace WeChatAuto.Components
         /// <returns>个人信息<see cref="FriendInfo"/></returns>
         public async Task<FriendInfo> GetWxId()
         {
-            var info = await _uiMainThreadInvoker.Run<FriendInfo>(automation=>
+            var info = await _uiMainThreadInvoker.Run<FriendInfo>(automation =>
             {
                 var path = "/Pane/Pane/ToolBar/Button[1]";
                 var button = _Window.FindFirstByXPath(path).AsButton();
@@ -123,6 +124,74 @@ namespace WeChatAuto.Components
             await Task.Delay(rand.Next(300, 1000));
             SwitchNavigation(NavigationType.聊天);
             return info;
+        }
+        /// <summary>
+        /// 保存个人头像
+        /// </summary>
+        /// <param name="savePath">保存的目录与文件名，如: c:\temp\avator.jpg</param>
+        /// <returns></returns>
+        public async Task SaveOwnerAvator(string savePath)
+        {
+            Random random = new Random((int)DateTime.Now.Ticks);
+            await _uiMainThreadInvoker.Run(async automation =>
+            {
+                var path = "/Pane/Pane/ToolBar/Button[1]";
+                var button = _Window.FindFirstByXPath(path).AsButton();
+                button.ClickEnhance(_Window);
+                RetryResult<Button> retryResult = Retry.WhileNull(() =>
+                {
+                    path = "/Pane[1]/Pane[2]/Pane/Pane/Pane/Pane[1]/Button";
+                    button = _Window.FindFirstByXPath(path).AsButton();
+                    return button;
+                }, timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
+                if (retryResult.Success)
+                {
+                    RandomWait.Wait(300, 1000);
+                    button = retryResult.Result;
+                    button.Click();
+                    RetryResult<Window> retryWindow = Retry.WhileNull(() =>
+                    {
+                        var desktop = automation.GetDesktop();
+                        var window = desktop.FindFirstChild(x => x.ByControlType(ControlType.Window).And(x.ByProcessId(_Window.Properties.ProcessId).And(x.ByName("图片查看")))).AsWindow();
+                        return window;
+                    }, timeout: TimeSpan.FromSeconds(5), interval: TimeSpan.FromMilliseconds(200));
+                    if (retryWindow.Success)
+                    {
+                        var win = retryWindow.Result;
+                        path = "/Pane[2]/Pane[1]/Pane[2]/Pane[2]/Button[1]";
+                        button = win.FindFirstByXPath(path).AsButton();
+                        button.Click();
+                        //选择第一个菜单
+                        var menuRetry = Retry.WhileNull(() => win.FindFirstChild(cf => cf.Menu()).AsMenu(),
+                        TimeSpan.FromSeconds(3),
+                        TimeSpan.FromMilliseconds(200));
+                        if (menuRetry.Success)
+                        {
+                            var menuItem = menuRetry.Result.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("复制")));
+                            if (menuItem != null)
+                            {
+                                menuItem.DrawHighlightExt();
+                                menuItem.WaitUntilClickable(TimeSpan.FromSeconds(3));
+                                menuItem.ClickEnhance(win);
+                                RandomWait.Wait(1000, 2000);
+                                if (System.Windows.Clipboard.ContainsImage())
+                                {
+                                    var bitmap = System.Windows.Forms.Clipboard.GetImage();
+                                    bitmap.Save(savePath);
+                                }                                
+                            }
+                            else
+                            {
+                                _logger.Error($"找不到多选菜单项");
+                            }
+                        }
+                        RandomWait.Wait(100, 800);
+                        win.Close();
+                    }
+                }
+            });
+            await Task.Delay(random.Next(300, 1000));
+            SwitchNavigation(NavigationType.聊天);
         }
 
         /// <summary>
