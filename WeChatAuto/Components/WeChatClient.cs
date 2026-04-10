@@ -677,7 +677,6 @@ namespace WeChatAuto.Components
     /// <param name="who">好友昵称，可以为空，如果为空，则获取当前聊天的窗口的好友的wxid</param>
     /// <returns>个人信息<see cref="FriendInfo"/></returns>
     public async Task<FriendInfo> GetWxid(string who) => await WxMainWindow.GetWxid(who);
-    #endregion
 
     /// <summary>
     /// 通过手机号码，获取好友的wxid.
@@ -685,6 +684,8 @@ namespace WeChatAuto.Components
     /// <param name="phone"></param>
     /// <returns>个人信息<see cref="FriendInfo"/></returns>
     public async Task<FriendInfo> GetWxidFromPhoneNumber(string phone) => await WxMainWindow.GetWxidFromPhoneNumber(phone);
+
+    #endregion
 
     #region 风控退出监听，暂时不启用，有问题
     // /// <summary>

@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            AntdUI.Tabs.StyleLine styleLine3 = new AntdUI.Tabs.StyleLine();
-            AntdUI.Tabs.StyleLine styleLine4 = new AntdUI.Tabs.StyleLine();
+            AntdUI.Tabs.StyleLine styleLine1 = new AntdUI.Tabs.StyleLine();
+            AntdUI.Tabs.StyleLine styleLine2 = new AntdUI.Tabs.StyleLine();
             pageHeader1 = new AntdUI.PageHeader();
             button1 = new AntdUI.Button();
             pnlMain = new AntdUI.Panel();
@@ -142,7 +142,7 @@
             tabsWX.Pages.Add(tabPage1);
             tabsWX.Pages.Add(tabPage2);
             tabsWX.Size = new Size(737, 701);
-            tabsWX.Style = styleLine3;
+            tabsWX.Style = styleLine1;
             tabsWX.TabIndex = 0;
             tabsWX.TabMenuVisible = false;
             tabsWX.Text = "tabs1";
@@ -190,7 +190,7 @@
             tabsMain.Pages.Add(pageOverview);
             tabsMain.Pages.Add(pageTools);
             tabsMain.Size = new Size(235, 703);
-            tabsMain.Style = styleLine4;
+            tabsMain.Style = styleLine2;
             tabsMain.TabIndex = 0;
             tabsMain.Text = "tabs1";
             // 
@@ -222,11 +222,11 @@
             // 
             panel6.Controls.Add(stackPanel1);
             panel6.Dock = DockStyle.Fill;
-            panel6.Location = new Point(0, 209);
+            panel6.Location = new Point(0, 133);
             panel6.Margin = new Padding(2, 3, 2, 3);
             panel6.Name = "panel6";
             panel6.Radius = 0;
-            panel6.Size = new Size(235, 467);
+            panel6.Size = new Size(235, 543);
             panel6.TabIndex = 2;
             panel6.Text = "panel6";
             // 
@@ -238,7 +238,7 @@
             stackPanel1.Location = new Point(0, 0);
             stackPanel1.Margin = new Padding(2, 3, 2, 3);
             stackPanel1.Name = "stackPanel1";
-            stackPanel1.Size = new Size(235, 467);
+            stackPanel1.Size = new Size(235, 543);
             stackPanel1.TabIndex = 0;
             stackPanel1.Text = "stackPanel1";
             stackPanel1.Vertical = true;
@@ -275,30 +275,31 @@
             panel5.Margin = new Padding(2, 3, 2, 3);
             panel5.Name = "panel5";
             panel5.Radius = 0;
-            panel5.Size = new Size(235, 209);
+            panel5.Size = new Size(235, 133);
             panel5.TabIndex = 1;
             panel5.Text = "panel5";
             // 
             // btnStatus
             // 
             btnStatus.DisplayStyle = AntdUI.TButtonDisplayStyle.Image;
+            btnStatus.Dock = DockStyle.Top;
             btnStatus.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 134);
             btnStatus.Ghost = true;
             btnStatus.IconHoverSvg = "PlayCircleOutlined";
             btnStatus.IconRatio = 1.6F;
             btnStatus.IconSvg = "PlayCircleOutlined";
-            btnStatus.Location = new Point(57, 37);
+            btnStatus.Location = new Point(0, 0);
             btnStatus.Margin = new Padding(2, 3, 2, 3);
             btnStatus.Name = "btnStatus";
-            btnStatus.Size = new Size(109, 74);
+            btnStatus.Size = new Size(235, 70);
             btnStatus.TabIndex = 1;
             btnStatus.Type = AntdUI.TTypeMini.Success;
             btnStatus.WaveSize = 0;
             // 
             // btnStart
             // 
-            btnStart.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 134);
-            btnStart.Location = new Point(26, 142);
+            btnStart.Font = new Font("Microsoft YaHei UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 134);
+            btnStart.Location = new Point(29, 79);
             btnStart.Margin = new Padding(2, 3, 2, 3);
             btnStart.Name = "btnStart";
             btnStart.Size = new Size(181, 41);
@@ -371,7 +372,6 @@
 
         private AntdUI.PageHeader pageHeader1;
         private AntdUI.Panel pnlMain;
-        private AntdUI.Splitter splitterRight;
         private AntdUI.Panel panel2;
         private AntdUI.Panel panel3;
         private AntdUI.Panel panel4;

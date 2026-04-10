@@ -25,6 +25,7 @@ using WeChatAuto.Extentions;
 using WeChatAuto.Models;
 using OneOf.Types;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 
 
 
@@ -1224,6 +1225,15 @@ namespace WeChatAuto.Components
         #endregion
 
         #region 获取wxid的接口
+        /// <summary>
+        /// 获取个人头像
+        /// </summary>
+        /// <param name="savePath">保存的目录与文件名，如: c:\temp\avator.jpg</param>
+        /// <returns></returns>
+        public async Task SaveOwnerAvator(string savePath)
+        {
+            await Navigation.SaveOwnerAvator(savePath);
+        }
         /// <summary>
         /// 获取我的个人信息
         /// </summary>
