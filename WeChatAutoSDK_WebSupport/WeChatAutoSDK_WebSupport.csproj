@@ -14,7 +14,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="AntdUI" Version="2.3.8" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.5" />
+		<PackageReference Include="FlaUI.UIA3" Version="5.0.0" />
 		<PackageReference Include="WeChatAuto.SDK" Version="1.2.81" />
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
@@ -22,7 +22,6 @@
 	<ItemGroup>
 		<Folder Include="Pages\" />
 		<Folder Include="Viewer\" />
-		<Folder Include="Utils\" />
 	</ItemGroup>
 
 	<ItemGroup>

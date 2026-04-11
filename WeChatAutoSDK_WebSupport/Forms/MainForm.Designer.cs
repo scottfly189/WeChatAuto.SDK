@@ -37,7 +37,8 @@
             panel3 = new AntdUI.Panel();
             tabsWX = new AntdUI.Tabs();
             tabPage1 = new AntdUI.TabPage();
-            tabPage2 = new AntdUI.TabPage();
+            panel8 = new Panel();
+            label2 = new AntdUI.Label();
             pnlRight = new AntdUI.Panel();
             tabsMain = new AntdUI.Tabs();
             pageOverview = new AntdUI.TabPage();
@@ -45,6 +46,10 @@
             panel6 = new AntdUI.Panel();
             stackPanel1 = new AntdUI.StackPanel();
             txtLog = new RichTextBox();
+            stackPanel2 = new AntdUI.StackPanel();
+            panel7 = new AntdUI.Panel();
+            btnCopy = new AntdUI.Button();
+            btnClear = new AntdUI.Button();
             label1 = new AntdUI.Label();
             panel5 = new AntdUI.Panel();
             btnStatus = new AntdUI.Button();
@@ -57,12 +62,16 @@
             panel4.SuspendLayout();
             panel3.SuspendLayout();
             tabsWX.SuspendLayout();
+            tabPage1.SuspendLayout();
+            panel8.SuspendLayout();
             pnlRight.SuspendLayout();
             tabsMain.SuspendLayout();
             pageOverview.SuspendLayout();
             panel2.SuspendLayout();
             panel6.SuspendLayout();
             stackPanel1.SuspendLayout();
+            stackPanel2.SuspendLayout();
+            panel7.SuspendLayout();
             panel5.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -134,13 +143,11 @@
             // tabsWX
             // 
             tabsWX.Controls.Add(tabPage1);
-            tabsWX.Controls.Add(tabPage2);
             tabsWX.Dock = DockStyle.Fill;
             tabsWX.Location = new Point(1, 1);
-            tabsWX.Margin = new Padding(2, 3, 2, 3);
+            tabsWX.Margin = new Padding(0);
             tabsWX.Name = "tabsWX";
             tabsWX.Pages.Add(tabPage1);
-            tabsWX.Pages.Add(tabPage2);
             tabsWX.Size = new Size(737, 701);
             tabsWX.Style = styleLine1;
             tabsWX.TabIndex = 0;
@@ -149,21 +156,33 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(panel8);
             tabPage1.Location = new Point(0, 0);
-            tabPage1.Margin = new Padding(2, 3, 2, 3);
             tabPage1.Name = "tabPage1";
             tabPage1.Size = new Size(737, 701);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "tabPage1";
             // 
-            // tabPage2
+            // panel8
             // 
-            tabPage2.Location = new Point(0, 0);
-            tabPage2.Margin = new Padding(2, 3, 2, 3);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Size = new Size(0, 0);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
+            panel8.Controls.Add(label2);
+            panel8.Dock = DockStyle.Fill;
+            panel8.Location = new Point(0, 0);
+            panel8.Name = "panel8";
+            panel8.Size = new Size(737, 701);
+            panel8.TabIndex = 0;
+            // 
+            // label2
+            // 
+            label2.Dock = DockStyle.Fill;
+            label2.Font = new Font("Microsoft YaHei UI", 16F);
+            label2.ForeColor = Color.DarkGray;
+            label2.Location = new Point(0, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(737, 701);
+            label2.TabIndex = 0;
+            label2.Text = "请不要动鼠标，等候微信初始化....";
+            label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // pnlRight
             // 
@@ -181,9 +200,13 @@
             // 
             // tabsMain
             // 
+            tabsMain.BackColor = Color.BlueViolet;
             tabsMain.Controls.Add(pageOverview);
             tabsMain.Controls.Add(pageTools);
             tabsMain.Dock = DockStyle.Fill;
+            tabsMain.Fill = Color.GhostWhite;
+            tabsMain.FillActive = Color.White;
+            tabsMain.ForeColor = Color.White;
             tabsMain.Location = new Point(0, 0);
             tabsMain.Margin = new Padding(0);
             tabsMain.Name = "tabsMain";
@@ -197,6 +220,7 @@
             // pageOverview
             // 
             pageOverview.Controls.Add(panel2);
+            pageOverview.ForeColor = Color.White;
             pageOverview.IconSvg = "BankOutlined";
             pageOverview.Location = new Point(0, 27);
             pageOverview.Margin = new Padding(2, 3, 2, 3);
@@ -233,7 +257,7 @@
             // stackPanel1
             // 
             stackPanel1.Controls.Add(txtLog);
-            stackPanel1.Controls.Add(label1);
+            stackPanel1.Controls.Add(stackPanel2);
             stackPanel1.Dock = DockStyle.Fill;
             stackPanel1.Location = new Point(0, 0);
             stackPanel1.Margin = new Padding(2, 3, 2, 3);
@@ -248,21 +272,68 @@
             txtLog.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             txtLog.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 134);
             txtLog.ForeColor = SystemColors.GrayText;
-            txtLog.Location = new Point(2, 46);
+            txtLog.Location = new Point(2, 37);
             txtLog.Margin = new Padding(2, 3, 2, 3);
             txtLog.Name = "txtLog";
             txtLog.ReadOnly = true;
-            txtLog.Size = new Size(231, 494);
+            txtLog.Size = new Size(231, 506);
             txtLog.TabIndex = 2;
             txtLog.Text = "";
             // 
+            // stackPanel2
+            // 
+            stackPanel2.Controls.Add(panel7);
+            stackPanel2.Controls.Add(label1);
+            stackPanel2.Location = new Point(3, 3);
+            stackPanel2.Name = "stackPanel2";
+            stackPanel2.Size = new Size(229, 28);
+            stackPanel2.TabIndex = 1;
+            stackPanel2.Text = "stackPanel2";
+            // 
+            // panel7
+            // 
+            panel7.Back = Color.Transparent;
+            panel7.BackColor = Color.Transparent;
+            panel7.Controls.Add(btnCopy);
+            panel7.Controls.Add(btnClear);
+            panel7.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            panel7.Location = new Point(107, 3);
+            panel7.Name = "panel7";
+            panel7.Radius = 0;
+            panel7.Size = new Size(122, 22);
+            panel7.TabIndex = 2;
+            panel7.Text = "panel7";
+            // 
+            // btnCopy
+            // 
+            btnCopy.Dock = DockStyle.Right;
+            btnCopy.ForeColor = Color.White;
+            btnCopy.Ghost = true;
+            btnCopy.IconSvg = "CopyOutlined";
+            btnCopy.Location = new Point(60, 0);
+            btnCopy.Name = "btnCopy";
+            btnCopy.Size = new Size(31, 22);
+            btnCopy.TabIndex = 1;
+            // 
+            // btnClear
+            // 
+            btnClear.Dock = DockStyle.Right;
+            btnClear.ForeColor = Color.White;
+            btnClear.Ghost = true;
+            btnClear.IconSvg = "DeleteOutlined";
+            btnClear.Location = new Point(91, 0);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new Size(31, 22);
+            btnClear.TabIndex = 0;
+            // 
             // label1
             // 
+            label1.ForeColor = Color.White;
             label1.Location = new Point(2, 3);
             label1.Margin = new Padding(2, 3, 2, 3);
             label1.Name = "label1";
             label1.PrefixSvg = "BellOutlined";
-            label1.Size = new Size(231, 37);
+            label1.Size = new Size(100, 22);
             label1.TabIndex = 1;
             label1.Text = " 服务日志:";
             // 
@@ -320,11 +391,11 @@
             // 
             // panel1
             // 
-            panel1.Back = Color.DarkBlue;
+            panel1.Back = Color.BlueViolet;
             panel1.Controls.Add(pnlAvator);
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(0, 0);
-            panel1.Margin = new Padding(2, 3, 2, 3);
+            panel1.Margin = new Padding(0);
             panel1.Name = "panel1";
             panel1.RadiusAlign = AntdUI.TAlignRound.Left;
             panel1.Size = new Size(73, 703);
@@ -338,6 +409,7 @@
             pnlAvator.Dock = DockStyle.Fill;
             pnlAvator.Gap = 5;
             pnlAvator.Location = new Point(0, 0);
+            pnlAvator.Margin = new Padding(0);
             pnlAvator.Name = "pnlAvator";
             pnlAvator.Padding = new Padding(0, 10, 0, 0);
             pnlAvator.Size = new Size(73, 703);
@@ -358,12 +430,16 @@
             panel4.ResumeLayout(false);
             panel3.ResumeLayout(false);
             tabsWX.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
+            panel8.ResumeLayout(false);
             pnlRight.ResumeLayout(false);
             tabsMain.ResumeLayout(false);
             pageOverview.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel6.ResumeLayout(false);
             stackPanel1.ResumeLayout(false);
+            stackPanel2.ResumeLayout(false);
+            panel7.ResumeLayout(false);
             panel5.ResumeLayout(false);
             panel1.ResumeLayout(false);
             ResumeLayout(false);
@@ -391,8 +467,13 @@
         private AntdUI.FlowPanel flowPanel1;
         private AntdUI.Button button1;
         private AntdUI.Tabs tabsWX;
-        private AntdUI.TabPage tabPage1;
-        private AntdUI.TabPage tabPage2;
         private AntdUI.FlowPanel pnlAvator;
+        private AntdUI.StackPanel stackPanel2;
+        private AntdUI.Panel panel7;
+        private AntdUI.Button btnCopy;
+        private AntdUI.Button btnClear;
+        private AntdUI.TabPage tabPage1;
+        private Panel panel8;
+        private AntdUI.Label label2;
     }
 }
