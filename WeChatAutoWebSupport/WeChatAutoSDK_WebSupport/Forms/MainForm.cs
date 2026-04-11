@@ -264,6 +264,7 @@ namespace WeChatAutoSDK_WebSupport
             };
             var nickeName = action.From;
             var message = action.Payload!.ToString();
+            message = message!.Replace("\\r", "\r").Replace("\\n","\n");
             var who = action.To;
             try
             {

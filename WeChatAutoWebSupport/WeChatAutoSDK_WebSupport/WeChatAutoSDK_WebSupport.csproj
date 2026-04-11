@@ -18,13 +18,16 @@
 		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.1.7" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.1.7" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.7" />
-		<PackageReference Include="WeChatAuto.SDK" Version="1.2.81" />
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Folder Include="Pages\" />
 		<Folder Include="Viewer\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\WeChatAuto\WeChatAuto.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

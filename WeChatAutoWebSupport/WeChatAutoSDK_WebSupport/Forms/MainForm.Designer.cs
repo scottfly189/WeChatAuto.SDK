@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            AntdUI.Tabs.StyleLine styleLine2 = new AntdUI.Tabs.StyleLine();
-            AntdUI.Tabs.StyleCard2 styleCard22 = new AntdUI.Tabs.StyleCard2();
+            AntdUI.Tabs.StyleLine styleLine1 = new AntdUI.Tabs.StyleLine();
+            AntdUI.Tabs.StyleCard2 styleCard21 = new AntdUI.Tabs.StyleCard2();
             pageHeader1 = new AntdUI.PageHeader();
             btnTopMost = new AntdUI.Button();
             btnHelp = new AntdUI.Button();
@@ -168,7 +168,7 @@
             tabsWX.Name = "tabsWX";
             tabsWX.Pages.Add(tabPage1);
             tabsWX.Size = new Size(739, 703);
-            tabsWX.Style = styleLine2;
+            tabsWX.Style = styleLine1;
             tabsWX.TabIndex = 0;
             tabsWX.TabMenuVisible = false;
             tabsWX.Text = "tabs1";
@@ -224,8 +224,8 @@
             tabsMain.Pages.Add(pageOverview);
             tabsMain.Pages.Add(pageTools);
             tabsMain.Size = new Size(235, 703);
-            styleCard22.Closable = AntdUI.Tabs.StyleCard2.CloseType.none;
-            tabsMain.Style = styleCard22;
+            styleCard21.Closable = AntdUI.Tabs.StyleCard2.CloseType.none;
+            tabsMain.Style = styleCard21;
             tabsMain.TabIndex = 0;
             tabsMain.Text = "tabs1";
             tabsMain.Type = AntdUI.TabType.Card2;
@@ -488,5 +488,8 @@
         private AntdUI.TabPage tabPage1;
         private AntdUI.Label label2;
         private AntdUI.Button btnTopMost;
+        private AntdUI.Image3D image3d1;
+        private AntdUI.ImagePreview imagePreview1;
+        private AntdUI.Image3D image3d2;
     }
 }
