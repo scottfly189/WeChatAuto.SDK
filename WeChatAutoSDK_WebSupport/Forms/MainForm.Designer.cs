@@ -28,16 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            AntdUI.Tabs.StyleLine styleLine1 = new AntdUI.Tabs.StyleLine();
             AntdUI.Tabs.StyleLine styleLine2 = new AntdUI.Tabs.StyleLine();
+            AntdUI.Tabs.StyleCard2 styleCard22 = new AntdUI.Tabs.StyleCard2();
             pageHeader1 = new AntdUI.PageHeader();
-            button1 = new AntdUI.Button();
+            btnTopMost = new AntdUI.Button();
+            btnHelp = new AntdUI.Button();
             pnlMain = new AntdUI.Panel();
             panel4 = new AntdUI.Panel();
             panel3 = new AntdUI.Panel();
             tabsWX = new AntdUI.Tabs();
             tabPage1 = new AntdUI.TabPage();
-            panel8 = new Panel();
             label2 = new AntdUI.Label();
             pnlRight = new AntdUI.Panel();
             tabsMain = new AntdUI.Tabs();
@@ -63,7 +63,6 @@
             panel3.SuspendLayout();
             tabsWX.SuspendLayout();
             tabPage1.SuspendLayout();
-            panel8.SuspendLayout();
             pnlRight.SuspendLayout();
             tabsMain.SuspendLayout();
             pageOverview.SuspendLayout();
@@ -78,8 +77,12 @@
             // 
             // pageHeader1
             // 
-            pageHeader1.Controls.Add(button1);
+            pageHeader1.BackColor = Color.BlueViolet;
+            pageHeader1.Controls.Add(btnTopMost);
+            pageHeader1.Controls.Add(btnHelp);
+            pageHeader1.DividerThickness = 0F;
             pageHeader1.Dock = DockStyle.Top;
+            pageHeader1.ForeColor = Color.White;
             pageHeader1.Location = new Point(0, 0);
             pageHeader1.Margin = new Padding(2, 3, 2, 3);
             pageHeader1.MaximizeBox = false;
@@ -88,18 +91,34 @@
             pageHeader1.Size = new Size(1047, 34);
             pageHeader1.TabIndex = 0;
             pageHeader1.Text = "WeChatAuto.SDK - Web Support";
+            pageHeader1.UseForeColorDrawIcons = true;
+            pageHeader1.UseSystemStyleColor = true;
             // 
-            // button1
+            // btnTopMost
             // 
-            button1.Dock = DockStyle.Right;
-            button1.Ghost = true;
-            button1.IconSvg = "QuestionOutlined";
-            button1.Location = new Point(909, 0);
-            button1.Margin = new Padding(2, 3, 2, 3);
-            button1.Name = "button1";
-            button1.Size = new Size(42, 34);
-            button1.TabIndex = 0;
-            button1.WaveSize = 0;
+            btnTopMost.Dock = DockStyle.Right;
+            btnTopMost.ForeColor = Color.White;
+            btnTopMost.Ghost = true;
+            btnTopMost.IconSvg = "TagOutlined";
+            btnTopMost.Location = new Point(867, 0);
+            btnTopMost.Margin = new Padding(2, 3, 2, 3);
+            btnTopMost.Name = "btnTopMost";
+            btnTopMost.Size = new Size(42, 34);
+            btnTopMost.TabIndex = 1;
+            btnTopMost.WaveSize = 0;
+            // 
+            // btnHelp
+            // 
+            btnHelp.Dock = DockStyle.Right;
+            btnHelp.ForeColor = Color.White;
+            btnHelp.Ghost = true;
+            btnHelp.IconSvg = "QuestionOutlined";
+            btnHelp.Location = new Point(909, 0);
+            btnHelp.Margin = new Padding(2, 3, 2, 3);
+            btnHelp.Name = "btnHelp";
+            btnHelp.Size = new Size(42, 34);
+            btnHelp.TabIndex = 0;
+            btnHelp.WaveSize = 0;
             // 
             // pnlMain
             // 
@@ -116,11 +135,12 @@
             // 
             // panel4
             // 
+            panel4.BackColor = Color.BlueViolet;
             panel4.Controls.Add(panel3);
             panel4.Controls.Add(pnlRight);
             panel4.Dock = DockStyle.Fill;
             panel4.Location = new Point(73, 0);
-            panel4.Margin = new Padding(2, 3, 2, 3);
+            panel4.Margin = new Padding(0);
             panel4.Name = "panel4";
             panel4.RadiusAlign = AntdUI.TAlignRound.BR;
             panel4.Size = new Size(974, 703);
@@ -129,13 +149,12 @@
             // 
             // panel3
             // 
-            panel3.BorderWidth = 1F;
+            panel3.BackColor = Color.BlueViolet;
             panel3.Controls.Add(tabsWX);
             panel3.Dock = DockStyle.Fill;
             panel3.Location = new Point(0, 0);
-            panel3.Margin = new Padding(2, 3, 2, 3);
+            panel3.Margin = new Padding(0);
             panel3.Name = "panel3";
-            panel3.Radius = 0;
             panel3.Size = new Size(739, 703);
             panel3.TabIndex = 2;
             panel3.Text = "panel3";
@@ -144,44 +163,35 @@
             // 
             tabsWX.Controls.Add(tabPage1);
             tabsWX.Dock = DockStyle.Fill;
-            tabsWX.Location = new Point(1, 1);
+            tabsWX.Location = new Point(0, 0);
             tabsWX.Margin = new Padding(0);
             tabsWX.Name = "tabsWX";
             tabsWX.Pages.Add(tabPage1);
-            tabsWX.Size = new Size(737, 701);
-            tabsWX.Style = styleLine1;
+            tabsWX.Size = new Size(739, 703);
+            tabsWX.Style = styleLine2;
             tabsWX.TabIndex = 0;
             tabsWX.TabMenuVisible = false;
             tabsWX.Text = "tabs1";
             // 
             // tabPage1
             // 
-            tabPage1.Controls.Add(panel8);
+            tabPage1.Controls.Add(label2);
             tabPage1.Location = new Point(0, 0);
             tabPage1.Name = "tabPage1";
-            tabPage1.Size = new Size(737, 701);
+            tabPage1.Size = new Size(739, 703);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "tabPage1";
-            // 
-            // panel8
-            // 
-            panel8.Controls.Add(label2);
-            panel8.Dock = DockStyle.Fill;
-            panel8.Location = new Point(0, 0);
-            panel8.Name = "panel8";
-            panel8.Size = new Size(737, 701);
-            panel8.TabIndex = 0;
             // 
             // label2
             // 
             label2.Dock = DockStyle.Fill;
-            label2.Font = new Font("Microsoft YaHei UI", 16F);
-            label2.ForeColor = Color.DarkGray;
+            label2.Font = new Font("Microsoft YaHei UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 134);
+            label2.ForeColor = Color.White;
             label2.Location = new Point(0, 0);
             label2.Name = "label2";
-            label2.Size = new Size(737, 701);
+            label2.Size = new Size(739, 703);
             label2.TabIndex = 0;
-            label2.Text = "请不要动鼠标，等候微信初始化....";
+            label2.Text = "请不要动鼠标，静候微信初始化完成...";
             label2.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // pnlRight
@@ -201,31 +211,34 @@
             // tabsMain
             // 
             tabsMain.BackColor = Color.BlueViolet;
+            tabsMain.Centered = true;
             tabsMain.Controls.Add(pageOverview);
             tabsMain.Controls.Add(pageTools);
             tabsMain.Dock = DockStyle.Fill;
-            tabsMain.Fill = Color.GhostWhite;
-            tabsMain.FillActive = Color.White;
             tabsMain.ForeColor = Color.White;
+            tabsMain.Gap = 10;
+            tabsMain.ItemSize = 60;
             tabsMain.Location = new Point(0, 0);
             tabsMain.Margin = new Padding(0);
             tabsMain.Name = "tabsMain";
             tabsMain.Pages.Add(pageOverview);
             tabsMain.Pages.Add(pageTools);
             tabsMain.Size = new Size(235, 703);
-            tabsMain.Style = styleLine2;
+            styleCard22.Closable = AntdUI.Tabs.StyleCard2.CloseType.none;
+            tabsMain.Style = styleCard22;
             tabsMain.TabIndex = 0;
             tabsMain.Text = "tabs1";
+            tabsMain.Type = AntdUI.TabType.Card2;
             // 
             // pageOverview
             // 
             pageOverview.Controls.Add(panel2);
             pageOverview.ForeColor = Color.White;
             pageOverview.IconSvg = "BankOutlined";
-            pageOverview.Location = new Point(0, 27);
+            pageOverview.Location = new Point(0, 32);
             pageOverview.Margin = new Padding(2, 3, 2, 3);
             pageOverview.Name = "pageOverview";
-            pageOverview.Size = new Size(235, 676);
+            pageOverview.Size = new Size(235, 671);
             pageOverview.TabIndex = 0;
             pageOverview.Text = "概况";
             // 
@@ -238,7 +251,7 @@
             panel2.Margin = new Padding(2, 3, 2, 3);
             panel2.Name = "panel2";
             panel2.Radius = 0;
-            panel2.Size = new Size(235, 676);
+            panel2.Size = new Size(235, 671);
             panel2.TabIndex = 0;
             panel2.Text = "panel2";
             // 
@@ -250,7 +263,7 @@
             panel6.Margin = new Padding(2, 3, 2, 3);
             panel6.Name = "panel6";
             panel6.Radius = 0;
-            panel6.Size = new Size(235, 543);
+            panel6.Size = new Size(235, 538);
             panel6.TabIndex = 2;
             panel6.Text = "panel6";
             // 
@@ -262,21 +275,21 @@
             stackPanel1.Location = new Point(0, 0);
             stackPanel1.Margin = new Padding(2, 3, 2, 3);
             stackPanel1.Name = "stackPanel1";
-            stackPanel1.Size = new Size(235, 543);
+            stackPanel1.Padding = new Padding(0, 0, 2, 0);
+            stackPanel1.Size = new Size(235, 538);
             stackPanel1.TabIndex = 0;
             stackPanel1.Text = "stackPanel1";
             stackPanel1.Vertical = true;
             // 
             // txtLog
             // 
-            txtLog.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             txtLog.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 134);
             txtLog.ForeColor = SystemColors.GrayText;
             txtLog.Location = new Point(2, 37);
             txtLog.Margin = new Padding(2, 3, 2, 3);
             txtLog.Name = "txtLog";
             txtLog.ReadOnly = true;
-            txtLog.Size = new Size(231, 506);
+            txtLog.Size = new Size(229, 496);
             txtLog.TabIndex = 2;
             txtLog.Text = "";
             // 
@@ -286,7 +299,7 @@
             stackPanel2.Controls.Add(label1);
             stackPanel2.Location = new Point(3, 3);
             stackPanel2.Name = "stackPanel2";
-            stackPanel2.Size = new Size(229, 28);
+            stackPanel2.Size = new Size(227, 28);
             stackPanel2.TabIndex = 1;
             stackPanel2.Text = "stackPanel2";
             // 
@@ -397,7 +410,7 @@
             panel1.Location = new Point(0, 0);
             panel1.Margin = new Padding(0);
             panel1.Name = "panel1";
-            panel1.RadiusAlign = AntdUI.TAlignRound.Left;
+            panel1.RadiusAlign = AntdUI.TAlignRound.BL;
             panel1.Size = new Size(73, 703);
             panel1.TabIndex = 0;
             panel1.Text = "panel1";
@@ -422,6 +435,7 @@
             ClientSize = new Size(1047, 737);
             Controls.Add(pnlMain);
             Controls.Add(pageHeader1);
+            ForeColor = Color.White;
             Margin = new Padding(2, 3, 2, 3);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
@@ -431,7 +445,6 @@
             panel3.ResumeLayout(false);
             tabsWX.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
-            panel8.ResumeLayout(false);
             pnlRight.ResumeLayout(false);
             tabsMain.ResumeLayout(false);
             pageOverview.ResumeLayout(false);
@@ -465,7 +478,7 @@
         private AntdUI.TabPage pageTools;
         private AntdUI.Button btnStatus;
         private AntdUI.FlowPanel flowPanel1;
-        private AntdUI.Button button1;
+        private AntdUI.Button btnHelp;
         private AntdUI.Tabs tabsWX;
         private AntdUI.FlowPanel pnlAvator;
         private AntdUI.StackPanel stackPanel2;
@@ -473,7 +486,7 @@
         private AntdUI.Button btnCopy;
         private AntdUI.Button btnClear;
         private AntdUI.TabPage tabPage1;
-        private Panel panel8;
         private AntdUI.Label label2;
+        private AntdUI.Button btnTopMost;
     }
 }

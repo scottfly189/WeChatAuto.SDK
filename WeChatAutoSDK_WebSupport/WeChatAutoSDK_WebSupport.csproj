@@ -15,6 +15,9 @@
 	<ItemGroup>
 		<PackageReference Include="AntdUI" Version="2.3.8" />
 		<PackageReference Include="FlaUI.UIA3" Version="5.0.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.1.7" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.1.7" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.7" />
 		<PackageReference Include="WeChatAuto.SDK" Version="1.2.81" />
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
