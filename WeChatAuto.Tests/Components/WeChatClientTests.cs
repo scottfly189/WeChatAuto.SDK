@@ -181,7 +181,7 @@ public class WeChatClientTests
     {
         var clientFactory = _globalFixture.clientFactory;
         var client = clientFactory.GetWeChatClient(_wxClientName);
-        await client.SendWho("", "你好，\r\n世界1！");
+        await client.SendWho("AI.Net", "你好，\r\n世界1！",isOpenChat:true);
         Assert.True(true);
         await Task.CompletedTask;
     }
