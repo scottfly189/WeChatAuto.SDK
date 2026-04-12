@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="../WeChatAuto/WeChatAuto.csproj" />
+  <Project Path="Tests/dotnet_test/dotnet_test.csproj" />
   <Project Path="WeChatAutoSDK_WebSupport/WeChatAutoSDK_WebSupport.csproj" />
 </Solution>

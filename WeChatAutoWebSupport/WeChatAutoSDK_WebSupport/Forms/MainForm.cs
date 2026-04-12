@@ -2,13 +2,12 @@ using AntdUI;
 using FlaUI.Core.AutomationElements;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using System.Windows.Media;
 using WeChatAuto.Components;
 using WeChatAuto.Services;
 using WeChatAutoSDK_WebSupport.Enums;
 using WeChatAutoSDK_WebSupport.Models;
-using WeChatAutoSDK_WebSupport.Properties;
 using WeChatAutoSDK_WebSupport.Utils;
 
 namespace WeChatAutoSDK_WebSupport
@@ -46,7 +45,7 @@ namespace WeChatAutoSDK_WebSupport
             tooltip.SetTip(this.btnTopMost, "置顶窗口");
             tooltip.SetTip(this.btnCopy, "复制日志");
             tooltip.SetTip(this.btnClear, "清空日志");
-            tooltip.SetTip(this.btnHelp,"帮助");
+            tooltip.SetTip(this.btnHelp, "帮助");
         }
 
         private void BindEvents()
@@ -66,7 +65,8 @@ namespace WeChatAutoSDK_WebSupport
             {
                 this.TopMost = false;
                 this.btnTopMost.IconSvg = "TagOutlined";
-            }else
+            }
+            else
             {
                 this.TopMost = true;
                 this.btnTopMost.IconSvg = "TagsOutlined";
@@ -85,7 +85,7 @@ namespace WeChatAutoSDK_WebSupport
         private void BtnCopy_Click(object? sender, EventArgs e)
         {
             Clipboard.SetText(txtLog.Text);
-            AntdUI.Message.success(this,"服务器日志成功复制到剪切板",autoClose:3);
+            AntdUI.Message.success(this, "服务器日志成功复制到剪切板", autoClose: 3);
         }
 
         private async void MainForm_Shown(object? sender, EventArgs e)
@@ -216,6 +216,7 @@ namespace WeChatAutoSDK_WebSupport
                         txtLog.Lines = list.ToArray();
                     }
                     txtLog.AppendText(log + Environment.NewLine);
+                    txtLog.ScrollToCaret();
                 };
                 if (txtLog.InvokeRequired)
                 {
@@ -264,7 +265,7 @@ namespace WeChatAutoSDK_WebSupport
             };
             var nickeName = action.From;
             var message = action.Payload!.ToString();
-            message = message!.Replace("\\r", "\r").Replace("\\n","\n");
+            message = message!.Replace("\\r", "\r").Replace("\\n", "\n");
             var who = action.To;
             try
             {
@@ -279,8 +280,10 @@ namespace WeChatAutoSDK_WebSupport
                 {
                     uiAction(pageName);
                 }
+                LogsHelper.LogInfo($"准备发送消息: from={nickeName}, to={who}, message={message}, messageId={action.MessageId},reqest_method={action.Method}, reqest_url={action.Url}");
                 await Task.Delay(Random.Shared.Next(1500, 5000));
                 await client.SendWho(who, message, isOpenChat: false);
+                LogsHelper.LogInfo($"消息发送结束: from={nickeName}, to={who}, message={message}, messageId={action.MessageId},reqest_method={action.Method}, reqest_url={action.Url}");
             }
             catch (Exception ex)
             {
@@ -295,7 +298,7 @@ namespace WeChatAutoSDK_WebSupport
             {
                 tabsWX.SelectTab(page);
             };
-            var path = Path.Combine(AppContext.BaseDirectory,"Temp");
+            var path = Path.Combine(AppContext.BaseDirectory, "Temp");
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -317,10 +320,12 @@ namespace WeChatAutoSDK_WebSupport
                     uiAction(pageName);
                 }
 
-                path = Path.Combine(path,fileInfo.fileName);
-                await File.WriteAllBytesAsync(path,fileInfo.content);
+                path = Path.Combine(path, fileInfo.fileName);
+                await File.WriteAllBytesAsync(path, fileInfo.content);
                 await Task.Delay(Random.Shared.Next(800, 7000));
-                await client.SendFile(who,path,isOpenChat:false);
+                LogsHelper.LogInfo($"准备发送消息: from={nickeName}, to={who}, clientsuggestionFileName={fileInfo.fileName}, messageId={action.MessageId},reqest_method={action.Method}, reqest_url={action.Url}");
+                await client.SendFile(who, path, isOpenChat: false);
+                LogsHelper.LogInfo($"消息发送结束: from={nickeName}, to={who}, clientsuggestionFileName={fileInfo.fileName}, messageId={action.MessageId},reqest_method={action.Method}, reqest_url={action.Url}");
             }
             catch (Exception ex)
             {
@@ -425,17 +430,22 @@ namespace WeChatAutoSDK_WebSupport
         private void MapUIAutomation(WebApplication app)
         {
             app.MapGet("/", () => "hello world!");
-            app.MapGet("/api/v1/message", async (string from, string to, string message, string messageId) => await __MessageSendAction(from, to, message, messageId));
-            app.MapPost("api/v1/message", async (AutomationMessage message) => await __MessageSendAction(message.From, message.To, message.Message, message.MessageId));
-            app.MapPost("api/v1/file", async (AutomationFile file) => await __FileSendAction(file));
+            app.MapGet("/api/v1/message", async (string from, string to, string message, string messageId, HttpContext context) => await __MessageSendAction(from, to, message, messageId, context));
+            app.MapPost("/api/v1/message", async (AutomationMessage message, HttpContext context) =>
+            {
+                await __MessageSendAction(message.From, message.To, message.Message, message.MessageId, context);
+            });
+            app.MapPost("/api/v1/file", async (AutomationFile file, HttpContext context) => await __FileSendAction(file, context));
         }
         /// <summary>
         /// 发送图片、视频等文件内容.
         /// </summary>
         /// <param name="file"></param>
+        /// <param name="context"></param>
         /// <returns></returns>
-        private async Task __FileSendAction(AutomationFile file)
+        private async Task __FileSendAction(AutomationFile file, HttpContext context)
         {
+            LogsHelper.LogInfo($"收到发送文件请求: from={file.From}, to={file.To}, fileName={file.ClientSuggestionFileName}, messageId={file.MessageId},url={context?.Request?.Path},method={context?.Request?.Method},已放入运行管道!");
             (string fileName, byte[] content) fileInfo = (file.ClientSuggestionFileName, file.FileContent);
             AutomationAction action = new AutomationAction
             {
@@ -444,6 +454,8 @@ namespace WeChatAutoSDK_WebSupport
                 Payload = fileInfo,
                 ActionType = ActionTypeEnum.SendFile,
                 MessageId = file.MessageId,
+                Url = context?.Request?.Path,
+                Method = context?.Request?.Method,
             };
             await WeChatAgent.WriteAsync(action, channelCts.Token);
         }
@@ -455,8 +467,9 @@ namespace WeChatAutoSDK_WebSupport
         /// <param name="to">发送给谁 - 好友或者群聊昵称</param>
         /// <param name="message">消息内容</param>
         /// <returns></returns>
-        private async Task __MessageSendAction(string from, string to, string message, string? messageId)
+        private async Task __MessageSendAction(string from, string to, string message, string? messageId, HttpContext? context)
         {
+            LogsHelper.LogInfo($"收到发送消息请求: from={from}, to={to}, message={message}, messageId={messageId},url={context?.Request?.Path},method={context?.Request?.Method},已放入运行管道!");
             AutomationAction action = new AutomationAction
             {
                 From = from,
@@ -464,6 +477,8 @@ namespace WeChatAutoSDK_WebSupport
                 Payload = message,
                 ActionType = ActionTypeEnum.SendMessage,
                 MessageId = messageId,
+                Url = context?.Request?.Path,
+                Method = context?.Request?.Method,
             };
             await WeChatAgent.WriteAsync(action, channelCts.Token);
         }
@@ -485,8 +500,8 @@ namespace WeChatAutoSDK_WebSupport
                     .AllowAnyHeader();
                 });
             });
-            builder.Services.AddTransient<AutomationMessage>();
-            builder.Services.AddTransient<AutomationFile>();
+            //builder.Services.AddTransient<AutomationMessage>();
+            //builder.Services.AddTransient<AutomationFile>();
         }
         /// <summary>
         /// 配置web应用
