@@ -281,7 +281,7 @@ namespace WeChatAutoSDK_WebSupport
                     uiAction(pageName);
                 }
                 LogsHelper.LogInfo($"准备发送消息: from={nickeName}, to={who}, message={message}, messageId={action.MessageId},reqest_method={action.Method}, reqest_url={action.Url}");
-                await Task.Delay(Random.Shared.Next(1500, 5000));
+                await Task.Delay(Random.Shared.Next(500, 1000));
                 await client.SendWho(who, message, isOpenChat: false);
                 LogsHelper.LogInfo($"消息发送结束: from={nickeName}, to={who}, message={message}, messageId={action.MessageId},reqest_method={action.Method}, reqest_url={action.Url}");
             }
@@ -322,7 +322,7 @@ namespace WeChatAutoSDK_WebSupport
 
                 path = Path.Combine(path, fileInfo.fileName);
                 await File.WriteAllBytesAsync(path, fileInfo.content);
-                await Task.Delay(Random.Shared.Next(800, 7000));
+                await Task.Delay(Random.Shared.Next(200, 1000));
                 LogsHelper.LogInfo($"准备发送消息: from={nickeName}, to={who}, clientsuggestionFileName={fileInfo.fileName}, messageId={action.MessageId},reqest_method={action.Method}, reqest_url={action.Url}");
                 await client.SendFile(who, path, isOpenChat: false);
                 LogsHelper.LogInfo($"消息发送结束: from={nickeName}, to={who}, clientsuggestionFileName={fileInfo.fileName}, messageId={action.MessageId},reqest_method={action.Method}, reqest_url={action.Url}");
@@ -358,7 +358,7 @@ namespace WeChatAutoSDK_WebSupport
         {
             var serviceProvider = WeAutomation.Initialize(options =>
             {
-                options.DebugMode = true;
+                options.DebugMode = false;
             });
             clientFactory = serviceProvider.GetRequiredService<WeChatClientFactory>();
             WeChatClientList = clientFactory.WeChatClientList;
@@ -425,6 +425,34 @@ namespace WeChatAutoSDK_WebSupport
             return app!.StartAsync(webCts.Token);
         }
         /// <summary>
+        /// 配置服务
+        /// </summary>
+        /// <param name="builder"></param>
+        private void ConfigServices(WebApplicationBuilder builder)
+        {
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+            builder.Services.AddCors(option =>
+            {
+                option.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                });
+            });
+        }
+        /// <summary>
+        /// 配置web应用
+        /// </summary>
+        /// <param name="app"></param>
+        private void ConfigWebApp(WebApplication app)
+        {
+            app.UseCors("AllowAll"); //允许跨域访问
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+        /// <summary>
         /// 接收请求，进行自动化操作.
         /// </summary>
         private void MapUIAutomation(WebApplication app)
@@ -481,37 +509,6 @@ namespace WeChatAutoSDK_WebSupport
                 Method = context?.Request?.Method,
             };
             await WeChatAgent.WriteAsync(action, channelCts.Token);
-        }
-
-        /// <summary>
-        /// 配置服务
-        /// </summary>
-        /// <param name="builder"></param>
-        private void ConfigServices(WebApplicationBuilder builder)
-        {
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddCors(option =>
-            {
-                option.AddPolicy("AllowAll", policy =>
-                {
-                    policy.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
-                });
-            });
-            //builder.Services.AddTransient<AutomationMessage>();
-            //builder.Services.AddTransient<AutomationFile>();
-        }
-        /// <summary>
-        /// 配置web应用
-        /// </summary>
-        /// <param name="app"></param>
-        private void ConfigWebApp(WebApplication app)
-        {
-            app.UseCors("AllowAll"); //允许跨域访问
-            app.UseSwagger();
-            app.UseSwaggerUI();
         }
 
         private Task StopWebApiAsync()
