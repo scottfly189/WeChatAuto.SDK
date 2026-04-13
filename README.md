@@ -16,13 +16,10 @@ WeChatAuto.SDK 是一款面向 AI 的微信 PC 客户端自动化 SDK，基于 .
 - 🔧 **易于集成** - 支持依赖注入，可轻松集成到现有项目
 - 🚀 **多微信实例支持** - 同时管理多个微信客户端实例
 - 🚀 **现有应用集成** - 由于是SDK库，所以方便在现有系统集成
-- 🚀 **Web Support** - 提供Rest API 供Python、js/ts等非.net的家人们调用。 👉[点击了解Web Support](./)
+- 🚀 **Web Support** - 提供Rest API 供Python、js/ts等非.net的家人们调用。 👉[点击了解Web Support](./MD/WebSupport.md)
 - 😊 **AI 友好集成** - 原生支持 LLM 上下文对接并提供 MCP Server，便于对接主流智能体与平台（如 MEAI、SK、MAF），助力智能应用高效闭环与创新集成
 
-**👉 如需体验**，请点击链接进入: [我要体验](./MD/Experience.md)
-
-也可以观看网友做的介绍视频: [微信轻松接入人工智能（一） - WeChatAuto.SDK功能介绍](https://www.bilibili.com/video/BV1PHFZzsEkf?vd_source=bfba6dfea0475f14a68ac5bc4ec2e165
-)
+**👉 如需体验**，请点击链接进入: [WeChatAuto.SDK体验指引](./MD/Experience.md)
 
 > 如果觉得有帮助，欢迎点赞、Star和Fork本项目，以免失联，感谢支持！
 
@@ -30,7 +27,8 @@ WeChatAuto.SDK 是一款面向 AI 的微信 PC 客户端自动化 SDK，基于 .
 
 - Windows 操作系统
 - .NET Framework 4.8+ 或 .NET 6.0+ (Windows)，支持.NET的框架有:net48;net481;net6.0-windows; net7.0-windows;net8.0-windows;net9.0-windows;net10.0-windows;
-- 微信 PC 客户端已安装并运行,本 SDK 基于微信 PC 客户端(版本号:3.9.12.55)的 UI 结构开发，不同版本可能存在兼容性问题([安装不了3.9.12.xx 👉 请参见Issure](https://github.com/scottfly189/WeChatAuto.SDK/issues/1))。
+- 微信 PC 客户端已安装并运行,本 SDK 基于微信 PC 客户端(版本号:3.9.12.55)的 UI 结构开发，基于Win11（Microsoft Windows [版本 10.0.22000.3260]）开发，如发现UI结构不符，请联系作者修改;
+- 安装不了微信PC客户端3.9.12.xx? 请查看 👉 [微信3.9.12.xx安装器 - 微信低版本安装](https://github.com/scottfly189/WeChatAuto.SDK/issues/2)
 
 ## 🚀 快速开始
 
