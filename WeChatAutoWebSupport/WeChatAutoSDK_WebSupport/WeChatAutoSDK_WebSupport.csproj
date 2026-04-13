@@ -9,8 +9,8 @@
 		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
 		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
-		<IsAotCompatible>true</IsAotCompatible>
-		<VerifyReferenceAotCompatibility>true</VerifyReferenceAotCompatibility>
+		<!--<IsAotCompatible>true</IsAotCompatible>
+		<VerifyReferenceAotCompatibility>true</VerifyReferenceAotCompatibility>-->
 	</PropertyGroup>
 
 	<ItemGroup>

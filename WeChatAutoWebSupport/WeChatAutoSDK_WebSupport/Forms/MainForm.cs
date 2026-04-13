@@ -458,12 +458,13 @@ namespace WeChatAutoSDK_WebSupport
         private void MapUIAutomation(WebApplication app)
         {
             app.MapGet("/", () => "hello world!");
-            app.MapGet("/api/v1/message", async (string from, string to, string message, string messageId, HttpContext context) => await __MessageSendAction(from, to, message, messageId, context));
-            app.MapPost("/api/v1/message", async (AutomationMessage message, HttpContext context) =>
+            var messageAPI = app.MapGroup("/api/v1");
+            messageAPI.MapGet("/message", async (string from, string to, string message, string messageId, HttpContext context) => await __MessageSendAction(from, to, message, messageId, context));
+            messageAPI.MapPost("/message", async (AutomationMessage message, HttpContext context) =>
             {
                 await __MessageSendAction(message.From, message.To, message.Message, message.MessageId, context);
             });
-            app.MapPost("/api/v1/file", async (AutomationFile file, HttpContext context) => await __FileSendAction(file, context));
+            messageAPI.MapPost("/file", async (AutomationFile file, HttpContext context) => await __FileSendAction(file, context));
         }
         /// <summary>
         /// 发送图片、视频等文件内容.
