@@ -9,7 +9,8 @@
 		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
 		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
-		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<!--<IsAotCompatible>true</IsAotCompatible>
+		<VerifyReferenceAotCompatibility>true</VerifyReferenceAotCompatibility>-->
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -19,11 +20,6 @@
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.1.7" />
 		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.1.7" />
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Pages\" />
-		<Folder Include="Viewer\" />
 	</ItemGroup>
 
 	<ItemGroup>

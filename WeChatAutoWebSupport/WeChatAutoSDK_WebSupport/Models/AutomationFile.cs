@@ -21,7 +21,7 @@ namespace WeChatAutoSDK_WebSupport.Models
         [JsonPropertyName("to")]
         public required string To { get; set; }
         /// <summary>
-        /// 图片、视频、文件转成的Base64内容
+        /// 图片、视频、文件的byte[]字节流
         /// </summary>
         [JsonPropertyName("file_content")]
         public required byte[] FileContent { get; set; }

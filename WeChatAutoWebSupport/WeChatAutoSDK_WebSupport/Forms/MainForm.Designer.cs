@@ -477,7 +477,6 @@
         private AntdUI.Button btnStart;
         private AntdUI.TabPage pageTools;
         private AntdUI.Button btnStatus;
-        private AntdUI.FlowPanel flowPanel1;
         private AntdUI.Button btnHelp;
         private AntdUI.Tabs tabsWX;
         private AntdUI.FlowPanel pnlAvator;
@@ -488,8 +487,5 @@
         private AntdUI.TabPage tabPage1;
         private AntdUI.Label label2;
         private AntdUI.Button btnTopMost;
-        private AntdUI.Image3D image3d1;
-        private AntdUI.ImagePreview imagePreview1;
-        private AntdUI.Image3D image3d2;
     }
 }
