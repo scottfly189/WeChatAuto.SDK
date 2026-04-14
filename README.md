@@ -346,7 +346,7 @@ WeChatAuto.SDK的非VIP与VIP的核心代码层面完全一致，非VIP没有任
 
 ---
 
-## 🎁 入门视频
+## 🎁 WechatAuto.SDK功能介绍视频
 
 [【微信轻松接入人工智能（一） - WeChatAuto.SDK功能介绍】](https://www.bilibili.com/video/BV1PHFZzsEkf?vd_source=bfba6dfea0475f14a68ac5bc4ec2e165
 )
