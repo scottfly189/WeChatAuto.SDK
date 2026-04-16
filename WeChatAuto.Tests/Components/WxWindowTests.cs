@@ -576,7 +576,7 @@ namespace WeChatAuto.Tests.Components
         }
 
         [Theory(DisplayName = "测试获得好友的wxid")]
-        [InlineData("AI.Net")]
+        [InlineData("郭宇强_w_vip")]
         public async Task TestGetWxIdWithWho(string who)
         {
             var framework = _globalFixture.clientFactory;

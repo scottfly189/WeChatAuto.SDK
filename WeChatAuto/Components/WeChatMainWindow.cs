@@ -1318,7 +1318,12 @@ namespace WeChatAuto.Components
 
                         if (retryWxId.Success)
                         {
-                            result.WxId = retryWxId.Result.Name;
+                            var parent = retryWxId.Result.GetParent().GetParent();
+                            var wxLables = parent.FindAllDescendants(cf=>cf.ByControlType(ControlType.Text));
+                            var wxLabel = wxLables.Where(u=>u.Name.Contains("微信号")).FirstOrDefault();
+
+                            var realWxLabel = wxLabel.GetSibling(1).Name;
+                            result.WxId = realWxLabel;
                             Task.Delay(rand.Next(300, 800));
                             path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[1]/Edit";
                             var sender = this.SelfWindow.FindFirstByXPath(path);

@@ -189,9 +189,15 @@ namespace WeChatAuto.Components
                         Task.Delay(rand.Next(500, 1500));
                         var retryWxId = Retry.WhileNull(() =>
                         {
+
                             path = "/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[2]";
                             label = this.SelfWindow.FindFirstByXPath(path);
-                            return label.AsLabel();
+
+                            var parent = label.GetParent().GetParent();
+                            var wxLables = parent.FindAllDescendants(cf=>cf.ByControlType(ControlType.Text));
+                            var wxLabel = wxLables.Where(u=>u.Name.Contains("微信号")).FirstOrDefault();
+
+                            return wxLabel.GetSibling(1).AsLabel();
                         }, timeout: TimeSpan.FromSeconds(5), interval: TimeSpan.FromMilliseconds(200));
 
                         if (retryWxId.Success)
