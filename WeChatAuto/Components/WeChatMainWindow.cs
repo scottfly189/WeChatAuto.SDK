@@ -1403,8 +1403,12 @@ namespace WeChatAuto.Components
                                 var wxId = pane.FindFirstByXPath(path);
                                 if (wxId != null)
                                 {
-                                    DrawHightlightHelper.DrawHighlightExt(wxId);
-                                    info.WxId = wxId.Name.Trim();
+                                    var parent = wxId.GetParent().GetParent();
+                                    var children = parent.FindAllDescendants();
+                                    var wxIdPro = children.Where(u=>u.Name.Contains("微信号")).FirstOrDefault();
+                                    var resultPro = wxIdPro.GetSibling(1);
+                                    DrawHightlightHelper.DrawHighlightExt(resultPro);
+                                    info.WxId = resultPro.Name.Trim();
                                     path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane[1]/Text";
                                     var label = pane.FindFirstByXPath(path);
                                     DrawHightlightHelper.DrawHighlightExt(label);
@@ -2378,6 +2382,7 @@ namespace WeChatAuto.Components
                                             itemButton.RightClick();
                                             this._OpenUpdateGroupNameWindow(groupName);
                                         }
+
                                         RandomWait.Wait(1000, 5000);
                                         return firstItem.Name;
                                     }
