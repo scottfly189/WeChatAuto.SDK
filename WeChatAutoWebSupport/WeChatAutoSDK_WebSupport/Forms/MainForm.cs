@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
+using System.Security.Policy;
 using WeChatAuto.Components;
 using WeChatAuto.Services;
 using WeChatAutoSDK_WebSupport.Enums;
@@ -57,6 +59,25 @@ namespace WeChatAutoSDK_WebSupport
             this.btnCopy.Click += BtnCopy_Click;
             this.btnClear.Click += BtnClear_Click;
             this.btnTopMost.Click += BtnTopMost_Click;
+            this.btnHelp.Click += BtnHelp_Click;
+        }
+
+        private void BtnHelp_Click(object? sender, EventArgs e)
+        {
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = "https://github.com/scottfly189/WeChatAuto.SDK/blob/master/MD/WebSupport.md",
+                UseShellExecute = true // 必须设置为 true 才能调用系统默认浏览器
+            };
+
+            try
+            {
+                Process.Start(psi);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"无法打开网页: {ex.Message}");
+            }
         }
 
         private void BtnTopMost_Click(object? sender, EventArgs e)
