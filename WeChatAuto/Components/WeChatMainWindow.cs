@@ -1266,13 +1266,13 @@ namespace WeChatAuto.Components
                     this._Search.SearchChat(who);
                     Random rand = new Random((int)DateTime.Now.Ticks);
                     await Task.Delay(rand.Next(500, 1500));
-                    info = await __GetCurrentChatWxId();
+                    info = await __GetCurrentChatWxId().ConfigureAwait(false);
                 }
                 else
                 {
                     //子窗口获取
                     SubWin subWin = this.SubWinList.GetSubWin(who);
-                    info = await subWin.GetWxId();
+                    info = await subWin.GetWxId().ConfigureAwait(false);
                 }
             }
             return info;
@@ -1420,8 +1420,7 @@ namespace WeChatAuto.Components
                             }
                         }
                     }
-                });
-
+                }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
