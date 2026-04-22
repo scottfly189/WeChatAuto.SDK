@@ -214,7 +214,7 @@ namespace WeChatAuto.Components
                         _logger.Info($"切换到导航栏：{navigationType.ToString()}");
                     }
                 }
-            }).GetAwaiter().GetResult();
+            }).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         /// <summary>

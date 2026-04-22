@@ -1253,7 +1253,7 @@ namespace WeChatAuto.Components
             if (string.IsNullOrWhiteSpace(who))
             {
                 //获取当前聊天窗口的好友的wxid
-                info = await __GetCurrentChatWxId();
+                info = await __GetCurrentChatWxId().ConfigureAwait(false);
             }
             else
             {
@@ -1374,10 +1374,13 @@ namespace WeChatAuto.Components
                         return this.SelfWindow.FindFirstByXPath(path);
                     }, timeout: TimeSpan.FromSeconds(5), interval: TimeSpan.FromMilliseconds(200));
                     var text = textRetry.Success ? textRetry.Result : throw new Exception("发生错误，没有找到文本框");
+                    DrawHightlightHelper.DrawHighlightExt(text);
                     text.Focus();
                     text.Click();
+                    Task.Delay(rand.Next(200, 800));
+                    text.Click();
                     Keyboard.Type(phone);
-                    RandomWait.Wait(800, 2000);
+                    Task.Delay(rand.Next(200, 1200));
                     path = "/Pane/Pane/Pane/Pane[2]/Pane/List/ListItem[1]";
                     var listItemRetry = Retry.WhileNull(() => this.SelfWindow.FindFirstByXPath(path).AsListBoxItem()
                     , timeout: TimeSpan.FromSeconds(5), interval: TimeSpan.FromMilliseconds(200));
@@ -1388,7 +1391,7 @@ namespace WeChatAuto.Components
                         {
                             DrawHightlightHelper.DrawHighlightExt(listItem);
                             listItem.ClickEnhance(this.SelfWindow);
-                            RandomWait.Wait(500, 1200);
+                            Task.Delay(rand.Next(500, 1200));
                             var panelRetry = Retry.WhileNull(() =>
                             {
                                 var desktop = automation.GetDesktop();

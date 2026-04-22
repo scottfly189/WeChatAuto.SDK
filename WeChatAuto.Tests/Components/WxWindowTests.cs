@@ -588,7 +588,7 @@ namespace WeChatAuto.Tests.Components
         }
 
         [Theory(DisplayName = "测试能过手机获得好友的wxid")]
-        [InlineData("13719238557")]
+        [InlineData("13983816522")]
         public async Task TestGetWxIdWithPhone(string who)
         {
             var framework = _globalFixture.clientFactory;
