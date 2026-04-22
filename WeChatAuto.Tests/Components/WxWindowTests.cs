@@ -570,25 +570,27 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var wxid = await window.GetWxid("");
+            var wxid = await window.GetWxid("",true,@"c:\my.png");
             _output.WriteLine(wxid.ToString());
             Assert.NotNull(wxid);
         }
 
         [Theory(DisplayName = "测试获得好友的wxid")]
-        [InlineData("郭宇强_w_vip")]
+        [InlineData("秋歌")]
         public async Task TestGetWxIdWithWho(string who)
         {
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var wxid = await window.GetWxid(who);
+            var wxid = await window.GetWxid(who,true,@"c:\guo.png");
             _output.WriteLine(wxid.ToString());
             Assert.NotNull(wxid);
         }
 
         [Theory(DisplayName = "测试能过手机获得好友的wxid")]
         [InlineData("13983816522")]
+        //[InlineData("13983816523")]
+        // [InlineData("13983816524")]
         public async Task TestGetWxIdWithPhone(string who)
         {
             var framework = _globalFixture.clientFactory;

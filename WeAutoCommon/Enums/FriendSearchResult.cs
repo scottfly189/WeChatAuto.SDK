@@ -17,6 +17,6 @@ namespace WeAutoCommon.Enums
         [Description("不允许被查询，或者通过手机号查询不到")]
         No_Find = 1,
         [Description("能查到，但不是好友")]
-        NotFrend = 2,
+        NotFriend = 2,
     }
 }
