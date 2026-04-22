@@ -1370,7 +1370,8 @@ namespace WeChatAuto.Components
                     Task.Delay(rand.Next(500, 1200));
                     var textRetry = Retry.WhileNull(() =>
                     {
-                        path = "/Pane[2]/Pane/Pane[1]/Pane[1]/Pane/Text";
+                        //path = "/Pane[2]/Pane/Pane[1]/Pane[1]/Pane/Text";
+                        path = "/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='微信号/手机号']";
                         return this.SelfWindow.FindFirstByXPath(path);
                     }, timeout: TimeSpan.FromSeconds(5), interval: TimeSpan.FromMilliseconds(200));
                     var text = textRetry.Success ? textRetry.Result : throw new Exception("发生错误，没有找到文本框");
