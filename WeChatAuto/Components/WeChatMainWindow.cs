@@ -1246,14 +1246,15 @@ namespace WeChatAuto.Components
         /// 通过好友昵称获得wxid
         /// </summary>
         /// <param name="who">好友昵称，可以为空，如果为空，则获取当前聊天的窗口的好友的wxid</param>
+        /// <param name="avatarPath">头像保存路径，可以为空，如果为空，就不会保存进指定的目录，但会返回Image,具体查看<seealso cref="FriendInfo"/></param>
         /// <returns>个人信息<see cref="FriendInfo"/></returns>
-        public async Task<FriendInfo> GetWxid(string who)
+        public async Task<FriendInfo> GetWxid(string who, string avatarPath = default)
         {
             FriendInfo info = new FriendInfo();
             if (string.IsNullOrWhiteSpace(who))
             {
                 //获取当前聊天窗口的好友的wxid
-                info = await __GetCurrentChatWxId().ConfigureAwait(false);
+                info = await __GetCurrentChatWxId(avatarPath).ConfigureAwait(false);
             }
             else
             {
@@ -1266,7 +1267,7 @@ namespace WeChatAuto.Components
                     this._Search.SearchChat(who);
                     Random rand = new Random((int)DateTime.Now.Ticks);
                     await Task.Delay(rand.Next(500, 1500));
-                    info = await __GetCurrentChatWxId().ConfigureAwait(false);
+                    info = await __GetCurrentChatWxId(avatarPath).ConfigureAwait(false);
                 }
                 else
                 {
@@ -1277,69 +1278,142 @@ namespace WeChatAuto.Components
             }
             return info;
         }
-        private async Task<FriendInfo> __GetCurrentChatWxId()
+        private async Task<FriendInfo> __GetCurrentChatWxId(string avatarPath = default)
         {
             try
             {
                 FriendInfo info = await _uiMainThreadInvoker.Run(automation =>
                 {
-                    FriendInfo result = new FriendInfo();
-                    var path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[1]/Pane/Text";
-                    var nickNameElement = this.SelfWindow.FindFirstByXPath(path) == null ? throw new Exception("当前聊天窗口对象不是好友") :
-                        this.SelfWindow.FindFirstByXPath(path);
-                    result.NickName = nickNameElement.AsLabel().Name;
-                    DrawHightlightHelper.DrawHighlightExt(nickNameElement);
-                    path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[2]/Button[@Name='聊天信息']";
-                    var buttonElement = this.SelfWindow.FindFirstByXPath(path) == null ? throw new Exception("当前聊天窗口对象不是好友") :
-                        this.SelfWindow.FindFirstByXPath(path);
-                    DrawHightlightHelper.DrawHighlightExt(buttonElement);
-                    Random rand = new Random(DateTime.Now.Millisecond);
-                    Task.Delay(rand.Next(300, 1000));
-                    var button = buttonElement.AsButton();
-                    button.ClickEnhance(this.SelfWindow);
-
-                    var retryButton = Retry.WhileNull(() =>
+                    try
                     {
-                        path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/List/ListItem[1]/Pane/Pane/Button";
-                        buttonElement = this.SelfWindow.FindFirstByXPath(path);
-                        return buttonElement.AsButton();
-                    }, timeout: TimeSpan.FromSeconds(4), interval: TimeSpan.FromMilliseconds(200));
-                    if (retryButton.Success)
-                    {
-                        Task.Delay(rand.Next(500, 1500));
-                        retryButton.Result.ClickEnhance(this.SelfWindow);
-                        Task.Delay(rand.Next(500, 1500));
-                        var retryWxId = Retry.WhileNull(() =>
-                        {
-                            path = "/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[2]";
-                            var label = this.SelfWindow.FindFirstByXPath(path);
-                            return label.AsLabel();
-                        }, timeout: TimeSpan.FromSeconds(5), interval: TimeSpan.FromMilliseconds(200));
+                        FriendInfo result = new FriendInfo();
+                        var path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[1]/Pane/Text";
+                        var nickNameElement = this.SelfWindow.FindFirstByXPath(path) == null ? throw new Exception("当前聊天窗口对象不是好友") :
+                            this.SelfWindow.FindFirstByXPath(path);
+                        result.NickName = nickNameElement.AsLabel().Name;   //初步得到昵称
+                        DrawHightlightHelper.DrawHighlightExt(nickNameElement);
+                        path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[2]/Button[@Name='聊天信息']";
+                        var buttonElement = this.SelfWindow.FindFirstByXPath(path) == null ? throw new Exception("当前聊天窗口对象不是好友") :
+                            this.SelfWindow.FindFirstByXPath(path);
+                        DrawHightlightHelper.DrawHighlightExt(buttonElement);
+                        Random rand = new Random(DateTime.Now.Millisecond);
+                        RandomWait.Wait(300, 1000);
+                        var button = buttonElement.AsButton();
+                        button.ClickEnhance(this.SelfWindow);
 
-                        if (retryWxId.Success)
+                        var retryButton = Retry.WhileNull(() =>
                         {
-                            var parent = retryWxId.Result.GetParent().GetParent();
-                            var wxLables = parent.FindAllDescendants(cf=>cf.ByControlType(ControlType.Text));
-                            var wxLabel = wxLables.Where(u=>u.Name.Contains("微信号")).FirstOrDefault();
+                            path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/List/ListItem[1]/Pane/Pane/Button";
+                            buttonElement = this.SelfWindow.FindFirstByXPath(path);
+                            return buttonElement.AsButton();
+                        }, timeout: TimeSpan.FromSeconds(4), interval: TimeSpan.FromMilliseconds(200));
+                        if (retryButton.Success)
+                        {
+                            RandomWait.Wait(300, 1500);
+                            retryButton.Result.ClickEnhance(this.SelfWindow);
+                            RandomWait.Wait(500, 1500);
+                            var retryWxId = Retry.WhileNull(() =>
+                            {
+                                path = "/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[2]";
+                                var label = this.SelfWindow.FindFirstByXPath(path);
+                                return label.AsLabel();
+                            }, timeout: TimeSpan.FromSeconds(5), interval: TimeSpan.FromMilliseconds(200));
 
-                            var realWxLabel = wxLabel.GetSibling(1).Name;
-                            result.WxId = realWxLabel;
-                            Task.Delay(rand.Next(300, 800));
-                            path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[1]/Edit";
-                            var sender = this.SelfWindow.FindFirstByXPath(path);
-                            sender.ClickEnhance(this.SelfWindow);
-                            Task.Delay(300);
-                            sender.ClickEnhance(this.SelfWindow);
+                            if (retryWxId.Success)
+                            {
+                                var parent = retryWxId.Result.GetParent().GetParent();
+                                var wxLables = parent.FindAllDescendants(cf => cf.ByControlType(ControlType.Text));
+                                var wxLabel = wxLables.Where(u => u.Name.Contains("微信号")).FirstOrDefault();
+                                //wxid
+                                var realWxLabel = wxLabel.GetSibling(1).Name;
+                                DrawHightlightHelper.DrawHighlightExt(wxLabel.GetSibling(1));
+                                result.WxId = realWxLabel;
+                                //昵称/备注
+                                var wxNickNameLabel = wxLables.Where(u => u.Name.Contains("昵称")).FirstOrDefault();
+                                if (wxNickNameLabel != null)
+                                {
+                                    //有昵称,这个要替换一下上面得到的昵称，因为上面的昵称其实是备注名.
+                                    result.MemoName = result.NickName;
+                                    DrawHightlightHelper.DrawHighlightExt(wxNickNameLabel.GetSibling(1));
+                                    result.NickName = wxNickNameLabel.GetSibling(1).Name.Trim();
+                                }
+                                //地区
+                                var areaLabel = wxLables.Where(u => u.Name.Contains("地区")).FirstOrDefault();
+                                if (areaLabel != null)
+                                {
+                                    DrawHightlightHelper.DrawHighlightExt(areaLabel.GetSibling(1));
+                                    result.Area = areaLabel.GetSibling(1).Name.Trim();
+                                }
+
+                                //标签
+                                var labelName = this.SelfWindow.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[@Name='标签']");
+                                if (labelName != null)
+                                {
+                                    DrawHightlightHelper.DrawHighlightExt(labelName.GetSibling(1));
+                                    result.Lable = new List<string>();
+                                    var text = labelName.GetSibling(1).Name;
+                                    if (!string.IsNullOrWhiteSpace(text))
+                                    {
+                                        result.Lable = text.Split('，').Select(item=>item.Trim()).ToList();
+                                    }
+                                }
+                                //个性签名
+                                labelName = this.SelfWindow.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[@Name='个性签名']");
+                                if (labelName != null)
+                                {
+                                    DrawHightlightHelper.DrawHighlightExt(labelName.GetSibling(1));
+                                    var text = labelName.GetSibling(1).Name;
+                                    result.Signature = text;
+                                }
+                                //来源
+                                labelName = this.SelfWindow.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[@Name='来源']");
+                                if (labelName != null)
+                                {
+                                    DrawHightlightHelper.DrawHighlightExt(labelName.GetSibling(1));
+                                    var text = labelName.GetSibling(1).Name;
+                                    result.Source = text;
+                                }
+
+                                //共同的群,可能有，也可能没有
+                                labelName = this.SelfWindow.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[@Name='共同群聊']");
+                                if (labelName != null)
+                                {
+                                    DrawHightlightHelper.DrawHighlightExt(labelName.GetSibling(1));
+                                    var text = labelName.GetSibling(1).Name;
+                                    result.SameGroupNumber = text;
+                                }
+
+                                RandomWait.Wait(500, 1500);
+
+
+
+
+
+
+                                //关闭窗口
+                                RandomWait.Wait(300, 800);
+                                path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[1]/Edit";
+                                var sender = this.SelfWindow.FindFirstByXPath(path);
+                                sender.ClickEnhance(this.SelfWindow);
+                                RandomWait.Wait(300, 900);
+                                sender.ClickEnhance(this.SelfWindow);
+                            }
                         }
-                    }
 
-                    return result;
+                        return result;
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Error(ex.ToString());
+                        throw;
+                    }
                 });
                 return info;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 //如果发生错误：如当前窗口不是好友聊天窗口，则返回空
+                _logger.Error(ex.ToString());
                 return new FriendInfo();
             }
         }
@@ -1348,8 +1422,9 @@ namespace WeChatAuto.Components
         /// 通过手机号码，获取好友的wxid.
         /// </summary>
         /// <param name="phone"></param>
+        /// <param name="avatarPath">头像保存路径，可以为空，如果为空，就不会保存进指定的目录，但会返回Image,具体查看<seealso cref="FriendInfo"/></param>
         /// <returns>个人信息<see cref="FriendInfo"/></returns>
-        public async Task<FriendInfo> GetWxidFromPhoneNumber(string phone)
+        public async Task<FriendInfo> GetWxidFromPhoneNumber(string phone, string avatarPath = default)
         {
             FriendInfo info = new FriendInfo();
             try
@@ -1409,7 +1484,7 @@ namespace WeChatAuto.Components
                                 {
                                     var parent = wxId.GetParent().GetParent();
                                     var children = parent.FindAllDescendants();
-                                    var wxIdPro = children.Where(u=>u.Name.Contains("微信号")).FirstOrDefault();
+                                    var wxIdPro = children.Where(u => u.Name.Contains("微信号")).FirstOrDefault();
                                     var resultPro = wxIdPro.GetSibling(1);
                                     DrawHightlightHelper.DrawHighlightExt(resultPro);
                                     info.WxId = resultPro.Name.Trim();
