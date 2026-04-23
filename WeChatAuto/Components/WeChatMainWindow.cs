@@ -1248,7 +1248,7 @@ namespace WeChatAuto.Components
         /// 具体好友信息请查询<seealso cref="FriendInfo"/>
         /// </summary>
         /// <param name="who">好友，可以为空，如果为空，则获取当前聊天的窗口的好友的wxid</param>
-        /// <param name="fetchImage">是否获取图像，默认为true,如果设置为false,则不会进行获取图像操作</param>
+        /// <param name="fetchImage">是否获取头像，默认为true,如果设置为false,则不会进行获取头像操作</param>
         /// <param name="avatarPath">头像保存路径，可以为空，如果为空，就不会保存进指定的目录，但会返回Image,具体查看<seealso cref="FriendInfo"/></param>
         /// <returns>个人信息<see cref="FriendInfo"/></returns>
         public async Task<FriendInfo> GetFriendInfo(string who, bool fetchImage = true, string avatarPath = default) => await GetWxid(who, fetchImage, avatarPath);
@@ -1258,7 +1258,7 @@ namespace WeChatAuto.Components
         /// 具体好友信息请查询<seealso cref="FriendInfo"/>
         /// </summary>
         /// <param name="who">好友，可以为空，如果为空，则获取当前聊天的窗口的好友的wxid</param>
-        /// <param name="fetchImage">是否获取图像，默认为true,如果设置为false,则不会进行获取图像操作</param>
+        /// <param name="fetchImage">是否获取头像，默认为true,如果设置为false,则不会进行获取头像操作</param>
         /// <param name="avatarPath">头像保存路径，可以为空，如果为空，就不会保存进指定的目录，但会返回Image,具体查看<seealso cref="FriendInfo"/></param>
         /// <returns>个人信息<see cref="FriendInfo"/></returns>
         public async Task<FriendInfo> GetWxid(string who, bool fetchImage = true, string avatarPath = default)
@@ -1512,7 +1512,7 @@ namespace WeChatAuto.Components
         /// 通过手机号获取好友详情（注意：不能是群聊），包括: 个人微信号wxid、地区、备注、昵称、所属标签、共同群聊数量、来源、对像等信息，
         /// </summary>
         /// <param name="phone">手机号码</param>
-        /// <param name="fetchImage">是否获取图像，默认为true,如果设置为false,则不会进行获取图像操作</param>
+        /// <param name="fetchImage">是否获取头像，默认为true,如果设置为false,则不会进行获取头像操作</param>
         /// <param name="avatarPath">头像保存路径，可以为空，如果为空，就不会保存进指定的目录，但会返回Image,具体查看<seealso cref="FriendInfo"/></param>
         /// <returns>个人信息<see cref="FriendInfo"/></returns>
         public async Task<FriendInfo> GetFriendInfoFromPhoneNumber(string phone, bool fetchImage = true, string avatarPath = default) => await GetWxidFromPhoneNumber(phone, fetchImage, avatarPath);
@@ -1520,7 +1520,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 通过手机号码，获取好友的wxid.
         /// </summary>
-        /// <param name="phone"></param>
+        /// <param name="phone">手机号码</param>
         /// <param name="fetchImage">是否获取图像，默认为true,如果设置为false,则不会进行获取图像操作</param>
         /// <param name="avatarPath">头像保存路径，可以为空，如果为空，就不会保存进指定的目录，但会返回Image,具体查看<seealso cref="FriendInfo"/></param>
         /// <returns>个人信息<see cref="FriendInfo"/></returns>
