@@ -1399,7 +1399,6 @@ namespace WeChatAuto.Components
                                 RandomWait.Wait(500, 1500);
 
                                 //保存图片.
-                                //var name = string.IsNullOrWhiteSpace(result.MemoName) ? result.NickName : result.MemoName;
                                 if (fetchImage)
                                 {
                                     var imageButtonElement = this.SelfWindow.FindFirstByXPath($"/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Button");
@@ -1440,10 +1439,12 @@ namespace WeChatAuto.Components
                                                     if (System.Windows.Clipboard.ContainsImage())
                                                     {
                                                         var bitmap = System.Windows.Forms.Clipboard.GetImage();
+                                                        //下面进行保存操作
                                                         if (avatarPath != default)
                                                         {
-                                                            bitmap.Save(avatarPath);
-                                                            result.AvatarPath = avatarPath;
+                                                            var imageFileName = __GetAvatarImageFileName__(avatarPath, result.WxId);
+                                                            bitmap.Save(imageFileName);
+                                                            result.AvatarPath = imageFileName;
                                                         }
                                                         result.AvatarImage = bitmap;
                                                     }
@@ -1506,6 +1507,20 @@ namespace WeChatAuto.Components
                 _logger.Error(ex.ToString());
                 return new FriendInfo();
             }
+        }
+        /// <summary>
+        /// 得到待保存头像的文件名
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="wxid"></param>
+        /// <returns></returns>
+        private string __GetAvatarImageFileName__(string path, string wxid)
+        {
+            if (Directory.Exists(path))
+            {
+                return Path.Combine(path, wxid + ".png");
+            }
+            return path;
         }
 
         /// <summary>
@@ -1696,8 +1711,9 @@ namespace WeChatAuto.Components
                                                             var bitmap = System.Windows.Forms.Clipboard.GetImage();
                                                             if (avatarPath != default)
                                                             {
-                                                                bitmap.Save(avatarPath);
-                                                                result.AvatarPath = avatarPath;
+                                                                var imageFileName = __GetAvatarImageFileName__(avatarPath, result.WxId);
+                                                                bitmap.Save(imageFileName);
+                                                                result.AvatarPath = imageFileName;
                                                             }
                                                             result.AvatarImage = bitmap;
                                                         }

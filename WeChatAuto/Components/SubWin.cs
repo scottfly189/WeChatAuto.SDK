@@ -20,6 +20,7 @@ using WeChatAuto.Services;
 using WeChatAuto.Models;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
+using System.IO;
 
 namespace WeChatAuto.Components
 {
@@ -315,8 +316,9 @@ namespace WeChatAuto.Components
                                                         var bitmap = System.Windows.Forms.Clipboard.GetImage();
                                                         if (avatarPath != default)
                                                         {
-                                                            bitmap.Save(avatarPath);
-                                                            result.AvatarPath = avatarPath;
+                                                            var imageFileName = __GetAvatarImageFileName__(avatarPath, result.WxId);
+                                                            bitmap.Save(imageFileName);
+                                                            result.AvatarPath = imageFileName;
                                                         }
                                                         result.AvatarImage = bitmap;
                                                     }
@@ -362,6 +364,21 @@ namespace WeChatAuto.Components
             {
                 return result;
             }
+        }
+
+        /// <summary>
+        /// 得到待保存头像的文件名
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="wxid"></param>
+        /// <returns></returns>
+        private string __GetAvatarImageFileName__(string path, string wxid)
+        {
+            if (Directory.Exists(path))
+            {
+                return Path.Combine(path, wxid + ".png");
+            }
+            return path;
         }
 
         /// <summary>
