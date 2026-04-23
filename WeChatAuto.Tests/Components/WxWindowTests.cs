@@ -570,7 +570,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var wxid = await window.GetWxid("");
+            var wxid = await window.GetFriendInfo("",true,@"c:\my.png");
             _output.WriteLine(wxid.ToString());
             Assert.NotNull(wxid);
         }
@@ -582,19 +582,22 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var wxid = await window.GetWxid(who);
+            var wxid = await window.GetFriendInfo(who,false,@"c:\guo.png");
             _output.WriteLine(wxid.ToString());
             Assert.NotNull(wxid);
         }
 
         [Theory(DisplayName = "测试能过手机获得好友的wxid")]
+        // [InlineData("13983816522")]
+        //[InlineData("13983816523")]
+        // [InlineData("13983816524")]
         [InlineData("13719238557")]
         public async Task TestGetWxIdWithPhone(string who)
         {
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var wxid = await window.GetWxidFromPhoneNumber(who);
+            var wxid = await window.GetWxidFromPhoneNumber(who,false,@"c:\test222.png");
             _output.WriteLine(wxid.ToString());
             Assert.NotNull(wxid);
         }

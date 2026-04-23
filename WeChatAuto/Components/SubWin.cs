@@ -153,72 +153,214 @@ namespace WeChatAuto.Components
                 _SelfWindow.SilenceClickExt(edit);
             }
         }
-
-        public async Task<FriendInfo> GetWxId()
+        /// <summary>
+        /// 获取wxid
+        /// </summary>
+        /// <param name="fetchImage">是否获取图像，默认为true,如果设置为false,则不会进行获取图像操作</param>
+        /// <param name="avatarPath"></param>
+        /// <returns></returns>
+        public async Task<FriendInfo> GetWxId(bool fetchImage, string avatarPath)
         {
-            FriendInfo info = new FriendInfo();
+            FriendInfo result = new FriendInfo();
             try
             {
                 await _uiMainThreadInvoker.Run(automation =>
                 {
-                    _SelfWindow.Focus();
-                    var path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text";
-                    var label = _SelfWindow.FindFirstByXPath(path) == null ? throw new Exception("当前聊天窗口对象不是好友") :
-                        _SelfWindow.FindFirstByXPath(path);
-                    DrawHightlightHelper.DrawHighlightExt(label);
-                    info.NickName = label.Name;
-                    path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Button[@Name='聊天信息']";
-                    var button = _SelfWindow.FindFirstByXPath(path) == null ? throw new Exception("当前聊天窗口对象不是好友") :
-                        _SelfWindow.FindFirstByXPath(path);
-                    DrawHightlightHelper.DrawHighlightExt(button);
-                    Random rand = new Random(DateTime.Now.Millisecond);
-                    Task.Delay(rand.Next(300, 1000));
-                    button.ClickEnhance(_SelfWindow);
-
-                    var retryButton = Retry.WhileNull(() =>
+                    try
                     {
-                        path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/List/ListItem[1]/Pane/Pane/Button";
-                        var buttonElement = this.SelfWindow.FindFirstByXPath(path);
-                        return buttonElement.AsButton();
-                    }, timeout: TimeSpan.FromSeconds(4), interval: TimeSpan.FromMilliseconds(200));
-                    if (retryButton.Success)
-                    {
-                        DrawHightlightHelper.DrawHighlightExt(retryButton.Result);
-                        Task.Delay(rand.Next(500, 1500));
-                        retryButton.Result.ClickEnhance(this.SelfWindow);
-                        Task.Delay(rand.Next(500, 1500));
-                        var retryWxId = Retry.WhileNull(() =>
+                        _SelfWindow.Focus();
+                        var path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text";
+                        var label = _SelfWindow.FindFirstByXPath(path) == null ? throw new Exception("当前聊天窗口对象不是好友") :
+                            _SelfWindow.FindFirstByXPath(path);
+                        DrawHightlightHelper.DrawHighlightExt(label);
+                        result.NickName = label.Name;
+                        path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Button[@Name='聊天信息']";
+                        var button = _SelfWindow.FindFirstByXPath(path) == null ? throw new Exception("当前聊天窗口对象不是好友") :
+                            _SelfWindow.FindFirstByXPath(path);
+                        DrawHightlightHelper.DrawHighlightExt(button);
+                        Random rand = new Random(DateTime.Now.Millisecond);
+                        Task.Delay(rand.Next(300, 1000));
+                        button.ClickEnhance(_SelfWindow);
+
+                        var retryButton = Retry.WhileNull(() =>
                         {
-
-                            path = "/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[2]";
-                            label = this.SelfWindow.FindFirstByXPath(path);
-
-                            var parent = label.GetParent().GetParent();
-                            var wxLables = parent.FindAllDescendants(cf=>cf.ByControlType(ControlType.Text));
-                            var wxLabel = wxLables.Where(u=>u.Name.Contains("微信号")).FirstOrDefault();
-
-                            return wxLabel.GetSibling(1).AsLabel();
-                        }, timeout: TimeSpan.FromSeconds(5), interval: TimeSpan.FromMilliseconds(200));
-
-                        if (retryWxId.Success)
+                            path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/List/ListItem[1]/Pane/Pane/Button";
+                            var buttonElement = this.SelfWindow.FindFirstByXPath(path);
+                            return buttonElement.AsButton();
+                        }, timeout: TimeSpan.FromSeconds(4), interval: TimeSpan.FromMilliseconds(200));
+                        if (retryButton.Success)
                         {
-                            DrawHightlightHelper.DrawHighlightExt(retryWxId.Result);
-                            info.WxId = retryWxId.Result.Name;
-                            Task.Delay(rand.Next(300, 800));
-                            path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[1]/Edit[@Name='输入']";
-                            var sender = this.SelfWindow.FindFirstByXPath(path);
-                            DrawHightlightHelper.DrawHighlightExt(sender);
-                            sender.ClickEnhance(this.SelfWindow);
-                            Task.Delay(300);
-                            sender.ClickEnhance(this.SelfWindow);
+                            DrawHightlightHelper.DrawHighlightExt(retryButton.Result);
+                            Task.Delay(rand.Next(500, 1500));
+                            retryButton.Result.ClickEnhance(this.SelfWindow);
+                            Task.Delay(rand.Next(500, 1500));
+                            var retryWxId = Retry.WhileNull(() =>
+                            {
+
+                                path = "/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[2]";
+                                label = this.SelfWindow.FindFirstByXPath(path);
+
+                                var parent = label.GetParent().GetParent();
+                                var wxLables = parent.FindAllDescendants(cf => cf.ByControlType(ControlType.Text));
+                                var wxLabel = wxLables.Where(u => u.Name.Contains("微信号")).FirstOrDefault();
+
+                                return wxLabel.GetSibling(1).AsLabel();
+                            }, timeout: TimeSpan.FromSeconds(5), interval: TimeSpan.FromMilliseconds(200));
+
+                            if (retryWxId.Success)
+                            {
+                                DrawHightlightHelper.DrawHighlightExt(retryWxId.Result);
+                                result.WxId = retryWxId.Result.Name;
+
+
+                                //昵称/备注
+                                var wxLables = this.SelfWindow.FindFirstByXPath("/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[2]")
+                                    .GetParent().GetParent().FindAllDescendants(cf => cf.ByControlType(ControlType.Text));
+                                var wxNickNameLabel = wxLables.Where(u => u.Name.Contains("昵称")).FirstOrDefault();
+                                if (wxNickNameLabel != null)
+                                {
+                                    //有昵称,这个要替换一下上面得到的昵称，因为上面的昵称其实是备注名.
+                                    result.MemoName = result.NickName;
+                                    DrawHightlightHelper.DrawHighlightExt(wxNickNameLabel.GetSibling(1));
+                                    result.NickName = wxNickNameLabel.GetSibling(1).Name.Trim();
+                                }
+                                //地区
+                                var areaLabel = wxLables.Where(u => u.Name.Contains("地区")).FirstOrDefault();
+                                if (areaLabel != null)
+                                {
+                                    DrawHightlightHelper.DrawHighlightExt(areaLabel.GetSibling(1));
+                                    result.Area = areaLabel.GetSibling(1).Name.Trim();
+                                }
+
+                                //标签
+                                var labelName = this.SelfWindow.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[@Name='标签']");
+                                if (labelName != null)
+                                {
+                                    DrawHightlightHelper.DrawHighlightExt(labelName.GetSibling(1));
+                                    result.Lable = new List<string>();
+                                    var text = labelName.GetSibling(1).Name;
+                                    if (!string.IsNullOrWhiteSpace(text))
+                                    {
+                                        result.Lable = text.Split('，').Select(item => item.Trim()).ToList();
+                                    }
+                                }
+                                //个性签名
+                                labelName = this.SelfWindow.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[@Name='个性签名']");
+                                if (labelName != null)
+                                {
+                                    DrawHightlightHelper.DrawHighlightExt(labelName.GetSibling(1));
+                                    var text = labelName.GetSibling(1).Name;
+                                    result.Signature = text;
+                                }
+                                //来源
+                                labelName = this.SelfWindow.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[@Name='来源']");
+                                if (labelName != null)
+                                {
+                                    DrawHightlightHelper.DrawHighlightExt(labelName.GetSibling(1));
+                                    var text = labelName.GetSibling(1).Name;
+                                    result.Source = text;
+                                }
+
+                                //共同的群,可能有，也可能没有
+                                labelName = this.SelfWindow.FindFirstByXPath("/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[@Name='共同群聊']");
+                                if (labelName != null)
+                                {
+                                    DrawHightlightHelper.DrawHighlightExt(labelName.GetSibling(1));
+                                    var text = labelName.GetSibling(1).Name;
+                                    result.SameGroupNumber = text;
+                                }
+
+                                RandomWait.Wait(500, 1500);
+
+                                //保存图片.
+                                if (fetchImage)
+                                {
+                                    var imageButtonElement = this.SelfWindow.FindFirstByXPath($"/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Button");
+                                    if (imageButtonElement != null)
+                                    {
+                                        var imageButton = imageButtonElement.AsButton();
+                                        DrawHightlightHelper.DrawHighlightExt(imageButton);
+
+                                        imageButton.ClickEnhance(this.SelfWindow);
+
+
+                                        //保存图片.
+                                        RetryResult<Window> retryWindow = Retry.WhileNull(() =>
+                                        {
+                                            var desktop = automation.GetDesktop();
+                                            var window = desktop.FindFirstChild(x => x.ByControlType(ControlType.Window).And(x.ByProcessId(this.SelfWindow.Properties.ProcessId).And(x.ByName("图片查看")))).AsWindow();
+                                            return window;
+                                        }, timeout: TimeSpan.FromSeconds(5), interval: TimeSpan.FromMilliseconds(200));
+                                        if (retryWindow.Success)
+                                        {
+                                            var win = retryWindow.Result;
+                                            path = "/Pane[2]/Pane[1]/Pane[2]/Pane[2]/Button[1]";
+                                            button = win.FindFirstByXPath(path).AsButton();
+                                            button.Click();
+                                            //选择第一个菜单
+                                            var menuRetry = Retry.WhileNull(() => win.FindFirstChild(cf => cf.Menu()).AsMenu(),
+                                            TimeSpan.FromSeconds(3),
+                                            TimeSpan.FromMilliseconds(200));
+                                            if (menuRetry.Success)
+                                            {
+                                                var menuItem = menuRetry.Result.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName("复制")));
+                                                if (menuItem != null)
+                                                {
+                                                    menuItem.DrawHighlightExt();
+                                                    menuItem.WaitUntilClickable(TimeSpan.FromSeconds(3));
+                                                    menuItem.ClickEnhance(win);
+                                                    RandomWait.Wait(1000, 2000);
+                                                    if (System.Windows.Clipboard.ContainsImage())
+                                                    {
+                                                        var bitmap = System.Windows.Forms.Clipboard.GetImage();
+                                                        if (avatarPath != default)
+                                                        {
+                                                            bitmap.Save(avatarPath);
+                                                            result.AvatarPath = avatarPath;
+                                                        }
+                                                        result.AvatarImage = bitmap;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    _logger.Error($"找不到多选菜单项");
+                                                }
+                                            }
+
+                                            RandomWait.Wait(100, 800);
+                                            win.Close();
+                                        }
+
+
+                                        RandomWait.Wait(500, 1500);
+                                    }
+                                }
+
+
+
+
+                                Task.Delay(rand.Next(300, 800));
+                                //关闭浮动窗口
+                                path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[1]/Edit[@Name='输入']";
+                                var sender = this.SelfWindow.FindFirstByXPath(path);
+                                DrawHightlightHelper.DrawHighlightExt(sender);
+                                sender.ClickEnhance(this.SelfWindow);
+                                Task.Delay(300);
+                                sender.ClickEnhance(this.SelfWindow);
+                            }
                         }
                     }
-                });
-                return info;
+                    catch (Exception ex)
+                    {
+                        _logger.Error(ex.ToString());
+                    }
+                }
+                );
+                return result;
             }
             catch (Exception)
             {
-                return info;
+                return result;
             }
         }
 
