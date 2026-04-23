@@ -570,7 +570,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var wxid = await window.GetFriendInfo("",true,@"c:\my.png");
+            var wxid = await window.GetFriendInfo("",true,@"c:\");
             _output.WriteLine(wxid.ToString());
             Assert.NotNull(wxid);
         }
@@ -597,7 +597,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var wxid = await window.GetWxidFromPhoneNumber(who,false,@"c:\test222.png");
+            var wxid = await window.GetWxidFromPhoneNumber(who,true,@"c:\");
             _output.WriteLine(wxid.ToString());
             Assert.NotNull(wxid);
         }
