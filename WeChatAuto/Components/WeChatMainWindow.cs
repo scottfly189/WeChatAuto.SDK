@@ -1242,10 +1242,22 @@ namespace WeChatAuto.Components
         {
             return await Navigation.GetWxId();
         }
+
         /// <summary>
-        /// 通过好友昵称获得wxid
+        /// 获取好友详情（注意：不能是群聊），包括: 个人微信号、地区、备注、昵称、所属标签、共同群聊数量、来源、对像等信息，
+        /// 具体好友信息请查询<seealso cref="FriendInfo"/>
         /// </summary>
-        /// <param name="who">好友昵称，可以为空，如果为空，则获取当前聊天的窗口的好友的wxid</param>
+        /// <param name="who">好友，可以为空，如果为空，则获取当前聊天的窗口的好友的wxid</param>
+        /// <param name="fetchImage">是否获取图像，默认为true,如果设置为false,则不会进行获取图像操作</param>
+        /// <param name="avatarPath">头像保存路径，可以为空，如果为空，就不会保存进指定的目录，但会返回Image,具体查看<seealso cref="FriendInfo"/></param>
+        /// <returns>个人信息<see cref="FriendInfo"/></returns>
+        public async Task<FriendInfo> GetFriendInfo(string who, bool fetchImage = true, string avatarPath = default) => await GetWxid(who, fetchImage, avatarPath);
+
+        /// <summary>
+        /// 获取好友详情（注意：不能是群聊），包括: 个人微信号、地区、备注、昵称、所属标签、共同群聊数量、来源、对像等信息，
+        /// 具体好友信息请查询<seealso cref="FriendInfo"/>
+        /// </summary>
+        /// <param name="who">好友，可以为空，如果为空，则获取当前聊天的窗口的好友的wxid</param>
         /// <param name="fetchImage">是否获取图像，默认为true,如果设置为false,则不会进行获取图像操作</param>
         /// <param name="avatarPath">头像保存路径，可以为空，如果为空，就不会保存进指定的目录，但会返回Image,具体查看<seealso cref="FriendInfo"/></param>
         /// <returns>个人信息<see cref="FriendInfo"/></returns>
@@ -1446,18 +1458,35 @@ namespace WeChatAuto.Components
                                             win.Close();
                                         }
 
-
                                         RandomWait.Wait(500, 1500);
                                     }
                                 }
-
                                 //关闭窗口
+                                path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[2]/Button[@Name='聊天信息']";
+                                var rootPanel = this.SelfWindow.FindFirstByXPath(path);
+                                if (rootPanel != null && rootPanel.GetParent() != null)
+                                {
+                                    DrawHightlightHelper.DrawHighlightExt(rootPanel.GetParent().GetParent());
+                                    rootPanel.GetParent().Focus();
+                                    RandomWait.Wait(300, 900);
+                                    path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/List/ListItem[1]/Pane/Pane/Button";
+                                    buttonElement = this.SelfWindow.FindFirstByXPath(path);
+                                    if (buttonElement != null)
+                                    {
+                                        rootPanel.GetParent().Click();
+                                    }
+                                }
                                 RandomWait.Wait(300, 800);
                                 path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[1]/Edit";
                                 var sender = this.SelfWindow.FindFirstByXPath(path);
-                                sender.ClickEnhance(this.SelfWindow);
-                                RandomWait.Wait(300, 900);
-                                sender.ClickEnhance(this.SelfWindow);
+                                if (sender != null)
+                                {
+                                    DrawHightlightHelper.DrawHighlightExt(sender);
+                                    sender.Focus();
+                                    RandomWait.Wait(100, 200);
+                                    sender.ClickEnhance(this.SelfWindow);
+                                    //Keyboard.TypeSimultaneously(VirtualKeyShort.ESCAPE);
+                                }
                             }
                         }
 
@@ -1478,6 +1507,15 @@ namespace WeChatAuto.Components
                 return new FriendInfo();
             }
         }
+
+        /// <summary>
+        /// 通过手机号获取好友详情（注意：不能是群聊），包括: 个人微信号wxid、地区、备注、昵称、所属标签、共同群聊数量、来源、对像等信息，
+        /// </summary>
+        /// <param name="phone">手机号码</param>
+        /// <param name="fetchImage">是否获取图像，默认为true,如果设置为false,则不会进行获取图像操作</param>
+        /// <param name="avatarPath">头像保存路径，可以为空，如果为空，就不会保存进指定的目录，但会返回Image,具体查看<seealso cref="FriendInfo"/></param>
+        /// <returns>个人信息<see cref="FriendInfo"/></returns>
+        public async Task<FriendInfo> GetFriendInfoFromPhoneNumber(string phone, bool fetchImage = true, string avatarPath = default) => await GetWxidFromPhoneNumber(phone, fetchImage, avatarPath);
 
         /// <summary>
         /// 通过手机号码，获取好友的wxid.
