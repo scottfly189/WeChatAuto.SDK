@@ -28,7 +28,7 @@ namespace WeChatAuto.Components
         private readonly IServiceProvider _serviceProvider;
         private WeChatMainWindow _MainWxWindow;    //主窗口对象
         public WeChatMainWindow MainWxWindow => _MainWxWindow;
-        private AutomationElement OwerChatContentRoot => _GetChatContentRoot_();
+        //private AutomationElement OwerChatContentRoot => _GetChatContentRoot_();
         private volatile bool _disposed = false;
         public AutomationElement ChatContentRoot
         {
@@ -52,11 +52,12 @@ namespace WeChatAuto.Components
 
         private AutomationElement _GetChatContentRoot_()
         {
-            var listbox = Retry.WhileNull(()=>_Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByName("消息"))),
-              TimeSpan.FromSeconds(1),TimeSpan.FromMilliseconds(200)).Result;
+            var listbox = Retry.WhileNull(() => _Window.FindFirstDescendant(cf => cf.ByControlType(ControlType.List).And(cf.ByName("消息"))),
+              TimeSpan.FromSeconds(1), TimeSpan.FromMilliseconds(200)).Result;
             if (listbox == null)
             {
-                throw new Exception("消息列表根节点获取失败");
+                _logger.Info("消息列表根节点获取失败,此窗口可能不是聊天窗口");
+                return null;
             }
             RandomWait.Wait(100, 500);
             return listbox.GetParent().GetParent().GetParent().GetParent();
@@ -77,28 +78,28 @@ namespace WeChatAuto.Components
             _MainWxWindow = mainWxWindow;
             _serviceProvider = serviceProvider;
         }
-        /// <summary>
-        /// 获取聊天内容截图
-        /// </summary>
-        /// <param name="inThread">调用是否需要在UI线程中执行,默认是True，单独调用应该为true，内部调用应该设定为false,因为内部调用已经在UI线程中执行了</param>
-        /// <returns>聊天内容截图</returns>
-        public Image GetOwerChatContentImage(bool inThread = true)
-        {
-            Func<Image> func = () =>
-            {
-                var image = FlaUI.Core.Capturing.Capture.Element(OwerChatContentRoot);
-                image.ApplyOverlays(new MouseOverlay(image), new InfoOverlay(image));
-                return image.Bitmap;
-            };
-            if (inThread)
-            {
-                return _uiMainThreadInvoker.Run(automation => func()).GetAwaiter().GetResult();
-            }
-            else
-            {
-                return func();
-            }
-        }
+        // /// <summary>
+        // /// 获取聊天内容截图
+        // /// </summary>
+        // /// <param name="inThread">调用是否需要在UI线程中执行,默认是True，单独调用应该为true，内部调用应该设定为false,因为内部调用已经在UI线程中执行了</param>
+        // /// <returns>聊天内容截图</returns>
+        // public Image GetOwerChatContentImage(bool inThread = true)
+        // {
+        //     Func<Image> func = () =>
+        //     {
+        //         var image = FlaUI.Core.Capturing.Capture.Element(OwerChatContentRoot);
+        //         image.ApplyOverlays(new MouseOverlay(image), new InfoOverlay(image));
+        //         return image.Bitmap;
+        //     };
+        //     if (inThread)
+        //     {
+        //         return _uiMainThreadInvoker.Run(automation => func()).GetAwaiter().GetResult();
+        //     }
+        //     else
+        //     {
+        //         return func();
+        //     }
+        // }
         /// <summary>
         /// 聊天人数
         /// </summary>
@@ -133,17 +134,8 @@ namespace WeChatAuto.Components
         {
             var result = _uiMainThreadInvoker.Run(automation =>
             {
-                var inputButton = ChatContentRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByText("输入")));
-                if (inputButton != null)
-                {
-                    return true;
-                }
-                var serivceButton = ChatContentRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByText("服务")));
-                if (serivceButton != null)
-                {
-                    return true;
-                }
-                return false;
+                var item = _Window.FindFirstByXPath("//Button[@Name='公众号主页']");
+                return item == null ? false : true;
             }).GetAwaiter().GetResult();
             return result;
         }
@@ -174,26 +166,8 @@ namespace WeChatAuto.Components
                 //如果是子窗口，则返回子窗口的ChatHeader
                 return _SubWinCacheChatHeader;
             }
-            // var title = GetFullTitle();
-            // if (string.IsNullOrEmpty(title))
-            // {
-            //     return new ChatHeader(null, _serviceProvider,this._Window);
-            // }
-            // if (Regex.IsMatch(title, @"^(.+) \(\d+\)$"))
-            // {
-            //     title = Regex.Match(title, @"^(.+) \(\d+\)$").Groups[1].Value;
-            // }
 
-            // title = title.Trim();
-
-            var header = _uiMainThreadInvoker.Run(automation => ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
-            var buttons = _uiMainThreadInvoker.Run(automation => header.FindAllDescendants(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
-            Button chatInfoButton = null;
-            if (buttons.Count() > 0)
-            {
-                chatInfoButton = buttons.ToList().First().AsButton();
-            }
-            var cHeader = new ChatHeader(chatInfoButton, _serviceProvider,this._Window);
+            var cHeader = new ChatHeader(_serviceProvider, this._Window, _ChatContentType,_uiMainThreadInvoker);
             if (_ChatContentType == ChatContentType.SubWindow)
             {
                 _SubWinCacheChatHeader = cHeader;
@@ -215,6 +189,8 @@ namespace WeChatAuto.Components
             {
                 return subTitle;
             }
+            if (ChatContentRoot == null)
+                return "";
             var header = _uiMainThreadInvoker.Run(automation => ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             DrawHightlightHelper.DrawHightlight(header, _uiMainThreadInvoker);
             var titles = _uiMainThreadInvoker.Run(automation => header.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text))).GetAwaiter().GetResult();
@@ -233,10 +209,48 @@ namespace WeChatAuto.Components
         {
             return _uiMainThreadInvoker.Run(automation =>
             {
-                var subscriptionPane = _Window.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByClassName("CWebviewControlHostWnd")));
-                if (subscriptionPane != null)
+                var item = _Window.FindFirstByXPath("/Pane[1]");
+                if (item != null && item.Name.Equals("CWebviewHostWnd") && item.ClassName.Equals("CWebviewControlHostWnd"))
                 {
                     return (true, "订阅号");
+                }
+
+                AutomationElement root = null;
+                if (_ChatContentType == ChatContentType.Inline)
+                {
+                    root = _Window.FindFirstByXPath("/Pane[2]/Pane/Pane[2]");
+                }
+                else
+                {
+                    root = _Window;
+                }
+                item = root.FindFirstByXPath("//Text[@Name='腾讯新闻']");
+                if (item != null)
+                {
+                    return (true, "腾讯新闻");
+                }
+                item = root.FindFirstByXPath("//Text[@Name='服务通知']");
+                if (item != null)
+                {
+                    return (true, "服务通知");
+                }
+
+                item = root.FindFirstByXPath("//Text[@Name='微信团队']");
+                if (item != null)
+                {
+                    return (true, "微信团队");
+                }
+                item = root.FindFirstByXPath("//Text[@Name='文件传输助手']");
+                if (item != null)
+                {
+                    return (true, "文件传输助手");
+                }
+                item = root.FindFirstByXPath("//Button[@Name='公众号主页']");
+                if (item != null)
+                {
+                    var fetchRoot = item.GetParent().GetParent().GetSibling(-1);
+                    item = fetchRoot.FindFirstByXPath("/Pane/Pane[1]/Pane/Text[1]");
+                    return (true, item == null ? "公众号" : item.Name.Trim());
                 }
                 return (false, "");
             }).GetAwaiter().GetResult();
@@ -256,13 +270,7 @@ namespace WeChatAuto.Components
                 return _SubWinCacheChatBody;
             }
             var title = GetFullTitle();
-            // if (Regex.IsMatch(title, @"^(.+) \(\d+\)$"))
-            // {
-            //     title = Regex.Match(title, @"^(.+) \(\d+\)$").Groups[1].Value;
-            // }
-            // var chatBodyRoot = _uiMainThreadInvoker.Run(automation => ChatContentRoot.FindFirstByXPath("/Pane[2]")).GetAwaiter().GetResult();
-            // DrawHightlightHelper.DrawHightlight(chatBodyRoot, _uiMainThreadInvoker);
-            var chatBody = new ChatBody(_Window, _WxWindow, title, this.ChatType, _uiMainThreadInvoker, this._MainWxWindow, _serviceProvider,this);
+            var chatBody = new ChatBody(_Window, _WxWindow, title, this.ChatType, _uiMainThreadInvoker, this._MainWxWindow, _serviceProvider, this);
             if (_ChatContentType == ChatContentType.SubWindow)
             {
                 _SubWinCacheChatBody = chatBody;

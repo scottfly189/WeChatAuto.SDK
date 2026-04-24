@@ -6,7 +6,7 @@ using WeAutoCommon.Models;
 using System.Text.RegularExpressions;
 using WeChatAuto.Extentions;
 using WeChatAuto.Utils;
-using System.Reflection.PortableExecutable;
+using WeAutoCommon.Utils;
 
 namespace WeChatAuto.Components
 {
@@ -18,6 +18,25 @@ namespace WeChatAuto.Components
         private readonly IServiceProvider _serviceProvider;
         private readonly AutoLogger<ChatContent> _logger;
         private Window _window;
+        private ChatContentType chatContentType;
+
+        private UIThreadInvoker _uiMainThreadInvoker;
+
+        /// <summary>
+        /// 聊天内容区标题区构造函数
+        /// </summary>
+        /// <param name="serviceProvider">服务提供者<see cref="IServiceProvider"/></param>
+        /// <param name="chatContentType">窗口是inline还是子窗口</param>
+        /// <param name="window">Header所归属的Window</param>
+        /// <param name="_uiMainThreadInvoker"></param>
+        public ChatHeader(IServiceProvider serviceProvider, Window window, ChatContentType chatContentType, UIThreadInvoker _uiMainThreadInvoker)
+        {
+            this._uiMainThreadInvoker = _uiMainThreadInvoker;
+            this.chatContentType = chatContentType;
+            _logger = serviceProvider.GetRequiredService<AutoLogger<ChatContent>>();
+            this._window = window;
+            _serviceProvider = serviceProvider;
+        }
         /// <summary>
         /// 聊天标题
         /// </summary>
@@ -25,21 +44,25 @@ namespace WeChatAuto.Components
         {
             get
             {
-                HeaderInfo info = new HeaderInfo()
+                var infoResult = _uiMainThreadInvoker.Run(automation =>
                 {
-                    Title = "",
-                    HeaderType = ChatType.其他,
-                };
-                var result = TryCheckFriend(info);
-                if (!result)
-                {
-                    result = TryCheckMp(info);
+                    HeaderInfo info = new HeaderInfo()
+                    {
+                        Title = "",
+                        HeaderType = ChatType.其他,
+                    };
+                    var result = TryCheckFriend(info);
                     if (!result)
                     {
-                        result = TryCheckAnother(info);
+                        result = TryCheckSubscription(info);
+                        if (!result)
+                        {
+                            result = TryCheckAnother(info);
+                        }
                     }
-                }
-                return info;
+                    return info;
+                }).GetAwaiter().GetResult();
+                return infoResult;
             }
         }
         private bool TryCheckFriend(HeaderInfo info)
@@ -62,9 +85,20 @@ namespace WeChatAuto.Components
                     }
                     else
                     {
+                        var checkCompanyWx = item.GetSibling(1);
+                        if (checkCompanyWx != null)
+                        {
+                            if (checkCompanyWx.Name.StartsWith("@"))
+                            {
+                                info.HeaderType = ChatType.企业微信;
+                                info.Title = label;
+                                return true;
+                            }
+                        }
                         info.HeaderType = ChatType.好友;
                         info.Title = label;
                     }
+                    return true;
                 }
                 else
                 {
@@ -74,33 +108,39 @@ namespace WeChatAuto.Components
             }
             return false;
         }
-        private bool TryCheckMp(HeaderInfo info)
+        private bool TryCheckSubscription(HeaderInfo info)
         {
-            var item = _window.FindFirstByXPath("//Button[@Name='公众号主页']");
-            if (item != null)
+            var item = _window.FindFirstByXPath("/Pane[1]");
+            if (item != null && item.Name.Equals("CWebviewHostWnd") && item.ClassName.Equals("CWebviewControlHostWnd"))
             {
-                info.Title = "公众号";
-                info.HeaderType = ChatType.公众号;
+                info.Title = ChatType.订阅号.ToString();
+                info.HeaderType = ChatType.订阅号;
+                return true;
             }
             return false;
         }
         private bool TryCheckAnother(HeaderInfo info)
         {
-            var item = _window.FindFirstByXPath("//Text[@Name='订阅号']");
-            if (item != null)
+            var item = _window.FindFirstByXPath("/Pane[1]");
+            if (item != null && !string.IsNullOrWhiteSpace(item.Name))
+                return false;
+            AutomationElement root = null;
+            if (chatContentType == ChatContentType.Inline)
             {
-                info.Title = "订阅号";
-                info.HeaderType = ChatType.订阅号;
-                return true;
+                root = _window.FindFirstByXPath("/Pane[2]/Pane/Pane[2]");
             }
-            item = _window.FindFirstByXPath("//Text[@Name='腾讯新闻']");
+            else
+            {
+                root = _window;
+            }
+            item = root.FindFirstByXPath("//Text[@Name='腾讯新闻']");
             if (item != null)
             {
                 info.Title = "腾讯新闻";
                 info.HeaderType = ChatType.腾讯新闻;
                 return true;
             }
-            item = _window.FindFirstByXPath("//Test[@Name='服务通知']");
+            item = root.FindFirstByXPath("//Text[@Name='服务通知']");
             if (item != null)
             {
                 info.Title = "服务通知";
@@ -108,39 +148,31 @@ namespace WeChatAuto.Components
                 return true;
             }
 
-            item = _window.FindFirstByXPath("//Test[@Name='微信团队']");
+            item = root.FindFirstByXPath("//Text[@Name='微信团队']");
             if (item != null)
             {
                 info.Title = "微信团队";
                 info.HeaderType = ChatType.微信团队;
                 return true;
             }
+            item = root.FindFirstByXPath("//Text[@Name='文件传输助手']");
+            if (item != null)
+            {
+                info.Title = "文件传输助手";
+                info.HeaderType = ChatType.文件传输助手;
+                return true;
+            }
+
+            item = item = root.FindFirstByXPath("//Button[@Name='公众号主页']");
+            if (item != null)
+            {
+                var fetchRoot = item.GetParent().GetParent().GetSibling(-1);
+                item = fetchRoot.FindFirstByXPath("/Pane/Pane[1]/Pane/Text[1]");
+                info.Title = item.Name;
+                info.HeaderType = ChatType.公众号;
+            }
 
             return false;
-        }
-        /// <summary>
-        /// 聊天信息按钮
-        /// </summary>
-        public Button ChatInfoButton { get; set; }
-        /// <summary>
-        /// 聊天内容区标题区构造函数
-        /// </summary>
-        /// <param name="chatInfoButton">聊天信息按钮</param>
-        /// <param name="serviceProvider">服务提供者<see cref="IServiceProvider"/></param>
-        /// <param name="window">Header所归属的Window</param>
-        public ChatHeader(Button chatInfoButton, IServiceProvider serviceProvider, Window window)
-        {
-            _logger = serviceProvider.GetRequiredService<AutoLogger<ChatContent>>();
-            this._window = window;
-            ChatInfoButton = chatInfoButton;
-            _serviceProvider = serviceProvider;
-        }
-        /// <summary>
-        /// 点击聊天信息按钮
-        /// </summary>
-        public void ClickChatInfoButton()
-        {
-            ChatInfoButton?.Invoke();
         }
         /// <summary>
         /// 重写ToString方法

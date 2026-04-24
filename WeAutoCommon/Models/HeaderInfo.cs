@@ -21,5 +21,10 @@ namespace WeAutoCommon.Models
         /// 如果HeaderType是ChatType.群聊,则显示群聊人数数量，如果不是群聊，这里的数量恒为1
         /// </summary>
         public int ChatNumber { get; set; } = 1;
+
+        public override string ToString()
+        {
+            return $"Title={this.Title} - HeaderType={this.HeaderType.ToString()} - ChatNumber={this.ChatNumber.ToString()}";
+        }
     }
 }

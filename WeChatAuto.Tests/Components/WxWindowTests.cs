@@ -65,7 +65,7 @@ namespace WeChatAuto.Tests.Components
         }
 
         [Fact(DisplayName = "测试获取当前聊天窗口的标题对象")]
-        public void Test_GetChatTitle()
+        public void Test_GetChatTitle_object()
         {
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
