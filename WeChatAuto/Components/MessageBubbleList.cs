@@ -592,7 +592,7 @@ namespace WeChatAuto.Components
             .GetAwaiter().GetResult();
             if (result.Success && isCapture)
             {
-                var from = this._ChatBody.ChatContent.ChatHeader.Title; //得到发送者
+                var from = this._ChatBody.ChatContent.ChatHeader.Title.Title; //得到发送者
                 this._ChatBody.ChatContent.MainWxWindow.PasteContentToWho(to).GetAwaiter().GetResult();
                 //转回from
                 this._ChatBody.ChatContent.MainWxWindow.FocusWho(from);

@@ -603,7 +603,16 @@ namespace WeChatAuto.Components
         /// 获取当前聊天窗口的标题
         /// </summary>
         /// <returns>当前聊天窗口的标题</returns>
+        [Obsolete("请使用GetChatTitle()方法代替此方法，因为GetChatTitle方法语义更明确，并且能获得更多的信息.")]
         public string GetCurrentChatTitle()
+        {
+            return this.MainChatContent.ChatHeader.Title.Title;
+        }
+        /// <summary>
+        /// 获取当前聊天窗口的标题
+        /// </summary>
+        /// <returns>当前聊天窗口对象<seealso cref="HeaderInfo"/></returns>
+        public HeaderInfo GetChatTitle()
         {
             return this.MainChatContent.ChatHeader.Title;
         }

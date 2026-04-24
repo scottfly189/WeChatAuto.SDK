@@ -265,7 +265,13 @@ namespace WeChatAuto.Components
     /// 获取当前聊天窗口的标题
     /// </summary>
     /// <returns>当前聊天窗口的标题</returns>
+    [Obsolete("")]
     public string GetCurrentChatTitle() => WxMainWindow.GetCurrentChatTitle();
+    /// <summary>
+    /// 获取当前聊天窗口的标题对象,<seealso cref="HeaderInfo"/>
+    /// </summary>
+    /// <returns>聊天标题对象<seealso cref="HeaderInfo"/></returns>
+    public HeaderInfo GetChatTitle() => WxMainWindow.GetChatTitle();
 
     /// <summary>
     /// 给指定好友发送文件
