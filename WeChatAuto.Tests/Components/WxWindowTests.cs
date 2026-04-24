@@ -63,6 +63,18 @@ namespace WeChatAuto.Tests.Components
             _output.WriteLine($"当前聊天窗口的标题: {title}");
             Assert.True(title != null);
         }
+
+        [Fact(DisplayName = "测试获取当前聊天窗口的标题对象")]
+        public void Test_GetChatTitle()
+        {
+            var framework = _globalFixture.clientFactory;
+            var client = framework.GetWeChatClient(_wxClientName);
+            var window = client.WxMainWindow;
+            var title = window.GetChatTitle();
+            _output.WriteLine($"当前聊天窗口的标题: {title}");
+            Assert.True(title != null);
+        }
+
         //要先打开测试人的聊天窗口
         [Fact(DisplayName = "测试发送消息-已打开聊天窗口")]
         public async Task Test_SendWho_AlreadyOpenChat()
@@ -570,7 +582,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var wxid = await window.GetFriendInfo("",true,@"c:\");
+            var wxid = await window.GetFriendInfo("", true, @"c:\");
             _output.WriteLine(wxid.ToString());
             Assert.NotNull(wxid);
         }
@@ -582,7 +594,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var wxid = await window.GetFriendInfo(who,false,@"c:\guo.png");
+            var wxid = await window.GetFriendInfo(who, false, @"c:\guo.png");
             _output.WriteLine(wxid.ToString());
             Assert.NotNull(wxid);
         }
@@ -597,7 +609,7 @@ namespace WeChatAuto.Tests.Components
             var framework = _globalFixture.clientFactory;
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
-            var wxid = await window.GetWxidFromPhoneNumber(who,true,@"c:\");
+            var wxid = await window.GetWxidFromPhoneNumber(who, true, @"c:\");
             _output.WriteLine(wxid.ToString());
             Assert.NotNull(wxid);
         }

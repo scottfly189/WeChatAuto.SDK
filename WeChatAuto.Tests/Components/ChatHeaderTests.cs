@@ -25,8 +25,8 @@ public class ChatHeaderTests
         var client = framework.GetWeChatClient(_wxClientName);
         var window = client.WxMainWindow;
         var chatHeader = window.MainChatContent.ChatHeader;
-        _output.WriteLine(chatHeader.Title);
-        Assert.True(chatHeader.Title != null);
+        _output.WriteLine(chatHeader.Title.Title);
+        Assert.True(chatHeader.Title.Title != null);
     }
 
     [Fact(DisplayName = "测试获取子窗口标题")]
@@ -38,8 +38,8 @@ public class ChatHeaderTests
         mainWindow.Conversations.DoubleClickConversation(".NET-AI实时快讯3群");
         var subWin = mainWindow.SubWinList.GetSubWin(".NET-AI实时快讯3群");
         var chatHeader = subWin.ChatContent.ChatHeader;
-        _output.WriteLine(chatHeader.Title);
-        Assert.Equal(".NET-AI实时快讯3群", chatHeader.Title);
+        _output.WriteLine(chatHeader.Title.Title);
+        Assert.Equal(".NET-AI实时快讯3群", chatHeader.Title.Title);
         mainWindow.SubWinList.CloseAllSubWins();
     }
 }

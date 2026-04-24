@@ -174,17 +174,17 @@ namespace WeChatAuto.Components
                 //如果是子窗口，则返回子窗口的ChatHeader
                 return _SubWinCacheChatHeader;
             }
-            var title = GetFullTitle();
-            if (string.IsNullOrEmpty(title))
-            {
-                return new ChatHeader(string.Empty, null, _serviceProvider);
-            }
-            if (Regex.IsMatch(title, @"^(.+) \(\d+\)$"))
-            {
-                title = Regex.Match(title, @"^(.+) \(\d+\)$").Groups[1].Value;
-            }
+            // var title = GetFullTitle();
+            // if (string.IsNullOrEmpty(title))
+            // {
+            //     return new ChatHeader(null, _serviceProvider,this._Window);
+            // }
+            // if (Regex.IsMatch(title, @"^(.+) \(\d+\)$"))
+            // {
+            //     title = Regex.Match(title, @"^(.+) \(\d+\)$").Groups[1].Value;
+            // }
 
-            title = title.Trim();
+            // title = title.Trim();
 
             var header = _uiMainThreadInvoker.Run(automation => ChatContentRoot.FindFirstChild(cf => cf.ByControlType(ControlType.Pane))).GetAwaiter().GetResult();
             var buttons = _uiMainThreadInvoker.Run(automation => header.FindAllDescendants(cf => cf.ByControlType(ControlType.Button))).GetAwaiter().GetResult();
@@ -193,7 +193,7 @@ namespace WeChatAuto.Components
             {
                 chatInfoButton = buttons.ToList().First().AsButton();
             }
-            var cHeader = new ChatHeader(title, chatInfoButton, _serviceProvider);
+            var cHeader = new ChatHeader(chatInfoButton, _serviceProvider,this._Window);
             if (_ChatContentType == ChatContentType.SubWindow)
             {
                 _SubWinCacheChatHeader = cHeader;
