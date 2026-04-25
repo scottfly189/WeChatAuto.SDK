@@ -864,7 +864,7 @@ namespace WeChatAuto.Components
             }
         }
         /// <summary>
-        /// 移除会话列表切换监听事件
+        /// 移除会话列表切换监听
         /// </summary>
         /// <returns></returns>
         public void RemoveConversationChangeListener()
