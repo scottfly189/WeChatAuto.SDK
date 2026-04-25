@@ -6,6 +6,9 @@ using System.Diagnostics;
 using Xunit.Sdk;
 using WeChatAuto.Models;
 using WeAutoCommon.Utils;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+using System.Text;
 
 [assembly: CollectionBehavior(DisableTestParallelization = true)]
 
@@ -614,5 +617,20 @@ namespace WeChatAuto.Tests.Components
             Assert.NotNull(wxid);
         }
         #endregion
+
+        [Fact(DisplayName = "测试会话列表监听事件")]
+        public async Task TestConversionChangeListner()
+        {
+            Console.OutputEncoding = Encoding.UTF8;
+            var framework = _globalFixture.clientFactory;
+            var client = framework.GetWeChatClient(_wxClientName);
+            var window = client.WxMainWindow;
+
+            window.AddConversationChangeListener((context, token) =>
+            {
+                Console.WriteLine(context.ToString());
+            });
+            await Task.Delay(-1);
+        }
     }
 }

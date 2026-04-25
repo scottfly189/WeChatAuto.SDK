@@ -32,6 +32,7 @@ namespace WeChatAuto.Utils
         private WeChatMainWindow _MainChat;
         private Task listenerTask;
         private CancellationTokenSource cts = new CancellationTokenSource();
+        private CancellationTokenSource userCts;
         private ManualResetEventSlim _pauseEvent = new ManualResetEventSlim(true);  //信号量，用以实现暂停，继续业务逻辑.
         private AutoLogger<ConversationChangeListener> _Logger;
         private volatile string oldTitle = "";  //原来的title.
@@ -65,7 +66,7 @@ namespace WeChatAuto.Utils
                         _pauseEvent.Wait(cts.Token);
                         try
                         {
-                            //这里写业务方法
+                            //业务方法
                             await _CheckConversionChange(callBack, cts.Token, syncContext);
                         }
                         catch (OperationCanceledException)
@@ -112,12 +113,24 @@ namespace WeChatAuto.Utils
                     if (list == null)
                         return;
                     var listItems = list.FindAllChildren().ToList().Select(u => u.AsListBoxItem()).ToList();
-                    var listItem = listItems.Where(u => u.IsChecked == true).FirstOrDefault();
+                    var listItem = listItems.Where(u =>
+                    {
+                        if (u.Patterns.SelectionItem.IsSupported)
+                        {
+                            var pattern = u.Patterns.SelectionItem;
+                            if (pattern.Pattern.IsSelected.Value)
+                            {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }).FirstOrDefault();
                     if (listItem == null)
                         return;
                     var checkListItemLabel = listItem.Name.Trim();
                     if (checkListItemLabel.Equals(this.oldTitle))   //如果标签没有变化,则不触发下面的事件
                         return;
+                    userCts?.Cancel();
                     this.oldTitle = checkListItemLabel;
                     token.ThrowIfCancellationRequested();
                     //如果标签名在排除列表中，则退出.
@@ -140,9 +153,9 @@ namespace WeChatAuto.Utils
                     var textElement = texts.Find(u => u.Name.Contains(listItemLabel));
                     if (textElement == null)
                     {
-                        var i = 0;
                         return;
                     }
+                    userCts = new CancellationTokenSource();
                     var name = textElement.Name.Trim();
                     HeaderInfo info = new HeaderInfo()
                     {
@@ -188,17 +201,17 @@ namespace WeChatAuto.Utils
                         {
                             syncContext.Post(_ =>
                             {
-                                token.ThrowIfCancellationRequested();
-                                callBack(context, token);
+                                userCts.Token.ThrowIfCancellationRequested();
+                                callBack(context, userCts.Token);
                             }, null);
                         }
                         else
                         {
                             Task.Run(() =>
                             {
-                                token.ThrowIfCancellationRequested();
-                                callBack(context, token);
-                            }, token);
+                                userCts.Token.ThrowIfCancellationRequested();
+                                callBack(context, userCts.Token);
+                            }, userCts.Token);
                         }
                     }
                 }
