@@ -629,8 +629,9 @@ namespace WeChatAuto.Tests.Components
             window.AddConversationChangeListener((context, token) =>
             {
                 Console.WriteLine(context.ToString());
+                //这里调用自己的方法
             });
-            await Task.Delay(-1);
+            await Task.Delay(30*1000);
         }
     }
 }
