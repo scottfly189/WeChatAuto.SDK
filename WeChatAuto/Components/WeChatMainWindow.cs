@@ -852,7 +852,7 @@ namespace WeChatAuto.Components
         /// }
         /// </code>
         /// </summary>
-        /// <param name="callBack">回调事件，会传给用户ChatContext对象，详情请参考<seealso cref="ChatContext"/>,如果你执行的是长任务，为了支持用户点击微信任意切换，你应该使用token.ThrowIfCancellationRequested()来支持任务的取消</param>
+        /// <param name="callBack">回调事件，会传给用户ChatContext对象，详情请参考<seealso cref="ChatContext"/>,如果你执行的是长任务，为了支持用户点击微信切换时终止任务，你应该使用token.ThrowIfCancellationRequested()来支持任务的取消</param>
         /// <param name="syncContext">SynchronizationContext,使用者可以传入SynchronizationContext.Current,如果不传此参数，使用者需要自行解决UI线程切换的问题(见上面的代码演示)</param>
         /// <returns></returns>
         public void AddConversationChangeListener(Action<ChatContext, CancellationToken> callBack, SynchronizationContext syncContext = null)
