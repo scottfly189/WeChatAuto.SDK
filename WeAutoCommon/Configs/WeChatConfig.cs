@@ -54,7 +54,7 @@ namespace WeAutoCommon.Configs
         /// <summary>
         /// 监听会话列表切换时间间隔，单位：秒
         /// </summary>
-        public int ConversationChangeListenerInterval { get; set; } = 5;
+        public int ConversationChangeListenerInterval { get; set; } = 3;
 
         /// <summary>
         /// 是否启用调试模式

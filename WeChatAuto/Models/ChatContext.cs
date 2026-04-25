@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using WeAutoCommon.Models;
 using WeChatAuto.Components;
 
@@ -25,5 +26,10 @@ namespace WeChatAuto.Models
         /// 具体请参考:<seealso cref="WeChatMainWindow"/>
         /// </summary>
         public WeChatMainWindow MainWindow { get; set; }
+
+        public override string ToString()
+        {
+            return this.TitleInfo.ToString();
+        }
     }
 }

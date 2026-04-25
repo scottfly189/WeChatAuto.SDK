@@ -811,18 +811,49 @@ namespace WeChatAuto.Components
         }
 
         /// <summary>
-        /// 添加会话列表切换监听事件
-        /// 注意：监听时间间隔默认为：5秒，如果需要修改这个间隔时间，请在WeAutomation初始化的时候修改，如下所示:
+        /// <para>添加会话列表切换监听事件</para>
+        /// <para>注意：1.监听时间间隔默认为：5秒，如果需要修改这个间隔时间，请在WeAutomation初始化的时候修改，如下所示:</para>
+        /// <para>2. 建议不要在此事件中进行微信自动化操作，仅操作自己的UI及获取客户数据，当然进行自动化操作也是可以的，只是不建议</para>
         /// <code>
         /// WeAutomation.Initialize(options =>
         /// {
         ///     options.ConversationChangeListenerInterval=3,  //在这里修改时间间
+        /// });
+        /// </code>
+        /// <para>详情请参考<seealso cref="WeChatConfig.ConversationChangeListenerInterval"/></para>
+        /// <para>在winform中的调用示例:</para>
+        /// <code>
+        /// wechatMainWindow.AddConversationChangeListener((context,token)=>{
+        /// //在这里写你的业务代码，context含有你需要的信息，如：好友/群聊的标题等
+        /// },SynchronizationContext.Current)
+        /// </code>
+        /// <param>如果传了SynchronizationContext对象，回调事件中不用考虑UI线程切换问题，因为WeChatAuto.SDK已经帮你切回了UI线程，你只需要正常访问UI即可。</param>
+        /// <param>如果没有传SynchronizationContex对象，如果需要访问UI控件，你必须自行解决跨线程访问UI控件的问题，建议代码如下：</param>
+        /// <code>
+        /// //如：有一个UI控件名叫：txtLog,是一个TextBox控件，你需要给他赋值,则这样写代码：
+        /// Action action = () =>
+        /// {
+        ///     //这里是访问UI控件代码.
+        ///     if (txtLog.Lines.Length > 10000)
+        ///     {
+        ///         var list = txtLog.Lines.ToList();
+        ///         list.RemoveAt(0);
+        ///         txtLog.Lines = list.ToArray();
+        ///     }
+        ///     txtLog.AppendText(log + Environment.NewLine);
+        ///     txtLog.ScrollToCaret();
+        /// };
+        /// if (txtLog.InvokeRequired)
+        /// {
+        ///     this.Invoke(action); 或 this.BeginInvoke(action);
+        /// }else
+        /// {
+        ///     action();
         /// }
         /// </code>
-        /// 详情请参考<seealso cref="WeChatConfig.ConversationChangeListenerInterval"/>
         /// </summary>
-        /// <param name="callBack">回调事件，会传给用户ChatContext对象，详情请参考<seealso cref="ChatContext"/></param>
-        /// <param name="syncContext">SynchronizationContext,使用者可以传入SynchronizationContext.Current,如果不传此参数，使用者需要自行解决UI线程切换的问题(使用xxx.RequireInvoke()的方式)</param>
+        /// <param name="callBack">回调事件，会传给用户ChatContext对象，详情请参考<seealso cref="ChatContext"/>,如果你执行的是长任务，为了支持用户点击微信任意切换，你应该使用token.ThrowIfCancellationRequested()来支持任务的取消</param>
+        /// <param name="syncContext">SynchronizationContext,使用者可以传入SynchronizationContext.Current,如果不传此参数，使用者需要自行解决UI线程切换的问题(见上面的代码演示)</param>
         /// <returns></returns>
         public void AddConversationChangeListener(Action<ChatContext, CancellationToken> callBack, SynchronizationContext syncContext = null)
         {
