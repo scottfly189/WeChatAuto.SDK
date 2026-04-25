@@ -26,7 +26,6 @@ using WeChatAuto.Models;
 using OneOf.Types;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Configuration;
 
 
 
