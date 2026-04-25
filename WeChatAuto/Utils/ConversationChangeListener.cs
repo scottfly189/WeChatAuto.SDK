@@ -113,18 +113,7 @@ namespace WeChatAuto.Utils
                     if (list == null)
                         return;
                     var listItems = list.FindAllChildren().ToList().Select(u => u.AsListBoxItem()).ToList();
-                    var listItem = listItems.Where(u =>
-                    {
-                        if (u.Patterns.SelectionItem.IsSupported)
-                        {
-                            var pattern = u.Patterns.SelectionItem;
-                            if (pattern.Pattern.IsSelected.Value)
-                            {
-                                return true;
-                            }
-                        }
-                        return false;
-                    }).FirstOrDefault();
+                    var listItem = listItems.FirstOrDefault(u => u.Patterns.SelectionItem.IsSupported && u.Patterns.SelectionItem.Pattern.IsSelected.Value);
                     if (listItem == null)
                         return;
                     var checkListItemLabel = listItem.Name.Trim();
