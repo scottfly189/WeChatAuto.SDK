@@ -813,48 +813,58 @@ namespace WeChatAuto.Components
 
         /// <summary>
         /// 添加会话列表切换监听事件
+        /// 注意：监听时间间隔默认为：5秒，如果需要修改这个间隔时间，请在WeAutomation初始化的时候修改，如下所示:
+        /// <code>
+        /// WeAutomation.Initialize(options =>
+        /// {
+        ///     options.ConversationChangeListenerInterval=3,  //在这里修改时间间
+        /// }
+        /// </code>
+        /// 详情请参考<seealso cref="WeChatConfig.ConversationChangeListenerInterval"/>
         /// </summary>
         /// <param name="callBack">回调事件，会传给用户ChatContext对象，详情请参考<seealso cref="ChatContext"/></param>
+        /// <param name="syncContext">SynchronizationContext,使用者可以传入SynchronizationContext.Current,如果不传此参数，使用者需要自行解决UI线程切换的问题(使用xxx.RequireInvoke()的方式)</param>
         /// <returns></returns>
-        public async Task AddConversationChangeListener(Action<ChatContext> callBack)
+        public void AddConversationChangeListener(Action<ChatContext, CancellationToken> callBack, SynchronizationContext syncContext = null)
         {
             if (conversationChangeListener == null)
             {
-                conversationChangeListener = new ConversationChangeListener(_uiMainThreadInvoker, _MainWindow,this,_serviceProvider);
-                await conversationChangeListener.Star(callBack);
+                conversationChangeListener = new ConversationChangeListener(_uiMainThreadInvoker, _MainWindow, this, _serviceProvider);
+                conversationChangeListener.Star(callBack, syncContext);
             }
         }
         /// <summary>
         /// 移除会话列表切换监听事件
         /// </summary>
         /// <returns></returns>
-        public async Task RemoveConversationChangeListener()
+        public void RemoveConversationChangeListener()
         {
             if (conversationChangeListener != null)
             {
-                await conversationChangeListener.Stop();
+                conversationChangeListener.Stop();
+                conversationChangeListener = null;
             }
         }
         /// <summary>
         /// 暂停会话列表监听事件
         /// </summary>
         /// <returns></returns>
-        public async Task PauseConversationChangeListener()
+        public void PauseConversationChangeListener()
         {
             if (conversationChangeListener != null)
             {
-                await conversationChangeListener.Pause();
+                conversationChangeListener.Pause();
             }
         }
         /// <summary>
         /// 恢复会话列表监听事件
         /// </summary>
         /// <returns></returns>
-        public async Task ResumeConversationChangeListener()
+        public void ResumeConversationChangeListener()
         {
             if (conversationChangeListener != null)
             {
-                await conversationChangeListener.Resume();
+                conversationChangeListener.Resume();
             }
         }
 
