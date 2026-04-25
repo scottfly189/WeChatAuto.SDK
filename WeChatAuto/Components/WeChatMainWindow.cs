@@ -26,6 +26,7 @@ using WeChatAuto.Models;
 using OneOf.Types;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Configuration;
 
 
 
@@ -67,6 +68,7 @@ namespace WeChatAuto.Components
         private UIThreadInvoker _uiMainThreadInvoker;   //每个微信窗口一个单独的UI线程
         public UIThreadInvoker UiMainThreadInvoker => _uiMainThreadInvoker;
         private Thread _newUserListenerThread;
+        private ConversationChangeListener conversationChangeListener;
         private CancellationTokenSource _newUserListenerCancellationTokenSource = new CancellationTokenSource();
         private List<(Action<List<string>> callBack, FriendListenerOptions options)> _newUserActionList = new List<(Action<List<string>> callBack, FriendListenerOptions options)>();
         private TaskCompletionSource<bool> _newUserListenerStarted = new TaskCompletionSource<bool>();
@@ -807,6 +809,53 @@ namespace WeChatAuto.Components
         {
             var result = this.SubWinList.CheckSubWinExistAndOpen(who).GetAwaiter().GetResult();
             return result ? Result.Ok() : Result.Fail("无法找到好友或者群聊昵称");
+        }
+
+        /// <summary>
+        /// 添加会话列表切换监听事件
+        /// </summary>
+        /// <param name="callBack">回调事件，会传给用户ChatContext对象，详情请参考<seealso cref="ChatContext"/></param>
+        /// <returns></returns>
+        public async Task AddConversationChangeListener(Action<ChatContext> callBack)
+        {
+            if (conversationChangeListener == null)
+            {
+                conversationChangeListener = new ConversationChangeListener(_uiMainThreadInvoker, _MainWindow,this,_serviceProvider);
+                await conversationChangeListener.Star(callBack);
+            }
+        }
+        /// <summary>
+        /// 移除会话列表切换监听事件
+        /// </summary>
+        /// <returns></returns>
+        public async Task RemoveConversationChangeListener()
+        {
+            if (conversationChangeListener != null)
+            {
+                await conversationChangeListener.Stop();
+            }
+        }
+        /// <summary>
+        /// 暂停会话列表监听事件
+        /// </summary>
+        /// <returns></returns>
+        public async Task PauseConversationChangeListener()
+        {
+            if (conversationChangeListener != null)
+            {
+                await conversationChangeListener.Pause();
+            }
+        }
+        /// <summary>
+        /// 恢复会话列表监听事件
+        /// </summary>
+        /// <returns></returns>
+        public async Task ResumeConversationChangeListener()
+        {
+            if (conversationChangeListener != null)
+            {
+                await conversationChangeListener.Resume();
+            }
         }
 
         //此用户是否在搜索结果中
@@ -3071,6 +3120,7 @@ namespace WeChatAuto.Components
                 _WxMainChatContent.Dispose();
                 _moments.Dispose();
                 _SubWinList.Dispose();
+                conversationChangeListener?.Dispose();
 
                 _newUserListenerCancellationTokenSource?.Dispose();
                 _newUserListenerStarted?.TrySetCanceled();
