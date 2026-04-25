@@ -363,6 +363,8 @@ namespace WeChatAuto.Components
     /// <param name="who">好友或者群聊昵称</param>
     public WeAutoCommon.Models.Result FindAndOpenFriendOrGroup(string who)
       => WxMainWindow.FindAndOpenFriendOrGroup(who);
+
+    
     #endregion
 
     #region 群聊操作
