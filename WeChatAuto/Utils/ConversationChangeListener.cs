@@ -78,8 +78,10 @@ namespace WeChatAuto.Utils
                             _Logger.Error(ex.ToString());
                         }
                         //暂停监测时间.
+                        if (WeAutomation.Config.ConversationChangeListenerInterval <= 0)
+                            WeAutomation.Config.ConversationChangeListenerInterval = 3;
                         await Task.Delay(WeAutomation.Config.ConversationChangeListenerInterval * 1000,
-                            cts.Token);
+                                cts.Token);
                     }
                 }
                 catch (OperationCanceledException)

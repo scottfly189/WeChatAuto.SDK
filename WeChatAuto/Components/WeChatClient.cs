@@ -274,6 +274,14 @@ namespace WeChatAuto.Components
     public HeaderInfo GetChatTitle() => WxMainWindow.GetChatTitle();
 
     /// <summary>
+    /// 修改备注
+    /// </summary>
+    /// <param name="who">好友/群聊的名称,who可以为空,如果为空，则修改当前聊天窗口的好友/群聊备注</param>
+    /// <param name="newName">新的备注，注意：修改成新的备注名后，微信将优先显示新的备注，以后的调用中who=新的备注名</param>
+    /// <returns></returns>
+    public async Task UpdateRemark(string who, string newName) => await WxMainWindow.UpdateRemark(who, newName);
+
+    /// <summary>
     /// 给指定好友发送文件
     /// </summary>
     /// <param name="who">好友昵称,可以为空，如果为空，则给主窗口的当前聊天窗口发送文件,要确保当前聊天窗口是可发送文件的窗口</param>
@@ -364,7 +372,7 @@ namespace WeChatAuto.Components
     public WeAutoCommon.Models.Result FindAndOpenFriendOrGroup(string who)
       => WxMainWindow.FindAndOpenFriendOrGroup(who);
 
-    
+
     #endregion
 
     #region 群聊操作
