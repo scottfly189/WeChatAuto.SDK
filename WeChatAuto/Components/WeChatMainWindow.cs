@@ -26,6 +26,7 @@ using WeChatAuto.Models;
 using OneOf.Types;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Text.RegularExpressions;
 
 
 
@@ -1324,6 +1325,245 @@ namespace WeChatAuto.Components
 
         #region 获取wxid的接口
         /// <summary>
+        /// 修改备注
+        /// </summary>
+        /// <param name="who">好友/群聊的名称,who可以为空,如果为空，则修改当前聊天窗口的好友/群聊备注</param>
+        /// <param name="newName">新的备注，注意：修改成新的备注名后，微信将优先显示新的备注，以后的调用中who=新的备注名</param>
+        /// <returns></returns>
+        public async Task UpdateRemark(string who, string newName)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(who))
+                {
+                    //获取当前聊天窗口的好友的wxid
+                    // info = await __GetCurrentChatWxId(fetchImage, avatarPath).ConfigureAwait(false);
+                    await __UpdateCurrentRemark(who, newName);
+                }
+                else
+                {
+                    //查找并获取好友的wxid,要区分出是子窗口还是主窗口
+                    var subWinList = this.SubWinList.GetAllOpenedSubWinNames();
+                    var subItem = subWinList.Find(x => x.Equals(who));
+                    if (string.IsNullOrEmpty(subItem))
+                    {
+                        //主窗口获取
+                        this._Search.SearchChat(who);
+                        Random rand = new Random((int)DateTime.Now.Ticks);
+                        await Task.Delay(rand.Next(200, 800));
+                        await __UpdateCurrentRemark(who, newName);
+                    }
+                    else
+                    {
+                        //子窗口获取
+                        SubWin subWin = this.SubWinList.GetSubWin(who);
+                        subWin.Close();
+                        this._Search.SearchChat(who);
+                        Random rand = new Random((int)DateTime.Now.Ticks);
+                        await Task.Delay(rand.Next(200, 800));
+                        await __UpdateCurrentRemark(who, newName);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //可能会碰到一些异常的情况，如：不是聊天窗口，甚至不是好友聊天窗口,所以隐藏错误
+                _logger.Error(ex.ToString());
+            }
+        }
+
+        private async Task __UpdateCurrentRemark(string who, string newName)
+        {
+            await _uiMainThreadInvoker.Run(automation =>
+            {
+                try
+                {
+                    var navigateRoot = _MainWindow.FindFirstDescendant(cf => cf.ByControlType(ControlType.ToolBar).And(cf.ByLocalizedControlType("工具栏"))
+                        .And(cf.ByName("导航")));
+
+                    var contentPaneRoot = navigateRoot.GetSibling(1).GetSibling(1);
+                    var chatButton = contentPaneRoot.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("聊天信息")));
+                    if (chatButton == null)
+                        return;
+                    var path = "/Pane/Pane/Pane/Pane/Pane[1]/Pane/Pane[2]/Pane/Pane[1]/Pane/Text[1]";
+                    var nameElement = contentPaneRoot.FindFirstByXPath(path);
+                    if (nameElement == null)
+                        return;
+                    var pattern = @"(.+)\s*\(([\d]+)\)$";
+                    var name = nameElement.Name;
+                    var match = Regex.Match(name, pattern);
+                    chatButton.DrawHighlightExt();
+                    if (match.Success)
+                    {
+                        __UpdateGroupRemark(newName, nameElement, chatButton);
+                    }
+                    else
+                    {
+                        __UpdatePersionRemark(newName, nameElement, chatButton);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex.ToString());
+                }
+            });
+        }
+
+        private void __UpdateGroupRemark(string newName, AutomationElement nameElement, AutomationElement buttonElement)
+        {
+
+        }
+        /// <summary>
+        /// 修改个人微信的备注
+        /// </summary>
+        /// <param name="newName"></param>
+        /// <param name="buttonElement"></param>
+        /// <param name="nameElement"></param>
+        private void __UpdatePersionRemark(string newName, AutomationElement nameElement, AutomationElement buttonElement)
+        {
+            // var checkCompanyWx = nameElement.GetSibling(1);
+            // if (checkCompanyWx != null)
+            // {
+            //     if (checkCompanyWx.Name.StartsWith("@"))
+            //     {
+            //         //修改企业微信的备注
+            //         __UpdateCompanyWxRemark(newName, buttonElement);
+            //         return;
+            //     }
+            // }
+            //修改纯粹的个人微信
+            RandomWait.Wait(300, 800);
+            buttonElement.ClickEnhance(_MainWindow); //弹出第一层浮动菜单
+            RandomWait.Wait(300, 1200);
+            var path = "/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane/List/ListItem[1]/Pane/Pane/Button";
+            var buttonRetry = Retry.WhileNull(() =>
+            {
+                return _MainWindow.FindFirstByXPath(path).AsButton();
+            }, timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
+            if (buttonRetry.Success)
+            {
+                var button = buttonRetry.Result;
+                button.DrawHighlightExt();
+                button.ClickEnhance(_MainWindow);  //弹出第二层浮动菜单
+                RandomWait.Wait(300, 900);
+                //这里分有昵称的与无昵称的备注修改
+                //如果有昵称，则需要首先点击按钮，而这个按钮需要移动鼠标才能浮现，妙啊
+                path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[@Name='昵称：']";
+                var nickNameRetry = Retry.WhileNull(() => _MainWindow.FindFirstByXPath(path), timeout: TimeSpan.FromSeconds(1), interval: TimeSpan.FromMilliseconds(200));
+                if (nickNameRetry.Success)
+                {
+                    //有昵称，需要点击按钮，呵呵
+                    nickNameRetry.Result.DrawHighlightExt();
+                    path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[@Name='备注']";
+                    var memoText = _MainWindow.FindFirstByXPath(path).AsLabel();
+                    if (memoText == null)
+                        return;
+                    memoText.DrawHighlightExt();
+                    var memoTextValue = memoText.GetSibling(1);
+                    var text = memoTextValue.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text)).AsLabel();
+                    text.DrawHighlightExt();
+                    var rectangle = text.BoundingRectangle;
+                    Random random = new Random((int)DateTime.Now.Ticks);
+                    var point = text.GetClickablePoint();
+                    //无规律混淆
+                    var setpX = random.Next(-1 * rectangle.Width / 2 + 5, rectangle.Width / 2 - 5);
+                    point.X = point.X + setpX;
+                    var setpY = random.Next(-1 * rectangle.Height / 2 + 3, rectangle.Height / 2 - 3);
+                    point.Y = point.Y + setpY;
+                    Mouse.MoveTo(point);
+                    var parent = memoText.GetParent().GetParent();
+                    buttonRetry = Retry.WhileNull(() =>
+                    {
+                        return parent.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button)).AsButton();
+                    }, timeout: TimeSpan.FromSeconds(1), interval: TimeSpan.FromMilliseconds(200));
+                    if (buttonRetry.Success)
+                    {
+                        var writeButton = buttonRetry.Result;
+                        writeButton.DrawHighlightExt();
+                        writeButton.ClickEnhance(_MainWindow);
+                        RandomWait.Wait(100, 600);
+                        Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+                        RandomWait.Wait(50, 200);
+                        Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+                        RandomWait.Wait(100, 300);
+                        Keyboard.Type(newName);
+                        RandomWait.Wait(100, 1000);
+                        Keyboard.Press(VirtualKeyShort.RETURN);
+                    }
+                }
+                else
+                {
+                    path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Text[@Name='备注']";
+                    var memoText = _MainWindow.FindFirstByXPath(path).AsLabel();
+                    if (memoText == null)
+                        return;
+                    memoText.DrawHighlightExt();
+                    var memoTextValue = memoText.GetSibling(1);
+                    var memoButton = memoTextValue.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button)).AsButton();
+                    memoButton.DrawHighlightExt();
+                    Mouse.MoveTo(memoButton.GetClickablePoint());
+                    Mouse.LeftClick();
+                    RandomWait.Wait(100, 300);
+                    Keyboard.Type(newName);
+                    RandomWait.Wait(100, 500);
+                    Keyboard.Press(VirtualKeyShort.RETURN);
+                }
+
+                //关闭窗口
+                CloseRightPane();
+            }
+        }
+
+        private void CloseRightPane()
+        {
+            //关闭窗口
+            var path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[2]/Button[@Name='聊天信息']";
+            var rootPanel = this.SelfWindow.FindFirstByXPath(path);
+            if (rootPanel != null && rootPanel.GetParent() != null)
+            {
+                DrawHightlightHelper.DrawHighlightExt(rootPanel.GetParent().GetParent());
+                rootPanel.GetParent().Focus();
+                RandomWait.Wait(300, 900);
+                path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/List/ListItem[1]/Pane/Pane/Button";
+                var buttonElement = this.SelfWindow.FindFirstByXPath(path);
+                if (buttonElement != null)
+                {
+                    rootPanel.GetParent().Click();
+                }
+            }
+            RandomWait.Wait(300, 800);
+            path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane[1]/Edit";
+            var sender = this.SelfWindow.FindFirstByXPath(path);
+            if (sender != null)
+            {
+                DrawHightlightHelper.DrawHighlightExt(sender);
+                sender.Focus();
+                RandomWait.Wait(100, 200);
+                sender.ClickEnhance(this.SelfWindow);
+                //Keyboard.TypeSimultaneously(VirtualKeyShort.ESCAPE);
+            }
+        }
+
+        private void __UpdateCompanyWxRemark(string newName, AutomationElement buttonElement)
+        {
+            RandomWait.Wait(300, 800);
+            buttonElement.ClickEnhance(_MainWindow); //弹出第一层浮动菜单
+            RandomWait.Wait(300, 1200);
+            var path = "/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane/List/ListItem[1]/Pane/Pane/Button";
+            var buttonRetry = Retry.WhileNull(() =>
+            {
+                return _MainWindow.FindFirstByXPath(path).AsButton();
+            }, timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
+            if (buttonRetry.Success)
+            {
+                var button = buttonRetry.Result;
+                button.DrawHighlightExt();
+                button.ClickEnhance(_MainWindow);  //弹出第二层浮动菜单
+                RandomWait.Wait(300, 900);
+            }
+        }
+
+        /// <summary>
         /// 获取个人头像
         /// </summary>
         /// <param name="savePath">保存的目录与文件名，如: c:\temp\avator.jpg</param>
@@ -2203,7 +2443,7 @@ namespace WeChatAuto.Components
         }
 
         /// <summary>
-        /// 改变自有群群备注
+        /// 改变群备注
         /// </summary>
         /// <param name="groupName">群聊名称</param>
         /// <param name="newMemo">新备注</param>

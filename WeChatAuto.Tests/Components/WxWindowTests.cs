@@ -631,7 +631,18 @@ namespace WeChatAuto.Tests.Components
                 Console.WriteLine(context.ToString());
                 //这里调用自己的方法
             });
-            await Task.Delay(30*1000);
+            await Task.Delay(30 * 1000);
+        }
+
+        [Fact(DisplayName = "测试个人微信修改-有昵称的")]
+        public async Task TestPersionWxUpdateRemarck()
+        {
+            Console.OutputEncoding = Encoding.UTF8;
+            var framework = _globalFixture.clientFactory;
+            var client = framework.GetWeChatClient(_wxClientName);
+            var window = client.WxMainWindow;
+            await window.UpdateRemark("", "粒粒老师");
+            
         }
     }
 }
