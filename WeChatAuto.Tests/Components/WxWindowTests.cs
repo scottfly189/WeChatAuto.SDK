@@ -634,7 +634,7 @@ namespace WeChatAuto.Tests.Components
             await Task.Delay(30 * 1000);
         }
 
-        [Fact(DisplayName = "测试个人微信修改-有昵称的")]
+        [Fact(DisplayName = "测试个人微信修改备注")]
         public async Task TestPersionWxUpdateRemarck()
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -642,7 +642,18 @@ namespace WeChatAuto.Tests.Components
             var client = framework.GetWeChatClient(_wxClientName);
             var window = client.WxMainWindow;
             await window.UpdateRemark("", "粒粒老师");
-            
+
+        }
+
+        [Fact(DisplayName = "测试微信群聊修改备注")]
+        public async Task TestWxGroupChatUpdateRemarck()
+        {
+            Console.OutputEncoding = Encoding.UTF8;
+            var framework = _globalFixture.clientFactory;
+            var client = framework.GetWeChatClient(_wxClientName);
+            var window = client.WxMainWindow;
+            await window.UpdateRemark("", "测试2");
+
         }
     }
 }

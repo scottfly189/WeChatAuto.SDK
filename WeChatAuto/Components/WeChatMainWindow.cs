@@ -1411,7 +1411,35 @@ namespace WeChatAuto.Components
 
         private void __UpdateGroupRemark(string newName, AutomationElement nameElement, AutomationElement buttonElement)
         {
+            RandomWait.Wait(300, 800);
+            buttonElement.ClickEnhance(_MainWindow); //弹出第一层浮动菜单
+            RandomWait.Wait(300, 1200);
+            var path = "/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Pane/Edit[@Name='搜索群成员']";
+            var search = this.SelfWindow.FindFirstByXPath(path);
+            var root = search.GetParent().GetParent().GetParent().GetParent().GetParent();
+            root.DrawHighlightExt();
+            var memoLabel = root.FindFirstDescendant(cf => cf.ByControlType(ControlType.Text).And(cf.ByName("备注")));
+            if (memoLabel == null)
+                return;
+            memoLabel.DrawHighlightExt();
+            var memoInputPane = memoLabel.GetParent();
+            memoInputPane.DrawHighlightExt();
+            var memoButton = memoInputPane.FindFirstDescendant(cf => cf.ByControlType(ControlType.Button));
+            if (memoButton == null)
+                return;
+            memoButton.DrawHighlightExt();
+            memoButton.ClickEnhance(_MainWindow);
+            RandomWait.Wait(300, 800);
+            Keyboard.TypeSimultaneously(VirtualKeyShort.CONTROL, VirtualKeyShort.KEY_A);
+            RandomWait.Wait(100, 300);
+            Keyboard.TypeSimultaneously(VirtualKeyShort.BACK);
+            RandomWait.Wait(100, 300);
+            Keyboard.Type(newName);
+            RandomWait.Wait(100, 300);
+            Keyboard.Press(VirtualKeyShort.RETURN);
 
+            RandomWait.Wait(100, 300);
+            CloseRightPane();
         }
         /// <summary>
         /// 修改个人微信的备注
@@ -1421,16 +1449,6 @@ namespace WeChatAuto.Components
         /// <param name="nameElement"></param>
         private void __UpdatePersionRemark(string newName, AutomationElement nameElement, AutomationElement buttonElement)
         {
-            // var checkCompanyWx = nameElement.GetSibling(1);
-            // if (checkCompanyWx != null)
-            // {
-            //     if (checkCompanyWx.Name.StartsWith("@"))
-            //     {
-            //         //修改企业微信的备注
-            //         __UpdateCompanyWxRemark(newName, buttonElement);
-            //         return;
-            //     }
-            // }
             //修改纯粹的个人微信
             RandomWait.Wait(300, 800);
             buttonElement.ClickEnhance(_MainWindow); //弹出第一层浮动菜单
@@ -1540,26 +1558,6 @@ namespace WeChatAuto.Components
                 sender.Focus();
                 RandomWait.Wait(100, 200);
                 sender.ClickEnhance(this.SelfWindow);
-                //Keyboard.TypeSimultaneously(VirtualKeyShort.ESCAPE);
-            }
-        }
-
-        private void __UpdateCompanyWxRemark(string newName, AutomationElement buttonElement)
-        {
-            RandomWait.Wait(300, 800);
-            buttonElement.ClickEnhance(_MainWindow); //弹出第一层浮动菜单
-            RandomWait.Wait(300, 1200);
-            var path = "/Pane[1]/Pane/Pane/Pane/Pane/Pane/Pane/List/ListItem[1]/Pane/Pane/Button";
-            var buttonRetry = Retry.WhileNull(() =>
-            {
-                return _MainWindow.FindFirstByXPath(path).AsButton();
-            }, timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
-            if (buttonRetry.Success)
-            {
-                var button = buttonRetry.Result;
-                button.DrawHighlightExt();
-                button.ClickEnhance(_MainWindow);  //弹出第二层浮动菜单
-                RandomWait.Wait(300, 900);
             }
         }
 
