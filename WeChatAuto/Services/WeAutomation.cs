@@ -5,6 +5,7 @@ using WeChatAuto.Components;
 using WeChatAuto.Extentions;
 using WeChatAuto.Utils;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace WeChatAuto.Services
 {
@@ -15,6 +16,8 @@ namespace WeChatAuto.Services
         private static WeChatConfig _config = new WeChatConfig();
         public static WeChatConfig Config => _config;
         private static InitializationMode _initializationMode = InitializationMode.None;
+
+        public static SynchronizationContext currentContext;
 
         private enum InitializationMode
         {
@@ -32,6 +35,7 @@ namespace WeChatAuto.Services
         /// <returns>IServiceCollection，用于链式调用</returns>
         public static IServiceCollection Initialize(IServiceCollection services, Action<WeChatConfig> options = default)
         {
+            currentContext = SynchronizationContext.Current;
             if (_initializationMode == InitializationMode.InternalDI)
             {
                 throw new InvalidOperationException("不能同时使用外部和内部依赖注入框架。如果已经使用无参数的Initialize方法初始化，请使用GetServiceProvider()获取IServiceProvider。");
@@ -88,6 +92,7 @@ namespace WeChatAuto.Services
         /// <returns>IServiceProvider，用于获取服务实例</returns>
         private static IServiceProvider GetServiceProvider(Action<WeChatConfig> options = default)
         {
+            currentContext = SynchronizationContext.Current;
             if (_initializationMode == InitializationMode.ExternalDI)
             {
                 throw new InvalidOperationException("不能同时使用AddWxAutomation和GetServiceProvider方法。如果已经使用AddWxAutomation初始化，请使用外部依赖注入容器。");
