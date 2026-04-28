@@ -37,6 +37,7 @@ namespace WeChatAuto.Components
         }
         /// <summary>
         /// 获取所有好友
+        /// 如果是企业微信，会剔除@xxxx后缀，以保持一致性.
         /// </summary>
         /// <returns>好友列表</returns>
         public List<string> GetAllFriends()
@@ -57,6 +58,7 @@ namespace WeChatAuto.Components
                 _MainWin.Navigation.SwitchNavigation(WeAutoCommon.Enums.NavigationType.聊天);
             }
         }
+
         /// <summary>
         /// 定位好友
         /// </summary>
@@ -754,12 +756,23 @@ namespace WeChatAuto.Components
                     for (double p = 0; p <= 1; p += scrollPattern.VerticalViewSize)
                     {
                         scrollPattern.SetScrollPercent(0, p);
-                        Thread.Sleep(600);
-                        var fList = root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()
+                        RandomWait.Wait(100, 600);
+                        var fListItem = root.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem)).ToList()
                         .Where(item => !item.Name.Contains("公众号") && !(item.Name == "新的朋友"))
                         .Where(item => !string.IsNullOrWhiteSpace(item.Name.Trim()))
-                        .Select(item => item.Name.Trim())
+                        // .Select(item => item.Name.Trim())
                         .ToList();
+                        var fList = new List<string>();
+                        foreach (var item in fListItem)
+                        {
+                            var path = "//Button";
+                            var subItem = item.FindFirstByXPath(path);
+                            if (subItem != null)
+                            {
+                                fList.Add(subItem.Name.Trim());
+                            }
+                        }
+                        
                         list.AddRange(fList.Except(list));
                     }
                 }
