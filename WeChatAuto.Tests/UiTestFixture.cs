@@ -2,6 +2,7 @@ using Xunit;
 using Microsoft.Extensions.DependencyInjection;
 using WeChatAuto.Components;
 using WeChatAuto.Services;
+using System.Text.Unicode;
 public class UiTestFixture : IDisposable
 {
     private IServiceProvider _serviceProvider;
@@ -10,6 +11,7 @@ public class UiTestFixture : IDisposable
     public WeChatClientFactory clientFactory => _Factory;
     public UiTestFixture()
     {
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
         _serviceProvider = WeAutomation.Initialize(options =>
         {
             options.DebugMode = true;
