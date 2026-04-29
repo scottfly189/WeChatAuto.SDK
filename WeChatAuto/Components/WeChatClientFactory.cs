@@ -224,6 +224,7 @@ namespace WeChatAuto.Components
             throw new Exception($"{nameof(WeChatClientFactory)}-{nameof(_GetNotifyButtonsVersion2)}:获取任务栏微信按钮失败");
         }
 
+        //refactor: 添加对2019 server 系统的微信支持，ver=10.0.17763.973
         private (bool Success, AutomationElement[] elements) __GetNotifyButtons_3(UIA3Automation automation)
         {
             var deskTop = automation.GetDesktop();
