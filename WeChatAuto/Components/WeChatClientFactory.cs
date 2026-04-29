@@ -10,7 +10,6 @@ using WeChatAuto.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading;
 using FlaUI.UIA3;
-using OneOf.Types;
 using WeAutoCommon.Models;
 
 namespace WeChatAuto.Components
@@ -144,6 +143,10 @@ namespace WeChatAuto.Components
                           cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd"))),
                           timeout: TimeSpan.FromSeconds(5),
                           interval: TimeSpan.FromMilliseconds(200)).Result;
+            if (result == null)
+            {
+                _logger.Error($"{nameof(WeChatClientFactory)} - {nameof(_GetTaskBarRoot)}:本系统的UI Tree可能不被支持，因为找不到任务栏");
+            }
             return result.ToMaybe();
         }
         /// <summary>
@@ -158,6 +161,10 @@ namespace WeChatAuto.Components
                           .And(cf.ByClassName("ToolbarWindow32").And(cf.ByControlType(ControlType.ToolBar)))),
                           timeout: TimeSpan.FromSeconds(5));
             //window操作系统不同，可能存在元素结构的不一样,要注意处理
+            if (!result.Success)
+            {
+                _logger.Error($"{nameof(WeChatClientFactory)}-{nameof(_GetToolBar)}:本系统UI Tree不支持，获取不到工具栏元素");
+            }
             return result.Success ? Maybe<AutomationElement>.Some(result.Result) : Maybe<AutomationElement>.None();
         }
         /// <summary>
@@ -186,19 +193,72 @@ namespace WeChatAuto.Components
         /// <exception cref="Exception"></exception>
         private Maybe<AutomationElement[]> _GetNotifyButtonsVersion2(UIA3Automation automation)
         {
+            // var taskBarRootRetry = Retry.WhileNull(() => automation.GetDesktop().FindFirstChild(cf =>
+            //   cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd"))),
+            //   timeout: TimeSpan.FromSeconds(5),
+            //   interval: TimeSpan.FromMilliseconds(200));
+            // if (taskBarRootRetry.Success)
+            // {
+            //     var taskBarRoot = taskBarRootRetry.Result;
+            //     var xPath = "/Pane[@ClassName='Windows.UI.Input.InputSite.WindowClass']/Button[@ClassName='SystemTray.NormalButton'][@Name='微信']";
+            //     var result = Retry.WhileNull(() => taskBarRoot.FindAllByXPath(xPath),
+            //               timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
+            //     return result.Success ? Maybe<AutomationElement[]>.Some(result.Result) : throw new Exception("获取通知按钮元素失败");
+            // }
+            //第一次UI Tree异常情况获取
+            (bool Success, AutomationElement[] elements) itemResult = __GetNotifyButtons_2(automation);
+            if (itemResult.Success)
+            {
+                return Maybe<AutomationElement[]>.Some(itemResult.elements);
+            }
+            else
+            {
+                //对第三种UI Tree异常情况支持
+                itemResult = __GetNotifyButtons_3(automation);
+                if (itemResult.Success)
+                {
+                    return Maybe<AutomationElement[]>.Some(itemResult.elements);
+                }
+            }
+
+            throw new Exception($"{nameof(WeChatClientFactory)}-{nameof(_GetNotifyButtonsVersion2)}:获取任务栏微信按钮失败");
+        }
+
+        //refactor: 添加对2019 server 系统的微信支持，ver=10.0.17763.973
+        private (bool Success, AutomationElement[] elements) __GetNotifyButtons_3(UIA3Automation automation)
+        {
+            var deskTop = automation.GetDesktop();
+            var root = deskTop.FindFirstDescendant(cf => cf.ByControlType(ControlType.ToolBar).And(cf.ByName("用户提示通知区域")));
+            if (root == null)
+                return (false, null);
+            WeChatConstant.WECHAT_SYSTEM_NAME = "WeChat";
+            var elements = root.FindAllChildren(cf => cf.ByControlType(ControlType.Button).And(cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME)));
+            if (elements != null && elements.Length > 0)
+            {
+                return (true, elements);
+            }
+            return (false, null);
+        }
+
+        private (bool Success, AutomationElement[] elements) __GetNotifyButtons_2(UIA3Automation automation)
+        {
             var taskBarRootRetry = Retry.WhileNull(() => automation.GetDesktop().FindFirstChild(cf =>
-              cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd"))),
-              timeout: TimeSpan.FromSeconds(5),
-              interval: TimeSpan.FromMilliseconds(200));
+                cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd"))),
+                timeout: TimeSpan.FromSeconds(5),
+                interval: TimeSpan.FromMilliseconds(200));
             if (taskBarRootRetry.Success)
             {
                 var taskBarRoot = taskBarRootRetry.Result;
                 var xPath = "/Pane[@ClassName='Windows.UI.Input.InputSite.WindowClass']/Button[@ClassName='SystemTray.NormalButton'][@Name='微信']";
                 var result = Retry.WhileNull(() => taskBarRoot.FindAllByXPath(xPath),
                           timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
-                return result.Success ? Maybe<AutomationElement[]>.Some(result.Result) : throw new Exception("获取通知按钮元素失败");
+                // return result.Success ? Maybe<AutomationElement[]>.Some(result.Result) : throw new Exception("获取通知按钮元素失败");
+                if (result.Success)
+                {
+                    return (true, result.Result);
+                }
             }
-            throw new Exception("获取任务栏根元素失败");
+            return (false, null);
         }
         private Maybe<bool> _ProcessNotifyButtons(UIA3Automation automation, AutomationElement[] buttons)
         {
