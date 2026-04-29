@@ -180,6 +180,20 @@ namespace WeChatAuto.Components
                           .And(cf.ByControlType(ControlType.Button))),
                           timeout: TimeSpan.FromSeconds(5),
                           interval: TimeSpan.FromMilliseconds(200)).Result;
+            //处理第二种异常情况
+            if (result == null || result.Length == 0)
+            {
+                WeChatConstant.WECHAT_SYSTEM_NAME = "WeChat";
+                result = Retry.WhileNull(() => toolBar.FindAllChildren(cf => cf.ByName(WeChatConstant.WECHAT_SYSTEM_NAME)
+                          .And(cf.ByControlType(ControlType.Button))),
+                          timeout: TimeSpan.FromSeconds(5),
+                          interval: TimeSpan.FromMilliseconds(200)).Result;
+            }
+            if (result == null || result.Length == 0)
+            {
+                _logger.Error($"{nameof(WeChatClientFactory)} - {nameof(_GetNotifyButtons)}: 本系统的UI Tree可能不被支持,请联系作者予以支持");
+                throw new Exception("本系统的UI Tree可能不被支持，请联系作者予以支持");
+            }
             return result.ToMaybe();
         }
 
@@ -193,18 +207,6 @@ namespace WeChatAuto.Components
         /// <exception cref="Exception"></exception>
         private Maybe<AutomationElement[]> _GetNotifyButtonsVersion2(UIA3Automation automation)
         {
-            // var taskBarRootRetry = Retry.WhileNull(() => automation.GetDesktop().FindFirstChild(cf =>
-            //   cf.ByName(WeChatConstant.WECHAT_SYSTEM_TASKBAR).And(cf.ByClassName("Shell_TrayWnd"))),
-            //   timeout: TimeSpan.FromSeconds(5),
-            //   interval: TimeSpan.FromMilliseconds(200));
-            // if (taskBarRootRetry.Success)
-            // {
-            //     var taskBarRoot = taskBarRootRetry.Result;
-            //     var xPath = "/Pane[@ClassName='Windows.UI.Input.InputSite.WindowClass']/Button[@ClassName='SystemTray.NormalButton'][@Name='微信']";
-            //     var result = Retry.WhileNull(() => taskBarRoot.FindAllByXPath(xPath),
-            //               timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
-            //     return result.Success ? Maybe<AutomationElement[]>.Some(result.Result) : throw new Exception("获取通知按钮元素失败");
-            // }
             //第一次UI Tree异常情况获取
             (bool Success, AutomationElement[] elements) itemResult = __GetNotifyButtons_2(automation);
             if (itemResult.Success)
