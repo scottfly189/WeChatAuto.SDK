@@ -1,5 +1,0 @@
-<Solution>
-  <Project Path="../WeAutoCommon/WeAutoCommon.csproj" />
-  <Project Path="WeChatAuto.Tests/WeChatAuto.Tests.csproj" />
-  <Project Path="WeChatAuto/WeChatAuto.csproj" />
-</Solution>
