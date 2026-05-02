@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>MCP Server 使用指南 | WeChatAuto.SDK </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="MCP Server 使用指南 | WeChatAuto.SDK ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../Images/logo.png" alt="WECHATAUTO.SDK">
+            WECHATAUTO.SDK
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="mcp-server-使用指南">MCP Server 使用指南</h1>
+
+<hr>
+<h2 id="-mcp-server介绍">🎉 MCP Server介绍</h2>
+<p>MCP（Model Context Protocol，模型上下文协议）是专为大语言模型（LLM, Large Language Model）打造的服务端组件，其核心能力在于为LLM动态提供丰富的可调用工具、外部资源、结构化提示词等高阶能力，使模型不仅能处理自然语言对话，更可灵活组合、调用各类外接能力，显著扩展大模型的应用边界。</p>
+<p>MCP Server 的主要优势体现在：</p>
+<ul>
+<li><strong>一站式工具与资源调度</strong>：集中管理并安全开放各类内置或第三方API、插件、知识库，让模型可按需动态调用和组合。</li>
+<li><strong>结构化提示词与上下文封装</strong>：支持先进的 Prompt 工程和多轮上下文封装，使LLM能灵活切换任务模式及对外部信息的引用。</li>
+<li><strong>多模态和可追踪交互</strong>：不仅支持文本，还兼容图像、表格等多模态输入输出，同时自动记录与分析上下文流程，便于追踪和溯源。</li>
+<li><strong>标准化与易集成</strong>：MCP基于开放协议设计，兼容各类LLM平台（如个人Agent、企业Bot、插件市场等），快速集成，一处接入全局赋能。</li>
+</ul>
+<p>如果你在构建大语言模型驱动的应用或平台，MCP Server 能让你的LLM随时具备调用工具、获取知识、使用专业提示词等超强能力，是新一代智能体与大模型协作的基础设施。</p>
+<h2 id="-wechatautosdk-mcp示例---以vscode为例">🚀 WeChatAuto.SDK MCP示例 - 以Vscode为例</h2>
+<blockquote>
+<p><strong>本文主要演示vscode使用mcp server,你也可以在自己的应用加入mcp client代码，通过mcp client来调用LLM来操作微信桌面客户端.</strong></p>
+</blockquote>
+<h3 id="步骤一-打开mcpjson">步骤一： 打开mcp.json</h3>
+<ul>
+<li>在项目的根目录运行<code>code .</code>打开vscode编辑器</li>
+<li>在vscode中打开.vscode --&gt; 打开mcp.json文件,如下图所示：</li>
+</ul>
+<p><img src="../Images/mcp.png" alt="vscode"></p>
+<h3 id="步骤二修改mcpjson">步骤二：修改mcp.json</h3>
+<pre><code>{
+	&quot;servers&quot;: {
+		&quot;wechat_mcp_server&quot;: {
+			&quot;type&quot;: &quot;stdio&quot;,
+			&quot;command&quot;: &quot;dotnet&quot;,
+			&quot;args&quot;: [
+				&quot;run&quot;,
+                &quot;--project&quot;,
+                &quot;你的WeChatAuto.MCP.csproj路径，如：D:\\repo\\wxauto.net\\WeChatAuto.SDK\\src\\WeChatAuto.MCP\\WeChatAuto.MCP.csproj&quot;
+			]
+		}
+	}
+}
+</code></pre>
+<h3 id="步骤三修改好mcpjson后运行mcp-server如下图所示">步骤三：修改好mcp.json后，运行mcp server,如下图所示</h3>
+<p><img src="../Images/mcp1.png" alt="mcp.json"></p>
+<ul>
+<li>启动后，如下图所示，你会看到MCP Server公布出来的工具与资源：</li>
+</ul>
+<p><img src="../Images/mcp2.png" alt="mcp.json"></p>
+<h3 id="步骤四-打开github-copilot-chat如下图所示">步骤四: 打开github copilot chat，如下图所示:</h3>
+<p><img src="../Images/mcp3.png" alt="mcp.json"></p>
+<h3 id="步骤五在-github-copilot-chat-对话框中直接输入你想自动化微信的指令例如">步骤五：在 github copilot chat 对话框中直接输入你想自动化微信的指令，例如：</h3>
+<pre><code>请帮我给微信好友:AI.net发送消息: Hello world!!
+</code></pre>
+<blockquote>
+<p>具体详细使用请参考微软相关文档</p>
+</blockquote>
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://github.com/scottfly189">Alex Zhao</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

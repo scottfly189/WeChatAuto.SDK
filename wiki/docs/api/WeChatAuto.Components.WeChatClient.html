@@ -1,0 +1,3403 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class WeChatClient | WeChatAuto.SDK </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class WeChatClient | WeChatAuto.SDK ">
+      
+      <meta name="description" content="微信客户端,一个微信客户端包含一个通知图标和一个窗口 适用于单个微信客户端的自动化操作">
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.png" alt="WECHATAUTO.SDK">
+            WECHATAUTO.SDK
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="WeChatAuto.Components.WeChatClient">
+
+
+
+  <h1 id="WeChatAuto_Components_WeChatClient" data-uid="WeChatAuto.Components.WeChatClient" class="text-break">
+Class WeChatClient  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="WeChatAuto.html">WeChatAuto</a>.<a class="xref" href="WeChatAuto.Components.html">Components</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>WeChatAuto.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>微信客户端,一个微信客户端包含一个通知图标和一个窗口
+适用于单个微信客户端的自动化操作</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class WeChatClient : IDisposable</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">WeChatClient</span></div>
+    </dd>
+  </dl>
+
+  <dl class="typelist implements">
+    <dt>Implements</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+    </dd>
+  </dl>
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="WeAutoCommon.Models.FunctionalExtensions.html#WeAutoCommon_Models_FunctionalExtensions_ToMaybe__1___0_">FunctionalExtensions.ToMaybe&lt;T&gt;(T)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="WeChatAuto_Components_WeChatClient__ctor_" data-uid="WeChatAuto.Components.WeChatClient.#ctor*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient__ctor_WeChatAuto_Components_WeChatNotifyIcon_WeChatAuto_Components_WeChatMainWindow_System_IServiceProvider_System_Boolean_" data-uid="WeChatAuto.Components.WeChatClient.#ctor(WeChatAuto.Components.WeChatNotifyIcon,WeChatAuto.Components.WeChatMainWindow,System.IServiceProvider,System.Boolean)">
+  WeChatClient(WeChatNotifyIcon, WeChatMainWindow, IServiceProvider, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>微信客户端构造函数</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public WeChatClient(WeChatNotifyIcon wxNotifyIcon, WeChatMainWindow wxWindow, IServiceProvider serviceProvider, bool enableCheckAppRunning = true)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>wxNotifyIcon</code> <a class="xref" href="WeChatAuto.Components.WeChatNotifyIcon.html">WeChatNotifyIcon</a></dt>
+    <dd><p>微信客户端通知图标类</p>
+</dd>
+    <dt><code>wxWindow</code> <a class="xref" href="WeChatAuto.Components.WeChatMainWindow.html">WeChatMainWindow</a></dt>
+    <dd><p>微信客户端窗口类</p>
+</dd>
+    <dt><code>serviceProvider</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iserviceprovider">IServiceProvider</a></dt>
+    <dd><p>服务提供者</p>
+</dd>
+    <dt><code>enableCheckAppRunning</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否启用运行检查风控退出监听</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="WeChatAuto_Components_WeChatClient__AppRunning" data-uid="WeChatAuto.Components.WeChatClient._AppRunning">
+  _AppRunning
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public volatile bool _AppRunning</code></pre>
+  </div>
+
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="WeChatAuto_Components_WeChatClient_AppRunning_" data-uid="WeChatAuto.Components.WeChatClient.AppRunning*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_AppRunning" data-uid="WeChatAuto.Components.WeChatClient.AppRunning">
+  AppRunning
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool AppRunning { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_NickName_" data-uid="WeChatAuto.Components.WeChatClient.NickName*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_NickName" data-uid="WeChatAuto.Components.WeChatClient.NickName">
+  NickName
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string NickName { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_WxMainWindow_" data-uid="WeChatAuto.Components.WeChatClient.WxMainWindow*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_WxMainWindow" data-uid="WeChatAuto.Components.WeChatClient.WxMainWindow">
+  WxMainWindow
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public WeChatMainWindow WxMainWindow { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeChatAuto.Components.WeChatMainWindow.html">WeChatMainWindow</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_WxNotifyIcon_" data-uid="WeChatAuto.Components.WeChatClient.WxNotifyIcon*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_WxNotifyIcon" data-uid="WeChatAuto.Components.WeChatClient.WxNotifyIcon">
+  WxNotifyIcon
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public WeChatNotifyIcon WxNotifyIcon { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeChatAuto.Components.WeChatNotifyIcon.html">WeChatNotifyIcon</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="WeChatAuto_Components_WeChatClient_AddAllChatGroupMemberToFriends_" data-uid="WeChatAuto.Components.WeChatClient.AddAllChatGroupMemberToFriends*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_AddAllChatGroupMemberToFriends_System_String_System_Action_WeChatAuto_Models_AddGroupMemberOptions__" data-uid="WeChatAuto.Components.WeChatClient.AddAllChatGroupMemberToFriends(System.String,System.Action{WeChatAuto.Models.AddGroupMemberOptions})">
+  AddAllChatGroupMemberToFriends(string, Action&lt;AddGroupMemberOptions&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>添加群聊里面的所有好友为自己的好友,适用于从外部群中添加所有好友为自己的好友</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;ChatResponse&gt; AddAllChatGroupMemberToFriends(string groupName, Action&lt;AddGroupMemberOptions&gt; options)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+    <dt><code>options</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="WeChatAuto.Models.AddGroupMemberOptions.html">AddGroupMemberOptions</a>&gt;</dt>
+    <dd><p>添加群聊成员为好友的选项<a class="xref" href="WeChatAuto.Models.AddGroupMemberOptions.html">AddGroupMemberOptions</a></p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/ChatResponse.cs">ChatResponse</a>&gt;</dt>
+    <dd><p>微信响应结果<a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_AddAllChatGroupMemberToFriends_" data-uid="WeChatAuto.Components.WeChatClient.AddAllChatGroupMemberToFriends*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_AddAllChatGroupMemberToFriends_System_String_System_Collections_Generic_List_System_String__System_Int32_System_String_System_String_System_Int32_System_Int32_" data-uid="WeChatAuto.Components.WeChatClient.AddAllChatGroupMemberToFriends(System.String,System.Collections.Generic.List{System.String},System.Int32,System.String,System.String,System.Int32,System.Int32)">
+  AddAllChatGroupMemberToFriends(string, List&lt;string&gt;, int, string, string, int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>添加群聊里面的所有好友为自己的好友,适用于从外部群中添加所有好友为自己的好友
+风控提醒：
+1、此方法容易触发微信风控机制，建议使用分页添加，并使用键鼠模拟器的方式增加好友。
+1、微信对于加好友每天有数量的限制，实际测试一天只能加20多个，超出数量会返回[操作过于频繁，请稍后再试。]消息.
+2、实际测试:使用键鼠模拟器的方式增加好友，只会受上述的增加好友数量限制，不会被风控退出。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;ChatResponse&gt; AddAllChatGroupMemberToFriends(string groupName, List&lt;string&gt; exceptList = null, int intervalSecond = 3, string helloText = &quot;&quot;, string label = &quot;&quot;, int pageNo = 1, int pageSize = 15)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+    <dt><code>exceptList</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>排除列表</p>
+</dd>
+    <dt><code>intervalSecond</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>间隔时间</p>
+</dd>
+    <dt><code>helloText</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>打招呼文本</p>
+</dd>
+    <dt><code>label</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>好友标签,方便归类管理</p>
+</dd>
+    <dt><code>pageNo</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>起始页码,从1开始,如果从0开始，表示不使用分页，全部添加好友，但容易触发微信风控机制，建议使用分页添加</p>
+</dd>
+    <dt><code>pageSize</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>页数量</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/ChatResponse.cs">ChatResponse</a>&gt;</dt>
+    <dd><p>微信响应结果<a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_AddChatGroupMemberToFriends_" data-uid="WeChatAuto.Components.WeChatClient.AddChatGroupMemberToFriends*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_AddChatGroupMemberToFriends_System_String_OneOf_OneOf_System_String_System_String____System_Int32_System_String_System_String_" data-uid="WeChatAuto.Components.WeChatClient.AddChatGroupMemberToFriends(System.String,OneOf.OneOf{System.String,System.String[]},System.Int32,System.String,System.String)">
+  AddChatGroupMemberToFriends(string, OneOf&lt;string, string[]&gt;, int, string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>添加群聊里面的好友为自己的好友,适用于从外部群中添加好友为自己的好友</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;ChatResponse&gt; AddChatGroupMemberToFriends(string groupName, OneOf&lt;string, string[]&gt; memberName, int intervalSecond = 5, string helloText = &quot;&quot;, string label = &quot;&quot;)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+    <dt><code>memberName</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</dt>
+    <dd><p>成员名称</p>
+</dd>
+    <dt><code>intervalSecond</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>间隔时间</p>
+</dd>
+    <dt><code>helloText</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>打招呼文本</p>
+</dd>
+    <dt><code>label</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>好友标签,方便归类管理</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/ChatResponse.cs">ChatResponse</a>&gt;</dt>
+    <dd><p>微信响应结果<a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_AddFriend_" data-uid="WeChatAuto.Components.WeChatClient.AddFriend*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_AddFriend_System_String_System_String_" data-uid="WeChatAuto.Components.WeChatClient.AddFriend(System.String,System.String)">
+  AddFriend(string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>添加好友
+注意：不能添加太频繁，否则可能会触发微信的风控机制，导致加好友失败
+willdo:有必要吗？</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool AddFriend(string friendName, string label = &quot;&quot;)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>friendName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>微信号/手机号</p>
+</dd>
+    <dt><code>label</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>用户标签</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否成功</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_AddFriends_" data-uid="WeChatAuto.Components.WeChatClient.AddFriends*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_AddFriends_System_Collections_Generic_List_System_String__System_String_" data-uid="WeChatAuto.Components.WeChatClient.AddFriends(System.Collections.Generic.List{System.String},System.String)">
+  AddFriends(List&lt;string&gt;, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>添加好友
+注意：不能添加太频繁，否则可能会触发微信的风控机制，导致加好友失败
+willdo:有必要吗？</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;(string friendName, bool isSuccess, string errMessage)&gt; AddFriends(List&lt;string&gt; friendNames, string label = &quot;&quot;)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>friendNames</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>微信号/手机号列表</p>
+</dd>
+    <dt><code>label</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>用户标签</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;(<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.boolean,system.string-.friendname">friendName</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.boolean,system.string-.issuccess">isSuccess</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.boolean,system.string-.errmessage">errMessage</a>)&gt;</dt>
+    <dd><p>好友昵称列表和是否成功</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_AddMessageListener_" data-uid="WeChatAuto.Components.WeChatClient.AddMessageListener*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_AddMessageListener_System_String_System_Action_WeChatAuto_Models_MessageContext__" data-uid="WeChatAuto.Components.WeChatClient.AddMessageListener(System.String,System.Action{WeChatAuto.Models.MessageContext})">
+  AddMessageListener(string, Action&lt;MessageContext&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>添加消息监听，用户需要提供一个回调函数，当有消息时，会调用回调函数
+参考<a class="xref" href="WeChatAuto.Models.MessageContext.html">MessageContext</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task AddMessageListener(string nickName, Action&lt;MessageContext&gt; callBack)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>nickName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>好友昵称</p>
+</dd>
+    <dt><code>callBack</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="WeChatAuto.Models.MessageContext.html">MessageContext</a>&gt;</dt>
+    <dd><p>回调函数,由好友提供,参数：消息上下文<a class="xref" href="WeChatAuto.Models.MessageContext.html">MessageContext</a></p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_AddMomentsListener_" data-uid="WeChatAuto.Components.WeChatClient.AddMomentsListener*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_AddMomentsListener_OneOf_OneOf_System_String_System_Collections_Generic_List_System_String___System_Boolean_System_Action_WeChatAuto_Utils_MomentsContext_System_IServiceProvider__" data-uid="WeChatAuto.Components.WeChatClient.AddMomentsListener(OneOf.OneOf{System.String,System.Collections.Generic.List{System.String}},System.Boolean,System.Action{WeChatAuto.Utils.MomentsContext,System.IServiceProvider})">
+  AddMomentsListener(OneOf&lt;string, List&lt;string&gt;&gt;, bool, Action&lt;MomentsContext, IServiceProvider&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>添加朋友圈监听,当监听到指定的好友发朋友圈时，可以自动点赞，或者执行其他操作，如：回复评论等</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddMomentsListener(OneOf&lt;string, List&lt;string&gt;&gt; nickNameOrNickNames, bool autoLike = true, Action&lt;MomentsContext, IServiceProvider&gt; action = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>nickNameOrNickNames</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;&gt;</dt>
+    <dd><p>监听的好友昵称或好友昵称列表</p>
+</dd>
+    <dt><code>autoLike</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否自动点赞</p>
+</dd>
+    <dt><code>action</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-2">Action</a>&lt;<a class="xref" href="WeChatAuto.Utils.MomentsContext.html">MomentsContext</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iserviceprovider">IServiceProvider</a>&gt;</dt>
+    <dd><p>朋友圈对象<a class="xref" href="WeChatAuto.Utils.MomentsContext.html">MomentsContext</a>,可以通过Monents对象调用回复评论等操作,服务提供者<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iserviceprovider">IServiceProvider</a>，适用于使用者获取自己注入的服务</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_AddNewFriendAutoPassedAndOpenSubWinListener_" data-uid="WeChatAuto.Components.WeChatClient.AddNewFriendAutoPassedAndOpenSubWinListener*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_AddNewFriendAutoPassedAndOpenSubWinListener_System_Action_WeChatAuto_Models_MessageContext__System_String_System_String_System_String_" data-uid="WeChatAuto.Components.WeChatClient.AddNewFriendAutoPassedAndOpenSubWinListener(System.Action{WeChatAuto.Models.MessageContext},System.String,System.String,System.String)">
+  AddNewFriendAutoPassedAndOpenSubWinListener(Action&lt;MessageContext&gt;, string, string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>添加新用户监听，用户需要提供一个回调函数，当有新用户时，会自动通过此用户，并且将此用户打开到子窗口，当有新消息时，会调用回调函数</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddNewFriendAutoPassedAndOpenSubWinListener(Action&lt;MessageContext&gt; callBack, string keyWord = null, string suffix = null, string label = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>callBack</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="WeChatAuto.Models.MessageContext.html">MessageContext</a>&gt;</dt>
+    <dd><p>回调函数</p>
+</dd>
+    <dt><code>keyWord</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>关键字</p>
+</dd>
+    <dt><code>suffix</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>后缀</p>
+</dd>
+    <dt><code>label</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>标签</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_AddNewFriendAutoPassedListener_" data-uid="WeChatAuto.Components.WeChatClient.AddNewFriendAutoPassedListener*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_AddNewFriendAutoPassedListener_System_Action_System_Collections_Generic_List_System_String___System_String_System_String_System_String_" data-uid="WeChatAuto.Components.WeChatClient.AddNewFriendAutoPassedListener(System.Action{System.Collections.Generic.List{System.String}},System.String,System.String,System.String)">
+  AddNewFriendAutoPassedListener(Action&lt;List&lt;string&gt;&gt;, string, string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>添加新用户监听，用户需要提供一个回调函数，当有新用户时，会调用回调函数</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddNewFriendAutoPassedListener(Action&lt;List&lt;string&gt;&gt; callBack, string keyWord = null, string suffix = null, string label = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>callBack</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;&gt;</dt>
+    <dd><p>回调函数</p>
+</dd>
+    <dt><code>keyWord</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>关键字</p>
+</dd>
+    <dt><code>suffix</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>后缀</p>
+</dd>
+    <dt><code>label</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>标签</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_AddNewFriendCustomPassedListener_" data-uid="WeChatAuto.Components.WeChatClient.AddNewFriendCustomPassedListener*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_AddNewFriendCustomPassedListener_System_Action_System_Collections_Generic_List_System_String___" data-uid="WeChatAuto.Components.WeChatClient.AddNewFriendCustomPassedListener(System.Action{System.Collections.Generic.List{System.String}})">
+  AddNewFriendCustomPassedListener(Action&lt;List&lt;string&gt;&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>添加新用户监听，用户需要提供一个回调函数，当有新用户时，会调用回调函数
+此方法需要自行处理好友是否通过，如果需要自动通过，请使用<a class="xref" href="WeChatAuto.Components.WeChatClient.html#WeChatAuto_Components_WeChatClient_AddNewFriendAutoPassedListener_System_Action_System_Collections_Generic_List_System_String___System_String_System_String_System_String_">AddNewFriendAutoPassedListener(Action&lt;List&lt;string&gt;&gt;, string, string, string)</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void AddNewFriendCustomPassedListener(Action&lt;List&lt;string&gt;&gt; callBack)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>callBack</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;&gt;</dt>
+    <dd><p>回调函数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_AddOwnerChatGroupMember_" data-uid="WeChatAuto.Components.WeChatClient.AddOwnerChatGroupMember*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_AddOwnerChatGroupMember_System_String_OneOf_OneOf_System_String_System_String____" data-uid="WeChatAuto.Components.WeChatClient.AddOwnerChatGroupMember(System.String,OneOf.OneOf{System.String,System.String[]})">
+  AddOwnerChatGroupMember(string, OneOf&lt;string, string[]&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>添加群聊成员，适用于自有群</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;ChatResponse&gt; AddOwnerChatGroupMember(string groupName, OneOf&lt;string, string[]&gt; memberName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+    <dt><code>memberName</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</dt>
+    <dd><p>成员名称</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/ChatResponse.cs">ChatResponse</a>&gt;</dt>
+    <dd><p>微信响应结果<a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_CaptureUI_" data-uid="WeChatAuto.Components.WeChatClient.CaptureUI*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_CaptureUI_System_String_" data-uid="WeChatAuto.Components.WeChatClient.CaptureUI(System.String)">
+  CaptureUI(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>屏幕截图</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string CaptureUI(string fileName = &quot;&quot;)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>fileName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>文件名,默认不指定,如果不指定,则使用Capture_20251109_123456.png作为文件名</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>截图文件路径</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_ChageOwerChatGroupMemo_" data-uid="WeChatAuto.Components.WeChatClient.ChageOwerChatGroupMemo*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_ChageOwerChatGroupMemo_System_String_System_String_" data-uid="WeChatAuto.Components.WeChatClient.ChageOwerChatGroupMemo(System.String,System.String)">
+  ChageOwerChatGroupMemo(string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>改变自有群群备注</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ChatResponse ChageOwerChatGroupMemo(string groupName, string newMemo)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+    <dt><code>newMemo</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>新备注</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></dt>
+    <dd><p>微信响应结果<a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_ChangeOwerChatGroupName_" data-uid="WeChatAuto.Components.WeChatClient.ChangeOwerChatGroupName*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_ChangeOwerChatGroupName_System_String_System_String_" data-uid="WeChatAuto.Components.WeChatClient.ChangeOwerChatGroupName(System.String,System.String)">
+  ChangeOwerChatGroupName(string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>改变自有群群名</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ChatResponse ChangeOwerChatGroupName(string oldGroupName, string newGroupName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>oldGroupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>旧群名称</p>
+</dd>
+    <dt><code>newGroupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>新群名称</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></dt>
+    <dd><p>微信响应结果</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_CheckFriendExist_" data-uid="WeChatAuto.Components.WeChatClient.CheckFriendExist*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_CheckFriendExist_System_String_System_Boolean_" data-uid="WeChatAuto.Components.WeChatClient.CheckFriendExist(System.String,System.Boolean)">
+  CheckFriendExist(string, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>检查好友是否存在,好友可以为群聊与普通好友</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool CheckFriendExist(string friendName, bool doubleClick = false)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>friendName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>好友昵称</p>
+</dd>
+    <dt><code>doubleClick</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否双击,True:是,False:否</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否存在,True:是,False:否</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_ClearChatGroupHistory_" data-uid="WeChatAuto.Components.WeChatClient.ClearChatGroupHistory*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_ClearChatGroupHistory_System_String_" data-uid="WeChatAuto.Components.WeChatClient.ClearChatGroupHistory(System.String)">
+  ClearChatGroupHistory(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>清空群聊历史</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task ClearChatGroupHistory(string groupName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_ClearText_" data-uid="WeChatAuto.Components.WeChatClient.ClearText*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_ClearText" data-uid="WeChatAuto.Components.WeChatClient.ClearText">
+  ClearText()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>清空搜索框</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ClearText()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_ClickConversation_" data-uid="WeChatAuto.Components.WeChatClient.ClickConversation*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_ClickConversation_System_String_" data-uid="WeChatAuto.Components.WeChatClient.ClickConversation(System.String)">
+  ClickConversation(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>点击会话,使会话窗口获取焦点</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ClickConversation(string title)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>title</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>会话标题</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_ClickFirstConversation_" data-uid="WeChatAuto.Components.WeChatClient.ClickFirstConversation*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_ClickFirstConversation" data-uid="WeChatAuto.Components.WeChatClient.ClickFirstConversation">
+  ClickFirstConversation()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>点击第一个会话,使第一个会话窗口获取焦点</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ClickFirstConversation()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_ClickNotifyIcon_" data-uid="WeChatAuto.Components.WeChatClient.ClickNotifyIcon*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_ClickNotifyIcon" data-uid="WeChatAuto.Components.WeChatClient.ClickNotifyIcon">
+  ClickNotifyIcon()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>点击通知图标,以使微信客户端窗口显示或者获取焦点</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ClickNotifyIcon()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_CreateOrUpdateOwnerChatGroup_" data-uid="WeChatAuto.Components.WeChatClient.CreateOrUpdateOwnerChatGroup*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_CreateOrUpdateOwnerChatGroup_System_String_OneOf_OneOf_System_String_System_String____" data-uid="WeChatAuto.Components.WeChatClient.CreateOrUpdateOwnerChatGroup(System.String,OneOf.OneOf{System.String,System.String[]})">
+  CreateOrUpdateOwnerChatGroup(string, OneOf&lt;string, string[]&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>创建群聊
+如果存在，则打开它，否则创建一个新群聊</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ChatResponse CreateOrUpdateOwnerChatGroup(string groupName, OneOf&lt;string, string[]&gt; memberName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+    <dt><code>memberName</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</dt>
+    <dd><p>成员名称</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></dt>
+    <dd><p>微信响应结果<a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_DeleteOwnerChatGroup_" data-uid="WeChatAuto.Components.WeChatClient.DeleteOwnerChatGroup*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_DeleteOwnerChatGroup_System_String_" data-uid="WeChatAuto.Components.WeChatClient.DeleteOwnerChatGroup(System.String)">
+  DeleteOwnerChatGroup(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>删除群聊，适用于自有群,与退出群聊不同，退出群聊是退出群聊，删除群聊会删除自有群的所有好友，然后退出群聊
+willdo: 这里有一个问题，如果删除群的用户很多，则需要滚屏才能全部选中。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;ChatResponse&gt; DeleteOwnerChatGroup(string groupName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/ChatResponse.cs">ChatResponse</a>&gt;</dt>
+    <dd><p>微信响应结果<a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_Dispose_" data-uid="WeChatAuto.Components.WeChatClient.Dispose*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_Dispose" data-uid="WeChatAuto.Components.WeChatClient.Dispose">
+  Dispose()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_Dispose_" data-uid="WeChatAuto.Components.WeChatClient.Dispose*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_Dispose_System_Boolean_" data-uid="WeChatAuto.Components.WeChatClient.Dispose(System.Boolean)">
+  Dispose(bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void Dispose(bool disposing)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>disposing</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_DoubleClickConversation_" data-uid="WeChatAuto.Components.WeChatClient.DoubleClickConversation*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_DoubleClickConversation_System_String_" data-uid="WeChatAuto.Components.WeChatClient.DoubleClickConversation(System.String)">
+  DoubleClickConversation(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>双击会话,使会话窗口获取焦点</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void DoubleClickConversation(string title)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>title</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>会话标题</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_Finalize_" data-uid="WeChatAuto.Components.WeChatClient.Finalize*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_Finalize" data-uid="WeChatAuto.Components.WeChatClient.Finalize">
+  ~WeChatClient()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected ~WeChatClient()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_FindAndOpenFriendOrGroup_" data-uid="WeChatAuto.Components.WeChatClient.FindAndOpenFriendOrGroup*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_FindAndOpenFriendOrGroup_System_String_" data-uid="WeChatAuto.Components.WeChatClient.FindAndOpenFriendOrGroup(System.String)">
+  FindAndOpenFriendOrGroup(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>查找并打开好友或者群聊昵称,如果找到，则打开好友或者群聊窗口</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Result FindAndOpenFriendOrGroup(string who)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>好友或者群聊昵称</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeAutoCommon.Models.Result.html">Result</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_ForwardMessage_" data-uid="WeChatAuto.Components.WeChatClient.ForwardMessage*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_ForwardMessage_System_String_System_String_System_Int32_" data-uid="WeChatAuto.Components.WeChatClient.ForwardMessage(System.String,System.String,System.Int32)">
+  ForwardMessage(string, string, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>转发消息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; ForwardMessage(string fromWho, string toWho, int rowCount = 5)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>fromWho</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>转发消息的来源,可以是好友昵称，也可以是群聊名称</p>
+</dd>
+    <dt><code>toWho</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>转发消息的接收者,可以是好友昵称，也可以是群聊名称</p>
+</dd>
+    <dt><code>rowCount</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>转发消息的行数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd><p>是否转发成功</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_GetAllConversations_" data-uid="WeChatAuto.Components.WeChatClient.GetAllConversations*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_GetAllConversations" data-uid="WeChatAuto.Components.WeChatClient.GetAllConversations">
+  GetAllConversations()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取会话列表所有会话的名称
+考虑到效率，只返回名称列表</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;string&gt; GetAllConversations()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>返回会话标题名称列表</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_GetAllFriends_" data-uid="WeChatAuto.Components.WeChatClient.GetAllFriends*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_GetAllFriends" data-uid="WeChatAuto.Components.WeChatClient.GetAllFriends">
+  GetAllFriends()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取所有好友</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;string&gt; GetAllFriends()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>好友列表</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_GetAllOfficialAccount_" data-uid="WeChatAuto.Components.WeChatClient.GetAllOfficialAccount*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_GetAllOfficialAccount" data-uid="WeChatAuto.Components.WeChatClient.GetAllOfficialAccount">
+  GetAllOfficialAccount()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取所有公众号</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;string&gt; GetAllOfficialAccount()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>公众号列表</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_GetAllWillAddFriends_" data-uid="WeChatAuto.Components.WeChatClient.GetAllWillAddFriends*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_GetAllWillAddFriends_System_String_" data-uid="WeChatAuto.Components.WeChatClient.GetAllWillAddFriends(System.String)">
+  GetAllWillAddFriends(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取所有待添加好友</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;string&gt; GetAllWillAddFriends(string keyWord = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>keyWord</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>关键字,如果设置关键字，则返回包含关键字的新好友，如果没有设置，则返回所有新好友</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>待添加好友昵称列表</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_GetChatAllHistory_" data-uid="WeChatAuto.Components.WeChatClient.GetChatAllHistory*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_GetChatAllHistory_System_String_System_Int32_" data-uid="WeChatAuto.Components.WeChatClient.GetChatAllHistory(System.String,System.Int32)">
+  GetChatAllHistory(string, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取所有气泡标题列表
+<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;ChatSimpleMessage&gt; GetChatAllHistory(string who, int pageCount = 10)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>好友昵称，可以是好友，也可以是群聊名称</p>
+</dd>
+    <dt><code>pageCount</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>获取的气泡数量，默认是10页,可以指定获取的页数，如果指定为-1，则获取所有气泡</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a>&gt;</dt>
+    <dd><p>所有气泡标题列表</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_GetChatGroupMemberList_" data-uid="WeChatAuto.Components.WeChatClient.GetChatGroupMemberList*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_GetChatGroupMemberList_System_String_" data-uid="WeChatAuto.Components.WeChatClient.GetChatGroupMemberList(System.String)">
+  GetChatGroupMemberList(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取群聊成员列表</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;List&lt;string&gt;&gt; GetChatGroupMemberList(string groupName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;&gt;</dt>
+    <dd><p>群聊成员列表</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_GetCurrentChatTitle_" data-uid="WeChatAuto.Components.WeChatClient.GetCurrentChatTitle*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_GetCurrentChatTitle" data-uid="WeChatAuto.Components.WeChatClient.GetCurrentChatTitle">
+  GetCurrentChatTitle()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取当前聊天窗口的标题</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string GetCurrentChatTitle()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>当前聊天窗口的标题</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_GetGroupOwner_" data-uid="WeChatAuto.Components.WeChatClient.GetGroupOwner*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_GetGroupOwner_System_String_" data-uid="WeChatAuto.Components.WeChatClient.GetGroupOwner(System.String)">
+  GetGroupOwner(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取群主</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;string&gt; GetGroupOwner(string groupName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>群主昵称</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_GetMomentsList_" data-uid="WeChatAuto.Components.WeChatClient.GetMomentsList*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_GetMomentsList_System_Int32_" data-uid="WeChatAuto.Components.WeChatClient.GetMomentsList(System.Int32)">
+  GetMomentsList(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取朋友圈内容列表
+注意：此方法会让朋友圈窗口获取焦点,可能会导致其他窗口失去焦点.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;MomentItem&gt; GetMomentsList(int count = 20)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>count</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>鼠标滚动次数,一次滚动5行</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/MomentItem.cs">MomentItem</a>&gt;</dt>
+    <dd><p>朋友圈内容列表<a class="xref" href="WeAutoCommon.Models.MomentItem.html">MomentItem</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_GetMomentsListSilence_" data-uid="WeChatAuto.Components.WeChatClient.GetMomentsListSilence*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_GetMomentsListSilence" data-uid="WeChatAuto.Components.WeChatClient.GetMomentsListSilence">
+  GetMomentsListSilence()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>静默模式获取朋友圈内容列表</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;MomentItem&gt; GetMomentsListSilence()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/MomentItem.cs">MomentItem</a>&gt;</dt>
+    <dd><p>朋友圈内容列表<a class="xref" href="WeAutoCommon.Models.MomentItem.html">MomentItem</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_GetVisibleConversationTitles_" data-uid="WeChatAuto.Components.WeChatClient.GetVisibleConversationTitles*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_GetVisibleConversationTitles" data-uid="WeChatAuto.Components.WeChatClient.GetVisibleConversationTitles">
+  GetVisibleConversationTitles()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取会话列表可见会话标题</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;string&gt; GetVisibleConversationTitles()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>返回会话标题列表</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_GetVisibleConversations_" data-uid="WeChatAuto.Components.WeChatClient.GetVisibleConversations*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_GetVisibleConversations" data-uid="WeChatAuto.Components.WeChatClient.GetVisibleConversations">
+  GetVisibleConversations()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取会话列表可见会话
+会话信息包含：会话名称、会话类型、会话状态、会话时间、会话未读消息数、会话头像<a class="xref" href="WeAutoCommon.Models.Conversation.html">Conversation</a></p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;Conversation&gt; GetVisibleConversations()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/Conversation.cs">Conversation</a>&gt;</dt>
+    <dd><p>返回<a class="xref" href="WeAutoCommon.Models.Conversation.html">Conversation</a>列表</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_InviteChatGroupMember_" data-uid="WeChatAuto.Components.WeChatClient.InviteChatGroupMember*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_InviteChatGroupMember_System_String_OneOf_OneOf_System_String_System_String____System_String_" data-uid="WeChatAuto.Components.WeChatClient.InviteChatGroupMember(System.String,OneOf.OneOf{System.String,System.String[]},System.String)">
+  InviteChatGroupMember(string, OneOf&lt;string, string[]&gt;, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>邀请群聊成员,适用于外部群</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;ChatResponse&gt; InviteChatGroupMember(string groupName, OneOf&lt;string, string[]&gt; memberName, string helloText = &quot;&quot;)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+    <dt><code>memberName</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</dt>
+    <dd><p>成员名称</p>
+</dd>
+    <dt><code>helloText</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>打招呼文本</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/ChatResponse.cs">ChatResponse</a>&gt;</dt>
+    <dd><p>微信响应结果<a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_IsChatGroupMember_" data-uid="WeChatAuto.Components.WeChatClient.IsChatGroupMember*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_IsChatGroupMember_System_String_System_String_" data-uid="WeChatAuto.Components.WeChatClient.IsChatGroupMember(System.String,System.String)">
+  IsChatGroupMember(string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>是否是群聊成员</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; IsChatGroupMember(string groupName, string memberName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+    <dt><code>memberName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>成员名称</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd><p>是否是群聊成员</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_IsMomentsOpen_" data-uid="WeChatAuto.Components.WeChatClient.IsMomentsOpen*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_IsMomentsOpen" data-uid="WeChatAuto.Components.WeChatClient.IsMomentsOpen">
+  IsMomentsOpen()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>判断朋友圈是否打开</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsMomentsOpen()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否打开</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_IsOwnerChatGroup_" data-uid="WeChatAuto.Components.WeChatClient.IsOwnerChatGroup*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_IsOwnerChatGroup_System_String_" data-uid="WeChatAuto.Components.WeChatClient.IsOwnerChatGroup(System.String)">
+  IsOwnerChatGroup(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>是否是自有群</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; IsOwnerChatGroup(string groupName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd><p>是否是自有群</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_LikeMoments_" data-uid="WeChatAuto.Components.WeChatClient.LikeMoments*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_LikeMoments_OneOf_OneOf_System_String_System_String____" data-uid="WeChatAuto.Components.WeChatClient.LikeMoments(OneOf.OneOf{System.String,System.String[]})">
+  LikeMoments(OneOf&lt;string, string[]&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>朋友圈点赞</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void LikeMoments(OneOf&lt;string, string[]&gt; nickNames)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>nickNames</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</dt>
+    <dd><p>好友昵称或好友昵称列表</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_LocateConversation_" data-uid="WeChatAuto.Components.WeChatClient.LocateConversation*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_LocateConversation_System_String_" data-uid="WeChatAuto.Components.WeChatClient.LocateConversation(System.String)">
+  LocateConversation(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>定位会话
+定位会话的用途：可以将会话列表滚动到指定会话的位置，使指定会话可见</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool LocateConversation(string title)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>title</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>会话标题</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>如果找到会话，则返回true，否则返回false</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_LocateFriend_" data-uid="WeChatAuto.Components.WeChatClient.LocateFriend*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_LocateFriend_System_String_" data-uid="WeChatAuto.Components.WeChatClient.LocateFriend(System.String)">
+  LocateFriend(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>定位好友</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool LocateFriend(string friendName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>friendName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>好友昵称</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否存在</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_NavigationSwitch_" data-uid="WeChatAuto.Components.WeChatClient.NavigationSwitch*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_NavigationSwitch_WeAutoCommon_Enums_NavigationType_" data-uid="WeChatAuto.Components.WeChatClient.NavigationSwitch(WeAutoCommon.Enums.NavigationType)">
+  NavigationSwitch(NavigationType)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>切换导航栏</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void NavigationSwitch(NavigationType navigationType)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>navigationType</code> <a class="xref" href="WeAutoCommon.Enums.NavigationType.html">NavigationType</a></dt>
+    <dd><p>导航栏类型<a class="xref" href="WeAutoCommon.Enums.NavigationType.html">NavigationType</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_OpenMoments_" data-uid="WeChatAuto.Components.WeChatClient.OpenMoments*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_OpenMoments" data-uid="WeChatAuto.Components.WeChatClient.OpenMoments">
+  OpenMoments()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>打开朋友圈</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void OpenMoments()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_PassedAllNewFriend_" data-uid="WeChatAuto.Components.WeChatClient.PassedAllNewFriend*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_PassedAllNewFriend_System_String_System_String_System_String_" data-uid="WeChatAuto.Components.WeChatClient.PassedAllNewFriend(System.String,System.String,System.String)">
+  PassedAllNewFriend(string, string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>通过新好友</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;string&gt; PassedAllNewFriend(string keyWord = null, string suffix = null, string label = null)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>keyWord</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>关键字,如果设置关键字，则通过包含关键字的新好友，如果没有设置，则通过所有新好友</p>
+</dd>
+    <dt><code>suffix</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>后缀,如果设置后缀，则在此好友昵称后添加后缀</p>
+</dd>
+    <dt><code>label</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>用户标签</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>通过的新好友昵称列表</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_QuitChatGroup_" data-uid="WeChatAuto.Components.WeChatClient.QuitChatGroup*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_QuitChatGroup_System_String_" data-uid="WeChatAuto.Components.WeChatClient.QuitChatGroup(System.String)">
+  QuitChatGroup(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>退出群聊</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task QuitChatGroup(string groupName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_RefreshMomentsList_" data-uid="WeChatAuto.Components.WeChatClient.RefreshMomentsList*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_RefreshMomentsList" data-uid="WeChatAuto.Components.WeChatClient.RefreshMomentsList">
+  RefreshMomentsList()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>刷新朋友圈</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void RefreshMomentsList()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_RemoveFriend_" data-uid="WeChatAuto.Components.WeChatClient.RemoveFriend*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_RemoveFriend_System_String_" data-uid="WeChatAuto.Components.WeChatClient.RemoveFriend(System.String)">
+  RemoveFriend(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>移除好友</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool RemoveFriend(string nickName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>nickName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>好友昵称</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否成功</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_RemoveOwnerChatGroupMember_" data-uid="WeChatAuto.Components.WeChatClient.RemoveOwnerChatGroupMember*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_RemoveOwnerChatGroupMember_System_String_OneOf_OneOf_System_String_System_String____" data-uid="WeChatAuto.Components.WeChatClient.RemoveOwnerChatGroupMember(System.String,OneOf.OneOf{System.String,System.String[]})">
+  RemoveOwnerChatGroupMember(string, OneOf&lt;string, string[]&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>移除群聊成员,适用于自有群</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;ChatResponse&gt; RemoveOwnerChatGroupMember(string groupName, OneOf&lt;string, string[]&gt; memberName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+    <dt><code>memberName</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</dt>
+    <dd><p>成员名称</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/ChatResponse.cs">ChatResponse</a>&gt;</dt>
+    <dd><p>微信响应结果<a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_ReplyMoments_" data-uid="WeChatAuto.Components.WeChatClient.ReplyMoments*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_ReplyMoments_OneOf_OneOf_System_String_System_String____System_String_" data-uid="WeChatAuto.Components.WeChatClient.ReplyMoments(OneOf.OneOf{System.String,System.String[]},System.String)">
+  ReplyMoments(OneOf&lt;string, string[]&gt;, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>回复朋友圈</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ReplyMoments(OneOf&lt;string, string[]&gt; nickNames, string replyContent)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>nickNames</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</dt>
+    <dd><p>好友昵称或好友昵称列表</p>
+</dd>
+    <dt><code>replyContent</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>回复内容</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_SearchChat_" data-uid="WeChatAuto.Components.WeChatClient.SearchChat*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_SearchChat_System_String_" data-uid="WeChatAuto.Components.WeChatClient.SearchChat(System.String)">
+  SearchChat(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>搜索聊天</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SearchChat(string who)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>好友昵称,可以是群聊名称也可以是好友昵称</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_SearchCollection_" data-uid="WeChatAuto.Components.WeChatClient.SearchCollection*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_SearchCollection_System_String_" data-uid="WeChatAuto.Components.WeChatClient.SearchCollection(System.String)">
+  SearchCollection(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>在收藏页面搜索收藏的内容</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SearchCollection(string content)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>content</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>搜索内容</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_SearchContact_" data-uid="WeChatAuto.Components.WeChatClient.SearchContact*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_SearchContact_System_String_" data-uid="WeChatAuto.Components.WeChatClient.SearchContact(System.String)">
+  SearchContact(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>在通讯录页面搜索联系人</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SearchContact(string text)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>搜索内容</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_SearchSomething_" data-uid="WeChatAuto.Components.WeChatClient.SearchSomething*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_SearchSomething_System_String_System_Boolean_" data-uid="WeChatAuto.Components.WeChatClient.SearchSomething(System.String,System.Boolean)">
+  SearchSomething(string, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>输入搜索内容，并回车</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SearchSomething(string text, bool isClear = false)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>text</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>搜索内容</p>
+</dd>
+    <dt><code>isClear</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否清空搜索框,默认是False:不清空,True:清空</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_SendEmoji_" data-uid="WeChatAuto.Components.WeChatClient.SendEmoji*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_SendEmoji_System_String_OneOf_OneOf_System_Int32_System_String__OneOf_OneOf_System_String_System_String____System_Boolean_" data-uid="WeChatAuto.Components.WeChatClient.SendEmoji(System.String,OneOf.OneOf{System.Int32,System.String},OneOf.OneOf{System.String,System.String[]},System.Boolean)">
+  SendEmoji(string, OneOf&lt;int, string&gt;, OneOf&lt;string, string[]&gt;, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>发送表情</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task SendEmoji(string who, OneOf&lt;int, string&gt; emoji, OneOf&lt;string, string[]&gt; atUser = default, bool isOpenChat = false)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>好友昵称</p>
+</dd>
+    <dt><code>emoji</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>表情名称或者描述或者索引,具体索引或者描述等请参考<a class="xref" href="WeAutoCommon.Utils.EmojiListHelper.html">EmojiListHelper</a>或者<a class="xref" href="WeAutoCommon.Models.EmojiItem.html">EmojiItem</a></p>
+</dd>
+    <dt><code>atUser</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</dt>
+    <dd><p>被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</p>
+</dd>
+    <dt><code>isOpenChat</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否打开子聊天窗口</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_SendEmojis_" data-uid="WeChatAuto.Components.WeChatClient.SendEmojis*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_SendEmojis_System_String___OneOf_OneOf_System_Int32_System_String__OneOf_OneOf_System_String_System_String____System_Boolean_" data-uid="WeChatAuto.Components.WeChatClient.SendEmojis(System.String[],OneOf.OneOf{System.Int32,System.String},OneOf.OneOf{System.String,System.String[]},System.Boolean)">
+  SendEmojis(string[], OneOf&lt;int, string&gt;, OneOf&lt;string, string[]&gt;, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>发送表情</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task SendEmojis(string[] whos, OneOf&lt;int, string&gt; emoji, OneOf&lt;string, string[]&gt; atUser = default, bool isOpenChat = false)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>whos</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>好友昵称列表</p>
+</dd>
+    <dt><code>emoji</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</dt>
+    <dd><p>表情名称或者描述或者索引,具体索引或者描述等请参考<a class="xref" href="WeAutoCommon.Utils.EmojiListHelper.html">EmojiListHelper</a>或者<a class="xref" href="WeAutoCommon.Models.EmojiItem.html">EmojiItem</a></p>
+</dd>
+    <dt><code>atUser</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</dt>
+    <dd><p>被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</p>
+</dd>
+    <dt><code>isOpenChat</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否打开子聊天窗口</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_SendFile_" data-uid="WeChatAuto.Components.WeChatClient.SendFile*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_SendFile_System_String_OneOf_OneOf_System_String_System_String____System_Boolean_" data-uid="WeChatAuto.Components.WeChatClient.SendFile(System.String,OneOf.OneOf{System.String,System.String[]},System.Boolean)">
+  SendFile(string, OneOf&lt;string, string[]&gt;, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>给指定好友发送文件</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task SendFile(string who, OneOf&lt;string, string[]&gt; files, bool isOpenChat = false)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>好友昵称</p>
+</dd>
+    <dt><code>files</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</dt>
+    <dd><p>文件路径,可以是单个文件路径，也可以是多个文件路径</p>
+</dd>
+    <dt><code>isOpenChat</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否打开子聊天窗口</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_SendFiles_" data-uid="WeChatAuto.Components.WeChatClient.SendFiles*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_SendFiles_System_String___OneOf_OneOf_System_String_System_String____System_Boolean_" data-uid="WeChatAuto.Components.WeChatClient.SendFiles(System.String[],OneOf.OneOf{System.String,System.String[]},System.Boolean)">
+  SendFiles(string[], OneOf&lt;string, string[]&gt;, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>给多个好友发送文件</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task SendFiles(string[] whos, OneOf&lt;string, string[]&gt; files, bool isOpenChat = false)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>whos</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>好友昵称列表</p>
+</dd>
+    <dt><code>files</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</dt>
+    <dd><p>文件路径,可以是单个文件路径，也可以是多个文件路径</p>
+</dd>
+    <dt><code>isOpenChat</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否打开子聊天窗口</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_SendLiveStreaming_" data-uid="WeChatAuto.Components.WeChatClient.SendLiveStreaming*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_SendLiveStreaming_System_String_System_Boolean_" data-uid="WeChatAuto.Components.WeChatClient.SendLiveStreaming(System.String,System.Boolean)">
+  SendLiveStreaming(string, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>发起直播,适用于群聊中发起直播，单个好友没有直播功能</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SendLiveStreaming(string groupName, bool isOpenChat = false)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+    <dt><code>isOpenChat</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否打开子聊天窗口,默认是False:不打开,True:打开</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_SendVideoChat_" data-uid="WeChatAuto.Components.WeChatClient.SendVideoChat*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_SendVideoChat_System_String_System_Boolean_" data-uid="WeChatAuto.Components.WeChatClient.SendVideoChat(System.String,System.Boolean)">
+  SendVideoChat(string, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>发起视频聊天,适用于单个好友,群聊没有视频聊天功能</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SendVideoChat(string who, bool isOpenChat = false)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>好友昵称</p>
+</dd>
+    <dt><code>isOpenChat</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否打开子聊天窗口,默认是False:不打开,True:打开</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_SendVoiceChat_" data-uid="WeChatAuto.Components.WeChatClient.SendVoiceChat*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_SendVoiceChat_System_String_System_Boolean_" data-uid="WeChatAuto.Components.WeChatClient.SendVoiceChat(System.String,System.Boolean)">
+  SendVoiceChat(string, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>发起语音聊天,适用于单个好友</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SendVoiceChat(string who, bool isOpenChat = true)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>好友昵称</p>
+</dd>
+    <dt><code>isOpenChat</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否打开子聊天窗口,默认是False:不打开,True:打开</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_SendVoiceChats_" data-uid="WeChatAuto.Components.WeChatClient.SendVoiceChats*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_SendVoiceChats_System_String_System_String___System_Boolean_" data-uid="WeChatAuto.Components.WeChatClient.SendVoiceChats(System.String,System.String[],System.Boolean)">
+  SendVoiceChats(string, string[], bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>发起语音聊天,适用于群聊中发起语音聊天</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void SendVoiceChats(string groupName, string[] whos, bool isOpenChat = true)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+    <dt><code>whos</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>好友昵称列表</p>
+</dd>
+    <dt><code>isOpenChat</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否打开子聊天窗口,默认是False:不打开,True:打开</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_SendWho_" data-uid="WeChatAuto.Components.WeChatClient.SendWho*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_SendWho_System_String_System_String_OneOf_OneOf_System_String_System_String____System_Boolean_" data-uid="WeChatAuto.Components.WeChatClient.SendWho(System.String,System.String,OneOf.OneOf{System.String,System.String[]},System.Boolean)">
+  SendWho(string, string, OneOf&lt;string, string[]&gt;, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>单个发送消息，发送消息给单个好友</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task SendWho(string who, string message, OneOf&lt;string, string[]&gt; atUser = default, bool isOpenChat = true)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>好友昵称</p>
+</dd>
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>消息内容</p>
+</dd>
+    <dt><code>atUser</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</dt>
+    <dd><p>被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</p>
+</dd>
+    <dt><code>isOpenChat</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否打开子聊天窗口,默认是True:打开,False:不打开</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_SendWhos_" data-uid="WeChatAuto.Components.WeChatClient.SendWhos*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_SendWhos_System_String___System_String_OneOf_OneOf_System_String_System_String____System_Boolean_" data-uid="WeChatAuto.Components.WeChatClient.SendWhos(System.String[],System.String,OneOf.OneOf{System.String,System.String[]},System.Boolean)">
+  SendWhos(string[], string, OneOf&lt;string, string[]&gt;, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>批量发送消息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task SendWhos(string[] whos, string message, OneOf&lt;string, string[]&gt; atUser = default, bool isOpenChat = true)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>whos</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd><p>好友昵称列表</p>
+</dd>
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>消息内容</p>
+</dd>
+    <dt><code>atUser</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</dt>
+    <dd><p>被@的用户,最主要用于群聊中@人,可以是一个用户，也可以是多个用户，如果是自有群，可以@所有人，也可以@单个用户，外部群不能@所有人</p>
+</dd>
+    <dt><code>isOpenChat</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否打开子聊天窗口,默认是True:打开,False:不打开</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_SetChatTop_" data-uid="WeChatAuto.Components.WeChatClient.SetChatTop*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_SetChatTop_System_String_System_Boolean_" data-uid="WeChatAuto.Components.WeChatClient.SetChatTop(System.String,System.Boolean)">
+  SetChatTop(string, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>设置聊天置顶</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ChatResponse SetChatTop(string groupName, bool isTop = true)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+    <dt><code>isTop</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否置顶,默认是True:置顶,False:取消置顶</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></dt>
+    <dd><p>微信响应结果<a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_SetMessageWithoutInterruption_" data-uid="WeChatAuto.Components.WeChatClient.SetMessageWithoutInterruption*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_SetMessageWithoutInterruption_System_String_System_Boolean_" data-uid="WeChatAuto.Components.WeChatClient.SetMessageWithoutInterruption(System.String,System.Boolean)">
+  SetMessageWithoutInterruption(string, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>设置消息免打扰</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ChatResponse SetMessageWithoutInterruption(string groupName, bool isMessageWithoutInterruption = true)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+    <dt><code>isMessageWithoutInterruption</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否消息免打扰,默认是True:消息免打扰,False:取消消息免打扰</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></dt>
+    <dd><p>微信响应结果<a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_SetSaveToAddress_" data-uid="WeChatAuto.Components.WeChatClient.SetSaveToAddress*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_SetSaveToAddress_System_String_System_Boolean_" data-uid="WeChatAuto.Components.WeChatClient.SetSaveToAddress(System.String,System.Boolean)">
+  SetSaveToAddress(string, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>设置保存到通讯录</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ChatResponse SetSaveToAddress(string groupName, bool isSaveToAddress = true)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+    <dt><code>isSaveToAddress</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否保存到通讯录,默认是True:保存,False:取消保存</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></dt>
+    <dd><p>微信响应结果<a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_StopMessageListener_" data-uid="WeChatAuto.Components.WeChatClient.StopMessageListener*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_StopMessageListener_System_String_" data-uid="WeChatAuto.Components.WeChatClient.StopMessageListener(System.String)">
+  StopMessageListener(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>移除监听消息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void StopMessageListener(string nickName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>nickName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>好友昵称</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_StopMomentsListener_" data-uid="WeChatAuto.Components.WeChatClient.StopMomentsListener*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_StopMomentsListener" data-uid="WeChatAuto.Components.WeChatClient.StopMomentsListener">
+  StopMomentsListener()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>停止朋友圈监听</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void StopMomentsListener()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_StopNewUserListener_" data-uid="WeChatAuto.Components.WeChatClient.StopNewUserListener*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_StopNewUserListener" data-uid="WeChatAuto.Components.WeChatClient.StopNewUserListener">
+  StopNewUserListener()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>移除新用户监听</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void StopNewUserListener()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_UpdateGroupNotice_" data-uid="WeChatAuto.Components.WeChatClient.UpdateGroupNotice*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_UpdateGroupNotice_System_String_System_String_" data-uid="WeChatAuto.Components.WeChatClient.UpdateGroupNotice(System.String,System.String)">
+  UpdateGroupNotice(string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>更新群聊公告</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;ChatResponse&gt; UpdateGroupNotice(string groupName, string groupNotice)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊名称</p>
+</dd>
+    <dt><code>groupNotice</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群聊公告</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/ChatResponse.cs">ChatResponse</a>&gt;</dt>
+    <dd><p>微信响应结果</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_WindowMax_" data-uid="WeChatAuto.Components.WeChatClient.WindowMax*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_WindowMax" data-uid="WeChatAuto.Components.WeChatClient.WindowMax">
+  WindowMax()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>将微信主窗口最大化</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void WindowMax()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_WindowMin_" data-uid="WeChatAuto.Components.WeChatClient.WindowMin*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_WindowMin" data-uid="WeChatAuto.Components.WeChatClient.WindowMin">
+  WindowMin()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>将微信主窗口最小化</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void WindowMin()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_WindowRestore_" data-uid="WeChatAuto.Components.WeChatClient.WindowRestore*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_WindowRestore" data-uid="WeChatAuto.Components.WeChatClient.WindowRestore">
+  WindowRestore()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>将微信主窗口还原</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void WindowRestore()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_WeChatClient_WindowTop_" data-uid="WeChatAuto.Components.WeChatClient.WindowTop*"></a>
+
+  <h3 id="WeChatAuto_Components_WeChatClient_WindowTop_System_Boolean_" data-uid="WeChatAuto.Components.WeChatClient.WindowTop(System.Boolean)">
+  WindowTop(bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>将微信主窗口置顶</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void WindowTop(bool isTop = true)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>isTop</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否置顶,默认是True:置顶,False:取消置顶</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/WeChatClient.cs" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://github.com/scottfly189">Alex Zhao</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

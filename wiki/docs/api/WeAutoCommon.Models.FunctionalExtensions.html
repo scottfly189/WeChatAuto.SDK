@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class FunctionalExtensions | WeChatAuto.SDK </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class FunctionalExtensions | WeChatAuto.SDK ">
+      
+      <meta name="description" content="函数式扩展方法">
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.png" alt="WECHATAUTO.SDK">
+            WECHATAUTO.SDK
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="WeAutoCommon.Models.FunctionalExtensions">
+
+
+
+  <h1 id="WeAutoCommon_Models_FunctionalExtensions" data-uid="WeAutoCommon.Models.FunctionalExtensions" class="text-break">
+Class FunctionalExtensions  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/FunctionalExtensions.cs"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="WeAutoCommon.html">WeAutoCommon</a>.<a class="xref" href="WeAutoCommon.Models.html">Models</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>WeAutoCommon.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>函数式扩展方法</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static class FunctionalExtensions</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">FunctionalExtensions</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="WeAutoCommon_Models_FunctionalExtensions_BindAsync_" data-uid="WeAutoCommon.Models.FunctionalExtensions.BindAsync*"></a>
+
+  <h3 id="WeAutoCommon_Models_FunctionalExtensions_BindAsync__2_WeAutoCommon_Models_Result___0__System_Func___0_System_Threading_Tasks_Task_WeAutoCommon_Models_Result___1____" data-uid="WeAutoCommon.Models.FunctionalExtensions.BindAsync``2(WeAutoCommon.Models.Result{``0},System.Func{``0,System.Threading.Tasks.Task{WeAutoCommon.Models.Result{``1}}})">
+  BindAsync&lt;T, U&gt;(Result&lt;T&gt;, Func&lt;T, Task&lt;Result&lt;U&gt;&gt;&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/FunctionalExtensions.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Async Result Bind，将Result转换为Result
+异步</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;Result&lt;U&gt;&gt; BindAsync&lt;T, U&gt;(this Result&lt;T&gt; result, Func&lt;T, Task&lt;Result&lt;U&gt;&gt;&gt; binder)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>result</code> <a class="xref" href="WeAutoCommon.Models.Result-1.html">Result</a>&lt;T&gt;</dt>
+    <dd></dd>
+    <dt><code>binder</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;T, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="WeAutoCommon.Models.Result-1.html">Result</a>&lt;U&gt;&gt;&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="WeAutoCommon.Models.Result-1.html">Result</a>&lt;U&gt;&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd></dd>
+    <dt><code>U</code></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="WeAutoCommon_Models_FunctionalExtensions_Bind_" data-uid="WeAutoCommon.Models.FunctionalExtensions.Bind*"></a>
+
+  <h3 id="WeAutoCommon_Models_FunctionalExtensions_Bind__2_WeAutoCommon_Models_Result___0__System_Func___0_WeAutoCommon_Models_Result___1___" data-uid="WeAutoCommon.Models.FunctionalExtensions.Bind``2(WeAutoCommon.Models.Result{``0},System.Func{``0,WeAutoCommon.Models.Result{``1}})">
+  Bind&lt;T, U&gt;(Result&lt;T&gt;, Func&lt;T, Result&lt;U&gt;&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/FunctionalExtensions.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Result Bind，将Result转换为Result</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Result&lt;U&gt; Bind&lt;T, U&gt;(this Result&lt;T&gt; result, Func&lt;T, Result&lt;U&gt;&gt; binder)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>result</code> <a class="xref" href="WeAutoCommon.Models.Result-1.html">Result</a>&lt;T&gt;</dt>
+    <dd></dd>
+    <dt><code>binder</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;T, <a class="xref" href="WeAutoCommon.Models.Result-1.html">Result</a>&lt;U&gt;&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeAutoCommon.Models.Result-1.html">Result</a>&lt;U&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd></dd>
+    <dt><code>U</code></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="WeAutoCommon_Models_FunctionalExtensions_MapAsync_" data-uid="WeAutoCommon.Models.FunctionalExtensions.MapAsync*"></a>
+
+  <h3 id="WeAutoCommon_Models_FunctionalExtensions_MapAsync__2_WeAutoCommon_Models_Result___0__System_Func___0_System_Threading_Tasks_Task___1___" data-uid="WeAutoCommon.Models.FunctionalExtensions.MapAsync``2(WeAutoCommon.Models.Result{``0},System.Func{``0,System.Threading.Tasks.Task{``1}})">
+  MapAsync&lt;T, U&gt;(Result&lt;T&gt;, Func&lt;T, Task&lt;U&gt;&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/FunctionalExtensions.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Async Result Map，将Result转换为Result
+如果你要加工值
+异步</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Task&lt;Result&lt;U&gt;&gt; MapAsync&lt;T, U&gt;(this Result&lt;T&gt; result, Func&lt;T, Task&lt;U&gt;&gt; mapper)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>result</code> <a class="xref" href="WeAutoCommon.Models.Result-1.html">Result</a>&lt;T&gt;</dt>
+    <dd></dd>
+    <dt><code>mapper</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;T, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;U&gt;&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="WeAutoCommon.Models.Result-1.html">Result</a>&lt;U&gt;&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd></dd>
+    <dt><code>U</code></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="WeAutoCommon_Models_FunctionalExtensions_Map_" data-uid="WeAutoCommon.Models.FunctionalExtensions.Map*"></a>
+
+  <h3 id="WeAutoCommon_Models_FunctionalExtensions_Map__2_WeAutoCommon_Models_Result___0__System_Func___0___1__" data-uid="WeAutoCommon.Models.FunctionalExtensions.Map``2(WeAutoCommon.Models.Result{``0},System.Func{``0,``1})">
+  Map&lt;T, U&gt;(Result&lt;T&gt;, Func&lt;T, U&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/FunctionalExtensions.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Result Map，将Result转换为Result
+如果你要加工值</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Result&lt;U&gt; Map&lt;T, U&gt;(this Result&lt;T&gt; result, Func&lt;T, U&gt; mapper)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>result</code> <a class="xref" href="WeAutoCommon.Models.Result-1.html">Result</a>&lt;T&gt;</dt>
+    <dd></dd>
+    <dt><code>mapper</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;T, U&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeAutoCommon.Models.Result-1.html">Result</a>&lt;U&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd></dd>
+    <dt><code>U</code></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="WeAutoCommon_Models_FunctionalExtensions_Match_" data-uid="WeAutoCommon.Models.FunctionalExtensions.Match*"></a>
+
+  <h3 id="WeAutoCommon_Models_FunctionalExtensions_Match__2_WeAutoCommon_Models_Result___0__System_Func___0___1__System_Func_System_String___1__" data-uid="WeAutoCommon.Models.FunctionalExtensions.Match``2(WeAutoCommon.Models.Result{``0},System.Func{``0,``1},System.Func{System.String,``1})">
+  Match&lt;T, U&gt;(Result&lt;T&gt;, Func&lt;T, U&gt;, Func&lt;string, U&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/FunctionalExtensions.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>Result Match，将Result转换为Result
+最终收敛</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static U Match&lt;T, U&gt;(this Result&lt;T&gt; result, Func&lt;T, U&gt; ok, Func&lt;string, U&gt; fail)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>result</code> <a class="xref" href="WeAutoCommon.Models.Result-1.html">Result</a>&lt;T&gt;</dt>
+    <dd></dd>
+    <dt><code>ok</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;T, U&gt;</dt>
+    <dd></dd>
+    <dt><code>fail</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, U&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">U</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd></dd>
+    <dt><code>U</code></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="WeAutoCommon_Models_FunctionalExtensions_ToMaybe_" data-uid="WeAutoCommon.Models.FunctionalExtensions.ToMaybe*"></a>
+
+  <h3 id="WeAutoCommon_Models_FunctionalExtensions_ToMaybe__1___0_" data-uid="WeAutoCommon.Models.FunctionalExtensions.ToMaybe``1(``0)">
+  ToMaybe&lt;T&gt;(T)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/FunctionalExtensions.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>将值转换为Maybe</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Maybe&lt;T&gt; ToMaybe&lt;T&gt;(this T value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>value</code> <span class="xref">T</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeAutoCommon.Models.Maybe-1.html">Maybe</a>&lt;T&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="WeAutoCommon_Models_FunctionalExtensions_ToResult_" data-uid="WeAutoCommon.Models.FunctionalExtensions.ToResult*"></a>
+
+  <h3 id="WeAutoCommon_Models_FunctionalExtensions_ToResult__1_WeAutoCommon_Models_Maybe___0__System_String_" data-uid="WeAutoCommon.Models.FunctionalExtensions.ToResult``1(WeAutoCommon.Models.Maybe{``0},System.String)">
+  ToResult&lt;T&gt;(Maybe&lt;T&gt;, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/FunctionalExtensions.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>将Maybe转换为Result</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Result&lt;T&gt; ToResult&lt;T&gt;(this Maybe&lt;T&gt; maybe, string errorMessage)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>maybe</code> <a class="xref" href="WeAutoCommon.Models.Maybe-1.html">Maybe</a>&lt;T&gt;</dt>
+    <dd></dd>
+    <dt><code>errorMessage</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeAutoCommon.Models.Result-1.html">Result</a>&lt;T&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <a id="WeAutoCommon_Models_FunctionalExtensions_Try_" data-uid="WeAutoCommon.Models.FunctionalExtensions.Try*"></a>
+
+  <h3 id="WeAutoCommon_Models_FunctionalExtensions_Try__1_System_Func___0__" data-uid="WeAutoCommon.Models.FunctionalExtensions.Try``1(System.Func{``0})">
+  Try&lt;T&gt;(Func&lt;T&gt;)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/FunctionalExtensions.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>尝试执行函数，如果失败则返回失败，否则返回成功的结果</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Result&lt;T&gt; Try&lt;T&gt;(Func&lt;T&gt; func)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>func</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-1">Func</a>&lt;T&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeAutoCommon.Models.Result-1.html">Result</a>&lt;T&gt;</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Type Parameters</h4>
+  <dl class="parameters">
+    <dt><code>T</code></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeAutoCommon/Models/FunctionalExtensions.cs" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://github.com/scottfly189">Alex Zhao</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
