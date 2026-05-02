@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WeAutoCommon\WeAutoCommon.csproj" />
+    <ProjectReference Include="..\..\WeAutoCommon\WeAutoCommon.csproj" />
     <ProjectReference Include="..\WeChatAuto\WeChatAuto.csproj" />
   </ItemGroup>
 
