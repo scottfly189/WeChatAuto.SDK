@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class KMSimulatorService | WeChatAuto.SDK </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class KMSimulatorService | WeChatAuto.SDK ">
+      
+      <meta name="description" content="键鼠模拟器服务">
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.png" alt="WECHATAUTO.SDK">
+            WECHATAUTO.SDK
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="WeChatAuto.Services.KMSimulatorService">
+
+
+
+  <h1 id="WeChatAuto_Services_KMSimulatorService" data-uid="WeChatAuto.Services.KMSimulatorService" class="text-break">
+Class KMSimulatorService  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="WeChatAuto.html">WeChatAuto</a>.<a class="xref" href="WeChatAuto.Services.html">Services</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>WeChatAuto.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>键鼠模拟器服务</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static class KMSimulatorService</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">KMSimulatorService</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+  </dd></dl>
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_DeviceData_" data-uid="WeChatAuto.Services.KMSimulatorService.DeviceData*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_DeviceData" data-uid="WeChatAuto.Services.KMSimulatorService.DeviceData">
+  DeviceData
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static nint DeviceData { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.intptr">nint</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_ClearAndTypeString_" data-uid="WeChatAuto.Services.KMSimulatorService.ClearAndTypeString*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_ClearAndTypeString_System_String_FlaUI_Core_AutomationElements_Window_FlaUI_Core_AutomationElements_AutomationElement_" data-uid="WeChatAuto.Services.KMSimulatorService.ClearAndTypeString(System.String,FlaUI.Core.AutomationElements.Window,FlaUI.Core.AutomationElements.AutomationElement)">
+  ClearAndTypeString(string, Window, AutomationElement)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>清空输入框并输入字符串</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void ClearAndTypeString(string str, Window window, AutomationElement element)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>str</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>字符串</p>
+</dd>
+    <dt><code>window</code> <span class="xref">Window</span></dt>
+    <dd><p>窗口</p>
+</dd>
+    <dt><code>element</code> <span class="xref">AutomationElement</span></dt>
+    <dd><p>元素</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_CloseDevice_" data-uid="WeChatAuto.Services.KMSimulatorService.CloseDevice*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_CloseDevice" data-uid="WeChatAuto.Services.KMSimulatorService.CloseDevice">
+  CloseDevice()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>关闭设备</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void CloseDevice()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_Delay_" data-uid="WeChatAuto.Services.KMSimulatorService.Delay*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_Delay_System_Int32_System_Int32_" data-uid="WeChatAuto.Services.KMSimulatorService.Delay(System.Int32,System.Int32)">
+  Delay(int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>随机延时</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void Delay(int minTime, int maxTime)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>minTime</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>最小延时</p>
+</dd>
+    <dt><code>maxTime</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>最大延时</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_Enter_" data-uid="WeChatAuto.Services.KMSimulatorService.Enter*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_Enter_FlaUI_Core_AutomationElements_Window_FlaUI_Core_AutomationElements_AutomationElement_" data-uid="WeChatAuto.Services.KMSimulatorService.Enter(FlaUI.Core.AutomationElements.Window,FlaUI.Core.AutomationElements.AutomationElement)">
+  Enter(Window, AutomationElement)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>按下回车键</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void Enter(Window window, AutomationElement element)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>window</code> <span class="xref">Window</span></dt>
+    <dd><p>窗口</p>
+</dd>
+    <dt><code>element</code> <span class="xref">AutomationElement</span></dt>
+    <dd><p>元素</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_Init_" data-uid="WeChatAuto.Services.KMSimulatorService.Init*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_Init_System_Int32_System_Int32_System_String_System_Int32_" data-uid="WeChatAuto.Services.KMSimulatorService.Init(System.Int32,System.Int32,System.String,System.Int32)">
+  Init(int, int, string, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void Init(int deviceVID, int devicePID, string verifyUserData, int outputStringType = 4)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>deviceVID</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>devicePID</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>verifyUserData</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>outputStringType</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_IsDeviceOpen_" data-uid="WeChatAuto.Services.KMSimulatorService.IsDeviceOpen*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_IsDeviceOpen" data-uid="WeChatAuto.Services.KMSimulatorService.IsDeviceOpen">
+  IsDeviceOpen()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>判断设备是否打开</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool IsDeviceOpen()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否打开</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_KeyDown_" data-uid="WeChatAuto.Services.KMSimulatorService.KeyDown*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_KeyDown_System_String_" data-uid="WeChatAuto.Services.KMSimulatorService.KeyDown(System.String)">
+  KeyDown(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>键盘按下</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void KeyDown(string key)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>key</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>按键</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_KeyPress_" data-uid="WeChatAuto.Services.KMSimulatorService.KeyPress*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_KeyPress_System_String_" data-uid="WeChatAuto.Services.KMSimulatorService.KeyPress(System.String)">
+  KeyPress(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>键盘按键</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void KeyPress(string key)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>key</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>按键</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_KeyPressString_" data-uid="WeChatAuto.Services.KMSimulatorService.KeyPressString*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_KeyPressString_System_String_" data-uid="WeChatAuto.Services.KMSimulatorService.KeyPressString(System.String)">
+  KeyPressString(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>输出字符串</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void KeyPressString(string str)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>str</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>字符串</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_KeyUp_" data-uid="WeChatAuto.Services.KMSimulatorService.KeyUp*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_KeyUp_System_String_" data-uid="WeChatAuto.Services.KMSimulatorService.KeyUp(System.String)">
+  KeyUp(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>键盘弹起</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void KeyUp(string key)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>key</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>按键</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_LeftClick_" data-uid="WeChatAuto.Services.KMSimulatorService.LeftClick*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_LeftClick" data-uid="WeChatAuto.Services.KMSimulatorService.LeftClick">
+  LeftClick()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>左键单击</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void LeftClick()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_LeftClick_" data-uid="WeChatAuto.Services.KMSimulatorService.LeftClick*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_LeftClick_FlaUI_Core_AutomationElements_Window_FlaUI_Core_AutomationElements_AutomationElement_" data-uid="WeChatAuto.Services.KMSimulatorService.LeftClick(FlaUI.Core.AutomationElements.Window,FlaUI.Core.AutomationElements.AutomationElement)">
+  LeftClick(Window, AutomationElement)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>左键单击
+此方法dpi感知,并且加上元素范围内的随机偏移</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void LeftClick(Window window, AutomationElement element)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>window</code> <span class="xref">Window</span></dt>
+    <dd><p>窗口</p>
+</dd>
+    <dt><code>element</code> <span class="xref">AutomationElement</span></dt>
+    <dd><p>元素</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_LeftClick_" data-uid="WeChatAuto.Services.KMSimulatorService.LeftClick*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_LeftClick_System_Drawing_Point_" data-uid="WeChatAuto.Services.KMSimulatorService.LeftClick(System.Drawing.Point)">
+  LeftClick(Point)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>左键单击</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void LeftClick(Point point)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>point</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></dt>
+    <dd><p>坐标</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_LeftClick_" data-uid="WeChatAuto.Services.KMSimulatorService.LeftClick*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_LeftClick_System_Int32_System_Int32_" data-uid="WeChatAuto.Services.KMSimulatorService.LeftClick(System.Int32,System.Int32)">
+  LeftClick(int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>左键单击</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void LeftClick(int x, int y)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>x坐标</p>
+</dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>y坐标</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_LeftDblClickWithDpiAware_" data-uid="WeChatAuto.Services.KMSimulatorService.LeftDblClickWithDpiAware*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_LeftDblClickWithDpiAware_FlaUI_Core_AutomationElements_Window_FlaUI_Core_AutomationElements_AutomationElement_" data-uid="WeChatAuto.Services.KMSimulatorService.LeftDblClickWithDpiAware(FlaUI.Core.AutomationElements.Window,FlaUI.Core.AutomationElements.AutomationElement)">
+  LeftDblClickWithDpiAware(Window, AutomationElement)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>左键双击
+此方法dpi感知,并且加上元素范围内的随机偏移</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void LeftDblClickWithDpiAware(Window window, AutomationElement element)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>window</code> <span class="xref">Window</span></dt>
+    <dd><p>窗口</p>
+</dd>
+    <dt><code>element</code> <span class="xref">AutomationElement</span></dt>
+    <dd><p>元素</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_LeftDoubleClick_" data-uid="WeChatAuto.Services.KMSimulatorService.LeftDoubleClick*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_LeftDoubleClick_System_Drawing_Point_" data-uid="WeChatAuto.Services.KMSimulatorService.LeftDoubleClick(System.Drawing.Point)">
+  LeftDoubleClick(Point)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>左键双击</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void LeftDoubleClick(Point point)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>point</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_LeftDoubleClick_" data-uid="WeChatAuto.Services.KMSimulatorService.LeftDoubleClick*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_LeftDoubleClick_System_Int32_System_Int32_" data-uid="WeChatAuto.Services.KMSimulatorService.LeftDoubleClick(System.Int32,System.Int32)">
+  LeftDoubleClick(int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>左键双击</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void LeftDoubleClick(int x, int y)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_MiddleClick_" data-uid="WeChatAuto.Services.KMSimulatorService.MiddleClick*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_MiddleClick" data-uid="WeChatAuto.Services.KMSimulatorService.MiddleClick">
+  MiddleClick()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>中键单击</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void MiddleClick()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_MiddleClick_" data-uid="WeChatAuto.Services.KMSimulatorService.MiddleClick*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_MiddleClick_FlaUI_Core_AutomationElements_Window_FlaUI_Core_AutomationElements_AutomationElement_" data-uid="WeChatAuto.Services.KMSimulatorService.MiddleClick(FlaUI.Core.AutomationElements.Window,FlaUI.Core.AutomationElements.AutomationElement)">
+  MiddleClick(Window, AutomationElement)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>中键单击
+此方法dpi感知</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void MiddleClick(Window window, AutomationElement element)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>window</code> <span class="xref">Window</span></dt>
+    <dd><p>窗口</p>
+</dd>
+    <dt><code>element</code> <span class="xref">AutomationElement</span></dt>
+    <dd><p>元素</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_MiddleClick_" data-uid="WeChatAuto.Services.KMSimulatorService.MiddleClick*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_MiddleClick_System_Drawing_Point_" data-uid="WeChatAuto.Services.KMSimulatorService.MiddleClick(System.Drawing.Point)">
+  MiddleClick(Point)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>中键单击</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void MiddleClick(Point point)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>point</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></dt>
+    <dd><p>坐标</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_MiddleClick_" data-uid="WeChatAuto.Services.KMSimulatorService.MiddleClick*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_MiddleClick_System_Int32_System_Int32_" data-uid="WeChatAuto.Services.KMSimulatorService.MiddleClick(System.Int32,System.Int32)">
+  MiddleClick(int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>中键单击
+此方法dpi感知</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void MiddleClick(int x, int y)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>x坐标</p>
+</dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>y坐标</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_MouseWheel_" data-uid="WeChatAuto.Services.KMSimulatorService.MouseWheel*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_MouseWheel_FlaUI_Core_AutomationElements_Window_FlaUI_Core_AutomationElements_AutomationElement_System_Int32_" data-uid="WeChatAuto.Services.KMSimulatorService.MouseWheel(FlaUI.Core.AutomationElements.Window,FlaUI.Core.AutomationElements.AutomationElement,System.Int32)">
+  MouseWheel(Window, AutomationElement, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>鼠标滚轮
+此方法dpi感知</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void MouseWheel(Window window, AutomationElement element, int count = 3)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>window</code> <span class="xref">Window</span></dt>
+    <dd><p>窗口</p>
+</dd>
+    <dt><code>element</code> <span class="xref">AutomationElement</span></dt>
+    <dd><p>元素</p>
+</dd>
+    <dt><code>count</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>滚轮数量</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_MouseWheel_" data-uid="WeChatAuto.Services.KMSimulatorService.MouseWheel*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_MouseWheel_System_Drawing_Point_System_Int32_" data-uid="WeChatAuto.Services.KMSimulatorService.MouseWheel(System.Drawing.Point,System.Int32)">
+  MouseWheel(Point, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>鼠标滚轮</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void MouseWheel(Point point, int count = 3)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>point</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></dt>
+    <dd><p>坐标</p>
+</dd>
+    <dt><code>count</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>滚轮数量</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_MouseWheel_" data-uid="WeChatAuto.Services.KMSimulatorService.MouseWheel*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_MouseWheel_System_Int32_" data-uid="WeChatAuto.Services.KMSimulatorService.MouseWheel(System.Int32)">
+  MouseWheel(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>鼠标滚轮</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void MouseWheel(int count = 3)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>count</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>滚轮数量</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_MouseWheel_" data-uid="WeChatAuto.Services.KMSimulatorService.MouseWheel*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_MouseWheel_System_Int32_System_Int32_System_Int32_" data-uid="WeChatAuto.Services.KMSimulatorService.MouseWheel(System.Int32,System.Int32,System.Int32)">
+  MouseWheel(int, int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>鼠标滚轮</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void MouseWheel(int x, int y, int count = 3)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>x坐标</p>
+</dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>y坐标</p>
+</dd>
+    <dt><code>count</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>滚轮数量</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_MoveBy_" data-uid="WeChatAuto.Services.KMSimulatorService.MoveBy*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_MoveBy_System_Int32_System_Int32_" data-uid="WeChatAuto.Services.KMSimulatorService.MoveBy(System.Int32,System.Int32)">
+  MoveBy(int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>相对移动</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void MoveBy(int x, int y)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>x坐标</p>
+</dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>y坐标</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_MoveTo_" data-uid="WeChatAuto.Services.KMSimulatorService.MoveTo*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_MoveTo_System_Int32_System_Int32_" data-uid="WeChatAuto.Services.KMSimulatorService.MoveTo(System.Int32,System.Int32)">
+  MoveTo(int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>绝对移动</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void MoveTo(int x, int y)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>x坐标</p>
+</dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>y坐标</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_OpenDevice_" data-uid="WeChatAuto.Services.KMSimulatorService.OpenDevice*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_OpenDevice_System_UInt32_" data-uid="WeChatAuto.Services.KMSimulatorService.OpenDevice(System.UInt32)">
+  OpenDevice(uint)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>打开设备</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void OpenDevice(uint deviceID)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>deviceID</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd><p>设备ID</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_RightClick_" data-uid="WeChatAuto.Services.KMSimulatorService.RightClick*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_RightClick" data-uid="WeChatAuto.Services.KMSimulatorService.RightClick">
+  RightClick()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>右键单击</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void RightClick()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_RightClick_" data-uid="WeChatAuto.Services.KMSimulatorService.RightClick*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_RightClick_FlaUI_Core_AutomationElements_Window_FlaUI_Core_AutomationElements_AutomationElement_" data-uid="WeChatAuto.Services.KMSimulatorService.RightClick(FlaUI.Core.AutomationElements.Window,FlaUI.Core.AutomationElements.AutomationElement)">
+  RightClick(Window, AutomationElement)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>右键单击</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void RightClick(Window window, AutomationElement element)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>window</code> <span class="xref">Window</span></dt>
+    <dd><p>窗口</p>
+</dd>
+    <dt><code>element</code> <span class="xref">AutomationElement</span></dt>
+    <dd><p>元素</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_RightClick_" data-uid="WeChatAuto.Services.KMSimulatorService.RightClick*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_RightClick_System_Drawing_Point_" data-uid="WeChatAuto.Services.KMSimulatorService.RightClick(System.Drawing.Point)">
+  RightClick(Point)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>右键单击</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void RightClick(Point point)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>point</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></dt>
+    <dd><p>坐标</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_RightClick_" data-uid="WeChatAuto.Services.KMSimulatorService.RightClick*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_RightClick_System_Int32_System_Int32_" data-uid="WeChatAuto.Services.KMSimulatorService.RightClick(System.Int32,System.Int32)">
+  RightClick(int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>右键单击</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void RightClick(int x, int y)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>x</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>x坐标</p>
+</dd>
+    <dt><code>y</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>y坐标</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Services_KMSimulatorService_SearchDevice_" data-uid="WeChatAuto.Services.KMSimulatorService.SearchDevice*"></a>
+
+  <h3 id="WeChatAuto_Services_KMSimulatorService_SearchDevice_System_Int32_System_Int32_" data-uid="WeChatAuto.Services.KMSimulatorService.SearchDevice(System.Int32,System.Int32)">
+  SearchDevice(int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>搜索设备</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static uint SearchDevice(int deviceVID, int devicePID)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>deviceVID</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>设备VID</p>
+</dd>
+    <dt><code>devicePID</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>设备PID</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint32">uint</a></dt>
+    <dd><p>设备ID</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Services/KMSimulatorService.cs" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://github.com/scottfly189">Alex Zhao</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

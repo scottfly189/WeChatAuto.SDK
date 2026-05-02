@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class MessageBubbleList | WeChatAuto.SDK </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class MessageBubbleList | WeChatAuto.SDK ">
+      
+      <meta name="description" content="聊天内容区气泡列表">
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.png" alt="WECHATAUTO.SDK">
+            WECHATAUTO.SDK
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="WeChatAuto.Components.MessageBubbleList">
+
+
+
+  <h1 id="WeChatAuto_Components_MessageBubbleList" data-uid="WeChatAuto.Components.MessageBubbleList" class="text-break">
+Class MessageBubbleList  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="WeChatAuto.html">WeChatAuto</a>.<a class="xref" href="WeChatAuto.Components.html">Components</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>WeChatAuto.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>聊天内容区气泡列表</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class MessageBubbleList</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">MessageBubbleList</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="WeAutoCommon.Models.FunctionalExtensions.html#WeAutoCommon_Models_FunctionalExtensions_ToMaybe__1___0_">FunctionalExtensions.ToMaybe&lt;T&gt;(T)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList__ctor_" data-uid="WeChatAuto.Components.MessageBubbleList.#ctor*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList__ctor_FlaUI_Core_AutomationElements_Window_FlaUI_Core_AutomationElements_AutomationElement_WeAutoCommon_Interface_IWeChatWindow_System_String_WeAutoCommon_Utils_UIThreadInvoker_WeChatAuto_Components_ChatBody_System_IServiceProvider_" data-uid="WeChatAuto.Components.MessageBubbleList.#ctor(FlaUI.Core.AutomationElements.Window,FlaUI.Core.AutomationElements.AutomationElement,WeAutoCommon.Interface.IWeChatWindow,System.String,WeAutoCommon.Utils.UIThreadInvoker,WeChatAuto.Components.ChatBody,System.IServiceProvider)">
+  MessageBubbleList(Window, AutomationElement, IWeChatWindow, string, UIThreadInvoker, ChatBody, IServiceProvider)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MessageBubbleList(Window selfWindow, AutomationElement bubbleListRoot, IWeChatWindow wxWindow, string title, UIThreadInvoker uiThreadInvoker, ChatBody chatBody, IServiceProvider serviceProvider)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>selfWindow</code> <span class="xref">Window</span></dt>
+    <dd></dd>
+    <dt><code>bubbleListRoot</code> <span class="xref">AutomationElement</span></dt>
+    <dd></dd>
+    <dt><code>wxWindow</code> <a class="xref" href="WeAutoCommon.Interface.IWeChatWindow.html">IWeChatWindow</a></dt>
+    <dd></dd>
+    <dt><code>title</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>uiThreadInvoker</code> <a class="xref" href="WeAutoCommon.Utils.UIThreadInvoker.html">UIThreadInvoker</a></dt>
+    <dd></dd>
+    <dt><code>chatBody</code> <a class="xref" href="WeChatAuto.Components.ChatBody.html">ChatBody</a></dt>
+    <dd></dd>
+    <dt><code>serviceProvider</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.iserviceprovider">IServiceProvider</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_BubbleListRoot_" data-uid="WeChatAuto.Components.MessageBubbleList.BubbleListRoot*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_BubbleListRoot" data-uid="WeChatAuto.Components.MessageBubbleList.BubbleListRoot">
+  BubbleListRoot
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ListBox BubbleListRoot { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">ListBox</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_Bubbles_" data-uid="WeChatAuto.Components.MessageBubbleList.Bubbles*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_Bubbles" data-uid="WeChatAuto.Components.MessageBubbleList.Bubbles">
+  Bubbles
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;MessageBubble&gt; Bubbles { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Components.MessageBubble.html">MessageBubble</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_ChatSimpleMessages_" data-uid="WeChatAuto.Components.MessageBubbleList.ChatSimpleMessages*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_ChatSimpleMessages" data-uid="WeChatAuto.Components.MessageBubbleList.ChatSimpleMessages">
+  ChatSimpleMessages
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;ChatSimpleMessage&gt; ChatSimpleMessages { get; }</code></pre>
+  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_CollectMessage_" data-uid="WeChatAuto.Components.MessageBubbleList.CollectMessage*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_CollectMessage_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.CollectMessage(System.Int32)">
+  CollectMessage(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>收藏指定的消息
+注意，只能收藏有的消息，不会翻页，如果消息不在当前页，则不会收藏</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CollectMessage(int lastRowIndex)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lastRowIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>要收藏的消息的索引</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_CollectMessage_" data-uid="WeChatAuto.Components.MessageBubbleList.CollectMessage*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_CollectMessage_System_String_System_String_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.CollectMessage(System.String,System.String,System.Int32)">
+  CollectMessage(string, string, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>收藏消息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CollectMessage(string who, string message, int prevPageCount = 3)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>要收藏的好友昵称</p>
+</dd>
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>要收藏的消息内容</p>
+</dd>
+    <dt><code>prevPageCount</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>如果当前页找不到，往前翻页的次数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_CollectMessage_" data-uid="WeChatAuto.Components.MessageBubbleList.CollectMessage*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_CollectMessage_WeChatAuto_Models_ChatSimpleMessage_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.CollectMessage(WeChatAuto.Models.ChatSimpleMessage,System.Int32)">
+  CollectMessage(ChatSimpleMessage, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>收藏消息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void CollectMessage(ChatSimpleMessage chatSimpleMessage, int prevPageCount = 3)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>chatSimpleMessage</code> <a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a></dt>
+    <dd><p>要收藏的消息<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a></p>
+</dd>
+    <dt><code>prevPageCount</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>如果当前页找不到，往前翻页的次数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_ForwardMultipleMessage_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardMultipleMessage*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_ForwardMultipleMessage_System_String_System_Boolean_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardMultipleMessage(System.String,System.Boolean,System.Int32)">
+  ForwardMultipleMessage(string, bool, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>转发多条消息,默认转发最后5条消息，可以自行指定转发多少条消息
+注意：
+转发会做如下预处理：
+1、图片，会自动测试是否能够转发，直到能转发为止;
+2、视频，会自动下载，并且测试是否能够转发，直到能转发为止
+3、语音，会自行语音转文字</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ForwardMultipleMessage(string to, bool isCapture = true, int rowCount = 5)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>to</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>要转发给谁</p>
+</dd>
+    <dt><code>isCapture</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否要转发的内容进行截图，默认是true</p>
+</dd>
+    <dt><code>rowCount</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>要转发多少条消息，默认是最后的5条消息,如果当前没有十条，则转发所有消息</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_ForwardSingleMessage_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardSingleMessage*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_ForwardSingleMessage_System_Int32_System_String_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardSingleMessage(System.Int32,System.String)">
+  ForwardSingleMessage(int, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>转发最后的第index条消息,1表示最后一条消息，2表示倒数第二条消息
+注意，只能转发有的消息，不会翻页，如果消息不在当前页，则不会转发</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ForwardSingleMessage(int lastRowIndex, string to)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lastRowIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>最后一条消息的索引</p>
+</dd>
+    <dt><code>to</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_ForwardSingleMessage_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardSingleMessage*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_ForwardSingleMessage_System_String_System_String_System_String_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardSingleMessage(System.String,System.String,System.String,System.Int32)">
+  ForwardSingleMessage(string, string, string, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>转发单条消息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ForwardSingleMessage(string who, string message, string to, int prevPageCount = 3)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>要转发的好友昵称</p>
+</dd>
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>要转发的消息内容</p>
+</dd>
+    <dt><code>to</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>要转发给谁</p>
+</dd>
+    <dt><code>prevPageCount</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>如果当前页找不到，往前翻页的次数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_ForwardSingleMessage_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardSingleMessage*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_ForwardSingleMessage_WeChatAuto_Models_ChatSimpleMessage_System_String_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardSingleMessage(WeChatAuto.Models.ChatSimpleMessage,System.String,System.Int32)">
+  ForwardSingleMessage(ChatSimpleMessage, string, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>转发单条消息
+流程：</p>
+<ol>
+<li>找到这一条消息,倒序找，这里注意一点，如果找不到消息，往前翻三页找不到，则不会转发此消息,日志显示错误，但不会报错.</li>
+<li>右键点击这一条消息</li>
+<li>找到菜单</li>
+<li>找到发送人</li>
+</ol>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ForwardSingleMessage(ChatSimpleMessage chatSimpleMessage, string to, int prevPageCount = 3)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>chatSimpleMessage</code> <a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a></dt>
+    <dd><p>要转发的消息<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a></p>
+</dd>
+    <dt><code>to</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>要转发给谁</p>
+</dd>
+    <dt><code>prevPageCount</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>如果当前页找不到，往前翻页的次数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_GetAllChatHistory_" data-uid="WeChatAuto.Components.MessageBubbleList.GetAllChatHistory*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_GetAllChatHistory_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.GetAllChatHistory(System.Int32)">
+  GetAllChatHistory(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取所有气泡标题列表
+注意：可能速度比较慢,但是信息比较全</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;ChatSimpleMessage&gt; GetAllChatHistory(int pageCount = 10)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>pageCount</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>获取的气泡数量，默认是10页,可以指定获取的页数，如果指定为-1，则获取所有气泡</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a>&gt;</dt>
+    <dd><p>所有气泡标题列表<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_GetChatType_" data-uid="WeChatAuto.Components.MessageBubbleList.GetChatType*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_GetChatType" data-uid="WeChatAuto.Components.MessageBubbleList.GetChatType">
+  GetChatType()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取聊天类型</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ChatType GetChatType()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeAutoCommon.Enums.ChatType.html">ChatType</a></dt>
+    <dd><p>聊天类型<a class="xref" href="WeAutoCommon.Enums.ChatType.html">ChatType</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_GetLastBubble_" data-uid="WeChatAuto.Components.MessageBubbleList.GetLastBubble*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_GetLastBubble" data-uid="WeChatAuto.Components.MessageBubbleList.GetLastBubble">
+  GetLastBubble()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取最后一个气泡</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public MessageBubble GetLastBubble()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeChatAuto.Components.MessageBubble.html">MessageBubble</a></dt>
+    <dd><p>最后一个气泡</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_GetVisibleBubbles_" data-uid="WeChatAuto.Components.MessageBubbleList.GetVisibleBubbles*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_GetVisibleBubbles" data-uid="WeChatAuto.Components.MessageBubbleList.GetVisibleBubbles">
+  GetVisibleBubbles()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取气泡列表,不包括系统消息
+注意：可能速度比较慢,但是信息比较全</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;MessageBubble&gt; GetVisibleBubbles()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Components.MessageBubble.html">MessageBubble</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_GetVisibleBubblesByPolling_" data-uid="WeChatAuto.Components.MessageBubbleList.GetVisibleBubblesByPolling*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_GetVisibleBubblesByPolling_WeAutoCommon_Utils_UIThreadInvoker_" data-uid="WeChatAuto.Components.MessageBubbleList.GetVisibleBubblesByPolling(WeAutoCommon.Utils.UIThreadInvoker)">
+  GetVisibleBubblesByPolling(UIThreadInvoker)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;MessageBubble&gt; GetVisibleBubblesByPolling(UIThreadInvoker privateThreadInvoker)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>privateThreadInvoker</code> <a class="xref" href="WeAutoCommon.Utils.UIThreadInvoker.html">UIThreadInvoker</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Components.MessageBubble.html">MessageBubble</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_GetVisibleChatSimpleMessages_" data-uid="WeChatAuto.Components.MessageBubbleList.GetVisibleChatSimpleMessages*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_GetVisibleChatSimpleMessages" data-uid="WeChatAuto.Components.MessageBubbleList.GetVisibleChatSimpleMessages">
+  GetVisibleChatSimpleMessages()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取可见气泡列表,仅返回气泡标题</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;ChatSimpleMessage&gt; GetVisibleChatSimpleMessages()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a>&gt;</dt>
+    <dd><p>可见气泡列表,仅返回气泡标题</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_GetVisibleNativeBubbles_" data-uid="WeChatAuto.Components.MessageBubbleList.GetVisibleNativeBubbles*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_GetVisibleNativeBubbles" data-uid="WeChatAuto.Components.MessageBubbleList.GetVisibleNativeBubbles">
+  GetVisibleNativeBubbles()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取气泡列表,包括系统消息
+注意：速度比较慢，但是信息比较全</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;MessageBubble&gt; GetVisibleNativeBubbles()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Components.MessageBubble.html">MessageBubble</a>&gt;</dt>
+    <dd><p>气泡列表<a class="xref" href="WeChatAuto.Components.MessageBubble.html">MessageBubble</a></p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_GetVisibleNativeBubblesByPolling_" data-uid="WeChatAuto.Components.MessageBubbleList.GetVisibleNativeBubblesByPolling*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_GetVisibleNativeBubblesByPolling_WeAutoCommon_Utils_UIThreadInvoker_" data-uid="WeChatAuto.Components.MessageBubbleList.GetVisibleNativeBubblesByPolling(WeAutoCommon.Utils.UIThreadInvoker)">
+  GetVisibleNativeBubblesByPolling(UIThreadInvoker)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;MessageBubble&gt; GetVisibleNativeBubblesByPolling(UIThreadInvoker privateThreadInvoker)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>privateThreadInvoker</code> <a class="xref" href="WeAutoCommon.Utils.UIThreadInvoker.html">UIThreadInvoker</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Components.MessageBubble.html">MessageBubble</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_IsLoadingMore_" data-uid="WeChatAuto.Components.MessageBubbleList.IsLoadingMore*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_IsLoadingMore" data-uid="WeChatAuto.Components.MessageBubbleList.IsLoadingMore">
+  IsLoadingMore()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>是否有加载更多按钮</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsLoadingMore()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否有加载更多按钮</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_LoadMore_" data-uid="WeChatAuto.Components.MessageBubbleList.LoadMore*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_LoadMore" data-uid="WeChatAuto.Components.MessageBubbleList.LoadMore">
+  LoadMore()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>加载更多</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void LoadMore()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_ReferencedMessage_" data-uid="WeChatAuto.Components.MessageBubbleList.ReferencedMessage*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_ReferencedMessage_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.ReferencedMessage(System.Int32)">
+  ReferencedMessage(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>引用最后一条消息
+注意，只能引用有的消息，不会翻页，如果消息不在当前页，则不会引用</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ReferencedMessage(int lastRowIndex)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>lastRowIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>最后一条消息的索引</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_ReferencedMessage_" data-uid="WeChatAuto.Components.MessageBubbleList.ReferencedMessage*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_ReferencedMessage_System_String_System_String_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.ReferencedMessage(System.String,System.String,System.Int32)">
+  ReferencedMessage(string, string, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>引用消息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ReferencedMessage(string who, string message, int prevPageCount = 3)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>要引用的好友昵称</p>
+</dd>
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>要引用的消息内容</p>
+</dd>
+    <dt><code>prevPageCount</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>如果当前页找不到，往前翻页的次数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_ReferencedMessage_" data-uid="WeChatAuto.Components.MessageBubbleList.ReferencedMessage*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_ReferencedMessage_WeChatAuto_Models_ChatSimpleMessage_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.ReferencedMessage(WeChatAuto.Models.ChatSimpleMessage,System.Int32)">
+  ReferencedMessage(ChatSimpleMessage, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>引用消息</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void ReferencedMessage(ChatSimpleMessage chatSimpleMessage, int prevPageCount = 3)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>chatSimpleMessage</code> <a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a></dt>
+    <dd><p>要引用的消息<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a></p>
+</dd>
+    <dt><code>prevPageCount</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>如果当前页找不到，往前翻页的次数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList_TapWho_" data-uid="WeChatAuto.Components.MessageBubbleList.TapWho*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_TapWho_System_String_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.TapWho(System.String,System.Int32)">
+  TapWho(string, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>拍一拍
+注意：此动作仅适用于群聊中,并且只能拍别人，不适用于单聊</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void TapWho(string who, int prevPageCount = 3)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>要拍一拍的好友昵称</p>
+</dd>
+    <dt><code>prevPageCount</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>如果当前页找不到，往前翻页的次数</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList__ClickAutomationMessageEnhance_" data-uid="WeChatAuto.Components.MessageBubbleList._ClickAutomationMessageEnhance*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList__ClickAutomationMessageEnhance_FlaUI_Core_AutomationElements_CheckBox_" data-uid="WeChatAuto.Components.MessageBubbleList._ClickAutomationMessageEnhance(FlaUI.Core.AutomationElements.CheckBox)">
+  _ClickAutomationMessageEnhance(CheckBox)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void _ClickAutomationMessageEnhance(CheckBox element)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">CheckBox</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_Components_MessageBubbleList__RightClickAutomationMessageEnhance_" data-uid="WeChatAuto.Components.MessageBubbleList._RightClickAutomationMessageEnhance*"></a>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList__RightClickAutomationMessageEnhance_FlaUI_Core_AutomationElements_ListBoxItem_FlaUI_Core_AutomationElements_Window_FlaUI_Core_AutomationElements_AutomationElement_" data-uid="WeChatAuto.Components.MessageBubbleList._RightClickAutomationMessageEnhance(FlaUI.Core.AutomationElements.ListBoxItem,FlaUI.Core.AutomationElements.Window,FlaUI.Core.AutomationElements.AutomationElement)">
+  _RightClickAutomationMessageEnhance(ListBoxItem, Window, AutomationElement)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>自动化右键单击增强
+最主要修复窗口中长消息无法右键的问题</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void _RightClickAutomationMessageEnhance(ListBoxItem element, Window window, AutomationElement parentElement)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">ListBoxItem</span></dt>
+    <dd></dd>
+    <dt><code>window</code> <span class="xref">Window</span></dt>
+    <dd></dd>
+    <dt><code>parentElement</code> <span class="xref">AutomationElement</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto/Components/MessageBubbleList.cs" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://github.com/scottfly189">Alex Zhao</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
