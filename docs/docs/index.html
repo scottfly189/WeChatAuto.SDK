@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>WECHATAUTO.SDK - 面向AI的现代化微信自动化框架 | WeChatAuto.SDK </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="WECHATAUTO.SDK - 面向AI的现代化微信自动化框架 | WeChatAuto.SDK ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../images/logo.png" alt="WECHATAUTO.SDK">
+            WECHATAUTO.SDK
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+<h1 id="wechatautosdk---面向ai的现代化微信自动化框架">WECHATAUTO.SDK - 面向AI的现代化微信自动化框架</h1>
+
+<p><a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-4.8%20%7C%206.0%2B-blue" alt=".NET"></a>
+<a href="LICENSE.html"><img src="https://img.shields.io/badge/license-MIT-green" alt="License"></a></p>
+<p>WeChatAuto.SDK 是一款面向 AI 的微信 PC 客户端自动化 SDK，基于 .NET 与 UI 自动化技术开发。它支持消息收发、转发、群聊与好友管理、朋友圈操作等多种功能，并专为集成人工智能（如 LLM 上下文交互）场景设计。SDK 提供丰富直观的 API，支持 .NET 现代化特性，比如依赖注入，让你轻松将自定义对象集成进自动化流程。</p>
+<h2 id="-特性">✨ 特性</h2>
+<ul>
+<li>💬 <strong>消息操作</strong> - 发送文字、表情、文件，支持 @ 提醒,转发消息等</li>
+<li>👥 <strong>群聊管理</strong> - 创建群聊、添加/移除成员、更新群公告等</li>
+<li>📱 <strong>朋友圈操作</strong> - 点赞、评论、监听朋友圈动态</li>
+<li>📋 <strong>通讯录管理</strong> - 自动添加好友、管理联系人、处理新好友请求</li>
+<li>👂 <strong>事件监听</strong> - 消息监听(提供LLM上下文)、朋友圈监听、新好友监听等</li>
+<li>🛡️ <strong>降低风控</strong> - 同时支持纯软件自动化以及结合硬件键鼠模拟器的自动化操作，满足不同业务需求和安全等级场景下的使用选择。</li>
+<li>🔧 <strong>易于集成</strong> - 支持依赖注入，可轻松集成到现有项目</li>
+<li>🚀 <strong>多微信实例支持</strong> - 同时管理多个微信客户端实例</li>
+<li>😊 <strong>AI 友好集成</strong> - 原生支持 LLM 上下文对接并提供 MCP Server，便于对接主流智能体与平台（如 MEAI、SK、MAF），助力智能应用高效闭环与创新集成</li>
+</ul>
+<h2 id="-系统要求">📋 系统要求</h2>
+<ul>
+<li>Windows 操作系统</li>
+<li>.NET Framework 4.8+ 或 .NET 6.0+ (Windows)，支持.NET的框架有:net48;net481;net6.0-windows; net7.0-windows;net8.0-windows;net9.0-windows;net10.0-windows;</li>
+<li>微信 PC 客户端已安装并运行,本 SDK 基于微信 PC 客户端(版本号:3.9.12.55)的 UI 结构开发，不同版本可能存在兼容性问题。</li>
+</ul>
+<h2 id="-快速开始">🚀 快速开始</h2>
+<h3 id="安装">安装</h3>
+<p>通过 NuGet 安装：</p>
+<pre><code class="lang-bash">dotnet add package WeChatAuto.SDK
+</code></pre>
+<h3 id="基本使用">基本使用</h3>
+<h4 id="示例一---给好友或群聊昵称发送消息">示例一 - 给好友（或群聊昵称）发送消息：</h4>
+<ul>
+<li>步骤一：新建项目，如下所示:</li>
+</ul>
+<pre><code>dotnet new console -n demo01
+</code></pre>
+<ul>
+<li>步骤二：将demo01.csproj项目文件的net10.0<strong>修改</strong>成net10.0-windows,如下所示:</li>
+</ul>
+<pre><code>  &lt;PropertyGroup&gt;
+    &lt;OutputType&gt;Exe&lt;/OutputType&gt;
+    &lt;TargetFramework&gt;net10.0-windows&lt;/TargetFramework&gt;
+    &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;
+    &lt;Nullable&gt;enable&lt;/Nullable&gt;
+  &lt;/PropertyGroup&gt;
+</code></pre>
+<ul>
+<li>步骤三：安装依赖</li>
+</ul>
+<pre><code>dotnet add package WeChatAuto.SdK
+dotnet add package Microsoft.Extensions.DependencyInjection
+</code></pre>
+<ul>
+<li>步骤四：项目demo01的Program.cs修改成如下：</li>
+</ul>
+<pre><code class="lang-csharp">using Microsoft.Extensions.DependencyInjection;
+using WeChatAuto.Components;
+using WeChatAuto.Services;
+
+// 初始化WeAutomation服务
+var serviceProvider = WeAutomation.Initialize(options =&gt;
+{
+    options.DebugMode = true;   //开启调试模式，调试模式会在获得焦点时边框高亮，生产环境建议关闭
+    //options.EnableRecordVideo = true;  //开启录制视频功能，录制的视频会保存在项目的运行目录下的Videos文件夹中
+});
+
+using var clientFactory = serviceProvider.GetRequiredService&lt;WeChatClientFactory&gt;();
+Console.WriteLine($&quot;当前客户端打开的微信客户端为：{string.Join(&quot;,&quot;, clientFactory.GetWeChatClientNames())}，共计{clientFactory.GetWeChatClientNames().Count}个微信客户端。&quot;);
+//获取当前打开的微信客户端名称列表
+var clentNames = clientFactory.GetWeChatClientNames();    
+//获取第一个微信客户端
+var wxClient = clientFactory.GetWeChatClient(clentNames.First());  
+ //通过微信客户端发送消息给好友昵称AI.Net，测试时请把AI.Net修改成自己的好友昵称
+wxClient?.SendWho(&quot;AI.Net&quot;,&quot;你好，欢迎使用AI.Net微信自动化框架！&quot;); 
+</code></pre>
+<blockquote>
+<p><strong>注意</strong>：</p>
+<ol>
+<li>本项目仅支持 Windows 系统，请务必将项目文件的 TargetFramework 设置为 netxx.0-windows（如 net10.0-windows），否则编译时会出现警告。后续不再赘述。</li>
+<li>如果是手动管理WeChatClientFactory,请在应用结束时运行clientFactory.Dispose(),或者象示例一一样将代码放入using块自动释放,如果把WeChatAuto.SDK加入您的库的依赖注入容器，则不存在此问题。</li>
+<li>WeAutomation.Initialize()方法有两个重载，分别适用于：加入外部依赖注入与使用内部依赖注入。</li>
+</ol>
+</blockquote>
+<h4 id="示例二---演示监听好友或者群聊昵称的消息使用消息上下文获取消息并回复并且还演示了如何通过依赖注入获取消息上下文的注入对象执行自己的业务逻辑">示例二 - 演示监听好友（或者群聊昵称）的消息,使用消息上下文获取消息并回复,并且还演示了如何通过依赖注入获取消息上下文的注入对象,执行自己的业务逻辑：</h4>
+<ul>
+<li>前置步骤：安装依赖</li>
+</ul>
+<pre><code>dotnet add package WeChatAuto.SdK
+dotnet add package Microsoft.Extensions.Hosting
+</code></pre>
+<ul>
+<li>将项目demo02的Program.cs修改成如下</li>
+</ul>
+<pre><code class="lang-csharp">using Microsoft.Extensions.Hosting;
+using WeChatAuto.Services;
+using WeChatAuto.Components;
+using Microsoft.Extensions.DependencyInjection;
+using FlaUI.Core.Logging;
+using System.Diagnostics;
+using Microsoft.Extensions.Logging;
+
+var builder = Host.CreateApplicationBuilder(args);
+
+WeAutomation.Initialize(builder.Services, options =&gt;
+{
+    //开启调试模式，调试模式会在获得焦点时边框高亮，生产环境建议关闭
+    options.DebugMode = true;
+    //开启录制视频功能，录制的视频会保存在项目的运行目录下的Videos文件夹中
+    //options.EnableRecordVideo = true;  
+});
+
+//这里注入自已的服务（或者对象），如LLM服务等
+builder.Services.AddSingleton&lt;LLMService&gt;();
+
+var serviceProvider = builder.Services.BuildServiceProvider();
+var clientFactory = serviceProvider.GetRequiredService&lt;WeChatClientFactory&gt;();
+// 得到名称为&quot;Alex&quot;的微信客户端实例，测试时请将AI.net替换为你自己的微信昵称
+var client = clientFactory.GetWeChatClient(&quot;Alex&quot;);
+await client.AddMessageListener(&quot;测试11&quot;, (messageContext) =&gt;
+{
+    var index = 0;
+    //显示收到的消息
+    foreach (var message in messageContext.NewMessages)
+    {
+        index++;
+        Console.WriteLine($&quot;收到消息：{index}：{message.ToString()}&quot;);
+        Console.WriteLine($&quot;收到消息：{index}：{message.Who}：{message.MessageContent}&quot;);
+    }
+    var allMessages = messageContext.AllMessages.Skip(messageContext.AllMessages.Count - 10).ToList();
+    index = 0;
+    //显示所有消息的后十条
+    foreach (var message in allMessages)
+    {
+        index++;
+        Console.WriteLine($&quot;...收到所有消息的前10条之第{index}条：{message.Who}：{message.MessageContent}&quot;);
+        Console.WriteLine($&quot;.................详细之第{index}条：{message.ToString()}&quot;);
+    }
+    //是否有人@我
+    if (messageContext.IsBeAt())
+    {
+        var messageBubble = messageContext.MessageBubbleIsBeAt().FirstOrDefault();
+        if (messageBubble != null)
+        {
+            messageContext.SendMessage(&quot;我被@了！！！！我马上就回复你！！！！&quot;, new List&lt;string&gt; { messageBubble.Who });
+        }
+        else
+        {
+            messageContext.SendMessage(&quot;我被@了！！！！我马上就回复你！！！！&quot;);
+        }
+    }
+    //是否有人引用了我的消息
+    if (messageContext.IsBeReferenced())
+    {
+        messageContext.SendMessage(&quot;我被引用了！！！！&quot;);
+    }
+    //是否有人拍了拍我
+    if (messageContext.IsBeTap())
+    {
+        messageContext.SendMessage(&quot;我被拍一拍了[微笑]！！！！&quot;);
+    }
+    if (!messageContext.IsBeAt() &amp;&amp; !messageContext.IsBeReferenced() &amp;&amp; !messageContext.IsBeTap())
+    {
+        //回复消息，这里可以引入大模型自动回复
+        messageContext.SendMessage($&quot;我收到了{messageContext.NewMessages.FirstOrDefault()?.Who}的消息：{messageContext.NewMessages.FirstOrDefault()?.MessageContent}&quot;);
+    }
+    //可以通过注入的服务容器获取你注入的服务实例，然后调用你的业务逻辑,一般都是LLM的自动回复逻辑
+    var llmService = messageContext.ServiceProvider.GetRequiredService&lt;LLMService&gt;();
+    llmService.DoSomething();
+});
+
+
+var app = builder.Build();
+await app.RunAsync();
+
+/// &lt;summary&gt;
+/// 一个包含LLM服务的Service类，用于注入到依赖注入容器.
+/// &lt;/summary&gt;
+public class LLMService
+{
+    private ILogger&lt;LLMService&gt; _logger;
+    public LLMService(ILogger&lt;LLMService&gt; logger)
+    {
+        _logger = logger;
+    }
+
+    public void DoSomething()
+    {
+        _logger.LogInformation(&quot;这里是你注入的服务实例，可以在这里编写你的业务逻辑  &quot;);
+    }
+}
+
+</code></pre>
+<blockquote>
+<p>前置步骤跟Demo01一致,可以通过messageContext对象执行各种操作,也可以通过messageContext对象获得依赖注入容器，获取自己的对象，执行自己的业务逻辑;</p>
+</blockquote>
+<h4 id="示例三---mcp-server的使用---以vscode为例讲解">示例三 - MCP Server的使用 - 以vscode为例讲解</h4>
+<ul>
+<li>进入源码的.vscode\mcp.json,修改配置如下:</li>
+</ul>
+<pre><code>{
+	&quot;servers&quot;: {
+		&quot;wechat_mcp_server&quot;: {
+			&quot;type&quot;: &quot;stdio&quot;,
+			&quot;command&quot;: &quot;dotnet&quot;,
+			&quot;args&quot;: [
+				&quot;run&quot;,
+                &quot;--project&quot;,
+                &quot;改成你的WeChatAuto.MCP.csproj的路径&quot;
+			]
+		}
+	}
+}
+</code></pre>
+<ul>
+<li>在mcp.json页面点击&quot;Start&quot;按钮启动mcp server</li>
+<li>启动GitHub Copilot Chat,在Chat页提问: 请帮我给微信好友:AI.Net发送消息：Hello world!</li>
+</ul>
+<h2 id="-架构概览">⚙️ 架构概览</h2>
+<h3 id="-wechatautosdk-架构图">🚀 WeChatAuto.SDK 架构图</h3>
+<blockquote>
+<p>敬请关注后续更新，目前最主要提供了微信聊天的自动化，后期会提供对腾迅会议、微信公众号/订阅号等的自动化与MCP Server,如果您有什么建议，也可以跟我提。</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/Images/article.png" alt="WeChatAuto.SDK架构图"></p>
+<h3 id="-主要类与关系">🚀 主要类与关系</h3>
+<blockquote>
+<p>WeChatAuto.SDK 采用 POM（页面对象模型）设计思想，针对微信的各类操作场景提供了清晰、模块化的对象抽象，大幅提升了自动化脚本的可读性与可维护性。</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/Images/class.png" alt="WeChatAuto.SDK 主要类关系示意"></p>
+<h3 id="-开发计划">⛷️ 开发计划</h3>
+<table>
+<thead>
+<tr>
+<th>类别</th>
+<th>功能</th>
+<th>完成度</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>消息管理</td>
+<td>发送文字消息</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>消息管理</td>
+<td>发送文件</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>消息管理</td>
+<td>发送自定义表情包</td>
+<td>✅</td>
+<td>可按表情包索引、名称或者描述发送</td>
+</tr>
+<tr>
+<td>消息管理</td>
+<td>引用消息</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>消息管理</td>
+<td>发送语音聊天/语音会议</td>
+<td>✅</td>
+<td>适用于单个好友与群聊</td>
+</tr>
+<tr>
+<td>消息管理</td>
+<td>发送视频聊天</td>
+<td>✅</td>
+<td>适用于单个好友</td>
+</tr>
+<tr>
+<td>消息管理</td>
+<td>发起直播</td>
+<td>✅</td>
+<td>适用于群聊</td>
+</tr>
+<tr>
+<td>消息管理</td>
+<td>@群好友</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>消息管理</td>
+<td>@所有人</td>
+<td>✅</td>
+<td>适用于自有群管理</td>
+</tr>
+<tr>
+<td>消息管理</td>
+<td>合并转发</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>消息管理</td>
+<td>获取消息</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>消息管理</td>
+<td>监听消息</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>消息管理</td>
+<td>引用时@</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>消息管理</td>
+<td>通过消息添加好友</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>消息管理</td>
+<td>通过消息获取详情</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>消息管理</td>
+<td>获取卡片消息链接</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>消息管理</td>
+<td>子窗口（好友/群）守护</td>
+<td>✅</td>
+<td>误关闭子窗口重新打开</td>
+</tr>
+<tr>
+<td>通讯录管理</td>
+<td>获取好友列表</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>通讯录管理</td>
+<td>发送好友请求</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>通讯录管理</td>
+<td>接受好友请求</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>通讯录管理</td>
+<td>删除好友</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>通讯录管理</td>
+<td>监听好友请求</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>通讯录管理</td>
+<td>监听好友请求，并自动通过</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>通讯通讯录管理</td>
+<td>监听好友请求，并仅通过指定关键词的好友，自动加备注、标签</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>通讯管理</td>
+<td>修改备注</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>通讯管理</td>
+<td>增加标签</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>群管理</td>
+<td>新建群</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>群管理</td>
+<td>邀请入群</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>群管理</td>
+<td>修改群名</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>群管理</td>
+<td>修改群备注</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>群管理</td>
+<td>修改群公告</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>群管理</td>
+<td>修改我在本群昵称</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>群管理</td>
+<td>消息免打扰</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>群管理</td>
+<td>获取群列表</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>朋友圈</td>
+<td>获取朋友圈内容</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>朋友圈</td>
+<td>下载朋友圈图片</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>朋友圈</td>
+<td>点赞朋友圈</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>朋友圈</td>
+<td>自动评论朋友圈</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>MCP</td>
+<td>MCP Server</td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td>企业客服</td>
+<td>自动根据企业知识库回答客户问题</td>
+<td>❌</td>
+<td>根据公司知识库回答问题</td>
+</tr>
+<tr>
+<td>企业督办</td>
+<td>企业客户群提出问题的督办</td>
+<td>❌</td>
+<td>企业客服的各种督办场景</td>
+</tr>
+<tr>
+<td>腾迅会议</td>
+<td>自动安排腾迅会议</td>
+<td>❌</td>
+<td>对腾迅会议的自动化</td>
+</tr>
+<tr>
+<td>公众号/订阅号</td>
+<td>自动发布公众号/订阅号文章</td>
+<td>❌</td>
+<td>对公众号/订阅号的自动化</td>
+</tr>
+<tr>
+<td>效率</td>
+<td>计划任务</td>
+<td>❌</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>持续迭代优化核心功能，提升稳定性与兼容性</li>
+<li>推出更丰富的自动化操作场景，满足多样化业务需求</li>
+<li>完善开发文档与示例，提高使用与扩展的便捷性</li>
+<li>社区需求优先，欢迎反馈建议</li>
+</ul>
+<h2 id="-注意事项">⚠️ 注意事项</h2>
+<ol>
+<li><p><strong>风控风险</strong>：频繁操作可能触发微信风控机制，建议：</p>
+<ul>
+<li>使用键鼠模拟器降低风险</li>
+<li>控制操作频率</li>
+<li>避免短时间内大量操作</li>
+</ul>
+</li>
+<li><p><strong>微信版本</strong>：本 SDK 基于微信 PC 客户端(版本号:3.9.12.55)的 UI 结构开发，不同版本可能存在兼容性问题。</p>
+</li>
+<li><p><strong>多实例支持</strong>：支持同时管理多个微信客户端，通过微信昵称区分不同实例。</p>
+</li>
+</ol>
+<h2 id="-关于键鼠模拟器">🎈 关于键鼠模拟器</h2>
+<p>键鼠模拟器是一类专门的硬件设备，能够模拟物理键盘和鼠标的真实输入。相较于直接调用 PostMessage、SetInput 等 API 进行注入，这类传统软件方式往往会留下可被识别的痕迹，极易被微信等应用检测为自动化行为并引发风控。而键鼠模拟器通过硬件底层发送信号，模拟出的输入和人手操作无异，从而高度还原人类使用方式，在风控安全性和隐蔽性方面具备天然优势。</p>
+<p>实际测试表明，在微信某些高敏感操作场景（比如群聊内加好友）下，借助键鼠模拟器能有效降低被风控的概率。需要注意的是，即便是手动操作，部分极端高风险情况下也有可能触发风控。因此，强烈建议在高敏感度和易风控场景优先考虑且规范使用键鼠模拟器，以获得更稳定和安全的自动化体验。</p>
+<p>本 SDK 同时支持纯软件自动化以及结合硬件键鼠模拟器的自动化操作，满足不同业务需求和安全等级场景下的使用选择。</p>
+<p>关于键鼠模拟器更深度的了解，请参见：<a href="https://github.com/scottfly189/SKSimulator">键鼠模拟器</a></p>
+<h2 id="-关于微信4x">😂 关于微信4.X</h2>
+<p>微信4.x.x版本目前正在研发中，新方案基于机器视觉实现。不过，目前受限于机器视觉技术，对聊天记录的监控仍存在难度，暂不支持在生产环境中使用。如果你有更优的解决思路或建议，欢迎随时交流讨论！</p>
+<h2 id="-关于vip">😊 关于VIP</h2>
+<p>由于时间和精力有限，为了更好地投入研发和持续改进产品，本人目前仅为<strong>已购买VIP服务的客户</strong>提供优先和深入的技术支持。这样做，是希望通过区分服务对象，专注为VIP客户带来更高品质、更有保障的体验。当然，广大普通用户依然欢迎通过 Issue 反馈和交流，只是服务响应的优先级和深度会有所不同。</p>
+<p><strong>🎉 VIP 客户可享受以下专属服务保障：</strong></p>
+<ul>
+<li>💡 <strong>BUG 优先响应</strong>：出现 Bug 时，第一时间定位和解决，保障 VIP 项目的稳定运行。</li>
+<li>📚 <strong>完整开发文档</strong>：提供详细、及时更新的 API 开发文档，助力集成与开发效率。</li>
+<li>🎬 <strong>系统教学视频</strong>：涵盖入门到进阶的全流程教学视频，帮助用户高效掌握 SDK。</li>
+<li>👥 <strong>VIP 技术交流群</strong>：专属 VIP 交流群，优先、及时解答问题，实时高效支持。</li>
+<li>🚀 <strong>专属 VIP 私有仓库</strong>：VIP 客户将获专属私有仓库，会不定期提供丰富的应用层扩展与独享内容。</li>
+</ul>
+<p><strong>😊 非 VIP 客户：</strong></p>
+<p>WeChatAuto.SDK的非VIP与VIP的核心代码层面完全一致，非VIP没有任何功能与代码层面的限制，同样欢迎非VIP通过 Issue 提问或反馈问题，我会在时间允许情况下进行处理，但响应和解决可能会有延迟，敬请谅解。</p>
+<p>如需升级成为 VIP，或了解 VIP 具体权益和支持方案，请与我联系。感谢理解与支持，让我有更多精力专注于技术创新与完善！</p>
+<h2 id="-许可证">📝 许可证</h2>
+<p>本项目采用 MIT 许可证。详见 <a href="LICENSE.html">LICENSE</a> 文件。</p>
+<h2 id="-贡献">🤝 贡献</h2>
+<p>欢迎提交 Issue 和 Pull Request！</p>
+<h2 id="-致谢">🙏 致谢</h2>
+<p>特别感谢我的妻子，虽然她并不完全了解我在做什么，也未曾因之获利，但她始终无条件地支持和信任我。</p>
+<hr>
+<p><strong>免责声明</strong>：
+本 SDK 仅供学习和研究使用，请遵守微信使用条款，不得用于任何违法违规用途。使用本 SDK 产生的任何后果由使用者自行承担。</p>
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://github.com/scottfly189">Alex Zhao</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

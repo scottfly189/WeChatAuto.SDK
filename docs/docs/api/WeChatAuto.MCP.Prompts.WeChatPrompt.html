@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title>Class WeChatPrompt | WeChatAuto.SDK </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content="Class WeChatPrompt | WeChatAuto.SDK ">
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <link rel="stylesheet" href="../../public/docfx.min.css">
+      <link rel="stylesheet" href="../../public/main.css">
+      <meta name="docfx:navrel" content="">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../../index.html">
+            <img id="logo" class="svg" src="../../images/logo.png" alt="WECHATAUTO.SDK">
+            WECHATAUTO.SDK
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt">
+
+
+
+  <h1 id="WeChatAuto_MCP_Prompts_WeChatPrompt" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt" class="text-break">
+Class WeChatPrompt  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto.MCP/Prompts/WeChatPrompt.cs"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="WeChatAuto.html">WeChatAuto</a>.<a class="xref" href="WeChatAuto.MCP.html">MCP</a>.<a class="xref" href="WeChatAuto.MCP.Prompts.html">Prompts</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>WeChatAuto.MCP.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[McpServerPromptType]
+public sealed class WeChatPrompt</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">WeChatPrompt</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+  </dd></dl>
+
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="WeAutoCommon.Models.FunctionalExtensions.html#WeAutoCommon_Models_FunctionalExtensions_ToMaybe__1___0_">FunctionalExtensions.ToMaybe&lt;T&gt;(T)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
+  <a id="WeChatAuto_MCP_Prompts_WeChatPrompt__ctor_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.#ctor*"></a>
+
+  <h3 id="WeChatAuto_MCP_Prompts_WeChatPrompt__ctor" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.#ctor">
+  WeChatPrompt()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto.MCP/Prompts/WeChatPrompt.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public WeChatPrompt()</code></pre>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
+  <a id="WeChatAuto_MCP_Prompts_WeChatPrompt_ClearChatGroupHistoryPrompt_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.ClearChatGroupHistoryPrompt*"></a>
+
+  <h3 id="WeChatAuto_MCP_Prompts_WeChatPrompt_ClearChatGroupHistoryPrompt_System_String_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.ClearChatGroupHistoryPrompt(System.String)">
+  ClearChatGroupHistoryPrompt(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto.MCP/Prompts/WeChatPrompt.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>删除聊天记录</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[McpServerPrompt]
+public static string ClearChatGroupHistoryPrompt(string groupName)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_MCP_Prompts_WeChatPrompt_ForwardMessagePrompt_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.ForwardMessagePrompt*"></a>
+
+  <h3 id="WeChatAuto_MCP_Prompts_WeChatPrompt_ForwardMessagePrompt_System_String_System_String_System_Int32_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.ForwardMessagePrompt(System.String,System.String,System.Int32)">
+  ForwardMessagePrompt(string, string, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto.MCP/Prompts/WeChatPrompt.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>转发消息,默认转发5行消息，可以指定转发行数</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[McpServerPrompt]
+public static string ForwardMessagePrompt(string fromWho, string toWho, int rowCount = 5)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>fromWho</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>toWho</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>rowCount</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_MCP_Prompts_WeChatPrompt_GetAllWeChatClientNamesPrompt_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.GetAllWeChatClientNamesPrompt*"></a>
+
+  <h3 id="WeChatAuto_MCP_Prompts_WeChatPrompt_GetAllWeChatClientNamesPrompt" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.GetAllWeChatClientNamesPrompt">
+  GetAllWeChatClientNamesPrompt()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto.MCP/Prompts/WeChatPrompt.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取本机打开的所有微信客户端名称的提示词</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[McpServerPrompt]
+public static string GetAllWeChatClientNamesPrompt()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_MCP_Prompts_WeChatPrompt_GetChatHistoryAndSummaryPrompt_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.GetChatHistoryAndSummaryPrompt*"></a>
+
+  <h3 id="WeChatAuto_MCP_Prompts_WeChatPrompt_GetChatHistoryAndSummaryPrompt_System_String_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.GetChatHistoryAndSummaryPrompt(System.String)">
+  GetChatHistoryAndSummaryPrompt(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto.MCP/Prompts/WeChatPrompt.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取指定好友或者群聊的聊天记录并进行摘要的提示词</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[McpServerPrompt]
+public static string GetChatHistoryAndSummaryPrompt(string who)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_MCP_Prompts_WeChatPrompt_GetChatHistoryPrompt_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.GetChatHistoryPrompt*"></a>
+
+  <h3 id="WeChatAuto_MCP_Prompts_WeChatPrompt_GetChatHistoryPrompt_System_String_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.GetChatHistoryPrompt(System.String)">
+  GetChatHistoryPrompt(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto.MCP/Prompts/WeChatPrompt.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取指定好友或者群聊的聊天记录的提示词</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[McpServerPrompt]
+public static string GetChatHistoryPrompt(string who)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_MCP_Prompts_WeChatPrompt_GetCurrentWeChatClientNamePrompt_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.GetCurrentWeChatClientNamePrompt*"></a>
+
+  <h3 id="WeChatAuto_MCP_Prompts_WeChatPrompt_GetCurrentWeChatClientNamePrompt" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.GetCurrentWeChatClientNamePrompt">
+  GetCurrentWeChatClientNamePrompt()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto.MCP/Prompts/WeChatPrompt.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取当前使用的微信客户端名称的提示词</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[McpServerPrompt]
+public static string GetCurrentWeChatClientNamePrompt()</code></pre>
+  </div>
+
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_MCP_Prompts_WeChatPrompt_PublishGroupChatNoticePrompt_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.PublishGroupChatNoticePrompt*"></a>
+
+  <h3 id="WeChatAuto_MCP_Prompts_WeChatPrompt_PublishGroupChatNoticePrompt_System_String_System_String_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.PublishGroupChatNoticePrompt(System.String,System.String)">
+  PublishGroupChatNoticePrompt(string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto.MCP/Prompts/WeChatPrompt.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>发布群聊公告</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[McpServerPrompt]
+public static string PublishGroupChatNoticePrompt(string groupName, string notice)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>notice</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_MCP_Prompts_WeChatPrompt_SendMessagePrompt_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.SendMessagePrompt*"></a>
+
+  <h3 id="WeChatAuto_MCP_Prompts_WeChatPrompt_SendMessagePrompt_System_String_System_String_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.SendMessagePrompt(System.String,System.String)">
+  SendMessagePrompt(string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto.MCP/Prompts/WeChatPrompt.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>发送消息给指定好友或者群聊的提示词</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[McpServerPrompt]
+public static string SendMessagePrompt(string who, string message)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_MCP_Prompts_WeChatPrompt_SendMessageWithAtUserPrompt_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.SendMessageWithAtUserPrompt*"></a>
+
+  <h3 id="WeChatAuto_MCP_Prompts_WeChatPrompt_SendMessageWithAtUserPrompt_System_String_System_String_System_String_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.SendMessageWithAtUserPrompt(System.String,System.String,System.String)">
+  SendMessageWithAtUserPrompt(string, string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto.MCP/Prompts/WeChatPrompt.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>发送消息给指定好友或者群聊，并@指定用户</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[McpServerPrompt]
+public static string SendMessageWithAtUserPrompt(string who, string message, string atUser)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>atUser</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_MCP_Prompts_WeChatPrompt_SendVideoChatPrompt_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.SendVideoChatPrompt*"></a>
+
+  <h3 id="WeChatAuto_MCP_Prompts_WeChatPrompt_SendVideoChatPrompt_System_String_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.SendVideoChatPrompt(System.String)">
+  SendVideoChatPrompt(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto.MCP/Prompts/WeChatPrompt.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>发起视频聊天,适用于单个好友</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[McpServerPrompt]
+public static string SendVideoChatPrompt(string who)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_MCP_Prompts_WeChatPrompt_SendVoiceChatsPrompt_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.SendVoiceChatsPrompt*"></a>
+
+  <h3 id="WeChatAuto_MCP_Prompts_WeChatPrompt_SendVoiceChatsPrompt_System_String_System_String___" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.SendVoiceChatsPrompt(System.String,System.String[])">
+  SendVoiceChatsPrompt(string, string[])
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto.MCP/Prompts/WeChatPrompt.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>发起语音聊天,适用于群聊中发起语音聊天，可以指定多个好友昵称</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[McpServerPrompt]
+public static string SendVoiceChatsPrompt(string groupName, string[] whos)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>groupName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>whos</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_MCP_Prompts_WeChatPrompt_SendWhosPrompt_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.SendWhosPrompt*"></a>
+
+  <h3 id="WeChatAuto_MCP_Prompts_WeChatPrompt_SendWhosPrompt_System_String___System_String_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.SendWhosPrompt(System.String[],System.String)">
+  SendWhosPrompt(string[], string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto.MCP/Prompts/WeChatPrompt.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>批量发送消息给指定多个好友或者群聊的提示词</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[McpServerPrompt]
+public static string SendWhosPrompt(string[] whos, string message)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>whos</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</dt>
+    <dd></dd>
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeChatAuto_MCP_Prompts_WeChatPrompt_SummaryChatHistoryAndSendMessagePrompt_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.SummaryChatHistoryAndSendMessagePrompt*"></a>
+
+  <h3 id="WeChatAuto_MCP_Prompts_WeChatPrompt_SummaryChatHistoryAndSendMessagePrompt_System_String_System_String_" data-uid="WeChatAuto.MCP.Prompts.WeChatPrompt.SummaryChatHistoryAndSendMessagePrompt(System.String,System.String)">
+  SummaryChatHistoryAndSendMessagePrompt(string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto.MCP/Prompts/WeChatPrompt.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>获取指定好友或者群聊的聊天记录并进行摘要，并发送给指定好友或者群聊的提示词</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[McpServerPrompt]
+public static string SummaryChatHistoryAndSendMessagePrompt(string getWho, string sendToWho)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>getWho</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>sendToWho</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+</article>
+
+        <div class="contribution d-print-none">
+          <a href="https://github.com/scottfly189/wxauto.net/blob/63226b16beec5c9d432dc36bdef1b8f8873a881d/WeChatAuto.MCP/Prompts/WeChatPrompt.cs" class="edit-link">Edit this page</a>
+        </div>
+
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://github.com/scottfly189">Alex Zhao</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
