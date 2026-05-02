@@ -5,7 +5,7 @@ VisualStudioVersion = 18.2.11415.280
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeChatAuto", "WeChatAuto\WeChatAuto.csproj", "{4B6E2057-BD42-4562-A519-E4FCB3B6AC14}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeAutoCommon", "WeAutoCommon\WeAutoCommon.csproj", "{81CD18E4-7EEE-49C5-8DD5-15F5EE947DCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeAutoCommon", "..\WeAutoCommon\WeAutoCommon.csproj", "{81CD18E4-7EEE-49C5-8DD5-15F5EE947DCA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeChatAuto.Tests", "WeChatAuto.Tests\WeChatAuto.Tests.csproj", "{38891B8D-5A0F-4C80-8260-D2EB3045DB35}"
 EndProject

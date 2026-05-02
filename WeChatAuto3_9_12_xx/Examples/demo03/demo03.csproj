@@ -12,8 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\weautocommon\weautocommon.csproj" />
+    <ProjectReference Include="..\..\..\weautocommon\weautocommon.csproj" />
     <ProjectReference Include="..\..\wechatauto\WeChatAuto.csproj" />
   </ItemGroup>
+
 
 </Project>
