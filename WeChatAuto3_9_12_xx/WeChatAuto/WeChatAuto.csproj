@@ -50,7 +50,7 @@
 
   <ItemGroup>
     <None Include="..\README.md" Pack="true" PackagePath="\"/>
-    <None Include="..\Images\icon.png" Pack="true" PackagePath="\"/>
+    <None Include="..\..\Images\icon.png" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
