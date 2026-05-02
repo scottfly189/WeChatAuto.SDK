@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+      <title> | WeChatAuto.SDK </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="title" content=" | WeChatAuto.SDK ">
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
+  </head>
+
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../Images/logo.png" alt="WECHATAUTO.SDK">
+            WECHATAUTO.SDK
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
+              </form>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
+        </div>
+
+        <article data-uid="">
+
+<h2 id="群聊管理">群聊管理</h2>
+<p>群聊管理仅适用于聊天室进行管理,可以实现获取群聊成员对象，自动加好友等操作</p>
+<blockquote>
+<p>可以通过<a href="../api/WeChatAuto.Components.WeChatClient.html">WeChatClient对象</a>调用下面方法,当然也可以通过<a href="../api/WeChatAuto.Components.WeChatMainWindow.html">WeChatMainWindow</a>类来调用。</p>
+</blockquote>
+<h2 id="基础术语">基础术语</h2>
+<ul>
+<li>自有群：自己担任群主的群聊</li>
+<li>外部群：他人为群主且自己为成员的群聊</li>
+</ul>
+<h2 id="获取群聊成员列表">获取群聊成员列表</h2>
+<p>方法签名:</p>
+<pre><code>public async Task&lt;List&lt;string&gt;&gt; GetChatGroupMemberList(string groupName)
+</code></pre>
+<p>其中:</p>
+<ul>
+<li>groupName: 聊天室昵称</li>
+<li>返回: <code>List&lt;string&gt;</code>: 聊天室所有成员的昵称列表</li>
+</ul>
+<h2 id="是否是群聊成员">是否是群聊成员</h2>
+<p>方法签名：</p>
+<pre><code>public async Task&lt;bool&gt; IsChatGroupMember(string groupName, string memberName)
+</code></pre>
+<p>其中：</p>
+<ul>
+<li>groupName: 群聊昵称</li>
+<li>memberName: 群聊成员</li>
+</ul>
+<p>返回： 指定的memberName是否在群聊成员列表中</p>
+<h2 id="测试群是否是自有群">测试群是否是自有群</h2>
+<p>方法签名:</p>
+<pre><code>public async Task&lt;bool&gt; IsOwnerChatGroup(string groupName)
+</code></pre>
+<p>如果自己是群主，则返回:True</p>
+<h2 id="获取群主">获取群主</h2>
+<p>方法签名:</p>
+<pre><code>public async Task&lt;string&gt; GetGroupOwner(string groupName)
+</code></pre>
+<p>返回群聊<code>groupName</code>的群主名称</p>
+<h2 id="清空群聊历史聊天记录">清空群聊历史聊天记录</h2>
+<p>方法签名:</p>
+<pre><code>public async Task ClearChatGroupHistory(string groupName)
+</code></pre>
+<p>其中：</p>
+<ul>
+<li>groupName: 群聊名称</li>
+</ul>
+<h2 id="退出群聊">退出群聊</h2>
+<p>方法签名:</p>
+<pre><code>public async Task QuitChatGroup(string groupName)
+</code></pre>
+<p>其中：</p>
+<ul>
+<li>groupName: 群聊名称</li>
+</ul>
+<h2 id="设置消息免打扰">设置消息免打扰</h2>
+<p>方法签名:</p>
+<pre><code>public ChatResponse SetMessageWithoutInterruption(string groupName, bool isMessageWithoutInterruption = true)
+</code></pre>
+<p>其中:</p>
+<ul>
+<li>groupName: 群聊名称</li>
+<li>isMessageWithoutInterruption: 是否消息免打扰,默认是True:消息免打扰,False:取消消息免打扰</li>
+</ul>
+<h2 id="保存到通讯录">保存到通讯录</h2>
+<p>方法签名:</p>
+<pre><code>public ChatResponse SetSaveToAddress(string groupName, bool isSaveToAddress = true)
+</code></pre>
+<p>其中：</p>
+<ul>
+<li>groupName: 群聊名称</li>
+<li>isSaveToAddress: 是否保存到通讯录,默认是True:保存,False:取消保存</li>
+</ul>
+<h2 id="设置聊天置顶">设置聊天置顶</h2>
+<p>方法签名:</p>
+<pre><code>public ChatResponse SetChatTop(string groupName, bool isTop = true)
+</code></pre>
+<p>其中：</p>
+<ul>
+<li>groupName: 群聊名称</li>
+<li>isTop: 是否置顶,默认是True:置顶,False:取消置顶</li>
+</ul>
+<h2 id="改变自有群群备注">改变自有群群备注</h2>
+<blockquote>
+<p>修改自有群备注（当然...我们也修改不了外部群的备注）</p>
+</blockquote>
+<p>方法签名:</p>
+<pre><code>public ChatResponse ChangeOwnerChatGroupMemo(string groupName, string newMemo)
+</code></pre>
+<p>其中:</p>
+<ul>
+<li>groupName: 群聊名称</li>
+<li>newMemo: 新备注</li>
+</ul>
+<p>返回: 请参考<a href="../api/WxAutoCommon.Models.ChatResponse.html">ChatResponse类</a></p>
+<h2 id="修改群名">修改群名</h2>
+<p>修改群名，适用于自有群群名</p>
+<p>方法签名:</p>
+<pre><code>public ChatResponse ChangeOwnerChatGroupName(string oldGroupName, string newGroupName)
+</code></pre>
+<p>其中:</p>
+<ul>
+<li>oldGroupName: 旧群名称</li>
+<li>newGroupName: 新群名称</li>
+</ul>
+<h2 id="更新群聊公告">更新群聊公告</h2>
+<p>更新群聊公告，仅适用于自有群的群聊公告更新</p>
+<p>方法签名:</p>
+<pre><code>public async Task&lt;ChatResponse&gt; UpdateGroupNotice(string groupName, string groupNotice)
+</code></pre>
+<p>其中:</p>
+<ul>
+<li>groupName: 群聊名称</li>
+<li>groupNotice: 群聊公告</li>
+</ul>
+<h2 id="创建群聊">创建群聊</h2>
+<p>创建群聊，如果存在，则打开它，如果群聊不存在，则创建一个新群聊</p>
+<p>方法签名:</p>
+<pre><code>public ChatResponse CreateOrUpdateOwnerChatGroup(string groupName, OneOf&lt;string, string[]&gt; memberName)
+</code></pre>
+<p>其中：</p>
+<ul>
+<li>groupName: 群聊名称</li>
+<li>memberName: 要拉入群聊的成员，即好友昵称列表</li>
+</ul>
+<h2 id="检查群聊是否存在">检查群聊是否存在</h2>
+<p>检查群聊或者好友是否存在
+方法签名:</p>
+<pre><code>public bool CheckFriendExist(string friendName, bool doubleClick = false)
+</code></pre>
+<p>其中：</p>
+<ul>
+<li>friendName: 好友昵称，也可以是群聊昵称</li>
+<li>doubleClick: 如果好友存在，是否在会话窗口中打开它，即：是否双击它打开子窗口</li>
+</ul>
+<h2 id="添加群聊成员">添加群聊成员</h2>
+<p>添加群聊成员,将好友拉到群中</p>
+<p>方法签名:</p>
+<pre><code>public async Task&lt;ChatResponse&gt; AddOwnerChatGroupMember(string groupName, OneOf&lt;string, string[]&gt; memberName)
+</code></pre>
+<p>其中：</p>
+<ul>
+<li>groupName: 群聊名称</li>
+<li>memberName: 可以是单个好友，也可以是一个好友昵称列表</li>
+</ul>
+<h2 id="删除群聊">删除群聊</h2>
+<blockquote>
+<p>删除群聊，适用于自有群,与退出群聊不同，退出群聊是退出群聊，删除群聊会删除自有群的所有好友，然后退出群聊</p>
+</blockquote>
+<pre><code>public async Task&lt;ChatResponse&gt; DeleteOwnerChatGroup(string groupName)
+</code></pre>
+<ul>
+<li>groupName: 群聊名称</li>
+</ul>
+<h2 id="移除群聊成员">移除群聊成员</h2>
+<p>移除群聊成员,适用于自有群</p>
+<pre><code>public async Task&lt;ChatResponse&gt; RemoveOwnerChatGroupMember(string groupName, OneOf&lt;string, string[]&gt; memberName)
+</code></pre>
+<p>其中:</p>
+<ul>
+<li>groupName: 群聊名称</li>
+<li>memberName: 成员名称</li>
+</ul>
+<h2 id="邀请群聊成员">邀请群聊成员</h2>
+<p>适用在外部群邀请好友入群</p>
+<p>方法定义:</p>
+<pre><code>public async Task&lt;ChatResponse&gt; InviteChatGroupMember(string groupName, OneOf&lt;string, string[]&gt; memberName, string helloText = &quot;&quot;)
+</code></pre>
+<p>其中：</p>
+<ul>
+<li>groupName: 群聊名称</li>
+<li>memberName: 成员名称</li>
+<li>helloText: 给群主打招呼的文本</li>
+</ul>
+<h2 id="群中加好友">群中加好友</h2>
+<p>添加群聊里面的指定好友为自己的好友,适用于从外部群中添加所有好友为自己的好友</p>
+<blockquote>
+<p>注意：此方法容易引起微信风控退出，为了安全建议用下面分页添加好友的方法： <a href="#%E7%BE%A4%E9%87%8C%E5%8A%A0%E5%A5%BD%E5%8F%8B%E4%BA%8C">分页添加好友</a></p>
+</blockquote>
+<p>方法定义:</p>
+<pre><code>public async Task&lt;ChatResponse&gt; AddChatGroupMemberToFriends(string groupName, OneOf&lt;string, string[]&gt; memberName, int intervalSecond = 5, string helloText = &quot;&quot;, string label = &quot;&quot;)
+</code></pre>
+<p>其中：</p>
+<ul>
+<li>groupName: 群聊名称</li>
+<li>memberName: 要添加的群里的好友列表,可以单个好友，也可以设置多个</li>
+<li>intervalSecond: 间隔时间，增加每个好友时的间隔时间</li>
+<li>helloText: 给要增加的好友打招呼的方式</li>
+<li>label: 好友标签，方便分类管理</li>
+</ul>
+<h2 id="群里加好友二">群里加好友二</h2>
+<p>添加群聊里面的所有好友为自己的好友,适用于从外部群中添加所有好友为自己的好友</p>
+<p>方法定义:</p>
+<pre><code>public async Task&lt;ChatResponse&gt; AddAllChatGroupMemberToFriends(string groupName, List&lt;string&gt; exceptList = null, int intervalSecond = 3,
+   string helloText = &quot;&quot;, string label = &quot;&quot;, int pageNo = 1, int pageSize = 15)
+</code></pre>
+<p>其中:</p>
+<ul>
+<li>groupName: 群聊名称</li>
+<li>exceptList: 可选，排除的好友列表，如：群主本来就在自己通讯录，可以设置排除</li>
+<li>intervalSecond: 间隔时间，添加每个好友时的间隔时间</li>
+<li>helloText: 给好友打招呼的方式</li>
+<li>label: 为新增好友设置的标签，方便分类管理</li>
+<li>pageNo: 起始页码,从1开始,如果从0开始，表示不使用分页，全部添加好友，但容易触发微信风控机制，建议使用分页添加</li>
+<li>pageSize: 每页数量,为添加的每页好友的数量</li>
+</ul>
+<h2 id="群里加好友三">群里加好友三</h2>
+<p>添加群聊里面的所有好友为自己的好友,适用于从外部群中添加所有好友为自己的好友</p>
+<blockquote>
+<p>注意：此方法容易触发微信风控机制，建议使用分页添加，并使用键鼠模拟器的方式添加好友。</p>
+</blockquote>
+<p>方法定义:</p>
+<pre><code>public async Task&lt;ChatResponse&gt; AddAllChatGroupMemberToFriends(string groupName, Action&lt;AddGroupMemberOptions&gt; options)
+</code></pre>
+<p>其中：</p>
+<ul>
+<li>groupName: 群聊名称</li>
+<li>options: 添加群聊成员为好友的选项,具体请参考:<a href="../api/WeChatAuto.Models.AddGroupMemberOptions.html">AddGroupMemberOptions类</a></li>
+</ul>
+
+</article>
+
+        <div class="contribution d-print-none">
+        </div>
+
+        <div class="next-article d-print-none border-top" id="nextArticle"></div>
+
+      </div>
+
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
+
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://github.com/scottfly189">Alex Zhao</a></span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
