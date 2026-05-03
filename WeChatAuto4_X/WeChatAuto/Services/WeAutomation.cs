@@ -6,6 +6,9 @@ using WeChatAuto.Extentions;
 using WeChatAuto.Utils;
 using System.Runtime.InteropServices;
 using System.Threading;
+using WeAutoCommon.Utils;
+using Microsoft.Win32;
+using System.Diagnostics;
 
 namespace WeChatAuto.Services
 {
@@ -57,6 +60,8 @@ namespace WeChatAuto.Services
             options?.Invoke(_config);
             DpiAwareness.SetProcessDpiAwareness();
 
+            UpdateNarrator(); //打开讲述人模式.
+
             RegisterServices(services);
 
             return services;
@@ -107,6 +112,24 @@ namespace WeChatAuto.Services
             _internalServices = new ServiceCollection();
             _internalServiceProvider = AddWxAutomationCore(_internalServices, options).BuildServiceProvider();
             return _internalServiceProvider;
+        }
+        /// <summary>
+        /// 打开讲述人模式.
+        /// </summary>
+        private static void UpdateNarrator()
+        {
+            try
+            {
+                var status = RegistryHelper.GetDword(RegistryHive.CurrentUser, @"Software\Microsoft\Narrator\NoRoam", "RunningState") ?? 0;
+                if (status == 0)
+                {
+                    RegistryHelper.SetDword(RegistryHive.CurrentUser, @"Software\Microsoft\Narrator\NoRoam", "RunningState", 1);
+                }
+            }
+            catch (Exception)
+            {
+                Trace.WriteLine("wechatauto.sdk想通过修改注册表来打开'讲述人'模式，但失败了，请手动打开'讲述人'模式....");
+            }
         }
 
     }

@@ -13,6 +13,7 @@ using FlaUI.UIA3;
 using WeAutoCommon.Models;
 using WeChatAuto.Extentions;
 using FlaUI.Core.Input;
+using Microsoft.Win32;
 
 namespace WeChatAuto.Components
 {
@@ -363,7 +364,6 @@ namespace WeChatAuto.Components
                         .And(cf.ByProcessId(topWindowProcessId)))).AsWindow(),
                         timeout: TimeSpan.FromSeconds(5),
                         interval: TimeSpan.FromMilliseconds(200)).Result;
-
         /// <summary>
         /// 释放资源
         /// </summary>

@@ -27,6 +27,7 @@ namespace WeChatAuto.Components
     /// </summary>
     public class WeChatClient : IDisposable
     {
+        private const string version= "4.1.9.30";
         private readonly AutoLogger<WeChatClient> _logger;
         private IServiceProvider serviceProvider;
         private volatile bool _disposed = false;
@@ -46,6 +47,15 @@ namespace WeChatAuto.Components
             this.Factory = factory;
             this.ClientProcessId = clientProcessId;
             _logger = provider.GetRequiredService<AutoLogger<WeChatClient>>();
+            CheckVersion();
+        }
+
+        private void CheckVersion()
+        {
+            if (WeAutomation.Config.WxVersion != version)
+            {
+                throw new Exception("错误：配置参数错误！请检查：1.微信客户端是否是最新版本,2.是否正确设置参数.");
+            }
         }
 
         #region 窗口管理
