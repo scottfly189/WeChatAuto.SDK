@@ -24,6 +24,17 @@ public class WeChatClientTests
         await Task.Delay(-1);  //阻塞测试，直到微信客户端退出
     }
 
+    [Fact(DisplayName = "测试微信客户端运行")]
+    public async Task TestAppRunning()
+    {
+        var framework = _globalFixture.clientFactory;
+        var client = framework.GetWeChatClient(_wxClientName);
+        Assert.True(client.AppRunning);
+        await Task.Delay(5000);
+    }
+
+
+
     [Fact(DisplayName = "测试屏幕截图")]
     public async Task TestCaptureUI()
     {
@@ -181,7 +192,7 @@ public class WeChatClientTests
     {
         var clientFactory = _globalFixture.clientFactory;
         var client = clientFactory.GetWeChatClient(_wxClientName);
-        await client.SendWho("AI.Net", "你好，\r\n世界1！",isOpenChat:true);
+        await client.SendWho("AI.Net", "你好，\r\n世界1！", isOpenChat: true);
         Assert.True(true);
         await Task.CompletedTask;
     }

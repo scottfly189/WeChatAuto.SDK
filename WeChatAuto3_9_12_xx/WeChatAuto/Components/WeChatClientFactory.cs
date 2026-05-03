@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Threading;
 using FlaUI.UIA3;
 using WeAutoCommon.Models;
+using WeChatAuto.Extentions;
+using FlaUI.Core.Input;
 
 namespace WeChatAuto.Components
 {
@@ -116,6 +118,7 @@ namespace WeChatAuto.Components
             UIThreadInvoker _uiTempThreadInvoker = new UIThreadInvoker("RefreshWxWindows");
             try
             {
+                DragVisibleIfWechatHidden(_uiTempThreadInvoker);
                 _uiTempThreadInvoker.Run(automation => _GetTaskBarRoot(automation)
                     .Bind(taskBarRoot => _GetToolBar(taskBarRoot))
                     .BindOrElse(toolBar => _GetNotifyButtons(toolBar), () => _GetNotifyButtonsVersion2(automation))
@@ -132,6 +135,64 @@ namespace WeChatAuto.Components
                 _uiTempThreadInvoker?.Dispose();
             }
         }
+
+        private void DragVisibleIfWechatHidden(UIThreadInvoker _uiTempThreadInvoker)
+        {
+            _uiTempThreadInvoker.Run(automation =>
+            {
+                //则点击倒三角按钮，如果存在，则拖动溢出区域到任务栏
+                var desktop = automation.GetDesktop();
+                var path = "/Pane/Pane/Button[@Name='通知 V 形']";
+                var button = desktop.FindFirstByXPath(path)?.AsButton();
+                if (button == null)
+                    return;
+                button.Click();
+                RandomWait.Wait(100, 300);
+                var root = button.GetParent().GetParent();
+                var overflowAreaRetry = Retry.WhileNull(() => desktop.FindFirstChild(cf =>
+                cf.ByControlType(ControlType.Pane).And(cf.ByName("通知溢出"))), timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
+                if (overflowAreaRetry.Success)
+                {
+                    var overflowArea = overflowAreaRetry.Result;
+                    var list = new List<AutomationElement>();
+                    var buttons = overflowArea.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).Where(u => u.Name == "微信");
+                    list.AddRange(buttons);
+                    buttons = overflowArea.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).Where(u => u.Name == "WeChat");
+                    list.AddRange(buttons);
+                    var statusBar = desktop.FindFirstByXPath("/Pane[@Name='任务栏']/Pane/Pane/ToolBar[@Name='用户提示通知区域']");
+                    if (statusBar != null)
+                    {
+                        if (list.Count > 0)
+                        {
+                            foreach (var item in list)
+                            {
+                                // 起点（比如图标）
+                                var source = item.BoundingRectangle.Center();
+
+                                // 终点（目标位置）
+                                var target = statusBar.BoundingRectangle.Center();
+
+                                // 1. 移动到起点
+                                Mouse.MoveTo(source);
+
+                                // 2. 按下鼠标
+                                Mouse.Down(MouseButton.Left);
+
+                                // 3. 平滑拖动（关键）
+                                Mouse.MoveTo(target);
+
+                                // 4. 松开
+                                Mouse.Up(MouseButton.Left);
+                            }
+                        }
+                    }
+
+                }
+
+
+            }).GetAwaiter().GetResult();
+        }
+
         /// <summary>
         /// 获取任务栏根元素
         /// </summary>
