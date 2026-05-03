@@ -146,7 +146,6 @@ namespace WeChatAuto.Components
                 var button = desktop.FindFirstByXPath(path)?.AsButton();
                 if (button == null)
                     return;
-                button.DrawHighlight();
                 button.Click();
                 RandomWait.Wait(100, 300);
                 var root = button.GetParent().GetParent();
@@ -155,7 +154,6 @@ namespace WeChatAuto.Components
                 if (overflowAreaRetry.Success)
                 {
                     var overflowArea = overflowAreaRetry.Result;
-                    overflowArea.DrawHighlightExt();
                     var list = new List<AutomationElement>();
                     var buttons = overflowArea.FindAllDescendants(cf => cf.ByControlType(ControlType.Button)).Where(u => u.Name == "微信");
                     list.AddRange(buttons);
@@ -164,30 +162,29 @@ namespace WeChatAuto.Components
                     var statusBar = desktop.FindFirstByXPath("/Pane[@Name='任务栏']/Pane/Pane/ToolBar[@Name='用户提示通知区域']");
                     if (statusBar != null)
                     {
-                        statusBar.DrawHighlight();
-                                            if (list.Count > 0)
-                    {
-                        foreach (var item in list)
+                        if (list.Count > 0)
                         {
-                            // 起点（比如图标）
-                            var source = item.BoundingRectangle.Center();
+                            foreach (var item in list)
+                            {
+                                // 起点（比如图标）
+                                var source = item.BoundingRectangle.Center();
 
-                            // 终点（目标位置）
-                            var target = statusBar.BoundingRectangle.Center();
+                                // 终点（目标位置）
+                                var target = statusBar.BoundingRectangle.Center();
 
-                            // 1. 移动到起点
-                            Mouse.MoveTo(source);
+                                // 1. 移动到起点
+                                Mouse.MoveTo(source);
 
-                            // 2. 按下鼠标
-                            Mouse.Down(MouseButton.Left);
+                                // 2. 按下鼠标
+                                Mouse.Down(MouseButton.Left);
 
-                            // 3. 平滑拖动（关键）
-                            Mouse.MoveTo(target);
+                                // 3. 平滑拖动（关键）
+                                Mouse.MoveTo(target);
 
-                            // 4. 松开
-                            Mouse.Up(MouseButton.Left);
+                                // 4. 松开
+                                Mouse.Up(MouseButton.Left);
+                            }
                         }
-                    }
                     }
 
                 }
