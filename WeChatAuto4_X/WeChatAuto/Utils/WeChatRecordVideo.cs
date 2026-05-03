@@ -45,7 +45,7 @@ namespace WeChatAuto.Utils
             }
             var filePath = Path.Combine(rootPath, _fileName);
             Trace.WriteLine($"开始录制视频,保存文件: {filePath}");
-            Trace.WriteLine($"如果是首次录制视频，会自动下载ffmpeg,所需要时间比较长，请耐心等待...");
+            Trace.WriteLine($"如果是首次录制视频，会自动下载ffmpeg,请打开VPN,并且所需要时间比较长，请耐心等待...");
             var ffmpegPath = await VideoRecorder.DownloadFFMpeg(Path.Combine(Directory.GetCurrentDirectory(), "ffmpeg")).ConfigureAwait(false);
             Trace.WriteLine($"ffmpeg路径: {ffmpegPath}");
             Trace.WriteLine($"ffmpeg下载或者校验完成,开始录制视频...");
