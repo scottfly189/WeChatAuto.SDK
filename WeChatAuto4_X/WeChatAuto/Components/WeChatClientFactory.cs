@@ -22,6 +22,7 @@ namespace WeChatAuto.Components
     public class WeChatClientFactory : IDisposable
     {
         private bool _IsInit = false;
+        public static UIThreadInvoker ThreadInvoker;   //就是多微信的情况下，也是启用一个线程.
         private readonly AutoLogger<WeChatClientFactory> _logger;
         private IServiceProvider _serviceProvider;
         private readonly Dictionary<string, WeChatClient> _wxClientList = new Dictionary<string, WeChatClient>();
@@ -41,6 +42,7 @@ namespace WeChatAuto.Components
                 _logger.Trace($"开始录制视频,保存路径: {videoPath}");
             }
             _logger.Trace("微信客户端工厂初始化完成");
+            ThreadInvoker = new UIThreadInvoker("wechatauto.sdk");
         }
         /// <summary>
         /// 微信客户端列表
@@ -177,8 +179,6 @@ namespace WeChatAuto.Components
                     }
 
                 }
-
-
             }).GetAwaiter().GetResult();
         }
 
@@ -332,14 +332,11 @@ namespace WeChatAuto.Components
             DrawHightlightHelper.DrawHighlightExt(wxNotifyButton);
             wxNotifyButton.AsButton().Invoke();
             RandomWait.Wait(100, 800);
-            var topWindowProcessId = _GetTopWindowProcessIdResult();
-            var wxTempwindow = _GetTopWindow(topWindowProcessId.Result, automation);
+            var topWindowProcessId = _GetTopWindowProcessIdResult();  //当前微信的processid
+            var wxTempwindow = _GetTopWindow(topWindowProcessId.Result, automation);  //当前微信的automation window.
             DrawHightlightHelper.DrawHighlightExt(wxTempwindow);
-            WeChatMainWindow wxMainWindow = new WeChatMainWindow(this, _serviceProvider, topWindowProcessId.Result);
-            WeChatNotifyIcon wxNotifyIcon = new WeChatNotifyIcon(wxNotifyButton.AsButton(), _serviceProvider, wxMainWindow);
 
-            var client = new WeChatClient(wxNotifyIcon, wxMainWindow, _serviceProvider);
-            wxMainWindow.Client = client;
+            var client = new WeChatClient(topWindowProcessId.Result,_serviceProvider,this,wxTempwindow,ThreadInvoker);
             var NickNameButton = Retry.WhileNull(() => wxTempwindow.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]")?.AsButton(),
               timeout: TimeSpan.FromSeconds(5),
               interval: TimeSpan.FromMilliseconds(200)).Result;
@@ -403,6 +400,7 @@ namespace WeChatAuto.Components
                     client.Value?.Dispose();
                 }
             }
+            ThreadInvoker.Dispose();   //将微信自动化的线程释放.
         }
     }
 }
