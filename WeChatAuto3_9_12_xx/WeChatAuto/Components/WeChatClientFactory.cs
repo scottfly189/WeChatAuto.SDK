@@ -341,7 +341,7 @@ namespace WeChatAuto.Components
         private void _InitWechatAutomationFramework(UIA3Automation automation, AutomationElement wxNotifyButton)
         {
             DrawHightlightHelper.DrawHighlightExt(wxNotifyButton);
-            wxNotifyButton.AsButton().Invoke();
+            wxNotifyButton.AsButton().Click();
             RandomWait.Wait(100, 800);
             var topWindowProcessId = _GetTopWindowProcessIdResult();
             var wxTempwindow = _GetTopWindow(topWindowProcessId.Result, automation);
