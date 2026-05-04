@@ -38,4 +38,42 @@ public class WeChatClientTests
         await client.Navigation.SaveOwnerAvator(path);
         Assert.True(File.Exists(path));
     }
+
+    [Fact(DisplayName = "测试切换导航栏")]
+    public async Task Test_Switch_Navigation()
+    {
+        var framework = _globalFixture.clientFactory;
+        var client = framework.GetWeChatClient(_wxClientName);
+
+        await client.Navigation.SwitchNavigation(WeAutoCommon.Enums.NavigationType.通讯录);
+        await Task.Delay(1000);
+        await client.Navigation.SwitchNavigation(WeAutoCommon.Enums.NavigationType.收藏);
+        await Task.Delay(1000);
+        await client.Navigation.SwitchNavigation(WeAutoCommon.Enums.NavigationType.朋友圈);
+        await Task.Delay(1000);
+        await client.Navigation.CloseNavWin(WeAutoCommon.Enums.NavigationType.朋友圈);
+        await Task.Delay(1000);
+        await client.Navigation.SwitchNavigation(WeAutoCommon.Enums.NavigationType.视频号);
+        await Task.Delay(1000);
+        await client.Navigation.CloseNavWin(WeAutoCommon.Enums.NavigationType.视频号);
+        await Task.Delay(1000);
+        await client.Navigation.SwitchNavigation(WeAutoCommon.Enums.NavigationType.搜一搜);
+        await Task.Delay(1000);
+        await client.Navigation.CloseNavWin(WeAutoCommon.Enums.NavigationType.搜一搜);
+        await Task.Delay(1000);
+        await client.Navigation.SwitchNavigation(WeAutoCommon.Enums.NavigationType.游戏中心);
+        await Task.Delay(1000);
+        await client.Navigation.CloseNavWin(WeAutoCommon.Enums.NavigationType.游戏中心);
+        await Task.Delay(1000);
+        await client.Navigation.SwitchNavigation(WeAutoCommon.Enums.NavigationType.小程序面板);
+        await Task.Delay(1000);
+        await client.Navigation.CloseNavWin(WeAutoCommon.Enums.NavigationType.小程序面板);
+        await Task.Delay(1000);
+        await client.Navigation.SwitchNavigation(WeAutoCommon.Enums.NavigationType.手机);
+        await Task.Delay(1000);
+        await client.Navigation.SwitchNavigation(WeAutoCommon.Enums.NavigationType.更多);
+        await Task.Delay(1000);
+        await client.Navigation.SwitchNavigation(WeAutoCommon.Enums.NavigationType.微信);
+        Assert.True(true);
+    }
 }

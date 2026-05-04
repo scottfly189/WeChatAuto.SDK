@@ -163,58 +163,62 @@ namespace WeChatAuto.Components
 
         internal void CloseNavigationCore(NavigationType navigationType)
         {
-            // RetryResult<AutomationElement> window = null;
-            // switch (navigationType)
-            // {
-            //     case NavigationType.聊天文件:
-            //         window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
-            //             .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_NAVIGATION_FILE}'][@ClassName='FileListMgrWnd'][@ProcessId={_Window.Properties.ProcessId}]"),
-            //             timeout: TimeSpan.FromSeconds(10),
-            //             interval: TimeSpan.FromMilliseconds(200)
-            //         );
-            //         break;
-            //     case NavigationType.朋友圈:
-            //         window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
-            //             .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_NAVIGATION_MOMENT}'][@ClassName='SnsWnd'][@ProcessId={_Window.Properties.ProcessId}]"),
-            //             timeout: TimeSpan.FromSeconds(10),
-            //             interval: TimeSpan.FromMilliseconds(200)
-            //         );
-            //         break;
-            //     case NavigationType.视频号:
-            //         window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
-            //             .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_SYSTEM_NAME}'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
-            //             timeout: TimeSpan.FromSeconds(10),
-            //             interval: TimeSpan.FromMilliseconds(200)
-            //         );
-            //         break;
-            //     case NavigationType.看一看:
-            //         window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
-            //             .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_SYSTEM_NAME}'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
-            //             timeout: TimeSpan.FromSeconds(10),
-            //             interval: TimeSpan.FromMilliseconds(200)
-            //         );
-            //         break;
-            //     case NavigationType.搜一搜:
-            //         window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
-            //             .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_SYSTEM_NAME}'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
-            //             timeout: TimeSpan.FromSeconds(10),
-            //             interval: TimeSpan.FromMilliseconds(200)
-            //         );
-            //         break;
-            //     case NavigationType.小程序面板:
-            //         window = Retry.WhileNull(checkMethod: () => _Window.Automation.GetDesktop()
-            //             .FindFirstByXPath($"/Window[@Name='{WeChatConstant.WECHAT_SYSTEM_NAME}'][@ClassName='Chrome_WidgetWin_0'][@IsEnabled='true']"),
-            //             timeout: TimeSpan.FromSeconds(10),
-            //             interval: TimeSpan.FromMilliseconds(200)
-            //         );
-            //         break;
-            //     default:
-            //         break;
-            // }
-            // if (window.Success)
-            // {
-            //     window.Result.AsWindow().Close();
-            // }
+            RetryResult<Window> retryResult = null;
+            RetryResult<Button> buttonResult = null;
+            switch (navigationType)
+            {
+                case NavigationType.朋友圈:
+                    retryResult = Retry.WhileNull(() => _Client.MainWindow.Parent.FindFirstChild(cf => cf.ByName("朋友圈").And(cf.ByControlType(ControlType.Window)).
+                    And(cf.ByProcessId(_Client.MainWindow.Properties.ProcessId))).AsWindow(), timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
+                    break;
+                case NavigationType.视频号:
+                    buttonResult = Retry.WhileNull<Button>(() => _Client.MainWindow.Parent.FindFirstByXPath("/Pane[@Name='微信']/Pane[@Name='微信']/Pane/Pane/Button[@Name='关闭']").AsButton(), timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
+                    if (buttonResult.Success)
+                    {
+                        buttonResult.Result.DrawHighlightExt();
+                        buttonResult.Result.Invoke();
+                    }
+                    break;
+                case NavigationType.搜一搜:
+                    buttonResult = Retry.WhileNull<Button>(() => _Client.MainWindow.Parent.FindFirstByXPath("/Pane[@Name='微信']/Pane[@Name='微信']/Pane/Pane/Button[@Name='关闭']").AsButton(), timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
+                    if (buttonResult.Success)
+                    {
+                        buttonResult.Result.DrawHighlightExt();
+                        buttonResult.Result.Invoke();
+                    }
+                    break;
+                case NavigationType.小程序面板:
+                    buttonResult = Retry.WhileNull<Button>(() => _Client.MainWindow.Parent.FindFirstByXPath("/Pane[@Name='微信']/Pane[@Name='微信']/Pane/Pane/Button[@Name='关闭']").AsButton(), timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
+                    if (buttonResult.Success)
+                    {
+                        buttonResult.Result.DrawHighlightExt();
+                        buttonResult.Result.Invoke();
+                    }
+                    break;
+                case NavigationType.游戏中心:
+                    buttonResult = Retry.WhileNull<Button>(() => _Client.MainWindow.Parent.FindFirstByXPath("/Pane[@Name='微信游戏']/Pane/Pane/Pane/Pane/Pane/Button[@Name='关闭']").AsButton(), timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
+                    if (buttonResult.Success)
+                    {
+                        buttonResult.Result.DrawHighlightExt();
+                        buttonResult.Result.Invoke();
+                    }                
+                    break;
+                case NavigationType.手机:
+                    _Client.MainWindow.Focus();
+                    break;
+                case NavigationType.更多:
+                    _Client.MainWindow.Focus();
+                    break;
+                default:
+                    break;
+            }
+            if (retryResult != null && retryResult.Success)
+            {
+                var window = retryResult.Result;
+                window.DrawHighlightExt();
+                window.Close();
+                _Client.MainWindow.Focus();
+            }
         }
 
         public void Dispose()
