@@ -141,13 +141,27 @@ namespace WeChatAuto.Components
         {
             var name = navigationType.ToString();
             var button = rootElement.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName(name))).AsButton();
-            if (button != null)
+            if (navigationType != NavigationType.手机)
             {
-                button.DrawHighlightExt();
-                button.Click();
+                if (button != null)
+                {
+                    button.DrawHighlightExt();
+                    button.Click();
+                }
+            }
+            else
+            {
+                if (button != null)
+                {
+                    button = button.FindFirstChild(cf=>cf.ByControlType(ControlType.Button).And(cf.ByName("手机"))).AsButton();
+                    if (button != null)
+                    {
+                        button.DrawHighlightExt();
+                        button.Click();
+                    }
+                }
             }
         }
-
         /// <summary>
         /// 关闭通过导航栏打开的窗口.
         /// 仅支持聊天文件、朋友圈、视频号、看一看、搜一搜、小程序面板等窗口
@@ -201,7 +215,7 @@ namespace WeChatAuto.Components
                     {
                         buttonResult.Result.DrawHighlightExt();
                         buttonResult.Result.Invoke();
-                    }                
+                    }
                     break;
                 case NavigationType.手机:
                     _Client.MainWindow.Focus();

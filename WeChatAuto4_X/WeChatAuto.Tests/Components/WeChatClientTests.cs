@@ -71,7 +71,11 @@ public class WeChatClientTests
         await Task.Delay(1000);
         await client.Navigation.SwitchNavigation(WeAutoCommon.Enums.NavigationType.手机);
         await Task.Delay(1000);
+        await client.Navigation.CloseNavWin(WeAutoCommon.Enums.NavigationType.手机);
+        await Task.Delay(1000);
         await client.Navigation.SwitchNavigation(WeAutoCommon.Enums.NavigationType.更多);
+        await Task.Delay(1000);
+        await client.Navigation.CloseNavWin(WeAutoCommon.Enums.NavigationType.更多);
         await Task.Delay(1000);
         await client.Navigation.SwitchNavigation(WeAutoCommon.Enums.NavigationType.微信);
         Assert.True(true);
