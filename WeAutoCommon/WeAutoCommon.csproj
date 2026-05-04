@@ -1,5 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>
       net48;
@@ -30,8 +29,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>WeChat, Automation, AI, MCP</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-  </PropertyGroup>    
-
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="FlaUI.Core" Version="5.0.0" />
     <PackageReference Include="FlaUI.UIA2" Version="5.0.0" />
@@ -43,17 +41,15 @@
   <ItemGroup>
     <None Include="Simulator\x64\skm.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-       <TargetPath>x64\skm.dll</TargetPath>
+      <TargetPath>x64\skm.dll</TargetPath>
     </None>
     <None Include="Simulator\x86\skm.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>x86\skm.dll</TargetPath>
     </None>
   </ItemGroup>
-
   <ItemGroup>
-    <None Include="..\README.md" Pack="true" PackagePath="\"/>
-    <None Include="..\..\Images\icon.png" Pack="true" PackagePath="\"/>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\Images\icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
-
 </Project>

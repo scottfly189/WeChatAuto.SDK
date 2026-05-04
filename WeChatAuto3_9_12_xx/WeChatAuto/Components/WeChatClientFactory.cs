@@ -166,10 +166,10 @@ namespace WeChatAuto.Components
                         {
                             foreach (var item in list)
                             {
-                                // 起点（比如图标）
+                                // 起点
                                 var source = item.BoundingRectangle.Center();
 
-                                // 终点（目标位置）
+                                // 终点y
                                 var target = statusBar.BoundingRectangle.Center();
 
                                 // 1. 移动到起点
@@ -178,7 +178,7 @@ namespace WeChatAuto.Components
                                 // 2. 按下鼠标
                                 Mouse.Down(MouseButton.Left);
 
-                                // 3. 平滑拖动（关键）
+                                // 3. 平滑拖动
                                 Mouse.MoveTo(target);
 
                                 // 4. 松开
@@ -341,7 +341,7 @@ namespace WeChatAuto.Components
         private void _InitWechatAutomationFramework(UIA3Automation automation, AutomationElement wxNotifyButton)
         {
             DrawHightlightHelper.DrawHighlightExt(wxNotifyButton);
-            wxNotifyButton.AsButton().Invoke();
+            wxNotifyButton.AsButton().Click();
             RandomWait.Wait(100, 800);
             var topWindowProcessId = _GetTopWindowProcessIdResult();
             var wxTempwindow = _GetTopWindow(topWindowProcessId.Result, automation);
