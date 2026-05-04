@@ -32,9 +32,18 @@ namespace WeChatAuto.Components
         private readonly Dictionary<string, WeChatClient> _wxClientList = new Dictionary<string, WeChatClient>();
         private bool _disposed = false;
         private readonly WeChatRecordVideo _recordVideo;
+
         /// <summary>
-        /// 微信自动化框架构造函数
+        /// 微信自动化客户端工厂
         /// </summary>
+        /// <remarks>
+        /// 注意：不应该自行调用，而是通过依赖注入获取实例。
+        ///
+        /// 示例：
+        /// <![CDATA[
+        /// var clientFactory = serviceProvider.GetRequiredService<WeChatClientFactory>();
+        /// ]]>
+        /// </remarks>
         public WeChatClientFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
@@ -332,7 +341,7 @@ namespace WeChatAuto.Components
         private void _InitWechatAutomationFramework(UIA3Automation automation, AutomationElement wxNotifyButton)
         {
             DrawHightlightHelper.DrawHighlightExt(wxNotifyButton);
-            wxNotifyButton.AsButton().Invoke();
+            wxNotifyButton.AsButton().Click();
             RandomWait.Wait(100, 800);
             var topWindowProcessId = _GetTopWindowProcessIdResult();  //当前微信的processid
             var wxTempwindow = _GetTopWindow(topWindowProcessId.Result, automation);  //当前微信的automation window.

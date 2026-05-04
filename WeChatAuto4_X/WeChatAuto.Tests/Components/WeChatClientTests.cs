@@ -22,7 +22,20 @@ public class WeChatClientTests
     {
         var framework = _globalFixture.clientFactory;
         var client = framework.GetWeChatClient(_wxClientName);
-        // Assert.True(client.AppRunning);
-        // await Task.Delay(-1);  //阻塞测试，直到微信客户端退出
+        Assert.NotEmpty(client.NickName);
+    }
+    [Fact(DisplayName = "测试保存自己的头像")]
+    public async Task Test_Save_Avator()
+    {
+        var framework = _globalFixture.clientFactory;
+        var client = framework.GetWeChatClient(_wxClientName);
+        var path = Path.Combine(AppContext.BaseDirectory, "temp");
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+        path = Path.Combine(path, Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + ".png");
+        await client.Navigation.SaveOwnerAvator(path);
+        Assert.True(File.Exists(path));
     }
 }

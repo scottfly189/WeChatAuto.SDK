@@ -16,5 +16,8 @@ namespace WeAutoCommon.Enums
         小程序面板,
         手机,
         设置及其他,
+        微信,
+        游戏中心,
+        更多,
     }
 }

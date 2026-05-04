@@ -27,10 +27,11 @@ namespace WeChatAuto.Components
     /// </summary>
     public class WeChatClient : IDisposable
     {
-        private const string version= "4.1.9.30";
+        private const string version = "4.1.9.30";
         private readonly AutoLogger<WeChatClient> _logger;
         private IServiceProvider serviceProvider;
         private volatile bool _disposed = false;
+        private Navigation _Navigation;
         private UIThreadInvoker _MainThreadInvoker;
         #region 下面三个公开字段为比较稳定的字段，只要微信不关闭
         public readonly Window MainWindow;
@@ -39,9 +40,10 @@ namespace WeChatAuto.Components
         public readonly string NickName;
         public UIThreadInvoker MainThreadInvoker => _MainThreadInvoker;
         #endregion
+
         /// <summary>
         /// 构造器
-        /// 不应该自行调用,应该通过<see cref="WeChatClientFactory"/>来获取
+        /// 不应该自行调用,应该通过<see cref="WeChatClientFactory.GetWeChatClient"/>方法来获取
         /// </summary>
         /// <param name="clientProcessId"></param>
         /// <param name="provider"></param>
@@ -50,7 +52,7 @@ namespace WeChatAuto.Components
         /// <param name="uIThreadInvoker"></param>
         /// <param name="nickName"></param>
         public WeChatClient(int clientProcessId, IServiceProvider provider, WeChatClientFactory factory,
-         Window window, UIThreadInvoker uIThreadInvoker,string nickName)
+         Window window, UIThreadInvoker uIThreadInvoker, string nickName)
         {
             this._MainThreadInvoker = uIThreadInvoker;
             this.MainWindow = window;
@@ -60,8 +62,28 @@ namespace WeChatAuto.Components
             this.NickName = nickName;
             _logger = provider.GetRequiredService<AutoLogger<WeChatClient>>();
             CheckVersion();
+            _Initialize();
         }
 
+        private void _Initialize()
+        {
+            this.Navigation.SwitchNavigationCore(NavigationType.微信);
+        }
+
+        #region POM对象
+        //导航栏
+        public Navigation Navigation => GetNavigation();
+        
+        #endregion
+        private Navigation GetNavigation()
+        {
+            if (_Navigation != null)
+            {
+                _Navigation.Dispose();
+            }
+            _Navigation = new Navigation(this, this.MainThreadInvoker, this.serviceProvider);
+            return _Navigation;
+        }
         private void CheckVersion()
         {
             if (WeAutomation.Config.WxVersion != version)
@@ -111,7 +133,7 @@ namespace WeChatAuto.Components
             _disposed = true;
             if (disposing)
             {
-
+                _Navigation?.Dispose();
             }
         }
         #endregion
