@@ -36,16 +36,28 @@ namespace WeChatAuto.Components
         public readonly Window MainWindow;
         public readonly int ClientProcessId;
         public readonly WeChatClientFactory Factory;
+        public readonly string NickName;
         public UIThreadInvoker MainThreadInvoker => _MainThreadInvoker;
         #endregion
-
-        public WeChatClient(int clientProcessId, IServiceProvider provider, WeChatClientFactory factory, Window window, UIThreadInvoker uIThreadInvoker)
+        /// <summary>
+        /// 构造器
+        /// 不应该自行调用,应该通过<see cref="WeChatClientFactory"/>来获取
+        /// </summary>
+        /// <param name="clientProcessId"></param>
+        /// <param name="provider"></param>
+        /// <param name="factory"></param>
+        /// <param name="window"></param>
+        /// <param name="uIThreadInvoker"></param>
+        /// <param name="nickName"></param>
+        public WeChatClient(int clientProcessId, IServiceProvider provider, WeChatClientFactory factory,
+         Window window, UIThreadInvoker uIThreadInvoker,string nickName)
         {
             this._MainThreadInvoker = uIThreadInvoker;
             this.MainWindow = window;
             this.serviceProvider = provider;
             this.Factory = factory;
             this.ClientProcessId = clientProcessId;
+            this.NickName = nickName;
             _logger = provider.GetRequiredService<AutoLogger<WeChatClient>>();
             CheckVersion();
         }

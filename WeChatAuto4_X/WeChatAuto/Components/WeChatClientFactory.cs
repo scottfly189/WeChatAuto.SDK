@@ -14,6 +14,7 @@ using WeAutoCommon.Models;
 using WeChatAuto.Extentions;
 using FlaUI.Core.Input;
 using Microsoft.Win32;
+using System.Drawing;
 
 namespace WeChatAuto.Components
 {
@@ -22,6 +23,8 @@ namespace WeChatAuto.Components
     /// </summary>
     public class WeChatClientFactory : IDisposable
     {
+        // TODO: 每次微信版本变化应该检查这里是否需要修改.
+        private const string CURRENT_WEIXIN_CLASSNAME = "Qt51514QWindowIcon";
         private bool _IsInit = false;
         public static UIThreadInvoker ThreadInvoker;   //就是多微信的情况下，也是启用一个线程.
         private readonly AutoLogger<WeChatClientFactory> _logger;
@@ -118,11 +121,10 @@ namespace WeChatAuto.Components
             }
             _wxClientList.Clear();
             _logger.Trace("开始重新获取微信窗口");
-            UIThreadInvoker _uiTempThreadInvoker = new UIThreadInvoker("RefreshWxWindows");
             try
             {
-                DragVisibleIfWechatHidden(_uiTempThreadInvoker);
-                _uiTempThreadInvoker.Run(automation => _GetTaskBarRoot(automation)
+                DragVisibleIfWechatHidden(ThreadInvoker);
+                ThreadInvoker.Run(automation => _GetTaskBarRoot(automation)
                     .Bind(taskBarRoot => _GetToolBar(taskBarRoot))
                     .BindOrElse(toolBar => _GetNotifyButtons(toolBar), () => _GetNotifyButtonsVersion2(automation))
                     .Bind(buttons => _ProcessNotifyButtons(automation, buttons))
@@ -135,7 +137,7 @@ namespace WeChatAuto.Components
             }
             finally
             {
-                _uiTempThreadInvoker?.Dispose();
+
             }
         }
 
@@ -305,7 +307,6 @@ namespace WeChatAuto.Components
                 var xPath = "/Pane[@ClassName='Windows.UI.Input.InputSite.WindowClass']/Button[@ClassName='SystemTray.NormalButton'][@Name='微信']";
                 var result = Retry.WhileNull(() => taskBarRoot.FindAllByXPath(xPath),
                           timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
-                // return result.Success ? Maybe<AutomationElement[]>.Some(result.Result) : throw new Exception("获取通知按钮元素失败");
                 if (result.Success)
                 {
                     return (true, result.Result);
@@ -337,21 +338,49 @@ namespace WeChatAuto.Components
             var wxTempwindow = _GetTopWindow(topWindowProcessId.Result, automation);  //当前微信的automation window.
             DrawHightlightHelper.DrawHighlightExt(wxTempwindow);
 
-            var client = new WeChatClient(topWindowProcessId.Result,_serviceProvider,this,wxTempwindow,ThreadInvoker);
-            var NickNameButton = Retry.WhileNull(() => wxTempwindow.FindFirstByXPath("/Pane/Pane/ToolBar/Button[1]")?.AsButton(),
-              timeout: TimeSpan.FromSeconds(5),
-              interval: TimeSpan.FromMilliseconds(200)).Result;
-            _wxClientList.Add(NickNameButton.Name, client);
+            string nickName = __GetCurrentWxNickName(wxTempwindow);
+            wxTempwindow.Focus();
+            var client = new WeChatClient(topWindowProcessId.Result, _serviceProvider, this, wxTempwindow, ThreadInvoker, nickName);
+            _wxClientList.Add(nickName, client);
+        }
+
+
+        //得到最新窗口的nickName
+        private string __GetCurrentWxNickName(Window wxTempwindow)
+        {
+            wxTempwindow.Focus();
+            var path = @"/Group/Custom/Group/ToolBar/Button[1]";
+            var button = wxTempwindow.FindFirstByXPath(path);
+            var point1 = button.GetClickablePoint();
+            var point2 = new Point(point1.X, point1.Y - 55);
+            Mouse.Position = point2;
+            Mouse.LeftClick();
+            RandomWait.Wait(300, 800);
+            var windowResult = Retry.WhileNull<AutomationElement>(() => wxTempwindow.Parent.FindFirstChild(cf => cf.ByName("Weixin").
+                And(cf.ByProcessId(wxTempwindow.Properties.ProcessId))),
+                timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
+            if (windowResult.Success)
+            {
+                var window = windowResult.Result.AsWindow();
+                window.DrawHighlightExt();
+                button = window.FindFirstDescendant(cf => cf.ByAutomationId("head_image_v_view.head_view_").And(cf.ByControlType(ControlType.Button))
+                    .And(cf.ByProcessId(wxTempwindow.Properties.ProcessId)));
+                button?.DrawHighlightExt();
+                return button == null ? "" : button.Name;
+            }
+            return "";
         }
 
         /// <summary>
         /// 获取顶部窗口进程ID
         /// </summary>
         /// <returns></returns>
-        private RetryResult<int> _GetTopWindowProcessIdResult() =>
-          Retry.WhileException(() => WinApi.GetTopWindowProcessIdByClassName("WeChatMainWndForPC"),
-                        timeout: TimeSpan.FromSeconds(5),
-                        interval: TimeSpan.FromMilliseconds(200));
+        private RetryResult<int> _GetTopWindowProcessIdResult()
+        => Retry.WhileException(() => WinApi.GetTopWindowProcessIdByClassName(CURRENT_WEIXIN_CLASSNAME),
+            timeout: TimeSpan.FromSeconds(5),
+            interval: TimeSpan.FromMilliseconds(200));
+
+
         /// <summary>
         /// 获取顶部窗口元素
         /// </summary>
@@ -359,7 +388,7 @@ namespace WeChatAuto.Components
         /// <param name="automation"></param>
         /// <returns></returns>
         private Window _GetTopWindow(int topWindowProcessId, UIA3Automation automation) =>
-          Retry.WhileNull(() => automation.GetDesktop().FindFirstChild(cf => cf.ByClassName("WeChatMainWndForPC")
+          Retry.WhileNull(() => automation.GetDesktop().FindFirstChild(cf => cf.ByClassName("mmui::MainWindow")
                         .And(cf.ByControlType(ControlType.Window)
                         .And(cf.ByProcessId(topWindowProcessId)))).AsWindow(),
                         timeout: TimeSpan.FromSeconds(5),
