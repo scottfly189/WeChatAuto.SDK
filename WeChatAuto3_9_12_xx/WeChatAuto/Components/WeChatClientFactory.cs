@@ -13,6 +13,7 @@ using FlaUI.UIA3;
 using WeAutoCommon.Models;
 using WeChatAuto.Extentions;
 using FlaUI.Core.Input;
+using System.CodeDom;
 
 namespace WeChatAuto.Components
 {
@@ -166,6 +167,9 @@ namespace WeChatAuto.Components
                         {
                             foreach (var item in list)
                             {
+                                //去掉该死的遮置层.
+                                MoveFloatingLayer(item, desktop);
+
                                 // 起点
                                 var source = item.BoundingRectangle.Center();
 
@@ -191,6 +195,27 @@ namespace WeChatAuto.Components
 
 
             }).GetAwaiter().GetResult();
+        }
+
+        private void MoveFloatingLayer(AutomationElement item, AutomationElement desktop)
+        {
+            var button = item.AsButton();
+            Mouse.MoveTo(button.GetClickablePoint());
+            //可能出现浮动层，也可能不出现
+            var root = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("微信"))),
+                timeout: TimeSpan.FromSeconds(1), interval: TimeSpan.FromMilliseconds(200));
+            if (!root.Success)
+            {
+                Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByControlType(ControlType.Pane).And(cf.ByName("WeChat"))),
+                    timeout: TimeSpan.FromSeconds(1), interval: TimeSpan.FromMilliseconds(200));
+            }
+            if (!root.Success)
+                return;
+            var path = "//Button[@Name='忽略全部']";
+            button = root.Result.FindFirstByXPath(path).AsButton();
+            button.DrawHighlightExt();
+            button.Click();
+            RandomWait.Wait(300,500);
         }
 
         /// <summary>
