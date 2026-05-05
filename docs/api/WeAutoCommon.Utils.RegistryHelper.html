@@ -2,9 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
-      <title>Class DpiAwareness | WeChatAuto.SDK </title>
+      <title>Class RegistryHelper | WeChatAuto.SDK </title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta name="title" content="Class DpiAwareness | WeChatAuto.SDK ">
+      <meta name="title" content="Class RegistryHelper | WeChatAuto.SDK ">
       
       
       <link rel="icon" href="../favicon.ico">
@@ -84,24 +84,24 @@
           <nav id="breadcrumb"></nav>
         </div>
 
-        <article data-uid="WeChatAuto.Utils.DpiAwareness">
+        <article data-uid="WeAutoCommon.Utils.RegistryHelper">
 
 
 
-  <h1 id="WeChatAuto_Utils_DpiAwareness" data-uid="WeChatAuto.Utils.DpiAwareness" class="text-break">
-Class DpiAwareness  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/0bd842a5d1d86deac7b0e76f06cf1e50b41356dc/WeChatAuto3_9_12_xx/WeChatAuto/Utils/DpiAwareness.cs"><i class="bi bi-code-slash"></i></a>
+  <h1 id="WeAutoCommon_Utils_RegistryHelper" data-uid="WeAutoCommon.Utils.RegistryHelper" class="text-break">
+Class RegistryHelper  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/0bd842a5d1d86deac7b0e76f06cf1e50b41356dc/WeAutoCommon/Utils/RegistryHelper.cs"><i class="bi bi-code-slash"></i></a>
   </h1>
 
   <div class="facts text-secondary">
-    <dl><dt>Namespace</dt><dd><a class="xref" href="WeChatAuto.html">WeChatAuto</a>.<a class="xref" href="WeChatAuto.Utils.html">Utils</a></dd></dl>
-  <dl><dt>Assembly</dt><dd>WeChatAuto.dll</dd></dl>
+    <dl><dt>Namespace</dt><dd><a class="xref" href="WeAutoCommon.html">WeAutoCommon</a>.<a class="xref" href="WeAutoCommon.Utils.html">Utils</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>WeAutoCommon.dll</dd></dl>
   </div>
 
   <div class="markdown summary"></div>
   <div class="markdown conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static class DpiAwareness</code></pre>
+    <pre><code class="lang-csharp hljs">public static class RegistryHelper</code></pre>
   </div>
 
 
@@ -111,7 +111,7 @@ Class DpiAwareness  <a class="header-action link-secondary" title="View source" 
     <dt>Inheritance</dt>
     <dd>
       <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
-      <div><span class="xref">DpiAwareness</span></div>
+      <div><span class="xref">RegistryHelper</span></div>
     </dd>
   </dl>
 
@@ -152,102 +152,110 @@ Class DpiAwareness  <a class="header-action link-secondary" title="View source" 
 </h2>
 
 
-  <a id="WeChatAuto_Utils_DpiAwareness_SetProcessDPIAware_" data-uid="WeChatAuto.Utils.DpiAwareness.SetProcessDPIAware*"></a>
+  <a id="WeAutoCommon_Utils_RegistryHelper_DeleteValue_" data-uid="WeAutoCommon.Utils.RegistryHelper.DeleteValue*"></a>
 
-  <h3 id="WeChatAuto_Utils_DpiAwareness_SetProcessDPIAware" data-uid="WeChatAuto.Utils.DpiAwareness.SetProcessDPIAware">
-  SetProcessDPIAware()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/0bd842a5d1d86deac7b0e76f06cf1e50b41356dc/WeChatAuto3_9_12_xx/WeChatAuto/Utils/DpiAwareness.cs"><i class="bi bi-code-slash"></i></a>
+  <h3 id="WeAutoCommon_Utils_RegistryHelper_DeleteValue_Microsoft_Win32_RegistryHive_System_String_System_String_" data-uid="WeAutoCommon.Utils.RegistryHelper.DeleteValue(Microsoft.Win32.RegistryHive,System.String,System.String)">
+  DeleteValue(RegistryHive, string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/0bd842a5d1d86deac7b0e76f06cf1e50b41356dc/WeAutoCommon/Utils/RegistryHelper.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>设置进程DPI感知(旧方法)
-注意：此方法必须在任何窗口创建之前调用，如果使用库的应用已经设置DPI感知，调用此方法无效</p>
+  <div class="markdown level1 summary"><p>删除值</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static extern bool SetProcessDPIAware()</code></pre>
+    <pre><code class="lang-csharp hljs">public static void DeleteValue(RegistryHive hive, string subKey, string name)</code></pre>
   </div>
 
-
-  <h4 class="section">Returns</h4>
+  <h4 class="section">Parameters</h4>
   <dl class="parameters">
-    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
-    <dd><p>是否成功</p>
-</dd>
-  </dl>
-
-
-
-
-
-
-
-
-
-
-
-  <a id="WeChatAuto_Utils_DpiAwareness_SetProcessDpiAwareness_" data-uid="WeChatAuto.Utils.DpiAwareness.SetProcessDpiAwareness*"></a>
-
-  <h3 id="WeChatAuto_Utils_DpiAwareness_SetProcessDpiAwareness" data-uid="WeChatAuto.Utils.DpiAwareness.SetProcessDpiAwareness">
-  SetProcessDpiAwareness()
-  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/0bd842a5d1d86deac7b0e76f06cf1e50b41356dc/WeChatAuto3_9_12_xx/WeChatAuto/Utils/DpiAwareness.cs"><i class="bi bi-code-slash"></i></a>
-  </h3>
-
-  <div class="markdown level1 summary"><p>设置进程DPI感知,如果使用库的应用已经设置DPI感知，此方法无效。
-此方法必须在任何窗口创建之前调用</p>
-</div>
-  <div class="markdown level1 conceptual"></div>
-
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static void SetProcessDpiAwareness()</code></pre>
-  </div>
-
-
-
-
-
-
-
-
-
-
-  <h4 class="section">Exceptions</h4>
-  <dl class="parameters">
-    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.exception">Exception</a></dt>
+    <dt><code>hive</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.win32.registryhive">RegistryHive</a></dt>
+    <dd></dd>
+    <dt><code>subKey</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
     <dd></dd>
   </dl>
 
 
 
-  <a id="WeChatAuto_Utils_DpiAwareness_SetProcessDpiAwareness_" data-uid="WeChatAuto.Utils.DpiAwareness.SetProcessDpiAwareness*"></a>
 
-  <h3 id="WeChatAuto_Utils_DpiAwareness_SetProcessDpiAwareness_System_Int32_" data-uid="WeChatAuto.Utils.DpiAwareness.SetProcessDpiAwareness(System.Int32)">
-  SetProcessDpiAwareness(int)
-  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/0bd842a5d1d86deac7b0e76f06cf1e50b41356dc/WeChatAuto3_9_12_xx/WeChatAuto/Utils/DpiAwareness.cs"><i class="bi bi-code-slash"></i></a>
+
+
+
+
+
+
+
+
+  <a id="WeAutoCommon_Utils_RegistryHelper_GetDword_" data-uid="WeAutoCommon.Utils.RegistryHelper.GetDword*"></a>
+
+  <h3 id="WeAutoCommon_Utils_RegistryHelper_GetDword_Microsoft_Win32_RegistryHive_System_String_System_String_" data-uid="WeAutoCommon.Utils.RegistryHelper.GetDword(Microsoft.Win32.RegistryHive,System.String,System.String)">
+  GetDword(RegistryHive, string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/0bd842a5d1d86deac7b0e76f06cf1e50b41356dc/WeAutoCommon/Utils/RegistryHelper.cs"><i class="bi bi-code-slash"></i></a>
   </h3>
 
-  <div class="markdown level1 summary"><p>设置进程DPI感知(新方法)
-注意：此方法必须在任何窗口创建之前调用</p>
+  <div class="markdown level1 summary"><p>读取 DWORD</p>
 </div>
   <div class="markdown level1 conceptual"></div>
 
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public static extern int SetProcessDpiAwareness(int value)</code></pre>
+    <pre><code class="lang-csharp hljs">public static int? GetDword(RegistryHive hive, string subKey, string name)</code></pre>
   </div>
 
   <h4 class="section">Parameters</h4>
   <dl class="parameters">
-    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
-    <dd><p>DPI感知值</p>
-</dd>
+    <dt><code>hive</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.win32.registryhive">RegistryHive</a></dt>
+    <dd></dd>
+    <dt><code>subKey</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
   </dl>
 
   <h4 class="section">Returns</h4>
   <dl class="parameters">
-    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
-    <dd><p>是否成功</p>
-</dd>
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a>?</dt>
+    <dd></dd>
   </dl>
+
+
+
+
+
+
+
+
+
+
+
+  <a id="WeAutoCommon_Utils_RegistryHelper_SetDword_" data-uid="WeAutoCommon.Utils.RegistryHelper.SetDword*"></a>
+
+  <h3 id="WeAutoCommon_Utils_RegistryHelper_SetDword_Microsoft_Win32_RegistryHive_System_String_System_String_System_Int32_" data-uid="WeAutoCommon.Utils.RegistryHelper.SetDword(Microsoft.Win32.RegistryHive,System.String,System.String,System.Int32)">
+  SetDword(RegistryHive, string, string, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/0bd842a5d1d86deac7b0e76f06cf1e50b41356dc/WeAutoCommon/Utils/RegistryHelper.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
+  <div class="markdown level1 summary"><p>写入 DWORD (int)</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void SetDword(RegistryHive hive, string subKey, string name, int value)</code></pre>
+  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>hive</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.win32.registryhive">RegistryHive</a></dt>
+    <dd></dd>
+    <dt><code>subKey</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>name</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>value</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
 
 
 
@@ -263,7 +271,7 @@ Class DpiAwareness  <a class="header-action link-secondary" title="View source" 
 </article>
 
         <div class="contribution d-print-none">
-          <a href="https://github.com/scottfly189/wxauto.net/blob/0bd842a5d1d86deac7b0e76f06cf1e50b41356dc/WeChatAuto3_9_12_xx/WeChatAuto/Utils/DpiAwareness.cs" class="edit-link">Edit this page</a>
+          <a href="https://github.com/scottfly189/wxauto.net/blob/0bd842a5d1d86deac7b0e76f06cf1e50b41356dc/WeAutoCommon/Utils/RegistryHelper.cs" class="edit-link">Edit this page</a>
         </div>
 
 

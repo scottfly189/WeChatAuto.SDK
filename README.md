@@ -14,8 +14,8 @@ WeChatAuto.SDK 是一款面向 AI 的微信 PC 客户端自动化 SDK，基于 .
 - 👂 **事件监听** - 消息监听(提供LLM上下文)、朋友圈监听、新好友监听等
 - 🛡️ **降低风控** - 同时支持纯软件自动化以及结合硬件键鼠模拟器的自动化操作，满足不同业务需求和安全等级场景下的使用选择。
 - 🔧 **易于集成** - 支持依赖注入，可轻松集成到现有项目
-- 🚀 **多微信实例支持** - 同时管理多个微信客户端实例
-- 🚀 **现有应用集成** - 由于是SDK库，所以方便在现有系统集成
+- 🚀 **多微信实例支持** - 支持同时管理多个微信客户端，通过微信昵称区分不同实例
+- 🚀 **现有应用集成** - 由于是SDK库，所以方便在现有系统集成,通过SDK,也非常容易的开发新的微信RPA/自动化应用
 - 🚀 **Web Support** - 提供Rest API 供Python、js/ts等非.net的家人们调用。 👉[点击了解Web Support](./MD/WebSupport.md)
 - 😊 **AI 友好集成** - 原生支持 LLM 上下文对接并提供 MCP Server，便于对接主流智能体与平台（如 MEAI、SK、MAF），助力智能应用高效闭环与创新集成
 
@@ -23,275 +23,39 @@ WeChatAuto.SDK 是一款面向 AI 的微信 PC 客户端自动化 SDK，基于 .
 
 > 如果觉得有帮助，欢迎点赞、Star和Fork本项目，以免失联，感谢支持！
 
-## 📋 系统要求
+## 🎉 微信客户端版本说明
 
-- Windows 操作系统
-- .NET Framework 4.8+ 或 .NET 6.0+ (Windows)，支持.NET的框架有:net48;net481;net6.0-windows; net7.0-windows;net8.0-windows;net9.0-windows;net10.0-windows;
-- 微信 PC 客户端已安装并运行,本 SDK 基于微信 PC 客户端(版本号:3.9.12.55)的 UI 结构开发，基于Win11（Microsoft Windows [版本 10.0.22000.3260]）开发，如发现UI结构不符，请联系作者修改;
-- 安装不了微信PC客户端3.9.12.xx? 请查看 👉 [微信3.9.12.xx安装器 - 微信低版本安装](https://github.com/scottfly189/WeChatAuto.SDK/issues/2)
+重要！！ 在进行微信自动化开发时，客户端版本是一个必须重点关注的因素。不同版本的微信在 UI 结构、控件树以及安全策略上存在差异，会直接影响自动化的稳定性与兼容性。
 
-## 🚀 快速开始
+**WeChatAuto.SDK** 提供两个版本的SDK:
 
-### 安装
+---
 
-通过 NuGet 安装：
+#### 🧱 微信 3.9.12.xx（稳定版）
 
-```bash
-dotnet add package WeChatAuto.SDK
-```
+**微信 3.9.12.x** 系列的最终版本;
 
-### 基本使用
+- UI 结构已完全固化，变动极小
+- 一旦问题被修复，基本不会因版本更新再次出现
+- 建议使用场景是**自用**,而且并不发布出去给其他人用，优先选择此版本
 
-#### 示例一 - 给好友（或群聊昵称）发送消息：
+**使用指南**
 
-- 步骤一：新建项目，如下所示:
+👉 完整的文档请参考: [WeChatAuto.SDK 3.9.12.xx文档](https://scottfly189.github.io/WeChatAuto.SDK/)
 
-```
-dotnet new console -n demo01
-```
+👉 安装安装不上微信客户端3.9.12.xx？ 请参考: [如何安装3.9.12.xx等微信低版本客户端](https://github.com/scottfly189/WeChatAuto.SDK/issues/2)
 
-- 步骤二：将demo01.csproj项目文件的net10.0**修改**成net10.0-windows,如下所示:
+---
 
-```
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net10.0-windows</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-```
+#### ⚡ 微信 4.1.9.xx（最新版本）
 
-- 步骤三：安装依赖
+- 基于微信 4.x 的持续演进版本
+- 客户端仍在不断更新，UI 和内部机制可能发生变化,所以自动化可能会受到版本更新影响，需要适配调整
+- ```WeChatAuto.SDK``` 将持续跟进最新版本进行适配与优化
+- 建议使用场景是**追求新功能 / 能接受版本变化** 有一定维护能力的项目
 
-```
-dotnet add package WeChatAuto.SdK
-dotnet add package Microsoft.Extensions.DependencyInjection
-```
-- 步骤四：项目demo01的Program.cs修改成如下：
+> 目前```4.1.9.xx微信版本```为VIP用户独享,并不对外开放
 
-```csharp
-using Microsoft.Extensions.DependencyInjection;
-using WeChatAuto.Components;
-using WeChatAuto.Services;
-
-// 初始化WeAutomation服务
-var serviceProvider = WeAutomation.Initialize(options =>
-{
-    options.DebugMode = true;   //开启调试模式，调试模式会在获得焦点时边框高亮，生产环境建议关闭
-    //options.EnableRecordVideo = true;  //开启录制视频功能，录制的视频会保存在项目的运行目录下的Videos文件夹中
-});
-
-using var clientFactory = serviceProvider.GetRequiredService<WeChatClientFactory>();
-Console.WriteLine($"当前客户端打开的微信客户端为：{string.Join(",", clientFactory.GetWeChatClientNames())}，共计{clientFactory.GetWeChatClientNames().Count}个微信客户端。");
-//获取当前打开的微信客户端名称列表
-var clentNames = clientFactory.GetWeChatClientNames();    
-//获取第一个微信客户端
-var wxClient = clientFactory.GetWeChatClient(clentNames.First());  
- //通过第一个微信客户端发送消息给AI.Net好友昵称，请修改成自己的好友昵称
-await wxClient.SendWho("AI.Net","你好，欢迎使用WeChatAuto.SDK微信自动化框架！"); 
-
-```
-
-> **注意**：  
-> 1. 本项目仅支持 Windows 系统，请务必将项目文件的 TargetFramework 设置为 netxx.0-windows（如 net10.0-windows），否则编译时会出现警告。后续不再赘述。  
-> 2. 如果是手动管理WeChatClientFactory,请在应用结束时运行clientFactory.Dispose(),或者象示例代码一样将代码放入using块自动释放,如果把WeChatAuto.SDK加入您的依赖注入容器，则不存在此问题。
-> 3. WeAutomation.Initialize()方法有两个重载，分别适用于：加入外部依赖注入与使用内部依赖注入。
-
-
-#### 示例二 - 演示监听好友（或者群聊昵称）的消息,使用消息上下文获取消息并回复,并且还演示了如何通过依赖注入获取消息上下文的注入对象,执行自己的业务逻辑：
-- 前置步骤：安装依赖
-
-```
-dotnet add package WeChatAuto.SdK
-dotnet add package Microsoft.Extensions.Hosting
-```
-- 将项目demo02的Program.cs修改成如下
-
-```csharp
-using Microsoft.Extensions.Hosting;
-using WeChatAuto.Services;
-using WeChatAuto.Components;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-
-var builder = Host.CreateApplicationBuilder(args);
-
-WeAutomation.Initialize(builder.Services, options =>
-{
-    //开启调试模式，调试模式会在获得焦点时边框高亮，生产环境建议关闭
-    options.DebugMode = true;
-    //开启录制视频功能，录制的视频会保存在项目的运行目录下的Videos文件夹中
-    //options.EnableRecordVideo = true;  
-});
-
-//这里注入自已的服务（或者对象），如LLM服务等
-builder.Services.AddSingleton<LLMService>();
-
-var serviceProvider = builder.Services.BuildServiceProvider();
-var clientFactory = serviceProvider.GetRequiredService<WeChatClientFactory>();
-// 得到名称为"Alex"的微信客户端实例，测试时请将AI.net替换为你自己的微信昵称
-var client = clientFactory.GetWeChatClient("Alex");
-await client.AddMessageListener("测试11", (messageContext) =>
-{
-    var index = 0;
-    //打印收到最新消息
-    foreach (var message in messageContext.NewMessages)
-    {
-        index++;
-        Console.WriteLine($"收到消息：{index}：{message.ToString()}");
-        Console.WriteLine($"收到消息：{index}：{message.Who}：{message.MessageContent}");
-    }
-    //打印收到所有消息的后十条
-    var allMessages = messageContext.AllMessages.Skip(messageContext.AllMessages.Count - 10).ToList();
-    index = 0;
-    foreach (var message in allMessages)
-    {
-        index++;
-        Console.WriteLine($"...收到所有消息的前10条之第{index}条：{message.Who}：{message.MessageContent}");
-        Console.WriteLine($".................详细之第{index}条：{message.ToString()}");
-    }
-    //是否有人@我
-    if (messageContext.IsBeAt())
-    {
-        var messageBubble = messageContext.MessageBubbleIsBeAt().FirstOrDefault();
-        if (messageBubble != null)
-        {
-            messageContext.SendMessage("我被@了！！！！我马上就回复你！！！！", new List<string> { messageBubble.Who });
-        }
-        else
-        {
-            messageContext.SendMessage("我被@了！！！！我马上就回复你！！！！");
-        }
-    }
-    //是否有人引用了我的消息
-    if (messageContext.IsBeReferenced())
-    {
-        messageContext.SendMessage("我被引用了！！！！");
-    }
-    //是否有人拍了拍我
-    if (messageContext.IsBeTap())
-    {
-        messageContext.SendMessage("我被拍一拍了[微笑]！！！！");
-    }
-    if (!messageContext.IsBeAt() && !messageContext.IsBeReferenced() && !messageContext.IsBeTap())
-    {
-        //回复消息，这里可以引入大模型自动回复
-        messageContext.SendMessage($"我收到了{messageContext.NewMessages.FirstOrDefault()?.Who}的消息：{messageContext.NewMessages.FirstOrDefault()?.MessageContent}");
-    }
-    //可以通过注入的服务容器获取你注入的服务实例，然后调用你的业务逻辑,一般都是LLM的自动回复逻辑
-    var llmService = messageContext.ServiceProvider.GetRequiredService<LLMService>();
-    llmService.DoSomething();
-},
-//下面的firstMessageAction可选，适用于添加消息监听时，需要我首先发送一些消息给好友的场景
-sender =>
-{
-    //发送文本消息
-    sender.SendMessage("你好啊！我是AI.Net,很高兴认识你！");
-    //发送表情
-    //sender.SendEmoji(1);
-    //发送文件,改成你的文件路径
-    //sender.SendFile(new string[] { @"C:\Users\Administrator\Desktop\me\avatar.png" });
-});
-
-
-var app = builder.Build();
-await app.RunAsync();
-
-/// <summary>
-/// 一个包含LLM服务的Service类，用于注入到MessageContext中
-/// </summary>
-public class LLMService
-{
-    private ILogger<LLMService> _logger;
-    public LLMService(ILogger<LLMService> logger)
-    {
-        _logger = logger;
-    }
-    public void DoSomething()
-    {
-        _logger.LogInformation("这里是你注入的服务实例，可以在这里编写你的业务逻辑  ");
-    }
-}
-```
-
-> 前置步骤跟Demo01一致,可以通过messageContext对象执行各种操作,也可以通过messageContext对象获得依赖注入容器，获取自己的对象，执行自己的业务逻辑;
-
-#### 示例三 - MCP Server的使用 - 以vscode为例讲解
-- 进入源码的.vscode\mcp.json,修改配置如下:
-
-```
-{
-	"servers": {
-		"wechat_mcp_server": {
-			"type": "stdio",
-			"command": "dotnet",
-			"args": [
-				"run",
-                "--project",
-                "改成你的WeChatAuto.MCP.csproj的路径"
-			]
-		}
-	}
-}
-```
-
-- 在mcp.json页面点击"Start"按钮启动mcp server  
-- 启动GitHub Copilot Chat,在Chat页提问: 请帮我给微信好友:AI.Net发送消息：Hello world!
-
-### ⛷️ 开发计划
-
-| 类别 | 功能 | 完成度 | 备注 |
-| --- | --- | --- | --- |
-| 消息管理 | 发送文字消息 | ✅ |  |
-| 消息管理 | 发送文件 | ✅ |  |
-| 消息管理 | 发送自定义表情包 | ✅ | 可按表情包索引、名称或者描述发送 |
-| 消息管理 | 引用消息 | ✅ |  |
-| 消息管理 | 发送语音聊天/语音会议 | ✅ | 适用于单个好友与群聊 |
-| 消息管理 | 发送视频聊天 | ✅ | 适用于单个好友 |
-| 消息管理 | 发起直播 | ✅ | 适用于群聊 |
-| 消息管理 | @群好友 | ✅ |  |
-| 消息管理 | @所有人 | ✅ | 适用于自有群管理 |
-| 消息管理 | 合并转发 | ✅ |  |
-| 消息管理 | 获取消息 | ✅ |  |
-| 消息管理 | 监听消息 | ✅ |  |
-| 消息管理 | 引用时@ | ✅ |  |
-| 消息管理 | 通过消息添加好友 | ✅ |  |
-| 消息管理 | 通过消息获取详情 | ✅ |  |
-| 消息管理 | 获取卡片消息链接 | ✅ |  |
-| 消息管理 | 子窗口（好友/群）守护 | ✅ | 误关闭子窗口重新打开 |
-| 通讯录管理 | 获取好友列表 | ✅ |  |
-| 通讯录管理 | 发送好友请求 | ✅ |  |
-| 通讯录管理 | 接受好友请求 | ✅ |  |
-| 通讯录管理 | 删除好友 | ✅ |  |
-| 通讯录管理 | 监听好友请求 | ✅ |  |
-| 通讯录管理 | 监听好友请求，并自动通过 | ✅ |  |
-| 通讯通讯录管理 | 监听好友请求，并仅通过指定关键词的好友，自动加备注、标签 | ✅ |  |
-| 通讯管理 | 修改备注 | ✅ |  |
-| 通讯管理 | 增加标签 | ✅ |  |
-| 群管理 | 新建群 | ✅ |  |
-| 群管理 | 邀请入群 | ✅ |  |
-| 群管理 | 修改群名 | ✅ |  |
-| 群管理 | 修改群备注 | ✅ |  |
-| 群管理 | 修改群公告 | ✅ |  |
-| 群管理 | 修改我在本群昵称 | ✅ |  |
-| 群管理 | 消息免打扰 | ✅ |  |
-| 群管理 | 获取群列表 | ✅ |  |
-| 朋友圈 | 获取朋友圈内容 | ✅ |  |
-| 朋友圈 | 下载朋友圈图片 | ✅ |  |
-| 朋友圈 | 点赞朋友圈 | ✅ |  |
-| 朋友圈 | 自动评论朋友圈 | ✅ |  |
-| MCP | MCP Server | ✅ |  |
-| 企业客服 | 自动根据企业知识库回答客户问题 | ❌ | 根据公司知识库回答问题 |
-| 企业督办 | 企业客户群提出问题的督办 | ❌ | 企业客服的各种督办场景 |
-| 腾迅会议 | 自动安排腾迅会议 | ❌ | 对腾迅会议的自动化 |
-| 公众号/订阅号 | 自动发布公众号/订阅号文章 | ❌ | 对公众号/订阅号的自动化 |
-| 效率 | 计划任务 | ❌ |  |
-
-
-- 持续迭代优化核心功能，提升稳定性与兼容性
-- 推出更丰富的自动化操作场景，满足多样化业务需求
-- 完善开发文档与示例，提高使用与扩展的便捷性
-- 社区需求优先，欢迎反馈建议 
 
 ## ⚠️ 注意事项
 
@@ -300,9 +64,8 @@ public class LLMService
    - 控制操作频率
    - 避免短时间内大量操作
 
-2. **微信版本**：本 SDK 基于微信 PC 客户端(版本号:3.9.12.55)的 UI 结构开发，不同版本可能存在兼容性问题。
+2. **微信版本**：做微信RPA一定要注意微信的版本，请确认微信版本正确的对应了WeChatAuto.SDK的版本;
 
-3. **多实例支持**：支持同时管理多个微信客户端，通过微信昵称区分不同实例。
 
 ## 🎈 关于键鼠模拟器
 
@@ -320,29 +83,20 @@ public class LLMService
 由于时间和精力有限，为了更好地投入研发和持续改进产品，本人目前仅为**已购买VIP服务的客户**提供优先和深入的技术支持。这样做，是希望通过区分服务对象，专注为VIP客户带来更高品质、更有保障的体验。当然，广大普通用户依然欢迎通过 Issue 反馈和交流，只是服务响应的优先级和深度会有所不同。
 
 **🎉 VIP 客户可享受以下专属服务保障：**
-- 💡 **BUG 优先响应**：出现 Bug 时，第一时间定位和解决，保障 VIP 项目的稳定运行。
-- 📚 **完整开发文档**：提供详细、及时更新的 API 开发文档，助力集成与开发效率。
-- 🎬 **系统教学视频**：涵盖入门到进阶的全流程教学视频，帮助用户高效掌握 SDK。
-- 👥 **VIP 技术交流群**：专属 VIP 交流群，优先、及时解答问题，实时高效支持。
-- 🚀 **专属 VIP 私有仓库**：VIP 客户将获专属私有仓库，会不定期提供丰富的应用层扩展与独享内容。
+- 💡 **BUG 优先响应**：出现 Bug 或有新的 Enhancement ，第一时间响应、定位和解决，保障 VIP 项目的稳定运行;
+- 📚 **完整开发文档**：提供详细、及时更新的 API 开发文档，助力集成与开发效率;
+- 🎬 **一小时入门教学视频**：涵盖入门到进阶的全流程教学视频，帮助用户高效掌握 SDK;
+- 👥 **VIP 技术交流群**：专属 VIP 交流群，优先、及时解答问题，实时高效支持;
+- 🚀 **专属 VIP 私有仓库**：VIP 客户将获专属私有仓库，会不定期提供丰富的应用层扩展与独享内容;
+- 🚀 **一对一的专属vip服务**: 这是你加入 VIP 的核心理由,微信自动化能力由 WeChatAuto.SDK 提供深度支持，业务系统由你自由扩展，实现技术与业务的高效分工;
 
 **😊 非 VIP 客户：**  
 
-WeChatAuto.SDK的非VIP与VIP的核心代码层面完全一致，非VIP没有任何功能与代码层面的限制，同样欢迎非VIP通过 Issue 提问或反馈问题，我会在时间允许情况下进行处理，但响应和解决可能会有延迟，敬请谅解。
+同样欢迎非VIP通过 Issue 提问或反馈问题;
+
+非 VIP 会员私下找我，我会在时间允许情况下进行处理，但响应和解决可能会有延迟，敬请谅解。
 
 如需升级成为 VIP，或了解 VIP 具体权益和支持方案，👉[请与我联系](https://github.com/scottfly189/scottfly189/blob/main/vip.md)。感谢理解与支持，让我有更多精力专注于技术创新与完善！
-
-## 📝 许可证
-
-本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。
-
-## 🤝 贡献
-
-欢迎提交 Issue 和 Pull Request！
-
-## 🙏 致谢
-
-在这里感谢那些还在为自由和正义而奋斗的人们🎉🎉
 
 ---
 
@@ -371,12 +125,22 @@ WeChatAuto.SDK的非VIP与VIP的核心代码层面完全一致，非VIP没有任
 
 ---
 
-## 🎁 FAQ
+## 📝 许可证
 
-[点击进入FAQ](./MD/faq.md)
+本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。
+
+## 🤝 贡献
+
+欢迎提交 Issue 和 Pull Request！
+
+## 🙏 致谢
+
+在这里感谢那些还在为自由和正义而奋斗的人们🎉🎉
 
 ---
 
-**免责声明**：
+
+## ⚒️ 免责声明
+
 本 SDK 仅供学习和研究使用，请遵守微信使用条款，不得用于任何违法违规用途。使用本 SDK 产生的任何后果由使用者自行承担。
 
