@@ -283,6 +283,18 @@ references:
   commentId: Overload:WeAutoCommon.Configs.WeChatConfig.TargetVideoPath
   fullName: WeAutoCommon.Configs.WeChatConfig.TargetVideoPath
   nameWithType: WeChatConfig.TargetVideoPath
+- uid: WeAutoCommon.Configs.WeChatConfig.WxVersion
+  name: WxVersion
+  href: api/WeAutoCommon.Configs.WeChatConfig.html#WeAutoCommon_Configs_WeChatConfig_WxVersion
+  commentId: P:WeAutoCommon.Configs.WeChatConfig.WxVersion
+  fullName: WeAutoCommon.Configs.WeChatConfig.WxVersion
+  nameWithType: WeChatConfig.WxVersion
+- uid: WeAutoCommon.Configs.WeChatConfig.WxVersion*
+  name: WxVersion
+  href: api/WeAutoCommon.Configs.WeChatConfig.html#WeAutoCommon_Configs_WeChatConfig_WxVersion_
+  commentId: Overload:WeAutoCommon.Configs.WeChatConfig.WxVersion
+  fullName: WeAutoCommon.Configs.WeChatConfig.WxVersion
+  nameWithType: WeChatConfig.WxVersion
 - uid: WeAutoCommon.Configs.WeMettingConfig
   name: WeMettingConfig
   href: api/WeAutoCommon.Configs.WeMettingConfig.html
@@ -811,6 +823,12 @@ references:
   commentId: F:WeAutoCommon.Enums.NavigationType.小程序面板
   fullName: WeAutoCommon.Enums.NavigationType.小程序面板
   nameWithType: NavigationType.小程序面板
+- uid: WeAutoCommon.Enums.NavigationType.微信
+  name: 微信
+  href: api/WeAutoCommon.Enums.NavigationType.html#WeAutoCommon_Enums_NavigationType___
+  commentId: F:WeAutoCommon.Enums.NavigationType.微信
+  fullName: WeAutoCommon.Enums.NavigationType.微信
+  nameWithType: NavigationType.微信
 - uid: WeAutoCommon.Enums.NavigationType.手机
   name: 手机
   href: api/WeAutoCommon.Enums.NavigationType.html#WeAutoCommon_Enums_NavigationType___
@@ -829,12 +847,24 @@ references:
   commentId: F:WeAutoCommon.Enums.NavigationType.收藏
   fullName: WeAutoCommon.Enums.NavigationType.收藏
   nameWithType: NavigationType.收藏
+- uid: WeAutoCommon.Enums.NavigationType.更多
+  name: 更多
+  href: api/WeAutoCommon.Enums.NavigationType.html#WeAutoCommon_Enums_NavigationType___
+  commentId: F:WeAutoCommon.Enums.NavigationType.更多
+  fullName: WeAutoCommon.Enums.NavigationType.更多
+  nameWithType: NavigationType.更多
 - uid: WeAutoCommon.Enums.NavigationType.朋友圈
   name: 朋友圈
   href: api/WeAutoCommon.Enums.NavigationType.html#WeAutoCommon_Enums_NavigationType____
   commentId: F:WeAutoCommon.Enums.NavigationType.朋友圈
   fullName: WeAutoCommon.Enums.NavigationType.朋友圈
   nameWithType: NavigationType.朋友圈
+- uid: WeAutoCommon.Enums.NavigationType.游戏中心
+  name: 游戏中心
+  href: api/WeAutoCommon.Enums.NavigationType.html#WeAutoCommon_Enums_NavigationType_____
+  commentId: F:WeAutoCommon.Enums.NavigationType.游戏中心
+  fullName: WeAutoCommon.Enums.NavigationType.游戏中心
+  nameWithType: NavigationType.游戏中心
 - uid: WeAutoCommon.Enums.NavigationType.看一看
   name: 看一看
   href: api/WeAutoCommon.Enums.NavigationType.html#WeAutoCommon_Enums_NavigationType____
@@ -3945,6 +3975,57 @@ references:
   commentId: Overload:WeAutoCommon.Utils.RandomWait.WaitAsync
   fullName: WeAutoCommon.Utils.RandomWait.WaitAsync
   nameWithType: RandomWait.WaitAsync
+- uid: WeAutoCommon.Utils.RegistryHelper
+  name: RegistryHelper
+  href: api/WeAutoCommon.Utils.RegistryHelper.html
+  commentId: T:WeAutoCommon.Utils.RegistryHelper
+  fullName: WeAutoCommon.Utils.RegistryHelper
+  nameWithType: RegistryHelper
+- uid: WeAutoCommon.Utils.RegistryHelper.DeleteValue(Microsoft.Win32.RegistryHive,System.String,System.String)
+  name: DeleteValue(RegistryHive, string, string)
+  href: api/WeAutoCommon.Utils.RegistryHelper.html#WeAutoCommon_Utils_RegistryHelper_DeleteValue_Microsoft_Win32_RegistryHive_System_String_System_String_
+  commentId: M:WeAutoCommon.Utils.RegistryHelper.DeleteValue(Microsoft.Win32.RegistryHive,System.String,System.String)
+  name.vb: DeleteValue(RegistryHive, String, String)
+  fullName: WeAutoCommon.Utils.RegistryHelper.DeleteValue(Microsoft.Win32.RegistryHive, string, string)
+  fullName.vb: WeAutoCommon.Utils.RegistryHelper.DeleteValue(Microsoft.Win32.RegistryHive, String, String)
+  nameWithType: RegistryHelper.DeleteValue(RegistryHive, string, string)
+  nameWithType.vb: RegistryHelper.DeleteValue(RegistryHive, String, String)
+- uid: WeAutoCommon.Utils.RegistryHelper.DeleteValue*
+  name: DeleteValue
+  href: api/WeAutoCommon.Utils.RegistryHelper.html#WeAutoCommon_Utils_RegistryHelper_DeleteValue_
+  commentId: Overload:WeAutoCommon.Utils.RegistryHelper.DeleteValue
+  fullName: WeAutoCommon.Utils.RegistryHelper.DeleteValue
+  nameWithType: RegistryHelper.DeleteValue
+- uid: WeAutoCommon.Utils.RegistryHelper.GetDword(Microsoft.Win32.RegistryHive,System.String,System.String)
+  name: GetDword(RegistryHive, string, string)
+  href: api/WeAutoCommon.Utils.RegistryHelper.html#WeAutoCommon_Utils_RegistryHelper_GetDword_Microsoft_Win32_RegistryHive_System_String_System_String_
+  commentId: M:WeAutoCommon.Utils.RegistryHelper.GetDword(Microsoft.Win32.RegistryHive,System.String,System.String)
+  name.vb: GetDword(RegistryHive, String, String)
+  fullName: WeAutoCommon.Utils.RegistryHelper.GetDword(Microsoft.Win32.RegistryHive, string, string)
+  fullName.vb: WeAutoCommon.Utils.RegistryHelper.GetDword(Microsoft.Win32.RegistryHive, String, String)
+  nameWithType: RegistryHelper.GetDword(RegistryHive, string, string)
+  nameWithType.vb: RegistryHelper.GetDword(RegistryHive, String, String)
+- uid: WeAutoCommon.Utils.RegistryHelper.GetDword*
+  name: GetDword
+  href: api/WeAutoCommon.Utils.RegistryHelper.html#WeAutoCommon_Utils_RegistryHelper_GetDword_
+  commentId: Overload:WeAutoCommon.Utils.RegistryHelper.GetDword
+  fullName: WeAutoCommon.Utils.RegistryHelper.GetDword
+  nameWithType: RegistryHelper.GetDword
+- uid: WeAutoCommon.Utils.RegistryHelper.SetDword(Microsoft.Win32.RegistryHive,System.String,System.String,System.Int32)
+  name: SetDword(RegistryHive, string, string, int)
+  href: api/WeAutoCommon.Utils.RegistryHelper.html#WeAutoCommon_Utils_RegistryHelper_SetDword_Microsoft_Win32_RegistryHive_System_String_System_String_System_Int32_
+  commentId: M:WeAutoCommon.Utils.RegistryHelper.SetDword(Microsoft.Win32.RegistryHive,System.String,System.String,System.Int32)
+  name.vb: SetDword(RegistryHive, String, String, Integer)
+  fullName: WeAutoCommon.Utils.RegistryHelper.SetDword(Microsoft.Win32.RegistryHive, string, string, int)
+  fullName.vb: WeAutoCommon.Utils.RegistryHelper.SetDword(Microsoft.Win32.RegistryHive, String, String, Integer)
+  nameWithType: RegistryHelper.SetDword(RegistryHive, string, string, int)
+  nameWithType.vb: RegistryHelper.SetDword(RegistryHive, String, String, Integer)
+- uid: WeAutoCommon.Utils.RegistryHelper.SetDword*
+  name: SetDword
+  href: api/WeAutoCommon.Utils.RegistryHelper.html#WeAutoCommon_Utils_RegistryHelper_SetDword_
+  commentId: Overload:WeAutoCommon.Utils.RegistryHelper.SetDword
+  fullName: WeAutoCommon.Utils.RegistryHelper.SetDword
+  nameWithType: RegistryHelper.SetDword
 - uid: WeAutoCommon.Utils.TextIdentifier
   name: TextIdentifier
   href: api/WeAutoCommon.Utils.TextIdentifier.html

@@ -812,6 +812,20 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Utils.RegistryHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Utils.RegistryHelper.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Utils.RegistryHelper",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/WeAutoCommon.Utils.TextIdentifier.yml",
       "output": {
         ".html": {
