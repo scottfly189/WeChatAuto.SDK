@@ -193,9 +193,9 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 根据日期获取当前聊天窗口的聊天历史
         /// </summary>
-        /// <param name="dates">查询日期列表</param>
+        /// <param name="date">查询日期,如果为空则为当天日期</param>
         /// <returns>返回<see cref="ChatSimpleMessage"/>列表</returns>
-        public async Task<List<ChatSimpleMessage>> GetChatHistory(DateTime dates = default) => await _MessageList.GetChatHistory(dates);
+        public async Task<List<ChatSimpleMessage>> GetChatHistory(DateTime date = default) => await _MessageList.GetChatHistory(date);
 
         /// <summary>
         /// 根据日期获取聊天历史

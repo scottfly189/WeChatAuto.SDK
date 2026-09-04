@@ -221,8 +221,8 @@ namespace WeChatAuto.Components
                     else
                     {
                         //选择日期筛选....获取历史记录
+                        list = __FetchHistoryDataFromFilterDate(subWin, startDate, endDate, title, whoList);
                     }
-                    list = __FetchHistoryDataFromFilterDate(subWin, startDate, endDate, title, whoList);
                     return list;
                 }
                 catch (Exception ex)
@@ -333,14 +333,10 @@ namespace WeChatAuto.Components
             var match = Regex.Match(content, pattern, RegexOptions.Singleline);
             if (match.Success)
             {
-                // message.Who = match.Groups[1].Value.Trim();
-                // message.Message = match.Groups[2].Value.Trim();
                 var prefix = match.Groups[1].Value.Trim();
                 string who = __GetWhoCore(prefix.Trim(), whoList);
                 message.Who = who;
                 message.Message = prefix.substring(message.Who.Length).Trim();
-                if (message.Who.equals(this._Client.NickName))
-                    message.Who = "我";
 
                 result.Add(message);
             }
@@ -348,8 +344,6 @@ namespace WeChatAuto.Components
 
         private string __GetWhoCore(string prefix, List<string> whoList)
         {
-            if (prefix.startsWith(this._Client.NickName))
-                return this._Client.NickName;
             var nickName = whoList.OrderByDescending(x => x.Length).FirstOrDefault(x => prefix.StartsWith(x + " ") || prefix == x);
             return nickName;
         }
@@ -584,8 +578,6 @@ namespace WeChatAuto.Components
                     var who = __GetWhoCore(prefix, whoList);
                     item.Who = who;
                     item.Message = prefix.substring(who.Length);
-                    if (who.equals(this._Client.NickName))
-                        item.Who = "我";
 
                     item.SendDateTime = match.Groups[3].Value;
                     item.DateTime = date;
