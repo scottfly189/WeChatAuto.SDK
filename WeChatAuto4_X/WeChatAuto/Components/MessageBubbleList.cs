@@ -172,7 +172,7 @@ namespace WeChatAuto.Components
             {
                 if (title.HeaderType == ChatType.好友 || title.HeaderType == ChatType.企业微信)
                 {
-                    whoList = new List<string>() { title.Title };
+                    whoList = new List<string>() { title.Title, this._Client.NickName };
                 }
                 else
                 {
@@ -434,14 +434,30 @@ namespace WeChatAuto.Components
                         SupperMouseKey.MoveTo(point);
                         RandomWait.Wait(800, 1500);
                         SupperMouseKey.LeftClick();
-                        //等候需要的月份出现.
+                        //等候需要的月份出现. 
                         RandomWait.Wait(600, 1200);
                         var monthWinRetry = Retry.WhileNull(() => popWin.FindFirstChild(cf => cf.ByName("Weixin")), timeout: TimeSpan.FromSeconds(1), interval: TimeSpan.FromMilliseconds(200));
                         if (monthWinRetry.Success)
                         {
-                            var childItem = monthWinRetry.Result.FindFirstChild(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName(monthStr)));
+                            var childItem = monthWinRetry.Result.FindFirstDescendant(cf => cf.ByControlType(ControlType.MenuItem).And(cf.ByName(monthStr)));
                             if (childItem != null)
                             {
+                                var desktop = childItem.Automation.GetDesktop();
+                                path = $"/Window[@Name='Weixin'][@ProcessId={this._Client.MainWindow.Properties.ProcessId}]/Window[@Name='Weixin']/Group/Group[@AutomationId='qt_scrollarea_viewport']";
+                                var parentContainer = desktop.FindFirstByXPath(path);
+                                System.Diagnostics.Debug.WriteLine($"滚动前位置:y={childItem.BoundingRectangle.Y},height={childItem.BoundingRectangle.Height}");
+                                while (childItem.BoundingRectangle.Y + childItem.BoundingRectangle.Height <= parentContainer.BoundingRectangle.Y)
+                                {
+                                    MouseScrollHelper.UpStep(parentContainer.BoundingRectangle.SafeRandomPoint(), 3);
+                                }
+                                System.Diagnostics.Debug.WriteLine($"滚动后位置:y={childItem.BoundingRectangle.Y},height={childItem.BoundingRectangle.Height}");
+                                // System.Diagnostics.Debug.WriteLine($"滚动前位置:y={childItem.BoundingRectangle.Y},height={childItem.BoundingRectangle.Height}");
+                                // while (childItem.BoundingRectangle.Y + childItem.BoundingRectangle.Height > parentContainer.BoundingRectangle.Y)
+                                // {
+                                //     MouseScrollHelper.DownStep(parentContainer.BoundingRectangle.SafeRandomPoint(), 3);
+                                // }
+                                // System.Diagnostics.Debug.WriteLine($"滚动后位置:y={childItem.BoundingRectangle.Y},height={childItem.BoundingRectangle.Height}");
+
                                 point = childItem.BoundingRectangle.SafeRandomPoint();
                                 SupperMouseKey.MoveTo(point);
                                 RandomWait.Wait(150, 900);
