@@ -50,7 +50,7 @@ public class SearchTest
     {
         var framework = _globalFixture.clientFactory;
         var client = framework.GetWeChatClient(_wxClientName);
-        var result = await client.AddFriends(new string[] { "18978694189", "13719238557", "13719238558","18978194199" },
+        var result = await client.AddFriends(new string[] { "18978694189", "13719238557", "limu1111","18978194199" },
         new Options.AddFriendsOptions
         {
             IntervalTime = 4,

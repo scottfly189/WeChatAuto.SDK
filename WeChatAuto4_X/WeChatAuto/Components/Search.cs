@@ -191,7 +191,9 @@ namespace WeChatAuto.Components
                     RandomWait.Wait(300, 900);
                     SupperMouseKey.LeftClick();
                     RandomWait.Wait(300, 900);
-                    SupperMouseKey.Type(f);
+                    //SupperMouseKey.Type(f);
+                    // ClipboardHelper.SetText(f);
+                    edit.Text = f;
                     RandomWait.Wait(300, 900);
                     path = "/Group/Group/Button[@Name='搜索']";
                     var button = win.FindFirstByXPath(path).AsButton();
