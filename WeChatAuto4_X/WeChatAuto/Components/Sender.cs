@@ -382,7 +382,7 @@ namespace WeChatAuto.Components
 			var service = _serviceProvider.GetRequiredService<QwenClientService>();
 			if (optimizeWithLlm)
 			{
-				message = service.HumenText(apiKey,message).GetAwaiter().GetResult();
+				message = service.HumenText(apiKey, message).GetAwaiter().GetResult();
 			}
 			var result = service.MultiModalConversationCall(apiKey, message, options).GetAwaiter().GetResult();
 			return result;
@@ -665,7 +665,7 @@ namespace WeChatAuto.Components
 
 		private void _PopupMenu(ChatRefer refer)
 		{
-			var path = "/Group/Custom/Group/Group/Group/Custom/Custom/Custom/Group/Custom/Custom/Group/Custom/Group/Group/List[@Name='消息'][@AutomationId='chat_message_list'][@ClassName='mmui::RecyclerListView'] | /Group/Custom/Group/Group/Group/Custom/Custom/Custom/Group/Custom/Custom/Group/Custom/Group/List[@Name='消息'][@AutomationId='chat_message_list'][@ClassName='mmui::RecyclerListView'] | /Group/Group/Group/Custom/Group/Group/List[@Name='消息'][@AutomationId='chat_message_list'][@ClassName='mmui::RecyclerListView'] | /Group/Group/Group/Custom/Group/List[@Name='消息'][@AutomationId='chat_message_list'][@ClassName='mmui::RecyclerListView']"; ;
+			var path = UITreeGlobal.MessageRootPath;
 			var listRetry = Retry.WhileNull(() => this._Client.MainWindow.FindFirstByXPath(path), TimeSpan.FromSeconds(1), TimeSpan.FromMilliseconds(200));
 			if (listRetry.Success)
 			{
