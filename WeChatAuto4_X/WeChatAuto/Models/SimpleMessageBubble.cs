@@ -27,18 +27,11 @@ namespace WeChatAuto.Models
         public string Message { get; set; }
         /// <summary>
         /// 发送日期,仅精确到分钟
+        /// 这个....新的方法应该不起作用，因为UI Tree不带时间，或者说带的时间不具备参考价值
         /// </summary>
         [Key(3)]
         [JsonProperty("send_date")]
         public DateTime SendDate { get; set; }
-        /// <summary>
-        /// 如果消息中有图片，此处为图片的Bitmap对象，否则为null
-        /// 注意：如果消息中有图片，且MessageMonitorOptions.FetchImage=false，则此处为null
-        /// 注意：如果消息中有图片，且MessageMonitorOptions.FetchImage=true，则此处为Bitmap对象
-        /// 注意：如果消息中有图片，且MessageMonitorOptions.FetchImage=true，但获取图片失败，则此处为null
-        /// </summary>
-        [IgnoreMember]
-        public Bitmap Image { get; set; }
 
         /// <summary>
         /// 消息类型
@@ -48,21 +41,36 @@ namespace WeChatAuto.Models
         public MessageType MessageType { get; set; } = MessageType.None;
 
         /// <summary>
-        /// 图片路径
-        /// 如果消息中有图片，此处为图片的路径
-        /// 注意：如果消息中有图片，且MessageMonitorOptions.FetchImage=false，则此处为null
-        /// 注意：如果消息中有图片，且MessageMonitorOptions.FetchImage=true，则此处非空
-        /// 注意：如果消息中有图片，且MessageMonitorOptions.FetchImage=true，但获取图片失败，则此处为null
+        /// 如果此消息是图片、文件、视频等，并且设置选项可以获取它们，则此字段存放的是他们的路径.
+        /// 关于文件：请打开微信选项 “自动下载小于xxMB的文件”， 如果涉及的 文件 比较大，因为微信默认的是自动下载20M，可以设置大一些，如: 100MB
         /// </summary>
         [Key(6)]
-        public string ImageFile { get; set; }
+        public string FilePath { get; set; }
+        /// <summary>
+        /// 如果设置选项需要获取图片、文件、视频等，并且此消息为图片、文件、视频类型，则此字段存放的是它们的base64字符串
+        /// </summary>
         [IgnoreMember]
         [JsonProperty("image_base64_str")]
-        public string ImageBase64Str { get; set; }
+        public string Base64Str { get; set; } = "";
+        /// <summary>
+        /// UI Tree Item的class name
+        /// 内部使用
+        /// </summary>
+        [Key(7)]
+        [JsonProperty("ui-class-name")]
+        public string UIClassName { get; set; }
 
         public override string ToString()
         {
-            return $"who={this.Who} Message={this.Message} SendDate={this.SendDate.ToString("yyyy-MM-dd HH:mm")} Image={(this.Image != null ? "有图片" : "无")} MessageType={this.MessageType.ToString()} ImageFile={this.ImageFile}";
+            var date = SendDate;
+            if (date == default)
+            {
+                return $"{this.MessageType.ToString()} - {this.Who}: {this.Message} {(string.IsNullOrWhiteSpace(FilePath) ? "" : FilePath)}";
+            }
+            else
+            {
+                return $"{this.MessageType.ToString()} - {date.ToString("yyyy-MM-dd HH:mm")} - {this.Who}: {this.Message} {(string.IsNullOrWhiteSpace(FilePath) ? "" : FilePath)}";
+            }
         }
         /// <summary>
         /// 得到特征值
@@ -73,11 +81,11 @@ namespace WeChatAuto.Models
             var date = SendDate;
             if (date == default)
             {
-                return $"{Who}|{Message}|{MessageType.ToString()}";
+                return $"{Who}|{Message}|{MessageType.ToString()}|{UIClassName}";
             }
             else
             {
-                return $"{Who}|{Message}|{date.ToString("yyyy-MM-dd HH:mm")}|{MessageType.ToString()}";
+                return $"{Who}|{Message}|{date.ToString("yyyy-MM-dd HH:mm")}|{MessageType.ToString()}|{UIClassName}";
             }
         }
 
@@ -89,8 +97,7 @@ namespace WeChatAuto.Models
                 Message = this.Message,
                 SendDate = this.SendDate,
                 MessageType = this.MessageType,
-                ImageFile = this.ImageFile,
-                Image = this.Image,
+                FilePath = this.FilePath,
             };
         }
 
