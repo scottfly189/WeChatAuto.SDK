@@ -27,11 +27,10 @@ namespace WeChatAuto.Models
         public string Message { get; set; }
         /// <summary>
         /// 发送日期,仅精确到分钟
-        /// 这个....新的方法应该不起作用，因为UI Tree不带时间，或者说带的时间不具备参考价值
         /// </summary>
         [Key(3)]
         [JsonProperty("send_date")]
-        public DateTime SendDate { get; set; }
+        public DateTime SendDate { get; set; } = default;
 
         /// <summary>
         /// 消息类型
@@ -98,6 +97,8 @@ namespace WeChatAuto.Models
                 SendDate = this.SendDate,
                 MessageType = this.MessageType,
                 FilePath = this.FilePath,
+                Base64Str = this.Base64Str,
+                UIClassName = this.UIClassName,
             };
         }
 
