@@ -92,5 +92,13 @@ namespace WeChatAuto.Options
         /// </summary>
         [JsonProperty("connection_string")]
         public string ConnectionString { get; set; } = "Data Source=wechat.db";
+
+        /// <summary>
+        /// 默认获取的最新消息写入上面设置的数据库，但是考虑到一些不想直接写数据库，如：调用webapi写服务器数据库，可以在此设置回调,
+        /// 注意：如果不想写数据库，需要将DbType设置为DbType.Custom,否则此方法不起效果.
+        /// 传入的参数: SDK传入最新获取的消息列表,详情请参考<seealso cref="SimpleMessageBubble"/>
+        /// 返回： 写入为真还是假.
+        /// </summary>
+        public Func<List<SimpleMessageBubble>,bool> WriteDataBaseCallback { get; set; } = null;
     }
 }
