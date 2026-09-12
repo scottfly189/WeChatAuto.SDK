@@ -7,7 +7,6 @@ using System.IO;
 using OneOf.Types;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
-using SqlSugar;
 
 namespace WeAutoCommon.Configs
 {
@@ -227,23 +226,6 @@ namespace WeAutoCommon.Configs
         /// </summary>
         [JsonPropertyName("message_stability_retry_number")]
         public int MessageStabilityRetryNumber { get; set; } = 5;
-
-        /// <summary>
-        /// 数据库类型，几乎支持所有数据库类型，默认是sqlite数据库,可以改成其他的数据库
-        /// </summary>
-        [JsonPropertyName("db_type")]
-        public DbType DbTppe { get; set; } = DbType.Sqlite;
-        /// <summary>
-        /// 数据库连接字符串,如：
-        /// "ConnectionString": "PORT=5432;DATABASE=xxx;HOST=localhost;PASSWORD=xxx;USER ID=xxx", // PostgreSQL（Kdbndp、OpenGauss通用）
-        /// "ConnectionString": "Server=localhost;Database=xxx;Uid=xxx;Pwd=xxx;SslMode=None;AllowLoadLocalInfile=true;AllowUserVariables=true;", // MySql,
-        /// "ConnectionString": "User Id=xxx; Password=xxx; Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=ORCL)))", // Oracle
-        /// "ConnectionString": "Server=localhost;Database=xxx;User Id=xxx;Password=xxx;Encrypt=True;TrustServerCertificate=True;", // SqlServer
-        /// "ConnectionString": "host=222.71.212.32;Port=27017;Database=testDB;Username= root;Password=123456;authSource=admin;replicaSet=", // MongoDB
-        /// 注：此配置项为公共配置项，在各个消息监听函数中可以修改此配置，并且优先级以各个消息监听函数中配置的配置项最高。
-        /// </summary>
-        [JsonPropertyName("connection_string")]
-        public string ConnectionString { get; set; } = "Data Source=wechat.db";
     }
 
     public static class Language
