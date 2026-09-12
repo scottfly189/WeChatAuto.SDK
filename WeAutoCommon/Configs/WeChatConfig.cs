@@ -7,6 +7,7 @@ using System.IO;
 using OneOf.Types;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
+using SqlSugar;
 
 namespace WeAutoCommon.Configs
 {
@@ -50,11 +51,6 @@ namespace WeAutoCommon.Configs
         [JsonPropertyName("conversation_change_listener_interval")]
         public int ConversationChangeListenerInterval { get; set; } = 5;
         /// <summary>
-        /// 消息监听间隔时间，单位为秒
-        /// </summary>
-        [JsonPropertyName("monitor_message_interval")]
-        public int MonitorMessageInterval { get; set; } = 5;
-        /// <summary>
         /// 消息监听时往下滚动的次数，如果监听列表多，建议设置成：10-30
         /// 如果监听列表少，建议设置成:5~10，以提高效率 
         /// </summary>
@@ -70,6 +66,11 @@ namespace WeAutoCommon.Configs
         /// </summary>
         [JsonPropertyName("monitor_group_interval")]
         public int MonitorGroupInterval { get; set; } = 10;
+        /// <summary>
+        /// 固定式消息监听的时间间隔，单位为秒
+        /// </summary>
+        [JsonPropertyName("monitor_interval")]
+        public int MonitorInterval { get; set; } = 3;
         /// <summary>
         /// 会话列表鼠标滚动行数.
         /// </summary>
@@ -210,7 +211,7 @@ namespace WeAutoCommon.Configs
         /// 用于消息监听中，返回给回调函数历史消息最大记录数，因为事实上无须读完整个历史消息的。
         /// </summary>
         [JsonPropertyName("max_history_message_fetch_number")]
-        public int MaxHistoryMessageFetchNumber { get; set; } = 20;
+        public int MaxHistoryMessageFetchNumber { get; set; } = 40;
         /// <summary>
         /// 为了预防全量搜索历史消息设置的阈值
         /// </summary>
@@ -226,6 +227,23 @@ namespace WeAutoCommon.Configs
         /// </summary>
         [JsonPropertyName("message_stability_retry_number")]
         public int MessageStabilityRetryNumber { get; set; } = 5;
+
+        /// <summary>
+        /// 数据库类型，几乎支持所有数据库类型，默认是sqlite数据库,可以改成其他的数据库
+        /// </summary>
+        [JsonPropertyName("db_type")]
+        public DbType DbTppe { get; set; } = DbType.Sqlite;
+        /// <summary>
+        /// 数据库连接字符串,如：
+        /// "ConnectionString": "PORT=5432;DATABASE=xxx;HOST=localhost;PASSWORD=xxx;USER ID=xxx", // PostgreSQL（Kdbndp、OpenGauss通用）
+        /// "ConnectionString": "Server=localhost;Database=xxx;Uid=xxx;Pwd=xxx;SslMode=None;AllowLoadLocalInfile=true;AllowUserVariables=true;", // MySql,
+        /// "ConnectionString": "User Id=xxx; Password=xxx; Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=ORCL)))", // Oracle
+        /// "ConnectionString": "Server=localhost;Database=xxx;User Id=xxx;Password=xxx;Encrypt=True;TrustServerCertificate=True;", // SqlServer
+        /// "ConnectionString": "host=222.71.212.32;Port=27017;Database=testDB;Username= root;Password=123456;authSource=admin;replicaSet=", // MongoDB
+        /// 注：此配置项为公共配置项，在各个消息监听函数中可以修改此配置，并且优先级以各个消息监听函数中配置的配置项最高。
+        /// </summary>
+        [JsonPropertyName("connection_string")]
+        public string ConnectionString { get; set; } = "Data Source=wechat.db";
     }
 
     public static class Language

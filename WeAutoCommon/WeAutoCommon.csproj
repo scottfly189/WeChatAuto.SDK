@@ -36,6 +36,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="OneOf" Version="3.0.271" />
     <PackageReference Include="System.Threading.Channels" Version="9.0.10" />
+    <PackageReference Include="SqlSugarCore" Version="5.1.4.220" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Simulator\x64\skm.dll">
