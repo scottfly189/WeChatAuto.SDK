@@ -90,7 +90,7 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 从缓存中得到一个好友的信息
         /// </summary>
-        /// <param name="who"></param>
+        /// <param name="who">好友昵称</param>
         /// <returns>好友对象，请参考:<see cref="FriendInfo"/></returns>
         public FriendInfo GetFriendFromCache(string who)
         {
@@ -98,7 +98,18 @@ namespace WeChatAuto.Components
                 return null;
             List<FriendInfo> list = GetFriendListFromCache();
             return list.FirstOrDefault(x => x.Name == who);
-
+        }
+        /// <summary>
+        /// 从缓存中得到一个好友的信息
+        /// </summary>
+        /// <param name="who">好友昵称</param>
+        /// <returns>好友对象，请参考:<see cref="FriendInfo"/></returns>
+        public List<FriendInfo> GetFriendsFromCache(string who)
+        {
+            if (string.IsNullOrWhiteSpace(who))
+                return null;
+            List<FriendInfo> list = GetFriendListFromCache();
+            return list;
         }
         /// <summary>
         /// 从缓存中得到一个好友的信息,因为名字可能重复，而wxid永远不重复

@@ -19,6 +19,12 @@ namespace WeChatAuto.Options
     {
 
         /// <summary>
+        /// 如果此好友在缓存中不存在，是否获取此好友的用户信息(包括wxid),并更新缓存，对于基于wxid的企业级开发很有用
+        /// </summary>
+        [JsonProperty("fetch_friend_info")]
+        public bool FetchFriendInfo { get; set; } = false;
+
+        /// <summary>
         /// 如果聊天记录中有图片，是否获取图片
         /// </summary>
         [JsonProperty("fetch_image")]
@@ -47,7 +53,7 @@ namespace WeChatAuto.Options
         /// 使用LCS/Diff Block算法时的比较数量，默认为3
         /// </summary>
         [JsonProperty("diff_count")]
-        public int DiffCount {get;set;} = 3;
+        public int DiffCount { get; set; } = 3;
 
         /// <summary>
         /// 到底部时重试次数，默认三次

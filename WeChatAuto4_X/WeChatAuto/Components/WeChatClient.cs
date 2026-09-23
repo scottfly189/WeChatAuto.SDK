@@ -333,6 +333,12 @@ namespace WeChatAuto.Components
         /// <returns></returns>
         public async Task<Window> OpenSubWin(string who) => await this.Conversations.OpenSubWin(who);
         /// <summary>
+        /// 如果子窗口存在，关闭子窗口，如果不存在，则不做动作。
+        /// </summary>
+        /// <param name="who">好友、群的昵称</param>
+        /// <returns></returns>
+        public async Task CloseSubWin(string who) => await this.Conversations.CloseSubWin(who);
+        /// <summary>
         /// 得到本微信窗口句柄
         /// </summary>
         /// <returns></returns>
@@ -536,20 +542,48 @@ namespace WeChatAuto.Components
         /// <returns></returns>
         public async Task SendVoiceMessage(string filePath) => await ChatContent.SendVoiceMessage(filePath);
         /// <summary>
-        /// 文字转语音发送
-        /// 工作原理： 通过音频大模型从文字转成语音后，再通过微信发送指定的好友/群聊
-        /// 注：系统默认支持: 阿里千问 Qwen3-TTS系列 模型
-        /// 为什么选择阿里千问 Qwen3-TTS系列 模型？
-        /// 1. 阿里千问 Qwen3-TTS系列 在国际上的语音合成领域也是第一T队;
-        /// 2. 完美支持：声音克隆、声音设计、可以通过指令方便控制语速、情感和语言风格、聊天自然，可以停顿、笑等、为未来的AI 电话/语音 聊天做准备
+        /// 文字转语音发送。
+        ///
+        /// 工作原理：通过音频大模型将文字转换成语音，然后通过微信发送给指定的好友或群聊。
+        ///
+        /// 注：系统默认支持阿里千问 Qwen3-TTS 系列模型。
+        ///
+        /// 为什么选择阿里千问 Qwen3-TTS 系列模型？
+        /// 1. 阿里千问 Qwen3-TTS 系列在国际语音合成领域也处于第一梯队；
+        /// 2. 完美支持声音克隆、声音设计，并可以通过指令方便地控制语速、情感和语言风格；
+        ///    生成的语音聊天自然，可以实现停顿、笑声等效果，为未来的 AI 电话/语音聊天做准备。
         /// </summary>
-        /// <param name="apiKey">千问的api key,申请地址： https://bailian.console.aliyun.com/?spm=a2c4g.11186623.0.0.3f801457p6h0qM&tab=model#/api-key</param>
-        /// <param name="who">好友或者群聊，可以为空，如果为空，则为当前焦点聊天窗口</param>
-        /// <param name="message">文本消息</param>
-        /// <param name="options">声音选项，用于指定模型、音色等</param>
-        /// <param name="optimizeWithLlm">待发送消息是否需要LLM优化,因为文字有时候与实际的口语场景有较大出入，所以让LLM优化一下，更适合口语化</param>
-        /// <param name="customProcess">如果系统提供的大模型不满足使用，可以自定义文字转语音方法,要求返回的是本地目录的磁盘语音文件</param>
-        /// <returns></returns>
+        /// <param name="apiKey">
+        /// 千问 API Key。
+        /// 申请地址：
+        /// <see href="https://bailian.console.aliyun.com/?spm=a2c4g.11186623.0.0.3f801457p6h0qM&amp;tab=model#/api-key">
+        /// 阿里云百炼控制台
+        /// </see>
+        /// </param>
+        /// <param name="who">
+        /// 好友或者群聊，可以为空。
+        /// 如果为空，则使用当前焦点聊天窗口。
+        /// </param>
+        /// <param name="message">
+        /// 要转换成语音的文本消息。
+        /// </param>
+        /// <param name="options">
+        /// 声音选项，用于指定模型、音色等参数。
+        /// </param>
+        /// <param name="optimizeWithLlm">
+        /// 待发送的消息是否需要通过 LLM 进行优化。
+        /// 由于文字内容有时候与实际的口语场景存在较大差异，
+        /// 可以通过 LLM 对文字进行优化，使其更加适合口语化表达。
+        /// </param>
+        /// <param name="customProcess">
+        /// 自定义文字转语音方法。
+        /// 如果系统提供的大模型不能满足使用需求，可以通过此参数自定义文字转语音处理方法。
+        /// 要求返回本地目录中的语音文件路径。
+        /// </param>
+        /// <returns>
+        /// 无返回值。
+        /// </returns>
+
         public async Task SendVoiceMessageWithTTS(string who, string apiKey, string message, VoiceOptions options, bool optimizeWithLlm = false, Func<string, string> customProcess = null) => await this.ChatContent.SendVoiceMessageWithTTS(who, apiKey, message, options, optimizeWithLlm, customProcess);
         /// <summary>
         /// 根据日期获取当前聊天窗口的聊天历史
@@ -653,6 +687,14 @@ namespace WeChatAuto.Components
         /// <param name="who">好友名称</param>
         /// <returns>好友对象，请参考:<see cref="FriendInfo"/></returns>
         public FriendInfo GetFriendFromCache(string who) => CacheManager.GetFriendFromCache(who);
+
+        /// <summary>
+        /// 从缓存中得到一个好友信息,适用于昵称重复的场合
+        /// 建议：建议使昵称唯一
+        /// </summary>
+        /// <param name="who">好友名称</param>
+        /// <returns></returns>
+        public List<FriendInfo> GetFriendsFromCache(string who) => CacheManager.GetFriendsFromCache(who);
 
         /// <summary>
         /// 从缓存中得到一个好友的信息,因为名字可能重复，而wxid永远不重复
