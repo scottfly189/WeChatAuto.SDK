@@ -44,7 +44,7 @@ namespace WeChatAuto.Models
         /// 关于文件：请打开微信选项 “自动下载小于xxMB的文件”， 如果涉及的 文件 比较大，因为微信默认的是自动下载20M，可以设置大一些，如: 100MB
         /// </summary>
         [Key(6)]
-        public string FilePath { get; set; }
+        public string FilePath { get; set; } = "";
         /// <summary>
         /// 如果设置选项需要获取图片、文件、视频等，并且此消息为图片、文件、视频类型，则此字段存放的是它们的base64字符串
         /// </summary>

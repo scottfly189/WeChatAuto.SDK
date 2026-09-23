@@ -17,6 +17,11 @@ namespace WeChatAuto.Options
     /// </summary>
     public class PullMessagesOptions
     {
+        /// <summary>
+        /// 使用历史缓存列表补足 - 为了加快历史消息的获取速度，默认为True,系统检查到新抓取的数据根据LCS/Diff Block算法与历史消息序列一致，则停止向上滚动获取消息，改由从缓存历史消息中获取数据，也可以设置为False,则每次都会向上滚动抓取固定（用户设置）数量的消息
+        /// </summary>
+        [JsonProperty("using_message_cache_fill")]
+        public bool usingMessageCacheFill = true;
 
         /// <summary>
         /// 如果此好友在缓存中不存在，是否获取此好友的用户信息(包括wxid),并更新缓存，对于基于wxid的企业级开发很有用

@@ -57,7 +57,7 @@ namespace WeChatAuto.Options
         /// 上下文抓取的数量
         /// </summary>
         [JsonProperty("context_fetch_number")]
-        public int ContextFetchNumber {get;set;} = 40;
+        public int ContextFetchNumber { get; set; } = 40;
 
         /// <summary>
         /// 对于每一条原始消息的处理回调函数,供使用者精准控制每一条消息的处理.
@@ -85,11 +85,17 @@ namespace WeChatAuto.Options
         /// <summary>
         /// OCR的padding设置，默认是20
         /// </summary>
-        public int OcrPadding { get; set; } = 20;
+        public int OcrPadding { get; set; } = 50;
         /// <summary>
         /// 设置OCR时是否测试，如果值为True,则会显示每张OCR的画红框图,方便调试,默认为 false.
         /// </summary>
         public bool IsOCRDebug { get; set; } = false;
+
+        /// <summary>
+        /// 是否将源图截取到temp目录，方便ocr调试,默认为False
+        /// </summary>
+        [JsonProperty("is_capture_ori_image")]
+        public bool IsCaptureOriImage { get; set; } = false;
 
         /// <summary>
         /// 一般不用设置
