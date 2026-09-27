@@ -281,6 +281,7 @@ namespace WeChatAuto.Components
             }
             if (!SearchWhoCore(automation, who))
                 return null;
+            //打开子窗口
             var croot = ConversationRoot;
             var subList = croot.FindAllChildren(cf => cf.ByControlType(ControlType.ListItem).And(cf.ByClassName("mmui::ChatSessionCell"))).ToList().Select(u => u.AsListBoxItem()).ToList();
             var clickItem = subList.FirstOrDefault(x => x.IsSelected);
@@ -677,7 +678,7 @@ namespace WeChatAuto.Components
             ListBox root = null;
             while (!find)
             {
-                var path = @"/Group/Custom/Group/Group/Group/Custom/Custom/Group/Group/Group/Group/Group/Group/List[@Name='会话'][@AutomationId='session_list']";
+                var path = UITreeGlobal.ConversationRootPath;
                 root = _Client.MainWindow.FindFirstByXPath(path).AsListBox();
                 find = root != null;
                 if (!find)

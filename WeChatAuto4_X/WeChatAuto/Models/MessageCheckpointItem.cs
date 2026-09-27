@@ -4,12 +4,10 @@ using Newtonsoft.Json;
 
 namespace WeChatAuto.Models
 {
-    public class MessageCheckpointItem
+    public class MessageCheckpointItem : BaseMessageCheckpointItem
     {
 
         public AutomationElement Element { get; set; }
-        public int CurrentSnapTop { get; set; }
-        public int[] RunTimeId { get; set; }
 
         public bool IsChange()
         {
@@ -17,6 +15,21 @@ namespace WeChatAuto.Models
                 return true;
             if (this.Element.BoundingRectangle.Y != CurrentSnapTop ||
                 !this.Element.Properties.RuntimeId.Value.SequenceEqual(this.RunTimeId))
+                return true;
+
+            return false;
+        }
+    }
+
+    public class BaseMessageCheckpointItem
+    {
+        public int CurrentSnapTop { get; set; }
+        public int[] RunTimeId { get; set; }
+
+        public bool IsChange(int[] runtime, int top)
+        {
+            if (top != CurrentSnapTop ||
+                !runtime.SequenceEqual(RunTimeId))
                 return true;
 
             return false;

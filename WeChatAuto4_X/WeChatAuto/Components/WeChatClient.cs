@@ -25,6 +25,7 @@ using System.IO;
 using WeChatAuto.Options;
 using RapidOCRLib;
 using System.Threading.Channels;
+using Microsoft.Identity.Client;
 
 
 namespace WeChatAuto.Components
@@ -66,6 +67,19 @@ namespace WeChatAuto.Components
         private int _SystemMonitorChannelStarted = 0;
         private readonly CancellationTokenSource _ActionTokenSource = new CancellationTokenSource();
         private Task _SystemMonitorTask;
+        #endregion
+
+        #region 弹出子窗口监听Channel
+        private readonly Channel<(MessageMonitorOptions options, string who, Func<MessageContext, Task> callBack)> _SubWinMonitorChannel = Channel.CreateBounded<(MessageMonitorOptions options, string who, Func<MessageContext, Task> callBack)>(new BoundedChannelOptions(100)
+        {
+            SingleReader = true,   //单个执行
+            SingleWriter = false,  //允许多个发送
+            FullMode = BoundedChannelFullMode.Wait,
+        });
+        public Channel<(MessageMonitorOptions options, string who, Func<MessageContext, Task> callBack)> SubWinMonitorChannel => _SubWinMonitorChannel;
+        private int _SubWinMonitorChannelStarted = 0;
+        private readonly CancellationTokenSource _SubWinActionTokenSource = new CancellationTokenSource();
+        private Task _SubWinMonitorTask;
         #endregion
 
         /// <summary>
@@ -115,61 +129,6 @@ namespace WeChatAuto.Components
             _RunCheckAddressBook();
         }
 
-        internal async Task _InitializeSystemMonitorConsumption()
-        {
-            if (Interlocked.CompareExchange(ref _SystemMonitorChannelStarted, 1, 0) == 1)
-                return;
-            TaskCompletionSource tcs = new TaskCompletionSource();
-            _SystemMonitorTask = Task.Run(async () =>
-            {
-                try
-                {
-                    tcs.SetResult();
-                    var token = _ActionTokenSource.Token;
-                    await foreach (var message in _SystemMonitorChannel.Reader.ReadAllAsync(token))
-                    {
-                        try
-                        {
-                            await monitorEvent.WaitAsync(token);
-                            try
-                            {
-                                if (message.option.CallBack != null)
-                                {
-                                    await SystemMonitorConsumptionActionCore(message);
-                                }
-                            }
-                            finally
-                            {
-                                monitorEvent.Release();
-                            }
-                        }
-                        catch (OperationCanceledException)
-                        {
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.Error($"系统消息消费者发生错误，错误原因:{ex.ToString()}");
-                        }
-                    }
-                }
-                catch (OperationCanceledException)
-                {
-                    tcs?.TrySetCanceled();
-                }
-                catch (Exception ex)
-                {
-                    _logger.Error($"系统消息消费者发生错误，错误原因:{ex.ToString()}");
-                    tcs?.TrySetException(ex);
-                }
-            });
-            await tcs.Task;
-        }
-
-        private async Task SystemMonitorConsumptionActionCore((SystemMonitorOption option, List<string> messaages) message)
-        {
-            SystemMessageContext context = new SystemMessageContext(message.messaages, this, this.serviceProvider, message.option.Who);
-            await message.option.CallBack.Invoke(context);
-        }
 
         private void _RunCheckAddressBook()
         {
@@ -929,6 +888,18 @@ namespace WeChatAuto.Components
                     catch (AggregateException) { }
                     catch (Exception) { }
                 }
+
+                // SubWinMonitorChannel.Writer.Complete();
+                // _SubWinActionTokenSource?.Cancel();
+                // if (_SubWinMonitorTask != null && !_SubWinMonitorTask.IsCompleted)
+                // {
+                //     try
+                //     {
+                //         _SubWinMonitorTask.Wait(TimeSpan.FromSeconds(3));
+                //     }
+                //     catch (AggregateException) { }
+                //     catch (Exception) { }
+                // }
 
                 MessageMonitor?.Dispose();
                 NewFriendMonitor?.Dispose();
