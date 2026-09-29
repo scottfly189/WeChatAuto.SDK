@@ -69,18 +69,7 @@ namespace WeChatAuto.Components
         private Task _SystemMonitorTask;
         #endregion
 
-        #region 弹出子窗口监听Channel
-        private readonly Channel<(MessageMonitorOptions options, string who, Func<MessageContext, Task> callBack)> _SubWinMonitorChannel = Channel.CreateBounded<(MessageMonitorOptions options, string who, Func<MessageContext, Task> callBack)>(new BoundedChannelOptions(100)
-        {
-            SingleReader = true,   //单个执行
-            SingleWriter = false,  //允许多个发送
-            FullMode = BoundedChannelFullMode.Wait,
-        });
-        public Channel<(MessageMonitorOptions options, string who, Func<MessageContext, Task> callBack)> SubWinMonitorChannel => _SubWinMonitorChannel;
-        private int _SubWinMonitorChannelStarted = 0;
-        private readonly CancellationTokenSource _SubWinActionTokenSource = new CancellationTokenSource();
-        private Task _SubWinMonitorTask;
-        #endregion
+
 
         /// <summary>
         /// 构造器
