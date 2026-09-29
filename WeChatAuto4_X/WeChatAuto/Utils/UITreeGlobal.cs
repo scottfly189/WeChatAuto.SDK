@@ -23,5 +23,16 @@ namespace WeChatAuto.Utils
         public static string Search_Bar_PopupMenu = "/Window[@Name='Weixin']/Group/Group/List[@AutomationId='search_list'] | /Window[@Name='Weixin']/Group/List[@AutomationId='search_list']";
         //会话列表 - ListBox
         public static string ConversationRootPath = @"/Group/Custom/Group/Group/Group/Custom/Custom/Group/Group/Group/Group/Group/Group/List[@Name='会话'][@AutomationId='session_list']";
+
+        //弹出窗口 - 标题root的path
+        public static string SubWinTitleRootPath = "/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group[@AutomationId='content_view.top_content_view.title_h_view.left_v_view.left_content_v_view.left_ui_'][@ClassName='mmui::XView']";
+        //弹出窗口 - 标题root下面的text组Path
+        public static string SubWinTitleTextGroupPath = "/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Text[@AutomationId='content_view.top_content_view.title_h_view.left_v_view.left_content_v_view.left_ui_.big_title_line_h_view'][@ClassName='mmui::XHBoxView']";
+        //弹出窗口 - 标题栏 的 聊天记录 按钮 path
+        public static string SubWinTitleHistoryButtonPath = "/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Button[@Name='聊天记录']";
+        //弹出窗口 - 标题栏 的 语音通话 按钮 path
+        public static string SubWinTitleVoipButtonPath = "/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Button[@Name='语音通话']";
+
+        
     }
 }
