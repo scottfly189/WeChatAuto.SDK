@@ -9,6 +9,7 @@ using WeChatAuto.Models;
 using FlaUI.Core.AutomationElements;
 using Newtonsoft.Json;
 using SqlSugar;
+using System.Text.Json.Serialization;
 
 namespace WeChatAuto.Options
 {
@@ -24,23 +25,23 @@ namespace WeChatAuto.Options
         public bool FetchFriendInfo { get; set; } = false;
 
         /// <summary>
-        /// 如果聊天记录中有图片，是否获取图片
+        /// 如果聊天记录中有图片，是否获取图片,默认是取图片
         /// </summary>
         [JsonProperty("fetch_image")]
-        public bool FetchImage { get; set; } = false;
+        public bool FetchImage { get; set; } = true;
 
         /// <summary>
-        /// 如果聊天记录中有附件，是否获取附件
+        /// 如果聊天记录中有附件，是否获取附件,默认是取附件
         /// 附件在微信消息的定义为： 文件,由于微信默认下载20M的文件，可以在微信->账号与存储->自动下载少于xxMB的文件那里，将数量设置设置大一些，如: 100或者200M，能加快性能
         /// </summary>
         [JsonProperty("fetch_attachment")]
-        public bool FetchAttachment { get; set; } = false;
+        public bool FetchAttachment { get; set; } = true;
 
         /// <summary>
-        /// 如果聊天记录中有视频，是否获取视频
+        /// 如果聊天记录中有视频，是否获取视频,默认是取音频
         /// </summary>
         [JsonProperty("fetch_video")]
-        public bool FetchVideo { get; set; } = false;
+        public bool FetchVideo { get; set; } = true;
 
         /// <summary>
         /// 如果聊天记录中有红包、转账，是否点击
@@ -96,6 +97,18 @@ namespace WeChatAuto.Options
         /// </summary>
         [JsonProperty("is_capture_ori_image")]
         public bool IsCaptureOriImage { get; set; } = false;
+
+        /// <summary>
+        /// 使用UI Tree点击的回退方案获取昵称，但是不够优雅，默认使用OCR的方案，但OCR方案不能保证100%的准确性（如:对一些夹杂emoji字符的昵称就不能准确识别）,尽管如此，还是推荐OCR方案.
+        /// </summary>
+        [JsonProperty("use_uitree_rollback_plan")]
+        public bool UseUITreeRollbackPlan { get; set; } = false;
+
+        /// <summary>
+        /// 文字置信度
+        /// </summary>
+        [JsonProperty("char_score_thresh")]
+        public float CharScoreThresh { get; set; } = 0.61f;
 
         /// <summary>
         /// 一般不用设置
