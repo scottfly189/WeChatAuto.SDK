@@ -37,6 +37,25 @@ namespace WeChatAuto.Utils
         /// <param name="wxid">所属微信wxid</param>
         /// <returns>消息列表，具体请参考<see cref="SimpleMessageBubble"/></returns>
         public static List<SimpleMessageBubble> GetTodayMessageCaches(string who, string wxid) => GetTodayMessageCacheCore(who, DateTime.Today, wxid);
+
+        /// <summary>
+        /// 获取指定好友所有的消息缓存
+        /// </summary>
+        /// <param name="who">好友/群聊</param>
+        /// <param name="wxid">所属微信wxid</param>
+        /// <returns>消息列表，具体请参考<see cref="SimpleMessageBubble"/></returns>
+        public static List<SimpleMessageBubble> GetAllMessageCaches(string who, string wxid)
+        {
+            var result = new List<SimpleMessageBubble>();
+            var fileName = GetStandFileName(who);
+            var path = Path.Combine(_RootCachePath, wxid, "alldatas", $"{fileName}.dat");
+            if (!File.Exists(path))
+                return result;
+            byte[] bytes = File.ReadAllBytes(path);
+            result = MessagePack.MessagePackSerializer.Deserialize<List<SimpleMessageBubble>>(bytes);
+
+            return result;
+        }
         /// <summary>
         /// 获取指定好友的今天的最后几条消息缓存
         /// </summary>
@@ -51,9 +70,19 @@ namespace WeChatAuto.Utils
                 return messages;
             return messages.GetRange(messages.Count - lastCount, lastCount);
         }
+        /// <summary>
+        /// 获取指定好友的最好几条消息缓存.
+        /// </summary>
+        /// <param name="who">好友/群聊</param>
+        /// <param name="lastCount">最后几条消息</param>
+        /// <param name="wxid">所属微信wxid</param>
+        /// <returns></returns>
         public static List<SimpleMessageBubble> GetLastMessages(string who, int lastCount, string wxid)
         {
-            return null;
+            var messages = GetAllMessageCaches(who, wxid);
+            if (messages.Count <= lastCount)
+                return messages;
+            return messages.GetRange(messages.Count - lastCount, lastCount);
         }
         /// <summary>
         /// 获取指定好友的指定日期的消息缓存
@@ -80,7 +109,7 @@ namespace WeChatAuto.Utils
         /// <param name="who">好友/群聊</param>
         /// <param name="wxid">所属微信wxid</param>
         /// <param name="messages">消息列表,具体请参考<see cref="SimpleMessageBubble"/></param>
-        public static void SaveTodayMessageCaches(string who, List<SimpleMessageBubble> messages, string wxid) => SaveMessageCacheCore(who, DateTime.Today, messages, wxid);
+        public static void SaveTodayMessageCaches(string who, List<SimpleMessageBubble> messages, string wxid) => SaveTodayMessageCachesCore(who, DateTime.Today, messages, wxid);
 
         /// <summary>
         /// 保存消息缓存，保存到以日期为文件夹，好友/群聊为文件名的文件中，文件内容为消息列表，具体请参考<see cref="SimpleMessageBubble"/>
@@ -89,7 +118,7 @@ namespace WeChatAuto.Utils
         /// <param name="date">日期</param>
         /// <param name="wxid">所属微信wxid</param>
         /// <param name="messages">消息列表,具体请参考<see cref="SimpleMessageBubble"/></param>
-        public static void SaveMessageCacheCore(string who, DateTime date, List<SimpleMessageBubble> messages, string wxid)
+        public static void SaveTodayMessageCachesCore(string who, DateTime date, List<SimpleMessageBubble> messages, string wxid)
         {
             var dir = Path.Combine(_RootCachePath, wxid);
             if (!Directory.Exists(dir))
@@ -103,7 +132,9 @@ namespace WeChatAuto.Utils
             }
             var fileName = GetStandFileName(who);
             var path = Path.Combine(dir, $"{fileName}.dat");
-            byte[] bytes = MessagePack.MessagePackSerializer.Serialize(messages);
+            List<SimpleMessageBubble> list = GetTodayMessageCaches(who, wxid);
+            list.AddRange(messages);
+            byte[] bytes = MessagePack.MessagePackSerializer.Serialize(list);
             File.WriteAllBytes(path, bytes);
         }
         /// <summary>
@@ -112,12 +143,32 @@ namespace WeChatAuto.Utils
         /// <param name="who"></param>
         /// <param name="wxid">所属微信wxid</param>
         /// <param name="messages"></param>
-        public static void AddTodayMessageCaches(string who, List<SimpleMessageBubble> messages, string wxid)
+        public static void AddMessageCaches(string who, List<SimpleMessageBubble> messages, string wxid)
         {
-            List<SimpleMessageBubble> list = GetTodayMessageCaches(who, wxid);
-            list.AddRange(messages);
-            SaveTodayMessageCaches(who, list, wxid);
+            SaveTodayMessageCaches(who, messages, wxid);  //保存当天数据.
+            SaveAllMessageCaches(who, messages, wxid);
         }
+
+        private static void SaveAllMessageCaches(string who, List<SimpleMessageBubble> messages, string wxid)
+        {
+            var dir = Path.Combine(_RootCachePath, wxid);
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+            dir = Path.Combine(dir, "alldatas");
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+            var fileName = GetStandFileName(who);
+            var path = Path.Combine(dir, $"{fileName}.dat");
+            List<SimpleMessageBubble> list = GetAllMessageCaches(who, wxid);
+            list.AddRange(messages);
+            byte[] bytes = MessagePack.MessagePackSerializer.Serialize(list);
+            File.WriteAllBytes(path, bytes);
+        }
+
         /// <summary>
         /// 文件名可能会无效.
         /// </summary>
