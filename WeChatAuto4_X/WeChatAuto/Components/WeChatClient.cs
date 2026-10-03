@@ -115,7 +115,6 @@ namespace WeChatAuto.Components
             this.Moments = new Moments(this, _MainThreadInvoker, serviceProvider);
             this.Search = new Search(this, _MainThreadInvoker, serviceProvider);
             this.CacheManager = new CacheManager(this);
-            MessageCacheHelper.Initialize(this.NickName);  //初始化所有好友的消息缓存目录.
             _RunCheckAddressBook();
         }
 
