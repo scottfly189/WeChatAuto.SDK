@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
+using Emgu.CV.Aruco;
 using FlaUI.Core.AutomationElements;
 using FlaUI.Core.WindowsAPI;
 using WeAutoCommon.Configs;
@@ -22,6 +23,7 @@ namespace WeChatAuto.Utils
     public static class MessageCacheHelper
     {
         private static string _RootCachePath = Path.Combine(AppContext.BaseDirectory, "MessageCaches");
+        private static string _AllDataRootPath;
         static MessageCacheHelper()
         {
             if (!Directory.Exists(_RootCachePath))
@@ -30,11 +32,23 @@ namespace WeChatAuto.Utils
             }
         }
         /// <summary>
+        /// 初始化每个微信的消息记录根目录
+        /// </summary>
+        /// <param name="fromWechat">微信号</param>
+        internal static void Initialize(string fromWechat)
+        {
+            _AllDataRootPath = Path.Combine(_RootCachePath, fromWechat);
+            if (!Directory.Exists(_AllDataRootPath))
+            {
+                Directory.CreateDirectory(_AllDataRootPath);
+            }
+        }
+        /// <summary>
         /// 获取指定好友的今天的消息缓存
         /// </summary>
         /// <param name="who">好友/群聊</param>
         /// <returns>消息列表，具体请参考<see cref="SimpleMessageBubble"/></returns>
-        public static List<SimpleMessageBubble> GetTodayMessageCaches(string who) => GetMessageCaches(who, DateTime.Today);
+        public static List<SimpleMessageBubble> GetTodayMessageCaches(string who) => GetTodayMessageCacheCore(who, DateTime.Today);
         /// <summary>
         /// 获取指定好友的今天的最后几条消息缓存
         /// </summary>
@@ -43,10 +57,14 @@ namespace WeChatAuto.Utils
         /// <returns>消息列表，具体请参考<see cref="SimpleMessageBubble"/></returns>
         public static List<SimpleMessageBubble> GetTodayLastMessages(string who, int lastCount)
         {
-            var messages = GetMessageCaches(who, DateTime.Today);
+            var messages = GetTodayMessageCacheCore(who, DateTime.Today);
             if (messages.Count <= lastCount)
                 return messages;
             return messages.GetRange(messages.Count - lastCount, lastCount);
+        }
+        public static List<SimpleMessageBubble> GetLastMessages(string who, int lastCount, string fromWechat)
+        {
+            return null;
         }
         /// <summary>
         /// 获取指定好友的指定日期的消息缓存
@@ -54,7 +72,7 @@ namespace WeChatAuto.Utils
         /// <param name="who">好友/群聊</param>
         /// <param name="date">日期</param>
         /// <returns>消息列表，具体请参考<see cref="SimpleMessageBubble"/></returns>
-        public static List<SimpleMessageBubble> GetMessageCaches(string who, DateTime date)
+        public static List<SimpleMessageBubble> GetTodayMessageCacheCore(string who, DateTime date)
         {
             var result = new List<SimpleMessageBubble>();
             var fileName = GetStandFileName(who);

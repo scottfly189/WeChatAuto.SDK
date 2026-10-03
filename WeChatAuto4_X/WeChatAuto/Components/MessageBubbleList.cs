@@ -1535,6 +1535,36 @@ namespace WeChatAuto.Components
 
             return result;
         }
+        /// <summary>
+        /// 抓取一个图片信息，并且返回<seealso cref="FetchedMedia"/>对象
+        /// </summary>
+        /// <param name="bubble">消息气泡</param>
+        /// <param name="token">取消令牌</param>
+        /// <returns>返回抓取的图片信息</returns>
+        public async Task<FetchedMedia> FetchImageAsync(AutomationElement bubble, CancellationToken token = default)
+        {
+            return null;
+        }
+        /// <summary>
+        /// 抓取文件信息，并且返回<seealso cref="FetchedMedia"/>对象
+        /// </summary>
+        /// <param name="bubble">消息气泡</param>
+        /// <param name="token">取消令牌</param>
+        /// <returns></returns>
+        public async Task<FetchedMedia> FetchFileAsync(AutomationElement bubble, CancellationToken token = default)
+        {
+            return null;
+        }
+        /// <summary>
+        /// 抓取视频信息，并且返回<seealso cref="FetchedMedia"/>对象
+        /// </summary>
+        /// <param name="bubble">消息气泡</param>
+        /// <param name="token">取消令牌</param>
+        /// <returns></returns>
+        public async Task<FetchedMedia> FetchVideoAsync(AutomationElement bubble, CancellationToken token = default)
+        {
+            return null;
+        }
 
     }
 }
