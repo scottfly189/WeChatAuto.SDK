@@ -168,6 +168,41 @@ namespace WeChatAuto.Utils
                 throw new Exception($"没找到类名为 {className} 的窗口");
             }
         }
+
+
+        [DllImport("user32.dll")]
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        [DllImport("user32.dll")]
+        private static extern bool IsIconic(IntPtr hWnd);
+
+        private const int SW_RESTORE = 9;
+
+        public static bool ActivateProcess(int processId)
+        {
+            try
+            {
+                using var process = Process.GetProcessById(processId);
+
+                var hWnd = process.MainWindowHandle;
+
+                if (hWnd == IntPtr.Zero)
+                    return false;
+
+                // 如果窗口最小化，先恢复
+                if (IsIconic(hWnd))
+                {
+                    ShowWindow(hWnd, SW_RESTORE);
+                }
+
+                // 置前
+                return SetForegroundWindow(hWnd);
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 
 }
