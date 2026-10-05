@@ -227,12 +227,16 @@ namespace WeChatAuto.Components
         /// </summary>
         private void __MoveAndResize__(UIA3Automation automation, int processId, Window currentWin, WeChatClient client, ref Window beforeWin, int index)
         {
+            if (currentWin.Patterns.Window.Pattern.WindowVisualState == WindowVisualState.Maximized)
+            {
+                currentWin.Patterns.Window.Pattern.SetWindowVisualState(WindowVisualState.Normal);
+            }
             //先改变尺寸.
             var ratio = DpiHelper.GetScaleForWindow(currentWin.Properties.NativeWindowHandle);
             var width = (int)(728 * ratio);
-            var height = (int)(760 * ratio);
+            var height = (int)(784 * ratio);
             Win32WindowHelper.ResizeWindow(currentWin.Properties.NativeWindowHandle, width, height);
-            RandomWait.Wait(100, 500);
+            RandomWait.Wait(800, 1500);
             if (index < 3)
             {
                 var workArea = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea;
@@ -240,8 +244,8 @@ namespace WeChatAuto.Components
 
                 if (beforeWin == null)
                 {
-                    point.X = workArea.Width - currentWin.BoundingRectangle.Width - 50;
-                    point.Y = (int)((workArea.Height - currentWin.BoundingRectangle.Width) / 2);
+                    point.X = workArea.Width - currentWin.BoundingRectangle.Width - 30;
+                    point.Y = (int)((workArea.Height - currentWin.BoundingRectangle.Height) / 2);
                 }
                 else
                 {
@@ -249,6 +253,7 @@ namespace WeChatAuto.Components
                     point.Y = beforeWin.BoundingRectangle.Y;
                 }
                 currentWin.Move(point.X, point.Y);
+                RandomWait.Wait(800, 1500);
             }
             beforeWin = currentWin;
         }
