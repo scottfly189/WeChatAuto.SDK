@@ -20,6 +20,7 @@ using WeChatAuto.Models;
 using FlaUI.UIA3;
 using FlaUI.Core.WindowsAPI;
 using WeChatAuto.Options;
+using System.Threading;
 
 namespace WeChatAuto.Components
 {
@@ -179,7 +180,7 @@ namespace WeChatAuto.Components
         /// <param name="optimizeWithLlm">待发送消息是否需要LLM优化</param>
         /// <param name="customProcess">如果系统提供的大模型不满足使用，可以自定义文字转语音方法</param>
         /// <returns></returns>
-        public async Task SendVoiceMessageWithTTS(string who, string apiKey, string message, VoiceOptions options, bool optimizeWithLlm = false, Func<string, string> customProcess = null) => await Sender.SendVoiceMessageWithTTS(who, apiKey, message, options,optimizeWithLlm, customProcess);
+        public async Task SendVoiceMessageWithTTS(string who, string apiKey, string message, VoiceOptions options, bool optimizeWithLlm = false, Func<string, string> customProcess = null) => await Sender.SendVoiceMessageWithTTS(who, apiKey, message, options, optimizeWithLlm, customProcess);
 
         /// <summary>
         /// 给本聊天窗口发送语音消息，请确保本聊天窗口可用.
@@ -212,5 +213,21 @@ namespace WeChatAuto.Components
         /// <param name="endDate">结束日期，支持时、分、秒</param>
         /// <returns></returns>
         public async Task<List<ChatSimpleMessage>> GetChatHistory(string who, DateTime startDate, DateTime endDate) => await _MessageList.GetChatHistory(who, startDate, endDate);
+
+        /// <summary>
+        /// 抓取一个图片信息，并且返回<seealso cref="FetchedMedia"/>对象
+        /// </summary>
+        /// <param name="bubble">消息气泡</param>
+        /// <param name="token">取消令牌</param>
+        /// <returns>返回抓取的图片信息</returns>
+        public async Task<FetchedMedia> FetchImageAsync(AutomationElement bubble, CancellationToken token = default) => await _MessageList.FetchImageAsync(bubble, token);
+
+        /// <summary>
+        /// 抓取文件信息，并且返回<seealso cref="FetchedMedia"/>对象
+        /// </summary>
+        /// <param name="bubble">消息气泡</param>
+        /// <param name="token">取消令牌</param>
+        /// <returns></returns>
+        public async Task<FetchedMedia> FetchFileAsync(AutomationElement bubble, CancellationToken token = default) => await _MessageList.FetchFileAsync(bubble, token);
     }
 }

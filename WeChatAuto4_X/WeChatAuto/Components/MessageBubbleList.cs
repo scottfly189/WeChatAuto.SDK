@@ -37,7 +37,8 @@ using FlaUI.Core.Exceptions;
 using System.Threading.Channels;
 using OneOf;
 using WeChatAuto.Options;
-using Dm.util;
+using System.IO;
+using System.Diagnostics;
 
 namespace WeChatAuto.Components
 {
@@ -50,6 +51,7 @@ namespace WeChatAuto.Components
         private AutoLogger<MessageBubbleList> _logger;
         private UIThreadInvoker _uiThreadInvoker;
         private ChatContent _ChatContent;
+        private decimal ratio;
         private WeChatClient _Client;
         internal Button HistoryButton => _GetHistoryButton();   //实时获取聊天记录按钮
         internal ListBox MessageRoot => _GetMessageRoot();
@@ -61,6 +63,7 @@ namespace WeChatAuto.Components
             this._Client = client;
             _uiThreadInvoker = uiThreadInvoker;
             _ChatContent = content;
+            this.ratio = DpiHelper.GetScaleForWindow(this._Client.MainWindow.Properties.NativeWindowHandle);
         }
 
         /// <summary>
@@ -336,7 +339,7 @@ namespace WeChatAuto.Components
                 var prefix = match.Groups[1].Value.Trim();
                 string who = __GetWhoCore(prefix.Trim(), whoList);
                 message.Who = who;
-                message.Message = prefix.substring(message.Who.Length).Trim();
+                message.Message = prefix.Substring(message.Who.Length).Trim();
 
                 result.Add(message);
             }
@@ -593,7 +596,7 @@ namespace WeChatAuto.Components
                     var prefix = _GetPrefix(match.Groups[0].Value);
                     var who = __GetWhoCore(prefix, whoList);
                     item.Who = who;
-                    item.Message = prefix.substring(who.Length);
+                    item.Message = prefix.Substring(who.Length);
 
                     item.SendDateTime = match.Groups[3].Value;
                     item.DateTime = date;
@@ -1543,8 +1546,200 @@ namespace WeChatAuto.Components
         /// <returns>返回抓取的图片信息</returns>
         public async Task<FetchedMedia> FetchImageAsync(AutomationElement bubble, CancellationToken token = default)
         {
-            return null;
+            return await WeChatInvoker.Call(FetchImageCore, bubble, token); ;
         }
+        /// <summary>
+        /// 抓取图片核心方法.
+        /// </summary>
+        private FetchedMedia FetchImageCore(UIA3Automation automation, AutomationElement bubble, CancellationToken token)
+        {
+            var result = new FetchedMedia();
+            try
+            {
+                _CheckInput(bubble);
+                _CheckImageStyle(bubble);
+                __FetchImage(bubble, automation, result, token);
+            }
+            catch (Exception ex)
+            {
+                result.Error = $"发生错误，错误原因:{ex.ToString()}";
+            }
+            return result;
+        }
+
+        private void _CheckImageStyle(AutomationElement bubble)
+        {
+            if (!bubble.ClassName.Equals("mmui::ChatBubbleReferItemView"))
+                throw new Exception($"错误：你提供的bubble参数为非图片消息！");
+        }
+
+        private void __FetchImage(AutomationElement item, UIA3Automation automation, FetchedMedia media, CancellationToken token)
+        {
+            token.ThrowIfCancellationRequested();
+            bool flowControl = __ClickCopyImageMenu__(item, this._Client.MainWindow, media, token, automation);
+            if (!flowControl)
+            {
+                return;
+            }
+
+            if (System.Windows.Clipboard.ContainsFileDropList())
+            {
+                var files = System.Windows.Clipboard.GetFileDropList();
+                if (files.Count > 0)
+                {
+                    media.FilePath = files[0];
+                    media.Base64Str = Convert.ToBase64String(File.ReadAllBytes(media.FilePath));
+                }
+            }
+        }
+
+        /// <summary>
+        /// 检查是左边还是右边
+        /// </summary>
+        private bool __CheckLeftSide__(UIA3Automation automation, AutomationElement item)
+        {
+            HeaderInfo info = this._Client.ChatContent.ChatHeader.GetTitleCore(automation);
+
+            return _GetDirectionByClick(this._Client.MainWindow, item, info) == "left";
+        }
+
+        private string _GetDirectionByClick(Window subWin, AutomationElement item, HeaderInfo title)
+        {
+            if (!title.CanTalk())
+                throw new Exception($"错误：监听只能监听群聊、好友与企业微信三类，你监听的 {title.Title} 可能不在三类里面");
+            var result = "right";
+            var x = 0;
+            var y = 0;
+            if (title.HeaderType == ChatType.好友 || title.HeaderType == ChatType.企业微信)
+            {
+                x = 37;
+                y = 27;
+            }
+            if (title.HeaderType == ChatType.群聊)
+            {
+                x = 37;
+                y = 24;
+            }
+            x = item.BoundingRectangle.X + (int)(x * this.ratio);
+            y = item.BoundingRectangle.Y + (int)(y * this.ratio);
+            Mouse.Position = new Point(x, y);
+            RandomWait.Wait(100, 300);
+            SupperMouseKey.LeftClick();
+            RandomWait.Wait(200, 600);
+
+            var desktop = item.Automation.GetDesktop();
+            //查看是否有弹窗
+            var path = $"/Window[@Name='Weixin'][@ProcessId={subWin.Properties.ProcessId.Value}][@ClassName='mmui::ProfileUniquePop']";
+            var popMenuRetry = Retry.WhileNull(() => desktop.FindFirstByXPath(path), TimeSpan.FromSeconds(1), TimeSpan.FromMilliseconds(200));
+            if (popMenuRetry.Success)
+            {
+                result = "left";
+                popMenuRetry.Result.AsWindow().Close();
+                RandomWait.Wait(100, 500);
+            }
+
+            return result;
+        }
+
+        //点击消息窗口的复制按钮
+        private bool __ClickCopyImageMenu__(AutomationElement item, Window win, FetchedMedia media, CancellationToken token, UIA3Automation automation)
+        {
+            int x = 0;
+            int y = 0;
+            var flag = __CheckLeftSide__(automation, item);
+            if (flag)
+            {
+                //点击 左边 复制
+                x = item.BoundingRectangle.X + (int)(85 * ratio);
+                y = item.BoundingRectangle.Y + (int)(44 * ratio);
+            }
+            else
+            {
+                //点击 右边 复制
+                x = item.BoundingRectangle.X + (item.BoundingRectangle.Width - (int)(93 * ratio));
+                y = item.BoundingRectangle.Y + (int)(25 * ratio);
+            }
+
+            while (item.Name.Contains("上传中"))
+            {
+                token.ThrowIfCancellationRequested();
+                RandomWait.Wait(500, 1200);
+            }
+            //先清空剪切板内容,不至于本次如果获取文件失败得到的是上次文件内容。
+            RandomWait.Wait(100, 400);
+
+            Mouse.Position = (new Point(x, y)).Confusion(3, 2);
+            RandomWait.Wait(100, 300);
+            SupperMouseKey.RightClick();
+            RandomWait.Wait(100, 800);
+            var path = UITreeGlobal.MessagePopupMenu_Copy;
+            var menuItemRetry = Retry.WhileNull(() => win.FindFirstByXPath(path), TimeSpan.FromSeconds(1), TimeSpan.FromMilliseconds(200));
+            if (!menuItemRetry.Success)
+            {
+                media.Error = "错误：右键菜单没有弹出！";
+                // SupperMouseKey.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.ESC);
+                return false;
+            }
+            var menuItem = menuItemRetry.Result;
+            var point = menuItem.BoundingRectangle.Center().Confusion(10, 3);
+            SupperMouseKey.MoveTo(point);
+            RandomWait.Wait(100, 300);
+            SupperMouseKey.LeftClick();
+            WaitClipboard(() => System.Windows.Clipboard.ContainsFileDropList(), 1000);
+            //处理有可能弹窗
+            var dialogPath = "/Window[@ClassName='mmui::XDialog'][@Name='Weixin']";
+            var dialogRetry = Retry.WhileNull(() => win.FindFirstByXPath(dialogPath), TimeSpan.FromMilliseconds(500), TimeSpan.FromMilliseconds(100));
+            if (dialogRetry.Success)
+            {
+                var dialog = dialogRetry.Result;
+                dialog.AsWindow().Close();
+            }
+            return true;
+        }
+
+        public bool WaitClipboard(
+        Func<bool> condition,
+        int timeoutMs = 1000,
+        int intervalMs = 50)
+        {
+            var stopwatch = Stopwatch.StartNew();
+
+            while (stopwatch.ElapsedMilliseconds < timeoutMs)
+            {
+                try
+                {
+                    if (condition())
+                        return true;
+                }
+                catch
+                {
+                    // Clipboard 此时可能正被微信/其他进程占用
+                }
+
+                Thread.Sleep(intervalMs);
+            }
+
+            // 最后再检查一次
+            try
+            {
+                return condition();
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private void _CheckInput(AutomationElement bubble)
+        {
+            ArgumentNullException.ThrowIfNull(bubble);
+            var parent = bubble.GetParent();
+            if (parent == null || parent.ControlType != ControlType.List)
+            {
+                throw new Exception("错误：bubble对象传入错误,bubble对象的父对象应该为ListBox");
+            }
+        }
+
         /// <summary>
         /// 抓取文件信息，并且返回<seealso cref="FetchedMedia"/>对象
         /// </summary>
@@ -1553,18 +1748,135 @@ namespace WeChatAuto.Components
         /// <returns></returns>
         public async Task<FetchedMedia> FetchFileAsync(AutomationElement bubble, CancellationToken token = default)
         {
-            return null;
-        }
-        /// <summary>
-        /// 抓取视频信息，并且返回<seealso cref="FetchedMedia"/>对象
-        /// </summary>
-        /// <param name="bubble">消息气泡</param>
-        /// <param name="token">取消令牌</param>
-        /// <returns></returns>
-        public async Task<FetchedMedia> FetchVideoAsync(AutomationElement bubble, CancellationToken token = default)
-        {
-            return null;
+            return await WeChatInvoker.Call(FetchFileCore, bubble, token);
         }
 
+        private FetchedMedia FetchFileCore(UIA3Automation automation, AutomationElement bubble, CancellationToken token)
+        {
+            var result = new FetchedMedia();
+            try
+            {
+                _CheckInput(bubble);
+                _CheckFileStyle(bubble);
+                __FetchFile(bubble, automation, result, token);
+            }
+            catch (Exception ex)
+            {
+                result.Error = $"发生错误，错误原因:{ex.ToString()}";
+            }
+            return result;
+        }
+
+        private void __FetchFile(AutomationElement item, UIA3Automation automation, FetchedMedia media, CancellationToken token)
+        {
+            token.ThrowIfCancellationRequested();
+            bool flowControl = __ClickCopyMenuWithAttach__(item, this._Client.MainWindow, media, token, automation);
+            if (!flowControl)
+            {
+                return;
+            }
+
+            if (System.Windows.Clipboard.ContainsFileDropList())
+            {
+                var files = System.Windows.Clipboard.GetFileDropList();
+                if (files.Count > 0)
+                {
+                    media.FilePath = files[0];
+                    media.Base64Str = Convert.ToBase64String(File.ReadAllBytes(media.FilePath));
+                }
+            }
+        }
+
+        private bool __ClickCopyMenuWithAttach__(AutomationElement item, Window win, FetchedMedia media, CancellationToken token, UIA3Automation automation)
+        {
+            int x = 0;
+            int y = 0;
+            var flag = __CheckLeftSide__(automation, item);
+            if (flag)
+            {
+                //点击 左边 复制
+                x = item.BoundingRectangle.X + (int)(85 * ratio);
+                y = item.BoundingRectangle.Y + (int)(44 * ratio);
+            }
+            else
+            {
+                //点击 右边 复制
+                x = item.BoundingRectangle.X + (item.BoundingRectangle.Width - (int)(93 * ratio));
+                y = item.BoundingRectangle.Y + (int)(25 * ratio);
+            }
+
+            while (item.IsAvailable && item.Name.Contains("上传中"))
+            {
+                RandomWait.Wait(500, 1200);
+            }
+            if (!item.IsAvailable)
+            {
+                media.Error = "错误：提供的item已经失效！";
+                return false;
+            }
+            //如果没有下载，则先下载，因为视频并不会自动下载
+            if (item.Name.Contains("未下载"))
+            {
+                //弹出右键
+                Mouse.Position = (new Point(x, y)).Confusion(3, 2);
+                RandomWait.Wait(100, 300);
+                SupperMouseKey.RightClick();
+                RandomWait.Wait(100, 500);
+                //点击下载按钮
+                var downloadPath = UITreeGlobal.MessagePopupMenu_Download;
+                var downLoadRetry = Retry.WhileNull(() => win.FindFirstByXPath(downloadPath), TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
+                if (!downLoadRetry.Success)
+                    return false;
+                var downLoadItem = downLoadRetry.Result;
+                var dPoint = downLoadItem.BoundingRectangle.Center().Confusion(10, 3);
+                SupperMouseKey.MoveTo(dPoint);
+                RandomWait.Wait(100, 300);
+                SupperMouseKey.LeftClick();
+
+                while (item.IsAvailable && item.Name.Contains("下载"))
+                {
+                    RandomWait.Wait(500, 900);
+                }
+                RandomWait.Wait(300, 900);
+            }
+            if (!item.IsAvailable)
+                return false;
+            RandomWait.Wait(100, 400);
+            //点击复制按钮，将图片、文件等复制进剪切板
+            Mouse.Position = (new Point(x, y)).Confusion(3, 2);
+            RandomWait.Wait(100, 300);
+            SupperMouseKey.RightClick();
+            RandomWait.Wait(100, 600);
+            var path = UITreeGlobal.MessagePopupMenu_Copy;
+            var menuItemRetry = Retry.WhileNull(() => win.FindFirstByXPath(path), TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
+            if (!menuItemRetry.Success)
+            {
+                // SupperMouseKey.TypeSimultaneously(FlaUI.Core.WindowsAPI.VirtualKeyShort.ESC);
+                media.Error = "错误：右键菜单没有弹出！";
+                return false;
+            }
+            var menuItem = menuItemRetry.Result;
+            var point = menuItem.BoundingRectangle.Center().Confusion(10, 3);
+            SupperMouseKey.MoveTo(point);
+            RandomWait.Wait(100, 300);
+            SupperMouseKey.LeftClick();
+            WaitClipboard(() => System.Windows.Clipboard.ContainsFileDropList(), 1000);
+            //处理有可能弹窗
+            var dialogPath = "/Window[@ClassName='mmui::XDialog'][@Name='Weixin']";
+            var dialogRetry = Retry.WhileNull(() => win.FindFirstByXPath(dialogPath), TimeSpan.FromMilliseconds(500), TimeSpan.FromMilliseconds(100));
+            if (dialogRetry.Success)
+            {
+                var dialog = dialogRetry.Result;
+                dialog.AsWindow().Close();
+            }
+            return true;
+
+        }
+
+        private void _CheckFileStyle(AutomationElement bubble)
+        {
+            if (!bubble.ClassName.Equals("mmui::ChatBubbleItemView"))
+                throw new Exception($"错误：你提供的bubble参数为非文件类型消息！");
+        }
     }
 }
