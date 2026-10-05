@@ -186,13 +186,20 @@ namespace WeChatAuto.Components
             try
             {
                 var index = 0;
+                var wechatList = new List<string>();
+                Window beforeWin = null;
+                processList = processList.Order().ToList();
                 foreach (var process in processList)
                 {
                     index++;
-                    _InitWechatAutomationFrameworkWithProcessId(automation, process, index);
+                    _InitWechatAutomationFrameworkWithProcessId(automation, process, index, ref beforeWin);
                 }
                 this._IsInit = true;
-                _logger.Trace($"当前微信客户端数量: 共{_wxClientList.Count}个");
+                _logger.Trace("************************************************************");
+                _logger.Trace("*                POWER BY WECHATAUTO.SDK                   *");
+                _logger.Trace($"* 微信客户端: 共 {_wxClientList.Count} 个" + "                                       *");
+                _logger.Trace($"* 客户端列表: [{string.Join(", ", _wxClientList.Keys)}]");
+                _logger.Trace("************************************************************");
                 return _IsInit.ToMaybe();
             }
             catch (Exception ex)
@@ -202,7 +209,7 @@ namespace WeChatAuto.Components
             }
         }
 
-        private void _InitWechatAutomationFrameworkWithProcessId(UIA3Automation automation, int processId, int index)
+        private void _InitWechatAutomationFrameworkWithProcessId(UIA3Automation automation, int processId, int index, ref Window beforeWin)
         {
             //首先置顶微信
             WinApi.ActivateProcess(processId);
@@ -213,6 +220,37 @@ namespace WeChatAuto.Components
             result.window.Focus();
             var client = new WeChatClient(processId, _serviceProvider, this, result.window, MainActionThreadInvoker, result.info, index, monitorEvent);
             _wxClientList.Add(result.info.NickName, client);
+            __MoveAndResize__(automation, processId, result.window, client, ref beforeWin, index);
+        }
+        /// <summary>
+        /// 重新排列微信窗口
+        /// </summary>
+        private void __MoveAndResize__(UIA3Automation automation, int processId, Window currentWin, WeChatClient client, ref Window beforeWin, int index)
+        {
+            //先改变尺寸.
+            var ratio = DpiHelper.GetScaleForWindow(currentWin.Properties.NativeWindowHandle);
+            var width = (int)(728 * ratio);
+            var height = (int)(760 * ratio);
+            Win32WindowHelper.ResizeWindow(currentWin.Properties.NativeWindowHandle, width, height);
+            RandomWait.Wait(100, 500);
+            if (index < 3)
+            {
+                var workArea = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea;
+                var point = Point.Empty;
+
+                if (beforeWin == null)
+                {
+                    point.X = workArea.Width - currentWin.BoundingRectangle.Width - 50;
+                    point.Y = (int)((workArea.Height - currentWin.BoundingRectangle.Width) / 2);
+                }
+                else
+                {
+                    point.X = beforeWin.BoundingRectangle.X - beforeWin.BoundingRectangle.Width - 20;
+                    point.Y = beforeWin.BoundingRectangle.Y;
+                }
+                currentWin.Move(point.X, point.Y);
+            }
+            beforeWin = currentWin;
         }
 
 
