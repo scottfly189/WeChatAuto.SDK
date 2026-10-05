@@ -18,7 +18,6 @@ using System.Drawing;
 using WeChatAuto.Models;
 using System.IO;
 using WeAutoCommon.Extentions;
-using System.Windows.Controls;
 
 namespace WeChatAuto.Components
 {
@@ -189,7 +188,6 @@ namespace WeChatAuto.Components
                 var index = 0;
                 var wechatList = new List<string>();
                 Window beforeWin = null;
-                processList = processList.Order().ToList();
                 __ForceOpenUITree__(processList);
                 foreach (var process in processList)
                 {
