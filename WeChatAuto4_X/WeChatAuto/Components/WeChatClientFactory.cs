@@ -12,13 +12,13 @@ using System.Threading;
 using FlaUI.UIA3;
 using WeAutoCommon.Models;
 using WeChatAuto.Extentions;
+using WeChatAuto.Exceptions;
 using FlaUI.Core.Input;
 using System.Drawing;
 using WeChatAuto.Models;
 using System.IO;
 using WeAutoCommon.Extentions;
 using System.Windows.Controls;
-using Dm.util;
 
 namespace WeChatAuto.Components
 {
@@ -122,7 +122,7 @@ namespace WeChatAuto.Components
                 return _wxClientList[name];
             }
             _logger.Error($"微信客户端[{name}]不存在，请检查微信是否打开");
-            throw new Exception($"微信客户端[{name}]不存在，请检查微信是否打开");
+            throw new WechatClientNotExistException($"微信客户端[{name}]不存在，请检查微信是否打开");
         }
 
         /// <summary>
@@ -170,12 +170,12 @@ namespace WeChatAuto.Components
             var wechatWins = desktop.FindAllChildren(u => u.ByClassName("mmui::MainWindow").And(u.ByControlType(ControlType.Window)).And(u.ByFrameworkType(FlaUI.Core.FrameworkType.Qt)));
             if (wechatWins.Count() == 0)
             {
-                _logger.Error("错误：检查到系统中未打开微信窗口，请先打开微信，并且保持微信窗口处于未隐藏状态！");
-                throw new Exception("错误：检查到系统中未打开微信窗口，请先打开微信，并且保持微信窗口处于未隐藏状态！");
+                _logger.Error("错误：检查到系统中未打开微信窗口 或者 微信窗口处于隐藏状态，请先打开微信，并且保持微信窗口处于显示状态！");
+                throw new WechatNotOpenedException("错误：检查到系统中未打开微信窗口 或者 微信窗口处于隐藏状态，请先打开微信，并且保持微信窗口处于显示状态！");
             }
             foreach (var win in wechatWins)
             {
-                result.add(win.Properties.ProcessId);
+                result.Add(win.Properties.ProcessId);
             }
 
             return result.ToMaybe();
@@ -197,7 +197,7 @@ namespace WeChatAuto.Components
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"获取UI Tree时出错，错误原因:{ex.toString()}");
+                System.Diagnostics.Debug.WriteLine($"获取UI Tree时出错，错误原因:{ex.ToString()}");
                 throw;
             }
         }
@@ -217,12 +217,12 @@ namespace WeChatAuto.Components
 
 
         //得到最新窗口的nickName等信息.
-        private (OwerInfo info, Window window) __GetCurrentWxNickName(int handle, UIA3Automation automation)
+        private (OwerInfo info, Window window) __GetCurrentWxNickName(int processID, UIA3Automation automation)
         {
             try
             {
                 var desktop = automation.GetDesktop();
-                var windowRetry = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("mmui::MainWindow")).And(cf.ByProcessId(handle))),
+                var windowRetry = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByControlType(ControlType.Window).And(cf.ByClassName("mmui::MainWindow")).And(cf.ByProcessId(processID))),
                                      timeout: TimeSpan.FromSeconds(5),
                                      interval: TimeSpan.FromMilliseconds(200));
                 if (windowRetry.Success)
@@ -237,7 +237,6 @@ namespace WeChatAuto.Components
                     var point1 = button.GetClickablePoint();
                     var topInterval = (int)(WeAutomation.Config.AvatorToWeixinButtonOffsetY * DpiHelper.GetScaleForWindow(wxTempwindow.Properties.NativeWindowHandle));
                     var point2 = new Point(point1.X, point1.Y - topInterval);
-                    //Mouse.MoveTo(point2);
                     Mouse.Position = point2;
                     Mouse.LeftClick();
                     RandomWait.Wait(300, 800);
@@ -277,15 +276,13 @@ namespace WeChatAuto.Components
                     }
                     return (info, wxTempwindow);
                 }
-                else
-                {
-                    throw new Exception("没有获取到窗口");
-                }
+
+                throw new Exception("没有获取到窗口");
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.ToString());
-                throw;
+                throw new WechatNotSupportUITreeException($"错误: 腾迅没有公开 processID={processID} 的微信的UI Tree,请参照链接解决：https://github.com/scottfly189/WeChatAuto.SDK/issues/3");
             }
         }
 
