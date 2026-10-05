@@ -189,6 +189,7 @@ namespace WeChatAuto.Components
                 var wechatList = new List<string>();
                 Window beforeWin = null;
                 processList = processList.Order().ToList();
+                __ForceOpenUITree__(processList);
                 foreach (var process in processList)
                 {
                     index++;
@@ -207,6 +208,14 @@ namespace WeChatAuto.Components
                 System.Diagnostics.Debug.WriteLine($"获取UI Tree时出错，错误原因:{ex.ToString()}");
                 throw;
             }
+        }
+
+        /// <summary>
+        /// 如果微信没有公开UI Tree,则强制打开UI Tree
+        /// </summary>
+        private void __ForceOpenUITree__(List<int> processList)
+        {
+            
         }
 
         private void _InitWechatAutomationFrameworkWithProcessId(UIA3Automation automation, int processId, int index, ref Window beforeWin)
