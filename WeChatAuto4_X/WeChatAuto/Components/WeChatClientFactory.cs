@@ -181,6 +181,7 @@ namespace WeChatAuto.Components
             return result.ToMaybe();
         }
 
+
         private Maybe<bool> _InitWechatFramework(UIA3Automation automation, List<int> processList)
         {
             try

@@ -64,7 +64,7 @@ namespace WeChatAuto.Utils
         /// </summary>
         /// <param name="className">要查找的窗口类名</param>
         /// <returns>所有匹配的窗口句柄列表</returns>
-        private static List<IntPtr> GetAllWindows(string className)
+        public static List<IntPtr> GetAllWindows(string className)
         {
             List<IntPtr> windowHandles = new List<IntPtr>();
 
@@ -90,7 +90,7 @@ namespace WeChatAuto.Utils
         /// </summary>
         /// <param name="className">要查找的窗口类名</param>
         /// <returns>最顶层的窗口句柄</returns>
-        private static IntPtr GetTopMostWindow(string className)
+        public static IntPtr GetTopMostWindow(string className)
         {
             var windowHandles = GetAllWindows(className);
 
@@ -135,7 +135,7 @@ namespace WeChatAuto.Utils
         /// </summary>
         /// <param name="className">要查找的窗口类名</param>
         /// <returns>所有匹配窗口的进程ID列表</returns>
-        private static List<uint> GetAllWindowProcessIds(string className)
+        public static List<uint> GetAllWindowProcessIds(string className)
         {
             List<uint> processIds = new List<uint>();
             var windowHandles = GetAllWindows(className);
@@ -169,14 +169,50 @@ namespace WeChatAuto.Utils
             }
         }
 
+        public static IntPtr FindWindowByProcessId(uint processId)
+        {
+            IntPtr result = IntPtr.Zero;
+
+            EnumWindows((hWnd, lParam) =>
+            {
+                GetWindowThreadProcessId(hWnd, out uint pid);
+
+                if (pid == processId)
+                {
+                    result = hWnd;
+                    return false;
+                }
+
+                return true;
+            }, IntPtr.Zero);
+
+            return result;
+        }
+
 
         [DllImport("user32.dll")]
-        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+
 
         [DllImport("user32.dll")]
-        private static extern bool IsIconic(IntPtr hWnd);
+        public static extern bool IsIconic(IntPtr hWnd);
 
-        private const int SW_RESTORE = 9;
+        public const int SW_HIDE = 0;
+        public const int SW_SHOWNORMAL = 1;
+        public const int SW_NORMAL = 1;
+        public const int SW_SHOWMINIMIZED = 2;
+        public const int SW_SHOWMAXIMIZED = 3;
+        public const int SW_MAXIMIZE = 3;
+        public const int SW_SHOWNOACTIVATE = 4;
+        public const int SW_SHOW = 5;
+        public const int SW_MINIMIZE = 6;
+        public const int SW_SHOWMINNOACTIVE = 7;
+        public const int SW_SHOWNA = 8;
+        public const int SW_RESTORE = 9;
+        public const int SW_SHOWDEFAULT = 10;
+        public const int SW_FORCEMINIMIZE = 11;
+
 
         public static bool ActivateProcess(int processId)
         {
