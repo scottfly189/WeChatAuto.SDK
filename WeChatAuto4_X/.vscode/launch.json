@@ -9,6 +9,12 @@
             "type": "dotnet",
             "request": "launch",
             "projectPath": "${workspaceFolder}/Examples/demo01/demo01.csproj"
+        },
+        {
+            "name": "websocket server community",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/WebSocket_Community/Server/Server.csproj"
         }
     ]
 }

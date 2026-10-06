@@ -1,21 +1,22 @@
 from __future__ import annotations
 
-import pytest
-import logging
 import asyncio
+import logging
 from datetime import date, time
 from typing import TYPE_CHECKING
 
-from wechat_auto_sdk import NavigationType
-from wechat_auto_sdk import FriendRequestAutoAcceptOptions
-from wechat_auto_sdk import MomentsOptions
-from wechat_auto_sdk import NewFriendBackItem
+import pytest
+from wechat_auto_sdk import (
+    FriendRequestAutoAcceptOptions,
+    MomentsOptions,
+    NavigationType,
+    NewFriendBackItem,
+)
 from wechat_auto_sdk.models.message_context import MessageContext
 from wechat_auto_sdk.models.time_only_range import TimeOnlyRange
 
 if TYPE_CHECKING:
-    from wechat_auto_sdk import SystemMessageContext
-    from wechat_auto_sdk import WeChatClient
+    from wechat_auto_sdk import SystemMessageContext, WeChatClient
 
 logger = logging.getLogger(__name__)
 
@@ -613,6 +614,7 @@ async def test_passed_all_new_friend(client: WeChatClient):
     result = await client.passed_all_new_friend(options, on_passed)
     assert len(result) > 0
 
+
 # vip 用户功能
 # @pytest.mark.asyncio
 # async def test_open_moments(client: WeChatClient):
@@ -762,6 +764,7 @@ async def test_passed_all_new_friend(client: WeChatClient):
 
 #     await client.add_friend_request_auto_accept_listener(options, new_friends_callback)
 #     await client.keep_running()
+
 
 @pytest.mark.asyncio
 async def test_remove_friend(client: WeChatClient):

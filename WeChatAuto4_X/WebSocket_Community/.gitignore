@@ -1,0 +1,38 @@
+# Build and Release Folders
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+[Dd]ebug*/
+[Rr]elease*/
+x64/
+x86/
+!WeAutoCommon/Simulator/x64/
+!WeAutoCommon/Simulator/x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]uild/
+
+# Other files and folders
+.settings/
+
+# Executables
+*.swf
+*.air
+*.ipa
+*.apk
+
+# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
+# should NOT be excluded as they contain compiler settings and other important
+# information for Eclipse / Flash Builder.
+
+.history
+/package-lock.json
+Videos
+!Examples/demo01/Videos
+ffmpeg
+pack.cmd
+__pycache__/
+**/__pycache__/
+server_release/

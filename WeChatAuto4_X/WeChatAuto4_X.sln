@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeAutoCommon", "..\WeAutoCo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{B36A84DF-456D-A817-6EDD-3EC3E7F6E11F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebSocketServer", "WebSocketServer", "{0D9B7155-D455-31DD-2508-5BF38DC0B144}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebSocket_Community", "WebSocket_Community", "{E765DEAA-1B27-B8E3-39AD-4FECE70BD089}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "WebSocketServer\Server\Server.csproj", "{49CFFA2A-B24B-4AAD-A73F-9ECA5DF903B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "WebSocket_Community\Server\Server.csproj", "{49CFFA2A-B24B-4AAD-A73F-9ECA5DF903B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinForm_Demo", "Examples\WinForm_Demo\WinForm_Demo.csproj", "{8B44E681-0F41-42A3-9D90-A53FACCAF742}"
 EndProject
@@ -92,7 +92,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{49CFFA2A-B24B-4AAD-A73F-9ECA5DF903B7} = {0D9B7155-D455-31DD-2508-5BF38DC0B144}
+		{49CFFA2A-B24B-4AAD-A73F-9ECA5DF903B7} = {E765DEAA-1B27-B8E3-39AD-4FECE70BD089}
 		{8B44E681-0F41-42A3-9D90-A53FACCAF742} = {B36A84DF-456D-A817-6EDD-3EC3E7F6E11F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

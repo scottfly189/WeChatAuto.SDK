@@ -1,11 +1,7 @@
 import pytest_asyncio
+from wechat_auto_sdk import WeChatClient, WeChatConfig, WechatFactory
 
-from wechat_auto_sdk import WeChatConfig
-from wechat_auto_sdk import WeChatClient
-from wechat_auto_sdk import WechatFactory
-
-
-DEFAULT_URI = "ws://localhost:5000/ws"
+DEFAULT_URI = "ws://localhost:5177/ws"
 
 @pytest_asyncio.fixture(scope="function")
 async def client():
