@@ -1,4 +1,4 @@
-# WebSocket Server服务端 - 社区版
+# WebSocket Server服务端 - VIP版
 
 全方向覆盖了Wechatauto.SDK的.net原生API功能，提供WebSocket供python、js/node、java等其他语言调用.
 
