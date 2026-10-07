@@ -97,6 +97,17 @@ namespace WeChatAuto.Utils
 
         #endregion
 
+        #region GetForegroundWindow / IsZoomed
+
+        [DllImport(User32)]
+        private static extern IntPtr GetForegroundWindow();
+
+        [DllImport(User32)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool IsZoomed(IntPtr hWnd);
+
+        #endregion
+
         #region Public API
 
         /// <summary>
@@ -120,6 +131,22 @@ namespace WeChatAuto.Utils
             GetWindowThreadProcessId(hwnd, out uint processId);
 
             return unchecked((int)processId);
+        }
+
+        /// <summary>
+        /// 获取当前前台窗口所属进程的 ProcessId；无前台窗口时返回 0。
+        /// </summary>
+        public static int GetForegroundProcessId()
+        {
+            return GetProcessId(GetForegroundWindow());
+        }
+
+        /// <summary>
+        /// 判断窗口是否处于最大化状态。
+        /// </summary>
+        public static bool IsWindowZoomed(IntPtr hwnd)
+        {
+            return IsValidWindow(hwnd) && IsZoomed(hwnd);
         }
 
         /// <summary>

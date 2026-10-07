@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using WeChatAuto.Components;
@@ -7,53 +8,45 @@ namespace wechatbot
 {
     public partial class SideBarForm : AntdUI.Window
     {
-        private bool _isDragging;
-        private Point _dragStartScreenPos;
-        private readonly WeChatClient _client;
+        /// <summary>绑定的微信主窗口 HWND。</summary>
+        public IntPtr WeChatHwnd { get; }
+
+        /// <summary>绑定的微信进程 ID。</summary>
+        public int WeChatProcessId { get; }
+
+        /// <summary>启动时捕获的微信窗口尺寸，用于“固定大小”。</summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public Size LockedSize { get; set; }
+
+        /// <summary>最近一次摆位的物理像素坐标，用于去抖。</summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public int LastX { get; set; } = int.MinValue;
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public int LastY { get; set; } = int.MinValue;
 
         public SideBarForm(WeChatClient client)
         {
-            _client = client;
+            WeChatHwnd = client.GetHandler();
+            WeChatProcessId = client.ClientProcessId;
             InitializeComponent();
-            AttachDragEvents();
         }
 
         /// <summary>
-        ///  为 divider1 / divider2 绑定拖动 → 移动窗口事件。
+        /// 显示但不抢占焦点，避免侧栏出现/被点击时把前台从微信切走。
         /// </summary>
-        private void AttachDragEvents()
+        protected override bool ShowWithoutActivation => true;
+
+        protected override CreateParams CreateParams
         {
-            divider1.MouseDown += Divider_MouseDown;
-            divider1.MouseMove += Divider_MouseMove;
-            divider1.MouseUp += Divider_MouseUp;
+            get
+            {
+                const int WS_EX_NOACTIVATE = 0x08000000;
+                const int WS_EX_TOOLWINDOW = 0x00000080;
 
-            divider2.MouseDown += Divider_MouseDown;
-            divider2.MouseMove += Divider_MouseMove;
-            divider2.MouseUp += Divider_MouseUp;
-        }
-
-        private void Divider_MouseDown(object? sender, MouseEventArgs e)
-        {
-            if (e.Button != MouseButtons.Left) return;
-
-            _isDragging = true;
-            _dragStartScreenPos = Control.MousePosition;
-        }
-
-        private void Divider_MouseMove(object? sender, MouseEventArgs e)
-        {
-            if (!_isDragging) return;
-
-            Point now = Control.MousePosition;
-            Location = new Point(
-                Location.X + (now.X - _dragStartScreenPos.X),
-                Location.Y + (now.Y - _dragStartScreenPos.Y));
-            _dragStartScreenPos = now;
-        }
-
-        private void Divider_MouseUp(object? sender, MouseEventArgs e)
-        {
-            _isDragging = false;
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW;
+                return cp;
+            }
         }
     }
 }
