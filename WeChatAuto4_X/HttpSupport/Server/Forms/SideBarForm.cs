@@ -5,13 +5,13 @@ using WeChatAuto.Components;
 
 namespace wechatbot
 {
-    public partial class FlowerSidePane : AntdUI.Window
+    public partial class SideBarForm : AntdUI.Window
     {
         private bool _isDragging;
         private Point _dragStartScreenPos;
         private readonly WeChatClient _client;
 
-        public FlowerSidePane(WeChatClient client)
+        public SideBarForm(WeChatClient client)
         {
             _client = client;
             InitializeComponent();

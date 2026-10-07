@@ -1,6 +1,6 @@
 ﻿namespace wechatbot
 {
-    partial class FlowerSidePane
+    partial class SideBarForm
     {
         /// <summary>
         /// Required designer variable.

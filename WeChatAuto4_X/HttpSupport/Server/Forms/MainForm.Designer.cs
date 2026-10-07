@@ -68,13 +68,13 @@ partial class MainForm
         contextMenuStrip1.ImageScalingSize = new Size(20, 20);
         contextMenuStrip1.Items.AddRange(new ToolStripItem[] { itemConsole, itemAbout, toolStripMenuItem1, itemExit });
         contextMenuStrip1.Name = "contextMenuStrip1";
-        contextMenuStrip1.Size = new Size(153, 115);
+        contextMenuStrip1.Size = new Size(215, 143);
         // 
         // itemConsole
         // 
         itemConsole.AutoSize = false;
         itemConsole.Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 134);
-        itemConsole.ForeColor = Color.FromArgb(90, 90, 90);
+        itemConsole.ForeColor = Color.FromArgb(60, 60, 60);
         itemConsole.Image = (Image)resources.GetObject("itemConsole.Image");
         itemConsole.Name = "itemConsole";
         itemConsole.Size = new Size(210, 35);
@@ -84,7 +84,7 @@ partial class MainForm
         // 
         itemAbout.AutoSize = false;
         itemAbout.Font = new Font("Microsoft YaHei UI", 10F);
-        itemAbout.ForeColor = Color.FromArgb(90, 90, 90);
+        itemAbout.ForeColor = Color.FromArgb(60, 60, 60);
         itemAbout.Image = (Image)resources.GetObject("itemAbout.Image");
         itemAbout.Name = "itemAbout";
         itemAbout.Size = new Size(210, 35);
@@ -93,13 +93,13 @@ partial class MainForm
         // toolStripMenuItem1
         // 
         toolStripMenuItem1.Name = "toolStripMenuItem1";
-        toolStripMenuItem1.Size = new Size(149, 6);
+        toolStripMenuItem1.Size = new Size(211, 6);
         // 
         // itemExit
         // 
         itemExit.AutoSize = false;
         itemExit.Font = new Font("Microsoft YaHei UI", 10F);
-        itemExit.ForeColor = Color.FromArgb(90, 90, 90);
+        itemExit.ForeColor = Color.FromArgb(60, 60, 60);
         itemExit.Image = (Image)resources.GetObject("itemExit.Image");
         itemExit.Name = "itemExit";
         itemExit.Size = new Size(210, 35);

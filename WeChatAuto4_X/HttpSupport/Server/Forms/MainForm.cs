@@ -106,7 +106,16 @@ public partial class MainForm : AntdUI.Window
     {
         if (clientDict.Count() == 0)
             return;
-
+        foreach (var client in clientDict)
+        {
+            SideBarForm sideBarForm = new SideBarForm(client.Value);
+            var wechatMainForm = client.Value.MainWindow;
+            sideBarForm.Left = wechatMainForm.BoundingRectangle.Left + (wechatMainForm.BoundingRectangle.Width - sideBarForm.Width) / 2;
+            sideBarForm.Top = wechatMainForm.BoundingRectangle.Top + wechatMainForm.BoundingRectangle.Height + 6;
+            sideBarForm.Show();
+            var processId = wechatMainForm.Properties.ProcessId;
+            var hwnd = wechatMainForm.Properties.NativeWindowHandle;
+        }
     }
 
     private void _InitWechatAutoSDK()
