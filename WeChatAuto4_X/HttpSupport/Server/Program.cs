@@ -33,8 +33,10 @@ static class Program
         AntdUI.Config.DpiMode = DpiMode.Compatible;
         AntdUI.Config.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
         AntdUI.Config.TextRenderingHighQuality = true;
+        var mainForm = new MainForm();
+        mainForm.Visible = false;
 
-        Application.Run(new MainForm());
+        Application.Run(mainForm);
     }
     // 捕获UI线程中的未处理异常
     static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)

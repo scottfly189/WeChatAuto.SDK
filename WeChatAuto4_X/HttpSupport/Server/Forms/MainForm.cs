@@ -10,6 +10,7 @@ public partial class MainForm : AntdUI.Window
 
     public MainForm()
     {
+        this.Visible = false;
         InitializeComponent();
         _InitTrayIcon();
     }

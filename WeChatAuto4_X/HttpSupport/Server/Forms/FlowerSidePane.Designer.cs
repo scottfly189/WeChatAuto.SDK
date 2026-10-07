@@ -47,7 +47,7 @@
             stackPanel1.Dock = DockStyle.Fill;
             stackPanel1.Location = new Point(0, 0);
             stackPanel1.Name = "stackPanel1";
-            stackPanel1.Size = new Size(366, 47);
+            stackPanel1.Size = new Size(389, 47);
             stackPanel1.TabIndex = 0;
             stackPanel1.Text = "stackPanel1";
             // 
@@ -111,7 +111,7 @@
             // FlowerSidePane
             // 
             AutoScaleMode = AutoScaleMode.Inherit;
-            ClientSize = new Size(366, 47);
+            ClientSize = new Size(389, 47);
             ControlBox = false;
             Controls.Add(stackPanel1);
             Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 134);
