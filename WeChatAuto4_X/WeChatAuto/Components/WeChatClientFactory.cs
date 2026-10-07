@@ -155,6 +155,21 @@ namespace WeChatAuto.Components
                     .Bind(processIds => _InitWechatFramework(automation, processIds));
                 }).ConfigureAwait(false).GetAwaiter().GetResult();
             }
+            catch (WechatNotOpenedException)
+            {
+                _logger.Error($"错误：没有打开的微信客户端");
+                throw;
+            }
+            catch (WechatClientNotExistException)
+            {
+                _logger.Error($"错误：微信客户端不存在");
+                throw;
+            }
+            catch (WechatNotSupportUITreeException)
+            {
+                _logger.Error($"错误：你的微信客户端不支持UI Tree");
+                throw;
+            }
             catch (Exception ex)
             {
                 _logger.Error($"获取微信窗口失败: {ex.Message}");
@@ -214,7 +229,7 @@ namespace WeChatAuto.Components
         /// </summary>
         private void __ForceOpenUITree__(List<int> processList)
         {
-            
+
         }
 
         private void _InitWechatAutomationFrameworkWithProcessId(UIA3Automation automation, int processId, int index, ref Window beforeWin)

@@ -68,7 +68,7 @@ partial class MainForm
         contextMenuStrip1.ImageScalingSize = new Size(20, 20);
         contextMenuStrip1.Items.AddRange(new ToolStripItem[] { itemConsole, itemAbout, toolStripMenuItem1, itemExit });
         contextMenuStrip1.Name = "contextMenuStrip1";
-        contextMenuStrip1.Size = new Size(215, 143);
+        contextMenuStrip1.Size = new Size(153, 115);
         // 
         // itemConsole
         // 
@@ -93,7 +93,7 @@ partial class MainForm
         // toolStripMenuItem1
         // 
         toolStripMenuItem1.Name = "toolStripMenuItem1";
-        toolStripMenuItem1.Size = new Size(211, 6);
+        toolStripMenuItem1.Size = new Size(149, 6);
         // 
         // itemExit
         // 
@@ -116,7 +116,7 @@ partial class MainForm
         Margin = new Padding(4);
         Name = "MainForm";
         StartPosition = FormStartPosition.CenterScreen;
-        Text = "WeChatBot";
+        Text = "WeChatAuto.SDK";
         contextMenuStrip1.ResumeLayout(false);
         ResumeLayout(false);
     }

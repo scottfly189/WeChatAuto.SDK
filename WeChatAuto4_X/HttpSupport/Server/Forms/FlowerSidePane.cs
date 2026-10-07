@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using WeChatAuto.Components;
 
 namespace wechatbot
 {
@@ -8,9 +9,11 @@ namespace wechatbot
     {
         private bool _isDragging;
         private Point _dragStartScreenPos;
+        private readonly WeChatClient _client;
 
-        public FlowerSidePane()
+        public FlowerSidePane(WeChatClient client)
         {
+            _client = client;
             InitializeComponent();
             AttachDragEvents();
         }
