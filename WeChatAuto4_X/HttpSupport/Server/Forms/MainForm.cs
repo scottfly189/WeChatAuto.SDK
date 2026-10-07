@@ -1,4 +1,4 @@
-namespace ui;
+锘縩amespace ui;
 
 using AntdUI;
 using wechatbot;
@@ -24,7 +24,7 @@ public partial class MainForm : AntdUI.Window
     private void _InitTrayIcon()
     {
         notifyIcon1.Icon = new Icon("Assets/wechat.ico");
-        notifyIcon1.Text = "WeChatAuto.SDK - 为你提供微信Agent基座";
+        notifyIcon1.Text = "WeChatAuto.SDK - 涓轰綘鎻愪緵寰俊Agent鍩哄骇";
         notifyIcon1.Visible = true;
         notifyIcon1.ContextMenuStrip = contextMenuStrip1;
 
@@ -38,7 +38,7 @@ public partial class MainForm : AntdUI.Window
         };
         itemAbout.Click += (s, e) =>
         {
-            ShowSettings();
+            ShowAbout();
         };
 
         this.FormClosing += (s, e) =>
@@ -60,11 +60,10 @@ public partial class MainForm : AntdUI.Window
         this.Activate();
     }
 
-    private async void ShowSettings()
+    private async void ShowAbout()
     {
-        // TODO: 打开设置界面（可替换为独立的设置窗体）
-        FlowerSidePane pane = new FlowerSidePane();
-        await pane.ShowAsync();
+        AboutForm about = new AboutForm();
+        await about.ShowAsync();
     }
 
     private void ExitApplication()
