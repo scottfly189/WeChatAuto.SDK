@@ -123,19 +123,29 @@ public partial class MainForm : AntdUI.Window
         }
         catch (WechatNotOpenedException ex)
         {
-            AntdUI.Notification.error(this, "错误","没有发现微信客户端或者微信客户端未打开", autoClose: 3,align:TAlignFrom.Top);
+            ShowError("没有发现微信客户端或者微信客户端未打开");
         }
         catch (WechatClientNotExistException ex)
         {
-            AntdUI.Notification.error(this, "错误", "微信客户端不存在", autoClose: 3,align:TAlignFrom.Top);
+            ShowError("微信客户端不存在");
         }
         catch (WechatNotSupportUITreeException ex)
         {
-            AntdUI.Notification.error(this, "错误", "你的微信客户端不支持UI Tree", autoClose: 3,align:TAlignFrom.Top);
+            ShowError("你的微信没有开放UI Tree,请先打开微信的UI Tree!");
         }
         catch (Exception ex)
         {
-            AntdUI.Notification.error(this, "错误", "初始化微信客户端失败", autoClose: 3,align:TAlignFrom.Top);
+            ShowError("初始化微信客户端失败");
         }
+    }
+
+    private void ShowError(string message)
+    {
+        // 在 Form.Load 阶段（消息循环尚未启动）直接调用 Notification 会因主窗体被立即隐藏/消息循环未就绪而不显示，
+        // 这里用 BeginInvoke 将通知延后到消息循环运行后再弹出，保证稳定显示。
+        BeginInvoke(() =>
+        {
+            AntdUI.Notification.error(this, "错误", message, autoClose: 5, align: TAlignFrom.Top);
+        });
     }
 }
