@@ -18,6 +18,7 @@ public partial class MainForm : AntdUI.Window
     private Dictionary<string, WeChatClient> clientDict = new Dictionary<string, WeChatClient>();
     private readonly Dictionary<string, SideBarForm> _sideBars = new();
     private System.Windows.Forms.Timer? _syncTimer;
+    private int _lastFgPid = -1;
     private const int SideBarGap = 8;
 
     public MainForm()
@@ -149,6 +150,8 @@ public partial class MainForm : AntdUI.Window
     private void SyncSidebars()
     {
         int fgPid = Win32WindowHelper.GetForegroundProcessId();
+        bool fgChanged = fgPid != _lastFgPid;
+        _lastFgPid = fgPid;
 
         foreach (var sideBar in _sideBars.Values)
         {
@@ -191,6 +194,12 @@ public partial class MainForm : AntdUI.Window
                 sideBar.Show();
             else if (!active && sideBar.Visible)
                 sideBar.Hide();
+
+            // 4) 前台切换到该微信时，把侧栏 Z 序插到微信窗口正下方（高于其它窗口、低于微信），避免被遮挡
+            if (active && fgChanged && sideBar.Visible)
+            {
+                Win32WindowHelper.SetWindowBelow(sideBar.Handle, hwnd);
+            }
         }
     }
 

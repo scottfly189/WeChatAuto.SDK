@@ -150,6 +150,29 @@ namespace WeChatAuto.Utils
         }
 
         /// <summary>
+        /// 将窗口插入到指定窗口的正下方（Z 序紧邻其后），不改变位置/大小，也不激活。
+        /// 用于让侧栏高于其它窗口、同时低于微信窗口，避免被遮挡。
+        /// </summary>
+        public static void SetWindowBelow(IntPtr hwnd, IntPtr belowHwnd)
+        {
+            if (!IsValidWindow(hwnd) || !IsValidWindow(belowHwnd))
+            {
+                return;
+            }
+
+            SetWindowPos(
+                hwnd,
+                belowHwnd,
+                0,
+                0,
+                0,
+                0,
+                SWP_NOMOVE |
+                SWP_NOSIZE |
+                SWP_NOACTIVATE);
+        }
+
+        /// <summary>
         /// 判断指定 HWND 是否属于指定进程。
         /// </summary>
         public static bool IsWindowBelongsToProcess(
