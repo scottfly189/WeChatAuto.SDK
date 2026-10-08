@@ -30,6 +30,7 @@ partial class MainForm
     {
         components = new System.ComponentModel.Container();
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+        AntdUI.Tabs.StyleLine styleLine1 = new AntdUI.Tabs.StyleLine();
         pageHeader1 = new AntdUI.PageHeader();
         notifyIcon1 = new NotifyIcon(components);
         contextMenuStrip1 = new ContextMenuStrip(components);
@@ -37,7 +38,11 @@ partial class MainForm
         itemAbout = new ToolStripMenuItem();
         toolStripMenuItem1 = new ToolStripSeparator();
         itemExit = new ToolStripMenuItem();
+        tabs1 = new AntdUI.Tabs();
+        pageConsole = new AntdUI.TabPage();
+        pageLog = new AntdUI.TabPage();
         contextMenuStrip1.SuspendLayout();
+        tabs1.SuspendLayout();
         SuspendLayout();
         // 
         // pageHeader1
@@ -68,7 +73,7 @@ partial class MainForm
         contextMenuStrip1.ImageScalingSize = new Size(20, 20);
         contextMenuStrip1.Items.AddRange(new ToolStripItem[] { itemConsole, itemAbout, toolStripMenuItem1, itemExit });
         contextMenuStrip1.Name = "contextMenuStrip1";
-        contextMenuStrip1.Size = new Size(215, 143);
+        contextMenuStrip1.Size = new Size(153, 115);
         // 
         // itemConsole
         // 
@@ -93,7 +98,7 @@ partial class MainForm
         // toolStripMenuItem1
         // 
         toolStripMenuItem1.Name = "toolStripMenuItem1";
-        toolStripMenuItem1.Size = new Size(211, 6);
+        toolStripMenuItem1.Size = new Size(149, 6);
         // 
         // itemExit
         // 
@@ -105,11 +110,44 @@ partial class MainForm
         itemExit.Size = new Size(210, 35);
         itemExit.Text = "退出";
         // 
+        // tabs1
+        // 
+        tabs1.Controls.Add(pageConsole);
+        tabs1.Controls.Add(pageLog);
+        tabs1.Dock = DockStyle.Fill;
+        tabs1.Location = new Point(0, 65);
+        tabs1.Name = "tabs1";
+        tabs1.Pages.Add(pageConsole);
+        tabs1.Pages.Add(pageLog);
+        tabs1.Size = new Size(711, 426);
+        tabs1.Style = styleLine1;
+        tabs1.TabIndex = 1;
+        tabs1.Text = "tabs1";
+        // 
+        // pageConsole
+        // 
+        pageConsole.IconSvg = "DashboardOutlined";
+        pageConsole.Location = new Point(0, 38);
+        pageConsole.Name = "pageConsole";
+        pageConsole.Size = new Size(711, 388);
+        pageConsole.TabIndex = 0;
+        pageConsole.Text = "主控台";
+        // 
+        // pageLog
+        // 
+        pageLog.IconSvg = "LoginOutlined";
+        pageLog.Location = new Point(0, 0);
+        pageLog.Name = "pageLog";
+        pageLog.Size = new Size(0, 0);
+        pageLog.TabIndex = 1;
+        pageLog.Text = "日志";
+        // 
         // MainForm
         // 
         AutoScaleDimensions = new SizeF(10F, 23F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(711, 491);
+        Controls.Add(tabs1);
         Controls.Add(pageHeader1);
         Font = new Font("Microsoft YaHei UI", 10F);
         Icon = (Icon)resources.GetObject("$this.Icon");
@@ -118,6 +156,7 @@ partial class MainForm
         StartPosition = FormStartPosition.CenterScreen;
         Text = "WeChatAuto.SDK";
         contextMenuStrip1.ResumeLayout(false);
+        tabs1.ResumeLayout(false);
         ResumeLayout(false);
     }
 
@@ -130,4 +169,7 @@ partial class MainForm
     private ToolStripMenuItem itemAbout;
     private ToolStripSeparator toolStripMenuItem1;
     private ToolStripMenuItem itemExit;
+    private AntdUI.Tabs tabs1;
+    private AntdUI.TabPage pageConsole;
+    private AntdUI.TabPage pageLog;
 }

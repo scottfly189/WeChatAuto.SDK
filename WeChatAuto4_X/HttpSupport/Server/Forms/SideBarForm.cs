@@ -8,6 +8,7 @@ namespace wechatbot
 {
     public partial class SideBarForm : AntdUI.Window
     {
+        private WeChatClient? client;
         /// <summary>绑定的微信主窗口 HWND。</summary>
         public IntPtr WeChatHwnd { get; }
 
@@ -26,6 +27,7 @@ namespace wechatbot
 
         public SideBarForm(WeChatClient client)
         {
+            this.client = client;
             WeChatHwnd = client.GetHandler();
             WeChatProcessId = client.ClientProcessId;
             InitializeComponent();
