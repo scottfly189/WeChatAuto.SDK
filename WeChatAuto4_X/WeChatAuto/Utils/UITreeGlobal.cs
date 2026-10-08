@@ -32,6 +32,10 @@ namespace WeChatAuto.Utils
         public static string SubWinTitleHistoryButtonPath = "/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Button[@Name='聊天记录']";
         //弹出窗口 - 标题栏 的 语音通话 按钮 path
         public static string SubWinTitleVoipButtonPath = "/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Group/Button[@Name='语音通话']";
+        /// <summary>
+        /// 导航栏 - 首个按钮 - 微信按钮.
+        /// </summary>
+        public static string Navigate_wechat = "/Group/Custom/Group/ToolBar/Button[@Name='微信'][@ClassName='mmui::XTabBarItem']";
 
         
     }

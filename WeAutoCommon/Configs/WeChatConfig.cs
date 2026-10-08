@@ -16,6 +16,10 @@ namespace WeAutoCommon.Configs
     public class WeChatConfig
     {
         /// <summary>
+        /// 在微信的UI Tree未被腾迅公开的情况下是否强开UI Tree,默认为False
+        /// </summary>
+        public bool IsForceOpenUITree { get; set; } = false;
+        /// <summary>
         /// 下载文件/图片默认保存路径
         /// </summary>
         [JsonPropertyName("default_save_path")]

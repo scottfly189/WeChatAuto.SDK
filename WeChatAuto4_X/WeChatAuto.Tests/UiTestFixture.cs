@@ -14,6 +14,7 @@ public class UiTestFixture : IDisposable
         Console.OutputEncoding = System.Text.Encoding.UTF8;
         _serviceProvider = WeAutomation.Initialize(options =>
         {
+            options.IsForceOpenUITree = true;
             options.DebugMode = false;
             options.InitAdressBook = false;
             options.EnableOCR = true;

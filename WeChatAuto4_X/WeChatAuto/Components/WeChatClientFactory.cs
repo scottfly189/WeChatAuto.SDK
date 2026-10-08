@@ -203,7 +203,7 @@ namespace WeChatAuto.Components
                 var index = 0;
                 var wechatList = new List<string>();
                 Window beforeWin = null;
-                __ForceOpenUITree__(processList);
+                __ForceOpenUITree__(processList, automation);
                 foreach (var process in processList)
                 {
                     index++;
@@ -227,22 +227,45 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 如果微信没有公开UI Tree,则强制打开UI Tree
         /// </summary>
-        private void __ForceOpenUITree__(List<int> processList)
+        private void __ForceOpenUITree__(List<int> processList, UIA3Automation automation)
         {
+            if (!WeAutomation.Config.IsForceOpenUITree)
+                return;
             var forceOpen = _serviceProvider.GetRequiredService<ForceOpenUITree>();
             foreach (var pid in processList)
             {
                 try
                 {
-                    // 此处只负责写入门控字节，真正的 UIA 验证由后续 _InitWechatAutomationFrameworkWithProcessId 完成。
-                    var result = forceOpen.ForceOpen(pid, checkOnly: false, verifyUia: false);
-                    _logger.Trace($"PID {pid} 强开 UI Tree 成功: {result.State}");
+                    if (!__CheckUITreeExist(pid, automation))
+                    {
+                        // 此处只负责写入门控字节，真正的 UIA 验证由后续 _InitWechatAutomationFrameworkWithProcessId 完成。
+                        // 扫描 weixin.dll 定位门控字节较慢，期间在屏幕上绘制赛博朋克风格提示框告知用户。
+                        using (CyberOverlay.Show($"正在强开 pid={pid} 的微信 UI Tree 中..."))
+                        {
+                            var result = forceOpen.ForceOpen(pid, checkOnly: false, verifyUia: false);
+                            _logger.Trace($"PID {pid} 强开 UI Tree 成功: {result.State}");
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
                     _logger.Warn($"PID {pid} 强开 UI Tree 失败: {ex.Message}");
                 }
             }
+        }
+
+        private bool __CheckUITreeExist(int pid, UIA3Automation automation)
+        {
+            var desktop = automation.GetDesktop();
+            var winRetry = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("mmui::MainWindow").And(cf.ByControlType(ControlType.Window)).And(cf.ByProcessId(pid)).And(cf.ByFrameworkId("Qt"))), TimeSpan.FromSeconds(1), TimeSpan.FromMilliseconds(200));
+            if (winRetry.Success)
+            {
+                var win = winRetry.Result;
+                var path = UITreeGlobal.Navigate_wechat;
+                var buttonRetry = Retry.WhileNull(() => win.FindFirstByXPath(path), TimeSpan.FromSeconds(1), TimeSpan.FromMilliseconds(200));
+                return buttonRetry.Success;
+            }
+            throw new WechatClientNotExistException($"错误:processid={pid}的微信不存在!");
         }
 
         private void _InitWechatAutomationFrameworkWithProcessId(UIA3Automation automation, int processId, int index, ref Window beforeWin)
