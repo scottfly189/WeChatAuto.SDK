@@ -1,6 +1,6 @@
 namespace wechatbot
 {
-    partial class HistoryMessage
+    partial class HistoryMessageForm
     {
         /// <summary>
         /// Required designer variable.

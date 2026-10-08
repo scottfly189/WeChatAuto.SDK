@@ -4,7 +4,7 @@ using WeChatAuto.Models;
 
 namespace wechatbot
 {
-    public partial class HistoryMessage : AntdUI.Window
+    public partial class HistoryMessageForm : AntdUI.Window
     {
         private readonly WeChatClient client;
 
@@ -32,7 +32,7 @@ namespace wechatbot
         /// <summary>“查看消息”表格的数据源，首列为多选状态列。</summary>
         private readonly DataTable messageTable = new DataTable();
 
-        public HistoryMessage(WeChatClient client)
+        public HistoryMessageForm(WeChatClient client)
         {
             this.client = client;
             InitializeComponent();

@@ -9,7 +9,7 @@ namespace wechatbot
     public partial class SideBarForm : AntdUI.Window
     {
         private WeChatClient? client;
-        private DatabaseForm? dbForm;
+        private HistoryMessageForm? dbForm;
         /// <summary>绑定的微信主窗口 HWND。</summary>
         public IntPtr WeChatHwnd { get; }
 
@@ -47,7 +47,7 @@ namespace wechatbot
 
             if (dbForm == null || dbForm.IsDisposed)
             {
-                dbForm = new DatabaseForm(client);
+                dbForm = new HistoryMessageForm(client);
             }
             dbForm.Show();
             dbForm.Activate();
