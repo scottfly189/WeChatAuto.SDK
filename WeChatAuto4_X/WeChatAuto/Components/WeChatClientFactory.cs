@@ -229,7 +229,20 @@ namespace WeChatAuto.Components
         /// </summary>
         private void __ForceOpenUITree__(List<int> processList)
         {
-
+            var forceOpen = _serviceProvider.GetRequiredService<ForceOpenUITree>();
+            foreach (var pid in processList)
+            {
+                try
+                {
+                    // 此处只负责写入门控字节，真正的 UIA 验证由后续 _InitWechatAutomationFrameworkWithProcessId 完成。
+                    var result = forceOpen.ForceOpen(pid, checkOnly: false, verifyUia: false);
+                    _logger.Trace($"PID {pid} 强开 UI Tree 成功: {result.State}");
+                }
+                catch (Exception ex)
+                {
+                    _logger.Warn($"PID {pid} 强开 UI Tree 失败: {ex.Message}");
+                }
+            }
         }
 
         private void _InitWechatAutomationFrameworkWithProcessId(UIA3Automation automation, int processId, int index, ref Window beforeWin)

@@ -78,6 +78,7 @@ namespace WeChatAuto.Services
         private static void RegisterServices(IServiceCollection services)
         {
             services.AddSingleton<WeChatClientFactory>();
+            services.AddSingleton<ForceOpenUITree>();
             services.AddAutoLogger();
             if (_config.EnableMouseKeyboardSimulator)
             {
