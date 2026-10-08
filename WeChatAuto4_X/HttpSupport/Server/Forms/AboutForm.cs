@@ -1,4 +1,4 @@
-namespace wechatbot
+namespace Server.Forms
 {
     public partial class AboutForm : AntdUI.Window
     {

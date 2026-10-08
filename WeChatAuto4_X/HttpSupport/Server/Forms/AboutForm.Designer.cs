@@ -1,4 +1,4 @@
-namespace wechatbot
+namespace Server.Forms
 {
     partial class AboutForm
     {

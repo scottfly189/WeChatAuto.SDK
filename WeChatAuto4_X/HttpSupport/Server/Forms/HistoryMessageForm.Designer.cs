@@ -1,4 +1,4 @@
-namespace wechatbot
+namespace Server.Forms
 {
     partial class HistoryMessageForm
     {
@@ -28,7 +28,7 @@ namespace wechatbot
         /// </summary>
         private void InitializeComponent()
         {
-            AntdUI.Tabs.StyleLine styleLine1 = new AntdUI.Tabs.StyleLine();
+            AntdUI.Tabs.StyleCard2 styleCard21 = new AntdUI.Tabs.StyleCard2();
             pageHeader1 = new AntdUI.PageHeader();
             tabs1 = new AntdUI.Tabs();
             pageConfig = new AntdUI.TabPage();
@@ -72,9 +72,11 @@ namespace wechatbot
             tabs1.Pages.Add(pageConfig);
             tabs1.Pages.Add(pageMessage);
             tabs1.Size = new Size(760, 460);
-            tabs1.Style = styleLine1;
+            styleCard21.Closable = AntdUI.Tabs.StyleCard2.CloseType.none;
+            tabs1.Style = styleCard21;
             tabs1.TabIndex = 1;
             tabs1.Text = "tabs1";
+            tabs1.Type = AntdUI.TabType.Card2;
             // 
             // pageConfig
             // 
@@ -207,7 +209,7 @@ namespace wechatbot
             btnRefresh.TabIndex = 2;
             btnRefresh.Text = "刷新";
             // 
-            // DatabaseForm
+            // HistoryMessageForm
             // 
             AutoScaleDimensions = new SizeF(10F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -216,7 +218,7 @@ namespace wechatbot
             Controls.Add(pageHeader1);
             Font = new Font("Microsoft YaHei UI", 10F);
             Mode = AntdUI.TAMode.Light;
-            Name = "DatabaseForm";
+            Name = "HistoryMessageForm";
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterScreen;
             Text = "数据库";

@@ -1,4 +1,4 @@
-﻿namespace ui;
+﻿namespace Server.Forms;
 
 partial class MainForm
 {
@@ -58,7 +58,7 @@ partial class MainForm
         pageHeader1.ShowIcon = true;
         pageHeader1.Size = new Size(711, 65);
         pageHeader1.SubGap = 10;
-        pageHeader1.SubText = "- 为你提供微信Agent基座";
+        pageHeader1.SubText = "- 为微信提供Agent基座";
         pageHeader1.TabIndex = 0;
         pageHeader1.Text = "WECHATAUTO.SDK";
         // 

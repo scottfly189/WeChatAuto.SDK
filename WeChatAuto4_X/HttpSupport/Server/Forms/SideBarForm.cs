@@ -4,12 +4,13 @@ using System.Drawing;
 using System.Windows.Forms;
 using WeChatAuto.Components;
 
-namespace wechatbot
+namespace Server.Forms
 {
     public partial class SideBarForm : AntdUI.Window
     {
         private WeChatClient? client;
-        private HistoryMessageForm? dbForm;
+        private HistoryMessageForm? historyForm;
+        private MonitorConfigForm? monitorConfigForm;
         /// <summary>绑定的微信主窗口 HWND。</summary>
         public IntPtr WeChatHwnd { get; }
 
@@ -37,20 +38,35 @@ namespace wechatbot
 
         private void InitEvents()
         {
-            btnSkill.Click += BtnSkill_Click;
+            btnHistory.Click += btnHistory_Click;
+            btnMonitorConfig.Click += BtnMonitorConfig_Click;
+
         }
 
-        private void BtnSkill_Click(object? sender, EventArgs e)
+        private void BtnMonitorConfig_Click(object? sender, EventArgs e)
         {
             if (client == null)
                 return;
 
-            if (dbForm == null || dbForm.IsDisposed)
+            if (monitorConfigForm == null || monitorConfigForm.IsDisposed)
             {
-                dbForm = new HistoryMessageForm(client);
+                monitorConfigForm = new MonitorConfigForm(client);
             }
-            dbForm.Show();
-            dbForm.Activate();
+            monitorConfigForm.Show();
+            monitorConfigForm.Activate();
+        }
+
+        private void btnHistory_Click(object? sender, EventArgs e)
+        {
+            if (client == null)
+                return;
+
+            if (historyForm == null || historyForm.IsDisposed)
+            {
+                historyForm = new HistoryMessageForm(client);
+            }
+            historyForm.Show();
+            historyForm.Activate();
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace ui;
+﻿namespace Server.Forms;
 
 using AntdUI;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,7 +8,6 @@ using WeChatAuto.Exceptions;
 using WeChatAuto.Models;
 using WeChatAuto.Services;
 using WeChatAuto.Utils;
-using wechatbot;
 
 public partial class MainForm : AntdUI.Window
 {
@@ -39,9 +38,11 @@ public partial class MainForm : AntdUI.Window
     private void _InitTrayIcon()
     {
         notifyIcon1.Icon = new Icon("Assets/wechat.ico");
-        notifyIcon1.Text = "WeChatAuto.SDK - 为你提供微信Agent基座";
+        notifyIcon1.Text = "WeChatAuto.SDK - 为微信提供Agent基座";
         notifyIcon1.Visible = true;
         notifyIcon1.ContextMenuStrip = contextMenuStrip1;
+
+        notifyIcon1.DoubleClick += NotifyIcon1_DoubleClick;
 
         itemExit.Click += (s, e) =>
         {
@@ -66,6 +67,10 @@ public partial class MainForm : AntdUI.Window
         };
     }
 
+    private void NotifyIcon1_DoubleClick(object? sender, EventArgs e)
+    {
+        ShowMainForm();
+    }
 
     private void ShowMainForm()
     {

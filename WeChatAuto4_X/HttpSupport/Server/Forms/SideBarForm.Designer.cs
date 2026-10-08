@@ -1,4 +1,4 @@
-﻿namespace wechatbot
+﻿namespace Server.Forms
 {
     partial class SideBarForm
     {
@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             stackPanel1 = new AntdUI.StackPanel();
-            btnSkill = new AntdUI.Button();
-            btnKnowlege = new AntdUI.Button();
+            btnHistory = new AntdUI.Button();
+            btnMonitorConfig = new AntdUI.Button();
             btnStart = new AntdUI.Button();
             divider2 = new AntdUI.Divider();
             divider1 = new AntdUI.Divider();
@@ -39,8 +39,8 @@
             // 
             // stackPanel1
             // 
-            stackPanel1.Controls.Add(btnSkill);
-            stackPanel1.Controls.Add(btnKnowlege);
+            stackPanel1.Controls.Add(btnHistory);
+            stackPanel1.Controls.Add(btnMonitorConfig);
             stackPanel1.Controls.Add(btnStart);
             stackPanel1.Controls.Add(divider2);
             stackPanel1.Controls.Add(divider1);
@@ -53,21 +53,21 @@
             // 
             // btnSkill
             // 
-            btnSkill.Location = new Point(225, 3);
-            btnSkill.Name = "btnSkill";
-            btnSkill.Size = new Size(99, 41);
-            btnSkill.TabIndex = 12;
-            btnSkill.Text = "历史消息";
-            btnSkill.Type = AntdUI.TTypeMini.Primary;
+            btnHistory.Location = new Point(225, 3);
+            btnHistory.Name = "btnSkill";
+            btnHistory.Size = new Size(99, 41);
+            btnHistory.TabIndex = 12;
+            btnHistory.Text = "历史消息";
+            btnHistory.Type = AntdUI.TTypeMini.Primary;
             // 
-            // btnKnowlege
+            // btnMonitorConfig
             // 
-            btnKnowlege.Location = new Point(104, 3);
-            btnKnowlege.Name = "btnKnowlege";
-            btnKnowlege.Size = new Size(115, 41);
-            btnKnowlege.TabIndex = 11;
-            btnKnowlege.Text = "监听设置";
-            btnKnowlege.Type = AntdUI.TTypeMini.Primary;
+            btnMonitorConfig.Location = new Point(104, 3);
+            btnMonitorConfig.Name = "btnMonitorConfig";
+            btnMonitorConfig.Size = new Size(115, 41);
+            btnMonitorConfig.TabIndex = 11;
+            btnMonitorConfig.Text = "监听设置";
+            btnMonitorConfig.Type = AntdUI.TTypeMini.Primary;
             // 
             // btnStart
             // 
@@ -132,7 +132,7 @@
         private AntdUI.Divider divider2;
         private AntdUI.Divider divider1;
         private AntdUI.Button btnStart;
-        private AntdUI.Button btnSkill;
-        private AntdUI.Button btnKnowlege;
+        private AntdUI.Button btnHistory;
+        private AntdUI.Button btnMonitorConfig;
     }
 }

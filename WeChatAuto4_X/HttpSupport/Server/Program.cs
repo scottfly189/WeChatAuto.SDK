@@ -1,7 +1,7 @@
 namespace ui;
 
 using AntdUI;
-using wechatbot;
+using Server.Forms;
 using System.Reflection;
 using System.Runtime.InteropServices;
 

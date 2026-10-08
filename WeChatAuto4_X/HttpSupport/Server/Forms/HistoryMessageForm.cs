@@ -2,7 +2,7 @@ using System.Data;
 using WeChatAuto.Components;
 using WeChatAuto.Models;
 
-namespace wechatbot
+namespace Server.Forms
 {
     public partial class HistoryMessageForm : AntdUI.Window
     {
