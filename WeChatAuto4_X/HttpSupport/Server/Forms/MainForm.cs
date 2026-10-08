@@ -27,13 +27,12 @@ public partial class MainForm : AntdUI.Window
         this.Visible = false;
         InitializeComponent();
         _InitTrayIcon();
-        __Initialize__();
         _InitEvents();
     }
 
     protected override void SetVisibleCore(bool value)
     {
-        //base.SetVisibleCore(value);
+        base.SetVisibleCore(value);
         base.SetVisibleCore(_allowVisible && value);
     }
 
@@ -91,7 +90,7 @@ public partial class MainForm : AntdUI.Window
 
     private void _InitEvents()
     {
-        //this.Load += MainForm_Load;
+        this.Load += MainForm_Load;
         this.FormClosed += MainForm_FormClosed;
     }
 
@@ -113,7 +112,7 @@ public partial class MainForm : AntdUI.Window
         }
     }
 
-    private void __Initialize__()
+    private void MainForm_Load(object? sender, EventArgs e)
     {
         _InitWechatAutoSDK();
         _InitSidebar();
