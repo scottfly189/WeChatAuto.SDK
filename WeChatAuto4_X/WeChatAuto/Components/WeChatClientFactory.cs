@@ -372,24 +372,27 @@ namespace WeChatAuto.Components
                 return;
             }
             _disposed = true;
-            if (WeAutomation.Config.EnableMouseKeyboardSimulator)
+            if (disposing)
             {
-                KMSimulatorService.CloseDevice();
-            }
-
-            if (WeAutomation.Config.EnableRecordVideo)
-            {
-                _recordVideo?._VideoRecorder?.Stop();
-                _recordVideo?._VideoRecorder?.Dispose();
-            }
-            if (_wxClientList != null && _wxClientList.Count > 0)
-            {
-                foreach (var client in _wxClientList)
+                if (WeAutomation.Config.EnableMouseKeyboardSimulator)
                 {
-                    client.Value?.Dispose();
+                    KMSimulatorService.CloseDevice();
                 }
+
+                if (WeAutomation.Config.EnableRecordVideo)
+                {
+                    _recordVideo?._VideoRecorder?.Stop();
+                    _recordVideo?._VideoRecorder?.Dispose();
+                }
+                if (_wxClientList != null && _wxClientList.Count > 0)
+                {
+                    foreach (var client in _wxClientList)
+                    {
+                        client.Value?.Dispose();
+                    }
+                }
+                MainActionThreadInvoker.Dispose();   //将微信自动化的线程释放.
             }
-            MainActionThreadInvoker.Dispose();   //将微信自动化的线程释放.
         }
     }
 }

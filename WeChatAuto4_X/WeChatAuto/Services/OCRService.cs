@@ -468,7 +468,7 @@ namespace WeChatAuto.Services
 			CvInvoke.CvtColor(Mat2, gray, ColorConversion.Bgr2Gray);            //灰值化
 			using Mat binary = new Mat();
 			CvInvoke.Threshold(gray, binary, 180, 255, ThresholdType.Binary);  //二值化
-			var bitmap = binary.ToBitmap();
+			using var bitmap = binary.ToBitmap();
 			var runCount = 0;
 			float boxScoreThresh = 0.3f;
 			while (runCount < 2)

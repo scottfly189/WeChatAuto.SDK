@@ -20,6 +20,7 @@ public partial class MainForm : AntdUI.Window
     private System.Windows.Forms.Timer? _syncTimer;
     private int _lastFgPid = -1;
     private const int SideBarGap = 8;
+    private AboutForm? about;
 
     public MainForm()
     {
@@ -31,7 +32,7 @@ public partial class MainForm : AntdUI.Window
 
     protected override void SetVisibleCore(bool value)
     {
-        base.SetVisibleCore(value);
+        // base.SetVisibleCore(value);
         base.SetVisibleCore(_allowVisible && value);
     }
 
@@ -76,7 +77,7 @@ public partial class MainForm : AntdUI.Window
 
     private async void ShowAbout()
     {
-        AboutForm about = new AboutForm();
+        about = new AboutForm();
         await about.ShowAsync();
     }
 

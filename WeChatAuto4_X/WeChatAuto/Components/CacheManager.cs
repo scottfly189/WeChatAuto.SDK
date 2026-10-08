@@ -198,7 +198,6 @@ namespace WeChatAuto.Components
         /// <param name="who"></param>
         public async Task RemoveFriendFromCacheAsync(string who)
         {
-            await _cacheLock.WaitAsync();
             if (string.IsNullOrWhiteSpace(who))
                 return;
             List<FriendInfo> friendInfos = await GetFriendListFromCacheAsync();
@@ -222,7 +221,6 @@ namespace WeChatAuto.Components
         /// <param name="wxid"></param>
         public async Task RemoveFriendWithWxIDFromCacheAsync(string wxid)
         {
-            await _cacheLock.WaitAsync();
             if (string.IsNullOrWhiteSpace(wxid))
                 return;
             List<FriendInfo> friendInfos = await GetFriendListFromCacheAsync();

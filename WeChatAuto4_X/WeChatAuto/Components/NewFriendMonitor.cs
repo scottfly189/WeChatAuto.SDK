@@ -196,7 +196,7 @@ namespace WeChatAuto.Components
         /// <param name="label">标签，给好友设置微信标签</param>
         /// <param name="userToken">取消令牌，可以取消监听,<see cref="CancellationToken"/></param>
         /// <param name="UIInvoker">UI的调度器，适用于把微信嵌入UI的场景使用，如：多微信切换Tab页等,SDK会给调用者注入一个微信名称</param>
-        private async Task AddFriendRequestAutoAcceptListener(Func<List<NewFriendBackItem>, WeChatClient, IServiceProvider,Task> passedCallBack, bool passedDelete = true, OneOf<string, string[], List<string>> keyWord = default, string suffix = null, string label = null, CancellationToken userToken = default, Action<string> UIInvoker = null)
+        private async Task AddFriendRequestAutoAcceptListener(Func<List<NewFriendBackItem>, WeChatClient, IServiceProvider, Task> passedCallBack, bool passedDelete = true, OneOf<string, string[], List<string>> keyWord = default, string suffix = null, string label = null, CancellationToken userToken = default, Action<string> UIInvoker = null)
         {
             if (Interlocked.CompareExchange(ref this.newFriendMonitorStarted, 1, 0) == 1)
             {
@@ -204,10 +204,9 @@ namespace WeChatAuto.Components
             }
             this.UIInvoker = UIInvoker;
             CancellationToken token;
-            CancellationTokenSource linkedCts = default;
             if (userToken != default)
             {
-                linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cts.Token, userToken);
+                using CancellationTokenSource linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cts.Token, userToken);
                 token = linkedCts.Token;
             }
             else
@@ -217,9 +216,9 @@ namespace WeChatAuto.Components
             try
             {
                 var startTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-                UIThreadInvoker newFriendInvoker = new UIThreadInvoker("new-friends-fetch");
                 fetchNumberTask = Task.Run(async () =>
                 {
+                    using UIThreadInvoker newFriendInvoker = new UIThreadInvoker("new-friends-fetch");
                     startTcs.TrySetResult(true);
                     using PeriodicTimer timer = new PeriodicTimer(TimeSpan.FromSeconds(WeAutomation.Config.MonitorNewFriendRequestInterval));  //20秒循环一次.
                     bool firstTag = true;
@@ -260,10 +259,6 @@ namespace WeChatAuto.Components
             }
             finally
             {
-                if (linkedCts != default)
-                {
-                    linkedCts?.Dispose();
-                }
             }
         }
 
@@ -272,7 +267,7 @@ namespace WeChatAuto.Components
             await newFriendInvoker.Run(automation =>
             {
                 var desktop = automation.GetDesktop();
-                var windowRetry = Retry.WhileNull(() => desktop.FindFirstChild(cf =>cf.ByClassName("mmui::MainWindow").And(cf.ByControlType(ControlType.Window).And(cf.ByProcessId(this._Client.MainWindow.Properties.ProcessId)))), TimeSpan.FromSeconds(1), TimeSpan.FromMilliseconds(200));
+                var windowRetry = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByClassName("mmui::MainWindow").And(cf.ByControlType(ControlType.Window).And(cf.ByProcessId(this._Client.MainWindow.Properties.ProcessId)))), TimeSpan.FromSeconds(1), TimeSpan.FromMilliseconds(200));
                 if (windowRetry.Success)
                 {
                     var window = windowRetry.Result;

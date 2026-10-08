@@ -107,9 +107,6 @@
             divider1.TextPadding = 0F;
             divider1.Thickness = 1F;
             divider1.Vertical = true;
-            // 
-            // FlowerSidePane
-            // 
             AutoScaleMode = AutoScaleMode.Inherit;
             ClientSize = new Size(389, 47);
             ControlBox = false;
