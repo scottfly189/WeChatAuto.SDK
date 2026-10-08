@@ -47,26 +47,26 @@
             stackPanel1.Dock = DockStyle.Fill;
             stackPanel1.Location = new Point(0, 0);
             stackPanel1.Name = "stackPanel1";
-            stackPanel1.Size = new Size(389, 47);
+            stackPanel1.Size = new Size(434, 47);
             stackPanel1.TabIndex = 0;
             stackPanel1.Text = "stackPanel1";
             // 
             // btnSkill
             // 
-            btnSkill.Location = new Point(195, 3);
+            btnSkill.Location = new Point(225, 3);
             btnSkill.Name = "btnSkill";
             btnSkill.Size = new Size(99, 41);
             btnSkill.TabIndex = 12;
-            btnSkill.Text = "数据库";
+            btnSkill.Text = "历史消息";
             btnSkill.Type = AntdUI.TTypeMini.Primary;
             // 
             // btnKnowlege
             // 
             btnKnowlege.Location = new Point(104, 3);
             btnKnowlege.Name = "btnKnowlege";
-            btnKnowlege.Size = new Size(85, 41);
+            btnKnowlege.Size = new Size(115, 41);
             btnKnowlege.TabIndex = 11;
-            btnKnowlege.Text = "消息";
+            btnKnowlege.Text = "监听设置";
             btnKnowlege.Type = AntdUI.TTypeMini.Primary;
             // 
             // btnStart
@@ -107,14 +107,17 @@
             divider1.TextPadding = 0F;
             divider1.Thickness = 1F;
             divider1.Vertical = true;
+            // 
+            // SideBarForm
+            // 
             AutoScaleMode = AutoScaleMode.Inherit;
-            ClientSize = new Size(389, 47);
+            ClientSize = new Size(434, 47);
             ControlBox = false;
             Controls.Add(stackPanel1);
             Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 134);
             MinimizeBox = false;
             Mode = AntdUI.TAMode.Light;
-            Name = "FlowerSidePane";
+            Name = "SideBarForm";
             Resizable = false;
             ShowIcon = false;
             ShowInTaskbar = false;
