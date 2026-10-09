@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 
 public partial class MainForm : AntdUI.Window
 {
+    private CancellationTokenSource? webCts;
     private NotifyIcon? _notifyIcon;
     private bool _allowVisible = false;
     private WeChatAuto.Components.WeChatClientFactory? factory;
@@ -23,6 +24,7 @@ public partial class MainForm : AntdUI.Window
     private int _lastFgPid = -1;
     private const int SideBarGap = 8;
     private AboutForm? about;
+    private WebApplication app;
 
     public MainForm()
     {
@@ -104,6 +106,11 @@ public partial class MainForm : AntdUI.Window
 
     private void MainForm_FormClosed(object? sender, FormClosedEventArgs e)
     {
+        if (webCts != null)
+        {
+            webCts.Cancel();
+        }
+
         _syncTimer?.Stop();
         _syncTimer?.Dispose();
         _syncTimer = null;
@@ -120,12 +127,81 @@ public partial class MainForm : AntdUI.Window
         }
     }
 
-    private void MainForm_Load(object? sender, EventArgs e)
+    private async void MainForm_Load(object? sender, EventArgs e)
     {
         _InitWechatAutoSDK();
         _InitSidebar();
+        await _InitHttpServer();
+
+    }
+    /// <summary>
+    /// 初始化 HTTP 服务端，启动 http 监听。
+    /// </summary>
+    private async Task _InitHttpServer()
+    {
+        if (clientDict.Count == 0)
+            return;
+        webCts = new CancellationTokenSource();
+        var builder = WebApplication.CreateBuilder();
+        builder.WebHost.ConfigureKestrel(options =>
+        {
+            options.ListenAnyIP(5000);
+        });
+        ConfigServices(builder);
+        app = builder.Build();
+        ConfigWebApp(app);
+        MapUIAutomation(app);
+        await app!.StartAsync(webCts.Token);
     }
 
+    /// <summary>
+    /// 接收请求，进行自动化操作.
+    /// </summary>
+    private void MapUIAutomation(WebApplication app)
+    {
+        app.MapGet("/", () => "hello world!");
+        //var messageAPI = app.MapGroup("/api/v1");
+        //messageAPI.MapGet("/message", async (string from, string to, string message, string messageId, HttpContext context) => await __MessageSendAction(from, to, message, messageId, context));
+        //messageAPI.MapPost("/message", async (AutomationMessage message, HttpContext context) =>
+        //{
+        //    await __MessageSendAction(message.From, message.To, message.Message, message.MessageId, context);
+        //});
+        //messageAPI.MapPost("/file", async (AutomationFile file, HttpContext context) => await __FileSendAction(file, context));
+    }
+
+    /// <summary>
+    /// 配置服务
+    /// </summary>
+    /// <param name="builder"></param>
+    private void ConfigServices(WebApplicationBuilder builder)
+    {
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+        builder.Services.AddCors(option =>
+        {
+            option.AddPolicy("AllowAll", policy =>
+            {
+                policy.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
+        });
+    }
+
+    /// <summary>
+    /// 配置web应用
+    /// </summary>
+    /// <param name="app"></param>
+    private void ConfigWebApp(WebApplication app)
+    {
+        app.UseCors("AllowAll"); //允许跨域访问
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    /// <summary>
+    /// 初始化侧边栏窗口，创建每个微信客户端对应的 SideBarForm，并启动定时器同步位置和显隐。
+    /// </summary>
     private void _InitSidebar()
     {
         if (clientDict.Count == 0)
@@ -211,7 +287,9 @@ public partial class MainForm : AntdUI.Window
             }
         }
     }
-
+    /// <summary>
+    /// 初始化 WeChatAuto.SDK，获取微信客户端列表。
+    /// </summary>
     private void _InitWechatAutoSDK()
     {
         try
