@@ -100,7 +100,7 @@ partial class MainForm
         pageHeader1.ShowIcon = true;
         pageHeader1.Size = new Size(711, 65);
         pageHeader1.SubGap = 10;
-        pageHeader1.SubText = "- 构建微信 Agent 的基础框架";
+        pageHeader1.SubText = "- 构建微信 Agent 的开发基座";
         pageHeader1.TabIndex = 0;
         pageHeader1.Text = "WECHATAUTO.SDK";
         // 

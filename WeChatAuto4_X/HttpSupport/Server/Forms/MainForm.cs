@@ -41,7 +41,7 @@ public partial class MainForm : AntdUI.Window
     private void _InitTrayIcon()
     {
         notifyIcon1.Icon = new Icon("Assets/wechat.ico");
-        notifyIcon1.Text = "WeChatAuto.SDK - 构建微信 Agent 的基础框架";
+        notifyIcon1.Text = "WeChatAuto.SDK - 构建微信 Agent 的开发基座";
         notifyIcon1.Visible = true;
         notifyIcon1.ContextMenuStrip = contextMenuStrip1;
 
