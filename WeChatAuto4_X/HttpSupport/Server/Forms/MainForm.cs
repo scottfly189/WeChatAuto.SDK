@@ -8,6 +8,9 @@ using WeChatAuto.Exceptions;
 using WeChatAuto.Models;
 using WeChatAuto.Services;
 using WeChatAuto.Utils;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 public partial class MainForm : AntdUI.Window
 {
@@ -38,7 +41,7 @@ public partial class MainForm : AntdUI.Window
     private void _InitTrayIcon()
     {
         notifyIcon1.Icon = new Icon("Assets/wechat.ico");
-        notifyIcon1.Text = "WeChatAuto.SDK - 为微信提供Agent基座";
+        notifyIcon1.Text = "WeChatAuto.SDK - 构建微信 Agent 的基础框架";
         notifyIcon1.Visible = true;
         notifyIcon1.ContextMenuStrip = contextMenuStrip1;
 

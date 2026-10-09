@@ -40,7 +40,7 @@ namespace Server.Forms
         {
             btnHistory.Click += btnHistory_Click;
             btnMonitorConfig.Click += BtnMonitorConfig_Click;
-
+            buttonTools.Click += ButtonTools_Click;
         }
 
         private void BtnMonitorConfig_Click(object? sender, EventArgs e)
@@ -67,6 +67,38 @@ namespace Server.Forms
             }
             historyForm.Show();
             historyForm.Activate();
+        }
+
+        /// <summary>点击“工具集”按钮时弹出 AntdUI 风格的下拉菜单。</summary>
+        private void ButtonTools_Click(object? sender, EventArgs e)
+        {
+            AntdUI.ContextMenuStrip.open(buttonTools, OnToolMenuClick, new AntdUI.IContextMenuStripItem[]
+            {
+                new AntdUI.ContextMenuStripItem("发送消息"),
+                new AntdUI.ContextMenuStripItem("定时发送"),
+                new AntdUI.ContextMenuStripItem("消息转发"),
+                new AntdUI.ContextMenuStripItem("自动接入好友"),
+            });
+        }
+
+        /// <summary>菜单项点击回调（占位，后续按 item.Text 接入实际逻辑）。</summary>
+        private void OnToolMenuClick(AntdUI.IContextMenuStrip item)
+        {
+            switch (item.Text)
+            {
+                case "发送消息":
+                    AntdUI.Notification.info(this, "提示", "发送消息功能开发中，敬请期待。", autoClose: 3, align: AntdUI.TAlignFrom.Top);
+                    break;
+                case "定时发送":
+                    AntdUI.Notification.info(this, "提示", "定时发送功能开发中，敬请期待。", autoClose: 3, align: AntdUI.TAlignFrom.Top);
+                    break;
+                case "消息转发":
+                    AntdUI.Notification.info(this, "提示", "消息转发功能开发中，敬请期待。", autoClose: 3, align: AntdUI.TAlignFrom.Top);
+                    break;
+                case "自动接入好友":
+                    AntdUI.Notification.info(this, "提示", "自动接入好友功能开发中，敬请期待。", autoClose: 3, align: AntdUI.TAlignFrom.Top);
+                    break;
+            }
         }
 
         /// <summary>

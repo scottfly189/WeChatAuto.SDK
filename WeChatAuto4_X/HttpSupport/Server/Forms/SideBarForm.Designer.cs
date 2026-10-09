@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             stackPanel1 = new AntdUI.StackPanel();
+            buttonTools = new AntdUI.Button();
             btnHistory = new AntdUI.Button();
             btnMonitorConfig = new AntdUI.Button();
             btnStart = new AntdUI.Button();
@@ -39,6 +40,7 @@
             // 
             // stackPanel1
             // 
+            stackPanel1.Controls.Add(buttonTools);
             stackPanel1.Controls.Add(btnHistory);
             stackPanel1.Controls.Add(btnMonitorConfig);
             stackPanel1.Controls.Add(btnStart);
@@ -47,24 +49,39 @@
             stackPanel1.Dock = DockStyle.Fill;
             stackPanel1.Location = new Point(0, 0);
             stackPanel1.Name = "stackPanel1";
-            stackPanel1.Size = new Size(434, 47);
+            stackPanel1.Size = new Size(448, 47);
             stackPanel1.TabIndex = 0;
             stackPanel1.Text = "stackPanel1";
             // 
-            // btnSkill
+            // buttonTools
             // 
-            btnHistory.Location = new Point(225, 3);
-            btnHistory.Name = "btnSkill";
-            btnHistory.Size = new Size(99, 41);
+            buttonTools.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 134);
+            buttonTools.Location = new Point(257, 3);
+            buttonTools.Margin = new Padding(0, 3, 3, 3);
+            buttonTools.Name = "buttonTools";
+            buttonTools.Size = new Size(83, 41);
+            buttonTools.TabIndex = 13;
+            buttonTools.Text = "工具集";
+            buttonTools.Type = AntdUI.TTypeMini.Primary;
+            // 
+            // btnHistory
+            // 
+            btnHistory.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 134);
+            btnHistory.Location = new Point(174, 3);
+            btnHistory.Margin = new Padding(0, 3, 0, 3);
+            btnHistory.Name = "btnHistory";
+            btnHistory.Size = new Size(83, 41);
             btnHistory.TabIndex = 12;
             btnHistory.Text = "历史消息";
             btnHistory.Type = AntdUI.TTypeMini.Primary;
             // 
             // btnMonitorConfig
             // 
-            btnMonitorConfig.Location = new Point(104, 3);
+            btnMonitorConfig.Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 134);
+            btnMonitorConfig.Location = new Point(81, 3);
+            btnMonitorConfig.Margin = new Padding(0, 3, 0, 3);
             btnMonitorConfig.Name = "btnMonitorConfig";
-            btnMonitorConfig.Size = new Size(115, 41);
+            btnMonitorConfig.Size = new Size(93, 41);
             btnMonitorConfig.TabIndex = 11;
             btnMonitorConfig.Text = "监听设置";
             btnMonitorConfig.Type = AntdUI.TTypeMini.Primary;
@@ -76,7 +93,7 @@
             btnStart.Location = new Point(23, 3);
             btnStart.Margin = new Padding(0, 3, 0, 3);
             btnStart.Name = "btnStart";
-            btnStart.Size = new Size(78, 41);
+            btnStart.Size = new Size(58, 41);
             btnStart.TabIndex = 4;
             btnStart.ToggleIconSvg = "PauseCircleFilled";
             btnStart.ToggleType = AntdUI.TTypeMini.Success;
@@ -111,7 +128,7 @@
             // SideBarForm
             // 
             AutoScaleMode = AutoScaleMode.Inherit;
-            ClientSize = new Size(434, 47);
+            ClientSize = new Size(448, 47);
             ControlBox = false;
             Controls.Add(stackPanel1);
             Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Bold, GraphicsUnit.Point, 134);
@@ -134,5 +151,6 @@
         private AntdUI.Button btnStart;
         private AntdUI.Button btnHistory;
         private AntdUI.Button btnMonitorConfig;
+        private AntdUI.Button buttonTools;
     }
 }
