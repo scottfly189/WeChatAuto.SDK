@@ -1,9 +1,5 @@
 <!-- _navbar.md -->
-* [User Guide](/README.md)
-* [Download](/download.md)
-* [Price](/price.md)
-* :globe_with_meridians: Languages
-  * [English](/)
-  * [简体中文](/zh-cn/)
-  * [中國香港](/zh-hk/)
-  * [台灣](/zh-tw/)
+
+* [SDK · 内嵌使用](/inlineuse.md)
+* [SDK · HTTP 服务](/httpserveruse.md)
+* [MCP服务](/mcpserver.md)
