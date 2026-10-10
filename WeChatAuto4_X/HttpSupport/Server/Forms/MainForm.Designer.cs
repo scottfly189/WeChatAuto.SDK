@@ -372,7 +372,7 @@ partial class MainForm
         label14.Name = "label14";
         label14.Size = new Size(507, 23);
         label14.TabIndex = 2;
-        label14.Text = "[AI.Net,Alex]";
+        label14.Text = "";
         // 
         // label17
         // 

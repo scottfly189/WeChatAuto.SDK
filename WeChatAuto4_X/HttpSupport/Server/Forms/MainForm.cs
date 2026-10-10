@@ -11,6 +11,10 @@ using WeChatAuto.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Server.WebApi.Extensions;
+using Server.WebApi.Options;
+using System.Diagnostics;
 
 public partial class MainForm : AntdUI.Window
 {
@@ -24,7 +28,7 @@ public partial class MainForm : AntdUI.Window
     private int _lastFgPid = -1;
     private const int SideBarGap = 8;
     private AboutForm? about;
-    private WebApplication app;
+    private WebApplication? app;
 
     public MainForm()
     {
@@ -143,30 +147,50 @@ public partial class MainForm : AntdUI.Window
             return;
         webCts = new CancellationTokenSource();
         var builder = WebApplication.CreateBuilder();
+
+        builder.Configuration.AddJsonFile("App.json", optional: true, reloadOnChange: true);
+        var httpOptions = builder.Configuration.GetSection(HttpServerOptions.SectionName).Get<HttpServerOptions>() ?? new HttpServerOptions();
+
         builder.WebHost.ConfigureKestrel(options =>
         {
-            options.ListenAnyIP(5000);
+            options.ListenAnyIP(httpOptions.Port);
         });
         ConfigServices(builder);
         app = builder.Build();
         ConfigWebApp(app);
-        MapUIAutomation(app);
         await app!.StartAsync(webCts.Token);
+        SetAutomationStarted(clientDict.Count > 0, httpOptions.Port, HttpServerOptions.SectionName.ToLower());
     }
 
-    /// <summary>
-    /// 接收请求，进行自动化操作.
-    /// </summary>
-    private void MapUIAutomation(WebApplication app)
+    private void SetAutomationStarted(bool started,int port,string scheme)
     {
-        app.MapGet("/", () => "hello world!");
-        //var messageAPI = app.MapGroup("/api/v1");
-        //messageAPI.MapGet("/message", async (string from, string to, string message, string messageId, HttpContext context) => await __MessageSendAction(from, to, message, messageId, context));
-        //messageAPI.MapPost("/message", async (AutomationMessage message, HttpContext context) =>
-        //{
-        //    await __MessageSendAction(message.From, message.To, message.Message, message.MessageId, context);
-        //});
-        //messageAPI.MapPost("/file", async (AutomationFile file, HttpContext context) => await __FileSendAction(file, context));
+        if (started)
+        {
+            //正确启用
+            lblAutomation.Text = " 微信自动化能力已经开启";
+            label14.Text = $"[{string.Join(", ", clientDict.Keys)}]";
+            hyperlinkLabel1.Text = $"<a href='{scheme}://localhost:{port}/swagger'>http://localhost:{port}/</a>";
+            hyperlinkLabel1.LinkClicked += HyperlinkLabel1_LinkClicked;
+        }
+        else
+        {
+            //启用错误
+            lblAutomation.Text = " 微信自动化能力 未 开启";
+            label14.Text = "请检查微信客户端是否打开，或者微信版本是否支持自动化能力";
+            hyperlinkLabel1.Text = "微信自动化能力 未 开启";
+            panelAutomation.BackColor = Color.FromArgb(255, 255, 192);
+            ShowMainForm();
+        }    
+    }
+
+    private void HyperlinkLabel1_LinkClicked(object sender, HyperlinkLabel.LinkClickedEventArgs e)
+    {
+        var url = e.Href;
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = url,
+            UseShellExecute = true
+        });
     }
 
     /// <summary>
@@ -175,17 +199,7 @@ public partial class MainForm : AntdUI.Window
     /// <param name="builder"></param>
     private void ConfigServices(WebApplicationBuilder builder)
     {
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-        builder.Services.AddCors(option =>
-        {
-            option.AddPolicy("AllowAll", policy =>
-            {
-                policy.AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-            });
-        });
+        builder.Services.AddWeChatApi(factory!);
     }
 
     /// <summary>
@@ -197,6 +211,7 @@ public partial class MainForm : AntdUI.Window
         app.UseCors("AllowAll"); //允许跨域访问
         app.UseSwagger();
         app.UseSwaggerUI();
+        app.MapControllers();
     }
 
     /// <summary>

@@ -836,8 +836,8 @@ namespace WeChatAuto.Components
         /// <param name="options">配置对象，具体参见<see cref="FriendRequestAutoAcceptOptions"/></param>
         /// <param name="token">取消今牌</param>
         /// <returns>返回加成功的好友昵称列表</returns>
-        public async Task<List<NewFriendBackItem>> PassedAllNewFriend(FriendRequestAutoAcceptOptions options, CancellationToken token = default)
-          => await this.AddressBookList.PassedAllNewFriend(options, token);
+        // public async Task<List<NewFriendBackItem>> PassedAllNewFriend(FriendRequestAutoAcceptOptions options, CancellationToken token = default)
+        //   => await this.AddressBookList.PassedAllNewFriend(options, token);
         /// <summary>
         /// 移除好友
         /// 注意： 如果删除好友，从通讯录删除好友后，同步的，如果此好友处在监听中，应该将监听中的好友删除
