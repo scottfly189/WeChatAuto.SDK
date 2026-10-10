@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>DroidMirror — More than just screen mirroring - a complete mobile interaction solution.</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="Description">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <style>
+    section.cover ul {
+      max-width: 600px !important;
+    }
+
+    .cover-main img {
+      width: 600px;
+      height: 300px;
+      border-radius: 12px;
+    }
+
+    .sidebar-nav>ul>li>a {
+      font-weight: bold !important;
+    }
+
+    /* H1 主标题 */
+    .markdown-section h1 {
+      font-size: 22px;
+      /* 默认太大，这里收一收 */
+      font-weight: 600;
+      /* 稍微粗一点但不夸张 */
+      margin-bottom: 20px;
+      border-bottom: none;
+      /* 去掉docsify默认下划线 */
+    }
+
+    /* H2 副标题 */
+    .markdown-section h2 {
+      font-size: 18px;
+      font-weight: 500;
+      margin-top: 40px;
+      margin-bottom: 16px;
+      border-bottom: none;
+    }
+
+    /* 可选：加一点层次感 */
+    .markdown-section h2::before {
+      content: "";
+      display: inline-block;
+      width: 4px;
+      height: 18px;
+      background: #42b983;
+      /* docsify默认绿色 */
+      margin-right: 8px;
+      vertical-align: middle;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">Loading...</div>
+  <script>
+    var isGitHub = location.hostname.includes('github.io');
+    window.$docsify = {
+      name: '<img src="./_media/logo.png" style="width:50%;margin:-30px 0 0 0 ;padding:0;line-height:0;"></img><b><p style="margin:0; padding:0; letter-spacing: 0.03em; font-family: "Poppins","Montserrat",sans-serif;font-weight: 800;">DroidMirror</p></b> <small>Screen Mirroring and Control</small><hr style="border: none; border-top: 1px solid #ccc;"/>',
+      repo: 'https://github.com/scottfly189/DroidMirror',
+      nameLink: "https://scottfly189.github.io/DroidMirror/",
+      coverpage: ['/', '/zh-cn/'],
+      onlyCover: true,
+      maxLevel: 2,
+      auto2top: true,
+      loadNavbar: true,
+
+    }
+
+    window.$docsify.plugins = (window.$docsify.plugins || []).concat([
+    function (hook, vm) {
+      hook.afterEach(function (html) {
+        return html + `
+          <hr/>
+          <div style="text-align:center;color:#999;font-size:14px;">
+            DroidMirror — More than just screen mirroring, a complete mobile interaction solution.<br/>© DroidMirror ${new Date().getFullYear()}
+          </div>
+        `;
+      });
+    }
+  ]);
+  </script>
+  <!-- Docsify v4 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  <!-- 实现离线化 -->
+  <script>
+    if (typeof navigator.serviceWorker !== 'undefined') {
+      navigator.serviceWorker.register('sw.js')
+    }
+  </script>
+</body>
+
+</html>

@@ -162,11 +162,11 @@ public partial class MainForm : AntdUI.Window
         SetAutomationStarted(clientDict.Count > 0, httpOptions.Port, HttpServerOptions.SectionName.ToLower());
     }
 
-    private void SetAutomationStarted(bool started,int port,string scheme)
+    private void SetAutomationStarted(bool started, int port, string scheme)
     {
         if (started)
         {
-            //正确启用
+            //http server正确启用
             lblAutomation.Text = " 微信自动化能力已经开启";
             label14.Text = $"[{string.Join(", ", clientDict.Keys)}]";
             hyperlinkLabel1.Text = $"<a href='{scheme}://localhost:{port}/swagger'>http://localhost:{port}/</a>";
@@ -180,8 +180,25 @@ public partial class MainForm : AntdUI.Window
             hyperlinkLabel1.Text = "微信自动化能力 未 开启";
             panelAutomation.BackColor = Color.FromArgb(255, 255, 192);
             ShowMainForm();
-        }    
+        }
+
+        if (started)
+        {
+            //正确启用
+            label9.Text = " 微信MCP Server服务已经开启";
+            hyperlinkLabel4.Text = $"<a href='{scheme}://localhost:{port}/swagger'>http://localhost:{port}/</a>";
+            hyperlinkLabel4.LinkClicked += HyperlinkLabel1_LinkClicked;
+        }
+        else
+        {
+            //启用错误
+            label9.Text = " 微信MCP Server服务 未 开启";
+            hyperlinkLabel4.Text = $"<a href='{scheme}://localhost:{port}/swagger'>http://localhost:{port}/</a>";
+            panelMCPServer.BackColor = Color.FromArgb(255, 255, 192);
+        }
+
     }
+
 
     private void HyperlinkLabel1_LinkClicked(object sender, HyperlinkLabel.LinkClickedEventArgs e)
     {
