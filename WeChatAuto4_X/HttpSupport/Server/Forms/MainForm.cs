@@ -11,9 +11,9 @@ using WeChatAuto.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Server.WebApi.Extensions;
 using Server.WebApi.Options;
+using Server.WebApi.Services;
 using System.Diagnostics;
 
 public partial class MainForm : AntdUI.Window
@@ -135,9 +135,16 @@ public partial class MainForm : AntdUI.Window
     {
         _InitWechatAutoSDK();
         _InitSidebar();
+        _InitDatabase();
         await _InitHttpServer();
 
     }
+
+    private void _InitDatabase()
+    {
+        
+    }
+
     /// <summary>
     /// 初始化 HTTP 服务端，启动 http 监听。
     /// </summary>
@@ -148,13 +155,14 @@ public partial class MainForm : AntdUI.Window
         webCts = new CancellationTokenSource();
         var builder = WebApplication.CreateBuilder();
 
-        builder.Configuration.AddJsonFile("App.json", optional: true, reloadOnChange: true);
-        var httpOptions = builder.Configuration.GetSection(HttpServerOptions.SectionName).Get<HttpServerOptions>() ?? new HttpServerOptions();
+        var appConfig = new AppConfigStore().Load();
+        var httpOptions = appConfig.Http;
 
         builder.WebHost.ConfigureKestrel(options =>
         {
             options.ListenAnyIP(httpOptions.Port);
         });
+        builder.Services.AddSingleton(appConfig);
         ConfigServices(builder);
         app = builder.Build();
         ConfigWebApp(app);
@@ -194,6 +202,7 @@ public partial class MainForm : AntdUI.Window
             //启用错误
             label9.Text = " 微信MCP Server服务 未 开启";
             hyperlinkLabel4.Text = $"<a href='{scheme}://localhost:{port}/swagger'>http://localhost:{port}/</a>";
+            hyperlinkLabel4.LinkClicked += HyperlinkLabel1_LinkClicked;
             panelMCPServer.BackColor = Color.FromArgb(255, 255, 192);
         }
 

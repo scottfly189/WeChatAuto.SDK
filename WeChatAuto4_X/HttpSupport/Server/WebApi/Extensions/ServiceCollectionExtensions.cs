@@ -18,6 +18,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddSingleton(factory);
         services.AddSingleton<IWeChatClientProvider, WeChatClientProvider>();
+        services.AddSingleton<IAppConfigStore, AppConfigStore>();
 
         services.AddControllers(options =>
         {

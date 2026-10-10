@@ -9,6 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Handler\**" />
+    <EmbeddedResource Remove="Handler\**" />
+    <None Remove="Handler\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AntdUI" Version="2.4.12" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="10.3.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.3.0" />
@@ -38,7 +44,6 @@
   <ItemGroup>
     <Folder Include="models\" />
     <Folder Include="MCP\" />
-    <Folder Include="Handler\" />
   </ItemGroup>
 
   <ItemGroup>
