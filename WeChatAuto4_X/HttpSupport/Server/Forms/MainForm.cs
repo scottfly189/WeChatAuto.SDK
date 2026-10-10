@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Server.WebApi.Extensions;
+using Server.WebApi.Models;
 using Server.WebApi.Options;
 using Server.WebApi.Services;
 using System.Diagnostics;
@@ -142,7 +143,46 @@ public partial class MainForm : AntdUI.Window
 
     private void _InitDatabase()
     {
-        
+        if (clientDict.Count == 0)
+            return;
+
+        var store = new AppConfigStore();
+        var appConfig = store.Load();
+        var changed = false;
+
+        foreach (var client in clientDict.Values)
+        {
+            // 该微信昵称在 Config 中无配置时，按默认值补写（默认 sqlite，数据库 wechat.db）
+            var clientConfig = appConfig.Config.FirstOrDefault(c => c.WechatNickName == client.NickName);
+            if (clientConfig == null)
+            {
+                clientConfig = new ClientConfig { WechatNickName = client.NickName };
+                appConfig.Config.Add(clientConfig);
+                changed = true;
+            }
+
+            var dbConfig = clientConfig.Database;
+            if (string.IsNullOrWhiteSpace(dbConfig.ConnectionString))
+                continue;
+
+            if (!SqlSugarDatabaseHelper.TryParseDbType(dbConfig.Type, out var dbType))
+                continue;
+
+            try
+            {
+                using var db = SqlSugarDatabaseHelper.CreateClient(dbType, dbConfig.ConnectionString);
+                SqlSugarDatabaseHelper.EnsureDatabase(db);
+            }
+            catch (Exception ex)
+            {
+                ShowError($"初始化数据库失败（{client.NickName}）：{ex.Message}");
+            }
+        }
+
+        if (changed)
+        {
+            store.Save(appConfig);
+        }
     }
 
     /// <summary>

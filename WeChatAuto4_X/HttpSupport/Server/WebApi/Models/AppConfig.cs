@@ -31,17 +31,17 @@ public sealed class ClientConfig
     /// <summary>
     /// 数据库配置。
     /// </summary>
-    public List<DatabaseConfig> Database { get; set; } = new();
+    public DatabaseConfig Database { get; set; } = new();
 
     /// <summary>
     /// 消息监听配置。
     /// </summary>
-    public List<MessageMonitorConfig> MessageMonitor { get; set; } = new();
+    public MessageMonitorConfig MessageMonitor { get; set; } = new();
 
     /// <summary>
     /// 新朋友请求监听配置。
     /// </summary>
-    public List<NewFriendRequestMonitorConfig> NewFriendRequestMonitor { get; set; } = new();
+    public NewFriendRequestMonitorConfig NewFriendRequestMonitor { get; set; } = new();
 
     /// <summary>
     /// 文本转语音（TTS）配置。

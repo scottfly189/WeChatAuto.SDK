@@ -1,6 +1,8 @@
 using System.Data;
 using WeChatAuto.Components;
 using WeChatAuto.Models;
+using Server.WebApi.Models;
+using Server.WebApi.Services;
 
 namespace Server.Forms
 {
@@ -39,6 +41,7 @@ namespace Server.Forms
             Text = client.NickName;
             pageHeader1.Text = "微信号 - "+client.NickName;
             InitDatabaseTypes();
+            LoadExistingConfig();
             InitFilter();
             InitTable();
             InitEvents();
@@ -46,8 +49,8 @@ namespace Server.Forms
 
         private void InitEvents()
         {
-            btnTest.Click += (s, e) => TestConnection();
-            btnSave.Click += (s, e) => SaveConfig();
+            btnTest.Click += async (s, e) => await TestConnection();
+            btnSave.Click += async (s, e) => await SaveConfig();
             btnRefresh.Click += (s, e) => RefreshMessages();
             btnDelete.Click += (s, e) => DeleteSelectedMessages();
             tableMessage.CellButtonClick += TableMessage_CellButtonClick;
@@ -63,6 +66,42 @@ namespace Server.Forms
             }
             selectDbType.SelectedIndex = 0; // 默认 SQLite
             inputConnStr.Text = DefaultSqliteConnectionString;
+        }
+
+        /// <summary>把该微信号已保存的数据库配置回填到界面；读取失败时保持默认值。</summary>
+        private void LoadExistingConfig()
+        {
+            try
+            {
+                var appConfig = new AppConfigStore().Load();
+                var clientConfig = appConfig.Config.FirstOrDefault(c => c.WechatNickName == client.NickName);
+                var db = clientConfig?.Database;
+                if (db == null)
+                    return;
+
+                if (!string.IsNullOrWhiteSpace(db.ConnectionString))
+                    inputConnStr.Text = db.ConnectionString;
+
+                if (SqlSugarDatabaseHelper.TryParseDbType(db.Type, out var dbType))
+                {
+                    var displayName = SqlSugarDatabaseHelper.GetDisplayName(dbType);
+                    if (displayName == null)
+                        return;
+
+                    for (int i = 0; i < selectDbType.Items.Count; i++)
+                    {
+                        if (string.Equals(selectDbType.Items[i]?.ToString(), displayName, StringComparison.Ordinal))
+                        {
+                            selectDbType.SelectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // 读取已有配置失败时保持默认值，不影响页面展示
+            }
         }
 
         private void InitFilter()
@@ -185,16 +224,131 @@ namespace Server.Forms
             tableMessage.DataSource = messageTable;
         }
 
-        /// <summary>连接测试占位，后续接入具体数据库 Provider 后实现。</summary>
-        private void TestConnection()
+        /// <summary>测试当前界面填写的数据库连接（后台执行，避免阻塞界面）。</summary>
+        private async Task TestConnection()
         {
-            AntdUI.Notification.info(this, "提示", "连接测试功能开发中，敬请期待。", autoClose: 3, align: AntdUI.TAlignFrom.Top);
+            var displayName = selectDbType.SelectedValue?.ToString() ?? "";
+            var connectionString = inputConnStr.Text?.Trim() ?? "";
+
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                AntdUI.Notification.info(this, "提示", "请先填写连接字符串。", autoClose: 3, align: AntdUI.TAlignFrom.Top);
+                return;
+            }
+
+            if (!SqlSugarDatabaseHelper.TryGetDbType(displayName, out var dbType))
+            {
+                AntdUI.Notification.error(this, "提示", $"不支持的数据库类型：{displayName}", autoClose: 3, align: AntdUI.TAlignFrom.Top);
+                return;
+            }
+
+            btnTest.Enabled = false;
+            btnSave.Enabled = false;
+            try
+            {
+                var (ok, error) = await Task.Run(() =>
+                {
+                    var succeeded = SqlSugarDatabaseHelper.TestConnection(dbType, connectionString, out var err);
+                    return (succeeded, err);
+                });
+
+                if (ok)
+                    AntdUI.Notification.success(this, "提示", "连接测试成功。", autoClose: 3, align: AntdUI.TAlignFrom.Top);
+                else
+                    AntdUI.Notification.error(this, "提示", $"连接测试失败：{error}", autoClose: 5, align: AntdUI.TAlignFrom.Top);
+            }
+            finally
+            {
+                btnTest.Enabled = true;
+                btnSave.Enabled = true;
+            }
         }
 
-        /// <summary>保存配置占位，后续接入具体数据库 Provider 后实现。</summary>
-        private void SaveConfig()
+        /// <summary>
+        /// 保存配置：先确认连接测试成功，再保存到 App.json（按微信昵称定位配置项），
+        /// 若旧库与新库不同且旧库有数据，则导入新库。整个过程在后台执行，避免阻塞界面。
+        /// </summary>
+        private async Task SaveConfig()
         {
-            AntdUI.Notification.success(this, "提示", "配置已保存。", autoClose: 3, align: AntdUI.TAlignFrom.Top);
+            var displayName = selectDbType.SelectedValue?.ToString() ?? "";
+            var connectionString = inputConnStr.Text?.Trim() ?? "";
+            var nickName = client.NickName;
+
+            if (string.IsNullOrWhiteSpace(connectionString))
+            {
+                AntdUI.Notification.info(this, "提示", "请先填写连接字符串。", autoClose: 3, align: AntdUI.TAlignFrom.Top);
+                return;
+            }
+
+            if (!SqlSugarDatabaseHelper.TryGetDbType(displayName, out var newDbType))
+            {
+                AntdUI.Notification.error(this, "提示", $"不支持的数据库类型：{displayName}", autoClose: 3, align: AntdUI.TAlignFrom.Top);
+                return;
+            }
+
+            btnTest.Enabled = false;
+            btnSave.Enabled = false;
+            try
+            {
+                var (ok, imported, error) = await Task.Run(() => SaveCore(nickName, newDbType, connectionString));
+
+                if (ok)
+                {
+                    var message = imported > 0 ? $"配置已保存，并从旧库导入了 {imported} 条消息。" : "配置已保存。";
+                    AntdUI.Notification.success(this, "提示", message, autoClose: 5, align: AntdUI.TAlignFrom.Top);
+                }
+                else
+                {
+                    AntdUI.Notification.error(this, "提示", error ?? "保存配置失败。", autoClose: 5, align: AntdUI.TAlignFrom.Top);
+                }
+            }
+            finally
+            {
+                btnTest.Enabled = true;
+                btnSave.Enabled = true;
+            }
+        }
+
+        /// <summary>保存配置的后台逻辑，返回（是否成功、导入条数、错误信息）。</summary>
+        private static (bool ok, int imported, string? error) SaveCore(string nickName, SqlSugar.DbType newDbType, string connectionString)
+        {
+            try
+            {
+                // 1. 先确认连接测试成功（同时完成建库建表）
+                if (!SqlSugarDatabaseHelper.TestConnection(newDbType, connectionString, out var error))
+                    return (false, 0, $"连接测试失败，未保存：{error}");
+
+                // 2. 读取旧配置
+                var store = new AppConfigStore();
+                var appConfig = store.Load();
+                var clientConfig = appConfig.Config.FirstOrDefault(c => c.WechatNickName == nickName);
+                var oldDb = clientConfig?.Database;
+
+                // 3. 若旧库与新库不同，且旧库有数据，则导入新库
+                int imported = 0;
+                if (oldDb != null
+                    && !string.IsNullOrWhiteSpace(oldDb.ConnectionString)
+                    && SqlSugarDatabaseHelper.TryParseDbType(oldDb.Type, out var oldDbType)
+                    && !(oldDbType == newDbType && string.Equals(oldDb.ConnectionString, connectionString, StringComparison.OrdinalIgnoreCase)))
+                {
+                    imported = SqlSugarDatabaseHelper.ImportMessages(oldDbType, oldDb.ConnectionString, newDbType, connectionString);
+                }
+
+                // 4. 保存新配置到 App.json
+                if (clientConfig == null)
+                {
+                    clientConfig = new ClientConfig { WechatNickName = nickName };
+                    appConfig.Config.Add(clientConfig);
+                }
+                clientConfig.Database = new DatabaseConfig { Type = newDbType.ToString(), ConnectionString = connectionString };
+                store.Save(appConfig);
+
+                return (true, imported, null);
+            }
+            catch (Exception ex)
+            {
+                return (false, 0, $"保存配置失败：{ex.Message}");
+            }
         }
 
         /// <summary>刷新占位，后续接入具体数据库 Provider 后实现。</summary>

@@ -33,10 +33,12 @@ namespace WeChatAuto.Models
     public class WeChatMessage
     {
         /// <summary>
-        /// 数据库主键
+        /// 数据库主键。
+        /// 注意：SQLite 的自增主键只支持 int（long 会被 SqlSugar 映射为 bigint，
+        /// 触发 “AUTOINCREMENT is only allowed on an INTEGER PRIMARY KEY” 错误），故此处使用 int。
         /// </summary>
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
-        public long Id { get; set; }
+        public int Id { get; set; }
         /// <summary>
         /// 微信账号
         /// 表示这条消息属于哪个微信账号,应用于多微信号场景

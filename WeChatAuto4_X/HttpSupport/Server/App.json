@@ -4,35 +4,50 @@
   },
   "Config": [
     {
+      "WechatNickName": "Alex",
+      "Database": {
+        "Type": "sqlite",
+        "ConnectionString": "Data Source=wechat.db"
+      },
+      "MessageMonitor": {
+        "Type": "Open",
+        "MonitorFriends": [],
+        "UseUITreeRollbackPlan": true,
+        "PollingTimeout": 10
+      },
+      "NewFriendRequestMonitor": {
+        "Enabled": false,
+        "PassedDelete": true,
+        "Keywords": []
+      },
+      "TTS": {
+        "QwenApiKey": "",
+        "Voice": "Cherry",
+        "LanguageType": "Auto",
+        "Instructions": "",
+        "IsPersionOptimize": false
+      },
+      "MessageSendPlan": {
+        "Plan": ""
+      }
+    },
+    {
       "WechatNickName": "AI.Net",
-      "Database": [
-        {
-          "Type": "sqlite",
-          "ConnectionString": "Data Source=wechat.db"
-        }
-      ],
-      "MessageMonitor": [
-        {
-          "Type": "Open",
-          "MonitorFriends": [ "test" ],
-          "UseUITreeRollbackPlan": true,
-          "PollingTimeout": 10
-        }
-      ],
-      "NewFriendRequestMonitor": [
-        {
-          "Enabled": false,
-          "PassedDelete": true,
-          "Keywords": [
-            {
-              "Keyword": "",
-              "Suffix": "",
-              "Label": "",
-              "FirstMessage": ""
-            }
-          ]
-        }
-      ],
+      "Database": {
+        "Type": "sqlite",
+        "ConnectionString": "Data Source=wechat.db"
+      },
+      "MessageMonitor": {
+        "Type": "Open",
+        "MonitorFriends": [],
+        "UseUITreeRollbackPlan": true,
+        "PollingTimeout": 10
+      },
+      "NewFriendRequestMonitor": {
+        "Enabled": false,
+        "PassedDelete": true,
+        "Keywords": []
+      },
       "TTS": {
         "QwenApiKey": "",
         "Voice": "Cherry",
