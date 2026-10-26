@@ -21,6 +21,17 @@
 
 </div>
 
+## 开通 VIP · **499元/年**
+
+社区版可以先发一条消息试用。消息监听、转发、朋友圈属于进阶能力，仅 VIP 可用。
+
+| 能力 | 社区版 | VIP |
+|---|:---:|:---:|
+| 监听 | — | ✓ |
+| 转发 | — | ✓ |
+| 朋友圈 | — | ✓ |
+
+加微信好友，备注 `wechatauto`。付款二维码见 [VIP 页](https://github.com/scottfly189/scottfly189/blob/main/vip.md)。功能逐项对照见 [能力表](./docs/ability.md)。
 
 > [!IMPORTANT]
 > 支持微信版本为 >= 4.1.9.30 and <= 最新版微信，推荐使用最新版本的微信;
@@ -49,12 +60,26 @@
 
 ## ✨ 快速入门
 
+### 新人推荐（一键试用）
+
+1. 下载 [community_allin.rar](https://github.com/scottfly189/WeChatAuto.SDK/releases/download/2.0.7/community_allin.rar)
+2. 解压
+3. 打开并登录微信（Win10+；微信版本 >= 4.1.9.30，推荐最新版）
+4. 运行解压目录里的 `Server.exe`
+5. 用吸附条，或打开 http://localhost:5000/swagger ，发一条消息验收
+
+HTTP WebAPI 方式不写代码即可接消息，说明见 [HTTP Server 使用](https://scottfly189.github.io/WeChatAuto.SDK/main.html#/httpserveruse)。
+
+**主要服务国内用户；若 GitHub 访问慢，国内入口：（待船长补链接）**
+
 > [!NOTE]
 > SDK支持两种使用方式: ```内嵌方式```(Embedded) 与 ```HTTP WebAPI``` 方式
 > 
 > 本质上`HTTP WebAPI`的方式为: WeChatAuto.SDK直接把微信消息帮你抓取，然后送到你指定的数据库，你的应用直接访问数据库即可！[接入指南](https://scottfly189.github.io/WeChatAuto.SDK/main.html#/README)
 
-#### 🚀 快速开始（30 秒上手）
+### 进阶：.NET 内嵌开发
+
+已有 .NET 项目、需要把 SDK 嵌进自己的程序时，再看本节。
 
 > [!IMPORTANT]
 > 使用前请用Claude code 安装.net10环境;
