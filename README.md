@@ -70,8 +70,6 @@
 
 HTTP WebAPI 方式不写代码即可接消息，说明见 [HTTP Server 使用](https://scottfly189.github.io/WeChatAuto.SDK/main.html#/httpserveruse)。
 
-**主要服务国内用户；若 GitHub 访问慢，国内入口：（待船长补链接）**
-
 > [!NOTE]
 > SDK支持两种使用方式: ```内嵌方式```(Embedded) 与 ```HTTP WebAPI``` 方式
 > 

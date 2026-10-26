@@ -168,14 +168,13 @@
     .vip-table td.no { color: var(--muted); }
     .vip-table td.yes { color: var(--green); font-weight: 700; }
     .vip-pay .buy { font-size: 13.5px; }
-    .vip-pay .buy a, .starter a, .mirror-note a { color: var(--cyan); }
-    .vip-pay code, .mirror-note code { font-family: var(--font-mono); color: #f3d9ff; }
+    .vip-pay .buy a, .starter a { color: var(--cyan); }
+    .vip-pay code { font-family: var(--font-mono); color: #f3d9ff; }
 
     .starter { margin: 12px 0 18px 1.2em; color: var(--muted); font-size: 15px; }
     .starter li { padding: 4px 0; }
     .use-card ol.starter li { display: list-item; }
     .use-card ol.starter li::before { content: none; }
-    .mirror-note { margin-top: 14px; font-size: 14.5px; color: var(--amber); }
     .adv-title { font-size: clamp(22px, 3vw, 28px); font-weight: 800; margin: 56px 0 8px; }
     .adv-desc { color: var(--muted); font-size: 15px; max-width: 720px; }
 
@@ -414,7 +413,7 @@
         </h1>
         <div class="vip-pay" id="vip">
           <div class="price">VIP · <b>499元/年</b></div>
-          <p class="hint">社区版可先发一条消息试用。高级监听、转发、朋友圈仅 VIP。</p>
+          <p class="hint">社区版可先发条消息试用,高级监听、转发、朋友圈仅 VIP。</p>
           <table class="vip-table">
             <thead>
               <tr><th>能力</th><th>社区版</th><th>VIP</th></tr>
@@ -445,7 +444,6 @@
           <a class="btn btn-outline" href="#quickstart">新人路径</a>
           <a class="btn btn-outline" href="https://github.com/scottfly189/WeChatAuto.SDK" target="_blank" rel="noopener">Star on GitHub</a>
         </div>
-        <p class="mirror-note">主要服务国内用户；若 GitHub 访问慢，国内入口：「待船长补」</p>
       </div>
 
       <div class="hero-visual">
@@ -579,7 +577,6 @@
         </ol>
         <a class="btn btn-primary" href="https://github.com/scottfly189/WeChatAuto.SDK/releases/download/2.0.7/community_allin.rar">下载 community_allin.rar</a>
         <p class="hint" style="color:var(--muted);font-size:14.5px;margin-top:14px;">HTTP WebAPI 方式不写代码即可接消息，说明见 <a href="https://scottfly189.github.io/WeChatAuto.SDK/main.html#/httpserveruse" style="color:var(--cyan);">HTTP Server 使用</a>。</p>
-        <p class="mirror-note">主要服务国内用户；若 GitHub 访问慢，国内入口：「待船长补」</p>
       </div>
 
       <h3 class="adv-title reveal">进阶：.NET 内嵌开发</h3>
