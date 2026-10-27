@@ -151,25 +151,9 @@
       background: linear-gradient(90deg, #eaffff 10%, var(--cyan) 55%, var(--green));
       -webkit-background-clip: text; background-clip: text; color: transparent;
     }
-    .hero .sub { color: var(--muted); font-size: 17px; max-width: 540px; margin-bottom: 22px; }
+    .hero .sub { color: var(--muted); font-size: 17px; max-width: 540px; margin-bottom: 30px; }
     .hero .sub b { color: var(--text); font-weight: 600; }
 
-    .vip-pay {
-      margin: 0 0 26px; padding: 16px 16px 14px; border-radius: 12px;
-      border: 1px solid rgba(192, 92, 255, .42);
-      background: linear-gradient(180deg, rgba(192, 92, 255, .12), rgba(11, 18, 32, .55));
-    }
-    .vip-pay .price { font-size: 22px; font-weight: 900; letter-spacing: .02em; }
-    .vip-pay .price b { color: #f3d9ff; }
-    .vip-pay .hint { color: var(--muted); font-size: 13.5px; margin-top: 4px; }
-    .vip-table { width: 100%; border-collapse: collapse; margin: 10px 0 12px; font-size: 13.5px; }
-    .vip-table th, .vip-table td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: left; }
-    .vip-table th { color: var(--muted); font-weight: 500; font-size: 12px; }
-    .vip-table td.no { color: var(--muted); }
-    .vip-table td.yes { color: var(--green); font-weight: 700; }
-    .vip-pay .buy { font-size: 13.5px; }
-    .vip-pay .buy a, .starter a { color: var(--cyan); }
-    .vip-pay code { font-family: var(--font-mono); color: #f3d9ff; }
 
     .starter { margin: 12px 0 18px 1.2em; color: var(--muted); font-size: 15px; }
     .starter li { padding: 4px 0; }
@@ -394,7 +378,6 @@
         <a href="#why">为什么选择</a>
         <a href="#abilities">能力全景</a>
         <a href="#usage">使用方式</a>
-        <a href="#vip">VIP</a>
         <a href="#quickstart">快速开始</a>
         <a href="https://scottfly189.github.io/WeChatAuto.SDK/main.html#/README">开发文档</a>
       </div>
@@ -411,21 +394,6 @@
           <span class="en">WECHATAUTO.SDK</span>
           安全构建<span class="grad">微信 Agent</span><br>的开发基座
         </h1>
-        <div class="vip-pay" id="vip">
-          <div class="price">VIP · <b>499元/年</b></div>
-          <p class="hint">社区版可先发条消息试用,高级监听、转发、朋友圈仅 VIP。</p>
-          <table class="vip-table">
-            <thead>
-              <tr><th>能力</th><th>社区版</th><th>VIP</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>监听</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>转发</td><td class="no">—</td><td class="yes">✓</td></tr>
-              <tr><td>朋友圈</td><td class="no">—</td><td class="yes">✓</td></tr>
-            </tbody>
-          </table>
-          <p class="buy">加微信好友，备注 <code>wechatauto</code>。二维码见 <a href="https://github.com/scottfly189/scottfly189/blob/main/vip.md" target="_blank" rel="noopener">VIP 页</a>。</p>
-        </div>
         <p class="sub">
           感知微信消息，通过 <b>UI Automation</b> 操作微信。不 Hook、不破解、不被封号，
           让你的微信 Agent / Wechat Bot <b>快速上线、安全发布到用户端</b>。
@@ -440,8 +408,7 @@
         </div>
 
         <div class="cta-row">
-          <a class="btn btn-primary" href="https://github.com/scottfly189/WeChatAuto.SDK/releases/download/2.0.7/community_allin.rar">下载社区包试用 →</a>
-          <a class="btn btn-outline" href="#quickstart">新人路径</a>
+          <a class="btn btn-primary" href="https://scottfly189.github.io/WeChatAuto.SDK/main.html#/README">开始使用 →</a>
           <a class="btn btn-outline" href="https://github.com/scottfly189/WeChatAuto.SDK" target="_blank" rel="noopener">Star on GitHub</a>
         </div>
       </div>
@@ -564,7 +531,7 @@
     <div class="wrap">
       <span class="section-label reveal">Quick Start</span>
       <h2 class="section-title reveal">新人推荐 · <span class="hl">一键试用</span></h2>
-      <p class="section-desc reveal">先用社区一体包发一条消息。不写代码，HTTP WebAPI 就能接消息。</p>
+      <p class="section-desc reveal">先用社区版试用发消息，不写一行代码，HTTP WebAPI 就能接入微信消息</p>
       <div class="use-card reveal" style="margin-top: 28px;">
         <h3>community_allin</h3>
         <div class="meta">Win10+ · 微信版本 &gt;= 4.1.9.30</div>
