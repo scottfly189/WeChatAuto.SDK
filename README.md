@@ -21,7 +21,6 @@
 
 </div>
 
-
 > [!IMPORTANT]
 > 支持微信版本为 >= 4.1.9.30 and <= 最新版微信，推荐使用最新版本的微信;
 
@@ -49,12 +48,24 @@
 
 ## ✨ 快速入门
 
+### 新人推荐（一键试用）
+
+1. 下载 [community_allin.rar](https://github.com/scottfly189/WeChatAuto.SDK/releases/download/2.0.7/community_allin.rar)
+2. 解压
+3. 打开并登录微信（Win10+；微信版本 >= 4.1.9.30，推荐最新版）
+4. 运行解压目录里的 `Server.exe`
+5. 用吸附条，或打开 http://localhost:5000/swagger ，发一条消息验收
+
+HTTP WebAPI 方式不写代码即可接消息，说明见 [HTTP Server 使用](https://scottfly189.github.io/WeChatAuto.SDK/main.html#/httpserveruse)。
+
 > [!NOTE]
 > SDK支持两种使用方式: ```内嵌方式```(Embedded) 与 ```HTTP WebAPI``` 方式
 > 
 > 本质上`HTTP WebAPI`的方式为: WeChatAuto.SDK直接把微信消息帮你抓取，然后送到你指定的数据库，你的应用直接访问数据库即可！[接入指南](https://scottfly189.github.io/WeChatAuto.SDK/main.html#/README)
 
-#### 🚀 快速开始（30 秒上手）
+### 进阶：.NET 内嵌开发
+
+已有 .NET 项目、需要把 SDK 嵌进自己的程序时，再看本节。
 
 > [!IMPORTANT]
 > 使用前请用Claude code 安装.net10环境;
@@ -209,7 +220,17 @@ src/                               # WeChatAuto.SDK 仓库根
 
 ```
 
-> 注： 标 💎 的为 **VIP 专有目录**
+## 🏇 对比传统方案
+
+| 维度 | 数据库破解 / Hook | WeChatAuto.SDK |
+|---|---|---|
+| 原理 | 破解/注入/消息钩子 / SendInput | UI 自动化 + 可选硬件模拟,安全合规 |
+| 稳定性 | 微信更新即失效 | 随 UI 结构适配，长期维护 |
+| 风控 | 特征明显、风险高 | 低特征，可选硬件级 |
+| AI 集成 | 无 | 原生 TTS / 语音克隆 / LLM |
+| 多微信账号 | 难 | 原生多实例工厂支持 |
+| 语言接入 | 单一 | 任意开发语言 |
+| 交付 | 脚本 | 工程化 SDK + 文档 + 示例 |
 
 ## 🎈 关于键鼠模拟器
 
@@ -226,12 +247,13 @@ src/                               # WeChatAuto.SDK 仓库根
 
 Wechatauto.SDK分为社区版和VIP版，社区版是完全开源的，VIP版为专用私库，则提供更多的功能和更深入的技术支持。
 
-> 具体请参考 [WECHATAUTO.SDK能力表](./docs/ability.md).
+> 具体请参考 [WECHATAUTO.SDK社区版 VS VIP版本](./docs/ability.md).
 
 
 社区版与VIP版本在代码层面，主要区别在于：VIP版本比社区版本多了20%的API接口，这些接口主要是一些高级功能和扩展能力，旨在为VIP客户提供更简单、更强大的微信自动化能力。
 
 **🎉 VIP 客户可享受以下专属服务保障：**
+- 🏌️‍♂️ **源码完全开放**：不限机器，没有一机一码，MIT授权，到期可继续用已获得版本;
 - 💡 **BUG 优先响应**：出现 Bug 或有新的 Enhancement ，第一时间响应、定位和解决，保障 VIP 项目的稳定运行;
 - 🚀 **专属 VIP 私有仓库**：VIP 客户将获专属私有仓库，会不定期提供丰富的应用层扩展与独享内容;
 - 🚀 **一对一的专属vip服务**: 这是你加入 VIP 的核心理由,微信自动化能力由 WeChatAuto.SDK 提供深度支持，业务系统由你自由扩展，实现业务与技术的高效分工;
