@@ -99,10 +99,11 @@ namespace WeChatAuto.Options
         public bool IsCaptureOriImage { get; set; } = false;
 
         /// <summary>
-        /// 使用UI Tree点击的回退方案获取昵称，但是不够优雅，默认使用OCR的方案，但OCR方案不能保证100%的准确性（如:对一些夹杂emoji字符的昵称就不能准确识别）,尽管如此，还是推荐OCR方案.
+        /// 使用UI Tree点击的回退方案+OCR缓存获取昵称，但是不够优雅，默认使用OCR的方案，但OCR方案不能保证100%的准确性（如:对一些夹杂emoji字符的昵称就不能准确识别）
+        /// 因为此方法结合了UI Tree点击(100%准确率)+OCR缓存(考虑效率与优雅),建议设置为True
         /// </summary>
         [JsonProperty("use_uitree_rollback_plan")]
-        public bool UseUITreeRollbackPlan { get; set; } = false;
+        public bool UseUITreeRollbackPlan { get; set; } = true;
 
         /// <summary>
         /// 文字置信度

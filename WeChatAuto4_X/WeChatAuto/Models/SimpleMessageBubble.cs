@@ -59,6 +59,12 @@ namespace WeChatAuto.Models
         [JsonProperty("ui-class-name")]
         public string UIClassName { get; set; }
 
+        /// <summary>
+        /// 临时使用，最主要用于日期等用途，外部使用一般为空.
+        /// </summary>
+        [IgnoreMember]
+        public string TempUniqueString {get;set;}
+
         public override string ToString()
         {
             var date = SendDate;

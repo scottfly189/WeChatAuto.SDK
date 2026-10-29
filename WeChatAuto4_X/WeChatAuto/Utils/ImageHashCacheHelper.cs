@@ -1,14 +1,12 @@
 using MessagePack;
 using Emgu.CV;
-using System.Collections.Generic;
-using System.IO;
-using System.Security.Cryptography;
+using Emgu.CV.CvEnum;
 using System;
-using WeChatAuto.Models;
-using System.Text;
-using System.Linq;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Runtime.InteropServices;
-using System.Security.Policy;
+using WeChatAuto.Models;
 
 namespace WeChatAuto.Utils;
 
@@ -18,6 +16,13 @@ namespace WeChatAuto.Utils;
 public static class ImageHashCacheHelper
 {
     private static string _RootCachePath = Path.Combine(AppContext.BaseDirectory, "Temp");
+
+    /// <summary>
+    /// dHash 为 64 位，此阈值表示最多允许多少个位不同仍视为同一昵称图。
+    /// 阈值越大命中率越高，但不同昵称被误判为同一张图的风险也越大，可按需调整。
+    /// </summary>
+    private const int MaxHammingDistance = 8;
+
     static ImageHashCacheHelper()
     {
         if (!Directory.Exists(_RootCachePath))
@@ -27,55 +32,64 @@ public static class ImageHashCacheHelper
     }
 
     /// <summary>
-    /// 计算 Mat 的 SHA-256 哈希。
-    /// Hash 包含 Mat 的尺寸、类型以及像素数据。
+    /// 计算 Mat 的 dHash（差分感知哈希，64 位）。
+    /// 先转灰度，再缩放到 9x8 做低通滤波，有效去除文字抗锯齿/子像素带来的逐像素差异。
+    /// 注意：本方法只读取传入的 Mat，不会修改或释放它，调用方后续可继续使用原图。
     /// </summary>
-    public static string ComputeSha256(Mat mat)
+    public static ulong ComputeDHash(Mat mat)
     {
         if (mat == null || mat.IsEmpty)
             throw new ArgumentException("Mat 不能为空", nameof(mat));
 
-        using var sha256 = SHA256.Create();
+        const int hashSize = 8;
 
-        // 将 Mat 的基本信息加入 Hash
-        var metadata = Encoding.UTF8.GetBytes(
-            $"{mat.Rows}:{mat.Cols}:{mat.Depth}:{mat.NumberOfChannels}");
-
-        sha256.TransformBlock(
-            metadata,
-            0,
-            metadata.Length,
-            null,
-            0);
-
-        // 每行实际有效像素数据的字节数
-        int rowBytes = checked(mat.Cols * mat.ElementSize);
-        var buffer = new byte[rowBytes];
-
-        for (int row = 0; row < mat.Rows; row++)
+        using Mat gray = new Mat();
+        switch (mat.NumberOfChannels)
         {
-            IntPtr rowPtr = mat.DataPointer + row * mat.Step;
-
-            Marshal.Copy(
-                rowPtr,
-                buffer,
-                0,
-                rowBytes);
-
-            sha256.TransformBlock(
-                buffer,
-                0,
-                buffer.Length,
-                null,
-                0);
+            case 1:
+                mat.CopyTo(gray);
+                break;
+            case 4:
+                CvInvoke.CvtColor(mat, gray, ColorConversion.Bgra2Gray);
+                break;
+            default:
+                CvInvoke.CvtColor(mat, gray, ColorConversion.Bgr2Gray);
+                break;
         }
 
-        sha256.TransformFinalBlock(Array.Empty<byte>(), 0, 0);
+        using Mat resized = new Mat();
+        CvInvoke.Resize(gray, resized, new Size(hashSize + 1, hashSize), 0, 0, Inter.Area);
 
-        return Convert.ToHexString(sha256.Hash!);
+        ulong hash = 0;
+        for (int y = 0; y < hashSize; y++)
+        {
+            for (int x = 0; x < hashSize; x++)
+            {
+                byte left = Marshal.ReadByte(resized.DataPointer, y * resized.Step + x);
+                byte right = Marshal.ReadByte(resized.DataPointer, y * resized.Step + x + 1);
+                if (left > right)
+                {
+                    hash |= 1UL << (y * hashSize + x);
+                }
+            }
+        }
+        return hash;
     }
 
-
+    /// <summary>
+    /// 计算两个 64 位感知哈希的汉明距离（不同位的个数）。
+    /// </summary>
+    public static int HammingDistance(ulong a, ulong b)
+    {
+        ulong x = a ^ b;
+        int distance = 0;
+        while (x != 0)
+        {
+            x &= x - 1;   // 每次清除最低位的 1
+            distance++;
+        }
+        return distance;
+    }
 
     /// <summary>
     /// 获取至某个群的缓存记录列表.
@@ -89,10 +103,19 @@ public static class ImageHashCacheHelper
         var path = Path.Combine(_RootCachePath, $"{fileName}.dat");
         if (!File.Exists(path))
             return result;
-        byte[] bytes = File.ReadAllBytes(path);
-        result = MessagePack.MessagePackSerializer.Deserialize<List<ImageCacheItem>>(bytes);
+        try
+        {
+            byte[] bytes = File.ReadAllBytes(path);
+            result = MessagePack.MessagePackSerializer.Deserialize<List<ImageCacheItem>>(bytes);
+        }
+        catch (Exception)
+        {
+            // 旧版缓存文件（HashCode 为 string 类型）与新格式不兼容，视为无缓存，之后会以新格式重写。
+            result = new List<ImageCacheItem>();
+        }
         return result;
     }
+
     /// <summary>
     /// 保存某群的缓存列表.
     /// </summary>
@@ -107,6 +130,27 @@ public static class ImageHashCacheHelper
     }
 
     /// <summary>
+    /// 在缓存列表中查找与给定哈希汉明距离最小、且在阈值范围内的记录.
+    /// </summary>
+    private static ImageCacheItem FindBestMatch(List<ImageCacheItem> list, ulong hashCode)
+    {
+        ImageCacheItem best = null;
+        int bestDistance = int.MaxValue;
+        foreach (var item in list)
+        {
+            int d = HammingDistance(item.HashCode, hashCode);
+            if (d < bestDistance)
+            {
+                bestDistance = d;
+                best = item;
+            }
+        }
+        if (best != null && bestDistance <= MaxHammingDistance)
+            return best;
+        return null;
+    }
+
+    /// <summary>
     /// 往cache中添加一个item.
     /// </summary>
     /// <param name="who">群聊昵称</param>
@@ -114,23 +158,25 @@ public static class ImageHashCacheHelper
     public static void AddImageCacheItem(string who, ImageCacheItem item)
     {
         var list = GetImageCaches(who);
-        var result = list.Find(u => u.HashCode.Equals(item.HashCode));
+        var result = FindBestMatch(list, item.HashCode);
         if (result != null)
             return;
         list.Add(item);
         SaveImageCaches(who, list);
     }
+
     public static ImageCacheItem GetImageCacheItem(string who, Mat mat)
     {
-        var hashCode = ComputeSha256(mat);
+        var hashCode = ComputeDHash(mat);
         return GetImageCacheObject(who, hashCode);
     }
-    public static ImageCacheItem GetImageCacheObject(string who, string hashCode)
+
+    public static ImageCacheItem GetImageCacheObject(string who, ulong hashCode)
     {
         var list = GetImageCaches(who);
-        var result = list.Find(u => u.HashCode.Equals(hashCode));
-        return result;
+        return FindBestMatch(list, hashCode);
     }
+
     /// <summary>
     /// 文件名可能会无效,对文件名进行处理
     /// </summary>
