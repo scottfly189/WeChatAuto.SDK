@@ -7,7 +7,7 @@ namespace WeChatAuto.Models
     public class ImageCacheItem
     {
         [Key(1)]
-        public ulong HashCode { get; set; }
+        public byte[] HashCode { get; set; }
 
         [Key(2)]
         public string NickName { get; set; }
