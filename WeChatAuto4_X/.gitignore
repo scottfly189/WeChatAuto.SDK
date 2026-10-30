@@ -41,3 +41,4 @@ __pycache__/
 /HttpSupport/Server/
 publish.cmd
 Examples/SystemMessageMonitor/
+inittestenv.cmd
