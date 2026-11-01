@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>send-wechat</AssemblyName>
+    <RootNamespace>WeChatAuto.Skills.SendWeChat</RootNamespace>
+  </PropertyGroup>
+
+  <!-- 引用公开 NuGet 包，保证 skill 独立于本仓库源码也可编译。
+       升级：dotnet add package WeChatAuto4x.SDK -->
+  <ItemGroup>
+    <PackageReference Include="WeChatAuto4x.SDK" Version="2.1.8" />
+  </ItemGroup>
+
+</Project>
