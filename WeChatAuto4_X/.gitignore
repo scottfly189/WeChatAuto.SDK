@@ -35,7 +35,7 @@ ffmpeg
 pack.cmd
 __pycache__/
 **/__pycache__/
-.claude/_buildtest/
+.claude/
 /publish/
 /tools/
 /HttpSupport/Server/
