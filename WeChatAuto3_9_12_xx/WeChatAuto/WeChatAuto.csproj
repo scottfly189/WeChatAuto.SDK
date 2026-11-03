@@ -16,7 +16,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PackageId>WeChatAuto.SDK</PackageId>
-    <PackageVersion>2.0.0</PackageVersion>
+    <PackageVersion>2.1.9</PackageVersion>
     <Authors>Alex Zhao</Authors>
     <PackageIcon>icon.png</PackageIcon>
     <Product>WeChatAuto.SDK</Product>
