@@ -1,0 +1,80 @@
+# NuGet.org Trusted Publishing for scottfly189/WeChatAuto.SDK (community / master)
+#
+# nuget.org form fill-in (Account → Trusted Publishing):
+#   Package Owner:    alexzhao189
+#   CI/CD Provider:   GitHub Actions
+#   Repository Owner: scottfly189
+#   Repository:       WeChatAuto.SDK
+#   Workflow File:    publish-nuget.yml   ← filename only (this file)
+#   Environment:      (leave empty — this job does NOT set environment:)
+#   Scopes:           Push → Push new packages and package versions
+#
+# Repo secret required (Settings → Secrets and variables → Actions):
+#   NUGET_USER = alexzhao189
+#   (nuget.org username / profile name, NOT email)
+#
+# Packs current community packages (TFMs net6–net10 windows, see csproj):
+#   WeAutoCommon          → WeAutoCommon/*.csproj
+#   WeChatAuto4x.SDK      → WeChatAuto4_X/WeChatAuto/*.csproj
+# Older PackageId WeChatAuto.SDK (3.9 line) is left out of this workflow on purpose.
+#
+# Run: Actions → "Publish NuGet" → Run workflow  (or push a v* tag)
+
+name: Publish NuGet
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  publish:
+    runs-on: windows-latest
+    # Do NOT set environment: — nuget.org Trusted Publishing Environment must stay empty.
+    permissions:
+      id-token: write   # OIDC → NuGet short-lived API key
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Match multi-TFM csproj: net6.0-windows7.0 … net10.0-windows
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
+            9.0.x
+            10.0.x
+
+      - name: Restore
+        run: |
+          dotnet restore WeAutoCommon/WeAutoCommon.csproj
+          dotnet restore WeChatAuto4_X/WeChatAuto/WeChatAuto.csproj
+
+      - name: Build
+        run: |
+          dotnet build WeAutoCommon/WeAutoCommon.csproj -c Release --no-restore
+          dotnet build WeChatAuto4_X/WeChatAuto/WeChatAuto.csproj -c Release --no-restore
+
+      - name: Pack
+        run: |
+          dotnet pack WeAutoCommon/WeAutoCommon.csproj -c Release --no-build -o ./artifacts
+          dotnet pack WeChatAuto4_X/WeChatAuto/WeChatAuto.csproj -c Release --no-build -o ./artifacts
+
+      - name: NuGet login (OIDC → temp API key)
+        id: login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Push to nuget.org
+        run: >
+          dotnet nuget push ./artifacts/*.nupkg
+          --api-key ${{ steps.login.outputs.NUGET_API_KEY }}
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate
