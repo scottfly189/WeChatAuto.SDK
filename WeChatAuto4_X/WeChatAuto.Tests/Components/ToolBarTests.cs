@@ -27,4 +27,23 @@ public class ToolBarTests
         await client.Pinned();
         await client.UnPinned();
     }
+
+    [Fact(DisplayName = "隐藏窗口/打开窗口")]
+    public async Task TestHideWindow()
+    {
+        var framework = _globalFixture.clientFactory;
+        var client = framework.GetWeChatClient(_wxClientName);
+        await client.CloseWindowAsync();
+        await Task.Delay(5000);
+        await client.OpenWindowAsync();
+        await Task.Delay(5000);
+    }
+
+    [Fact(DisplayName = "打开窗口")]
+    public async Task TestOpenWindow()
+    {
+        var framework = _globalFixture.clientFactory;
+        var client = framework.GetWeChatClient(_wxClientName);
+        await client.OpenWindowAsync();
+    }
 }

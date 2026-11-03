@@ -46,11 +46,29 @@ namespace WeChatAuto.Components
 
         #region 比较稳定的字段
         public readonly Window MainWindow;
-        public readonly int ClientProcessId;
+        /// <summary>
+        /// 本微信的process id
+        /// </summary>
+        public readonly int WeChatProcessID;
+        /// <summary>
+        /// 客户端工厂，根据工厂可以获得其他的微信客户端
+        /// </summary>
         public readonly WeChatClientFactory Factory;
+        /// <summary>
+        /// 本微信的昵称
+        /// </summary>
         public readonly string NickName;
+        /// <summary>
+        /// 本微信的wxid
+        /// </summary>
         public readonly string WxId;
+        /// <summary>
+        /// 本微信的头像路径
+        /// </summary>
         public readonly string AvatorPath;
+        /// <summary>
+        /// 本微信的notifyicon在任务栏的位置索引
+        /// </summary>
         public readonly int WechatIndex;
         public UIThreadInvoker MainThreadInvoker => _MainThreadInvoker;
         public IServiceProvider Provider => serviceProvider;
@@ -91,7 +109,7 @@ namespace WeChatAuto.Components
             this.MainWindow = window;
             this.serviceProvider = provider;
             this.Factory = factory;
-            this.ClientProcessId = clientProcessId;
+            this.WeChatProcessID = clientProcessId;
             this.NickName = ownerInfo.NickName;
             this.WxId = ownerInfo.WxId;
             this.AvatorPath = ownerInfo.AvatorPath;
@@ -201,6 +219,11 @@ namespace WeChatAuto.Components
 
         #region 个人信息
         /// <summary>
+        /// 得到微信的版本号
+        /// </summary>
+        /// <returns></returns>
+        public string GetWechatVersion() => WeChatVersionHelper.GetRunnintVersion(this.WeChatProcessID);
+        /// <summary>
         /// 获取本微信的个人信息，包括头像文件位置，wxid,昵称
         /// </summary>
         /// <returns>返回<see cref="OwerInfo"/></returns>
@@ -225,27 +248,44 @@ namespace WeChatAuto.Components
         /// <summary>
         /// 最大化微信窗口
         /// </summary>
-        public async Task Max() => await ToolBar.Max();
+        public async Task Max()
+        {
+            await OpenWindowAsync();
+            await ToolBar.Max();
+        }
         /// <summary>
         /// 还原微信窗口
         /// </summary>
-        public async Task Restore() => await ToolBar.Restore();
+        public async Task Restore()
+        {
+            await OpenWindowAsync();
+            await ToolBar.Restore();
+        }
         /// <summary>
         /// 置顶微信窗口
         /// </summary>
         /// <returns></returns>
-        public async Task Pinned() => await ToolBar.Top(true);
+        public async Task Pinned()
+        {
+            await OpenWindowAsync();
+            await ToolBar.Top(true);
+        }
         /// <summary>
         /// 取消置顶微信窗口
         /// </summary>
         /// <returns></returns>
-        public async Task UnPinned() => await ToolBar.Top(false);
+        public async Task UnPinned()
+        {
+            await OpenWindowAsync();
+            await ToolBar.Top(false);
+        }
         /// <summary>
-        /// 使主窗口获取焦点
+        /// 使主窗口获取焦点,主窗口提前
         /// </summary>
         /// <returns></returns>
         public async Task Focus()
         {
+            await OpenWindowAsync();
             this.MainWindow.Focus();
             await Task.CompletedTask;
         }
@@ -291,11 +331,41 @@ namespace WeChatAuto.Components
         /// </summary>
         /// <returns></returns>
         public nint GetHandler() => this.MainWindow.Properties.NativeWindowHandle.Value;
+
         /// <summary>
-        /// 得到本微信窗口的进程id
+        /// 关闭本微信窗口 - 异步方法
         /// </summary>
-        /// <returns></returns>
-        public nint GetProcessId() => this.MainWindow.Properties.ProcessId.Value;
+        public async Task CloseWindowAsync()
+        {
+            CloseWindow();
+            await Task.CompletedTask;
+        }
+        /// <summary>
+        /// 打开本微信窗口 - 异步方法
+        /// </summary>
+        public async Task OpenWindowAsync()
+        {
+            OpenWindow();
+
+            await Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// 关闭本微信窗口 - 同步方法
+        /// </summary>
+        public void CloseWindow()
+        {
+            WeChatAction.Hide(this.WeChatProcessID);
+            RandomWait.Wait(100, 500);
+        }
+        /// <summary>
+        /// 打开本微信窗口 - 同步方法
+        /// </summary>
+        public void OpenWindow()
+        {
+            WeChatAction.BringUp(this.WeChatProcessID);
+            RandomWait.Wait(100, 500);
+        }
 
         #endregion
 
@@ -432,6 +502,20 @@ namespace WeChatAuto.Components
         public async Task SendMessage(string who, string message, OneOf<string, string[], List<string>> atUser = default, ChatRefer refer = null)
             => await ChatContent.SendMessage(who, message, atUser, refer);
         /// <summary>
+        /// 发送文本消息,可以是群聊名称或者好友名称，名称可以为空，如果为空，则给当前聊天窗口发送消息
+        /// 与 SendMessage 方法区别为发送消息后会关闭微信
+        /// 适用于类似deepseek harness等harness调用
+        /// </summary>
+        /// <param name="who">好名/群聊的名称,也就是肉眼所见的标题</param>
+        /// <param name="message">消息内容，文本消息内容</param>
+        /// <param name="atUser">被@的好友,可以多个</param>
+        /// <param name="refer">引用的对话内容,请参考<see cref="ChatRefer"/></param>
+        public async Task SendMessageAndClose(string who, string message, OneOf<string, string[], List<string>> atUser = default, ChatRefer refer = null)
+        {
+            await SendMessage(who, message, atUser, refer);
+            await CloseWindowAsync();
+        }
+        /// <summary>
         /// <para>发送消息,给当前窗口发送消息</para>
         /// <para>注意：仅给当前窗口发送消息，要注意当前聊天窗口可用</para>
         /// </summary>
@@ -440,6 +524,20 @@ namespace WeChatAuto.Components
         /// <param name="refer">引用的对话内容,请参考<see cref="ChatRefer"/></param>
         public async Task SendMessage(string message, OneOf<string, string[], List<string>> atUser = default, ChatRefer refer = null)
             => await ChatContent.SendMessage(message, atUser, refer);
+        /// <summary>
+        /// 适用于类似deepseek harness等harness调用
+        /// <para>发送消息,给当前窗口发送消息</para>
+        /// <para>注意：仅给当前窗口发送消息，要注意当前聊天窗口可用</para>
+        /// <para>注意：给当前窗口发送消息后，会关闭微信窗口</para>
+        /// </summary>
+        /// <param name="message">消息内容</param>
+        /// <param name="atUser">被@的好友</param>
+        /// <param name="refer">引用的对话内容,请参考<see cref="ChatRefer"/></param>
+        public async Task SendMessageAndClose(string message, OneOf<string, string[], List<string>> atUser = default, ChatRefer refer = null)
+        {
+            await SendMessage(message, atUser, refer);
+            await CloseWindowAsync();
+        }
 
         /// <summary>
         /// 发送文件
@@ -449,12 +547,36 @@ namespace WeChatAuto.Components
         public async Task SendFile(string who, string[] files) => await ChatContent.SendFile(who, files);
 
         /// <summary>
+        /// 发送文件后关闭微信窗口
+        /// 适用于类似deepseek harness等harness调用
+        /// </summary>
+        /// <param name="who">好友/群聊，可以为空,如果为空，则发送到当前聊天窗口</param>
+        /// <param name="files">文件路径列表</param>
+        public async Task SendFileAndClose(string who, string[] files)
+        {
+            await SendFile(who, files);
+            await CloseWindowAsync();
+        }
+
+        /// <summary>
         /// 发送表情    
         /// </summary>  
         /// <param name="who">被发送消息的好友名称/群聊名称</param>
         /// <param name="emoji">表情名称或者描述或者索引,具体请参见<see cref="EmojiListHelper"/></param>
         /// <param name="atUserList">被@的好友列表</param>
         public async Task SendEmoji(string who, OneOf<int, string> emoji, List<string> atUserList = null) => await ChatContent.SendEmoji(who, emoji, atUserList);
+
+        /// <summary>
+        /// 发送表情后关闭窗口
+        /// </summary>  
+        /// <param name="who">被发送消息的好友名称/群聊名称</param>
+        /// <param name="emoji">表情名称或者描述或者索引,具体请参见<see cref="EmojiListHelper"/></param>
+        /// <param name="atUserList">被@的好友列表</param>
+        public async Task SendEmojiAndClose(string who, OneOf<int, string> emoji, List<string> atUserList = null)
+        {
+            await SendEmoji(who, emoji, atUserList);
+            await CloseWindowAsync();
+        }
 
         /// <summary>
         /// 发起单人语音聊天
@@ -481,14 +603,42 @@ namespace WeChatAuto.Components
         /// <param name="who">好友昵称或群聊名称</param>
         /// <param name="filePath">语音文件路径</param>
         public async Task SendVoiceMessage(string who, string filePath) => await ChatContent.SendVoiceMessage(who, filePath);
+
         /// <summary>
-        /// 给本聊天窗口发送语音消息，请确保本聊天窗口可用.
+        /// 发送语音消息后自动退出，适用于harness调用
+        /// 发送语音消息,此功能依赖虚拟声卡：Cable input/Cable output
+        /// 请在声音-->设置-->将输入设备改成: Cable output
+        /// 如果没有安装虚拟声卡，请在:https://github.com/alexzhao189/wechatautosdk/blob/main/Resources/VBCABLE_Driver_Pack45.zip下载
+        /// </summary>
+        /// <param name="who">好友昵称或群聊名称</param>
+        /// <param name="filePath">语音文件路径</param>
+        public async Task SendVoiceMessageAndClose(string who, string filePath)
+        {
+            await SendVoiceMessage(who, filePath);
+            await CloseWindowAsync();
+        }
+
+        /// <summary>
+        /// 给当前焦点聊天窗口发送语音消息，请确保本聊天窗口可用.
         /// 请在声音-->设置-->将输入设备改成: Cable output
         /// 如果没有安装虚拟声卡，请在:https://github.com/alexzhao189/wechatautosdk/blob/main/Resources/VBCABLE_Driver_Pack45.zip下载
         /// </summary>
         /// <param name="filePath">语音文件路径</param>
         /// <returns></returns>
         public async Task SendVoiceMessage(string filePath) => await ChatContent.SendVoiceMessage(filePath);
+
+        /// <summary>
+        /// 给当前焦点聊天窗口发送语音消息，请确保本聊天窗口可用,发送语音消息后自动退出，适用于harness调用
+        /// 请在声音-->设置-->将输入设备改成: Cable output
+        /// 如果没有安装虚拟声卡，请在:https://github.com/alexzhao189/wechatautosdk/blob/main/Resources/VBCABLE_Driver_Pack45.zip下载
+        /// </summary>
+        /// <param name="filePath">语音文件路径</param>
+        /// <returns></returns>
+        public async Task SendVoiceMessageAndClose(string filePath)
+        {
+            await SendVoiceMessage(filePath);
+            await CloseWindowAsync();
+        }
         /// <summary>
         /// 文字转语音发送。
         ///
@@ -531,8 +681,55 @@ namespace WeChatAuto.Components
         /// <returns>
         /// 无返回值。
         /// </returns>
-
         public async Task SendVoiceMessageWithTTS(string who, string apiKey, string message, VoiceOptions options, bool optimizeWithLlm = false, Func<string, string> customProcess = null) => await this.ChatContent.SendVoiceMessageWithTTS(who, apiKey, message, options, optimizeWithLlm, customProcess);
+
+        /// <summary>
+        /// 文字转语音发送,并且发送后关闭微信，适合各类Harness调用
+        ///
+        /// 工作原理：通过音频大模型将文字转换成语音，然后通过微信发送给指定的好友或群聊。
+        ///
+        /// 注：系统默认支持阿里千问 Qwen-Audio-TTS 系列模型。
+        ///
+        /// 为什么选择阿里千问 Qwen-Audio-TTS 系列模型？
+        /// 1. 阿里千问 Qwen-Audio-TTS 系列在国际语音合成领域也处于第一梯队；
+        /// 2. 完美支持声音克隆、声音设计，并可以通过指令方便地控制语速、情感和语言风格；
+        ///    生成的语音聊天自然，可以实现停顿、笑声等效果，为未来的 AI 电话/语音聊天做准备。
+        /// </summary>
+        /// <param name="apiKey">
+        /// 千问 API Key。
+        /// 申请地址：
+        /// <see href="https://bailian.console.aliyun.com/?spm=a2c4g.11186623.0.0.3f801457p6h0qM&amp;tab=model#/api-key">
+        /// 阿里云百炼控制台
+        /// </see>
+        /// </param>
+        /// <param name="who">
+        /// 好友或者群聊，可以为空。
+        /// 如果为空，则使用当前焦点聊天窗口。
+        /// </param>
+        /// <param name="message">
+        /// 要转换成语音的文本消息。
+        /// </param>
+        /// <param name="options">
+        /// 声音选项，用于指定模型、音色等参数。
+        /// </param>
+        /// <param name="optimizeWithLlm">
+        /// 待发送的消息是否需要通过 LLM 进行优化。
+        /// 由于文字内容有时候与实际的口语场景存在较大差异，
+        /// 可以通过 LLM 对文字进行优化，使其更加适合口语化表达。
+        /// </param>
+        /// <param name="customProcess">
+        /// 自定义文字转语音方法。
+        /// 如果系统提供的大模型不能满足使用需求，可以通过此参数自定义文字转语音处理方法。
+        /// 要求返回本地目录中的语音文件路径。
+        /// </param>
+        /// <returns>
+        /// 无返回值。
+        /// </returns>
+        public async Task SendVoiceMessageWithTTSAndClose(string who, string apiKey, string message, VoiceOptions options, bool optimizeWithLlm = false, Func<string, string> customProcess = null)
+        {
+            await SendVoiceMessageWithTTS(who,apiKey,message,options,optimizeWithLlm,customProcess);
+            await CloseWindowAsync();
+        }
         /// <summary>
         /// 根据日期获取当前聊天窗口的聊天历史
         /// </summary>

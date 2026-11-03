@@ -67,6 +67,7 @@ namespace WeChatAuto.Components
 		/// <param name="who">好友昵称</param>
 		public async Task SendVoiceChat(string who)
 		{
+			this._Client.OpenWindow();
 			await WeChatInvoker.Call(SendVoiceChatCore, who);
 		}
 
@@ -112,6 +113,7 @@ namespace WeChatAuto.Components
 		/// <param name="who">好友昵称,可以为空，如果为空，则发送到当前聊天窗口</param>
 		public async Task SendVedioChat(string who)
 		{
+			this._Client.OpenWindow();
 			await WeChatInvoker.Call(SendVedioChatCore, who);
 		}
 
@@ -158,6 +160,7 @@ namespace WeChatAuto.Components
 		/// <param name="partner">参与者，好友昵称列表,必须是群聊成员</param>
 		public async Task SendVoiceChats(string who, string[] partner)
 		{
+			this._Client.OpenWindow();
 			await WeChatInvoker.Call(SendVoiceChatsCore, who, partner);
 		}
 
@@ -296,6 +299,7 @@ namespace WeChatAuto.Components
 		/// <param name="filePath">语音文件路径</param>
 		public async Task SendVoiceMessage(string who, string filePath)
 		{
+			this._Client.OpenWindow();
 			if (string.IsNullOrWhiteSpace(who))
 			{
 				var chatInfo = await _Client.ChatContent.ChatHeader.GetTitle();
@@ -323,6 +327,7 @@ namespace WeChatAuto.Components
 		/// <returns></returns>
 		public async Task SendVoiceMessage(string filePath)
 		{
+			this._Client.OpenWindow();
 			await WeChatInvoker.Call(SendVoiceMessageCore, filePath);
 		}
 		/// <summary>
@@ -343,6 +348,7 @@ namespace WeChatAuto.Components
 		/// <returns></returns>
 		public async Task SendVoiceMessageWithTTS(string who, string apiKey, string message, VoiceOptions options = null, bool optimizeWithLlm = false, Func<string, string> customProcess = null)
 		{
+			this._Client.OpenWindow();
 			if (string.IsNullOrWhiteSpace(who))
 			{
 				var chatInfo = await _Client.ChatContent.ChatHeader.GetTitle();
@@ -484,6 +490,7 @@ namespace WeChatAuto.Components
 		{
 			if (string.IsNullOrWhiteSpace(message))
 				return;
+			this._Client.OpenWindow();
 			await WeChatInvoker.Call(SendMessageExt, who, message, atUser, refer);
 		}
 		/// <summary>
@@ -496,6 +503,7 @@ namespace WeChatAuto.Components
 		{
 			if (string.IsNullOrWhiteSpace(message))
 				return;
+			this._Client.OpenWindow();
 			await WeChatInvoker.Call(SendMessageCore, message, atUser, refer);
 		}
 
@@ -522,6 +530,7 @@ namespace WeChatAuto.Components
 		{
 			if (string.IsNullOrWhiteSpace(who) || files.Length == 0)
 				return;
+			this._Client.OpenWindow();
 			await WeChatInvoker.Call(SendFileExt, who, files);
 		}
 		private void SendFileExt(UIA3Automation automation, string who, string[] files)

@@ -18,6 +18,8 @@ using System.Drawing;
 using WeChatAuto.Models;
 using System.IO;
 using WeAutoCommon.Extentions;
+using Dm.util;
+using System.Reflection;
 
 namespace WeChatAuto.Components
 {
@@ -266,22 +268,30 @@ namespace WeChatAuto.Components
 
         private Maybe<List<int>> _GetAllWechatProcessId(UIA3Automation automation)
         {
-            var result = new List<int>();
-            var desktop = automation.GetDesktop();
-            var wechatWins = desktop.FindAllChildren(u => (u.ByClassName("mmui::MainWindow").Or(u.ByClassName(CURRENT_WEIXIN_CLASSNAME))).And(u.ByControlType(ControlType.Window)).And((u.ByFrameworkType(FlaUI.Core.FrameworkType.Qt).Or(u.ByFrameworkType(FlaUI.Core.FrameworkType.Win32)))));
-            if (wechatWins.Count() == 0)
+            var result = _GetSystemWeChatProcessIdList();
+            if (result.Count() == 0)
             {
-                _logger.Error("错误：检查到系统中未打开微信窗口 或者 微信窗口处于隐藏状态，请先打开微信，并且保持微信窗口处于显示状态！");
-                throw new WechatNotOpenedException("错误：检查到系统中未打开微信窗口 或者 微信窗口处于隐藏状态，请先打开微信，并且保持微信窗口处于显示状态！");
-            }
-            foreach (var win in wechatWins)
-            {
-                result.Add(win.Properties.ProcessId);
+                _logger.Error("错误：检查到系统中未打开微信窗口，请先打开微信，并且保持微信窗口处于显示状态！");
+                throw new WechatNotOpenedException("错误：检查到系统中未打开微信窗口，请先打开微信，并且保持微信窗口处于显示状态！");
             }
 
             result = result.OrderBy(u => u).ToList();
 
             return result.ToMaybe();
+        }
+
+        private List<int> _GetSystemWeChatProcessIdList()
+        {
+            var snap = WeChatAction.Refresh("Weixin");
+            var processes = WeChatAction.FindMains(snap);
+            var result = new List<int>();
+            foreach (var process in processes)
+            {
+                result.add(process.Id);
+                WeChatAction.BringUp(process.Id);
+                RandomWait.Wait(100, 300);
+            }
+            return result;
         }
 
 
@@ -293,7 +303,7 @@ namespace WeChatAuto.Components
                 var wechatList = new List<string>();
                 Window beforeWin = null;
 
-                __ShowWeChatVersion__(processList);
+                __GetWechatVersion__(processList);
                 __ForceOpenUITree__(processList, automation);
                 foreach (var process in processList)
                 {
@@ -319,7 +329,7 @@ namespace WeChatAuto.Components
             }
         }
 
-        private void __ShowWeChatVersion__(List<int> processList)
+        private void __GetWechatVersion__(List<int> processList)
         {
             if (processList.Count() == 0)
                 return;
@@ -388,7 +398,7 @@ namespace WeChatAuto.Components
             WinApi.ActivateProcess(processId);
             // //关闭输入法,以方便Keyboard.Type函数正确
             // WindowsInputHelper.ForceEnglishInput((uint)processId);
-            RandomWait.Wait(100, 800);
+            RandomWait.Wait(100, 400);
             (OwerInfo info, Window window) result = __GetCurrentWxNickName(processId, automation);
             result.window.Focus();
             var client = new WeChatClient(processId, _serviceProvider, this, result.window, MainActionThreadInvoker, result.info, index, monitorEvent);
@@ -427,7 +437,7 @@ namespace WeChatAuto.Components
                     point.Y = beforeWin.BoundingRectangle.Y;
                 }
                 currentWin.Move(point.X, point.Y);
-                RandomWait.Wait(800, 1500);
+                RandomWait.Wait(100, 600);
             }
             beforeWin = currentWin;
         }
