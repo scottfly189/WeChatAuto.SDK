@@ -181,7 +181,7 @@ src/                               # WeChatAuto.SDK 仓库根
 │   │       ├── node/              # Node.js 客户端（npm）
 │   │       ├── python/            # Python 客户端
 │   │       └── rust/              # Rust 客户端（Cargo）
-│   │
+│   ├── skills/                    # WeChatAuto.SDK 技能（发送消息/发送语音/发朋友圈）
 │   ├── Examples/                  # 示例项目
 │   │   ├── FirstDemo/             # 30 秒快速上手示例
 │   │   ├── AutoReceiveNewFriends/ # 自动通过加好友申请并聊天  💎
@@ -208,13 +208,6 @@ src/                               # WeChatAuto.SDK 仓库根
 │   └── models/                    # OCR 模型（PP-OCRv6）
 |
 ├── WeChatAuto3_9_12_xx/           # 微信 3.9.12.xx 旧版本支持（已归档，不再维护）
-│   ├── WeChatAuto/                # 3.9.12 SDK 核心（Components/Services/Models/Utils）
-│   ├── WeChatAuto.MCP/            # MCP Server（Prompts/Services/Tools/Utils）
-│   ├── WeChatAutoWebSupport/      # Web/HTTP 支持（WinForms：Forms/Models/Utils + Tests）
-│   ├── WeChatAuto.Tests/          # 单元测试
-│   ├── Examples/                  # 示例（autodemo、Chat、demo01~03 等 6 个）
-│   ├── WeChatAuto.SDK.sln
-│   └── README.md
 ├── LICENSE
 └── README.md
 
