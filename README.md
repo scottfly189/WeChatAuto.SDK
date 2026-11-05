@@ -262,6 +262,15 @@ Wechatauto.SDK分为社区版和VIP版，社区版是完全开源的，VIP版为
 
 如需升级成为 VIP，或了解 VIP 具体权益和支持方案，👉[请与我联系](https://github.com/scottfly189/scottfly189/blob/main/vip.md)。
 
+## 社区
+
+欢迎加入 Telegram，交流微信 Agent / SDK 使用与二次开发。
+
+[加入 Telegram](https://t.me/wechatauto_sdk/1) · [@wechatauto_sdk](https://t.me/wechatauto_sdk)
+
+<p align="center">
+  <img src="./docs/images/telegram-qr.png" alt="Telegram @WECHATAUTO_SDK" width="220" />
+</p>
 
 ## 📝 许可证
 
