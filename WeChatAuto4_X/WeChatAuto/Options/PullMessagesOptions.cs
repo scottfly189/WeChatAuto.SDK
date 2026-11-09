@@ -87,10 +87,10 @@ namespace WeChatAuto.Options
         public float CharScoreThresh { get; set; } = 0.61f;
 
         /// <summary>
-        /// 使用UI Tree点击的回退方案获取昵称，但是不够优雅，默认使用OCR的方案，但OCR方案不能保证100%的准确性（如:对一些夹杂emoji字符的昵称就不能准确识别）,尽管如此，还是推荐OCR方案.
+        /// 使用UI Tree+昵称图片缓存方案，此为默认方案，保存昵称获取准确率为100%,如果设置为false,则会纯ocr方案，准确率约为96%
         /// </summary>
         [JsonProperty("use_uitree_rollback_plan")]
-        public bool UseUITreeRollbackPlan { get; set; } = false;
+        public bool UseUITreeRollbackPlan { get; set; } = true;
         /// <summary>
         /// 一般不用设置
         /// 由于可能OCR的局限设置的兜底方案，如:
@@ -101,24 +101,8 @@ namespace WeChatAuto.Options
         public Dictionary<string, string> FallbackList = new Dictionary<string, string>();
 
         /// <summary>
-        /// 数据库类型，几乎支持所有数据库类型，默认是sqlite数据库,可以改成其他的数据库
-        /// </summary>
-        [JsonProperty("db_type")]
-        public DbType DbTppe { get; set; } = DbType.Sqlite;
-        /// <summary>
-        /// 数据库连接字符串
-        /// "ConnectionString": "PORT=5432;DATABASE=xxx;HOST=localhost;PASSWORD=xxx;USER ID=xxx", // PostgreSQL（Kdbndp、OpenGauss通用）
-        /// "ConnectionString": "Server=localhost;Database=xxx;Uid=xxx;Pwd=xxx;SslMode=None;AllowLoadLocalInfile=true;AllowUserVariables=true;", // MySql,
-        /// "ConnectionString": "User Id=xxx; Password=xxx; Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=ORCL)))", // Oracle
-        /// "ConnectionString": "Server=localhost;Database=xxx;User Id=xxx;Password=xxx;Encrypt=True;TrustServerCertificate=True;", // SqlServer
-        /// "ConnectionString": "host=222.71.212.3;Port=27017;Database=testDB;Username= root;Password=123456;authSource=admin;replicaSet=", // MongoDB
-        /// </summary>
-        [JsonProperty("connection_string")]
-        public string ConnectionString { get; set; } = "Data Source=wechat.db";
-
-        /// <summary>
-        /// 默认获取的最新消息写入上面设置的数据库，但是考虑到一些不想直接写数据库，如：调用webapi写服务器数据库，可以在此设置回调函数，在回调函数中调用webapi,
-        /// 注意：如果不想写数据库，需要将DbType设置为DbType.Custom,否则此方法不起效果.
+        /// 默认将最新消息写入全局 WeChatConfig（WeAutomation.Config）配置的数据库；
+        /// 若不想由 SDK 直写库（例如改调 WebAPI），可在此设置回调，并把全局 DbTppe 设为 DbType.Custom，否则回调不会生效。
         /// 传入的参数: SDK传入最新获取的消息列表,详情请参考<seealso cref="SimpleMessageBubble"/>
         /// 返回： 写入为真还是假.
         /// </summary>

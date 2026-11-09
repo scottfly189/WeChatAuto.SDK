@@ -7,6 +7,7 @@ using System.IO;
 using OneOf.Types;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
+using SqlSugar;
 
 namespace WeAutoCommon.Configs
 {
@@ -15,6 +16,30 @@ namespace WeAutoCommon.Configs
     /// </summary>
     public class WeChatConfig
     {
+        /// <summary>
+        /// 微信数据库安全读取方案，也是默认的方案，如果设置为 False,那么为纯ui automation方案;
+        /// </summary>
+        public bool UseDatabaseRead { get; set; } = true;
+
+        /// <summary>
+        /// 微信存储位置，取法: 微信主窗口--> 设置 --> 账号与存储 --> 存储位置
+        /// 如果有多微信，多个微信应该设置成一样
+        /// </summary>
+        public bool WeChatStoragePath { get; set; }
+
+        /// <summary>
+        /// 数据库类型，几乎支持所有数据库类型，默认是sqlite数据库,可以改成其他的数据库
+        /// </summary>
+        public DbType DbTppe { get; set; } = DbType.Sqlite;
+        /// <summary>
+        /// 数据库连接字符串
+        /// "ConnectionString": "PORT=5432;DATABASE=xxx;HOST=localhost;PASSWORD=xxx;USER ID=xxx", // PostgreSQL（Kdbndp、OpenGauss通用）
+        /// "ConnectionString": "Server=localhost;Database=xxx;Uid=xxx;Pwd=xxx;SslMode=None;AllowLoadLocalInfile=true;AllowUserVariables=true;", // MySql,
+        /// "ConnectionString": "User Id=xxx; Password=xxx; Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=ORCL)))", // Oracle
+        /// "ConnectionString": "Server=localhost;Database=xxx;User Id=xxx;Password=xxx;Encrypt=True;TrustServerCertificate=True;", // SqlServer
+        /// "ConnectionString": "host=222.71.212.3;Port=27017;Database=testDB;Username= root;Password=123456;authSource=admin;replicaSet=", // MongoDB
+        /// </summary>
+        public string ConnectionString { get; set; } = "Data Source=wechat.db";
         /// <summary>
         /// 在微信的UI Tree未被腾迅公开的情况下是否强开UI Tree,默认为False
         /// </summary>

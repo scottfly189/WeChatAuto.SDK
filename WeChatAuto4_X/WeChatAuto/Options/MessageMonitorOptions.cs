@@ -120,24 +120,8 @@ namespace WeChatAuto.Options
         [JsonProperty("fallback_list")]
         public Dictionary<string, string> FallbackList = new Dictionary<string, string>();
         /// <summary>
-        /// 数据库类型，几乎支持所有数据库类型，默认是sqlite数据库,可以改成其他的数据库
-        /// </summary>
-        [JsonProperty("db_type")]
-        public DbType DbTppe { get; set; } = DbType.Sqlite;
-        /// <summary>
-        /// 数据库连接字符串
-        /// "ConnectionString": "PORT=5432;DATABASE=xxx;HOST=localhost;PASSWORD=xxx;USER ID=xxx", // PostgreSQL（Kdbndp、OpenGauss通用）
-        /// "ConnectionString": "Server=localhost;Database=xxx;Uid=xxx;Pwd=xxx;SslMode=None;AllowLoadLocalInfile=true;AllowUserVariables=true;", // MySql,
-        /// "ConnectionString": "User Id=xxx; Password=xxx; Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=ORCL)))", // Oracle
-        /// "ConnectionString": "Server=localhost;Database=xxx;User Id=xxx;Password=xxx;Encrypt=True;TrustServerCertificate=True;", // SqlServer
-        /// "ConnectionString": "host=222.71.212.3;Port=27017;Database=testDB;Username= root;Password=123456;authSource=admin;replicaSet=", // MongoDB
-        /// </summary>
-        [JsonProperty("connection_string")]
-        public string ConnectionString { get; set; } = "Data Source=wechat.db";
-
-        /// <summary>
-        /// 默认获取的最新消息写入上面设置的数据库，但是考虑到一些不想直接写数据库，如：调用webapi写服务器数据库，可以在此设置回调函数，在回调函数中调用webapi,
-        /// 注意：如果不想写数据库，需要将DbType设置为DbType.Custom,否则此方法不起效果.
+        /// 默认将最新消息写入全局 WeChatConfig（WeAutomation.Config）配置的数据库；
+        /// 若不想由 SDK 直写库（例如改调 WebAPI），可在此设置回调，并把全局 DbTppe 设为 DbType.Custom，否则回调不会生效。
         /// 传入的参数: SDK传入最新获取的消息列表,详情请参考<seealso cref="SimpleMessageBubble"/>
         /// 返回： 写入为真还是假.
         /// </summary>
