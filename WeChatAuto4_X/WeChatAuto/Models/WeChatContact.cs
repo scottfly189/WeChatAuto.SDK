@@ -7,7 +7,7 @@ namespace WeChatAuto.Models
 {
     /// <summary>
     /// 微信联系人,对应微信联系人表 Contact
-    /// 支持多微信聚合
+    /// 支持多微信聚合。差异同步业务键：FromWechatWxId + UserName（对应原生 contact.username）。
     /// </summary>
     [SugarTable("wechat_contact")]
     [SugarIndex("index_from_webchat",nameof(FromWechat),OrderByType.Asc)]
@@ -15,6 +15,10 @@ namespace WeChatAuto.Models
     [SugarIndex("index_wxid",nameof(UserName),OrderByType.Asc)]
     [SugarIndex("index_nickname",nameof(NickName),OrderByType.Asc)]
     [SugarIndex("index_remark",nameof(Remark),OrderByType.Asc)]
+    [SugarIndex("uk_contact",
+        nameof(WeChatContact.FromWechatWxId), OrderByType.Asc,
+        nameof(WeChatContact.UserName), OrderByType.Asc,
+        IsUnique = true)]
     public class WeChatContact
     {
         /// <summary>
