@@ -41,28 +41,35 @@ namespace WeChatAuto.Models
         [SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
         public int Id { get; set; }
         /// <summary>
-        /// 微信账号
+        /// 所属本机微信账号，最主要目的是多微信聚合
         /// 表示这条消息属于哪个微信账号,应用于多微信号场景
         /// </summary>
         [SugarColumn(Length = 100, IsNullable = false, ColumnDescription = "哪个微信收到的此消息，应用于多微信消息聚合场合")]
         public string FromWechat { get; set; } = string.Empty;
         /// <summary>
+        /// 所属本机微信账号wxid,目的是为了多微信消息聚合
+        /// 表示这条消息属于微信账号的wxid,应用于多微信场景
+        /// 由我们获取本机的wxid后自动填入
+        /// </summary>
+        [SugarColumn(Length = 200, IsNullable = false, ColumnDescription = "此联系人属于哪个微信昵称")]
+        public string FromWechatWxId { get; set; } = string.Empty;
+        /// <summary>
         /// 被监听的微信好友/群昵称,如： 人工智能自动化技术讨论群
         /// </summary>
-        [SugarColumn(Length = 100, IsNullable = false, ColumnDescription = "被监听的微信好友、群昵称，如:人工智能自动化技术讨论群")]
+        [SugarColumn(Length = 200, IsNullable = false, ColumnDescription = "被监听的微信好友、群昵称，如:人工智能自动化技术讨论群")]
         public string Who { get; set; } = string.Empty;
 
         /// <summary>
         /// 发送者昵称
         /// </summary>
-        [SugarColumn(Length = 100, IsNullable = true, ColumnDescription = "发送者昵称")]
+        [SugarColumn(Length = 200, IsNullable = true, ColumnDescription = "发送者昵称")]
         public string Sender { get; set; } = string.Empty;
 
         /// <summary>
         /// 发送者wxid
         /// </summary>
-        [SugarColumn(Length =200,IsNullable = true,ColumnDescription ="发送者wxid")]
-        public string SenderWxId {get;set;} = string.Empty;
+        [SugarColumn(Length = 200, IsNullable = true, ColumnDescription = "发送者wxid")]
+        public string SenderWxId { get; set; } = string.Empty;
 
         /// <summary>
         /// 消息类型
