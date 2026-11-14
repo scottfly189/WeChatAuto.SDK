@@ -153,10 +153,19 @@ namespace WeChatAuto.Models
         /// <summary>
         /// 消息内容。Database Read 写入前需按 WCDB_CT_message_content 解码；不存压缩原文。
         /// <para>引用消息（local_type=244813135921）此处只存回复文字，被引用内容在 Quote* 列；</para>
-        /// <para>其它 appmsg（链接/文件/小程序等）仍保持原生 XML，与历史行为一致。</para>
+        /// <para>图片/视频/语音/表情/文件写占位符（如 <c>[图片]</c>、<c>[文件] a.pdf</c>）；
+        /// 链接/小程序/视频号/音乐写 <c>[链接] 标题</c> + 换行 + URL；聊天记录写预览；位置写地点名称。
+        /// 媒体路径在 FilePath，完整聊天记录在 RecordItem。</para>
         /// </summary>
         [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "消息内容")]
         public string Content { get; set; } = "";
+
+        /// <summary>
+        /// 聊天记录（appmsg type=19）的完整 XML（recorditem 内容）。
+        /// Content 只放预览文本，完整聊天记录在这里；非聊天记录消息为空。
+        /// </summary>
+        [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "聊天记录完整内容")]
+        public string RecordItem { get; set; } = "";
 
         /// <summary>
         /// 引用消息：被引用人的 username（原生 refermsg/fromusr；群引用时可能是群 id）。
