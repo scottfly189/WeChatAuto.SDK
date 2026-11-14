@@ -24,9 +24,7 @@ namespace WeChatAuto.Models
     [SugarTable("wechat_message")]
     [SugarIndex("index_message_fromwechat", nameof(WeChatMessage.FromWechat), OrderByType.Asc)]
     [SugarIndex("index_message_fromwechat_wxid", nameof(WeChatMessage.FromWechatWxId), OrderByType.Asc)]
-    [SugarIndex("index_message_who", nameof(WeChatMessage.Who), OrderByType.Asc)]
     [SugarIndex("index_message_chat_username", nameof(WeChatMessage.ChatUsername), OrderByType.Asc)]
-    [SugarIndex("index_message_sender", nameof(WeChatMessage.Sender), OrderByType.Asc)]
     [SugarIndex("index_message_sender_wxid", nameof(WeChatMessage.SenderWxId), OrderByType.Asc)]
     [SugarIndex("index_message_messagetype", nameof(WeChatMessage.MessageType), OrderByType.Asc)]
     [SugarIndex("index_message_local_type", nameof(WeChatMessage.LocalType), OrderByType.Asc)]
@@ -37,15 +35,12 @@ namespace WeChatAuto.Models
     [SugarIndex("index_message_server_id", nameof(WeChatMessage.ServerId), OrderByType.Asc)]
     [SugarIndex("index_mutx_1",
         nameof(WeChatMessage.FromWechat), OrderByType.Asc,
-        nameof(WeChatMessage.Who), OrderByType.Asc,
-        nameof(WeChatMessage.Sender), OrderByType.Asc,
         nameof(WeChatMessage.MessageType), OrderByType.Asc,
         nameof(WeChatMessage.MessageTime), OrderByType.Asc,
         nameof(WeChatMessage.CreateTime), OrderByType.Asc
         )]
     [SugarIndex("index_mutx_2",
         nameof(WeChatMessage.FromWechat), OrderByType.Asc,
-        nameof(WeChatMessage.Who), OrderByType.Asc,
         nameof(WeChatMessage.IsBotProcessed), OrderByType.Asc,
         nameof(WeChatMessage.MessageTime), OrderByType.Asc,
         nameof(WeChatMessage.CreateTime), OrderByType.Asc
@@ -54,6 +49,12 @@ namespace WeChatAuto.Models
         nameof(WeChatMessage.FromWechatWxId), OrderByType.Asc,
         nameof(WeChatMessage.ChatUsername), OrderByType.Asc,
         nameof(WeChatMessage.Shard), OrderByType.Asc,
+        nameof(WeChatMessage.LocalId), OrderByType.Asc
+        )]
+    // 业务键的 (wxid, local_id) 投影：UpsertMessages 之前的 LoadFilePaths 只按 wxid + local_id 过滤，
+    // 没有这棵索引时只能吃到 wxid 前缀（等于扫该账号全部消息）。实测 5 万行 500ms → 2ms。
+    [SugarIndex("index_message_from_local_id",
+        nameof(WeChatMessage.FromWechatWxId), OrderByType.Asc,
         nameof(WeChatMessage.LocalId), OrderByType.Asc
         )]
     [SugarIndex("index_message_watermark",
@@ -126,19 +127,6 @@ namespace WeChatAuto.Models
         /// </summary>
         [SugarColumn(ColumnDataType = "INTEGER", IsNullable = true, ColumnDescription = "原生 sort_seq")]
         public long SortSeq { get; set; }
-
-        /// <summary>
-        /// 被监听的微信好友/群昵称,如： 人工智能自动化技术讨论群。
-        /// 显示名，不是会话 username；Database Read 写入时可按 ChatUsername 查 Contact 填入。
-        /// </summary>
-        [SugarColumn(Length = 200, IsNullable = false, ColumnDescription = "被监听的微信好友、群昵称，如:人工智能自动化技术讨论群")]
-        public string Who { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 发送者昵称。Database Read 写入时按 SenderWxId 查 Contact，Remark 优先，空则 NickName。
-        /// </summary>
-        [SugarColumn(Length = 200, IsNullable = true, ColumnDescription = "发送者昵称")]
-        public string Sender { get; set; } = string.Empty;
 
         /// <summary>
         /// 发送者 wxid。对应本分片 Name2Id 中 real_sender_id 那一行的 user_name。

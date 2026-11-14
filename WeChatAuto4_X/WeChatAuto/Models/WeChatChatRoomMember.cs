@@ -3,9 +3,10 @@ using SqlSugar;
 namespace WeChatAuto.Models
 {
     /// <summary>
-    /// 群成员中间表：成员名单、群名片、邀请人来自原生 chat_room.ext_buffer；
-    /// 群主/成员/邀请人的显示名在写入时查 Contact（Remark 优先，空则 NickName）填入。
-    /// 查询时不必再 JOIN contact / name2id。支持多微信聚合。
+    /// 群成员中间表：成员名单、群名片、邀请人来自原生 chat_room.ext_buffer。
+    /// 群名称、群主/成员/邀请人的微信昵称或备注请按 RoomUsername / Owner / MemberUsername / Inviter
+    /// 关联 wechat_contact（Remark 优先，空则 NickName）；本表不维护这些显示名快照。
+    /// 支持多微信聚合。
     /// </summary>
     [SugarTable("wechat_chat_room_member")]
     [SugarIndex("uk_chat_room_member",
@@ -38,39 +39,18 @@ namespace WeChatAuto.Models
         public string Owner { get; set; } = string.Empty;
 
         /// <summary>
-        /// 群主显示名。ext_buffer 无此字段；写入中间表时按 <see cref="Owner"/> 查 Contact，
-        /// Remark 优先，空则 NickName。
-        /// </summary>
-        [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "群主显示名")]
-        public string OwnerNickName { get; set; } = string.Empty;
-
-        /// <summary>
         /// 成员 username（wxid / 微信号 / @openim），对应 ext_buffer Member field 1。
         /// </summary>
         [SugarColumn(Length = 200, IsNullable = false, ColumnDescription = "成员 username")]
         public string MemberUsername { get; set; } = string.Empty;
 
-        /// <summary>
-        /// 成员显示名（微信昵称/备注，不是群名片）。ext_buffer 无此字段；
-        /// 写入中间表时按 <see cref="MemberUsername"/> 查 Contact，Remark 优先，空则 NickName。
-        /// </summary>
-        [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "成员显示名")]
-        public string MemberNickName { get; set; } = string.Empty;
-
-        /// <summary>群昵称（群名片），对应 ext_buffer Member field 2；与 <see cref="MemberNickName"/> 不是同一字段。</summary>
+        /// <summary>群昵称（群名片），对应 ext_buffer Member field 2。联系人表无此字段，需从本表读取。</summary>
         [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "群昵称（群名片）")]
         public string GroupNickname { get; set; } = string.Empty;
 
         /// <summary>邀请人 username，对应 ext_buffer Member field 4。</summary>
         [SugarColumn(Length = 200, IsNullable = true, ColumnDescription = "邀请人 username")]
         public string Inviter { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 邀请人显示名。ext_buffer 无此字段；写入中间表时按 <see cref="Inviter"/> 查 Contact，
-        /// Remark 优先，空则 NickName。
-        /// </summary>
-        [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "邀请人显示名")]
-        public string InviterNickName { get; set; } = string.Empty;
 
         /// <summary>成员标志，对应 ext_buffer Member field 3；位含义未逐项核实。</summary>
         [SugarColumn(ColumnDescription = "成员 flag")]

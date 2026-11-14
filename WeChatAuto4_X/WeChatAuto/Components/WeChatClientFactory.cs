@@ -253,6 +253,9 @@ namespace WeChatAuto.Components
             result.window.Focus();
             var client = new WeChatClient(topWindowProcessId.Result, _serviceProvider, this, result.window, MainActionThreadInvoker, result.info, index, monitorEvent);
             _wxClientList.Add(result.info.NickName, client);
+            // 后台增量同步已在独立线程运行；此处只等首轮结束，再初始化下一个号。
+            //vip版功能，这里隐藏
+            // client.WaitInitialHotSync();
         }
 
 
@@ -403,6 +406,8 @@ namespace WeChatAuto.Components
             result.window.Focus();
             var client = new WeChatClient(processId, _serviceProvider, this, result.window, MainActionThreadInvoker, result.info, index, monitorEvent);
             _wxClientList.Add(result.info.NickName, client);
+            // 后台增量同步已在独立线程运行；此处只等首轮结束，再排窗口、再初始化下一个号。
+            //client.WaitInitialHotSync();  //vip版本功能
             __MoveAndResize__(automation, processId, result.window, client, ref beforeWin, index);
         }
         /// <summary>

@@ -26,6 +26,7 @@ using WeChatAuto.Options;
 using RapidOCRLib;
 using System.Threading.Channels;
 using Microsoft.Identity.Client;
+using SqlSugar;
 
 
 namespace WeChatAuto.Components
@@ -55,13 +56,14 @@ namespace WeChatAuto.Components
         /// </summary>
         public readonly WeChatClientFactory Factory;
         /// <summary>
-        /// 本微信的昵称
+        /// 本微信的昵称,可以给中间表提供FromWechat字段的值.
         /// </summary>
-        public readonly string NickName;
+        public string NickName;
         /// <summary>
-        /// 本微信的wxid
+        /// 本微信通过uia获取的显式wxid,对应微信数据库 Contact.db 的 contact 表的 alias 字段
+        /// 不能用于做为名片
         /// </summary>
-        public readonly string WxId;
+        public string Alias;
         /// <summary>
         /// 本微信的头像路径
         /// </summary>
@@ -111,12 +113,13 @@ namespace WeChatAuto.Components
             this.Factory = factory;
             this.WeChatProcessID = clientProcessId;
             this.NickName = ownerInfo.NickName;
-            this.WxId = ownerInfo.WxId;
+            this.Alias = ownerInfo.WxId;
             this.AvatorPath = ownerInfo.AvatorPath;
             this.WechatIndex = index;
             _logger = provider.GetRequiredService<AutoLogger<WeChatClient>>();
             _Initialize();
         }
+
 
         private void _Initialize()
         {
@@ -134,6 +137,8 @@ namespace WeChatAuto.Components
             this.Search = new Search(this, _MainThreadInvoker, serviceProvider);
             this.CacheManager = new CacheManager(this);
             _RunCheckAddressBook();
+            //vip版本功能，这里取消
+            // _StartHotSyncEngine();
         }
 
 
@@ -141,7 +146,7 @@ namespace WeChatAuto.Components
         {
             if (WeAutomation.Config.InitAdressBook)
             {
-                var path = Path.Combine(AppContext.BaseDirectory, this.WxId + "_cache.dat");
+                var path = Path.Combine(AppContext.BaseDirectory, this.Alias + "_cache.dat");
                 if (File.Exists(path))
                     return;
                 this.GetAllFriends(false).GetAwaiter().GetResult();
@@ -232,7 +237,7 @@ namespace WeChatAuto.Components
             return new OwerInfo
             {
                 AvatorPath = this.AvatorPath,
-                WxId = this.WxId,
+                WxId = this.Alias,
                 NickName = this.NickName,
             };
         }
@@ -727,7 +732,7 @@ namespace WeChatAuto.Components
         /// </returns>
         public async Task SendVoiceMessageWithTTSAndClose(string who, string apiKey, string message, VoiceOptions options, bool optimizeWithLlm = false, Func<string, string> customProcess = null)
         {
-            await SendVoiceMessageWithTTS(who,apiKey,message,options,optimizeWithLlm,customProcess);
+            await SendVoiceMessageWithTTS(who, apiKey, message, options, optimizeWithLlm, customProcess);
             await CloseWindowAsync();
         }
         /// <summary>
@@ -1066,6 +1071,7 @@ namespace WeChatAuto.Components
             _disposed = true;
             if (disposing)
             {
+                //_StopHotSyncEngine(); //vip版本功能
                 SystemMonitorChannel.Writer.Complete();
                 _ActionTokenSource?.Cancel();
                 if (_SystemMonitorTask != null && !_SystemMonitorTask.IsCompleted)

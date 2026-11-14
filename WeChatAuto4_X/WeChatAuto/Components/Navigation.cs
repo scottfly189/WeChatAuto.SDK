@@ -65,9 +65,9 @@ namespace WeChatAuto.Components
         /// <returns></returns>
         public async Task SaveOwnerAvator(string savePath)
         {
-            if (File.Exists(Path.Combine(AppContext.BaseDirectory, "Avator", $"{_Client.WxId}.png")))
+            if (File.Exists(Path.Combine(AppContext.BaseDirectory, "Avator", $"{_Client.Alias}.png")))
             {
-                byte[] bytes = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Avator", $"{_Client.WxId}.png"));
+                byte[] bytes = File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "Avator", $"{_Client.Alias}.png"));
                 File.WriteAllBytes(savePath, bytes);
                 return;
             }
@@ -112,7 +112,14 @@ namespace WeChatAuto.Components
         {
             _Client.MainWindow.Focus();
             var name = navigationType.ToString();
-            var button = rootElement.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName(name))).AsButton();
+            var root = rootElement;
+            if (root == null)
+            {
+                _logger.Error("错误：Navagation切换时没有发现Root!");
+                return;
+            }
+
+            var button = root.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName(name))).AsButton();
 
             if (button != null)
             {
@@ -131,7 +138,12 @@ namespace WeChatAuto.Components
             else
             {
                 //4.1.13.12 + 
-                button = rootElement.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("发现"))).AsButton();
+                button = root.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("发现"))).AsButton();
+                if (button == null)
+                {
+                    _logger.Error("错误： Navagation的 发现 按钮没有找到，请检查微信UI Tree是否已改变需要做新的适配!");
+                    return;
+                }
                 button.Click();
                 RandomWait.Wait(300, 1200);
                 var path = "/Group/Custom/Group/Group/Group/Custom/Custom/Group/Group/Group/List[@Name='发现'][@ClassName='mmui::XTableView']";

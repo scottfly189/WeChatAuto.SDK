@@ -112,7 +112,7 @@ namespace WeChatAuto.Components
 		//如果有cache，则取cache
 		private (bool success, List<FriendInfo> lt) _GetFromCache()
 		{
-			var path = Path.Combine(AppContext.BaseDirectory, _Client.WxId + "_cache.dat");
+			var path = Path.Combine(AppContext.BaseDirectory, _Client.Alias + "_cache.dat");
 			if (File.Exists(path))
 			{
 				byte[] bytes = File.ReadAllBytes(path);
@@ -125,7 +125,7 @@ namespace WeChatAuto.Components
 		private void _SaveList(List<FriendInfo> list)
 		{
 			byte[] bytes = MessagePackSerializer.Serialize(list);
-			var path = Path.Combine(AppContext.BaseDirectory, _Client.WxId + "_cache.dat");
+			var path = Path.Combine(AppContext.BaseDirectory, _Client.Alias + "_cache.dat");
 			File.WriteAllBytes(path, bytes);
 			RandomWait.Wait(800, 1800);
 			_Client.MainWindow.Focus();
@@ -1173,7 +1173,7 @@ namespace WeChatAuto.Components
 				oriName = Path.GetFileNameWithoutExtension(Path.GetRandomFileName());  //如果为空，则得到一个随机名称
 			}
 			//检查是否与cache中的名称重复，如果重复，则以xxx_1,2,3的形式增加
-			var cacheFile = Path.Combine(AppContext.BaseDirectory, $"{this._Client.WxId}_cache.dat");
+			var cacheFile = Path.Combine(AppContext.BaseDirectory, $"{this._Client.Alias}_cache.dat");
 			if (File.Exists(cacheFile))
 			{
 				oriName = _ProcessCacheSameName(cacheFile, oriName);
@@ -1205,7 +1205,7 @@ namespace WeChatAuto.Components
 
 		private void __SaveToCacheFile(FriendInfo friendInfo)
 		{
-			var cacheFile = Path.Combine(AppContext.BaseDirectory, $"{this._Client.WxId}_cache.dat");
+			var cacheFile = Path.Combine(AppContext.BaseDirectory, $"{this._Client.Alias}_cache.dat");
 			if (File.Exists(cacheFile))
 			{
 				byte[] bytes = File.ReadAllBytes(cacheFile);

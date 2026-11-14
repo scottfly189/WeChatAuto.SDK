@@ -50,7 +50,7 @@ namespace WeChatAuto.Components
             {
                 _cacheLock.Wait();
                 List<FriendInfo> list = new List<FriendInfo>();
-                var path = Path.Combine(AppContext.BaseDirectory, _Client.WxId + "_cache.dat");
+                var path = Path.Combine(AppContext.BaseDirectory, _Client.Alias + "_cache.dat");
                 if (File.Exists(path))
                 {
                     byte[] bytes = File.ReadAllBytes(path);
@@ -73,7 +73,7 @@ namespace WeChatAuto.Components
             {
                 await _cacheLock.WaitAsync();
                 List<FriendInfo> list = new List<FriendInfo>();
-                var path = Path.Combine(AppContext.BaseDirectory, _Client.WxId + "_cache.dat");
+                var path = Path.Combine(AppContext.BaseDirectory, _Client.Alias + "_cache.dat");
                 if (File.Exists(path))
                 {
                     byte[] bytes = await File.ReadAllBytesAsync(path);
@@ -162,7 +162,7 @@ namespace WeChatAuto.Components
             {
                 _cacheLock.Wait();
                 byte[] bytes = MessagePack.MessagePackSerializer.Serialize<List<FriendInfo>>(friendInfos);
-                var path = Path.Combine(AppContext.BaseDirectory, _Client.WxId + "_cache.dat");
+                var path = Path.Combine(AppContext.BaseDirectory, _Client.Alias + "_cache.dat");
                 File.WriteAllBytes(path, bytes);
             }
             finally
@@ -184,7 +184,7 @@ namespace WeChatAuto.Components
             {
                 _cacheLock.Wait();
                 byte[] bytes = MessagePack.MessagePackSerializer.Serialize<List<FriendInfo>>(friendInfos);
-                var path = Path.Combine(AppContext.BaseDirectory, _Client.WxId + "_cache.dat");
+                var path = Path.Combine(AppContext.BaseDirectory, _Client.Alias + "_cache.dat");
                 File.WriteAllBytes(path, bytes);
             }
             finally
@@ -207,7 +207,7 @@ namespace WeChatAuto.Components
                 friendInfos = friendInfos.Where(u => !u.Name.Equals(who)).ToList();
                 using MemoryStream ms = new MemoryStream();
                 await MessagePack.MessagePackSerializer.SerializeAsync<List<FriendInfo>>(ms, friendInfos);
-                var path = Path.Combine(AppContext.BaseDirectory, _Client.WxId + "_cache.dat");
+                var path = Path.Combine(AppContext.BaseDirectory, _Client.Alias + "_cache.dat");
                 await File.WriteAllBytesAsync(path, ms.ToArray());
             }
             finally
@@ -230,7 +230,7 @@ namespace WeChatAuto.Components
                 await _cacheLock.WaitAsync();
                 using MemoryStream ms = new MemoryStream();
                 await MessagePack.MessagePackSerializer.SerializeAsync<List<FriendInfo>>(ms, friendInfos);
-                var path = Path.Combine(AppContext.BaseDirectory, _Client.WxId + "_cache.dat");
+                var path = Path.Combine(AppContext.BaseDirectory, _Client.Alias + "_cache.dat");
                 await File.WriteAllBytesAsync(path, ms.ToArray());
             }
             finally
@@ -271,7 +271,7 @@ namespace WeChatAuto.Components
                 }
                 _cacheLock.Wait();
                 byte[] bytes = MessagePack.MessagePackSerializer.Serialize<List<FriendInfo>>(friendInfos);
-                var path = Path.Combine(AppContext.BaseDirectory, _Client.WxId + "_cache.dat");
+                var path = Path.Combine(AppContext.BaseDirectory, _Client.Alias + "_cache.dat");
                 File.WriteAllBytes(path, bytes);
             }
             finally
@@ -312,7 +312,7 @@ namespace WeChatAuto.Components
             try
             {
                 await _cacheLock.WaitAsync();
-                var path = Path.Combine(AppContext.BaseDirectory, _Client.WxId + "_cache.dat");
+                var path = Path.Combine(AppContext.BaseDirectory, _Client.Alias + "_cache.dat");
                 using FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, true);
                 await MessagePack.MessagePackSerializer.SerializeAsync(fs, friendInfos);
             }

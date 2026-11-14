@@ -27,22 +27,34 @@ namespace WeChatAuto.Utils
     /// </summary>
     public sealed class CyberOverlay : IDisposable
     {
+        private static readonly SemaphoreSlim OverlayGate = new SemaphoreSlim(1, 1);
         private readonly Thread _uiThread;
         private OverlayForm _form;
         private readonly ManualResetEventSlim _ready = new ManualResetEventSlim(false);
         private int _closed;
+        private int _gateReleased = 1;
 
         private CyberOverlay(string message)
         {
-            _uiThread = new Thread(() => RunMessageLoop(message))
+            OverlayGate.Wait();
+            _gateReleased = 0;
+            try
             {
-                IsBackground = true,
-                Name = "wechatauto.sdk.cyber-overlay"
-            };
-            _uiThread.SetApartmentState(ApartmentState.STA);
-            _uiThread.Start();
-            // 等待窗口真正显示；超时则降级为不显示，避免卡住调用方。
-            _ready.Wait(TimeSpan.FromSeconds(3));
+                _uiThread = new Thread(() => RunMessageLoop(message))
+                {
+                    IsBackground = true,
+                    Name = "wechatauto.sdk.cyber-overlay"
+                };
+                _uiThread.SetApartmentState(ApartmentState.STA);
+                _uiThread.Start();
+                // 等待窗口真正显示；超时则降级为不显示，避免卡住调用方。
+                _ready.Wait(TimeSpan.FromSeconds(3));
+            }
+            catch
+            {
+                ReleaseGate();
+                throw;
+            }
         }
 
         /// <summary>
@@ -99,7 +111,8 @@ namespace WeChatAuto.Utils
                 {
                     if (form.InvokeRequired)
                     {
-                        form.BeginInvoke(new Action(() => form.Close()));
+                        // 同步关闭，等窗口真正消失再放行下一个提示，避免两个置顶窗来回抢前台。
+                        form.Invoke(new Action(() => form.Close()));
                     }
                     else
                     {
@@ -119,6 +132,17 @@ namespace WeChatAuto.Utils
                 _uiThread.ManagedThreadId != Thread.CurrentThread.ManagedThreadId)
             {
                 _uiThread.Join(TimeSpan.FromSeconds(2));
+            }
+
+            ReleaseGate();
+        }
+
+        void ReleaseGate()
+        {
+            if (Interlocked.Exchange(ref _gateReleased, 1) == 0)
+            {
+                try { OverlayGate.Release(); }
+                catch { /* ignore */ }
             }
         }
 
@@ -331,7 +355,7 @@ namespace WeChatAuto.Utils
 
                 using (var brush = new SolidBrush(DimCyan))
                 {
-                    g.DrawString("WECHATAUTO.SDK // UI TREE ACTIVATOR", _titleFont, brush, pad, y);
+                    g.DrawString("WECHATAUTO.SDK // UI TREE OR DATABASE READ", _titleFont, brush, pad, y);
                 }
 
                 // 右上角闪烁方块游标。
@@ -347,16 +371,26 @@ namespace WeChatAuto.Utils
             {
                 float scale = DeviceDpi / 96f;
                 int pad = (int)(18 * scale);
-                var y = rect.Height / 2f;
+                int top = (int)(40 * scale);
+                int bottom = rect.Height - (int)(40 * scale);
+                var area = new RectangleF(pad, top, rect.Width - pad * 2, Math.Max(20, bottom - top));
 
-                // 主提示文字 + 轻微品红辉光。
-                using (var glow = new SolidBrush(Color.FromArgb(70, NeonMagenta)))
+                // 主提示文字 + 轻微品红辉光。在标题与进度条之间绘制，支持换行。
+                using (var format = new StringFormat())
                 {
-                    g.DrawString(_message, _messageFont, glow, pad + 1.5f, y - 1);
-                }
-                using (var brush = new SolidBrush(NeonCyan))
-                {
-                    g.DrawString(_message, _messageFont, brush, pad, y - 3);
+                    format.Alignment = StringAlignment.Near;
+                    format.LineAlignment = StringAlignment.Center;
+                    format.Trimming = StringTrimming.EllipsisCharacter;
+                    format.FormatFlags = StringFormatFlags.LineLimit;
+                    using (var glow = new SolidBrush(Color.FromArgb(70, NeonMagenta)))
+                    {
+                        var glowArea = new RectangleF(area.X + 1.5f, area.Y - 1, area.Width, area.Height);
+                        g.DrawString(_message, _messageFont, glow, glowArea, format);
+                    }
+                    using (var brush = new SolidBrush(NeonCyan))
+                    {
+                        g.DrawString(_message, _messageFont, brush, area, format);
+                    }
                 }
             }
 
