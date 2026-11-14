@@ -25,7 +25,7 @@ namespace WeAutoCommon.Configs
         /// 微信存储位置，取法: 微信主窗口--> 设置 --> 账号与存储 --> 存储位置
         /// 如果有多微信，多个微信应该设置成一样
         /// </summary>
-        public bool WeChatStoragePath { get; set; }
+        public string WeChatStorageRoot { get; set; }
 
         /// <summary>
         /// 数据库类型，几乎支持所有数据库类型，默认是sqlite数据库,可以改成其他的数据库
@@ -40,6 +40,13 @@ namespace WeAutoCommon.Configs
         /// "ConnectionString": "host=222.71.212.3;Port=27017;Database=testDB;Username= root;Password=123456;authSource=admin;replicaSet=", // MongoDB
         /// </summary>
         public string ConnectionString { get; set; } = "Data Source=wechat.db";
+        /// <summary>
+        /// 账号首次同步时的历史窗口天数，默认 30。
+        /// 0 表示首轮不回补历史，只同步从启动时刻起的新数据。负数按 0 处理（记一条日志，不会抛异常或中断启动）。
+        /// 请在工厂启动前通过 WeAutomation.Config 全局设置，与 ConnectionString 相同。
+        /// </summary>
+        [JsonPropertyName("first_run_days")]
+        public int FirstRunDays { get; set; } = 30;
         /// <summary>
         /// 在微信的UI Tree未被腾迅公开的情况下是否强开UI Tree,默认为False
         /// </summary>
