@@ -19,6 +19,7 @@ namespace WeChatAuto.Models
     /// 发送者 username 在本分片 Name2Id.rowid = real_sender_id 解析后写入 SenderWxId，
     /// 不要跨分片使用 rowid。message_content 若被 WCDB 标成 zstd，写入前先解码；
     /// 群聊正文常见「sender_wxid:\n正文」，发送者进 SenderWxId，正文进 Content。
+    /// 引用消息（local_type=244813135921）Content 只存回复文字，被引用内容在 Quote* 列。
     /// packed_info_data / source / compress_content 不镜像进本表。
     /// </summary>
     [SugarTable("wechat_message")]
@@ -151,9 +152,55 @@ namespace WeChatAuto.Models
 
         /// <summary>
         /// 消息内容。Database Read 写入前需按 WCDB_CT_message_content 解码；不存压缩原文。
+        /// <para>引用消息（local_type=244813135921）此处只存回复文字，被引用内容在 Quote* 列；</para>
+        /// <para>其它 appmsg（链接/文件/小程序等）仍保持原生 XML，与历史行为一致。</para>
         /// </summary>
         [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "消息内容")]
         public string Content { get; set; } = "";
+
+        /// <summary>
+        /// 引用消息：被引用人的 username（原生 refermsg/fromusr；群引用时可能是群 id）。
+        /// 非引用消息为空。
+        /// </summary>
+        [SugarColumn(Length = 200, IsNullable = true, ColumnDescription = "引用消息：被引用人/会话 username")]
+        public string QuoteUsername { get; set; } = "";
+
+        /// <summary>
+        /// 引用消息：被引用人的显示名（refermsg/displayname），可能为空。
+        /// </summary>
+        [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "引用消息：被引用人显示名")]
+        public string QuoteTitle { get; set; } = "";
+
+        /// <summary>
+        /// 引用消息：被引用内容。已按 refermsg/type 转成可读文本
+        /// （[图片]/[表情]/[视频]/[语音]/[链接] ...），不是原生 XML。
+        /// </summary>
+        [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "引用消息：被引用内容")]
+        public string QuoteContent { get; set; } = "";
+
+        /// <summary>
+        /// 引用消息：被引用消息的原生类型（refermsg/type），如 1/3/34/49/57。
+        /// </summary>
+        [SugarColumn(Length = 50, IsNullable = true, ColumnDescription = "引用消息：被引用消息类型")]
+        public string QuoteType { get; set; } = "";
+
+        /// <summary>
+        /// 引用消息：被引用消息的 server_id（refermsg/svrid），用字符串承接避免整数溢出。
+        /// </summary>
+        [SugarColumn(Length = 64, IsNullable = true, ColumnDescription = "引用消息：被引用消息 server_id")]
+        public string QuoteServerId { get; set; } = "";
+
+        /// <summary>
+        /// 引用消息：引用链接的缩略图 URL（仅被引用内容是链接时有值）。
+        /// </summary>
+        [SugarColumn(Length = 500, IsNullable = true, ColumnDescription = "引用消息：引用链接缩略图")]
+        public string QuoteThumbUrl { get; set; } = "";
+
+        /// <summary>
+        /// 引用消息：引用语音时长（毫秒，与上游 quoteVoiceLength 一致），仅 refermsg/type=34 有值。
+        /// </summary>
+        [SugarColumn(IsNullable = true, ColumnDescription = "引用消息：引用语音时长(毫秒)")]
+        public int? QuoteVoiceLength { get; set; }
 
         /// <summary>
         /// 微信消息发生时间,仅精确到分钟 ,取自微信，可能为空！（UIA 路径）
