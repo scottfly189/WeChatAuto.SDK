@@ -45,6 +45,14 @@ namespace WeChatAuto.Components
         private ReaderWriterLockSlim readerWriterLockSlim = new ReaderWriterLockSlim();
         private SemaphoreSlim monitorEvent;
 
+        /// <summary>
+        /// 当前是否启用「数据库读取」路线（<see cref="WeAutoCommon.Configs.WeChatConfig.UseDatabaseRead"/>）。
+        /// <para>true：hot-sync → staging → SQLCipher 直读 → 中间表增量同步；</para>
+        /// <para>false：纯 UI Automation，不取密钥、不建中间表、不启动同步引擎。</para>
+        /// 工厂、等待首轮同步、销毁同步引擎等所有路线分支都应统一使用本属性判断，避免两条路线互相混入。
+        /// </summary>
+        internal static bool IsDatabaseRouteEnabled => WeAutomation.Config.UseDatabaseRead;
+
         #region 比较稳定的字段
         public readonly Window MainWindow;
         /// <summary>
@@ -137,8 +145,7 @@ namespace WeChatAuto.Components
             this.Search = new Search(this, _MainThreadInvoker, serviceProvider);
             this.CacheManager = new CacheManager(this);
             _RunCheckAddressBook();
-            //vip版本功能，这里取消
-            // _StartHotSyncEngine();
+            _StartHotSyncEngine();
         }
 
 
@@ -1071,7 +1078,10 @@ namespace WeChatAuto.Components
             _disposed = true;
             if (disposing)
             {
-                //_StopHotSyncEngine(); //vip版本功能
+                // 出口不按“当前”配置判断路线：入口一旦申请过数据库资源，就必须释放。
+                // 纯 UI Automation 路线下引擎与 CTS 均为 null，_StopHotSyncEngine 是空操作；
+                // 若运行中把 UseDatabaseRead 由 true 改成 false，这里仍能正确停掉已启动的引擎。
+                _StopHotSyncEngine();
                 SystemMonitorChannel.Writer.Complete();
                 _ActionTokenSource?.Cancel();
                 if (_SystemMonitorTask != null && !_SystemMonitorTask.IsCompleted)

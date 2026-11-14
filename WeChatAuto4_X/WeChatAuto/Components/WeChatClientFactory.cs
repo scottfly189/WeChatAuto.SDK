@@ -150,7 +150,7 @@ namespace WeChatAuto.Components
                 return;
             }
             _wxClientList.Clear();
-            _logger.Trace("开始重新获取微信窗口");
+            _logger.Trace($"开始重新获取微信窗口（数据路线：{(WeChatClient.IsDatabaseRouteEnabled ? "Database Read" : "UI Automation")}）");
             try
             {
                 MainActionThreadInvoker.Run(automation =>
@@ -254,8 +254,8 @@ namespace WeChatAuto.Components
             var client = new WeChatClient(topWindowProcessId.Result, _serviceProvider, this, result.window, MainActionThreadInvoker, result.info, index, monitorEvent);
             _wxClientList.Add(result.info.NickName, client);
             // 后台增量同步已在独立线程运行；此处只等首轮结束，再初始化下一个号。
-            //vip版功能，这里隐藏
-            // client.WaitInitialHotSync();
+            // 纯 UI Automation 路线（UseDatabaseRead=false）没有数据库同步引擎，跳过等待。
+            _WaitInitialDatabaseSync(client);
         }
 
 
@@ -407,8 +407,21 @@ namespace WeChatAuto.Components
             var client = new WeChatClient(processId, _serviceProvider, this, result.window, MainActionThreadInvoker, result.info, index, monitorEvent);
             _wxClientList.Add(result.info.NickName, client);
             // 后台增量同步已在独立线程运行；此处只等首轮结束，再排窗口、再初始化下一个号。
-            //client.WaitInitialHotSync();  //vip版本功能
+            // 纯 UI Automation 路线（UseDatabaseRead=false）没有数据库同步引擎，跳过等待。
+            _WaitInitialDatabaseSync(client);
             __MoveAndResize__(automation, processId, result.window, client, ref beforeWin, index);
+        }
+
+        /// <summary>
+        /// 按当前数据路线决定是否等待本账号首轮数据库同步。
+        /// <para>UseDatabaseRead=true：等待 hot-sync 首轮结束（多账号时串行初始化，避免抢 IO）；</para>
+        /// <para>UseDatabaseRead=false：纯 UI Automation，直接返回，不做任何数据库相关等待。</para>
+        /// </summary>
+        private void _WaitInitialDatabaseSync(WeChatClient client)
+        {
+            if (!WeChatClient.IsDatabaseRouteEnabled)
+                return;
+            client.WaitInitialHotSync();
         }
         /// <summary>
         /// 重新排列微信窗口
