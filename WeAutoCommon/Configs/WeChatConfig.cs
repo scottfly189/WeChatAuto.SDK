@@ -47,6 +47,58 @@ namespace WeAutoCommon.Configs
         /// </summary>
         [JsonPropertyName("first_run_days")]
         public int FirstRunDays { get; set; } = 30;
+
+        /// <summary>
+        /// 朋友圈（SNS）首次同步的回看天数。<b>0 或负数表示全量回补</b>（不设时间窗）。
+        /// <para>注意与 <see cref="FirstRunDays"/> 的语义不同：消息的 0 表示「不回补历史」，
+        /// 朋友圈的 0 表示「全部历史都要」。朋友圈单账号通常只有几千条，全量成本可控。</para>
+        /// <para>只影响「中间表还没有该账号朋友圈水位」的首次同步；已有水位的账号不受影响。</para>
+        /// </summary>
+        [JsonPropertyName("sns_first_run_days")]
+        public int SnsFirstRunDays { get; set; } = 0;
+
+        /// <summary>
+        /// 是否下载朋友圈图片 / 视频到本机，默认 <c>false</c>（不下载，保持 hot-sync 原有耗时）。
+        /// <para>开启后由独立的旁路后台任务处理：只处理 <c>wechat_sns_media</c> 里
+        /// <c>MediaType</c> 为 2（图片）/ 4、5、6（视频）且 <c>DownloadStatus=0</c> 的行，
+        /// 落盘路径写入 <c>LocalPath</c>，成功 / 永久失败都会写状态，不会反复重试。</para>
+        /// <para>解密由纯 C# <c>WxIsaac64</c> 完成，无需 Node / WASM；不参与消息、联系人、
+        /// 群成员同步，也不改变任何现有表的写入逻辑；关掉时后台任务根本不会启动。</para>
+        /// </summary>
+        [JsonPropertyName("download_sns_images")]
+        public bool DownloadSnsImages { get; set; } = false;
+
+        /// <summary>
+        /// hot-sync 暂存根目录（每账号再按 wxid 分子目录）。为空时用
+        /// <c>%LOCALAPPDATA%\WeChatAuto\hotsync-staging</c>。
+        /// <para>用于把 C 盘空间紧张的用户引导到大容量磁盘；支持绝对路径和 <c>%ENV%</c> 环境变量。</para>
+        /// </summary>
+        [JsonPropertyName("hotsync_staging_dir")]
+        public string HotSyncStagingDir { get; set; } = "";
+
+        /// <summary>
+        /// 消息媒体缓存根目录（图片 / 语音解密后的文件）。为空时用
+        /// <c>%LOCALAPPDATA%\WeChatAuto\media-cache</c>。支持绝对路径和 <c>%ENV%</c> 环境变量。
+        /// </summary>
+        [JsonPropertyName("media_cache_dir")]
+        public string MediaCacheDir { get; set; } = "";
+
+        /// <summary>
+        /// 朋友圈下载媒体根目录。为空时用 <c>%LOCALAPPDATA%\WeChatAuto\sns-media</c>。
+        /// 支持绝对路径和 <c>%ENV%</c> 环境变量。
+        /// </summary>
+        [JsonPropertyName("sns_media_dir")]
+        public string SnsMediaDir { get; set; } = "";
+
+        /// <summary>
+        /// "进入系统"的启动同步轮（打开应用后、首轮全量之外的补齐/增量 UPSERT/补水位那一次）的提示窗口工厂，可为空。
+        /// <para>参数：本微信昵称、本微信主窗口句柄；返回的 <see cref="IDisposable"/> 在本轮同步结束时释放，
+        /// Dispose 时应关闭提示窗口。只在这个启动轮调用；启动完成后运行期 hot-sync 的增量轮次不再提示。</para>
+        /// <para>请在工厂启动前（即 <c>WeAutomation.Initialize</c> 的配置回调里）设置；运行期修改对下一次启动轮生效。</para>
+        /// </summary>
+        [JsonIgnore]
+        public Func<string, IntPtr, IDisposable> StartupSyncOverlayFactory { get; set; }
+
         /// <summary>
         /// 在微信的UI Tree未被腾迅公开的情况下是否强开UI Tree,默认为False
         /// </summary>
@@ -283,3 +335,5 @@ namespace WeAutoCommon.Configs
         public const string English = "En";
     }
 }
+
+

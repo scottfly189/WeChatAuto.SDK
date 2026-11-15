@@ -17,6 +17,7 @@ namespace WeChatAuto.Models
     [SugarIndex("index_sns_post_from", nameof(WeChatSnsPost.FromWechatWxId), OrderByType.Asc)]
     [SugarIndex("index_sns_post_user", nameof(WeChatSnsPost.UserName), OrderByType.Asc)]
     [SugarIndex("index_sns_post_time", nameof(WeChatSnsPost.CreateTime), OrderByType.Desc)]
+    [SugarIndex("index_sns_post_deleted", nameof(WeChatSnsPost.IsDeleted), OrderByType.Asc)]
     public class WeChatSnsPost
     {
         /// <summary>自定义主键，自增。</summary>
@@ -94,5 +95,130 @@ namespace WeChatAuto.Models
         /// </summary>
         [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "原生 content XML")]
         public string Content { get; set; } = string.Empty;
+
+        /// <summary>
+        /// <see cref="Content"/> 的 SHA256（小写十六进制）。用于增量同步时判断旧帖是否被改写：
+        /// SnsTimeLine 没有更新时间列，点赞/评论/编辑都会改写 content。
+        /// 为空表示该行是早期版本写入、尚未计算，下次同步会重算。
+        /// </summary>
+        [SugarColumn(Length = 64, IsNullable = true, ColumnDescription = "content XML 的 SHA256")]
+        public string ContentHash { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 原生库里这条动态已经不存在（被作者删除 / 缓存清理）。软删除，保留历史与互动数据。
+        /// 再次出现在 SnsTimeLine 时会自动改回 false。
+        /// </summary>
+        [SugarColumn(IsNullable = true, DefaultValue = "0", ColumnDescription = "原生已不存在（软删除），NULL 视为 false（旧库升级）")]
+        public bool? IsDeleted { get; set; }
+
+        /// <summary>链接/分享卡片的标题，对应 XML ContentObject/title（图片/纯文字/视频通常为空）。</summary>
+        [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "链接标题")]
+        public string Title { get; set; } = string.Empty;
+
+        /// <summary>链接/分享卡片的描述，对应 XML ContentObject/description。</summary>
+        [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "链接描述")]
+        public string Description { get; set; } = string.Empty;
+
+        /// <summary>链接/分享卡片的跳转地址，对应 XML ContentObject/contentUrl。</summary>
+        [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "链接地址")]
+        public string ContentUrl { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 位置的城市名，对应 XML location@city（原生多数行只有空的 location 占位节点）。
+        /// 经纬度见 <see cref="LocationLatitude"/> / <see cref="LocationLongitude"/>。
+        /// </summary>
+        [SugarColumn(Length = 100, IsNullable = true, ColumnDescription = "位置城市")]
+        public string PoiCity { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 位置纬度，取 XML location@latitude 原值。<b>注意</b>：本机实测微信把经纬度放反了
+        /// （北京记录为 latitude=116.5 / longitude=39.76），这里保留原值不做交换，避免二次解释出错。
+        /// </summary>
+        [SugarColumn(IsNullable = true, DefaultValue = "0", ColumnDescription = "位置纬度（原生原值，可能被微信放反）")]
+        public double LocationLatitude { get; set; }
+
+        /// <summary>位置经度，取 XML location@longitude 原值（同上，可能被微信放反）。</summary>
+        [SugarColumn(IsNullable = true, DefaultValue = "0", ColumnDescription = "位置经度（原生原值，可能被微信放反）")]
+        public double LocationLongitude { get; set; }
+
+        /// <summary>转发来源 username，对应 XML TimelineObject/sourceUserName（本机多为空）。</summary>
+        [SugarColumn(Length = 200, IsNullable = true, ColumnDescription = "转发来源 username")]
+        public string SourceUserName { get; set; } = string.Empty;
+
+        /// <summary>转发来源显示名，对应 XML TimelineObject/sourceNickName。</summary>
+        [SugarColumn(Length = 200, IsNullable = true, ColumnDescription = "转发来源昵称")]
+        public string SourceNickName { get; set; } = string.Empty;
+
+        /// <summary>公众号相关：XML TimelineObject/publicUserName（本机 111 条有值）。</summary>
+        [SugarColumn(Length = 200, IsNullable = true, ColumnDescription = "公众号 username")]
+        public string PublicUserName { get; set; } = string.Empty;
+
+        /// <summary>公众号相关：XML TimelineObject/publicBrandContactType。</summary>
+        [SugarColumn(IsNullable = true, DefaultValue = "0", ColumnDescription = "公众号品牌类型")]
+        public int PublicBrandContactType { get; set; }
+
+        /// <summary>是否私密（仅自己可见），对应 XML TimelineObject/private ≠ 0。</summary>
+        [SugarColumn(IsNullable = true, DefaultValue = "0", ColumnDescription = "是否私密")]
+        public bool? IsPrivate { get; set; }
+
+        /// <summary>是否置顶，对应 XML TimelineObject/isTop ≠ 0。</summary>
+        [SugarColumn(IsNullable = true, DefaultValue = "0", ColumnDescription = "是否置顶")]
+        public bool? IsTop { get; set; }
+
+        /// <summary>是否被折叠，对应 XML TimelineObject/sightFolded ≠ 0。</summary>
+        [SugarColumn(IsNullable = true, DefaultValue = "0", ColumnDescription = "是否折叠")]
+        public bool? SightFolded { get; set; }
+
+        /// <summary>展示位标志，对应 XML TimelineObject/showFlag 原值。</summary>
+        [SugarColumn(IsNullable = true, DefaultValue = "0", ColumnDescription = "showFlag 原值")]
+        public int ShowFlag { get; set; }
+
+        /// <summary>
+        /// 视频号形态：0 = 普通朋友圈动态，1 = 视频号动态（ContentObject/finderFeed），
+        /// 2 = 视频号直播（ContentObject/finderLive）。
+        /// </summary>
+        [SugarColumn(IsNullable = true, DefaultValue = "0", ColumnDescription = "视频号形态：0普通/1视频号/2直播")]
+        public int FinderKind { get; set; }
+
+        /// <summary>视频号的 objectId 或直播的 finderLiveID。</summary>
+        [SugarColumn(Length = 120, IsNullable = true, ColumnDescription = "视频号/直播 id")]
+        public string FinderId { get; set; } = string.Empty;
+
+        /// <summary>视频号/直播的作者昵称。</summary>
+        [SugarColumn(Length = 200, IsNullable = true, ColumnDescription = "视频号作者昵称")]
+        public string FinderNickName { get; set; } = string.Empty;
+
+        /// <summary>视频号/直播的作者 username（@finder 后缀）。</summary>
+        [SugarColumn(Length = 200, IsNullable = true, ColumnDescription = "视频号作者 username")]
+        public string FinderUsername { get; set; } = string.Empty;
+
+        /// <summary>视频号/直播的文案描述。</summary>
+        [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "视频号文案")]
+        public string FinderDesc { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 视频号媒体文件链接：XML <c>ContentObject/finderFeed/mediaList/media/url</c>。
+        /// 带 <c>token/encfilekey</c> 的 CDN 直链，会过期；实测脱离微信客户端直接请求返回 400，
+        /// 仅作留档 / 后续研究，不保证可下载。直播（finderLive）没有播放直链，本字段为空。
+        /// </summary>
+        [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "视频号媒体文件链接（CDN，可能过期）")]
+        public string FinderUrl { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 视频号/直播封面链接：<c>finderFeed/mediaList/media/thumbUrl</c> 或
+        /// <c>finderLive/media/coverUrl</c>。实测为明文 JPEG，可直接下载。
+        /// </summary>
+        [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "视频号/直播封面链接")]
+        public string FinderCoverUrl { get; set; } = string.Empty;
+
+        /// <summary>视频号 nonceId：<c>objectNonceId</c> / <c>finderNonceID</c>，留作以后拼接页面链接。</summary>
+        [SugarColumn(Length = 200, IsNullable = true, ColumnDescription = "视频号 nonceId")]
+        public string FinderNonceId { get; set; } = string.Empty;
+
+        /// <summary>本条动态的媒体数量（ContentObject/mediaList/media 个数），明细见 wechat_sns_media。</summary>
+        [SugarColumn(IsNullable = true, DefaultValue = "0", ColumnDescription = "媒体数量")]
+        public int MediaCount { get; set; }
     }
 }
+
+
