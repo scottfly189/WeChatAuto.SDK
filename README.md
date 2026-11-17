@@ -2,8 +2,8 @@
 <h1>WECHATAUTO.SDK - 安全构建微信Agent的开发基座</h1>
 <p><strong>不注入、双路径、安全构建</strong></p>
 <h4>微信是应用，WeChatAuto.SDK 是开发微信自动化应用的开发包</h4>
-<p>这是一个面向开发者的微信自动化开发工具包，帮助你构建自己的微信机器人、微信助手和 AI Agent。</p>
-<p>本仓库是社区开源版，用 UI Automation 操作真实微信，可先跑监听、发送、好友、群等基础能力。</p>
+<p>这是一个面向开发者的微信自动化开发工具包，帮助你构建自己的微信机器人、微信助手和企业系统集在;</p>
+<p>本仓库是社区开源版，用 UI Automation 操作真实微信，可先跑监听、发送、好友、群等基础能力,纯轻量SDK，不含多余的界面或成品应用;</p>
 <p>
 <a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-6.0%2B-blue" alt=".NET" /></a>
 <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.13%2B-blue?logo=python&logoColor=white" alt="Python" /></a>
