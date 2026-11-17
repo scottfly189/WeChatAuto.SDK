@@ -108,5 +108,72 @@ namespace WeChatAuto.Models
         [SugarColumn(ColumnDataType = "TEXT", IsNullable = true)]
         public string SmallHeadUrl { get; set; } = string.Empty;
 
+        /// <summary>
+        /// 国家 / 地区代码（ISO2，如 CN / HK / US）。
+        /// 取自 contact.extra_buffer protobuf #5；未设置时为空串。
+        /// </summary>
+        [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "国家/地区代码(ISO2)，来自 contact.extra_buffer #5")]
+        public string Country { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 省 / 直辖市 / 州。取自 contact.extra_buffer #6，同步时经 <c>WxRegionNames</c> 译成中文；
+        /// 未命中的境外州名保留英文原文。
+        /// </summary>
+        [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "省/州，来自 contact.extra_buffer #6（同步时英译中）")]
+        public string Province { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 市 / 区。取自 contact.extra_buffer #7，同步时译成中文；未命中保留英文原文。
+        /// 微信对直辖市会把区写在这里（如 Haidian → 海淀）。
+        /// </summary>
+        [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "市/区，来自 contact.extra_buffer #7（同步时英译中）")]
+        public string City { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 微信标签名，逗号分隔（如 <c>声音,wechatauto22</c>）。
+        /// 取自 contact.extra_buffer #30 的 label id，同步时用同轮读出的 <c>contact_label</c> 译成名字；
+        /// 之后微信侧改名 / 删标签不会回改这里（同步不重扫标签表）。
+        /// </summary>
+        [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "微信标签名，逗号分隔，来自 contact.extra_buffer #30 + contact_label")]
+        public string Labels { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 性别：0 未知 / 1 男 / 2 女。取自 contact.extra_buffer #2。
+        /// </summary>
+        [SugarColumn(ColumnDescription = "性别：0未知/1男/2女，来自 contact.extra_buffer #2")]
+        public int Gender { get; set; }
+
+        /// <summary>
+        /// 来源场景码，取自 contact.extra_buffer #8（1 QQ / 3 微信号 / 6 手机号 / 10 名片 /
+        /// 14 群聊 / 15 搜索手机号 / 17 名片分享 / 30 扫一扫）。0 = 原生库没写。
+        /// </summary>
+        [SugarColumn(ColumnDescription = "来源场景码，来自 contact.extra_buffer #8；0=未知")]
+        public int SourceScene { get; set; }
+
+        /// <summary>
+        /// 来源中文文案（由 <see cref="SourceScene"/> 翻译，如「通过群聊添加」）；未知码写「场景码 N」。
+        /// 同步时落库成列，方便直接 SQL 查 / 导出。
+        /// </summary>
+        [SugarColumn(ColumnDataType = "TEXT", IsNullable = true, ColumnDescription = "来源文案，由 SourceScene 翻译")]
+        public string Source { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 添加（通过好友 / 关注公众号）时间，unix 秒。取自 contact.extra_buffer #41；
+        /// 0 表示原生库没有写该字段（从 3.x 迁移过来的老联系人大多没有）。
+        /// </summary>
+        [SugarColumn(ColumnDescription = "添加时间，unix 秒，来自 contact.extra_buffer #41；0=未知")]
+        public long AddTime { get; set; }
+
+        /// <summary>
+        /// 国家/地区中文名（<see cref="Country"/> 的 ISO2 码翻译，如 CN → 中国大陆）。不落库。
+        /// </summary>
+        [SugarColumn(IsIgnore = true)]
+        public string CountryName => WxCountryNames.ToChinese(Country);
+
+        /// <summary>
+        /// 展示用地区串：<c>国家·省·市</c>（如 <c>中国大陆·广东·深圳</c>），对齐上游口径。不落库。
+        /// </summary>
+        [SugarColumn(IsIgnore = true)]
+        public string Region => WxRegionNames.FormatRegion(Country, Province, City);
     }
 }

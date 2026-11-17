@@ -1,47 +1,35 @@
-# WECHATAUTO.SDK - 安全构建微信Agent的开发基座
-
-**不注入、双路径、安全构建**
-
-#### 微信是应用，WeChatAuto.SDK 是开发微信自动化应用的开发包。
-
-这是一个面向开发者的微信自动化开发工具包，帮助你构建自己的微信机器人、微信助手和 AI Agent。
-
-社区版用 UI Automation 先跑监听、发送、好友、群等基础能力；VIP 再补 Database Read，作为更稳的取消息主路（只读、不 hook、不回写原库），并提供开放式消息监听、朋友圈、消息转发、声音复刻等增强能力。两条线并存，不是二选一。
-
-
-[![.NET](https://img.shields.io/badge/.NET-6.0%2B-blue)](https://dotnet.microsoft.com/)
-[![Python](https://img.shields.io/badge/Python-3.13%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
-[![C++](https://img.shields.io/badge/C%2B%2B-blue?logo=cplusplus&logoColor=white)](https://isocpp.org/)
-[![Go](https://img.shields.io/badge/Go-blue?logo=go&logoColor=white)](https://go.dev/)
-[![Java](https://img.shields.io/badge/Java-blue?logo=openjdk&logoColor=white)](https://www.java.com/)
-[![Node.js](https://img.shields.io/badge/Node.js-blue?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
-[![Rust](https://img.shields.io/badge/Rust-blue?logo=rust&logoColor=white)](https://www.rust-lang.org/)
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
-
-**[Website](https://scottfly189.github.io/WeChatAuto.SDK/) · [两条路径](../docs/versions.md) · [Guides](https://scottfly189.github.io/WeChatAuto.SDK/main.html#/README) · [FAQ](#-faq)**
-
-[为什么选择我们?](./docs/why.md)
-
-
-
+<div align="center">
+<h1>WECHATAUTO.SDK - 安全构建微信Agent的开发基座</h1>
+<p><strong>不注入、双路径、安全构建</strong></p>
+<h4>微信是应用，WeChatAuto.SDK 是开发微信自动化应用的开发包。</h4>
+<p>这是一个面向开发者的微信自动化开发工具包，帮助你构建自己的微信机器人、微信助手和 AI Agent。</p>
+<p>本仓库是社区开源版，用 UI Automation 操作真实微信，可先跑监听、发送、好友、群等基础能力。</p>
+<p>
+<a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-6.0%2B-blue" alt=".NET" /></a>
+<a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.13%2B-blue?logo=python&logoColor=white" alt="Python" /></a>
+<a href="https://isocpp.org/"><img src="https://img.shields.io/badge/C%2B%2B-blue?logo=cplusplus&logoColor=white" alt="C++" /></a>
+<a href="https://go.dev/"><img src="https://img.shields.io/badge/Go-blue?logo=go&logoColor=white" alt="Go" /></a>
+<a href="https://www.java.com/"><img src="https://img.shields.io/badge/Java-blue?logo=openjdk&logoColor=white" alt="Java" /></a>
+<a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-blue?logo=nodedotjs&logoColor=white" alt="Node.js" /></a>
+<a href="https://www.rust-lang.org/"><img src="https://img.shields.io/badge/Rust-blue?logo=rust&logoColor=white" alt="Rust" /></a>
+<a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="license MIT" /></a>
+</p>
+<p><strong><a href="https://scottfly189.github.io/WeChatAuto.SDK/">Website</a> · <a href="https://github.com/scottfly189/WeChatAuto.SDK/releases/download/2.0.7/community_allin.rar">一键试用</a> · <a href="https://scottfly189.github.io/WeChatAuto.SDK/main.html#/README">Guides</a> · <a href="#-faq">FAQ</a></strong></p>
+<p><a href="./docs/why.md">为什么选择我们?</a></p>
+</div>
+<div align="center">
 <br />
-
 <img src="https://github.com/scottfly189/WeChatAuto.SDK/raw/master/Images/main_1.png" alt="WECHATAUTO.SDK主界面" width="1200" />
-
 <br/>
-
 <img src="https://github.com/scottfly189/WeChatAuto.SDK/raw/master/Images/second.png" alt="WECHATAUTO.SDK 吸附框" width="1200" />
 <br/>
+</div>
 
 > [!TIP]
 > 体验提示：如果需要体验WeChatAuto.SDK的通力，我架设了一个测试导航机器人，欢迎添加微信好友体验，👉 [我要体验](./MD/Experience.md).
 
 
-## 社区版和 VIP 差在哪
-
-- **社区版（免费开源）**：用 UI Automation 驱动真实微信，可先试用发送、好友、群、通讯录，以及基础消息能力。一键试用包 [community_allin.rar](https://github.com/scottfly189/WeChatAuto.SDK/releases/download/2.0.7/community_allin.rar) 走的就是这条社区版 UIA 路径。
-- **VIP**：社区版能力都在，另外增加更稳的取消息主路 Database Read（只读热同步到中间表，不 hook、不回写原库）、自动获取微信存储位置，以及开放式消息监听、暂停/恢复监听、朋友圈管理、消息转发、声音复刻等。完整对照见 [社区版 vs VIP](../docs/ability.md)。Database Read、热同步、自动取微信存储位置尚未进入社区开源仓。
-- 路径对照见 [两条路径](../docs/versions.md)。想先试用请下载社区一键试用；需要更稳的取消息、中间表和上述增强 API，请使用 VIP。
+> [community_allin.rar](https://github.com/scottfly189/WeChatAuto.SDK/releases/download/2.0.7/community_allin.rar) 是限时可用的 VIP 体验包，不是本仓库社区开源版的构建。解压运行即可先完整体验；日常开发请从本仓库源码或 NuGet 接入社区版。
 
 ## 📋 系统要求
 
@@ -93,11 +81,7 @@ dotnet add package Microsoft.Extensions.DependencyInjection
 dotnet add package WeChatAuto4x.SDK
 ```
 
-4. 把OCR模型文件放到项目根目录下(我这里是:```D:\repo\WeChatAuto.SDK\test\demo\bin\Debug\net10.0-windows\models```)，OCR模型文件下载地址：[模型文件下载](https://github.com/scottfly189/WeChatAuto.SDK/tree/master/Tools)
-
-> 注：直接拷贝models文件夹到项目根目录下即可，或者在代码中指定模型文件路径。
-
-5. 在 Program.cs 中编写如下代码：
+4. 在 Program.cs 中编写如下代码：
 
 ```csharp
 using WeChatAuto.Services;
@@ -107,8 +91,6 @@ using Microsoft.Extensions.DependencyInjection;
 var serviceProvider = WeAutomation.Initialize(options =>
 {
     options.DebugMode = false;   // 可选，在生产环境建议关闭
-    options.EnableOCR = true;    // 必须打开OCR
-    options.IsForceOpenUITree = true; //是否强开微信的UI Tree,如果确认自己的微信UI Tree是开启的，则可以设置为False    
 });
 
 using var clientFactory = serviceProvider.GetRequiredService<WeChatClientFactory>();
@@ -137,18 +119,9 @@ await client.SendMessage("AI.Net_test","hello world!!");
 
 ## 😊 关于VIP
 
-Wechatauto.SDK分为社区版和VIP版，社区版是完全开源的，VIP版为专用私库，则提供更多的功能和更深入的技术支持。
+看完社区版之后，如需对照完整能力或了解 VIP，请直接看 [WECHATAUTO.SDK 能力表](../docs/ability.md)。
 
-> > 具体请参考 [WECHATAUTO.SDK能力表](../docs/ability.md).
-
-社区版与VIP版本在代码层面，主要区别在于：VIP版本比社区版本多了20%的API接口，这些接口主要是一些高级功能和扩展能力，旨在为VIP客户提供更简单、更强大的微信自动化能力。
-
-**🎉 VIP 客户可享受以下专属服务保障：**
-- 💡 **BUG 优先响应**：出现 Bug 或有新的 Enhancement ，第一时间响应、定位和解决，保障 VIP 项目的稳定运行;
-- 🚀 **专属 VIP 私有仓库**：VIP 客户将获专属私有仓库，会不定期提供丰富的应用层扩展与独享内容;
-- 🚀 **一对一的专属vip服务**: 这是你加入 VIP 的核心理由,微信自动化能力由 WeChatAuto.SDK 提供深度支持，业务系统由你自由扩展，实现业务与技术的高效分工;
-
-如需升级成为 VIP，或了解 VIP 具体权益和支持方案，👉[请与我联系](https://github.com/scottfly189/scottfly189/blob/main/vip.md)。
+如需升级成为 VIP，或了解具体权益和支持方案，👉[请与我联系](https://github.com/scottfly189/scottfly189/blob/main/vip.md)。
 
 
 ## 📝 许可证
@@ -177,7 +150,7 @@ Wechatauto.SDK分为社区版和VIP版，社区版是完全开源的，VIP版为
 
 <details>
 <summary>❓ 社区版和 VIP 是什么关系？</summary>
-回答：社区版用 UI Automation 先跑监听、发送、好友、群等基础能力；VIP 再补 Database Read 作为更稳的取消息主路（只读、不 hook、不回写原库），并提供开放式消息监听、朋友圈、消息转发、声音复刻等增强能力。两条线并存，不是二选一。详见 [两条路径](../docs/versions.md) 与 [社区版 vs VIP](../docs/ability.md)。
+回答：本仓库是社区开源版，用 UI Automation 即可先跑监听、发送、好友、群等基础能力。VIP 为专用私库，提供更多能力与技术支持，完整对照见 [WECHATAUTO.SDK 能力表](../docs/ability.md)。请注意：一键试用包 [community_allin.rar](https://github.com/scottfly189/WeChatAuto.SDK/releases/download/2.0.7/community_allin.rar) 是限时可用的 VIP 体验包，不是社区开源版的构建。
 </details>
 
 
