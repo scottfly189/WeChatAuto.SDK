@@ -11,23 +11,22 @@
 [![Rust](https://img.shields.io/badge/Rust-blue?logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-!> 不注入、双路径、安全构建。微信是应用，WeChatAuto.SDK 是开发微信自动化应用的开发包。这是一个面向开发者的微信自动化开发工具包，帮助你构建自己的微信机器人、微信助手和 AI Agent。社区版用 UI Automation 先跑监听、发送、好友、群等基础能力；VIP 再补 Database Read，作为更稳的取消息主路（只读、不 hook、不回写原库）。两条线并存，不是二选一。详见 [两条路径](versions.md) 与 [社区版 vs VIP](ability.md)。
+!> 不注入、双路径、安全构建。微信是应用，WeChatAuto.SDK 是开发微信自动化应用的开发包。这是一个面向开发者的微信自动化开发工具包，帮助你构建自己的微信机器人、微信助手和 AI Agent。本仓库是社区开源版，用 UI Automation 操作真实微信，可先跑监听、发送、好友、群等基础能力。完整能力对照见 [WECHATAUTO.SDK 能力表](ability.md)。
 
 # 🎉 核心特性
 
-- 🔓 **社区版：纯 UI 自动化，不注入** — 基于 Windows 官方 UI Automation（FlaUI/UIA3）驱动微信，不往微信进程注入任何 DLL、不挂消息钩子。适合发送、好友、群等必须「点」微信的能力，社区版可先走这条试用。
-- 💎 **VIP：Database Read 取消息主路** — 只读本机微信库（拷到 staging 后再读），不 hook、不回写原库；并提供热同步到中间表、自动获取微信存储位置。这些能力尚未进入社区开源仓。
+- 🔓 **纯 UI 自动化，不注入** — 基于 Windows 官方 UI Automation（FlaUI/UIA3）驱动微信，不往微信进程注入任何 DLL、不挂消息钩子。适合发送、好友、群等必须「点」微信的能力，社区开源版即可先走这条上手。
 - 🎯 **全场景能力覆盖** — 消息收发（文字/@/引用/文件/表情/语音）、群管理（建群/改名/公告/成员增删/退群/邀请）、好友与通讯录、朋友圈、消息监听、消息转发，一套 SDK 搞定整个微信业务。
 - 🤖 **AI 原生** — 内置阿里千问 **TTS 语音消息**、**LLM 文本口语化优化**、**声音复刻 / 语音克隆**（VIP），为 AI 客服、语音机器人等场景开箱即用。
 - 👥 **多微信实例支持** — `WeChatClientFactory` 一个进程同时管理多个微信客户端，天然支持矩阵运营与多账号客服。
 - 🌐 **HTTP REST API + Swagger** — 内置 ASP.NET Core 服务，把消息/好友/群/会话/导航全能力暴露为 REST 接口，任何语言都能接入。
 - 🧩 **7 种语言官方客户端 SDK** — 提供 .NET / Python / Java / Go / Node.js / Rust / C++ 官方客户端，跨语言二次开发零门槛。
 - 🔐 **API Key 鉴权 + 离线授权** — 内置 `X-API-Key` 鉴权与 RSA/DPAPI 离线许可证体系，方便做授权分发与商业化交付。
-- ⚙️ **界面操作统一排队** — 需要走界面时，监听与发送在同一条 UI 操作队列里串行执行。VIP 取消息主路已改走 Database Read，不把「不抢键鼠」写成卖点。
+- ⚙️ **界面操作统一排队** — 需要走界面时，监听与发送在同一条 UI 操作队列里串行执行。
 - 🧠 **内置 OCR** — 集成 PaddleOCR（PP-OCRv6 ONNX），无需额外部署即可应对图像识别场景。
 - 🖥️ **远程桌面 / 生产环境适配** — RDP 会话转移、分辨率恢复、随机延时、异常截图、视频录制调试，拿来即可上生产。
 - 🔌 **可选硬件级键鼠模拟器** — 配套 USB HID 硬件（SKSimulator），在硬件层注入键鼠信号，输入等同真人，显著降低风控误判。
-- 💎 **社区版免费 + VIP 版增值** — 社区版覆盖基础消息/好友/群/通讯录；VIP 另有 Database Read / 热同步 / 自动取存储位置，以及开放式消息监听、朋友圈管理、消息转发与声音复刻。对照见 [ability.md](ability.md)。
+- 📋 **完整能力对照** — 看过社区版之后，可用 [WECHATAUTO.SDK 能力表](ability.md) 了解 VIP 增加的能力与支持。请注意：一键试用包 `community_allin.rar` 是限时可用的 VIP 体验包，不是社区开源版的构建。
 
 # 🚀 开发模式选择
 ## 🏌️‍♂️ 两种开发模式，按需接入

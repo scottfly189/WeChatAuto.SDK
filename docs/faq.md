@@ -24,7 +24,7 @@
 3. 再运行你的项目，就不会报错了;
 
 ## ❓ 社区版和 VIP 是什么关系？
-回答：社区版用 UI Automation 先跑监听、发送、好友、群等基础能力；VIP 再补 Database Read 作为更稳的取消息主路（只读、不 hook、不回写原库）。两条线并存，不是二选一。详见 [两条路径](./versions.md) 与 [社区版 vs VIP](./ability.md)。
+回答：本仓库是社区开源版，用 UI Automation 即可先跑监听、发送、好友、群等基础能力。VIP 为专用私库，提供更多能力与技术支持，完整对照见 [WECHATAUTO.SDK 能力表](./ability.md)。请注意：一键试用包 [community_allin.rar](https://github.com/scottfly189/WeChatAuto.SDK/releases/download/2.0.7/community_allin.rar) 是限时可用的 VIP 体验包，不是社区开源版的构建。
 
 ## ❓ WeChatAuto.SDK开启录屏不成功？
 问题：我使用了下面的代码开启了录屏后，运行被卡在在那里不往下运行了

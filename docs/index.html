@@ -379,7 +379,7 @@
         <a href="#abilities">能力全景</a>
         <a href="#usage">使用方式</a>
         <a href="#quickstart">快速开始</a>
-        <a href="#versions">VIP</a>
+        <a href="#versions">能力对照</a>
         <a href="https://scottfly189.github.io/WeChatAuto.SDK/main.html#/README">开发文档</a>
       </div>
       <a class="btn-gh" href="https://github.com/scottfly189/WeChatAuto.SDK" target="_blank" rel="noopener">GitHub ↗</a>
@@ -398,7 +398,7 @@
         <p class="sub">
           微信是应用，WeChatAuto.SDK 是开发微信自动化应用的开发包。<br>
           这是一个面向开发者的微信自动化开发工具包，帮助你构建自己的微信机器人、微信助手和 AI Agent。<br>
-          社区版用 <b>UI Automation</b> 先跑监听、发送、好友、群；VIP 再补 <b>Database Read</b> 取消息主路（只读、不 hook、不回写原库）。两条线并存，不是二选一。
+          本仓库是社区开源版，用 <b>UI Automation</b> 操作真实微信，可先跑监听、发送、好友、群等基础能力。
         </p>
 
         <div class="hero-tags">
@@ -455,13 +455,13 @@
       <h2 class="section-title reveal">绕开微信自动化的<span class="hl">三个老大难</span></h2>
       <p class="section-desc reveal">
         内存 Hook / 协议破解 / 注入式改库，极易触发风控封号，还易碎难维护。
-        WeChatAuto.SDK 用社区版 UIA 操作真实微信，VIP 再补只读 Database Read（不 hook、不回写原库）。
+        WeChatAuto.SDK 用 UI Automation 操作真实微信，不 hook、不回写原库。
       </p>
       <div class="cards">
         <div class="card reveal">
           <div class="ic">🛡️</div>
           <h3>安全合规 · 不注入、双路径</h3>
-          <p>不改写微信进程内存、不加载第三方模块进微信进程、不 hook、不回写微信原库。社区版通过 <b>UI Automation + OCR</b> 操作微信；VIP 取消息以只读 Database Read 为主，两条线并存。</p>
+          <p>不改写微信进程内存、不加载第三方模块进微信进程、不 hook、不回写微信原库。社区开源版通过 <b>UI Automation + OCR</b> 操作真实微信，可先上手。完整能力对照见 <a href="https://scottfly189.github.io/WeChatAuto.SDK/main.html#/ability">能力表</a>。</p>
         </div>
         <div class="card reveal">
           <div class="ic">🪄</div>
@@ -471,7 +471,7 @@
         <div class="card reveal">
           <div class="ic">🧵</div>
           <h3>界面操作统一排队</h3>
-          <p>需要走界面时，所有 UI 操作统一调度到同一条专用线程，监听与发送串行排队。VIP 取消息主路已走 Database Read，不再靠在界面上抓消息。不把「不抢键鼠」写成卖点。</p>
+          <p>需要走界面时，所有 UI 操作统一调度到同一条专用线程，监听与发送串行排队。</p>
         </div>
         <div class="card reveal">
           <div class="ic">🖥️</div>
@@ -534,10 +534,10 @@
     <div class="wrap">
       <span class="section-label reveal">Quick Start</span>
       <h2 class="section-title reveal">新人推荐 · <span class="hl">一键试用</span></h2>
-      <p class="section-desc reveal">先用社区版试用发消息，不写一行代码，HTTP WebAPI 就能接入微信消息</p>
+      <p class="section-desc reveal">community_allin.rar 是限时可用的 VIP 体验包，不是社区开源版的构建。解压即可先完整体验，不写一行代码</p>
       <div class="use-card reveal" style="margin-top: 28px;">
         <h3>community_allin</h3>
-        <div class="meta">Windows · 社区版 UIA 试用</div>
+        <div class="meta">Windows · 限时 VIP 体验包</div>
         <ol class="starter">
           <li>下载 <a href="https://github.com/scottfly189/WeChatAuto.SDK/releases/download/2.0.7/community_allin.rar">community_allin.rar</a></li>
           <li>解压</li>
@@ -601,6 +601,7 @@ curl -X POST http://localhost:5000/api/v1/clients/&lt;wxid&gt;/messages/send \
     <div class="wrap">
       <span class="section-label reveal">Versions</span>
       <h2 class="section-title reveal">开源 + 商业支持<span class="hl">双轨</span></h2>
+      <p class="section-desc reveal">看过社区版之后，完整能力对照见 <a href="https://scottfly189.github.io/WeChatAuto.SDK/main.html#/ability">WECHATAUTO.SDK 能力表</a>。一键试用包是限时 VIP 体验，不是社区开源版的构建。</p>
       <div class="dual">
         <div class="panel reveal">
           <h3>社区版 <span class="pill" style="color:var(--green)">MIT · 完全开源</span></h3>

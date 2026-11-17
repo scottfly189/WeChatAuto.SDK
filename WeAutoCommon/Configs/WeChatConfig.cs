@@ -8,6 +8,7 @@ using OneOf.Types;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 using SqlSugar;
+using FlaUI.Core.AutomationElements;
 
 namespace WeAutoCommon.Configs
 {
@@ -19,7 +20,7 @@ namespace WeAutoCommon.Configs
         /// <summary>
         /// 微信数据库安全读取方案，也是默认的方案，如果设置为 False,那么为纯ui automation方案;
         /// </summary>
-        public bool UseDatabaseRead { get; set; } = true;
+        public bool UseDatabaseRead { get; set; } = false;
 
         /// <summary>
         /// 微信存储位置，取法: 微信主窗口--> 设置 --> 账号与存储 --> 存储位置
@@ -102,7 +103,7 @@ namespace WeAutoCommon.Configs
         /// <summary>
         /// 在微信的UI Tree未被腾迅公开的情况下是否强开UI Tree,默认为False
         /// </summary>
-        public bool IsForceOpenUITree { get; set; } = false;
+        public bool IsForceOpenUITree { get; set; } = true;
 
         /// <summary>
         /// 是否启动的时候自动优化主窗口布局,默认是True,即优化，可以设置为不优化。

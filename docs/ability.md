@@ -1,4 +1,8 @@
-# 社区版 vs VIP 版
+# WECHATAUTO.SDK 能力表
+
+本表对照社区开源版与 VIP 版的能力。本仓库是社区开源版，用 UI Automation 即可先跑监听、发送、好友、群等基础能力；看过社区版之后，再用本表了解 VIP 增加了哪些能力。
+
+**试用说明：** GitHub Releases 中的 [community_allin.rar](https://github.com/scottfly189/WeChatAuto.SDK/releases/download/2.0.7/community_allin.rar) 是限时可用的 VIP 体验包，不是本仓库社区开源版的构建。解压运行即可先完整体验；日常开发请从本仓库源码或 NuGet 接入社区版。
 
 |功能领域|功能点|社区版|VIP 版|
 |---|---|:---:|:---:|
@@ -76,5 +80,15 @@
 
 **说明：**
 - 以上功能点均为 WeChatAuto.SDK 提供的能力，社区版和 VIP 版的区别在于部分高级功能仅在 VIP 版中提供。
-- Database Read、热同步到中间表、自动获取微信存储位置为 VIP 能力，社区开源仓尚未包含。
+- Database Read（只读，不 hook、不回写原库）、热同步到中间表、自动获取微信存储位置为 VIP 能力，尚未进入社区开源仓。
+- 一键试用包 `community_allin.rar` 是限时可用的 VIP 体验包，不是社区开源版的构建。
 - 如果功能点不在表中列出，你可以提出需求，我们会评估是否纳入后续版本中。
+
+## VIP 专属支持
+
+- **源码完全开放**：不限机器，没有一机一码，MIT 授权，到期可继续用已获得版本。
+- **BUG 优先响应**：出现 Bug 或有新的 Enhancement，第一时间响应、定位和解决。
+- **专属 VIP 私有仓库**：不定期提供应用层扩展与独享内容。
+- **一对一专属服务**：微信自动化能力由 WeChatAuto.SDK 深度支持，业务系统由你自由扩展。
+
+如需升级成为 VIP，或了解具体权益和支持方案，👉[请与我联系](https://github.com/scottfly189/scottfly189/blob/main/vip.md)。
