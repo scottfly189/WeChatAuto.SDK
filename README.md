@@ -243,7 +243,7 @@ src/                               # WeChatAuto.SDK 仓库根
 
 如需升级成为 VIP，或了解具体权益和支持方案，👉[请与我联系](https://github.com/scottfly189/scottfly189/blob/main/vip.md)。
 
-## 为什么 Database Read 是安全的？
+## 🛡️ 为什么 Database Read 是安全的？
 
 Database Read 是 VIP 能力，本仓库社区开源版不包含这部分代码。它不修改微信程序，也不回写微信原库：先把数据文件热更新到旁路 staging 目录，再用 SQLCipher 只读打开副本，明文只进入我们的中间库。你的应用通过 SDK 查询中间表，不直接访问微信原库。
 
@@ -251,7 +251,7 @@ Database Read 是 VIP 能力，本仓库社区开源版不包含这部分代码�
 <img src="./docs/images/saferead.png" alt="安全访问微信数据底层原理" width="1200" />
 </div>
 
-## 社区
+## 💬 社区
 
 欢迎加入 Telegram，交流微信 Agent / SDK 使用与二次开发。
 
