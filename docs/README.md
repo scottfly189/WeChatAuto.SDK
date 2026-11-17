@@ -29,22 +29,69 @@
 - 📋 **完整能力对照** — 看过社区版之后，可用 [WECHATAUTO.SDK 能力表](ability.md) 了解 VIP 增加的能力与支持。请注意：一键试用包 `community_allin.rar` 是限时可用的 VIP 体验包，不是社区开源版的构建。
 
 # 🚀 开发模式选择
-## 🏌️‍♂️ 两种开发模式，按需接入
+
+WeChatAuto.SDK 提供两种接入方式，核心能力是同一套，按你的技术栈和集成深度选择即可。社区开源版用 UI Automation 操作真实微信，可先跑监听、发送、好友、群等基础能力。
+
+## 两种开发模式对比
+
 | | 内嵌方式 | HTTP WebAPI 方式 |
 |---|---|---|
-| 适合 | .NET / Windows 原生应用，需要事件回调、低延迟、完整 API,深度集成在自己应用中 | 后端/云服务、跨语言、多系统共享、快速集成 |
+| 适用人群 | .NET / Windows 开发者，要把 SDK 嵌进自己的程序 | Python、Go、Java、Node、Rust、C++ 等非 .NET 开发者，或希望先不写代码就验收的人 |
+| 典型场景 | 桌面助手、本机服务、需要事件回调和类型安全 API 的深度集成 | 后端或云服务对接、多系统共用一个本机入口、跨语言、用 Swagger 快速联调 |
 | 入口 | `WeAutomation.Initialize(...)` → `WeChatClientFactory` → `WeChatClient` | 启动 Server，REST + Swagger，`http://<主机>:5000` |
-| 特点 | 类型安全、能力最全、深度定制 | 语言无关、进程隔离、可远程、开箱即用,仅需要UI设置，不需要一行代码就能开启消息监听/自动通过加好友 |
+| 特点 | 类型安全、能力最全、可深度定制；以 DLL / NuGet 形式进入自己的进程 | 语言无关、进程隔离、可远程；用界面配置即可开启消息监听、自动通过好友，不必先写代码 |
 
-👉 两者共享同一套核心能力（发送消息/文件/表情/语音、群操作、好友监听、朋友圈、导航等）；HTTP WebAPI 的每个接口注释里都标注了"对应 WeChatClient.xxx"。
+两者共享同一套核心能力（发送消息/文件/表情/语音、群操作、好友监听、朋友圈、导航等）。HTTP WebAPI 的每个接口注释里都标注了对应的 `WeChatClient.xxx`。
 
-!> 绝大多数场景推荐 HTTP WebAPI 方式；需要 dll/Nuget包、深度回调时选内嵌方式。
+!> 绝大多数场景推荐先走 HTTP WebAPI；只有需要把包嵌进自己的 .NET 程序、并使用深度回调时，再选内嵌方式。
 
-## 🧠 内嵌开发方式
+## 什么人适合 HTTP WebAPI
 
-👉 请参考 [内嵌开发方式指南](https://scottfly189.github.io/WeChatAuto.SDK/main.html#/inlineuse)
+适合下面这些情况：
 
-## 🌐 HTTP WebAPI开发方式
+- 你的主语言不是 .NET，想用官方的 Python、Java、Go、Node.js、Rust、C++ 客户端，或直接调用 REST。
+- 你想先跑通：打开微信、启动 `Server.exe`，用吸附条或 Swagger 发一条消息验收，再接到自己的系统里。
+- 已有后端或多个业务系统，希望共用本机这个微信入口，并和微信进程隔离开。
 
-👉 请参考 [Http WebAPI开发方式指南](https://scottfly189.github.io/WeChatAuto.SDK/main.html#/httpserveruse)
+启动 Server 后访问 `http://<主机>:5000`。详细说明见 [HTTP WebAPI 开发方式指南](https://scottfly189.github.io/WeChatAuto.SDK/main.html#/httpserveruse)。
 
+请注意：一键试用包 [community_allin.rar](https://github.com/scottfly189/WeChatAuto.SDK/releases/download/2.0.7/community_allin.rar) 是限时可用的 VIP 体验包，不是本仓库社区开源版的构建。日常开发请从本仓库源码或 NuGet 接入社区版。
+
+## 什么人适合内嵌方式
+
+适合下面这些情况：
+
+- 你在做 .NET / Windows 桌面或本机服务，要把 SDK 以 DLL 或 NuGet 包的形式嵌进自己的进程。
+- 你需要事件回调、更低延迟、类型安全的完整 API，或要在自己的程序里深度定制。
+
+入口是 `WeAutomation.Initialize(...)`，再通过 `WeChatClientFactory` 拿到 `WeChatClient`。详细说明见 [内嵌开发方式指南](https://scottfly189.github.io/WeChatAuto.SDK/main.html#/inlineuse)。
+
+# 🔐 为什么我们的 Database Read 是安全的？
+
+Database Read 是 VIP 能力，本仓库社区开源版不包含这部分代码。完整对照见 [WECHATAUTO.SDK 能力表](ability.md)。
+
+它要解决的核心问题是：怎样在微信正在运行时读取通讯录、消息、朋友圈等数据，同时不修改微信程序、不注入、不 Hook、也不回写微信原库。
+
+<div align="center">
+<img src="images/saferead.png" alt="安全访问微信数据底层原理" width="100%" />
+</div>
+
+下面按我们实际处理过的问题说明这条路径为什么是安全的。
+
+## 不直接打开微信正在写的原库
+
+微信运行时，库文件仍在被写入，还有 WAL 日志。如果直接打开工作目录里的原文件，既可能读到不一致的数据，也可能和微信抢同一个文件，影响微信自己的运行。
+
+做法是：按目标库做一致性短时拷贝（库文件连同必要的日志）到旁路 staging 目录，然后只用 SQLCipher 只读打开这份副本。微信继续写自己的文件，读发生在旁路，两边不共用同一份正在写的文件。这就是图里的 Hot-sync 与 staging。
+
+## 不注入、不 Hook、不回写原库
+
+取数据不必改微信程序，也不往微信进程里注入或挂钩子。副本只读，中间库和缓存都在我们自己的目录里，不会把解密结果或同步结果写回微信原库。微信原库始终由微信自己维护。
+
+## 明文和媒体不落回微信目录
+
+SQLCipher 在 staging 副本上解开后，明文进入我们的中间库（例如你自己准备的 SQLite）。图片等需要解密的媒体，落到我们的缓存目录，而不是写进微信的数据目录。你的应用和 LLM 只通过 SDK 查询中间表，不直接访问微信原库。即使删掉中间库，也不影响微信本身。
+
+## 业务代码不直接面对原生库
+
+微信侧是多账号、多分片的原生结构，不适合作为业务或 Agent 的直接数据源。中间表把这些复杂度挡住，访问经过 SDK 管理。这样既避免业务代码误碰原库，也让你用熟悉的 SQL 查询联系人、消息等数据。
