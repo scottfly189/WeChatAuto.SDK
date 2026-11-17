@@ -5,7 +5,7 @@
 
 - 确保待自动化的微信的窗口是打开状态;
 - 检查windows版本，仅支持win10+;
-- 如果是最新版本的微信4.1.xx,请检查是否有UI Tree,如果没有UI Tree,请参考 [我的最新版微信没有UI Tree,这个怎么办？](https://github.com/scottfly189/WeChatAuto.SDK/issues/3)
+- 若当前微信未暴露 UI Tree，请参考 [如果没有 UI Tree 怎么办](https://github.com/scottfly189/WeChatAuto.SDK/issues/3)
   > 查看UI Tree的方法：下载并安装 UI Tree查看工具，如: inspect.exe或者FlaUInspect等，[下载链接](https://github.com/scottfly189/WeChatAuto.SDK/tree/master/Tools)
 - 如果经过上面的步骤还不行，请联系作者，并将你的代码发给他看;
 
@@ -23,11 +23,8 @@
 2. 把```models```文件夹拷贝到你的项目运行目录下，注意：如果你是使用vs运行的，请把```models```文件夹拷贝到```bin\Debug\netx.x-windows```目录下;
 3. 再运行你的项目，就不会报错了;
 
-## ❓ 请WechatAuto.sdk还有计划支持3.1.9.12的旧版本吗？
-回答：仓库对于3.1.9.xx版本支持已处于归档状态，请使用最新的微信版本
-
-## ❓ 请问WeChatAuto.SDK支持最新版的微信吗？
-回答：支持最新版本的微信，并且会随着微信的版本更新而更新;
+## ❓ 社区版和 VIP 是什么关系？
+回答：社区版用 UI Automation 先跑监听、发送、好友、群等基础能力；VIP 再补 Database Read 作为更稳的取消息主路（只读、不 hook、不回写原库）。两条线并存，不是二选一。详见 [两条路径](./versions.md) 与 [社区版 vs VIP](./ability.md)。
 
 ## ❓ WeChatAuto.SDK开启录屏不成功？
 问题：我使用了下面的代码开启了录屏后，运行被卡在在那里不往下运行了

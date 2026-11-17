@@ -57,6 +57,12 @@ namespace WeChatAuto.Services
         private static IServiceCollection AddWxAutomationCore(IServiceCollection services, Action<WeChatConfig> options)
         {
             options?.Invoke(_config);
+
+            // 微信存储位置：显式配置优先；没有配置时先用 wechatkey.dat 里的缓存回填（同步、无 UI）。
+            // 缓存也没有的话，等第一个 WeChatClient 起来后由设置页自动化读取一次，并写回 wechatkey.dat。
+            // 这样用户首次使用可以不填 WeChatStorageRoot。
+            WeChatStorageRootStore.EnsureConfig(_config);
+
             DpiAwareness.SetProcessDpiAwareness();
 
             UpdateNarrator(); //打开讲述人模式.

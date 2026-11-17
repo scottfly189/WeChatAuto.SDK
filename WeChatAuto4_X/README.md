@@ -1,8 +1,13 @@
 # WECHATAUTO.SDK - 安全构建微信Agent的开发基座
 
-#### 一款为Harness/SI提供操作微信核心能力的SDK，不注入(内存Hook),不数据库破解，不越权访问微信数据,通过 UI Automation 操作微信,不写一行代码获取微信消息
+**不注入、双路径、安全构建**
 
-让你的微信 Agent/Wechat Bot 快速开发、快速上线、并安全发布到用户端
+#### 微信是应用，WeChatAuto.SDK 是开发微信自动化应用的开发包。
+
+这是一个面向开发者的微信自动化开发工具包，帮助你构建自己的微信机器人、微信助手和 AI Agent。
+
+社区版用 UI Automation 先跑监听、发送、好友、群等基础能力；VIP 再补 Database Read，作为更稳的取消息主路（只读、不 hook、不回写原库），并提供开放式消息监听、朋友圈、消息转发、声音复刻等增强能力。两条线并存，不是二选一。
+
 
 [![.NET](https://img.shields.io/badge/.NET-6.0%2B-blue)](https://dotnet.microsoft.com/)
 [![Python](https://img.shields.io/badge/Python-3.13%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
@@ -13,14 +18,12 @@
 [![Rust](https://img.shields.io/badge/Rust-blue?logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-**[Website](https://scottfly189.github.io/WeChatAuto.SDK/) · [Guides](https://scottfly189.github.io/WeChatAuto.SDK/main.html#/README) · [FAQ](#-faq)**
+**[Website](https://scottfly189.github.io/WeChatAuto.SDK/) · [两条路径](../docs/versions.md) · [Guides](https://scottfly189.github.io/WeChatAuto.SDK/main.html#/README) · [FAQ](#-faq)**
 
 [为什么选择我们?](./docs/why.md)
 
 
 
-> [!IMPORTANT]
-> 支持微信版本为 >= 4.1.9.30 and <= 最新版微信，推荐使用最新版本的微信;
 <br />
 
 <img src="https://github.com/scottfly189/WeChatAuto.SDK/raw/master/Images/main_1.png" alt="WECHATAUTO.SDK主界面" width="1200" />
@@ -33,6 +36,12 @@
 > [!TIP]
 > 体验提示：如果需要体验WeChatAuto.SDK的通力，我架设了一个测试导航机器人，欢迎添加微信好友体验，👉 [我要体验](./MD/Experience.md).
 
+
+## 社区版和 VIP 差在哪
+
+- **社区版（免费开源）**：用 UI Automation 驱动真实微信，可先试用发送、好友、群、通讯录，以及基础消息能力。一键试用包 [community_allin.rar](https://github.com/scottfly189/WeChatAuto.SDK/releases/download/2.0.7/community_allin.rar) 走的就是这条社区版 UIA 路径。
+- **VIP**：社区版能力都在，另外增加更稳的取消息主路 Database Read（只读热同步到中间表，不 hook、不回写原库）、自动获取微信存储位置，以及开放式消息监听、暂停/恢复监听、朋友圈管理、消息转发、声音复刻等。完整对照见 [社区版 vs VIP](../docs/ability.md)。Database Read、热同步、自动取微信存储位置尚未进入社区开源仓。
+- 路径对照见 [两条路径](../docs/versions.md)。想先试用请下载社区一键试用；需要更稳的取消息、中间表和上述增强 API，请使用 VIP。
 
 ## 📋 系统要求
 
@@ -130,7 +139,7 @@ await client.SendMessage("AI.Net_test","hello world!!");
 
 Wechatauto.SDK分为社区版和VIP版，社区版是完全开源的，VIP版为专用私库，则提供更多的功能和更深入的技术支持。
 
-> > 具体请参考 [WECHATAUTO.SDK能力表](./docs/ability.md).
+> > 具体请参考 [WECHATAUTO.SDK能力表](../docs/ability.md).
 
 社区版与VIP版本在代码层面，主要区别在于：VIP版本比社区版本多了20%的API接口，这些接口主要是一些高级功能和扩展能力，旨在为VIP客户提供更简单、更强大的微信自动化能力。
 
@@ -153,7 +162,7 @@ Wechatauto.SDK分为社区版和VIP版，社区版是完全开源的，VIP版为
 
 - 确保待自动化的微信的窗口是打开状态;
 - 检查windows版本，仅支持win10+;
-- 如果是最新版本的微信4.1.xx,请检查是否有UI Tree,如果没有UI Tree,请参考 [我的最新版微信没有UI Tree,这个怎么办？](https://github.com/scottfly189/WeChatAuto.SDK/issues/3)
+- 若当前微信未暴露 UI Tree，请参考 [如果没有 UI Tree 怎么办](https://github.com/scottfly189/WeChatAuto.SDK/issues/3)
   > 查看UI Tree的方法：下载并安装 UI Tree查看工具，如: inspect.exe或者FlaUInspect等，[下载链接](https://github.com/scottfly189/WeChatAuto.SDK/tree/master/Tools)
 - 如果经过上面的步骤还不行，请联系作者，并将你的代码发给他看;
 </details>
@@ -167,14 +176,10 @@ Wechatauto.SDK分为社区版和VIP版，社区版是完全开源的，VIP版为
 </details>
 
 <details>
-<summary>❓ 请问WeChatAuto.SDK支持最新版的微信吗?</summary>
-回答：支持最新版本的微信，并且会随着微信的版本更新而更新;
+<summary>❓ 社区版和 VIP 是什么关系？</summary>
+回答：社区版用 UI Automation 先跑监听、发送、好友、群等基础能力；VIP 再补 Database Read 作为更稳的取消息主路（只读、不 hook、不回写原库），并提供开放式消息监听、朋友圈、消息转发、声音复刻等增强能力。两条线并存，不是二选一。详见 [两条路径](../docs/versions.md) 与 [社区版 vs VIP](../docs/ability.md)。
 </details>
 
-<details>
-<summary>❓ WechatAuto.sdk还有计划支持3.1.9.12的旧版本吗？</summary>
-回答：仓库对于3.1.9.xx版本支持已处于归档状态，请使用最新的微信版本
-</details>
 
 <details>
 <summary>❓ WeChatAuto.SDK开启录屏不成功？</summary>

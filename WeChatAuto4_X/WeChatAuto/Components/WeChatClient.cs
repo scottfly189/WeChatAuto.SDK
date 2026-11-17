@@ -145,8 +145,7 @@ namespace WeChatAuto.Components
             this.Search = new Search(this, _MainThreadInvoker, serviceProvider);
             this.CacheManager = new CacheManager(this);
             _RunCheckAddressBook();
-            //vip的database read功能
-            //_StartHotSyncEngine();
+            // _StartHotSyncEngine(); //vip功能
         }
 
 
@@ -1082,7 +1081,7 @@ namespace WeChatAuto.Components
                 // 出口不按“当前”配置判断路线：入口一旦申请过数据库资源，就必须释放。
                 // 纯 UI Automation 路线下引擎与 CTS 均为 null，_StopHotSyncEngine 是空操作；
                 // 若运行中把 UseDatabaseRead 由 true 改成 false，这里仍能正确停掉已启动的引擎。
-                //_StopHotSyncEngine(); //database read 功能.
+                //_StopHotSyncEngine(); //vip功能
                 SystemMonitorChannel.Writer.Complete();
                 _ActionTokenSource?.Cancel();
                 if (_SystemMonitorTask != null && !_SystemMonitorTask.IsCompleted)

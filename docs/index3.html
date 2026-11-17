@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WECHATAUTO.SDK · 安全构建微信 Agent 的开发基座</title>
-  <meta name="description" content="WECHATAUTO.SDK —— 不注入、不破解、安全构建。基于 UI Automation + OCR 视觉混合方案操作真实微信客户端，感知微信消息，让你的微信 Agent / Bot 快速上线、安全发布。">
+  <meta name="description" content="WECHATAUTO.SDK —— 不注入、双路径、安全构建。微信是应用，WeChatAuto.SDK 是开发微信自动化应用的开发包。面向开发者的微信自动化开发工具包，帮助你构建自己的微信机器人、微信助手和 AI Agent。">
   <link rel="icon" type="image/png" href="_media/icon.png">
 
   <!-- 字体：Baloo 2(英文圆润展示) / ZCOOL KuaiLe(中文俏皮标题) / Noto Sans SC(正文) / JetBrains Mono(代码) -->
@@ -454,20 +454,20 @@
   <header class="hero" id="top">
     <div class="wrap hero-grid">
       <div>
-        <span class="hero-badge"><span class="dot"></span> UI AUTOMATION × OCR · 安全构建</span>
+        <span class="hero-badge"><span class="dot"></span> 不注入、双路径、安全构建</span>
         <h1>
           <span class="en">WECHATAUTO.SDK</span>
           安全构建<span class="grad">微信 Agent</span><br>的开发基座
         </h1>
         <p class="sub">
-          感知微信消息，通过 <b>UI Automation</b> 操作微信。不 Hook、不破解、不被封号，
+          微信是应用，WeChatAuto.SDK 是开发微信自动化应用的开发包。这是一个面向开发者的微信自动化开发工具包，帮助你构建自己的微信机器人、微信助手和 AI Agent。社区版用 <b>UI Automation</b> 先跑起来；VIP 再补 <b>Database Read</b> 取消息主路（只读、不 hook、不回写原库）。
           让你的微信 Agent / Wechat Bot <b>快速上线、安全发布到用户端</b>。
         </p>
 
         <div class="hero-tags">
-          <span class="tag x">不注入 / 内存 Hook</span>
-          <span class="tag x">不破解数据库</span>
-          <span class="tag x">不越权访问数据</span>
+          <span class="tag x">不注入</span>
+          <span class="tag x">双路径</span>
+          <span class="tag ok">安全构建</span>
           <span class="tag ok">100% 开源 · 无后门</span>
           <span class="tag ok"><span class="em">7</span> 语言客户端</span>
         </div>
@@ -494,7 +494,7 @@
             <div class="l"><span class="prompt">$</span><span class="cursor"></span></div>
           </div>
         </div>
-        <div class="float-chip a"><span class="k">Action 线程</span><br>监听 / 发送 互不抢占</div>
+        <div class="float-chip a"><span class="k">Action 线程</span><br>界面操作统一排队</div>
         <div class="float-chip b"><span class="k">硬件级输入</span><br>模拟真人 · 降低风控</div>
       </div>
     </div>
@@ -503,7 +503,7 @@
   <!-- 数据带 -->
   <div class="stats">
     <div class="wrap stats-grid">
-      <div class="stat"><div class="num">0</div><div class="lb">注入 / 破解 / 越权</div></div>
+      <div class="stat"><div class="num">2</div><div class="lb">路径（UIA / Database Read）</div></div>
       <div class="stat"><div class="num">7</div><div class="lb">官方语言客户端</div></div>
       <div class="stat"><div class="num">2</div><div class="lb">接入方式（内嵌 / HTTP）</div></div>
       <div class="stat"><div class="num">80+</div><div class="lb">可调用能力 API</div></div>
@@ -516,14 +516,14 @@
       <span class="section-label reveal">Why WeChatAuto.SDK</span>
       <h2 class="section-title reveal">绕开微信自动化的<span class="hl">三个老大难</span></h2>
       <p class="section-desc reveal">
-        内存 Hook / 协议破解 / 数据库解密，极易触发风控封号，还易碎难维护。
-        WeChatAuto.SDK 用「模拟真人操作」这条正路，从架构上规避风险。
+        内存 Hook / 协议破解 / 注入式改库，极易触发风控封号，还易碎难维护。
+        WeChatAuto.SDK 用社区版 UIA 操作真实微信，VIP 再补只读 Database Read（不 hook、不回写原库）。
       </p>
       <div class="cards">
         <div class="card reveal">
           <div class="ic">🛡️</div>
-          <h3>安全合规 · 不 Hook 不破解</h3>
-          <p>不改写微信进程内存、不加载第三方模块进微信进程、不解密数据库、不越权读取数据。所有能力通过 <b>UI Automation（FlaUI UIA3）+ OCR</b> 双引擎完成，远离封号与灰色地带。</p>
+          <h3>安全合规 · 不注入、双路径</h3>
+          <p>不改写微信进程内存、不加载第三方模块进微信进程、不 hook、不回写微信原库。社区版通过 <b>UI Automation + OCR</b> 操作微信；VIP 取消息以只读 Database Read 为主，两条线并存。</p>
         </div>
         <div class="card reveal">
           <div class="ic">🪄</div>
@@ -532,8 +532,8 @@
         </div>
         <div class="card reveal">
           <div class="ic">🧵</div>
-          <h3>专有 Action 线程</h3>
-          <p>所有 UI 操作统一调度到同一条专用线程，监听任务受信号量约束、与发送互斥排队。多微信在线也<b>不抢鼠标、不抢窗口、不互相打断</b>。</p>
+          <h3>界面操作统一排队</h3>
+          <p>需要走界面时，所有 UI 操作统一调度到同一条专用线程，监听与发送串行排队。VIP 取消息主路已走 Database Read，不再靠在界面上抓消息。不把「不抢键鼠」写成卖点。</p>
         </div>
         <div class="card reveal">
           <div class="ic">🖥️</div>

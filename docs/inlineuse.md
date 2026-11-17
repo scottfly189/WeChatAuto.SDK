@@ -22,15 +22,15 @@
 
 - **操作系统**：仅支持 **Windows**（Win10 及以上），不支持 Linux / macOS；
 - **.NET**：`net6.0-windows` / `net7.0-windows` / `net8.0-windows` / `net9.0-windows` / `net10.0-windows` 任选其一；
-- **微信版本**：`>= 4.1.9.30`，推荐使用最新版微信；
+- **路径说明**：界面操作走 UI Automation；VIP 取消息主路为 Database Read（只读、不 hook、不回写原库）。两条线并存，详见 [两条路径](./versions.md)。
 - **微信状态**：先打开微信并登录，**保持微信窗口为打开（非关闭）状态**，支持多开多个微信。
 
 ### 2.2 UI Tree（最关键的前置条件）
 
-SDK 通过 Windows UI Automation（FlaUI/UIA3）驱动微信，前提是微信暴露 **UI Tree**。
+SDK 的界面操作通过 Windows UI Automation（FlaUI/UIA3）驱动微信，前提是微信暴露 **UI Tree**。这是内嵌/界面操作路径；VIP 取消息主路见 [两条路径](./versions.md)，两条线并存。
 
-- 如果最新版微信没有 UI Tree，SDK 支持**强开 UI Tree**：初始化时设置 `IsForceOpenUITree = true`；
-- 参考 [我的最新版微信没有 UI Tree，这个怎么办？](https://github.com/scottfly189/WeChatAuto.SDK/issues/3)；
+- 如果当前微信没有 UI Tree，SDK 支持**强开 UI Tree**：初始化时设置 `IsForceOpenUITree = true`；
+- 参考 [如果没有 UI Tree 怎么办](https://github.com/scottfly189/WeChatAuto.SDK/issues/3)；
 - 用 `inspect.exe` / `FlaUInspect` 等工具可查看 UI Tree（[工具下载](https://github.com/scottfly189/WeChatAuto.SDK/tree/master/Tools)）。
 
 ### 2.3 OCR 模型（部分能力必需）
@@ -874,7 +874,7 @@ using var factory = serviceProvider.GetRequiredService<WeChatClientFactory>();
 
 ## 十一、常见问题（FAQ）
 
-- **运行自动化不了微信**：确认微信已登录且窗口可见、系统为 Win10+、微信版本 >= 4.1.9.30；最新版微信若无 UI Tree 请开启 `IsForceOpenUITree` 或参考 [issue#3](https://github.com/scottfly189/WeChatAuto.SDK/issues/3)。
+- **运行自动化不了微信**：确认微信已登录且窗口可见、系统为 Win10+；若当前微信未暴露 UI Tree，请开启 `IsForceOpenUITree` 或参考 [issue#3](https://github.com/scottfly189/WeChatAuto.SDK/issues/3)。
 - **提示 `Det模型文件不存在`**：未放置 OCR 模型，把 `models` 文件夹拷到程序运行目录（见 [2.3 OCR 模型](#23-ocr-模型部分能力必需)）。
 - **提示 `获取微信窗口失败` / `微信客户端不存在`**：微信未打开、窗口隐藏，或昵称写错（区分大小写、精确匹配）。
 - **提示 `不支持UI Tree`**：微信未公开 UI Tree，开启 `IsForceOpenUITree`，或用工具确认 UI Tree。
