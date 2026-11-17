@@ -110,4 +110,4 @@ Database Read 可以从消息里稳定拿到发送者的 WxId。WxId 是微信�
 
 ## 7. 微信消息获取/数据库预览
 
-![微信消息获取/数据库预览](https://github.com/scottfly189/WeChatAuto.SDK/blob/master/docs/images/dataall.png)
+![微信消息获取/数据库预览](images/dataall.png)
