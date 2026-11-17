@@ -73,7 +73,7 @@ Database Read 是 VIP 能力，本仓库社区开源版不包含这部分代码�
 它要解决的核心问题是：怎样在微信正在运行时读取通讯录、消息、朋友圈等数据，同时不修改微信程序、不注入、不 Hook、也不回写微信原库。
 
 <div align="center">
-<img src="images/saferead.png" alt="安全访问微信数据底层原理" width="100%" />
+<img src="images/saferead.png" alt="安全访问微信数据底层原理" width="72%" />
 </div>
 
 下面按我们实际处理过的问题说明这条路径为什么是安全的。
