@@ -99,11 +99,7 @@ dotnet add package Microsoft.Extensions.DependencyInjection
 dotnet add package WeChatAuto4x.SDK
 ```
 
-4. 把OCR模型文件放到项目根目录下(我这里是:```D:\repo\WeChatAuto.SDK\test\demo\bin\Debug\net10.0-windows\models```)，OCR模型文件下载地址：[模型文件下载](https://github.com/scottfly189/WeChatAuto.SDK/tree/master/Tools)
-
-> 注：直接拷贝models文件夹到项目根目录下即可，或者在代码中指定模型文件路径。
-
-5. 在 Program.cs 中编写如下代码：
+4. 在 Program.cs 中编写如下代码：
 
 ```csharp
 using WeChatAuto.Services;
@@ -113,7 +109,6 @@ using Microsoft.Extensions.DependencyInjection;
 var serviceProvider = WeAutomation.Initialize(options =>
 {
     options.DebugMode = false;   // 可选，在生产环境建议关闭
-    options.EnableOCR = true;    // 必须打开OCR
     options.IsForceOpenUITree = true; //是否强开微信的UI Tree,如果确认自己的微信UI Tree是开启的，则可以设置为False    
 });
 
@@ -246,6 +241,14 @@ src/                               # WeChatAuto.SDK 仓库根
 看完社区版之后，如需对照完整能力或了解 VIP，请直接看 [WECHATAUTO.SDK 能力表](./docs/ability.md)。
 
 如需升级成为 VIP，或了解具体权益和支持方案，👉[请与我联系](https://github.com/scottfly189/scottfly189/blob/main/vip.md)。
+
+## 为什么 Database Read 是安全的？
+
+Database Read 是 VIP 能力，本仓库社区开源版不包含这部分代码。它不修改微信程序，也不回写微信原库：先把数据文件热更新到旁路 staging 目录，再用 SQLCipher 只读打开副本，明文只进入我们的中间库。你的应用通过 SDK 查询中间表，不直接访问微信原库。
+
+<div align="center">
+<img src="./docs/images/saferead.png" alt="安全访问微信数据底层原理" width="1200" />
+</div>
 
 ## 社区
 

@@ -206,7 +206,7 @@ namespace WeChatAuto.Models
         public string QuoteThumbUrl { get; set; } = "";
 
         /// <summary>
-        /// 引用消息：引用语音时长（毫秒，与上游 quoteVoiceLength 一致），仅 refermsg/type=34 有值。
+        /// 引用消息：引用语音时长（毫秒），仅 refermsg/type=34 有值。
         /// </summary>
         [SugarColumn(IsNullable = true, ColumnDescription = "引用消息：引用语音时长(毫秒)")]
         public int? QuoteVoiceLength { get; set; }
