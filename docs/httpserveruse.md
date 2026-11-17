@@ -23,7 +23,7 @@
 
 !> `WeChatAuto.SDK` 的 HTTP 服务启动后，即可获取微信消息，也可自动通过加好友申请。
 
-<img src='./images/server_ui.png' width='1200'/>
+<img src='./images/server_ui.png' width='900'/>
 
 **一般开发微信能力集成在自己应用中的开发者有两个诉求:**
 
