@@ -5,6 +5,7 @@ namespace WeAutoCommon.Enums
     /// </summary>
     public enum MessageType
     {
+        系统,
         文字,
         图片,
         语音,
@@ -26,6 +27,7 @@ namespace WeAutoCommon.Enums
         笔记,
         拍一拍,
         撤回消息,
+        语音通话,
         其他,
         None,   //无
     }

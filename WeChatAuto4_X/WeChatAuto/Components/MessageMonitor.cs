@@ -35,6 +35,7 @@ using System.Drawing.Imaging;
 using System.Globalization;
 using Emgu.CV;
 using System.Reflection.PortableExecutable;
+using System.Text;
 
 namespace WeChatAuto.Components
 {
@@ -48,6 +49,7 @@ namespace WeChatAuto.Components
         private readonly UIThreadInvoker _MainThreadInvoker;
         private readonly SemaphoreSlim noticeEvent;
         private readonly AutoLogger<MessageMonitor> _Logger;
+        private decimal ratio = 1;
 
 
 
@@ -64,13 +66,14 @@ namespace WeChatAuto.Components
             this.serviceProvider = serviceProvider;
             this._MainThreadInvoker = _uiMainThreadInvoker;
             this.noticeEvent = resetEvent;
+            this.ratio = DpiHelper.GetScaleForWindow(this._Client.MainWindow.Properties.NativeWindowHandle);
 
             _Logger = serviceProvider.GetRequiredService<AutoLogger<MessageMonitor>>();
         }
 
-        public void Dispose()
-        {
-            
-        }
+        // public void Dispose()
+        // {
+
+        // }
     }
 }

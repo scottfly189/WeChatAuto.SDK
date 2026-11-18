@@ -1060,6 +1060,201 @@ namespace WeChatAuto.Components
 
         #endregion
 
+        #region  消息监听管理
+        /// <summary>
+        /// <para>添加系统消息监听，以实现如： 检测到群主邀请好友后发送欢迎消息等功能</para>
+        /// <para>注意：仅适用于群聊，不适用个人,个人请使用下面的开放式/固定式监听，另外，不支持注册监听后再新增待监听的群聊</para>
+        /// 多线程监听变化，但是操作等，还得在微信单线程中执行.
+        /// </summary>
+        /// <param name="nickNames">群聊昵称，可以多个</param>
+        /// <param name="callBack">回调函数,由用户提供,参数：消息上下文<see cref="SystemMessageContext"/></param>
+        /// <param name="userToken">取消令牌,请参考<see cref="CancellationToken"/>,可以自行取消消息监听</param>
+        public async Task AddGroupSystemMessageListener(OneOf<string, List<string>, string[]> nickNames, Func<SystemMessageContext, Task> callBack, CancellationToken userToken = default) => await this.MessageMonitor.AddGroupSystemMessageListener(nickNames, callBack, userToken);
+        /// <summary>
+        /// 添加消息监听，用户需要提供一个回调函数，当有消息时，会调用此回调函数
+        /// 参考<see cref="MessageContext"/>
+        /// 消息监听最主要以事件触发的方式，当消息过来的时候，监听才会运行.
+        /// <para>使用规则：</para>
+        /// <para>1. 仅能监听“允许消息通知”的好友/群聊,所以需要监听的好友/群聊不要设置为“消息免打扰”;</para>
+        /// <para>2. 如果要避免太多消息影响，请将不监听的好友/群设置为“消息免打扰”，以提高监听性能;</para>
+        /// <para>3. 此方法可以多次添加，第一次添加时会启动消息监听，第二次（类似的:第三次等）添加效果等同<see cref="AddListeningFriend"/>方法</para>
+        /// <para>4. 为了减少会话窗口的滚动，建议不要添加太多消息“置顶”，以提高监听效率.</para>
+        /// <para>执行逻辑:</para>
+        /// <para>1. 启动消息监听器时，SDK会将会话列表整个循环一遍，会自动点击并回调用户设定的方法，以防止遗漏消息</para>
+        /// <para>2. 以后的监听过程会增量监听，以提高效率.</para>
+        /// </summary>
+        /// <param name="nickNames">好友昵称,可以是一个，也可以是多个好友/群聊 </param>
+        /// <param name="callBack">回调函数,由用户提供,参数：消息上下文<see cref="MessageContext"/></param>
+        /// <param name="IsOpenMonitor">是否开启开放式监听，默认不开放(值为false）,如果开启开放式监听，前面的nickNames可以为空，所谓的开放式监听的含义是：无须固定好友/群监听，只要此好友/群没有设置“消息免打挠”就可以监听</param>
+        /// <param name="userToken">取消令牌,请参考<see cref="CancellationToken"/>,可以自行取消消息监听</param>
+        /// <param name="UIInvoker">UI的调度器，适用于把微信嵌入UI的场景使用，如：多微信切换Tab页等,SDK会给调用者注入一个微信名称</param>
+        /// <param name="options">监听选项，具体请参见<see cref="MessageMonitorOptions"/></param>
+        public async Task AddMessageListener(OneOf<string, List<string>, string[]> nickNames, Func<MessageContext, Task> callBack, bool IsOpenMonitor = false, CancellationToken userToken = default, Action<string> UIInvoker = null, MessageMonitorOptions options = null)
+            => await this.MessageMonitor.AddMessageListener(nickNames, callBack, IsOpenMonitor, userToken, UIInvoker, options);
+        /// <summary>
+        /// 添加一个从什么时候开始，什么时候结束的消息监听，用户需要提供一个回调函数，当有消息时，会调用此回调函数
+        /// 参考<see cref="MessageContext"/>
+        /// 适用于固定时间自动化的场景
+        /// <para>使用规则：</para>
+        /// <para>1. 仅能监听“允许消息通知”的好友/群聊,所以需要监听的好友/群聊不要设置为“消息免打扰”;</para>
+        /// <para>2. 如果要避免太多消息影响，请将不监听的好友/群设置为“消息免打扰”，以提高监听性能;</para>
+        /// <para>3. 此方法可以多次添加，第一次添加时会启动消息监听，第二次（类似的第三次等）添加效果等同<see cref="AddListeningFriend"/>方法</para>
+        /// <para>4. 为了减少会话窗口的滚动，建议不要添加太多消息“置顶”，以提高监听效率.</para>
+        /// <para>执行逻辑:</para>
+        /// <para>1. 启动消息监听器时做做一次全量扫描，即：SDK会将会话列表整个循环一编，会自动点击并回调用户设定的方法，以防止遗漏消息</para>
+        /// <para>2. 以后的监听过程会增量监听，以提高效率.</para>
+        /// </summary>
+        /// <param name="nickNames">好友昵称,可以是一个，也可以是多个好友/群聊 </param>
+        /// <param name="callBack">回调函数,由用户提供,参数：消息上下文<see cref="MessageContext"/></param>
+        /// <param name="startTime">开始时间</param>
+        /// <param name="endTime">结束时间</param> 
+        /// <param name="IsOpenMonitor">是否开启开放式监听，默认不开放(值为false）,如果开启开放式监听，前面的nickNames可以为空，所谓的开放式监听的含义是：无须固定好友/群监听，只要此好友/群没有设置“消息免打挠”就可以监听</param>
+        /// <param name="userToken">取消令牌,请参考<see cref="CancellationToken"/>,可以自行取消消息监听</param>
+        /// <param name="UIInvoker">UI的调度器，适用于把微信嵌入UI的场景使用，如：多微信切换Tab页等,SDK会给调用者注入一个微信名称</param>
+        /// <param name="options">监听选项，具体请参见<see cref="MessageMonitorOptions"/></param>
+        public async Task AddMessageListener(OneOf<string, List<string>, string[]> nickNames, Func<MessageContext, Task> callBack, TimeOnly startTime, TimeOnly endTime, bool IsOpenMonitor = false, CancellationToken userToken = default, Action<string> UIInvoker = null, MessageMonitorOptions options = null)
+          => await this.MessageMonitor.AddMessageListener(nickNames, callBack, startTime, endTime, IsOpenMonitor, userToken, UIInvoker, options);
+        /// <summary>
+        /// 添加一天中多个时间段的消息监听，用户需要提供一个回调函数，当有消息时，会调用此回调函数
+        /// 参考<see cref="MessageContext"/>
+        /// 适用于一天内多次固定时间进行自动化操作的场景
+        /// <para>使用规则：</para>
+        /// <para>1. 仅能监听“允许消息通知”的好友/群聊,所以需要监听的好友/群聊不要设置为“消息免打扰”;</para>
+        /// <para>2. 如果要避免太多消息影响，请将不监听的好友/群设置为“消息免打扰”，以提高监听性能;</para>
+        /// <para>3. 此方法可以多次添加，第一次添加时会启动消息监听，第二次（类似的第三次等）添加效果等同<see cref="AddListeningFriend"/>方法</para>
+        /// <para>4. 为了减少会话窗口的滚动，建议不要添加太多消息“置顶”，以提高监听效率.</para>
+        /// <para>执行逻辑:</para>
+        /// <para>1. 启动消息监听器时做做一次全量扫描，即：SDK会将会话列表整个循环一编，会自动点击并回调用户设定的方法，以防止遗漏消息</para>
+        /// <para>2. 以后的监听过程会增量监听，以提高效率.</para>
+        /// </summary>
+        /// <param name="nickNames">好友昵称,可以是一个，也可以是多个好友/群聊 </param>
+        /// <param name="callBack">回调函数,由用户提供,参数：消息上下文<see cref="MessageContext"/></param>
+        /// <param name="range">一天中的多个时间段,如果设定多个时间段，监听器在这些时间段内开始/结束监听,时间段类请参考:<see cref="TimeOnlyRange"/>,另注意：可以跨天，如设置为:23:00 ~ 02:00,则表示当天23:00至明天02:00</param>
+        /// <param name="IsOpenMonitor">是否开启开放式监听，默认不开放(值为false）,如果开启开放式监听，前面的nickNames可以为空，所谓的开放式监听的含义是：无须固定好友/群监听，只要此好友/群没有设置“消息免打挠”就可以监听</param>
+        /// <param name="userToken">取消令牌,请参考<see cref="CancellationToken"/>,可以自行取消消息监听</param>
+        /// <param name="UIInvoker">UI的调度器，适用于把微信嵌入UI的场景使用，如：多微信切换Tab页等,SDK会给调用者注入一个微信名称</param>
+        /// <param name="options">监听选项，具体请参见<see cref="MessageMonitorOptions"/></param>
+        public async Task AddMessageListener(OneOf<string, List<string>, string[]> nickNames, Func<MessageContext, Task> callBack, List<TimeOnlyRange> range, bool IsOpenMonitor = false, CancellationToken userToken = default, Action<string> UIInvoker = null, MessageMonitorOptions options = null)
+            => await this.MessageMonitor.AddMessageListener(nickNames, callBack, range, IsOpenMonitor, userToken, UIInvoker, options);
+        /// <summary>
+        /// 暂停消息监听
+        /// </summary>
+        /// <returns></returns>
+        public async Task PauseMessageListener() => await this.MessageMonitor.PauseMessageListener();
+        /// <summary>
+        /// 恢复消息监听
+        /// </summary>
+        /// <returns></returns>
+        public async Task ResumeMessageListener() => await this.MessageMonitor.ResumeMessageListener();
+        /// <summary>
+        /// 监听过程中添加好友
+        /// </summary>
+        /// <param name="who">好友名称</param>
+        /// <returns></returns>
+        public async Task AddListeningFriend(string who) => await this.MessageMonitor.AddListeningFriend(who);
+        /// <summary>
+        /// 监听过程中移除被监听中的好友/群聊
+        /// </summary>
+        /// <param name="who">好友/群聊名称</param>
+        /// <returns></returns>
+        public async Task RemoveListeningFriend(string who) => await this.MessageMonitor.RemoveListeningFriend(who);
+        /// <summary>
+        /// 弹窗式消息监听器 - 会弹窗 - 消息监听器
+        /// 注意：1.弹窗式消息监听 也能实现系统消息监听，所以如果使用了 弹窗式 监听，就没有必要启用系统消息监听，请参见<seealso cref="AddGroupSystemMessageListener"/>
+        /// 2. 最好不要与开放式监听、轮询式消息拉取混合，弹窗式消息监听、开放式消息监听、轮询式消息拉取择其一即可.
+        /// </summary>
+        /// <param name="nickNames">待监听的好友/群名</param>
+        /// <param name="callBack">消息到达时的回调</param>
+        /// <param name="options">监听选项，具体请参考<seealso cref="MessageMonitorOptions"/></param>
+        /// <param name="userToken">用户取消token</param>
+        /// <returns></returns>
+        public async Task AddMessageListenerWithSubWin(OneOf<string, List<string>, string[]> nickNames, Func<MessageContext, Task> callBack, MessageMonitorOptions options = null, CancellationToken userToken = default) => await this.MessageMonitor.AddMessageListenerWithSubWin(nickNames, callBack, options, userToken);
+        /// <summary>
+        /// 增加固式定监听待监听的好友、群
+        /// </summary>
+        /// <param name="who">好友/群的昵称</param>
+        /// <returns></returns>
+        public async Task AddSubWinListeningFriend(string who) => await this.MessageMonitor.AddSubWinListeningFriend(who);
+        /// <summary>
+        /// 从固定式监听中移除待监听的好友、群
+        /// </summary>
+        /// <param name="who"></param>
+        /// <returns></returns>
+        public async Task RemoveSubWinListeningFriend(string who) => await this.MessageMonitor.RemoveSubWinListeningFriend(who);
+        /// <summary>
+        /// 轮询式获取消息，适用于使用者自己根据需要轮询获取微信消息的场景
+        /// 应用场景： 如：隔 10-20秒(或者自己主动)获取指定好友/群的聊天记录,适用于wechat bot获取最新消息的场景
+        /// </summary>
+        /// <param name="who">好友/群</param>
+        /// <param name="maxFetchNumber">最大获取记录数</param>
+        /// <param name="IsIncludeSystemMessage">
+        /// <para>是否包含系统消息，默认为True（默认包含），如果不需要，请设置为False</para>
+        /// <para>系统消息类似: xxxx撤回一条消息  你把xxx设置为管理员等</para>
+        /// </param>
+        /// <param name="options">控制选项，参考<see cref="PullMessagesOptions"/></param>
+        /// <returns>这里获取的消息列表为指的消息列表，需要自己进行去重等，可以用LCS Block算法去重</returns>
+        public async Task<List<SimpleMessageBubble>> PullMessages(string who, int maxFetchNumber = 20, bool IsIncludeSystemMessage = true, PullMessagesOptions options = null) => await this.MessageMonitor.PullMessages(who, maxFetchNumber, IsIncludeSystemMessage, options);
+
+        #endregion
+
+        #region 初始化主窗口监听器
+
+        internal async Task _InitializeSystemMonitorConsumption()
+        {
+            if (Interlocked.CompareExchange(ref _SystemMonitorChannelStarted, 1, 0) == 1)
+                return;
+            TaskCompletionSource tcs = new TaskCompletionSource();
+            _SystemMonitorTask = Task.Run(async () =>
+            {
+                try
+                {
+                    tcs.SetResult();
+                    var token = _ActionTokenSource.Token;
+                    await foreach (var message in _SystemMonitorChannel.Reader.ReadAllAsync(token))
+                    {
+                        try
+                        {
+                            await monitorEvent.WaitAsync(token);
+                            try
+                            {
+                                if (message.option.CallBack != null)
+                                {
+                                    await SystemMonitorConsumptionActionCore(message);
+                                }
+                            }
+                            finally
+                            {
+                                monitorEvent.Release();
+                            }
+                        }
+                        catch (OperationCanceledException)
+                        {
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.Error($"系统消息消费者发生错误，错误原因:{ex.ToString()}");
+                        }
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    tcs?.TrySetCanceled();
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error($"系统消息消费者发生错误，错误原因:{ex.ToString()}");
+                    tcs?.TrySetException(ex);
+                }
+            });
+            await tcs.Task;
+        }
+
+        private async Task SystemMonitorConsumptionActionCore((SystemMonitorOption option, List<string> messaages) message)
+        {
+            SystemMessageContext context = new SystemMessageContext(message.messaages, this, this.serviceProvider, message.option.Who);
+            await message.option.CallBack.Invoke(context);
+        }
+        #endregion;        
 
         #region 释放资源
         public void Dispose()
