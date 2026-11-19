@@ -162,8 +162,8 @@ namespace WeChatAuto.Utils
                     if (!changed)
                         return;
 
-                    Directory.CreateDirectory(Path.GetDirectoryName(file)!);
-                    File.WriteAllBytes(file, MessagePackSerializer.Serialize(entries));
+                    // 统一走 WeChatKeyFileStore：写 DPAPI 密文，避免这里把整份密钥缓存写回明文。
+                    WeChatKeyFileStore.Save(file, entries, warn);
                 }
                 catch (Exception ex)
                 {
@@ -206,19 +206,11 @@ namespace WeChatAuto.Utils
             }
         }
 
-        /// <summary>读取并反序列化 <c>wechatkey.dat</c>；文件不存在返回空列表。</summary>
+        /// <summary>
+        /// 读取 <c>wechatkey.dat</c> 的账号条目。文件不存在返回空列表。
+        /// 加密/明文兼容、DPAPI 解密都交给 <see cref="WeChatKeyFileStore"/>，这里不直接碰文件格式。
+        /// </summary>
         static List<WeChatDatabaseInfo> ReadKeyFile(string? keyFilePath = null)
-        {
-            var file = keyFilePath ?? WeChatLocalPaths.WeChatKeyFile;
-            if (!File.Exists(file))
-                return new List<WeChatDatabaseInfo>();
-
-            var bytes = File.ReadAllBytes(file);
-            if (bytes.Length == 0)
-                return new List<WeChatDatabaseInfo>();
-
-            return MessagePackSerializer.Deserialize<List<WeChatDatabaseInfo>>(bytes)
-                   ?? new List<WeChatDatabaseInfo>();
-        }
+            => WeChatKeyFileStore.Load(keyFilePath ?? WeChatLocalPaths.WeChatKeyFile);
     }
 }

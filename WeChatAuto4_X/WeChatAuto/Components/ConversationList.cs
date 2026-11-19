@@ -682,18 +682,24 @@ namespace WeChatAuto.Components
         /// <returns></returns>
         internal ListBox _GetConversationRoot()
         {
-            var find = false;
             ListBox root = null;
-            while (!find)
+            var index = 0;
+            var path = UITreeGlobal.ConversationRootPath;
+            while (index < 3)
             {
-                var path = UITreeGlobal.ConversationRootPath;
-                root = _Client.MainWindow.FindFirstByXPath(path).AsListBox();
-                find = root != null;
-                if (!find)
+                var rootRetry = Retry.WhileNull(() => _Client.MainWindow.FindFirstByXPath(path).AsListBox(), TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
+                if (!rootRetry.Success)
                 {
+                    _logger.Error("错误: 没有发现");
                     _Client.Navigation.SwitchNavigationCore(null, NavigationType.微信);
                     RandomWait.Wait(300, 1000);
                 }
+                else
+                {
+                    root = rootRetry.Result;
+                    break;
+                }
+                index++;
             }
             root?.DrawHighlightExt();
             return root;

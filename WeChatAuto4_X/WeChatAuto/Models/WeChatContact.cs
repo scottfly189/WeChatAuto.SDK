@@ -166,6 +166,14 @@ namespace WeChatAuto.Models
         public long AddTime { get; set; }
 
         /// <summary>
+        /// 对应原生 <c>contact.delete_flag</c>。0 表示仍有效；非 0 为原库标记删除。
+        /// 原库已不存在的行，同步后也会被标为 1（软删除，不物理删行，以便消息仍能联到显示名）。
+        /// 重新出现时随 UPSERT 写入原库的 <c>delete_flag</c>（通常为 0）恢复。
+        /// </summary>
+        [SugarColumn(ColumnDescription = "原库 contact.delete_flag；0=有效，非0=已删除（含原库已消失）")]
+        public int DeleteFlag { get; set; }
+
+        /// <summary>
         /// 国家/地区中文名（<see cref="Country"/> 的 ISO2 码翻译，如 CN → 中国大陆）。不落库。
         /// </summary>
         [SugarColumn(IsIgnore = true)]
