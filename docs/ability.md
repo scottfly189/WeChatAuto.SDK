@@ -11,10 +11,10 @@
 |消息管理|发送文字消息（支持 @、引用）|✓|✓|
 |消息管理|发送文件|✓|✓|
 |消息管理|发送表情|✓|✓|
-|消息管理|按 WxId/UserName 发送文字消息（支持 @、引用）||✓|
-|消息管理|按 WxId/UserName 发送文件||✓|
-|消息管理|按 WxId/UserName 发送表情||✓|
-|消息管理|按 WxId/UserName 发送语音（文件 / TTS）||✓|
+|消息管理|按 WxId（微信号）精准发送文字消息（支持 @、引用）||✓|
+|消息管理|按 WxId（微信号）精准发送文件||✓|
+|消息管理|按 WxId（微信号）精准发送表情||✓|
+|消息管理|按 WxId（微信号）精准发送语音（文件 / 文字转语音）||✓|
 |消息管理|发起单人语音聊天|✓|✓|
 |消息管理|发起单人视频聊天|✓|✓|
 |消息管理|发起多人语音聊天|✓|✓|
@@ -77,25 +77,25 @@
 |朋友圈管理|发送朋友圈（图文）||✓|
 |朋友圈管理|删除自己发送的朋友圈||✓|
 |朋友圈管理|获取朋友圈列表||✓|
-|Safe Database Read|安全只读：不 hook、不注入、不回写微信原库||✓|
-|Safe Database Read|热同步到中间表（联系人 / 消息 / 群成员 / 朋友圈）||✓|
-|Safe Database Read|数据库 Hot Sync（VSS 快照优先 / live fallback，写入中间表）||✓|
-|Safe Database Read|微信数据库直读（只读源库 / SQLCipher，不落中间表）||✓|
-|Safe Database Read|自动获取微信存储位置||✓|
-|Safe Database Read|按会话取最近消息 / 倒序聊天记录（GetChatMessages / GetRecentChatMessages）||✓|
-|Safe Database Read|按 SortSeq 增量取新消息并读取水位（GetNewMessages / GetMaxSortSeq）||✓|
+|Safe Database Read|安全读取微信数据库，不注入、不修改微信原数据||✓|
+|Safe Database Read|自动把联系人、消息、群成员、朋友圈同步到自己的数据库||✓|
+|Safe Database Read|大库热同步：无需整库拷贝，增量同步到自己的数据库||✓|
+|Safe Database Read|微信数据库直读：不建中间库，直接查询微信加密数据库||✓|
+|Safe Database Read|自动识别微信数据目录||✓|
+|Safe Database Read|按会话查看聊天记录、最近消息||✓|
+|Safe Database Read|按时间或最新进度增量读取新消息||✓|
 |Safe Database Read|按关键词搜索消息（单账号 / 跨账号）||✓|
-|Safe Database Read|按 UserName / 显示名查询联系人、模糊查找、取全部联系人||✓|
-|Safe Database Read|查询群列表、群成员，按显示名/类型筛选群||✓|
-|Safe Database Read|查询朋友圈动态（按 Tid / 日期 / 发布人 / 显示名 / 列表）||✓|
-|Safe Database Read|自定义只读 SQL 查询（Query）||✓|
+|Safe Database Read|按 WxId、昵称或备注查找联系人||✓|
+|Safe Database Read|查看群列表、群成员，并按群名或类型筛选||✓|
+|Safe Database Read|查看朋友圈动态（按时间、发布人筛选）||✓|
+|Safe Database Read|自定义查询自己的数据库||✓|
 
 
 **说明：**
 - 以上功能点均为 WeChatAuto.SDK 提供的能力，社区版和 VIP 版的区别在于部分高级功能仅在 VIP 版中提供。
 - 开放式、弹窗式、轮询式消息监听及群系统消息监听已在社区开源版提供；新好友申请监听仍为 VIP。
-- Safe Database Read（只读，不 hook、不回写原库）、热同步到中间表、数据库 Hot Sync（VSS / live）、微信数据库直读、自动获取微信存储位置为 VIP 能力，尚未进入社区开源仓。
-- 按 WxId/UserName 发送消息、文件、表情、语音，以及自定义只读 SQL 查询、联系人/群/朋友圈的 Database Read 查询接口均为 VIP 能力；社区版仍走 UI Automation 按昵称/会话操作。
+- Safe Database Read（安全读取微信数据库，不注入、不修改原数据）、大库热同步、微信数据库直读、自动识别微信数据目录为 VIP 能力，尚未进入社区开源仓。
+- 按 WxId 精准发送消息、文件、表情、语音，以及按会话/关键词/联系人/群/朋友圈查询、自定义查询数据库，均为 VIP 能力；社区版仍按昵称或会话窗口操作。
 - 一键试用包 `community_allin.rar` 是限时可用的 VIP 体验包，不是社区开源版的构建。
 - 如果功能点不在表中列出，你可以提出需求，我们会评估是否纳入后续版本中。
 
