@@ -79,6 +79,8 @@
 |朋友圈管理|获取朋友圈列表||✓|
 |Safe Database Read|安全只读：不 hook、不注入、不回写微信原库||✓|
 |Safe Database Read|热同步到中间表（联系人 / 消息 / 群成员 / 朋友圈）||✓|
+|Safe Database Read|数据库 Hot Sync（VSS 快照优先 / live fallback，写入中间表）||✓|
+|Safe Database Read|微信数据库直读（只读源库 / SQLCipher，不落中间表）||✓|
 |Safe Database Read|自动获取微信存储位置||✓|
 |Safe Database Read|按会话取最近消息 / 倒序聊天记录（GetChatMessages / GetRecentChatMessages）||✓|
 |Safe Database Read|按 SortSeq 增量取新消息并读取水位（GetNewMessages / GetMaxSortSeq）||✓|
@@ -92,7 +94,7 @@
 **说明：**
 - 以上功能点均为 WeChatAuto.SDK 提供的能力，社区版和 VIP 版的区别在于部分高级功能仅在 VIP 版中提供。
 - 开放式、弹窗式、轮询式消息监听及群系统消息监听已在社区开源版提供；新好友申请监听仍为 VIP。
-- Safe Database Read（只读，不 hook、不回写原库）、热同步到中间表、自动获取微信存储位置为 VIP 能力，尚未进入社区开源仓。
+- Safe Database Read（只读，不 hook、不回写原库）、热同步到中间表、数据库 Hot Sync（VSS / live）、微信数据库直读、自动获取微信存储位置为 VIP 能力，尚未进入社区开源仓。
 - 按 WxId/UserName 发送消息、文件、表情、语音，以及自定义只读 SQL 查询、联系人/群/朋友圈的 Database Read 查询接口均为 VIP 能力；社区版仍走 UI Automation 按昵称/会话操作。
 - 一键试用包 `community_allin.rar` 是限时可用的 VIP 体验包，不是社区开源版的构建。
 - 如果功能点不在表中列出，你可以提出需求，我们会评估是否纳入后续版本中。
