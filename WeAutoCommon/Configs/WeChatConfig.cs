@@ -23,8 +23,14 @@ namespace WeAutoCommon.Configs
         public bool UseDatabaseRead { get; set; } = false;
 
         /// <summary>
-        /// 微信存储位置，取法: 微信主窗口--> 设置 --> 账号与存储 --> 存储位置
-        /// 如果有多微信，多个微信应该设置成一样
+        /// 微信存储位置，取法: 微信主窗口--> 设置 --> 账号与存储 --> 存储位置（形如 <c>D:\xwechat_files</c>）。
+        /// 如果有多微信，多个微信应该设置成一样（微信自身就是这种设定）。
+        /// <para>
+        /// **可以留空**：留空时 SDK 会在第一个微信客户端启动、需要读取数据库时，
+        /// 通过自动化读取一次，并把结果写入 <c>%LOCALAPPDATA%\WeChatAuto\wechatkey.dat</c>；
+        /// 之后再启动直接读缓存，不再操作微信设置窗口。整个进程内最多自动化一次，多微信共用同一份值。
+        /// </para>
+        /// <para>显式配置（且目录存在）时以配置为准，并顺带写回缓存。</para>
         /// </summary>
         public string WeChatStorageRoot { get; set; }
 
@@ -44,13 +50,48 @@ namespace WeAutoCommon.Configs
         /// <summary>
         /// 账号首次同步时的历史窗口天数，默认 30。
         /// 0 表示首轮不回补历史，只同步从启动时刻起的新数据。负数按 0 处理（记一条日志，不会抛异常或中断启动）。
-        /// 请在工厂启动前通过 WeAutomation.Config 全局设置，与 ConnectionString 相同。
         /// </summary>
         [JsonPropertyName("first_run_days")]
         public int FirstRunDays { get; set; } = 30;
 
         /// <summary>
-        /// 朋友圈（SNS）首次同步的回看天数。<b>0 或负数表示全量回补</b>（不设时间窗）。
+        /// 是否用 VSS 卷快照作为 hot-sync 只读源（默认 <c>false</c>）。
+        /// <para>
+        /// 开启后首轮/增量都不再整库拷贝；每轮按源库变化/最小间隔创建或复用快照，
+        /// 读 db+wal；需要管理员/VSS，失败回退 live（若开启），否则报错。
+        /// </para>
+        /// </summary>
+        [JsonPropertyName("hotsync_vss_source")]
+        public bool HotSyncVssSource { get; set; } = true;
+
+        /// <summary>
+        /// VSS 不可用/失败时是否直接只读打开微信源库（默认 <c>false</c>）。
+        /// 优先级低于 <see cref="HotSyncVssSource"/>；两者都开时先 VSS，失败才 live。
+        /// </summary>
+        [JsonPropertyName("hotsync_live_source")]
+        public bool HotSyncLiveSource { get; set; } = true;
+
+        /// <summary>
+        /// 首轮仅同步文字：历史图片/文件/视频不做路径解析、解密、下载，Content 保留
+        /// <c>[图片]</c>/<c>[文件]</c>/<c>[视频]</c> 占位符；增量轮次恢复正常媒体处理。
+        /// <para>语音不受影响，仍按 <c>AsrIncludeFirstRound</c> 等现有机制处理。</para>
+        /// </summary>
+        [JsonPropertyName("hotsync_first_run_text_only")]
+        public bool HotSyncFirstRunTextOnly { get; set; }
+
+        /// <summary>
+        /// 是否把 hot-sync 的 VSS/live 源读取诊断日志写到独立文件（默认 <c>false</c>）。
+        /// <para>
+        /// 开启后写 <c>%LOCALAPPDATA%\WeChatAuto\logs\hotsync-copy.log</c>，每行一条
+        /// <c>[copy] t=... event=start|progress|retry|done|fail db=... size=... ms=...</c>，
+        /// 用于在几十 GB 的大库现场定位“慢在哪个库、是否反复重试”；对同步逻辑无影响。
+        /// </para>
+        /// </summary>
+        [JsonPropertyName("hotsync_copy_log")]
+        public bool HotSyncCopyLog { get; set; }
+
+        /// <summary>
+        /// 朋友圈（SNS）首次同步的回看天数。<b>0 或负数表示全量回补</b>
         /// <para>注意与 <see cref="FirstRunDays"/> 的语义不同：消息的 0 表示「不回补历史」，
         /// 朋友圈的 0 表示「全部历史都要」。朋友圈单账号通常只有几千条，全量成本可控。</para>
         /// <para>只影响「中间表还没有该账号朋友圈水位」的首次同步；已有水位的账号不受影响。</para>
@@ -63,19 +104,14 @@ namespace WeAutoCommon.Configs
         /// <para>开启后由独立的旁路后台任务处理：只处理 <c>wechat_sns_media</c> 里
         /// <c>MediaType</c> 为 2（图片）/ 4、5、6（视频）且 <c>DownloadStatus=0</c> 的行，
         /// 落盘路径写入 <c>LocalPath</c>，成功 / 永久失败都会写状态，不会反复重试。</para>
-        /// <para>解密由纯 C# <c>WxIsaac64</c> 完成，无需 Node / WASM；不参与消息、联系人、
-        /// 群成员同步，也不改变任何现有表的写入逻辑；关掉时后台任务根本不会启动。</para>
         /// </summary>
         [JsonPropertyName("download_sns_images")]
         public bool DownloadSnsImages { get; set; } = false;
 
-        /// <summary>
-        /// hot-sync 暂存根目录（每账号再按 wxid 分子目录）。为空时用
-        /// <c>%LOCALAPPDATA%\WeChatAuto\hotsync-staging</c>。
-        /// <para>用于把 C 盘空间紧张的用户引导到大容量磁盘；支持绝对路径和 <c>%ENV%</c> 环境变量。</para>
-        /// </summary>
-        [JsonPropertyName("hotsync_staging_dir")]
-        public string HotSyncStagingDir { get; set; } = "";
+
+        /// <summary>VSS 两次新建快照的最小间隔（秒），默认 2；源库没变时不新建。</summary>
+        [JsonPropertyName("hotsync_vss_min_interval_seconds")]
+        public double HotSyncVssMinIntervalSeconds { get; set; } = 2.0;
 
         /// <summary>
         /// 消息媒体缓存根目录（图片 / 语音解密后的文件）。为空时用
@@ -83,6 +119,88 @@ namespace WeAutoCommon.Configs
         /// </summary>
         [JsonPropertyName("media_cache_dir")]
         public string MediaCacheDir { get; set; } = "";
+
+        #region 语音转写（ASR）
+
+        /// <summary>
+        /// 是否启用本地语音转写：增量同步到的语音 wav 在后台线程转文字，回写中间表
+        /// <c>wechat_message.Content</c>（首轮同步不转写，避免拖慢首轮）。
+        /// <para>默认关闭；模型由用户自行下载并放到 <see cref="AsrModelDir"/>，SDK 不随包发布模型。</para>
+        /// 默认 <c>false</c>即不启用本地语音转写.
+        /// 模型下载链接: https://pub-d387648081a84f6cb4fe364e2e8ccbe3.r2.dev/sensevoice-small.rar
+        /// 下载后请放到 <see cref="AsrModelDir"/>的目录
+        /// </summary>
+        [JsonPropertyName("asr_enabled")]
+        public bool AsrEnabled { get; set; }
+
+        /// <summary>
+        /// 首轮同步也转写（默认 <c>false</c>）。
+        /// <para>
+        /// 首轮要全量导入且通常是冷启动，ASR 与同步会争 CPU；默认只在增量轮次转写。
+        /// 打开后首轮语音也会在媒体落地后入队——注意这是**性能权衡**，不是功能差异。
+        /// </para>
+        /// </summary>
+        [JsonPropertyName("asr_include_first_round")]
+        public bool AsrIncludeFirstRound { get; set; }
+
+        /// <summary>
+        /// ASR 模型目录（必填，启用时）。约定目录下直接放 sherpa-onnx SenseVoice 的两个文件：
+        /// <c>model.int8.onnx</c>（或 <c>model.onnx</c>）与 <c>tokens.txt</c>。
+        /// 支持绝对路径和 <c>%ENV%</c> 环境变量。
+        /// </summary>
+        [JsonPropertyName("asr_model_dir")]
+        public string AsrModelDir { get; set; } = "";
+
+        /// <summary>
+        /// ASR 模型下载地址（**说明用，不会自动下载**）。
+        /// <para>
+        /// 默认指向仓库 <c>Resources/sensevoice-small.rar</c> 中记录的 R2 地址：
+        /// 该 RAR 只有 191 字节，里面是一个 txt（真正的下载链接），因为模型约 228MB 不适合进仓库。
+        /// 下载并解压后，把 <see cref="AsrModelDir"/> 指到含 <c>model.int8.onnx</c> + <c>tokens.txt</c> 的目录即可。
+        /// </para>
+        /// <para>
+        /// 换成自建镜像时改这里；「模型不可用」的日志提示会带上该地址，方便用户自助排查。
+        /// </para>
+        /// </summary>
+        [JsonPropertyName("asr_model_download_url")]
+        public string AsrModelDownloadUrl { get; set; } =
+            "https://pub-d387648081a84f6cb4fe364e2e8ccbe3.r2.dev/sensevoice-small.rar";
+
+        /// <summary>模型标识，写入日志与中间表内容来源；默认 <c>sensevoice-small-int8</c>。</summary>
+        [JsonPropertyName("asr_model_name")]
+        public string AsrModelName { get; set; } = "sensevoice-small-int8";
+
+        /// <summary>ASR 线程数（onnxruntime 内部并行度），默认 2；CPU 优先建议 1–4。</summary>
+        [JsonPropertyName("asr_num_threads")]
+        public int AsrNumThreads { get; set; } = 2;
+
+        /// <summary>
+        /// 语种：<c>auto</c>（默认，自动识别）/ <c>zh</c> / <c>yue</c>（粤语）/ <c>en</c> / <c>ja</c> / <c>ko</c>。
+        /// </summary>
+        [JsonPropertyName("asr_language")]
+        public string AsrLanguage { get; set; } = "auto";
+
+        /// <summary>是否启用 SenseVoice 的逆文本归一化（数字/日期转写），默认开启。</summary>
+        [JsonPropertyName("asr_use_itn")]
+        public bool AsrUseItn { get; set; } = true;
+
+        /// <summary>
+        /// 写入 <c>Content</c> 的前缀，默认空串（即只写转写文本）。
+        /// 设为 <c>[语音] </c> 可保留「这是语音」的标记，同时让检索/机器人仍能拿到文本。
+        /// </summary>
+        [JsonPropertyName("asr_content_prefix")]
+        public string AsrContentPrefix { get; set; } = "";
+
+        /// <summary>后台队列容量，默认 512；满时丢弃新任务（不影响同步链路）。</summary>
+        [JsonPropertyName("asr_queue_capacity")]
+        public int AsrQueueCapacity { get; set; } = 512;
+
+        /// <summary>超过该秒数的音频跳过（微信语音 &lt;60s），默认 120</summary>
+        [JsonPropertyName("asr_max_seconds")]
+        public int AsrMaxSeconds { get; set; } = 120;
+
+        #endregion
+
 
         /// <summary>
         /// 朋友圈下载媒体根目录。为空时用 <c>%LOCALAPPDATA%\WeChatAuto\sns-media</c>。
@@ -109,43 +227,11 @@ namespace WeAutoCommon.Configs
         /// 是否启动的时候自动优化主窗口布局,默认是True,即优化，可以设置为不优化。
         /// </summary>
         public bool IsOptimizeMainWindowLayout { get; set; } = true;
-        /// <summary>
-        /// 下载文件/图片默认保存路径
-        /// </summary>
-        [JsonPropertyName("default_save_path")]
-        public string DefaultSavePath { get; set; } = Path.Combine(Directory.GetCurrentDirectory(), "wxauto_download");
 
-        /// <summary>
-        /// 监听消息时间间隔，单位秒
-        /// </summary>
-        [JsonPropertyName("listen_interval")]
-        public int ListenInterval { get; set; } = 5;
-        /// <summary>
-        /// 朋友圈监听时间间隔，单位秒
-        /// </summary>
-        [JsonPropertyName("moments_listen_interval")]
-        public int MomentsListenInterval { get; set; } = 10;
-
-        /// <summary>
-        /// 新好友监听时间间隔，单位秒
-        /// </summary>
-        [JsonPropertyName("new_user_listener_interval")]
-        public int NewUserListenerInterval { get; set; } = 5;
-
-        /// <summary>
-        /// 监听子窗口时间间隔，单位秒
-        /// </summary>
-        [JsonPropertyName("monitor_sub_win_interval")]
-        public int MonitorSubWinInterval { get; set; } = 5;
-
-        /// <summary>
-        /// 监听会话列表切换时间间隔，单位：秒
-        /// </summary>
-        [JsonPropertyName("conversation_change_listener_interval")]
-        public int ConversationChangeListenerInterval { get; set; } = 5;
         /// <summary>
         /// 消息监听时往下滚动的次数，如果监听列表多，建议设置成：10-30
         /// 如果监听列表少，建议设置成:5~10，以提高效率 
+        /// 用于UI Automation方式的监听中
         /// </summary>
         [JsonPropertyName("monitor_message_max_down_interval")]
         public int MonitorMessageMaxDownInterval { get; set; } = 8;
@@ -154,11 +240,6 @@ namespace WeAutoCommon.Configs
         /// </summary>
         [JsonPropertyName("monitor_new_friend_request_interval")]
         public int MonitorNewFriendRequestInterval { get; set; } = 20;
-        /// <summary>
-        /// 监听群聊系统消息的间隔时间，单位为秒
-        /// </summary>
-        [JsonPropertyName("monitor_group_interval")]
-        public int MonitorGroupInterval { get; set; } = 10;
         /// <summary>
         /// 固定式消息监听的时间间隔，单位为秒
         /// </summary>
@@ -178,6 +259,7 @@ namespace WeAutoCommon.Configs
         /// <summary>
         /// 是否启用OCR,但是一些功能由于腾迅的限制必须要启用OCR
         /// 如果启用OCR,则必须保证OCR模型在models目录下，并且需要配置好模型文件名称
+        /// 如果启用UI Automation方式的消息监听，请设置为<c>true</c>
         /// </summary>
         [JsonPropertyName("enable_ocr")]
         public bool EnableOCR { get; set; } = false;
@@ -185,27 +267,22 @@ namespace WeAutoCommon.Configs
         /// ocr-det模型路径
         /// </summary>
         [JsonPropertyName("ocr_det_model_file_path")]
-        // public string OCRDetModelFilePath { get; set; } = "ch_PP-OCRv5_mobile_det.onnx";  //v5
         public string OCRDetModelFilePath { get; set; } = "PP-OCRv6_det_small.onnx";  //v6
-        // public string OCRDetModelFilePath { get; set; } = "PP-OCRv6_det_medium.onnx";  //v6
         /// <summary>
         /// ocr-cls模型路径
         /// </summary>
         [JsonPropertyName("ocr_cls_model_file_path")]
-        // public string OCRClsModelFilePath { get; set; } = "ch_ppocr_mobile_v2.0_cls_infer.onnx";
         public string OCRClsModelFilePath { get; set; } = "ch_ppocr_mobile_v2.0_cls_mobile.onnx";  //v6
         /// <summary>
         /// ocr-rec模型路径
         /// </summary>
         [JsonPropertyName("ocr_rec_model_file_path")]
-        // public string OCRRecModelFilePath { get; set; } = "ch_PP-OCRv5_rec_mobile_infer.onnx"; //v5
         public string OCRRecModelFilePath { get; set; } = "PP-OCRv6_rec_small.onnx";  //v6
-        // public string OCRRecModelFilePath { get; set; } = "PP-OCRv6_rec_medium.onnx";  //v6
+
         /// <summary>
         /// OCR的字典文件路径
         /// </summary>
         [JsonPropertyName("ocr_dict_model_file_path")]
-        // public string OCRDictModelFilePath { get; set; } = "ppocrv5_dict.txt";  //v5
         public string OCRDictModelFilePath { get; set; } = "ppocrv6_dict.txt";  //v6
         /// <summary>
         /// 是否启用调试模式
@@ -281,12 +358,6 @@ namespace WeAutoCommon.Configs
         [JsonPropertyName("process_dpi_awareness")]
         public int ProcessDpiAwareness { get; set; } = 1;
         /// <summary>
-        /// 是否一开始就初始化通讯录所有好友
-        /// 如果以wxid为业务核心，强烈开启此选项.
-        /// </summary>
-        [JsonPropertyName("init_adress_book")]
-        public bool InitAdressBook { get; set; } = false;
-        /// <summary>
         /// 历史消息X偏移距离
         /// </summary>
         [JsonPropertyName("history_message_offset_x")]
@@ -311,21 +382,6 @@ namespace WeAutoCommon.Configs
         /// </summary>
         [JsonPropertyName("max_history_message_fetch_number")]
         public int MaxHistoryMessageFetchNumber { get; set; } = 40;
-        /// <summary>
-        /// 为了预防全量搜索历史消息设置的阈值
-        /// </summary>
-        [JsonPropertyName("max_history_fallback_threshold_number")]
-        public int MaxHistoryFallbackThresholdNumber { get; set; } = 50;
-        /// <summary>
-        /// 消息监听中，首次运行取历史消息的最大数量.
-        /// </summary>
-        [JsonPropertyName("message_first_fetch_number")]
-        public int MessageFirstFetchNumber { get; set; } = 10;
-        /// <summary>
-        /// 消息监听中，为了消息稳定下来重试次数
-        /// </summary>
-        [JsonPropertyName("message_stability_retry_number")]
-        public int MessageStabilityRetryNumber { get; set; } = 5;
     }
 
     public static class Language
@@ -336,5 +392,8 @@ namespace WeAutoCommon.Configs
         public const string English = "En";
     }
 }
+
+
+
 
 
