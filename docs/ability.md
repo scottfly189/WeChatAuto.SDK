@@ -6,14 +6,15 @@
 
 |功能领域|功能点|社区版|VIP 版|
 |---|---|:---:|:---:|
-|取消息|Database Read（只读，不 hook、不回写原库）||✓|
-|取消息|热同步到中间表（联系人 / 消息 / 群成员 / 朋友圈）||✓|
-|取消息|自动获取微信存储位置||✓|
 |消息管理|获取当前窗口标题|✓|✓|
 |消息管理|输入区点击获取焦点|✓|✓|
 |消息管理|发送文字消息（支持 @、引用）|✓|✓|
 |消息管理|发送文件|✓|✓|
 |消息管理|发送表情|✓|✓|
+|消息管理|按 WxId/UserName 发送文字消息（支持 @、引用）||✓|
+|消息管理|按 WxId/UserName 发送文件||✓|
+|消息管理|按 WxId/UserName 发送表情||✓|
+|消息管理|按 WxId/UserName 发送语音（文件 / TTS）||✓|
 |消息管理|发起单人语音聊天|✓|✓|
 |消息管理|发起单人视频聊天|✓|✓|
 |消息管理|发起多人语音聊天|✓|✓|
@@ -76,12 +77,23 @@
 |朋友圈管理|发送朋友圈（图文）||✓|
 |朋友圈管理|删除自己发送的朋友圈||✓|
 |朋友圈管理|获取朋友圈列表||✓|
+|Safe Database Read|安全只读：不 hook、不注入、不回写微信原库||✓|
+|Safe Database Read|热同步到中间表（联系人 / 消息 / 群成员 / 朋友圈）||✓|
+|Safe Database Read|自动获取微信存储位置||✓|
+|Safe Database Read|按会话取最近消息 / 倒序聊天记录（GetChatMessages / GetRecentChatMessages）||✓|
+|Safe Database Read|按 SortSeq 增量取新消息并读取水位（GetNewMessages / GetMaxSortSeq）||✓|
+|Safe Database Read|按关键词搜索消息（单账号 / 跨账号）||✓|
+|Safe Database Read|按 UserName / 显示名查询联系人、模糊查找、取全部联系人||✓|
+|Safe Database Read|查询群列表、群成员，按显示名/类型筛选群||✓|
+|Safe Database Read|查询朋友圈动态（按 Tid / 日期 / 发布人 / 显示名 / 列表）||✓|
+|Safe Database Read|自定义只读 SQL 查询（Query）||✓|
 
 
 **说明：**
 - 以上功能点均为 WeChatAuto.SDK 提供的能力，社区版和 VIP 版的区别在于部分高级功能仅在 VIP 版中提供。
 - 开放式、弹窗式、轮询式消息监听及群系统消息监听已在社区开源版提供；新好友申请监听仍为 VIP。
-- Database Read（只读，不 hook、不回写原库）、热同步到中间表、自动获取微信存储位置为 VIP 能力，尚未进入社区开源仓。
+- Safe Database Read（只读，不 hook、不回写原库）、热同步到中间表、自动获取微信存储位置为 VIP 能力，尚未进入社区开源仓。
+- 按 WxId/UserName 发送消息、文件、表情、语音，以及自定义只读 SQL 查询、联系人/群/朋友圈的 Database Read 查询接口均为 VIP 能力；社区版仍走 UI Automation 按昵称/会话操作。
 - 一键试用包 `community_allin.rar` 是限时可用的 VIP 体验包，不是社区开源版的构建。
 - 如果功能点不在表中列出，你可以提出需求，我们会评估是否纳入后续版本中。
 
@@ -93,3 +105,4 @@
 - **一对一专属服务**：微信自动化能力由 WeChatAuto.SDK 深度支持，业务系统由你自由扩展。
 
 如需升级成为 VIP，或了解具体权益和支持方案，👉[请与我联系](https://github.com/scottfly189/scottfly189/blob/main/vip.md)。
+
