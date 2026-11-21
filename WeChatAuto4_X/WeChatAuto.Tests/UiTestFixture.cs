@@ -17,7 +17,6 @@ public class UiTestFixture : IDisposable
             // options.IsOptimizeMainWindowLayout = false;
             options.IsForceOpenUITree = true;
             options.DebugMode = false;
-            options.InitAdressBook = false;
             options.EnableOCR = true;
             options.EnableMouseKeyboardSimulator = false;
             options.KMDeviceVID = 0x1701;

@@ -144,20 +144,7 @@ namespace WeChatAuto.Components
             this.Moments = new Moments(this, _MainThreadInvoker, serviceProvider);
             this.Search = new Search(this, _MainThreadInvoker, serviceProvider);
             this.CacheManager = new CacheManager(this);
-            _RunCheckAddressBook();
             // _StartHotSyncEngine(); //vip功能
-        }
-
-
-        private void _RunCheckAddressBook()
-        {
-            if (WeAutomation.Config.InitAdressBook)
-            {
-                var path = Path.Combine(AppContext.BaseDirectory, this.Alias + "_cache.dat");
-                if (File.Exists(path))
-                    return;
-                this.GetAllFriends(false).GetAwaiter().GetResult();
-            }
         }
 
         #region POM对象
