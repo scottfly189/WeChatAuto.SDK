@@ -119,7 +119,14 @@ namespace WeChatAuto.Components
                 return;
             }
 
-            var button = root.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName(name))).AsButton();
+            AutomationElement button = null;
+            if (name.Equals("微信"))
+            {
+                button = root.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName("微信").Or(cf.ByName("WeChat")))).AsButton();
+            }else
+            {
+                button = root.FindFirstChild(cf => cf.ByControlType(ControlType.Button).And(cf.ByName(name))).AsButton();
+            }
 
             if (button != null)
             {
@@ -244,7 +251,7 @@ namespace WeChatAuto.Components
                         if (miniRetry.Success)
                         {
                             var mini = miniRetry.Result;
-                            path = $"/Window[@Name='微信'][@ProcessId={mini.Properties.ProcessId}]";
+                            path = $"/Window[@Name='微信'][@ProcessId={mini.Properties.ProcessId}] | /Window[@Name='WeChat'][@ProcessId={mini.Properties.ProcessId}]";
                             var win = _Client.MainWindow.Parent.FindFirstByXPath(path).AsWindow();
                             win.Close();
                             RandomWait.Wait(300, 1000);

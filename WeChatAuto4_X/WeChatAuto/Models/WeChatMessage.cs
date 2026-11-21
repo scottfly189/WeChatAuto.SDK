@@ -228,9 +228,19 @@ namespace WeChatAuto.Models
         /// <summary>
         /// 当消息为图片、文件、视频时，保存在磁盘位置.
         /// 原生消息表无此列，来自资源库或下载路径。
+        /// <para>首轮仅文字模式下，历史图片/文件/视频不解析、不解密，FilePath 为空且
+        /// <see cref="MediaSkipped"/> = true，后续补路径任务不再处理这些历史行。</para>
         /// </summary>
         [SugarColumn(Length = 500, IsNullable = true, ColumnDescription = "文件路径")]
         public string FilePath { get; set; }
+
+        /// <summary>
+        /// 首轮仅文字模式跳过的历史视觉媒体（图片/文件/视频）。
+        /// 用于让后续补齐 FilePath 的任务排除这些行；语音不走该标记。
+        /// </summary>
+        [SugarColumn(ColumnDataType = "INTEGER", IsNullable = false, DefaultValue = "0",
+            ColumnDescription = "首轮仅文字模式跳过媒体")]
+        public bool MediaSkipped { get; set; }
 
         /// <summary>
         /// 原生发送状态，对应 Msg_*.status。本机常见 3，其次 4 / 2；位含义未逐项核实。UIA 写入时可为 0。

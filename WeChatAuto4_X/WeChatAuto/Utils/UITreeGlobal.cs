@@ -35,7 +35,7 @@ namespace WeChatAuto.Utils
         /// <summary>
         /// 导航栏 - 首个按钮 - 微信按钮.
         /// </summary>
-        public static string Navigate_wechat = "/Group/Custom/Group/ToolBar/Button[@Name='微信'][@ClassName='mmui::XTabBarItem']";
+        public static string Navigate_wechat = "/Group/Custom/Group/ToolBar/Button[@Name='微信'][@ClassName='mmui::XTabBarItem'] | /Group/Custom/Group/ToolBar/Button[@Name='WeChat'][@ClassName='mmui::XTabBarItem']";
 
         
     }

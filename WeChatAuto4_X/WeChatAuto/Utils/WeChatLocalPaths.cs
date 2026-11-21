@@ -26,10 +26,19 @@ namespace WeChatAuto.Utils
         public static string WeChatKeyFile => Path.Combine(Root, "wechatkey.dat");
 
         /// <summary>
-        /// hot-sync 暂存根目录。默认 <c>%LOCALAPPDATA%\WeChatAuto\hotsync-staging</c>，
-        /// 可用 <c>WeChatConfig.HotSyncStagingDir</c> 覆盖（支持 <c>%ENV%</c> 环境变量）。
+        /// hot-sync 状态根目录（只存水位指纹/联系人签名/缺口标记，不再存 DB/WAL 副本）。
+        /// 默认 <c>%LOCALAPPDATA%\WeChatAuto\hotsync-state</c>；升级时若旧
+        /// <c>hotsync-staging</c> 状态目录存在则继续复用，避免水位/指纹重置。
         /// </summary>
-        public static string HotSyncStagingRoot => Resolve(WeAutomation.Config.HotSyncStagingDir, "hotsync-staging");
+        public static string HotSyncStateRoot
+        {
+            get
+            {
+                var state = Path.Combine(Root, "hotsync-state");
+                var legacy = Path.Combine(Root, "hotsync-staging");
+                return !Directory.Exists(state) && Directory.Exists(legacy) ? legacy : state;
+            }
+        }
 
         /// <summary>
         /// 消息媒体缓存根目录。默认 <c>%LOCALAPPDATA%\WeChatAuto\media-cache</c>，
@@ -42,6 +51,12 @@ namespace WeChatAuto.Utils
         /// 可用 <c>WeChatConfig.SnsMediaDir</c> 覆盖。只有开启 <c>DownloadSnsImages</c> 时才写入。
         /// </summary>
         public static string SnsMediaRoot => Resolve(WeAutomation.Config.SnsMediaDir, "sns-media");
+
+        /// <summary>
+        /// hot-sync 拷贝诊断日志：<c>%LOCALAPPDATA%\WeChatAuto\logs\hotsync-copy.log</c>。
+        /// 仅当 <c>WeChatConfig.HotSyncCopyLog=true</c> 时写入（见 <c>WxDecrypt.CopyLogFile</c>）。
+        /// </summary>
+        public static string HotSyncCopyLogFile => Path.Combine(Root, "logs", "hotsync-copy.log");
 
         /// <summary>配置为空时回落到默认目录；配置支持 <c>%ENV%</c> 环境变量与相对路径。</summary>
         static string Resolve(string? configured, string defaultName)

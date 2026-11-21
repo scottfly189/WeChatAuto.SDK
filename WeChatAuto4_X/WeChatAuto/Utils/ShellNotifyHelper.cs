@@ -51,7 +51,7 @@ namespace WeChatAuto.Utils
 
         private static (AutomationElement[] el, bool success) _GetNotifyIconButton_2(AutomationElement taskBar)
         {
-            var xPath = "//Button[@ClassName='SystemTray.NormalButton'][@Name='微信'] | //Button[@ClassName='SystemTray.NormalButton'][@Name=' 微信']";
+            var xPath = "//Button[@ClassName='SystemTray.NormalButton'][@Name='微信'] | //Button[@ClassName='SystemTray.NormalButton'][@Name=' 微信'] | //Button[@ClassName='SystemTray.NormalButton'][@Name='WeChat']";
             var result = Retry.WhileNull(() => taskBar.FindAllByXPath(xPath),
                       timeout: TimeSpan.FromSeconds(2), interval: TimeSpan.FromMilliseconds(200));
             if (result.Success)
