@@ -818,13 +818,8 @@ await client.SendVoiceMessageWithTTS("某好友", "sk-xxx", "你好",
 // 1. 当前登录账号的 wxid
 var me = client.GetOwerInfo().WxId;
 
-// 2. 好友：界面自动化方式（社区版也能用）
-var friends = await client.GetAllFriends(fromCache: false);
-var friend = friends.FirstOrDefault(f => f.Name == "张三");
-if (friend != null && !string.IsNullOrWhiteSpace(friend.WxId))
-    await client.SendMessageByWxid(friend.WxId, "你好");
 
-// 3. 好友和群：VIP 数据库方式更稳
+// 2. 好友和群：VIP 数据库方式更稳
 var contact = client.GetContactWithShowName("张三");
 if (contact != null)
     await client.SendMessageByWxid(contact.UserName, "你好");
@@ -1016,9 +1011,13 @@ await client.AddChatGroupMemberToFriends("某外部群", new List<string> { "张
 
 !> 群内加好友是**严风控**操作，建议分批、一次不超过 20~30 个，时间跨度拉长到 4 小时或一天后。
 
-### 7.8 消息监听（事件驱动，💎）
+### 7.8 消息监听（事件驱动）
 
 监听以**事件回调**方式触发：来消息时调用你的回调，`MessageContext` 里带有新消息、历史消息、`Sender`（回复当前窗口）、`Client`（完整能力）。
+
+**注：消息监听是以UI Automation的方式实现的，会占用键盘鼠标资源，并且同时服务几十个群时，会存在卡顿的情况，建议仅在<20个群/好友的场景下使用。**
+
+!>官方更推荐使用数据库Database read的方式来获取消息，性能更好，且不会占用键鼠资源，详情请看 [7.12 数据库读取（Database Read，💎）](#712-数据库读取database-read)。
 
 ```csharp
 // 固定监听某个好友/群
