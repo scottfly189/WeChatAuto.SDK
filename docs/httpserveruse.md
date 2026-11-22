@@ -145,11 +145,37 @@
 
 ---
 
-## 1. 配置文件
+## 1. 配置文件（App.json）
+
+`Server.exe` 同目录下有一个 `App.json`，服务的端口、API Key、中间库和每个微信号的功能配置都在这里：
+
+```json
+{
+  "Http": {
+    "Port": 5000,
+    "ApiKey": ""
+  },
+  "Database": {
+    "Type": "sqlite",
+    "ConnectionString": "Data Source=wechat.db"
+  },
+  "Config": []
+}
+```
+
+| 节点 | 说明 |
+|---|---|
+| `Http.Port` | HTTP 监听端口，默认 `5000`；改完要重启 Server |
+| `Http.ApiKey` | 调用 `/api/**` 时的鉴权 Key；为空表示不校验（只建议内网/单机这样用） |
+| `Database.Type` | 中间库类型，默认 `sqlite`；可选 `sqlserver`、`mysql`、`postgresql` 等 |
+| `Database.ConnectionString` | 中间库连接字符串，和 `Database.Type` 配套 |
+| `Config` | 每个微信号的功能配置（自动通过好友、TTS、定时任务、好友分组等），一般由主控台/测试集写入，不需要手改 |
+
+> **Database 是全局唯一的**：所有微信号默认写进同一套中间库，用所属微信号区分来源。改数据库类型/连接字符串后需要重启 Server；如果是在吸附窗口的“配置”里改，重启时会先把旧库数据迁移到新库。
+>
+> 服务端启动时会固定开启 `UseDatabaseRead`，所以 HTTP 服务本身不需要你再去 `WeAutomation.Initialize` 里配数据库；你只需要把 `App.json` 的 `Database` 配对。
 
 <img src='./images/appconfig.png' width='1200'/>
-
-> 根目录的App.json为配置文件，可以在这里更改HTTP监听端口、设置鉴权的Key等
 
 ## 2. 接入信息
 
@@ -232,7 +258,7 @@
 
 三步：列客户端 → 取 clientId → 发消息。
 
-> 若你的语言有对应的官方客户端 SDK，推荐直接使用第 7 节的封装库，无需手写 HTTP 请求。下面的原始 HTTP 示例用于理解协议，或你的语言没有对应 SDK 时使用。
+> 若你的语言有对应的官方客户端 SDK，推荐直接使用第 8 节的封装库，无需手写 HTTP 请求。下面的原始 HTTP 示例用于理解协议，或你的语言没有对应 SDK 时使用。
 
 ### curl
 
@@ -321,9 +347,11 @@ client
 | 接口前缀 | 客户端自动为所有请求加 `/api/v1` |
 | 字段命名 | `snake_case`，严格保持 swagger 原样 |
 | 响应 | swagger 中响应无 schema（仅 `200 OK`），各客户端统一返回**原始响应体**，不构造响应 DTO |
-| 接口规模 | 65 个操作（7 组）、42 个数据模型/枚举 |
+| 接口规模 | 7 组、73 个操作（含 `...-and-close`、窗口打开/关闭等新接口）、42 个数据模型/枚举；以实际运行的服务和 Swagger 为准 |
 
 > ⚠️ 这些客户端由 `swagger.json` 自动生成，**未经充分测试**；接口的准确行为以本指南与 `HttpSupport/Server/Docs/api-site/swagger.json` 为准。
+>
+> 自动生成客户端可能还没覆盖最近新增的 `...-and-close`、`window/open`、`window/close`、`clients/version` 等接口；需要这些接口时，直接用原始 HTTP 调用，或先重新生成 `swagger.json` 和客户端。
 
 | 语言 | 目录 | 构建 / 测试 | 说明 |
 |---|---|---|---|
@@ -424,14 +452,164 @@ std::string result = client.sendMessage("wxid_xxx", req);
 
 ## 9. 接口参考
 
-完整接口清单（客户端、消息、好友、群聊、会话、导航、窗口）见 Swagger UI：
+> 所有接口统一前缀 `/api/v1`。下表省略了公共前缀 `/api/v1/clients/{clientId}`，实际调用时要补全；`{...}` 是路径参数。
+>
+> `who` / `group_name` 为空表示作用于**当前焦点窗口**；完整请求字段、响应结构和在线试调以运行中的 Swagger 为准：`http://<主机>:<端口>/swagger`。
 
-`http://<主机IP>:<端口>/swagger`
+### 9.1 客户端（Clients）
 
-该页面可直接在线试调（先点右上角 **Authorize** 填入 API Key）。
+Base：`/api/v1/clients`
+
+| 方法 | 路径 | 说明 | 请求体 / 参数 |
+|---|---|---|---|
+| `GET` | `/` | 获取全部微信客户端概要 | — |
+| `GET` | `/{clientId}` | 获取指定客户端概要（昵称、wxid、头像、进程、窗口句柄、任务栏索引） | — |
+| `GET` | `/{clientId}/owner-info` | 获取本微信个人信息（头像路径、wxid、昵称） | — |
+| `GET` | `/{clientId}/version` | 获取微信版本号 | — |
+| `POST` | `/{clientId}/avatar` | 保存本微信头像到指定路径 | `SaveAvatarRequest` |
+| `POST` | `/{clientId}/notify-icon/click` | 点击任务栏微信图标（按索引或微信名） | `NotifyIconClickRequest` |
+
+### 9.2 会话（Conversations）
+
+Base：`/api/v1/clients/{clientId}/conversations`
+
+| 方法 | 路径 | 说明 | 请求体 / 参数 |
+|---|---|---|---|
+| `GET` | `/` | 获取会话列表所有会话标题 | — |
+| `GET` | `/visible-titles` | 获取当前可见会话标题 | — |
+| `GET` | `/visible` | 获取可见会话（名称、未读数、头像等） | — |
+| `POST` | `/search` | 搜索好友/群聊 | `SearchConversationRequest` |
+| `POST` | `/locate` | 定位会话，滚动列表使目标可见 | `LocateConversationRequest` |
+| `POST` | `/set-do-not-disturb` | 设置/取消消息免打扰 | `SetDoNotDisturbRequest` |
+| `POST` | `/set-top-most` | 设置/取消会话置顶 | `SetTopMostRequest` |
+
+### 9.3 好友（Friends）
+
+Base：`/api/v1/clients/{clientId}/friends`
+
+| 方法 | 路径 | 说明 | 请求体 / 参数 |
+|---|---|---|---|
+| `POST` | `/add-window/open` | 打开“添加朋友”窗口 | — |
+| `POST` | `/add-window/close` | 关闭“添加朋友”窗口 | — |
+| `POST` | `/add` | 通过手机号/微信号查找并添加好友 | `AddFriendsRequest` |
+| `GET` | `/` | 获取所有好友信息，默认优先读缓存 | `fromCache`（query） |
+| `GET` | `/names` | 获取所有好友名称列表 | — |
+| `DELETE` | `/{nickName}` | 从通讯录移除好友 | — |
+| `GET` | `/cache` | 获取缓存中的全部好友 | — |
+| `POST` | `/cache` | 手动新增/修改缓存中的好友 | `FriendInfo` |
+| `GET` | `/cache/by-name/{who}` | 按名称取缓存好友，重名时返回多个 | — |
+| `GET` | `/cache/by-wxid/{wxid}` | 按 wxid 取缓存好友 | — |
+| `DELETE` | `/cache/by-wxid/{wxid}` | 按 wxid 移除缓存好友 | — |
+| `GET` | `/cache/{who}` | 按名称取单个缓存好友 | — |
+| `DELETE` | `/cache/{who}` | 按名称移除缓存好友 | — |
+
+### 9.4 群聊（Groups）
+
+Base：`/api/v1/clients/{clientId}/groups`
+
+| 方法 | 路径 | 说明 | 请求体 / 参数 |
+|---|---|---|---|
+| `GET` | `/{groupName}/is-owner` | 判断是否为自有群 | — |
+| `GET` | `/{groupName}/owner` | 获取群主昵称 | — |
+| `GET` | `/members` | 获取群成员列表 | `groupName`（query，可为空） |
+| `POST` | `/members` | 添加群成员（自有群） | `GroupMemberRequest` |
+| `DELETE` | `/members` | 移除群成员（自有群） | `GroupMemberRequest` |
+| `DELETE` | `/{groupName}` | 退出群聊 | `clearHistory`（query，默认 true） |
+| `POST` | `/` | 创建群聊；已存在则打开 | `CreateGroupRequest` |
+| `PUT` | `/name` | 修改群名（自有群） | `RenameGroupRequest` |
+| `PUT` | `/nickname` | 修改自己在群里的昵称 | `ChangeGroupNickNameRequest` |
+| `PUT` | `/memo` | 修改群备注（仅自己可见） | `ChangeGroupMemoRequest` |
+| `PUT` | `/notice` | 更新群公告（自有群） | `UpdateGroupNoticeRequest` |
+| `POST` | `/invite` | 邀请群成员（外部群） | `InviteGroupMemberRequest` |
+| `POST` | `/add-members-to-friends` | 把群成员加为好友（外部群，注意风控） | `AddGroupMemberToFriendsRequest` |
+
+### 9.5 消息（Messages）
+
+Base：`/api/v1/clients/{clientId}/messages`
+
+| 方法 | 路径 | 说明 | 请求体 / 参数 |
+|---|---|---|---|
+| `GET` | `/title` | 获取当前聊天窗口标题对象 | — |
+| `GET` | `/only-title` | 只获取当前窗口标题文字 | — |
+| `POST` | `/focus-input` | 聚焦当前窗口输入区 | — |
+| `POST` | `/send` | 发送文本（支持 @ 与引用） | `SendMessageRequest` |
+| `POST` | `/send-and-close` | 发送文本后关闭微信窗口 | `SendMessageRequest` |
+| `POST` | `/send-file` | 发送文件 | `SendFileRequest` |
+| `POST` | `/send-file-and-close` | 发送文件后关闭微信窗口 | `SendFileRequest` |
+| `POST` | `/send-emoji` | 发送表情（名称/描述/索引） | `SendEmojiRequest` |
+| `POST` | `/send-emoji-and-close` | 发送表情后关闭微信窗口 | `SendEmojiRequest` |
+| `POST` | `/send-voice-chat` | 发起单人语音通话 | `WhoRequest` |
+| `POST` | `/send-video-chat` | 发起单人视频通话 | `WhoRequest` |
+| `POST` | `/send-voice-chats` | 发起群多人语音通话 | `SendVoiceChatsRequest` |
+| `POST` | `/send-voice-message` | 发送语音消息（需虚拟声卡） | `SendVoiceMessageRequest` |
+| `POST` | `/send-voice-message-and-close` | 发送语音后关闭微信窗口 | `SendVoiceMessageRequest` |
+| `POST` | `/send-voice-message-tts` | 文字转语音发送 | `SendVoiceMessageTtsRequest` |
+| `POST` | `/send-voice-message-tts-and-close` | TTS 发送后关闭微信窗口 | `SendVoiceMessageTtsRequest` |
+| `GET` | `/history` | 获取聊天历史（按日期或时间段） | `who`、`date`、`start_date`、`end_date` |
+| `POST` | `/tap` | 拍一拍当前窗口好友 | `TapRequest` |
+| `POST` | `/reference` | 引用当前窗口的好友消息 | `ReferenceRequest` |
+| `POST` | `/reference-last` | 引用当前窗口最后一条消息 | — |
+
+### 9.6 导航（Navigation）
+
+Base：`/api/v1/clients/{clientId}/navigation`
+
+| 方法 | 路径 | 说明 | 请求体 |
+|---|---|---|---|
+| `POST` | `/switch` | 切换导航栏 | `SwitchNavigationRequest` |
+| `POST` | `/close` | 关闭导航打开的窗口（聊天文件、朋友圈、视频号等） | `SwitchNavigationRequest` |
+
+### 9.7 窗口（Window）
+
+Base：`/api/v1/clients/{clientId}/window`
+
+| 方法 | 路径 | 说明 | 请求体 |
+|---|---|---|---|
+| `POST` | `/maximize` | 最大化微信窗口 | — |
+| `POST` | `/restore` | 还原微信窗口 | — |
+| `POST` | `/pin` | 置顶微信窗口 | — |
+| `POST` | `/unpin` | 取消置顶 | — |
+| `POST` | `/focus` | 使主窗口获得焦点 | — |
+| `POST` | `/open` | 打开（唤出）本微信窗口 | — |
+| `POST` | `/close` | 关闭（隐藏）本微信窗口 | — |
+| `POST` | `/close-search-window` | 关闭查询窗口 | `SubWindowRequest` |
+| `POST` | `/open-sub-window` | 打开指定对象的子窗口 | `SubWindowRequest` |
+| `POST` | `/close-sub-window` | 关闭指定对象的子窗口 | `SubWindowRequest` |
+| `GET` | `/handler` | 获取微信窗口句柄 | — |
+| `GET` | `/process-id` | 获取微信窗口进程 ID | — |
+
+### 9.8 常用请求示例
+
+```bash
+# 发文本（who 为空 = 当前焦点窗口；at_users 可选）
+curl -X POST http://localhost:5000/api/v1/clients/<wxid>/messages/send \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your-key" \
+  -d '{"who": "张三", "message": "你好", "at_users": ["李四"]}'
+
+# 发文件
+curl -X POST http://localhost:5000/api/v1/clients/<wxid>/messages/send-file \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your-key" \
+  -d '{"who": "张三", "files": ["C:\\report.pdf"]}'
+
+# 查某天/某个时间段的历史
+curl -G http://localhost:5000/api/v1/clients/<wxid>/messages/history \
+  -H "X-API-Key: your-key" \
+  --data-urlencode "who=张三" \
+  --data-urlencode "start_date=2026-10-01" \
+  --data-urlencode "end_date=2026-10-20"
+
+# 查群成员（groupName 为空 = 当前焦点群）
+curl -G http://localhost:5000/api/v1/clients/<wxid>/groups/members \
+  -H "X-API-Key: your-key" \
+  --data-urlencode "groupName=测试群"
+```
+
+> 写操作成功通常是 `204 No Content`，没有响应体；GET 返回 JSON。字段和响应结构以 Swagger 的 schema 为准，上表只帮你快速找到接口。
 
 ## 10. 常见问题
 
 - **404 微信客户端不存在**：`clientId` 填错，或大小写/精确匹配不符——先用 `GET /api/v1/clients` 取准确的 `wx_id`。
 - **返回 204 没有 body，是不是失败了**：不是，写操作成功就是 204。
-- **有现成的客户端 SDK 吗**：有。仓库已提供 7 个语言（.NET / C++ / Go / Java / Node.js / Python / Rust）的官方客户端 SDK（见第 7 节），位于 `HttpSupport/Client/`。想自己生成或需要其他语言，仍可把 `http://<主机>:<端口>/swagger/v1/swagger.json` 交给 openapi-generator / Kiota(.NET) / openapi-python-client(Python) / progenitor(Rust) 自动生成。
+- **有现成的客户端 SDK 吗**：有。仓库已提供 7 个语言（.NET / C++ / Go / Java / Node.js / Python / Rust）的官方客户端 SDK（见第 8 节），位于 `HttpSupport/Client/`。想自己生成或需要其他语言，仍可把 `http://<主机>:<端口>/swagger/v1/swagger.json` 交给 openapi-generator / Kiota(.NET) / openapi-python-client(Python) / progenitor(Rust) 自动生成。
