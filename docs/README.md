@@ -258,3 +258,13 @@ ORDER BY CreateTime;
 - [HTTP WebAPI 开发方式](httpserveruse.md)：启动、配置、Swagger 联调；
 - [内嵌开发方式](inlineuse.md)：`WeAutomation.Initialize(...)` 与 `WeChatClient`；
 - [常见问题](faq.md)：部署、运行环境、常见报错。
+
+---
+
+## 💬 社区
+
+欢迎加入 Telegram，交流微信 Agent / SDK 使用与二次开发。
+
+[加入 Telegram](https://t.me/wechatauto_sdk/1) · [@wechatauto_sdk](https://t.me/wechatauto_sdk)
+
+<img src="./images/telegram-qr.png" alt="Telegram @WECHATAUTO_SDK" width="1200" />

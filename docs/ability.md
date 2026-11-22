@@ -149,3 +149,13 @@
 - **一对一专属服务**：微信自动化能力由 WeChatAuto.SDK 深度支持，业务系统由你自由扩展。
 
 如需升级成为 VIP，或了解具体权益和支持方案，👉 [请与我联系](https://github.com/scottfly189/scottfly189/blob/main/vip.md)。
+
+---
+
+## 💬 社区
+
+欢迎加入 Telegram，交流微信 Agent / SDK 使用与二次开发。
+
+[加入 Telegram](https://t.me/wechatauto_sdk/1) · [@wechatauto_sdk](https://t.me/wechatauto_sdk)
+
+<img src="./images/telegram-qr.png" alt="Telegram @WECHATAUTO_SDK" width="1200" />

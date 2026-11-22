@@ -1481,3 +1481,13 @@ using var factory = serviceProvider.GetRequiredService<WeChatClientFactory>();
 - **发语音失败**：需安装虚拟声卡 Cable input/output（见 [2.4 虚拟声卡](#24-虚拟声卡仅发语音消息需要)）。
 - **远程桌面最小化后自动化异常 / 发不了消息**：见 [FAQ](https://github.com/scottfly189/WeChatAuto.SDK/blob/master/docs/faq.md) 中的 RDP 与剪贴板设置。
 - **更多问题**：参见 [完整 FAQ](./faq.md)，或提交 [Issues](https://github.com/scottfly189/WeChatAuto.SDK/issues)。
+
+---
+
+## 💬 社区
+
+欢迎加入 Telegram，交流微信 Agent / SDK 使用与二次开发。
+
+[加入 Telegram](https://t.me/wechatauto_sdk/1) · [@wechatauto_sdk](https://t.me/wechatauto_sdk)
+
+<img src="./images/telegram-qr.png" alt="Telegram @WECHATAUTO_SDK" width="1200" />

@@ -338,7 +338,6 @@ client
 
 本次已用 **OpenAPI Generator 7.27.0** 从 `swagger.json` 重新生成 7 个语言客户端，覆盖 **115 个接口 / 58 个 schema**。
 
-> 与旧版统一 `WeChatAutoClient` 不同：标准生成器按模块生成 API 类（`ClientsApi`、`MessagesApi`、`DatabaseApi` 等），方法名形如 `MessagesSend` / `messages_send`；旧调用代码需要按新生成结果调整。
 
 | 语言 | 目录 | 入口 | 构建 / 测试 |
 |---|---|---|---|
@@ -625,4 +624,14 @@ curl -G http://localhost:5000/api/v1/clients/<wxid>/groups/members \
 - **404 微信客户端不存在**：`clientId` 填错，或大小写/精确匹配不符——先用 `GET /api/v1/clients` 取准确的 `wx_id`。
 - **返回 204 没有 body，是不是失败了**：不是，写操作成功就是 204。
 - **有现成的客户端 SDK 吗**：有。仓库已提供 7 个语言（.NET / C++ / Go / Java / Node.js / Python / Rust）的官方客户端 SDK（见第 8 节），位于 `HttpSupport/Client/`。想自己生成或需要其他语言，仍可把 `http://<主机>:<端口>/swagger/v1/swagger.json` 交给 openapi-generator / Kiota(.NET) / openapi-python-client(Python) / progenitor(Rust) 自动生成。
+
+---
+
+## 💬 社区
+
+欢迎加入 Telegram，交流微信 Agent / SDK 使用与二次开发。
+
+[加入 Telegram](https://t.me/wechatauto_sdk/1) · [@wechatauto_sdk](https://t.me/wechatauto_sdk)
+
+<img src="./images/telegram-qr.png" alt="Telegram @WECHATAUTO_SDK" width="1200" />
 
