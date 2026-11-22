@@ -347,7 +347,7 @@ client
 | 接口前缀 | 客户端自动为所有请求加 `/api/v1` |
 | 字段命名 | `snake_case`，严格保持 swagger 原样 |
 | 响应 | swagger 中响应无 schema（仅 `200 OK`），各客户端统一返回**原始响应体**，不构造响应 DTO |
-| 接口规模 | 7 组、73 个操作（含 `...-and-close`、窗口打开/关闭等新接口）、42 个数据模型/枚举；以实际运行的服务和 Swagger 为准 |
+| 接口规模 | 8 组、102 个操作（含 Database Read、`...-and-close`、窗口打开/关闭等）、42+ 个数据模型/枚举；以实际运行的服务和 Swagger 为准 |
 
 > ⚠️ 这些客户端由 `swagger.json` 自动生成，**未经充分测试**；接口的准确行为以本指南与 `HttpSupport/Server/Docs/api-site/swagger.json` 为准。
 >
@@ -466,6 +466,7 @@ Base：`/api/v1/clients`
 | `GET` | `/{clientId}` | 获取指定客户端概要（昵称、wxid、头像、进程、窗口句柄、任务栏索引） | — |
 | `GET` | `/{clientId}/owner-info` | 获取本微信个人信息（头像路径、wxid、昵称） | — |
 | `GET` | `/{clientId}/version` | 获取微信版本号 | — |
+| `GET` | `/{clientId}/storage-root` | 通过界面读取微信存储位置（VIP，一般不需要） | — |
 | `POST` | `/{clientId}/avatar` | 保存本微信头像到指定路径 | `SaveAvatarRequest` |
 | `POST` | `/{clientId}/notify-icon/click` | 点击任务栏微信图标（按索引或微信名） | `NotifyIconClickRequest` |
 
@@ -545,6 +546,11 @@ Base：`/api/v1/clients/{clientId}/messages`
 | `POST` | `/send-voice-message-and-close` | 发送语音后关闭微信窗口 | `SendVoiceMessageRequest` |
 | `POST` | `/send-voice-message-tts` | 文字转语音发送 | `SendVoiceMessageTtsRequest` |
 | `POST` | `/send-voice-message-tts-and-close` | TTS 发送后关闭微信窗口 | `SendVoiceMessageTtsRequest` |
+| `POST` | `/send-by-wxid` | 按用户名（wxid / 群 id）发文本，返回是否成功 | `SendMessageByWxidRequest` |
+| `POST` | `/send-file-by-wxid` | 按用户名发文件 | `SendFileByWxidRequest` |
+| `POST` | `/send-emoji-by-wxid` | 按用户名发表情 | `SendEmojiByWxidRequest` |
+| `POST` | `/send-voice-message-by-wxid` | 按用户名发语音文件 | `SendVoiceMessageByWxidRequest` |
+| `POST` | `/send-voice-message-tts-by-wxid` | 按用户名用 TTS 发语音 | `SendVoiceMessageTtsByWxidRequest` |
 | `GET` | `/history` | 获取聊天历史（按日期或时间段） | `who`、`date`、`start_date`、`end_date` |
 | `POST` | `/tap` | 拍一拍当前窗口好友 | `TapRequest` |
 | `POST` | `/reference` | 引用当前窗口的好友消息 | `ReferenceRequest` |
@@ -578,7 +584,43 @@ Base：`/api/v1/clients/{clientId}/window`
 | `GET` | `/handler` | 获取微信窗口句柄 | — |
 | `GET` | `/process-id` | 获取微信窗口进程 ID | — |
 
-### 9.8 常用请求示例
+### 9.8 数据库读取（Database Read，💎）
+
+Base：`/api/v1/clients/{clientId}/database`
+
+> 这些接口只在 VIP 版、且 Server 开启 `UseDatabaseRead` 时才有数据；Server 启动时已默认开启。它们只读中间表，不写微信原库。
+>
+> 时间/大整数按字符串或 64 位整数处理；`SortSeq` 只在同一个微信号内有序。
+
+| 方法 | 路径 | 说明 | 请求体 / 参数 |
+|---|---|---|---|
+| `GET` | `/contacts` | 获取全部联系人（不含已删除） | — |
+| `GET` | `/contacts/{userName}` | 按 username（wxid / 群 id）取联系人 | — |
+| `GET` | `/contacts/search` | 按关键字模糊搜索联系人 | `keyword`（query） |
+| `GET` | `/contacts/by-show-name` | 按显示名取联系人，重名返回多个 | `showName`（query） |
+| `GET` | `/contacts/by-show-name/first` | 按显示名取第一条联系人 | `showName`（query） |
+| `GET` | `/messages` | 取指定会话最近 N 条消息（从新到旧） | `chatUsername`、`count` |
+| `GET` | `/messages/recent` | 取最近 N 条消息（从旧到新，适合 LLM） | `chatUsername`、`count` |
+| `GET` | `/messages/new` | 取 `SortSeq` 之后的新消息（从旧到新） | `afterSortSeq`（query） |
+| `GET` | `/messages/max-sort-seq` | 取当前账号最大 `SortSeq`（增量水位） | — |
+| `GET` | `/messages/search` | 按正文关键字搜索当前账号消息 | `keyword`、`chatUsername`（可选） |
+| `GET` | `/messages/search-all` | 跨所有微信号搜索正文 | `keyword`、`chatUsername`（可选） |
+| `GET` | `/rooms` | 获取全部群聊 | — |
+| `GET` | `/rooms/{roomUsername}/members` | 按群 username 取成员 | — |
+| `GET` | `/rooms/by-show-name` | 按群显示名取群，重名返回多个 | `showName`（query） |
+| `GET` | `/rooms/by-show-name/first` | 按群显示名取第一条群 | `showName`（query） |
+| `GET` | `/rooms/by-show-name/members` | 按群显示名取成员 | `showName`（query） |
+| `GET` | `/rooms/by-local-type` | 按联系人 `LocalType` 过滤群聊 | `localType`（query，本机群多为 2） |
+| `GET` | `/sns/posts` | 取最近 N 条朋友圈（含媒体/赞/评） | `limit`（默认 20） |
+| `GET` | `/sns/posts/{tid}` | 按 tid 取一条朋友圈 | — |
+| `GET` | `/sns/posts/by-date` | 取某一天的朋友圈（UTC+8 日历日） | `date`（query） |
+| `GET` | `/sns/posts/by-user` | 按发布者真实 username 取朋友圈 | `userName`（query） |
+| `GET` | `/sns/posts/by-show-name` | 按发布者显示名取朋友圈 | `showName`（query） |
+| `POST` | `/query` | 执行只读 `SELECT`，返回字典列表 | `DatabaseQueryRequest` |
+
+> `/query` 只接受 `SELECT`（含 `WITH ... SELECT`），不会自动追加 `FromWechatWxId` 条件；SQL 由调用方自己拼，注意注入风险。复杂报表建议直接连中间库，详见 [数据库 Schema](schema.md)。
+
+### 9.9 常用请求示例
 
 ```bash
 # 发文本（who 为空 = 当前焦点窗口；at_users 可选）
@@ -592,6 +634,24 @@ curl -X POST http://localhost:5000/api/v1/clients/<wxid>/messages/send-file \
   -H "Content-Type: application/json" \
   -H "X-API-Key: your-key" \
   -d '{"who": "张三", "files": ["C:\\report.pdf"]}'
+
+# 按 wxid（username）发文本，返回 {"success": true/false}
+curl -X POST http://localhost:5000/api/v1/clients/<wxid>/messages/send-by-wxid \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your-key" \
+  -d '{"user_name": "wxid_target", "message": "你好"}'
+
+# 数据库读取：联系人 / 最近消息 / 增量水位
+curl http://localhost:5000/api/v1/clients/<wxid>/database/contacts \
+  -H "X-API-Key: your-key"
+
+curl -G http://localhost:5000/api/v1/clients/<wxid>/database/messages/recent \
+  -H "X-API-Key: your-key" \
+  --data-urlencode "chatUsername=wxid_target" \
+  --data-urlencode "count=20"
+
+curl http://localhost:5000/api/v1/clients/<wxid>/database/messages/max-sort-seq \
+  -H "X-API-Key: your-key"
 
 # 查某天/某个时间段的历史
 curl -G http://localhost:5000/api/v1/clients/<wxid>/messages/history \
