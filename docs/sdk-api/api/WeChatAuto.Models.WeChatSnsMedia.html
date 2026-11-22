@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class WeChatSnsMedia | WeChatAuto.SDK API 参考 </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class WeChatSnsMedia | WeChatAuto.SDK API 参考 ">
+    
+    <meta name="description" content="朋友圈媒体中间表：一条动态可以有多张图 / 多个视频（含 LivePhoto 的视频段）。 数据来自 SnsTimeLine.content 的 ContentObject/mediaList/media，按 (Tid, Idx) 唯一。 URL 是带 token 的 CDN 地址，会过期； 预留给后续的媒体下载/缓存。 视频号（finderFeed）的媒体列表结构与朋友圈 media 不同，暂不写入本表，见  / 。">
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="WeChatAuto.Models.WeChatSnsMedia">
+
+
+
+  <h1 id="WeChatAuto_Models_WeChatSnsMedia" data-uid="WeChatAuto.Models.WeChatSnsMedia" class="text-break">Class WeChatSnsMedia</h1>
+  <div class="markdown level0 summary"><p>朋友圈媒体中间表：一条动态可以有多张图 / 多个视频（含 LivePhoto 的视频段）。
+数据来自 <code>SnsTimeLine.content</code> 的 <code>ContentObject/mediaList/media</code>，按 <code>(Tid, Idx)</code> 唯一。</p>
+<p>URL 是带 token 的 CDN 地址，会过期；<a class="xref" href="WeChatAuto.Models.WeChatSnsMedia.html#WeChatAuto_Models_WeChatSnsMedia_LocalPath">LocalPath</a> 预留给后续的媒体下载/缓存。</p>
+<p>视频号（finderFeed）的媒体列表结构与朋友圈 media 不同，暂不写入本表，见
+<a class="xref" href="WeChatAuto.Models.WeChatSnsPost.html#WeChatAuto_Models_WeChatSnsPost_FinderKind">FinderKind</a> / <a class="xref" href="WeChatAuto.Models.WeChatSnsPost.html#WeChatAuto_Models_WeChatSnsPost_FinderId">FinderId</a>。</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+    <div class="level1"><span class="xref">WeChatSnsMedia</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="WeChatAuto.html">WeChatAuto</a>.<a class="xref" href="WeChatAuto.Models.html">Models</a></h6>
+  <h6><strong>Assembly</strong>: WeChatAuto.dll</h6>
+  <h5 id="WeChatAuto_Models_WeChatSnsMedia_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarTable(&quot;wechat_sns_media&quot;)]
+[SugarIndex(&quot;uk_sns_media&quot;, &quot;FromWechatWxId&quot;, OrderByType.Asc, &quot;Tid&quot;, OrderByType.Asc, &quot;Idx&quot;, OrderByType.Asc, false, IsUnique = true)]
+[SugarIndex(&quot;index_sns_media_from&quot;, &quot;FromWechatWxId&quot;, OrderByType.Asc, false)]
+[SugarIndex(&quot;index_sns_media_tid&quot;, &quot;Tid&quot;, OrderByType.Asc, false)]
+public class WeChatSnsMedia</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+</h3>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia__ctor_" data-uid="WeChatAuto.Models.WeChatSnsMedia.#ctor*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia__ctor" data-uid="WeChatAuto.Models.WeChatSnsMedia.#ctor">WeChatSnsMedia()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public WeChatSnsMedia()</code></pre>
+  </div>
+  <h3 id="properties">Properties
+</h3>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_Description_" data-uid="WeChatAuto.Models.WeChatSnsMedia.Description*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_Description" data-uid="WeChatAuto.Models.WeChatSnsMedia.Description">Description</h4>
+  <div class="markdown level1 summary"><p>媒体描述，对应 XML media/description（视频封面文案等）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDataType = &quot;TEXT&quot;, IsNullable = true, ColumnDescription = &quot;媒体描述&quot;)]
+public string Description { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_DownloadAttempts_" data-uid="WeChatAuto.Models.WeChatSnsMedia.DownloadAttempts*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_DownloadAttempts" data-uid="WeChatAuto.Models.WeChatSnsMedia.DownloadAttempts">DownloadAttempts</h4>
+  <div class="markdown level1 summary"><p>已尝试下载次数（仅对可重试错误累加，到 3 次转永久失败）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(IsNullable = true, DefaultValue = &quot;0&quot;, ColumnDescription = &quot;下载尝试次数&quot;)]
+public int DownloadAttempts { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_DownloadError_" data-uid="WeChatAuto.Models.WeChatSnsMedia.DownloadError*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_DownloadError" data-uid="WeChatAuto.Models.WeChatSnsMedia.DownloadError">DownloadError</h4>
+  <div class="markdown level1 summary"><p>最近一次失败原因（截断到 200 字符），便于排查；成功时清空。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(Length = 200, IsNullable = true, ColumnDescription = &quot;下载失败原因&quot;)]
+public string DownloadError { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_DownloadStatus_" data-uid="WeChatAuto.Models.WeChatSnsMedia.DownloadStatus*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_DownloadStatus" data-uid="WeChatAuto.Models.WeChatSnsMedia.DownloadStatus">DownloadStatus</h4>
+  <div class="markdown level1 summary"><p>下载状态：0 未处理 / 1 成功 / 2 永久失败（token 过期、404、内容不是图片）/ 3 跳过（非图片）。
+永久失败不会重试；若动态内容后续变化，会按 tid 重建媒体行，新行重新从 0 开始。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(IsNullable = true, DefaultValue = &quot;0&quot;, ColumnDescription = &quot;下载状态 0未处理/1成功/2永久失败/3跳过&quot;)]
+public int DownloadStatus { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_DownloadedAt_" data-uid="WeChatAuto.Models.WeChatSnsMedia.DownloadedAt*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_DownloadedAt" data-uid="WeChatAuto.Models.WeChatSnsMedia.DownloadedAt">DownloadedAt</h4>
+  <div class="markdown level1 summary"><p>下载成功时间（unix 秒）；未成功为 0。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(IsNullable = true, DefaultValue = &quot;0&quot;, ColumnDescription = &quot;下载成功时间（unix 秒）&quot;)]
+public long DownloadedAt { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_FileSize_" data-uid="WeChatAuto.Models.WeChatSnsMedia.FileSize*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_FileSize" data-uid="WeChatAuto.Models.WeChatSnsMedia.FileSize">FileSize</h4>
+  <div class="markdown level1 summary"><p>文件大小，对应 XML media/size@totalSize（字节，可能为空）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDataType = &quot;INTEGER&quot;, IsNullable = true, ColumnDescription = &quot;文件大小（字节）&quot;)]
+public long FileSize { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_FromWechat_" data-uid="WeChatAuto.Models.WeChatSnsMedia.FromWechat*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_FromWechat" data-uid="WeChatAuto.Models.WeChatSnsMedia.FromWechat">FromWechat</h4>
+  <div class="markdown level1 summary"><p>此记录属于哪个微信昵称（多号聚合）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(Length = 200, IsNullable = false, ColumnDescription = &quot;此媒体属于哪个微信昵称&quot;)]
+public string FromWechat { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_FromWechatWxId_" data-uid="WeChatAuto.Models.WeChatSnsMedia.FromWechatWxId*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_FromWechatWxId" data-uid="WeChatAuto.Models.WeChatSnsMedia.FromWechatWxId">FromWechatWxId</h4>
+  <div class="markdown level1 summary"><p>此记录属于哪个微信 wxid（多号聚合）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(Length = 200, IsNullable = false, ColumnDescription = &quot;此媒体属于哪个微信 wxid&quot;)]
+public string FromWechatWxId { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_Height_" data-uid="WeChatAuto.Models.WeChatSnsMedia.Height*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_Height" data-uid="WeChatAuto.Models.WeChatSnsMedia.Height">Height</h4>
+  <div class="markdown level1 summary"><p>高，对应 XML media/size@height（像素）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(IsNullable = true, ColumnDescription = &quot;高（像素）&quot;)]
+public int Height { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_Id_" data-uid="WeChatAuto.Models.WeChatSnsMedia.Id*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_Id" data-uid="WeChatAuto.Models.WeChatSnsMedia.Id">Id</h4>
+  <div class="markdown level1 summary"><p>自定义主键，自增。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
+public int Id { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_Idx_" data-uid="WeChatAuto.Models.WeChatSnsMedia.Idx*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_Idx" data-uid="WeChatAuto.Models.WeChatSnsMedia.Idx">Idx</h4>
+  <div class="markdown level1 summary"><p>在 mediaList 中的顺序，从 0 开始。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(IsNullable = false, ColumnDescription = &quot;媒体在动态内的顺序，从 0 开始&quot;)]
+public int Idx { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_IsLivePhoto_" data-uid="WeChatAuto.Models.WeChatSnsMedia.IsLivePhoto*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_IsLivePhoto" data-uid="WeChatAuto.Models.WeChatSnsMedia.IsLivePhoto">IsLivePhoto</h4>
+  <div class="markdown level1 summary"><p>该媒体是否带 LivePhoto 段，对应 XML media/LivePhoto 节点。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(IsNullable = true, ColumnDescription = &quot;是否 LivePhoto&quot;)]
+public bool IsLivePhoto { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_LocalPath_" data-uid="WeChatAuto.Models.WeChatSnsMedia.LocalPath*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_LocalPath" data-uid="WeChatAuto.Models.WeChatSnsMedia.LocalPath">LocalPath</h4>
+  <div class="markdown level1 summary"><p>预留：媒体下载到本机后的路径。URL 会过期，需要长期使用时由媒体同步写入这里。
+只有开启 <code>WeChatConfig.DownloadSnsImages</code> 且下载成功时才写。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(Length = 500, IsNullable = true, ColumnDescription = &quot;本地缓存路径（下载成功时写入）&quot;)]
+public string LocalPath { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_LowBandUrl_" data-uid="WeChatAuto.Models.WeChatSnsMedia.LowBandUrl*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_LowBandUrl" data-uid="WeChatAuto.Models.WeChatSnsMedia.LowBandUrl">LowBandUrl</h4>
+  <div class="markdown level1 summary"><p>低码率视频地址，对应 XML media/lowBandUrl（部分视频有）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDataType = &quot;TEXT&quot;, IsNullable = true, ColumnDescription = &quot;低码率视频地址&quot;)]
+public string LowBandUrl { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_MediaId_" data-uid="WeChatAuto.Models.WeChatSnsMedia.MediaId*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_MediaId" data-uid="WeChatAuto.Models.WeChatSnsMedia.MediaId">MediaId</h4>
+  <div class="markdown level1 summary"><p>媒体 id，对应 XML media/id。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(Length = 64, IsNullable = true, ColumnDescription = &quot;媒体 id&quot;)]
+public string MediaId { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_MediaType_" data-uid="WeChatAuto.Models.WeChatSnsMedia.MediaType*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_MediaType" data-uid="WeChatAuto.Models.WeChatSnsMedia.MediaType">MediaType</h4>
+  <div class="markdown level1 summary"><p>媒体类型，对应 XML media/type（本机：2 图片、4/5/6 视频类、3 其它）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(IsNullable = true, ColumnDescription = &quot;媒体类型（media/type）&quot;)]
+public int MediaType { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_SubType_" data-uid="WeChatAuto.Models.WeChatSnsMedia.SubType*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_SubType" data-uid="WeChatAuto.Models.WeChatSnsMedia.SubType">SubType</h4>
+  <div class="markdown level1 summary"><p>媒体子类型，对应 XML media/sub_type。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(IsNullable = true, ColumnDescription = &quot;媒体子类型（media/sub_type）&quot;)]
+public int SubType { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_ThumbToken_" data-uid="WeChatAuto.Models.WeChatSnsMedia.ThumbToken*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_ThumbToken" data-uid="WeChatAuto.Models.WeChatSnsMedia.ThumbToken">ThumbToken</h4>
+  <div class="markdown level1 summary"><p>缩略图 URL 的 token 参数（XML <code>thumb@token</code>）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(Length = 500, IsNullable = true, ColumnDescription = &quot;缩略图 token 参数&quot;)]
+public string ThumbToken { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_ThumbUrl_" data-uid="WeChatAuto.Models.WeChatSnsMedia.ThumbUrl*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_ThumbUrl" data-uid="WeChatAuto.Models.WeChatSnsMedia.ThumbUrl">ThumbUrl</h4>
+  <div class="markdown level1 summary"><p>缩略图地址，对应 XML media/thumb 的值（带 token，会过期）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDataType = &quot;TEXT&quot;, IsNullable = true, ColumnDescription = &quot;缩略图地址&quot;)]
+public string ThumbUrl { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_Tid_" data-uid="WeChatAuto.Models.WeChatSnsMedia.Tid*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_Tid" data-uid="WeChatAuto.Models.WeChatSnsMedia.Tid">Tid</h4>
+  <div class="markdown level1 summary"><p>所属动态 tid（有符号，与 <a class="xref" href="WeChatAuto.Models.WeChatSnsPost.html#WeChatAuto_Models_WeChatSnsPost_Tid">Tid</a> 相同）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(IsNullable = false, ColumnDescription = &quot;所属动态 tid（有符号）&quot;)]
+public long Tid { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_TidUnsigned_" data-uid="WeChatAuto.Models.WeChatSnsMedia.TidUnsigned*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_TidUnsigned" data-uid="WeChatAuto.Models.WeChatSnsMedia.TidUnsigned">TidUnsigned</h4>
+  <div class="markdown level1 summary"><p>所属动态 tid 的无符号十进制，便于对照 XML。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(Length = 32, IsNullable = false, ColumnDescription = &quot;所属动态 tid（无符号十进制）&quot;)]
+public string TidUnsigned { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_Title_" data-uid="WeChatAuto.Models.WeChatSnsMedia.Title*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_Title" data-uid="WeChatAuto.Models.WeChatSnsMedia.Title">Title</h4>
+  <div class="markdown level1 summary"><p>媒体标题，对应 XML media/title（少数视频才有）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDataType = &quot;TEXT&quot;, IsNullable = true, ColumnDescription = &quot;媒体标题&quot;)]
+public string Title { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_UhdUrl_" data-uid="WeChatAuto.Models.WeChatSnsMedia.UhdUrl*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_UhdUrl" data-uid="WeChatAuto.Models.WeChatSnsMedia.UhdUrl">UhdUrl</h4>
+  <div class="markdown level1 summary"><p>超清视频地址，对应 XML media/uhd（部分视频有）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDataType = &quot;TEXT&quot;, IsNullable = true, ColumnDescription = &quot;超清视频地址&quot;)]
+public string UhdUrl { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_Url_" data-uid="WeChatAuto.Models.WeChatSnsMedia.Url*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_Url" data-uid="WeChatAuto.Models.WeChatSnsMedia.Url">Url</h4>
+  <div class="markdown level1 summary"><p>原图 / 原视频地址，对应 XML media/url 的值（带 token，会过期）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDataType = &quot;TEXT&quot;, IsNullable = true, ColumnDescription = &quot;媒体地址（带 token）&quot;)]
+public string Url { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_UrlKey_" data-uid="WeChatAuto.Models.WeChatSnsMedia.UrlKey*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_UrlKey" data-uid="WeChatAuto.Models.WeChatSnsMedia.UrlKey">UrlKey</h4>
+  <div class="markdown level1 summary"><p>原图 / 原视频 URL 的 key（XML <code>url@key</code>），WxIsaac64 的种子。
+响应头 <code>X-Enc</code> 非 0 时用它解密。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(Length = 64, IsNullable = true, ColumnDescription = &quot;URL key（WxIsaac64 种子）&quot;)]
+public string UrlKey { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_UrlMd5_" data-uid="WeChatAuto.Models.WeChatSnsMedia.UrlMd5*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_UrlMd5" data-uid="WeChatAuto.Models.WeChatSnsMedia.UrlMd5">UrlMd5</h4>
+  <div class="markdown level1 summary"><p>媒体文件 md5，对应 XML media/url@md5。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(Length = 64, IsNullable = true, ColumnDescription = &quot;媒体 md5&quot;)]
+public string UrlMd5 { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_UrlToken_" data-uid="WeChatAuto.Models.WeChatSnsMedia.UrlToken*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_UrlToken" data-uid="WeChatAuto.Models.WeChatSnsMedia.UrlToken">UrlToken</h4>
+  <div class="markdown level1 summary"><p>原图 / 原视频 URL 的 token 参数（XML <code>url@token</code>），拼接请求 URL 时必须带上。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(Length = 500, IsNullable = true, ColumnDescription = &quot;URL token 参数&quot;)]
+public string UrlToken { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_VideoDuration_" data-uid="WeChatAuto.Models.WeChatSnsMedia.VideoDuration*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_VideoDuration" data-uid="WeChatAuto.Models.WeChatSnsMedia.VideoDuration">VideoDuration</h4>
+  <div class="markdown level1 summary"><p>视频时长（秒），对应 XML media/videoDuration，图片为 0。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(IsNullable = true, ColumnDescription = &quot;视频时长（秒）&quot;)]
+public double VideoDuration { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_VideoKey_" data-uid="WeChatAuto.Models.WeChatSnsMedia.VideoKey*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_VideoKey" data-uid="WeChatAuto.Models.WeChatSnsMedia.VideoKey">VideoKey</h4>
+  <div class="markdown level1 summary"><p>视频解密 key：XML <code>media/enc@key</code>（本机样例形如 <code>&lt;enc key=&quot;1170354472&quot;&gt;1&lt;/enc&gt;</code>），
+也是 WxIsaac64 的种子。视频只加密前 128KB，用它生成 keystream 做前缀 XOR。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(Length = 64, IsNullable = true, ColumnDescription = &quot;视频解密 key（enc@key）&quot;)]
+public string VideoKey { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_VideoMd5_" data-uid="WeChatAuto.Models.WeChatSnsMedia.VideoMd5*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_VideoMd5" data-uid="WeChatAuto.Models.WeChatSnsMedia.VideoMd5">VideoMd5</h4>
+  <div class="markdown level1 summary"><p>视频文件 md5，对应 XML media/url@videomd5（仅视频）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(Length = 64, IsNullable = true, ColumnDescription = &quot;视频 md5&quot;)]
+public string VideoMd5 { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatSnsMedia_Width_" data-uid="WeChatAuto.Models.WeChatSnsMedia.Width*"></a>
+  <h4 id="WeChatAuto_Models_WeChatSnsMedia_Width" data-uid="WeChatAuto.Models.WeChatSnsMedia.Width">Width</h4>
+  <div class="markdown level1 summary"><p>宽，对应 XML media/size@width（像素）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(IsNullable = true, ColumnDescription = &quot;宽（像素）&quot;)]
+public int Width { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="WeAutoCommon.Models.FunctionalExtensions.html#WeAutoCommon_Models_FunctionalExtensions_ToMaybe__1___0_">FunctionalExtensions.ToMaybe&lt;T&gt;(T)</a>
+  </div>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatSnsMedia.cs" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class WxVoice | WeChatAuto.SDK API 参考 </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class WxVoice | WeChatAuto.SDK API 参考 ">
+    
+    <meta name="description" content="语音（silk）处理：定位明文 media_N.db 分片、按 svr_id 取 silk、识别音频格式， 并在 silk / wav / mp3 之间转换（silk→wav 优先用捆绑的原生 silk-v3-decoder 与 NAudio；Python pilk 为次级回退；wav→mp3 可选依赖 ffmpeg；缺失时软失败）。">
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="WxDecryptNet.Sdk.Core.WxVoice">
+
+
+
+  <h1 id="WxDecryptNet_Sdk_Core_WxVoice" data-uid="WxDecryptNet.Sdk.Core.WxVoice" class="text-break">Class WxVoice</h1>
+  <div class="markdown level0 summary"><p>语音（silk）处理：定位明文 <code>media_N.db</code> 分片、按 <code>svr_id</code> 取 silk、识别音频格式，
+并在 silk / wav / mp3 之间转换（silk→wav 优先用捆绑的原生 <code>silk-v3-decoder</code> 与 NAudio；Python <code>pilk</code> 为次级回退；wav→mp3 可选依赖 <code>ffmpeg</code>；缺失时软失败）。</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+    <div class="level1"><span class="xref">WxVoice</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="WxDecryptNet.html">WxDecryptNet</a>.<a class="xref" href="WxDecryptNet.Sdk.html">Sdk</a>.<a class="xref" href="WxDecryptNet.Sdk.Core.html">Core</a></h6>
+  <h6><strong>Assembly</strong>: WeChatAuto.dll</h6>
+  <h5 id="WxDecryptNet_Sdk_Core_WxVoice_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static class WxVoice</code></pre>
+  </div>
+  <h3 id="fields">Fields
+</h3>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Core/WxVoice.cs">View Source</a>
+  </span>
+  <h4 id="WxDecryptNet_Sdk_Core_WxVoice_MediaTypeMp3" data-uid="WxDecryptNet.Sdk.Core.WxVoice.MediaTypeMp3">MediaTypeMp3</h4>
+  <div class="markdown level1 summary"><p>MP3 的媒体类型字符串（<code>audio/mpeg</code>）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const string MediaTypeMp3 = &quot;audio/mpeg&quot;</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Core/WxVoice.cs">View Source</a>
+  </span>
+  <h4 id="WxDecryptNet_Sdk_Core_WxVoice_MediaTypeSilk" data-uid="WxDecryptNet.Sdk.Core.WxVoice.MediaTypeSilk">MediaTypeSilk</h4>
+  <div class="markdown level1 summary"><p>silk 原始流的媒体类型字符串（<code>audio/silk</code>）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const string MediaTypeSilk = &quot;audio/silk&quot;</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Core/WxVoice.cs">View Source</a>
+  </span>
+  <h4 id="WxDecryptNet_Sdk_Core_WxVoice_MediaTypeWav" data-uid="WxDecryptNet.Sdk.Core.WxVoice.MediaTypeWav">MediaTypeWav</h4>
+  <div class="markdown level1 summary"><p>WAV 的媒体类型字符串（<code>audio/wav</code>）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const string MediaTypeWav = &quot;audio/wav&quot;</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Core/WxVoice.cs">View Source</a>
+  </span>
+  <h4 id="WxDecryptNet_Sdk_Core_WxVoice_NativeDecoderRelativePath" data-uid="WxDecryptNet.Sdk.Core.WxVoice.NativeDecoderRelativePath">NativeDecoderRelativePath</h4>
+  <div class="markdown level1 summary"><p>随 SDK 发布的 Windows x64 <code>silk-v3-decoder</code> 相对 <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.appcontext.basedirectory">BaseDirectory</a> 的路径。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const string NativeDecoderRelativePath = &quot;native\\silk\\decoder.exe&quot;</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Core/WxVoice.cs">View Source</a>
+  </span>
+  <h4 id="WxDecryptNet_Sdk_Core_WxVoice_NativeDecoderSampleRateHz" data-uid="WxDecryptNet.Sdk.Core.WxVoice.NativeDecoderSampleRateHz">NativeDecoderSampleRateHz</h4>
+  <div class="markdown level1 summary"><p>silk-v3-decoder 默认输出采样率（Hz）。解码器的 <code>API_sampleRate</code> 是请求的输出速率，CLI 不暴露码流原始采样率，因此与官方默认值一致使用 24000。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const int NativeDecoderSampleRateHz = 24000</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+</h3>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Core/WxVoice.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Core_WxVoice_ConvertSilkToBrowserAudio_" data-uid="WxDecryptNet.Sdk.Core.WxVoice.ConvertSilkToBrowserAudio*"></a>
+  <h4 id="WxDecryptNet_Sdk_Core_WxVoice_ConvertSilkToBrowserAudio_System_Byte___System_String_System_Action_System_String__" data-uid="WxDecryptNet.Sdk.Core.WxVoice.ConvertSilkToBrowserAudio(System.Byte[],System.String,System.Action{System.String})">ConvertSilkToBrowserAudio(byte[], string, Action&lt;string&gt;?)</h4>
+  <div class="markdown level1 summary"><p>把 silk（或已经是 wav/mp3 的载荷）转成浏览器/播放器可直接使用的音频。
+优先级：<code>mp3</code>（显式要求且 ffmpeg 可用）→ <code>wav</code> → 原始 silk（兜底，保证有输出）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static (byte[] Data, string Extension, string MediaType) ConvertSilkToBrowserAudio(byte[] silkData, string preferredFormat = &quot;wav&quot;, Action&lt;string&gt;? log = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</td>
+        <td><span class="parametername">silkData</span></td>
+        <td><p>silk 原始字节（也接受已是 wav/mp3 的数据，会原样透传）。</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">preferredFormat</span></td>
+        <td><p>期望格式，<code>&quot;wav&quot;</code>（默认）或 <code>&quot;mp3&quot;</code>。</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
+        <td><span class="parametername">log</span></td>
+        <td><p>可选的日志回调（记录降级原因）。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>(<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[] <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-system.byte[],system.string,system.string-.data">Data</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-system.byte[],system.string,system.string-.extension">Extension</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-system.byte[],system.string,system.string-.mediatype">MediaType</a>)</td>
+        <td><p>元组：<code>Data</code> 音频字节；<code>Extension</code> 不带点的扩展名（<code>wav</code>/<code>mp3</code>/<code>silk</code>）；
+<code>MediaType</code> 对应 MIME。降级到 silk 时 <code>Extension</code> 为 <code>silk</code>，调用方应据此改名。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Core/WxVoice.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Core_WxVoice_DetectAudioKind_" data-uid="WxDecryptNet.Sdk.Core.WxVoice.DetectAudioKind*"></a>
+  <h4 id="WxDecryptNet_Sdk_Core_WxVoice_DetectAudioKind_System_ReadOnlySpan_System_Byte__" data-uid="WxDecryptNet.Sdk.Core.WxVoice.DetectAudioKind(System.ReadOnlySpan{System.Byte})">DetectAudioKind(ReadOnlySpan&lt;byte&gt;)</h4>
+  <div class="markdown level1 summary"><p>按文件头魔数判断音频类型（微信 silk 常带一个前导 <code>0x02</code>）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static string DetectAudioKind(ReadOnlySpan&lt;byte&gt; data)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>待判断的字节。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><p><code>audio/silk</code>、<code>audio/wav</code>、<code>audio/mpeg</code> 之一；无法识别时返回空串。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Core/WxVoice.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Core_WxVoice_FindNativeDecoder_" data-uid="WxDecryptNet.Sdk.Core.WxVoice.FindNativeDecoder*"></a>
+  <h4 id="WxDecryptNet_Sdk_Core_WxVoice_FindNativeDecoder" data-uid="WxDecryptNet.Sdk.Core.WxVoice.FindNativeDecoder">FindNativeDecoder()</h4>
+  <div class="markdown level1 summary"><p>定位随 SDK 发布的 <code>native\silk\decoder.exe</code>；文件不存在时返回 <code>null</code>。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static string? FindNativeDecoder()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Core/WxVoice.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Core_WxVoice_ListMediaShards_" data-uid="WxDecryptNet.Sdk.Core.WxVoice.ListMediaShards*"></a>
+  <h4 id="WxDecryptNet_Sdk_Core_WxVoice_ListMediaShards_System_String_" data-uid="WxDecryptNet.Sdk.Core.WxVoice.ListMediaShards(System.String)">ListMediaShards(string)</h4>
+  <div class="markdown level1 summary"><p>列出账号目录下 <code>message/media_N.db</code> 语音分片（按序号升序）；目录不存在时返回空数组。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static string[] ListMediaShards(string accountDir)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">accountDir</span></td>
+        <td><p>已解密账号目录（或其 <code>message/</code> 子目录）。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</td>
+        <td><p>分片文件的绝对路径数组。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Core/WxVoice.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Core_WxVoice_LoadVoiceData_" data-uid="WxDecryptNet.Sdk.Core.WxVoice.LoadVoiceData*"></a>
+  <h4 id="WxDecryptNet_Sdk_Core_WxVoice_LoadVoiceData_System_String_System_Int64_" data-uid="WxDecryptNet.Sdk.Core.WxVoice.LoadVoiceData(System.String,System.Int64)">LoadVoiceData(string, long)</h4>
+  <div class="markdown level1 summary"><p>从<strong>已解密</strong>的 media_N.db 分片的 VoiceInfo 表里取出指定服务器消息 id 的 silk 语音数据。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static byte[] LoadVoiceData(string accountDir, long serverId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">accountDir</span></td>
+        <td><p>已解密账号目录（或其 <code>message/</code> 子目录）。</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
+        <td><span class="parametername">serverId</span></td>
+        <td><p><code>VoiceInfo.svr_id</code>，即微信服务器消息 id；≤0 直接返回空。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</td>
+        <td><p>silk 字节；库里没有该 id（或没有 media 分片）时返回空数组。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Core/WxVoice.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Core_WxVoice_LooksLikeSilk_" data-uid="WxDecryptNet.Sdk.Core.WxVoice.LooksLikeSilk*"></a>
+  <h4 id="WxDecryptNet_Sdk_Core_WxVoice_LooksLikeSilk_System_ReadOnlySpan_System_Byte__" data-uid="WxDecryptNet.Sdk.Core.WxVoice.LooksLikeSilk(System.ReadOnlySpan{System.Byte})">LooksLikeSilk(ReadOnlySpan&lt;byte&gt;)</h4>
+  <div class="markdown level1 summary"><p>判断数据是否为微信 silk（识别前导 <code>0x02</code> + <code>#!SILK_V3</code> 魔数）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool LooksLikeSilk(ReadOnlySpan&lt;byte&gt; data)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.readonlyspan-1">ReadOnlySpan</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>&gt;</td>
+        <td><span class="parametername">data</span></td>
+        <td><p>待判断的字节。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><p>是 silk 时为 <code>true</code>。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Core/WxVoice.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Core_WxVoice_TryDecodeSilkToWavFile_" data-uid="WxDecryptNet.Sdk.Core.WxVoice.TryDecodeSilkToWavFile*"></a>
+  <h4 id="WxDecryptNet_Sdk_Core_WxVoice_TryDecodeSilkToWavFile_System_String_System_String_System_Action_System_String__" data-uid="WxDecryptNet.Sdk.Core.WxVoice.TryDecodeSilkToWavFile(System.String,System.String,System.Action{System.String})">TryDecodeSilkToWavFile(string, string, Action&lt;string&gt;?)</h4>
+  <div class="markdown level1 summary"><p>用捆绑的 silk-v3-decoder 把 silk 文件解成 PCM，再用 NAudio 写成 16bit 单声道 WAV。
+不依赖 Python / pilk / ffmpeg。解码器缺失或转换失败时返回 <code>false</code>（软失败，不抛异常）。
+若首轮失败且文件带微信常见的前导 <code>0x02</code>，会去掉该字节再试一次。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static bool TryDecodeSilkToWavFile(string silkPath, string wavPath, Action&lt;string&gt;? log = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">silkPath</span></td>
+        <td><p>明文 silk 文件路径。</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">wavPath</span></td>
+        <td><p>目标 WAV 路径。</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
+        <td><span class="parametername">log</span></td>
+        <td><p>可选的日志回调。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><p>成功写出 WAV 时为 <code>true</code>。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Core/WxVoice.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Core_WxVoice_TrySilkToWav_" data-uid="WxDecryptNet.Sdk.Core.WxVoice.TrySilkToWav*"></a>
+  <h4 id="WxDecryptNet_Sdk_Core_WxVoice_TrySilkToWav_System_Byte___System_Action_System_String__" data-uid="WxDecryptNet.Sdk.Core.WxVoice.TrySilkToWav(System.Byte[],System.Action{System.String})">TrySilkToWav(byte[], Action&lt;string&gt;?)</h4>
+  <div class="markdown level1 summary"><p>把 silk 转成 WAV：优先用捆绑的原生 silk-v3-decoder 与 NAudio；失败时再尝试 Python <code>pilk</code>。
+热同步 FilePath 只走原生解码，不依赖 Python。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static byte[]? TrySilkToWav(byte[] silkData, Action&lt;string&gt;? log = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</td>
+        <td><span class="parametername">silkData</span></td>
+        <td><p>silk 原始字节。</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
+        <td><span class="parametername">log</span></td>
+        <td><p>可选的日志回调（记录 Python 缺失、转换失败等原因）。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</td>
+        <td><p>WAV 字节；<code>pilk</code>/Python 不可用或转换失败时返回 <code>null</code>（软失败，不抛异常）。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Core/WxVoice.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Core_WxVoice_TryWavToMp3_" data-uid="WxDecryptNet.Sdk.Core.WxVoice.TryWavToMp3*"></a>
+  <h4 id="WxDecryptNet_Sdk_Core_WxVoice_TryWavToMp3_System_Byte___System_Action_System_String__" data-uid="WxDecryptNet.Sdk.Core.WxVoice.TryWavToMp3(System.Byte[],System.Action{System.String})">TryWavToMp3(byte[], Action&lt;string&gt;?)</h4>
+  <div class="markdown level1 summary"><p>用 ffmpeg（libmp3lame）把 WAV 转成 MP3。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static byte[]? TryWavToMp3(byte[] wavData, Action&lt;string&gt;? log = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</td>
+        <td><span class="parametername">wavData</span></td>
+        <td><p>WAV 字节。</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
+        <td><span class="parametername">log</span></td>
+        <td><p>可选的日志回调（记录 ffmpeg 缺失或失败原因）。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</td>
+        <td><p>MP3 字节；ffmpeg 不可用或转换失败时返回 <code>null</code>（软失败）。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Core/WxVoice.cs" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

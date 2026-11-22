@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Namespace WxDecryptNet.Sdk | WeChatAuto.SDK API 参考 </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Namespace WxDecryptNet.Sdk | WeChatAuto.SDK API 参考 ">
+    
+    
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="WxDecryptNet.Sdk">
+
+  <h1 id="WxDecryptNet_Sdk" data-uid="WxDecryptNet.Sdk" class="text-break">Namespace WxDecryptNet.Sdk</h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="markdown level0 remarks"></div>
+    <h3 id="classes">
+Classes
+</h3>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.ChatMessage.html">ChatMessage</a></h4>
+      <section><p>跨 <code>message_*.db</code> 分片合并后的一条聊天消息
+（<a class="xref" href="WxDecryptNet.Sdk.WeChatDatabase.html#WxDecryptNet_Sdk_WeChatDatabase_FetchMessagesByUsername_System_String_System_String_System_Boolean_">FetchMessagesByUsername(string, string?, bool)</a>）。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.ChatRoomMember.html">ChatRoomMember</a></h4>
+      <section><p>一个群的一名成员（<a class="xref" href="WxDecryptNet.Sdk.WeChatDatabase.html#WxDecryptNet_Sdk_WeChatDatabase_FetchChatRoomMembers_System_String_">FetchChatRoomMembers(string?)</a> 或
+<a class="xref" href="WxDecryptNet.Sdk.WeChatSqlCipher.html#WxDecryptNet_Sdk_WeChatSqlCipher_ParseChatRoomExtBuffer_System_Byte___">ParseChatRoomExtBuffer(byte[]?)</a>）。
+群名片与邀请人 username 来自 ext_buffer。群名称、群主/成员/邀请人显示名请关联 contact，本对象不携带这些快照。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.DatabaseInfo.html">DatabaseInfo</a></h4>
+      <section><p><code>db_storage</code> 下的一个数据库文件。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.DatabaseKeyCheck.html">DatabaseKeyCheck</a></h4>
+      <section><p>单个数据库的密钥可用性。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.DecryptAllOptions.html">DecryptAllOptions</a></h4>
+      <section><p>整账号批量解密参数（<a class="xref" href="WxDecryptNet.Sdk.WeChatDecryptor.html#WxDecryptNet_Sdk_WeChatDecryptor_DecryptAll_WxDecryptNet_Sdk_DecryptAllOptions_">DecryptAll(DecryptAllOptions)</a>）。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.DecryptAllResult.html">DecryptAllResult</a></h4>
+      <section><p>整账号批量解密结果。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.DecryptBatchItem.html">DecryptBatchItem</a></h4>
+      <section><p>批量解密中的单个文件结果。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.DecryptFileOptions.html">DecryptFileOptions</a></h4>
+      <section><p>单库解密参数（<a class="xref" href="WxDecryptNet.Sdk.WeChatDecryptor.html#WxDecryptNet_Sdk_WeChatDecryptor_DecryptFile_WxDecryptNet_Sdk_DecryptFileOptions_">DecryptFile(DecryptFileOptions)</a>）。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.DecryptFileResult.html">DecryptFileResult</a></h4>
+      <section><p>单库解密结果（<a class="xref" href="WxDecryptNet.Sdk.WeChatDecryptor.html#WxDecryptNet_Sdk_WeChatDecryptor_DecryptFile_WxDecryptNet_Sdk_DecryptFileOptions_">DecryptFile(DecryptFileOptions)</a>）。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.HotSyncFileResult.html">HotSyncFileResult</a></h4>
+      <section><p>热同步中单个文件的（或事件）结果。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.HotSyncOptions.html">HotSyncOptions</a></h4>
+      <section><p>热同步参数（一次性 <a class="xref" href="WxDecryptNet.Sdk.WeChatHotSync.html#WxDecryptNet_Sdk_WeChatHotSync_Sync_WxDecryptNet_Sdk_HotSyncOptions_">Sync(HotSyncOptions)</a> 与循环 <a class="xref" href="WxDecryptNet.Sdk.WeChatHotSync.html#WxDecryptNet_Sdk_WeChatHotSync_Watch_WxDecryptNet_Sdk_HotSyncWatchOptions_">Watch(HotSyncWatchOptions)</a> 共用）。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.HotSyncResult.html">HotSyncResult</a></h4>
+      <section><p>热同步结果：一次性调用的汇总，或 watch 模式的累计事件汇总。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.HotSyncSqlCipherOptions.html">HotSyncSqlCipherOptions</a></h4>
+      <section><p>hot-sync 的 SQLCipher 直读参数（<a class="xref" href="WxDecryptNet.Sdk.WeChatHotSync.html#WxDecryptNet_Sdk_WeChatHotSync_OpenSqlCipher_WxDecryptNet_Sdk_HotSyncSqlCipherOptions_">OpenSqlCipher(HotSyncSqlCipherOptions)</a>）。</p>
+<p>
+不需要明文输出目录：旁路一致拷贝到 staging 后，用 SQLCipher 直接读密库。
+原有 <a class="xref" href="WxDecryptNet.Sdk.WeChatHotSync.html#WxDecryptNet_Sdk_WeChatHotSync_Sync_WxDecryptNet_Sdk_HotSyncOptions_">Sync(HotSyncOptions)</a> / <a class="xref" href="WxDecryptNet.Sdk.WeChatHotSync.html#WxDecryptNet_Sdk_WeChatHotSync_Watch_WxDecryptNet_Sdk_HotSyncWatchOptions_">Watch(HotSyncWatchOptions)</a>（staging → 解密明文）保持不变。
+</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.HotSyncWatchOptions.html">HotSyncWatchOptions</a></h4>
+      <section><p>循环热同步参数（<a class="xref" href="WxDecryptNet.Sdk.WeChatHotSync.html#WxDecryptNet_Sdk_WeChatHotSync_Watch_WxDecryptNet_Sdk_HotSyncWatchOptions_">Watch(HotSyncWatchOptions)</a>）：在 <a class="xref" href="WxDecryptNet.Sdk.HotSyncOptions.html">HotSyncOptions</a> 基础上增加去抖与退出控制。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.ImageKeyOptions.html">ImageKeyOptions</a></h4>
+      <section><p>媒体密钥解析参数（<a class="xref" href="WxDecryptNet.Sdk.WeChatMedia.html#WxDecryptNet_Sdk_WeChatMedia_ResolveImageKey_WxDecryptNet_Sdk_ImageKeyOptions_">ResolveImageKey(ImageKeyOptions)</a>）。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.ImageKeyResult.html">ImageKeyResult</a></h4>
+      <section><p>媒体密钥解析结果。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.KeyRecoveryOptions.html">KeyRecoveryOptions</a></h4>
+      <section><p>取密钥参数（<a class="xref" href="WxDecryptNet.Sdk.WeChatKeyRecovery.html#WxDecryptNet_Sdk_WeChatKeyRecovery_Recover_WxDecryptNet_Sdk_KeyRecoveryOptions_">Recover(KeyRecoveryOptions)</a>）。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.KeyRecoveryResult.html">KeyRecoveryResult</a></h4>
+      <section><p>取密钥成功后的结果。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.MediaDecryptFileOptions.html">MediaDecryptFileOptions</a></h4>
+      <section><p>单文件媒体解密参数（<a class="xref" href="WxDecryptNet.Sdk.WeChatMedia.html#WxDecryptNet_Sdk_WeChatMedia_DecryptFile_WxDecryptNet_Sdk_MediaDecryptFileOptions_">DecryptFile(MediaDecryptFileOptions)</a>）。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.MediaDecryptFileResult.html">MediaDecryptFileResult</a></h4>
+      <section><p>单文件媒体解密结果。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.MediaDecryptItem.html">MediaDecryptItem</a></h4>
+      <section><p>目录批量解密中的单个文件结果。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.MediaDecryptOptions.html">MediaDecryptOptions</a></h4>
+      <section><p>目录批量媒体解密参数（<a class="xref" href="WxDecryptNet.Sdk.WeChatMedia.html#WxDecryptNet_Sdk_WeChatMedia_DecryptDirectory_WxDecryptNet_Sdk_MediaDecryptOptions_">DecryptDirectory(MediaDecryptOptions)</a>）。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.MediaDecryptResult.html">MediaDecryptResult</a></h4>
+      <section><p>目录批量媒体解密结果。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.SqlCipherSessionOptions.html">SqlCipherSessionOptions</a></h4>
+      <section><p>打开旁路 SQLCipher 会话的参数（<a class="xref" href="WxDecryptNet.Sdk.WeChatDatabase.html#WxDecryptNet_Sdk_WeChatDatabase_Open_WxDecryptNet_Sdk_SqlCipherSessionOptions_">Open(SqlCipherSessionOptions)</a>）。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.VerifyKeyOptions.html">VerifyKeyOptions</a></h4>
+      <section><p>密钥校验参数（<a class="xref" href="WxDecryptNet.Sdk.WeChatDecryptor.html#WxDecryptNet_Sdk_WeChatDecryptor_Verify_WxDecryptNet_Sdk_VerifyKeyOptions_">Verify(VerifyKeyOptions)</a>）。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.VerifyKeyResult.html">VerifyKeyResult</a></h4>
+      <section><p>密钥校验结果（只读首页 HMAC，不写文件）。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.VoiceExportOptions.html">VoiceExportOptions</a></h4>
+      <section><p>语音导出参数（<a class="xref" href="WxDecryptNet.Sdk.WeChatMedia.html#WxDecryptNet_Sdk_WeChatMedia_ExportVoice_WxDecryptNet_Sdk_VoiceExportOptions_">ExportVoice(VoiceExportOptions)</a>）。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.VoiceExportResult.html">VoiceExportResult</a></h4>
+      <section><p>语音导出结果。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.WeChatDatabase.html">WeChatDatabase</a></h4>
+      <section><p>SQLCipher 会话层：面向&quot;整个账号&quot;的直读入口。</p>
+<p>
+打开时解析账号与密钥，但**不立刻连接**任何库；调用 <a class="xref" href="WxDecryptNet.Sdk.WeChatDatabase.html#WxDecryptNet_Sdk_WeChatDatabase_Connect_System_String_System_Boolean_">Connect(string, bool)</a> 时，
+先用一致拷贝把 <code>.db</code> + <code>-wal</code>（不拷 <code>-shm</code>）复制到 <code>db_storage</code>
+**之外**的 staging 目录，再在副本上开 SQLCipher，把连接交给调用方。
+因此微信可以继续运行，直播库也不会被长期占用。
+</p>
+<p>
+调用方自己写 SQL，并在用完后 <code>Dispose</code> 连接（文件锁释放后才能对该库再次
+<a class="xref" href="WxDecryptNet.Sdk.WeChatDatabase.html#WxDecryptNet_Sdk_WeChatDatabase_Connect_System_String_System_Boolean_">Connect(string, bool)</a> / 重新旁路拷贝）。生命周期由调用方负责：会话的
+<code>Dispose()</code> 会关闭仍未释放的连接，并删除自动创建的 staging 目录。
+</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.WeChatDecryptor.html">WeChatDecryptor</a></h4>
+      <section><p>数据库解密门面：把微信 4.x（SQLCipher / WCDB）的加密数据库解密成普通 SQLite。</p>
+<p>
+覆盖三种粒度：单库解密（<a class="xref" href="WxDecryptNet.Sdk.WeChatDecryptor.html#WxDecryptNet_Sdk_WeChatDecryptor_DecryptFile_WxDecryptNet_Sdk_DecryptFileOptions_">DecryptFile(DecryptFileOptions)</a>）、整账号批量解密（<a class="xref" href="WxDecryptNet.Sdk.WeChatDecryptor.html#WxDecryptNet_Sdk_WeChatDecryptor_DecryptAll_WxDecryptNet_Sdk_DecryptAllOptions_">DecryptAll(DecryptAllOptions)</a>）、
+以及不落盘只验密钥（<a class="xref" href="WxDecryptNet.Sdk.WeChatDecryptor.html#WxDecryptNet_Sdk_WeChatDecryptor_Verify_WxDecryptNet_Sdk_VerifyKeyOptions_">Verify(VerifyKeyOptions)</a>）和列出待解库（<a class="xref" href="WxDecryptNet.Sdk.WeChatDecryptor.html#WxDecryptNet_Sdk_WeChatDecryptor_ListDatabases_System_String_">ListDatabases(string)</a>）。
+</p>
+<p>
+所有方法只读源库、只写 <code>--out</code> 指定的输出目录；不会修改微信自己的 <code>db_storage</code>。
+</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.WeChatDisplayName.html">WeChatDisplayName</a></h4>
+      <section><p>联系人显示名。Remark 优先，空则 NickName；都空则空串。
+不使用 Alias（那是微信号）或 username（已在业务键里）。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.WeChatHotSync.html">WeChatHotSync</a></h4>
+      <section><p>在线热同步门面（hot-sync）：微信<strong>不用退出</strong>也能读库。</p>
+<p>
+两条路径共用旁路一致快照（<code>.db</code> + <code>-wal</code>，从不拷 <code>-shm</code>，拷到
+<code>db_storage</code> **之外**的 staging，指纹稳定后才继续）：
+</p>
+<ol><li><a class="xref" href="WxDecryptNet.Sdk.WeChatHotSync.html#WxDecryptNet_Sdk_WeChatHotSync_Sync_WxDecryptNet_Sdk_HotSyncOptions_">Sync(HotSyncOptions)</a> / <a class="xref" href="WxDecryptNet.Sdk.WeChatHotSync.html#WxDecryptNet_Sdk_WeChatHotSync_Watch_WxDecryptNet_Sdk_HotSyncWatchOptions_">Watch(HotSyncWatchOptions)</a>：staging 副本 → 页解密 → 明文镜像目录；</li><li><a class="xref" href="WxDecryptNet.Sdk.WeChatHotSync.html#WxDecryptNet_Sdk_WeChatHotSync_OpenSqlCipher_WxDecryptNet_Sdk_HotSyncSqlCipherOptions_">OpenSqlCipher(HotSyncSqlCipherOptions)</a>：staging 副本 → SQLCipher 直读（不落明文），再
+<a class="xref" href="WxDecryptNet.Sdk.WeChatDatabase.html#WxDecryptNet_Sdk_WeChatDatabase_Connect_System_String_System_Boolean_">Connect(string, bool)</a> 拿连接、自写 SQL。</li></ol>
+<p>
+默认目标集（P0）为 <code>message/message_*.db</code> + <code>sns/sns.db</code>；
+<code>IncludeContact</code> 可追加 <code>contact/contact.db</code>（见 <a class="xref" href="WxDecryptNet.Sdk.WeChatHotSync.html#WxDecryptNet_Sdk_WeChatHotSync_ListTargets_System_String_System_Boolean_">ListTargets(string, bool)</a>）。
+<code>session/session.db</code> 不在拷贝和监视范围内。
+全程只读微信目录、不写回。
+</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.WeChatKeyRecovery.html">WeChatKeyRecovery</a></h4>
+      <section><p>获取 key 门面：从运行中的微信进程恢复数据库密钥（<strong>仅 Windows x64</strong>），
+以及&quot;昵称 / wxid → 账号目录 → db_storage&quot;的定位辅助。</p>
+<p>
+原理：扫描 <code>Weixin.dll</code> 里的 32 字节 <code>internal_db_key</code> 掩码 + 微信进程内存里的密钥指针，
+把每个候选做 XOR 解掩码后，用真实库的首页 HMAC 校验，命中即真密钥。
+全程只读 DLL 与进程内存：不注入、不 Hook、不改微信内存，但杀软/EDR 可能按行为告警。
+</p>
+<p>
+前置条件：微信已启动并登录；本进程与微信同一权限级别（微信用管理员运行时本进程也需提权）。
+</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.WeChatMedia.html">WeChatMedia</a></h4>
+      <section><p>媒体文件门面：解密微信 4.x 的图片/视频/语音，以及解析媒体密钥（image key）。</p>
+<p>
+媒体密钥与数据库密钥是**两套独立**的：数据库 key 解 <code>.db</code>，媒体 key（1 字节 XOR +
+16 字符 AES）解 <code>.dat</code> / <code>.wxgf</code>。本类先尝试本地 <code>kvcomm</code> 侧车解析，
+必要时再扫描微信进程内存。
+</p>
+<p>
+纯本地操作：只读文件（或只读进程内存），不联网。
+</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.WeChatSqlCipher.html">WeChatSqlCipher</a></h4>
+      <section><p>SQLCipher 直读（低层门面）：直接用 SQLCipher 引擎打开一个<strong>加密数据库文件</strong>并查询，
+不经过&quot;解密成明文 SQLite 文件&quot;的路径。</p>
+<p>
+适合"只想看几张表 / 几行"的场景：不产出明文文件，磁盘上不留解密副本。
+引擎为 <code>Microsoft.Data.Sqlite.Core</code> + <code>SQLitePCLRaw.bundle_e_sqlcipher</code>
+（SQLCipher 4 原生库）；SQLCipher 是 SQLite 超集，明文库也能用同一套 API 打开。
+</p>
+<p>
+注意：本类的 <a class="xref" href="WxDecryptNet.Sdk.WeChatSqlCipher.html#WxDecryptNet_Sdk_WeChatSqlCipher_Open_System_String_WxDecryptNet_Sdk_Models_WeChatKey_System_String_System_Boolean_">Open(string, WeChatKey, string?, bool)</a> 直接打开**给定路径**，
+不会自动做旁路拷贝。要读正在被微信占用的直播库，请用会话层
+<a class="xref" href="WxDecryptNet.Sdk.WeChatDatabase.html">WeChatDatabase</a>（它会先一致拷贝到 staging 再打开）。
+</p>
+<p>
+调用方自己写 SQL、自己管连接生命周期：<code>Open</code> 返回已解锁的
+<a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.data.sqlite.sqliteconnection">SqliteConnection</a>，用 <code>using</code> / <code>Dispose</code> 关掉后文件锁即释放
+（默认 <code>Pooling = false</code>），便于随后拷贝或替换这份 clone。
+</p>
+</section>
+
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -1412,7 +1412,25 @@ VIP 中间表一共 7 张：
 
 ---
 
-## 八、多微信实例
+## 八、API参考
+
+> 这里放的是完整的 C# API 参考：类、方法、参数、返回值、枚举，按命名空间和类浏览。
+> 这一章只做入口；具体的“怎么用”，还是看第七章的场景示例。
+
+<a href="sdk-api/index.html" target="_blank" rel="noopener" style="display:inline-block;padding:10px 18px;border-radius:6px;background:#42b983;color:#fff;text-decoration:none;font-weight:600;">打开完整 API 参考（新页面）</a>
+
+常用入口：
+
+- <a href="sdk-api/api/WeChatAuto.Components.WeChatClient.html" target="_blank" rel="noopener">WeChatClient</a>：发消息、好友、群、监听、数据库读取的主入口
+- <a href="sdk-api/api/WeChatAuto.Components.WeChatClientFactory.html" target="_blank" rel="noopener">WeChatClientFactory</a>：多微信客户端的创建与管理
+- <a href="sdk-api/api/WeAutoCommon.Configs.WeChatConfig.html" target="_blank" rel="noopener">WeChatConfig</a>：初始化配置项
+- <a href="sdk-api/index.html" target="_blank" rel="noopener">全部命名空间 / 类型</a>
+
+> API 参考覆盖 `WeChatAuto` 和 `WeAutoCommon` 的公开类型，VIP 方法也在里面；页面顶部有自己的搜索框，docsify 的搜索不包含这个子站。
+>
+> 如果打开是 404：确认 `docs/sdk-api/index.html` 已经提交并发布；本地预览请用静态服务器（例如 `python -m http.server`），不要用 `file://` 直接双击。
+
+## 九、多微信实例
 
 
 `WeChatClientFactory` 一个进程可同时管理多个微信客户端：
@@ -1431,7 +1449,7 @@ foreach (var name in factory.GetWeChatClientNames())
 
 ---
 
-## 九、生命周期与资源释放
+## 十、生命周期与资源释放
 
 - `WeChatClientFactory` 是单例且 `IDisposable`，建议 `using var factory = ...` 或手动 `factory.Dispose()`；
 - `WeChatClient` 由工厂统一创建与管理，**不要手动 `Dispose` 单个 client**——工厂 `Dispose` 时会统一释放所有 client、监听器、录制器与 UI 线程；
@@ -1445,7 +1463,7 @@ using var factory = serviceProvider.GetRequiredService<WeChatClientFactory>();
 
 ---
 
-## 十、风控与最佳实践
+## 十一、风控与最佳实践
 
 !> SDK 驱动的是**真实微信客户端**（UI 自动化），非幂等纯 CRUD。加好友、邀请群成员、群内加好友等属于微信**严风控**操作。
 
@@ -1457,7 +1475,7 @@ using var factory = serviceProvider.GetRequiredService<WeChatClientFactory>();
 
 ---
 
-## 十一、常见问题（FAQ）
+## 十二、常见问题（FAQ）
 
 - **运行自动化不了微信**：确认微信已登录且窗口可见、系统为 Win10+；若当前微信未暴露 UI Tree，请开启 `IsForceOpenUITree` 或参考 [issue#3](https://github.com/scottfly189/WeChatAuto.SDK/issues/3)。
 - **提示 `Det模型文件不存在`**：未放置 OCR 模型，把 `models` 文件夹拷到程序运行目录（见 [2.3 OCR 模型](#23-ocr-模型部分能力必需)）。

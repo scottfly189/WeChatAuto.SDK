@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class OwnerGroup | WeChatAuto.SDK API 参考 </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class OwnerGroup | WeChatAuto.SDK API 参考 ">
+    
+    <meta name="description" content="自有群管理">
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="WeChatAuto.Components.OwnerGroup">
+
+
+
+  <h1 id="WeChatAuto_Components_OwnerGroup" data-uid="WeChatAuto.Components.OwnerGroup" class="text-break">Class OwnerGroup</h1>
+  <div class="markdown level0 summary"><p>自有群管理</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+    <div class="level1"><a class="xref" href="WeChatAuto.Components.Group.html">Group</a></div>
+    <div class="level2"><span class="xref">OwnerGroup</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="WeChatAuto.Components.Group.html#WeChatAuto_Components_Group__Client">Group._Client</a>
+    </div>
+    <div>
+      <a class="xref" href="WeChatAuto.Components.Group.html#WeChatAuto_Components_Group_uiThreadInvoker">Group.uiThreadInvoker</a>
+    </div>
+    <div>
+      <a class="xref" href="WeChatAuto.Components.Group.html#WeChatAuto_Components_Group_serviceProvider">Group.serviceProvider</a>
+    </div>
+    <div>
+      <a class="xref" href="WeChatAuto.Components.Group.html#WeChatAuto_Components_Group_IsOwnerChatGroup_System_String_">Group.IsOwnerChatGroup(string)</a>
+    </div>
+    <div>
+      <a class="xref" href="WeChatAuto.Components.Group.html#WeChatAuto_Components_Group_GetGroupOwner_System_String_">Group.GetGroupOwner(string)</a>
+    </div>
+    <div>
+      <a class="xref" href="WeChatAuto.Components.Group.html#WeChatAuto_Components_Group_QuitChatGroup_System_String_System_Boolean_">Group.QuitChatGroup(string, bool)</a>
+    </div>
+    <div>
+      <a class="xref" href="WeChatAuto.Components.Group.html#WeChatAuto_Components_Group_GetChatGroupMemberList_System_String_">Group.GetChatGroupMemberList(string)</a>
+    </div>
+    <div>
+      <a class="xref" href="WeChatAuto.Components.Group.html#WeChatAuto_Components_Group_ChangeChatGroupNickName_System_String_System_String_">Group.ChangeChatGroupNickName(string, string)</a>
+    </div>
+    <div>
+      <a class="xref" href="WeChatAuto.Components.Group.html#WeChatAuto_Components_Group_ChangeChatGroupMemo_System_String_System_String_">Group.ChangeChatGroupMemo(string, string)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="WeChatAuto.html">WeChatAuto</a>.<a class="xref" href="WeChatAuto.Components.html">Components</a></h6>
+  <h6><strong>Assembly</strong>: WeChatAuto.dll</h6>
+  <h5 id="WeChatAuto_Components_OwnerGroup_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class OwnerGroup : Group</code></pre>
+  </div>
+  <h3 id="methods">Methods
+</h3>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/OwnerGroup.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_OwnerGroup_AddOwnerChatGroupMember_" data-uid="WeChatAuto.Components.OwnerGroup.AddOwnerChatGroupMember*"></a>
+  <h4 id="WeChatAuto_Components_OwnerGroup_AddOwnerChatGroupMember_System_String_OneOf_OneOf_System_String_System_String____" data-uid="WeChatAuto.Components.OwnerGroup.AddOwnerChatGroupMember(System.String,OneOf.OneOf{System.String,System.String[]})">AddOwnerChatGroupMember(string, OneOf&lt;string, string[]&gt;)</h4>
+  <div class="markdown level1 summary"><p>添加群聊成员，适用于自有群</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task AddOwnerChatGroupMember(string groupName, OneOf&lt;string, string[]&gt; memberName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">groupName</span></td>
+        <td><p>群聊名称,可以为空，则在焦点聊天群聊中添加群聊成员</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</td>
+        <td><span class="parametername">memberName</span></td>
+        <td><p>成员名称</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td><p>微信响应结果<a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/OwnerGroup.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_OwnerGroup_ChangeOwnerChatGroupName_" data-uid="WeChatAuto.Components.OwnerGroup.ChangeOwnerChatGroupName*"></a>
+  <h4 id="WeChatAuto_Components_OwnerGroup_ChangeOwnerChatGroupName_System_String_System_String_" data-uid="WeChatAuto.Components.OwnerGroup.ChangeOwnerChatGroupName(System.String,System.String)">ChangeOwnerChatGroupName(string, string)</h4>
+  <div class="markdown level1 summary"><p>修改群名，适用于自有群群名修改</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Result&gt; ChangeOwnerChatGroupName(string oldGroupName, string newGroupName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">oldGroupName</span></td>
+        <td><p>旧群名称</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">newGroupName</span></td>
+        <td><p>新群名称</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Models/Result.cs">Result</a>&gt;</td>
+        <td><p>微信响应结果</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/OwnerGroup.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_OwnerGroup_CreateOwnerChatGroup_" data-uid="WeChatAuto.Components.OwnerGroup.CreateOwnerChatGroup*"></a>
+  <h4 id="WeChatAuto_Components_OwnerGroup_CreateOwnerChatGroup_System_String_System_String_System_String___" data-uid="WeChatAuto.Components.OwnerGroup.CreateOwnerChatGroup(System.String,System.String,System.String[])">CreateOwnerChatGroup(string, string, string[])</h4>
+  <div class="markdown level1 summary"><p>创建群聊
+如果存在，则打开群聊，否则创建一个新群聊</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Result&gt; CreateOwnerChatGroup(string groupName, string firstWho, string[] memberName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">groupName</span></td>
+        <td><p>群聊名称,不能与历史的群聊名称重复</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">firstWho</span></td>
+        <td><p>首个成员名称，必须是好友，不能是群聊名称，用来创建群聊定位,可以为空，如果为空，则以当前聊天的好友为基准创建群聊</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]</td>
+        <td><span class="parametername">memberName</span></td>
+        <td><p>成员名称,成员数量要大于0</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Models/Result.cs">Result</a>&gt;</td>
+        <td><p>是否创建成功,如果创建失败，则显示原因,具体请参考<a class="xref" href="WeAutoCommon.Models.Result.html">Result</a></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/OwnerGroup.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_OwnerGroup_DeleteOwnerChatGroup_" data-uid="WeChatAuto.Components.OwnerGroup.DeleteOwnerChatGroup*"></a>
+  <h4 id="WeChatAuto_Components_OwnerGroup_DeleteOwnerChatGroup_System_String_" data-uid="WeChatAuto.Components.OwnerGroup.DeleteOwnerChatGroup(System.String)">DeleteOwnerChatGroup(string)</h4>
+  <div class="markdown level1 summary"><p>删除群聊，适用于自有群,与退出群聊不同，退出群聊是退出群聊，删除群聊会删除自有群的所有好友，然后退出群聊
+willdo: 这里有一个问题，如果删除群的好友很多，则需要滚屏才能全部选中。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;ChatResponse&gt; DeleteOwnerChatGroup(string groupName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">groupName</span></td>
+        <td><p>群聊名称</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Models/ChatResponse.cs">ChatResponse</a>&gt;</td>
+        <td><p>微信响应结果<a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/OwnerGroup.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_OwnerGroup_RemoveOwnerChatGroupMember_" data-uid="WeChatAuto.Components.OwnerGroup.RemoveOwnerChatGroupMember*"></a>
+  <h4 id="WeChatAuto_Components_OwnerGroup_RemoveOwnerChatGroupMember_System_String_OneOf_OneOf_System_String_System_String____" data-uid="WeChatAuto.Components.OwnerGroup.RemoveOwnerChatGroupMember(System.String,OneOf.OneOf{System.String,System.String[]})">RemoveOwnerChatGroupMember(string, OneOf&lt;string, string[]&gt;)</h4>
+  <div class="markdown level1 summary"><p>移除群聊成员,适用于自有群</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Result&gt; RemoveOwnerChatGroupMember(string groupName, OneOf&lt;string, string[]&gt; memberName)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">groupName</span></td>
+        <td><p>群聊名称,可以为空，如果为空，则从焦点聊天群聊中移除好友</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</td>
+        <td><span class="parametername">memberName</span></td>
+        <td><p>成员名称</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Models/Result.cs">Result</a>&gt;</td>
+        <td><p>微信响应结果<a class="xref" href="WeAutoCommon.Models.Result.html">Result</a></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/OwnerGroup.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_OwnerGroup_UpdateGroupNotice_" data-uid="WeChatAuto.Components.OwnerGroup.UpdateGroupNotice*"></a>
+  <h4 id="WeChatAuto_Components_OwnerGroup_UpdateGroupNotice_System_String_System_String_" data-uid="WeChatAuto.Components.OwnerGroup.UpdateGroupNotice(System.String,System.String)">UpdateGroupNotice(string, string)</h4>
+  <div class="markdown level1 summary"><p>更新群聊公告,仅适用于自有群</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;Result&gt; UpdateGroupNotice(string groupName, string groupNotice)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">groupName</span></td>
+        <td><p>群聊名称，可以为空字符串，如果为空，则更新焦点聊天群聊窗口的公告</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">groupNotice</span></td>
+        <td><p>群聊公告</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Models/Result.cs">Result</a>&gt;</td>
+        <td><p>微信操作响应结果<a class="xref" href="WeAutoCommon.Models.ChatResponse.html">ChatResponse</a></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="WeAutoCommon.Models.FunctionalExtensions.html#WeAutoCommon_Models_FunctionalExtensions_ToMaybe__1___0_">FunctionalExtensions.ToMaybe&lt;T&gt;(T)</a>
+  </div>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/OwnerGroup.cs" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

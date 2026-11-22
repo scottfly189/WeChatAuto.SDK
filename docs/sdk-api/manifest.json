@@ -1,0 +1,3919 @@
+{
+  "source_base_path": "E:/work/sdk-api-build",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      }
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Configs.Language.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Configs.Language.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Configs.Language",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Configs.WeChatConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Configs.WeChatConfig.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Configs.WeChatConfig",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Configs.WeChatConfig.yml\" sourcestartlinenumber=\"1\">微信自动化参数配置类</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Configs.WeMettingConfig.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Configs.WeMettingConfig.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Configs.WeMettingConfig",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Configs.WeMettingConfig.yml\" sourcestartlinenumber=\"1\">腾迅会议配置类</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Configs.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Configs.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Configs",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Enums.ActionType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Enums.ActionType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Enums.ActionType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Enums.ChatBoxToolBarType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Enums.ChatBoxToolBarType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Enums.ChatBoxToolBarType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Enums.ChatContentType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Enums.ChatContentType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Enums.ChatContentType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Enums.ChatType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Enums.ChatType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Enums.ChatType",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Enums.ChatType.yml\" sourcestartlinenumber=\"1\">聊天类型</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Enums.ConversationType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Enums.ConversationType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Enums.ConversationType",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Enums.ConversationType.yml\" sourcestartlinenumber=\"1\">会话类型</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Enums.CopyType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Enums.CopyType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Enums.CopyType",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Enums.CopyType.yml\" sourcestartlinenumber=\"1\">复制类型</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Enums.DirectionInfoInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Enums.DirectionInfoInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Enums.DirectionInfoInfo",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Enums.DirectionInfoInfo.yml\" sourcestartlinenumber=\"1\">滚动方向信息</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Enums.ForwardMessageTypeEnums.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Enums.ForwardMessageTypeEnums.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Enums.ForwardMessageTypeEnums",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Enums.FriendAddResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Enums.FriendAddResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Enums.FriendAddResult",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Enums.FriendAddResult.yml\" sourcestartlinenumber=\"1\">通过wxid查询，或者通过手机号查询结果枚举</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Enums.FriendSearchResultEnums.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Enums.FriendSearchResultEnums.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Enums.FriendSearchResultEnums",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Enums.FriendSearchResultEnums.yml\" sourcestartlinenumber=\"1\">通过wxid查询，或者通过手机号查询结果枚举</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Enums.MessageSourceType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Enums.MessageSourceType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Enums.MessageSourceType",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Enums.MessageSourceType.yml\" sourcestartlinenumber=\"1\">聊天消息来源类型</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Enums.MessageType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Enums.MessageType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Enums.MessageType",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Enums.MessageType.yml\" sourcestartlinenumber=\"1\">聊天消息类型</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Enums.NavigationType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Enums.NavigationType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Enums.NavigationType",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Enums.NavigationType.yml\" sourcestartlinenumber=\"1\">导航栏类型</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Enums.UploadType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Enums.UploadType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Enums.UploadType",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Enums.UploadType.yml\" sourcestartlinenumber=\"1\">上传类型</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Enums.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Enums.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Enums",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Exceptions.WindowNotExsitException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Exceptions.WindowNotExsitException.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Exceptions.WindowNotExsitException",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Exceptions.WindowNotExsitException.yml\" sourcestartlinenumber=\"1\">窗口不存在异常</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Exceptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Exceptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Exceptions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Extentions.RandomPointExtention.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Extentions.RandomPointExtention.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Extentions.RandomPointExtention",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Extentions.RandomPointExtention.yml\" sourcestartlinenumber=\"1\">获取一个安全的可用Point</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Extentions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Extentions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Extentions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Interface.IWeChatWindow.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Interface.IWeChatWindow.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Interface.IWeChatWindow",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Interface.IWeChatWindow.yml\" sourcestartlinenumber=\"1\">微信窗口接口</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Interface.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Interface.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Interface",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Models.ChatActionMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Models.ChatActionMessage.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Models.ChatActionMessage",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Models.ChatActionMessage.yml\" sourcestartlinenumber=\"1\">聊天消息或者操作类型</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Models.ChatGroupOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Models.ChatGroupOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Models.ChatGroupOptions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Models.ChatResponse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Models.ChatResponse.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Models.ChatResponse",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Models.ChatResponse.yml\" sourcestartlinenumber=\"1\">微信响应结果</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Models.Conversation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Models.Conversation.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Models.Conversation",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Models.Conversation.yml\" sourcestartlinenumber=\"1\">会话</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Models.EmojiItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Models.EmojiItem.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Models.EmojiItem",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Models.EmojiItem.yml\" sourcestartlinenumber=\"1\">表情项</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Models.FriendInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Models.FriendInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Models.FriendInfo",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Models.FriendInfo.yml\" sourcestartlinenumber=\"1\">个人信息</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Models.FunctionalExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Models.FunctionalExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Models.FunctionalExtensions",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Models.FunctionalExtensions.yml\" sourcestartlinenumber=\"1\">函数式扩展方法</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Models.HeaderInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Models.HeaderInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Models.HeaderInfo",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Models.HeaderInfo.yml\" sourcestartlinenumber=\"1\">标题信息</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Models.Maybe-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Models.Maybe-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Models.Maybe<T>",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Models.Maybe-1.yml\" sourcestartlinenumber=\"1\">Maybe类，用于封装可能存在的值</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Models.MomentItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Models.MomentItem.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Models.MomentItem",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Models.ReplyItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Models.ReplyItem.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Models.ReplyItem",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Models.Result-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Models.Result-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Models.Result<T>",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Models.Result-1.yml\" sourcestartlinenumber=\"1\">Result的泛型类，用于封装操作结果</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Models.Result.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Models.Result.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Models.Result",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Models.Result.yml\" sourcestartlinenumber=\"1\">Result类，用于封装操作结果</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Models.SimpleConversation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Models.SimpleConversation.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Models.SimpleConversation",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Models.SimpleConversation.yml\" sourcestartlinenumber=\"1\">简单的会话对象，因为我们无须关注那些临时信息</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Models.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Models.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Models",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Simulator.Skm.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Simulator.Skm.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Simulator.Skm",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Simulator.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Simulator.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Simulator",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Utils.AutomationElementHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Utils.AutomationElementHelper.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Utils.AutomationElementHelper",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Utils.AutomationValid.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Utils.AutomationValid.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Utils.AutomationValid",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Utils.EmojiListHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Utils.EmojiListHelper.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Utils.EmojiListHelper",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Utils.EmojiListHelper.yml\" sourcestartlinenumber=\"1\">表情列表帮助类</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Utils.FriendListenerOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Utils.FriendListenerOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Utils.FriendListenerOptions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Utils.IMEHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Utils.IMEHelper.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Utils.IMEHelper",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Utils.IMEHelper.yml\" sourcestartlinenumber=\"1\">Win11专用IME控制工具类</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Utils.RandomWait.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Utils.RandomWait.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Utils.RandomWait",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Utils.RegistryHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Utils.RegistryHelper.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Utils.RegistryHelper",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Utils.TextIdentifier.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Utils.TextIdentifier.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Utils.TextIdentifier",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Utils.TextIdentifier.yml\" sourcestartlinenumber=\"1\">文本标识符结构</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Utils.UIThreadInvoker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Utils.UIThreadInvoker.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Utils.UIThreadInvoker",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Utils.UIThreadInvoker.yml\" sourcestartlinenumber=\"1\">用于在UI线程中执行操作的类</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Utils.WeChatConstant.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Utils.WeChatConstant.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Utils.WeChatConstant",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Utils.WeChatTextIdentifiers.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Utils.WeChatTextIdentifiers.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Utils.WeChatTextIdentifiers",
+      "Summary": "<p sourcefile=\"api/WeAutoCommon.Utils.WeChatTextIdentifiers.yml\" sourcestartlinenumber=\"1\">微信界面文本标识符集合</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeAutoCommon.Utils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeAutoCommon.Utils.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeAutoCommon.Utils",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.AddressBookList.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.AddressBookList.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.AddressBookList",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.AddressBookList.yml\" sourcestartlinenumber=\"1\">通讯录列表</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.CacheManager.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.CacheManager.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.CacheManager",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.CacheManager.yml\" sourcestartlinenumber=\"1\">cache管理类</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.ChatContent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.ChatContent.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.ChatContent",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.ChatHeader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.ChatHeader.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.ChatHeader",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.ChatHeader.yml\" sourcestartlinenumber=\"1\">聊天内容区标题区</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.ConversationList.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.ConversationList.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.ConversationList",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.ConversationList.yml\" sourcestartlinenumber=\"1\">会话列表</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.DatabaseReadQuery.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.DatabaseReadQuery.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.DatabaseReadQuery",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.DatabaseReadQuery.yml\" sourcestartlinenumber=\"1\">按单个微信号查询中间表（Database Read）。\n默认方法都会带上构造时传入的 <code>FromWechatWxId</code>；跨账号搜索请用 <xref href=\"WeChatAuto.Components.DatabaseReadQuery.SearchAllMessages(System.String%2cSystem.String)\" data-throw-if-not-resolved=\"false\"></xref>，复杂查询请用 <xref href=\"WeChatAuto.Components.DatabaseReadQuery.Query(System.String)\" data-throw-if-not-resolved=\"false\"></xref> 自行写 SQL。\n通常通过 <xref href=\"WeChatAuto.Components.WeChatClient\" data-throw-if-not-resolved=\"false\"></xref> 的同名方法调用；单元测试可以直接构造本类型。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.Group.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.Group.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.Group",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.Group.yml\" sourcestartlinenumber=\"1\">群聊管理</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.MessageBubbleList.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.MessageBubbleList.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.MessageBubbleList",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.MessageBubbleList.yml\" sourcestartlinenumber=\"1\">聊天内容区气泡列表</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.MessageMonitor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.MessageMonitor.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.MessageMonitor",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.MessageMonitor.yml\" sourcestartlinenumber=\"1\">消息监听器</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.Moments.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.Moments.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.Moments",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.Moments.yml\" sourcestartlinenumber=\"1\">朋友圈操作</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.Navigation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.Navigation.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.Navigation",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.Navigation.yml\" sourcestartlinenumber=\"1\">对微信导航栏的封装.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.NewFriendMonitor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.NewFriendMonitor.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.NewFriendMonitor",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.NewFriendMonitor.yml\" sourcestartlinenumber=\"1\">消息监听器</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.OuterGroup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.OuterGroup.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.OuterGroup",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.OuterGroup.yml\" sourcestartlinenumber=\"1\">他有群管理</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.OwnerGroup.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.OwnerGroup.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.OwnerGroup",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.OwnerGroup.yml\" sourcestartlinenumber=\"1\">自有群管理</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.Search.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.Search.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.Search",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.Search.yml\" sourcestartlinenumber=\"1\">聊天内容区发送者</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.Sender.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.Sender.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.Sender",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.Sender.yml\" sourcestartlinenumber=\"1\">聊天内容区发送者</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.ShellNotifyIcon.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.ShellNotifyIcon.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.ShellNotifyIcon",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.ShellNotifyIcon.yml\" sourcestartlinenumber=\"1\">任务栏图标</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.ToolBar.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.ToolBar.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.ToolBar",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.ToolBar.yml\" sourcestartlinenumber=\"1\">微信窗口工具栏封装,可以进行最大化/还原，置顶/反置顶操作</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.WeChatClient.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.WeChatClient.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.WeChatClient",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.WeChatClient.yml\" sourcestartlinenumber=\"1\">微信客户端\n适用于单个微信客户端的自动化操作</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.WeChatClientFactory.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.WeChatClientFactory.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.WeChatClientFactory",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.WeChatClientFactory.yml\" sourcestartlinenumber=\"1\">微信客户端工厂,封装的微信客户端工厂，支持多微信实例</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.WeChatMessageQueryResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.WeChatMessageQueryResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.WeChatMessageQueryResult",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.WeChatMessageQueryResult.yml\" sourcestartlinenumber=\"1\">消息查询结果：中间表行，外加会话 / 发送者 / 被引用人的显示名。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.WeChatRoomMemberQueryResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.WeChatRoomMemberQueryResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.WeChatRoomMemberQueryResult",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.WeChatRoomMemberQueryResult.yml\" sourcestartlinenumber=\"1\">群成员查询结果：中间表行，外加成员 / 群主 / 群的显示名。群名片仍在 <xref href=\"WeChatAuto.Models.WeChatChatRoomMember.GroupNickname\" data-throw-if-not-resolved=\"false\"></xref>。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.WeChatSnsCommentQueryResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.WeChatSnsCommentQueryResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.WeChatSnsCommentQueryResult",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.WeChatSnsCommentQueryResult.yml\" sourcestartlinenumber=\"1\">朋友圈评论查询结果，带显示名。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.WeChatSnsLikeQueryResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.WeChatSnsLikeQueryResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.WeChatSnsLikeQueryResult",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.WeChatSnsLikeQueryResult.yml\" sourcestartlinenumber=\"1\">朋友圈点赞查询结果，带显示名。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.WeChatSnsPostQueryResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.WeChatSnsPostQueryResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components.WeChatSnsPostQueryResult",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Components.WeChatSnsPostQueryResult.yml\" sourcestartlinenumber=\"1\">朋友圈查询结果：动态本身，以及该 tid 下的媒体、点赞、评论。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Components.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Components.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Components",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Exceptions.WechatClientNotExistException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Exceptions.WechatClientNotExistException.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Exceptions.WechatClientNotExistException",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Exceptions.WechatClientNotExistException.yml\" sourcestartlinenumber=\"1\">微信客户端不存在异常</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Exceptions.WechatNotOpenedException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Exceptions.WechatNotOpenedException.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Exceptions.WechatNotOpenedException",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Exceptions.WechatNotOpenedException.yml\" sourcestartlinenumber=\"1\">微信没有打开异常</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Exceptions.WechatNotSupportUITreeException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Exceptions.WechatNotSupportUITreeException.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Exceptions.WechatNotSupportUITreeException",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Exceptions.WechatNotSupportUITreeException.yml\" sourcestartlinenumber=\"1\">微信 没有公开UI Tree</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Exceptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Exceptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Exceptions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Extentions.AutoLoggerExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Extentions.AutoLoggerExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Extentions.AutoLoggerExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Extentions.AutomationElementExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Extentions.AutomationElementExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Extentions.AutomationElementExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Extentions.ClickEnhanceExtentions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Extentions.ClickEnhanceExtentions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Extentions.ClickEnhanceExtentions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Extentions.KMSimulatorExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Extentions.KMSimulatorExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Extentions.KMSimulatorExtensions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Extentions.WindowSlienceAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Extentions.WindowSlienceAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Extentions.WindowSlienceAction",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Extentions.WindowSlienceAction.yml\" sourcestartlinenumber=\"1\">静默操作的扩展</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Extentions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Extentions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Extentions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.AudioInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.AudioInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.AudioInfo",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.BaseMessageCheckpointItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.BaseMessageCheckpointItem.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.BaseMessageCheckpointItem",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.ChatRefer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.ChatRefer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.ChatRefer",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.ChatRefer.yml\" sourcestartlinenumber=\"1\">消息引用</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.ChatSimpleMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.ChatSimpleMessage.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.ChatSimpleMessage",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.ContactLocalType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.ContactLocalType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.ContactLocalType",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.ContactLocalType.yml\" sourcestartlinenumber=\"1\">联系人 <code>LocalType</code> 中已经观察过的值。完整枚举尚未核实，因此这里只收录已确认的两项。\n原生还有大量 <code>3</code>，含义未对上，暂不收录。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.FetchedMedia.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.FetchedMedia.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.FetchedMedia",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.ImageCacheItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.ImageCacheItem.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.ImageCacheItem",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.InputTokensDetails.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.InputTokensDetails.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.InputTokensDetails",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.MessageBubble.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.MessageBubble.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.MessageBubble",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.MessageBubble.yml\" sourcestartlinenumber=\"1\">聊天内容区气泡</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.MessageCheckpointItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.MessageCheckpointItem.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.MessageCheckpointItem",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.MessageContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.MessageContext.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.MessageContext",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.NewFriendBackItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.NewFriendBackItem.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.NewFriendBackItem",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.NewFriendBackItem.yml\" sourcestartlinenumber=\"1\">自动加好友返回信息</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.NewFriendInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.NewFriendInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.NewFriendInfo",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.NewFriendInfo.yml\" sourcestartlinenumber=\"1\">新好友上下文</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.OutputInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.OutputInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.OutputInfo",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.OutputTokensDetails.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.OutputTokensDetails.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.OutputTokensDetails",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.OwerInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.OwerInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.OwerInfo",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.OwerInfo.yml\" sourcestartlinenumber=\"1\">个人信息</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.QwenChatChoice.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.QwenChatChoice.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.QwenChatChoice",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.QwenChatChoice.yml\" sourcestartlinenumber=\"1\">回复选项</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.QwenChatMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.QwenChatMessage.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.QwenChatMessage",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.QwenChatMessage.yml\" sourcestartlinenumber=\"1\">聊天消息</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.QwenChatRequestBody.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.QwenChatRequestBody.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.QwenChatRequestBody",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.QwenChatRequestBody.yml\" sourcestartlinenumber=\"1\">通义千问 Chat Completion 请求体</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.QwenChatResponseBody.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.QwenChatResponseBody.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.QwenChatResponseBody",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.QwenChatResponseBody.yml\" sourcestartlinenumber=\"1\">通义千问 Chat Completion 响应体</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.QwenChatUsage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.QwenChatUsage.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.QwenChatUsage",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.QwenChatUsage.yml\" sourcestartlinenumber=\"1\">Token 使用统计</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.QwenPromptTokenDetails.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.QwenPromptTokenDetails.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.QwenPromptTokenDetails",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.QwenPromptTokenDetails.yml\" sourcestartlinenumber=\"1\">Prompt Token 详情</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.QwenRequestBody.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.QwenRequestBody.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.QwenRequestBody",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.QwenResponseBody.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.QwenResponseBody.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.QwenResponseBody",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.QwenResponseBody.yml\" sourcestartlinenumber=\"1\">千问 TTS 响应结果</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.RequestInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.RequestInput.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.RequestInput",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.SimpleMessageBubble.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.SimpleMessageBubble.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.SimpleMessageBubble",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.SystemMessageContext.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.SystemMessageContext.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.SystemMessageContext",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.SystemMessageContext.yml\" sourcestartlinenumber=\"1\">系统消息上下文\n解释newMessages列表的内容，即可以获取系统消息.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.TimeOnlyRange.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.TimeOnlyRange.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.TimeOnlyRange",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.TimeOnlyRange.yml\" sourcestartlinenumber=\"1\">时间范围，即定义：开始时间与结束时间</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.UsageInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.UsageInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.UsageInfo",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.VoiceCloneInput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.VoiceCloneInput.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.VoiceCloneInput",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.VoiceCloneInput.yml\" sourcestartlinenumber=\"1\">声音复刻请求的输入参数。通过 <xref href=\"WeChatAuto.Models.VoiceCloneInput.Action\" data-throw-if-not-resolved=\"false\"></xref> 区分创建/删除/查询等操作。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.VoiceCloneOutput.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.VoiceCloneOutput.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.VoiceCloneOutput",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.VoiceCloneOutput.yml\" sourcestartlinenumber=\"1\">声音复刻接口的输出。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.VoiceCloneRequestBody.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.VoiceCloneRequestBody.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.VoiceCloneRequestBody",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.VoiceCloneRequestBody.yml\" sourcestartlinenumber=\"1\">声音复刻（声音克隆）请求体。\n通义千问 Qwen-Audio-TTS 系列通过 voice-enrollment 端点上传参考音频，生成自定义音色。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.VoiceCloneResponseBody.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.VoiceCloneResponseBody.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.VoiceCloneResponseBody",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.VoiceCloneResponseBody.yml\" sourcestartlinenumber=\"1\">声音复刻接口的响应体。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.VoicePreset.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.VoicePreset.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.VoicePreset",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.VoicePresetList.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.VoicePresetList.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.VoicePresetList",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.VoicePresetList.yml\" sourcestartlinenumber=\"1\">预设音色列表（Qwen-Audio-TTS 系列 qwen-audio-3.1-tts-flash 系统音色）\n音色必须与请求模型匹配，不能跨模型混用。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.WeChatChatRoomMember.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.WeChatChatRoomMember.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.WeChatChatRoomMember",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.WeChatChatRoomMember.yml\" sourcestartlinenumber=\"1\">群成员中间表：成员名单、群名片、邀请人来自原生 chat_room.ext_buffer。\n群名称、群主/成员/邀请人的微信昵称或备注请按 RoomUsername / Owner / MemberUsername / Inviter\n关联 wechat_contact（Remark 优先，空则 NickName）；本表不维护这些显示名快照。\n支持多微信聚合。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.WeChatContact.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.WeChatContact.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.WeChatContact",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.WeChatContact.yml\" sourcestartlinenumber=\"1\">微信联系人,对应微信联系人表 Contact\n支持多微信聚合。差异同步业务键：FromWechatWxId + UserName（对应原生 contact.username）。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.WeChatDatabaseInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.WeChatDatabaseInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.WeChatDatabaseInfo",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.WeChatDatabaseInfo.yml\" sourcestartlinenumber=\"1\">本机微信昵称 - wxid的键值对\n适用于多微信的本地存储</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.WeChatMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.WeChatMessage.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.WeChatMessage",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.WeChatMessage.yml\" sourcestartlinenumber=\"1\">微信消息中间表。UIA 监听与 Database Read 共用；支持多微信聚合。\n对照原生 message_0/1/2.db 的 Msg_<em sourcefile=\"api/WeChatAuto.Models.WeChatMessage.yml\" sourcestartlinenumber=\"2\">（各表同构）：差异同步业务键为\nFromWechatWxId + ChatUsername + Shard + LocalId（ServerId 作辅助，不建外键）。\n本机有 89 个会话跨 message_0/1/2，且各分片 local_id 都从 1 计，业务键必须带 Shard。\n增量水位用 SortSeq：跨分片区间不重叠，按 FromWechatWxId + ChatUsername + Shard 取 MAX(SortSeq) 即可。\nserver_id / sort_seq / local_type 等会超过 Int32，C# 用 long 承接；\n列类型显式声明 INTEGER（SQLite 的 INTEGER 最多 8 字节，可存 64 位）。\n不要改成 C# int，也不要让 SqlSugar 默认映射成 BIGINT。\n自增主键仍必须是 int：SqlSugar 把 long 主键映成 BIGINT，SQLite 不允许 AUTOINCREMENT。\nUIA 写入时这些原生键可为空或 0，故先不加唯一约束，避免和旧行冲突。\n发送者 username 在本分片 Name2Id.rowid = real_sender_id 解析后写入 SenderWxId，\n不要跨分片使用 rowid。message_content 若被 WCDB 标成 zstd，写入前先解码；\n群聊正文常见「sender_wxid:\\n正文」，发送者进 SenderWxId，正文进 Content。\n引用消息（local_type=244813135921）Content 只存回复文字，被引用内容在 Quote</em> 列。\npacked_info_data / source / compress_content 不镜像进本表。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.WeChatSnsComment.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.WeChatSnsComment.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.WeChatSnsComment",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.WeChatSnsComment.yml\" sourcestartlinenumber=\"1\">朋友圈评论中间表。完整名单来自 SnsTimeLine.content XML 的 comment_user_list（条目 type 一律为 2）。\n同一条若在 SnsMessage_tmp3.serialized_comment_buf 有包，重叠字段\n（发起人、对象、类型、时间、正文、comment_id、flag）以 protobuf 为准；名单本身不在包里，仍以 XML 列表为准。\n回复的父评：serialized_ref_buf 为完整包时，父评正文与发起人优先用包；否则用 XML 的 ref_comment_id / ref_username。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.WeChatSnsLike.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.WeChatSnsLike.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.WeChatSnsLike",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.WeChatSnsLike.yml\" sourcestartlinenumber=\"1\">朋友圈点赞中间表。完整名单来自 SnsTimeLine.content XML 的 like_user_list（条目 type 一律为 1）。\n同一条若在 SnsMessage_tmp3.serialized_comment_buf 有包，重叠字段\n（发起人、昵称、时间、comment_id、flag）以 protobuf 为准；名单本身不在包里，仍以 XML 列表为准。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.WeChatSnsMedia.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.WeChatSnsMedia.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.WeChatSnsMedia",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.WeChatSnsMedia.yml\" sourcestartlinenumber=\"1\">朋友圈媒体中间表：一条动态可以有多张图 / 多个视频（含 LivePhoto 的视频段）。\n数据来自 <code>SnsTimeLine.content</code> 的 <code>ContentObject/mediaList/media</code>，按 <code>(Tid, Idx)</code> 唯一。</p>\n<p>URL 是带 token 的 CDN 地址，会过期；<xref href=\"WeChatAuto.Models.WeChatSnsMedia.LocalPath\" data-throw-if-not-resolved=\"false\"></xref> 预留给后续的媒体下载/缓存。</p>\n<p>视频号（finderFeed）的媒体列表结构与朋友圈 media 不同，暂不写入本表，见\n<xref href=\"WeChatAuto.Models.WeChatSnsPost.FinderKind\" data-throw-if-not-resolved=\"false\"></xref> / <xref href=\"WeChatAuto.Models.WeChatSnsPost.FinderId\" data-throw-if-not-resolved=\"false\"></xref>。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.WeChatSnsPost.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.WeChatSnsPost.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models.WeChatSnsPost",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Models.WeChatSnsPost.yml\" sourcestartlinenumber=\"1\">朋友圈动态中间表，对应原生 SnsTimeLine（按 tid）。支持多微信聚合。\n正文、媒体、类型、点赞标记、发布时间主要来自 content XML（SnsDataItem / TimelineObject）。\npack_info_buf 是 protobuf，可以读，但本机绝大多数是空包，有值时只重复 tid 与时间，\n不含正文或互动名单；CreateTime 以 XML &lt;createTime&gt; 为准，包内 field 2 有值时作校对。\n完整点赞 / 评论不进本表，分别写入 <xref href=\"WeChatAuto.Models.WeChatSnsLike\" data-throw-if-not-resolved=\"false\"></xref> / <xref href=\"WeChatAuto.Models.WeChatSnsComment\" data-throw-if-not-resolved=\"false\"></xref>。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Models.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Models.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Models",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Options.AddFriendsOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Options.AddFriendsOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Options.AddFriendsOptions",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Options.AddFriendsOptions.yml\" sourcestartlinenumber=\"1\">增加朋友选项</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Options.FriendKeywordRule.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Options.FriendKeywordRule.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Options.FriendKeywordRule",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Options.FriendKeywordRule.yml\" sourcestartlinenumber=\"1\">单个关键词的自动通过规则：命中该关键词时应用的后缀与标签（可为空，为空表示不覆盖全局配置）。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Options.FriendRequestAutoAcceptOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Options.FriendRequestAutoAcceptOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Options.FriendRequestAutoAcceptOptions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Options.FriendRequestAutoAcceptOptionsPrefix.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Options.FriendRequestAutoAcceptOptionsPrefix.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Options.FriendRequestAutoAcceptOptionsPrefix",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Options.MessageMonitorOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Options.MessageMonitorOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Options.MessageMonitorOptions",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Options.MessageMonitorOptions.yml\" sourcestartlinenumber=\"1\">消息监听器选项,适用于非弹窗监听/开放式监听与弹窗式监听</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Options.MomentsOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Options.MomentsOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Options.MomentsOptions",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Options.MomentsOptions.yml\" sourcestartlinenumber=\"1\">朋友圈选项</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Options.PullMessagesOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Options.PullMessagesOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Options.PullMessagesOptions",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Options.PullMessagesOptions.yml\" sourcestartlinenumber=\"1\">消息监听器选项.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Options.SystemMonitorOption.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Options.SystemMonitorOption.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Options.SystemMonitorOption",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Options.VoiceOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Options.VoiceOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Options.VoiceOptions",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Options.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Options.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Options",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Services.KMSimulatorService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Services.KMSimulatorService.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Services.KMSimulatorService",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Services.KMSimulatorService.yml\" sourcestartlinenumber=\"1\">键鼠模拟器服务</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Services.OCRService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Services.OCRService.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Services.OCRService",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Services.QwenClientService.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Services.QwenClientService.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Services.QwenClientService",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Services.QwenClientService.yml\" sourcestartlinenumber=\"1\">千问http客户端</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Services.WeAutomation.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Services.WeAutomation.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Services.WeAutomation",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Services.WeChatSnsMediaDownloader.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Services.WeChatSnsMediaDownloader.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Services.WeChatSnsMediaDownloader",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Services.WeChatSnsMediaDownloader.yml\" sourcestartlinenumber=\"1\">朋友圈图片 / 视频「旁路」下载器（默认不启动）。</p>\n<p><b>旁路</b>：hot-sync 主链路只有 1~2 秒预算，下载是外网 I/O，不能放进同步循环。\n这里用独立定时器 + 独立 DB 连接，按 <code>wechat_sns_media</code> 的待处理行慢慢消化；\n下载器整个挂掉也只影响媒体文件，不影响消息 / 联系人 / 群成员 / 朋友圈数据同步。</p>\n<p><b>加密</b>：朋友圈图片 / 视频是 Isaac64 流加密。图片看响应头 <code>X-Enc</code>，\n视频看前 8 字节是否有 <code>ftyp</code>；解密由纯 C# <xref href=\"WxDecryptNet.Sdk.Crypto.WxIsaac64\" data-throw-if-not-resolved=\"false\"></xref> 完成，\n无需 Node / WASM，也没有额外的模块安装步骤。</p>\n<p><b>幂等</b>：每行 <code>DownloadStatus</code> / <code>DownloadAttempts</code> 落库：\n成功 1，永久失败（token 过期 / 404 / 不是图片 / 缺 key）2 不再重试，非媒体 3 跳过。\n动态内容变化时媒体行按 tid 重建，<code>(Url, UrlToken, UrlKey)</code> 未变则保留下载状态。</p>\n<p><b>开关</b>：<code>WeChatConfig.DownloadSnsImages</code>，默认 <code>false</code>。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Services.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Services.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Services",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.AutoLogger-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.AutoLogger-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.AutoLogger<T>",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.AutoLogger-1.yml\" sourcestartlinenumber=\"1\">自动化日志类</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.AutoWaiting.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.AutoWaiting.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.AutoWaiting",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.AutomationElementComparer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.AutomationElementComparer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.AutomationElementComparer",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.AutomationElementComparer.yml\" sourcestartlinenumber=\"1\">AutomationElement比较器，基于名称进行比较，不考虑重复名称的情况</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.AutomationIntArrayComparer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.AutomationIntArrayComparer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.AutomationIntArrayComparer",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.AutomationRuntimeComparer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.AutomationRuntimeComparer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.AutomationRuntimeComparer",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.AutomationRuntimeComparer.yml\" sourcestartlinenumber=\"1\">AutomationElement比较器，基于runtimeid进行比较</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.ClipboardApi.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.ClipboardApi.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.ClipboardApi",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.ClipboardApi.yml\" sourcestartlinenumber=\"1\">Windows剪贴板API工具类</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.ClipboardHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.ClipboardHelper.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.ClipboardHelper",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.ClipboardHelper.yml\" sourcestartlinenumber=\"1\">Windows剪贴板工具类</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.CursorHelper.CURSORINFO.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.CursorHelper.CURSORINFO.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.CursorHelper.CURSORINFO",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.CursorHelper.POINTAPI.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.CursorHelper.POINTAPI.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.CursorHelper.POINTAPI",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.CursorHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.CursorHelper.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.CursorHelper",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.CyberOverlay.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.CyberOverlay.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.CyberOverlay",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.CyberOverlay.yml\" sourcestartlinenumber=\"1\">赛博朋克风格的屏幕提示框。</p>\n<p>\n用于在耗时操作（例如强开 UI Tree 扫描 weixin.dll）期间，在屏幕上绘制一个\n无边框、置顶、不抢焦点、不进入任务栏的半透明 HUD 提示框。\n</p>\n<p>\n提示框运行在独立的 STA 后台线程中，拥有自己的消息循环，因此不会阻塞调用方，\n也不会与 UIA 自动化线程相互干扰。\n</p>\n用法：\n<p sourcefile=\"api/WeChatAuto.Utils.CyberOverlay.yml\" sourcestartlinenumber=\"12\">using (CyberOverlay.Show($&quot;正在强开 pid={pid} 的微信 UI Tree 中...&quot;))\n{\n// 执行耗时操作\n}</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.DiffBlock-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.DiffBlock-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.DiffBlock<T>",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.DiffBlock-1.yml\" sourcestartlinenumber=\"1\">Diff连续块</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.DiffItem-1.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.DiffItem-1.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.DiffItem<T>",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.DiffType.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.DiffType.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.DiffType",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.DpiAwareness.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.DpiAwareness.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.DpiAwareness",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.DpiHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.DpiHelper.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.DpiHelper",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.DrawHightlightHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.DrawHightlightHelper.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.DrawHightlightHelper",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.ElementVisibleHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.ElementVisibleHelper.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.ElementVisibleHelper",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.ForceOpenUITree.ActivationResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.ForceOpenUITree.ActivationResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.ForceOpenUITree.ActivationResult",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.ForceOpenUITree.ActivationResult.yml\" sourcestartlinenumber=\"1\">强开 UI Tree 的执行结果。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.ForceOpenUITree.UiaVerification.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.ForceOpenUITree.UiaVerification.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.ForceOpenUITree.UiaVerification",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.ForceOpenUITree.UiaVerification.yml\" sourcestartlinenumber=\"1\">UIA（UI Automation）验证结果，用于确认 UI Tree 是否真正物化。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.ForceOpenUITree.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.ForceOpenUITree.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.ForceOpenUITree",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.ForceOpenUITree.yml\" sourcestartlinenumber=\"1\">强开 UI Tree。</p>\n<p>\n通过向正在运行的微信(Weixin)进程的 Qt 无障碍“门控字节”写入 1，强制微信公开 UI Tree。\n该工具不会启动微信、不会注入代码、不会修改内存页保护，只会写入 Weixin.dll 中\n那一个已存在的 Qt 无障碍状态字节，并在写入前校验进程、模块、PE 节、扫描证据与当前字节值。\n</p>\n<p>本类移植自 <code>qt_accessibility_activator.py</code>。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.ImageHashCacheHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.ImageHashCacheHelper.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.ImageHashCacheHelper",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.ImageHashCacheHelper.yml\" sourcestartlinenumber=\"1\">昵称Image的缓存帮助类</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.LcsHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.LcsHelper.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.LcsHelper",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.MessageCacheHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.MessageCacheHelper.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.MessageCacheHelper",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.MessageCacheHelper.yml\" sourcestartlinenumber=\"1\">消息缓存助手类，提供消息缓存的读取和写入功能</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.MessageComparer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.MessageComparer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.MessageComparer",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.MessageComparer.yml\" sourcestartlinenumber=\"1\">消息是否相等比较器</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.MouseScrollHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.MouseScrollHelper.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.MouseScrollHelper",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.Probability.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.Probability.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.Probability",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.Probability.yml\" sourcestartlinenumber=\"1\">随机决策</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.RuntimeIDExtensions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.RuntimeIDExtensions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.RuntimeIDExtensions",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.RuntimeIDExtensions.yml\" sourcestartlinenumber=\"1\">RuntimeId的扩展</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.ShellNotifyHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.ShellNotifyHelper.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.ShellNotifyHelper",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.SupperMouseKey.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.SupperMouseKey.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.SupperMouseKey",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.UITreeGlobal.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.UITreeGlobal.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.UITreeGlobal",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.UITreeGlobal.yml\" sourcestartlinenumber=\"1\">记录一些异变化的UI Tree路径.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.WeChatAction.WinInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.WeChatAction.WinInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.WeChatAction.WinInfo",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.WeChatAction.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.WeChatAction.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.WeChatAction",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.WeChatAction.yml\" sourcestartlinenumber=\"1\">按 PID 找微信主窗、唤回（含关窗仅留托盘）、最小化、恢复等。\n主窗是 Qt51514QWindowIcon + 标题「微信」。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.WeChatCaptureImage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.WeChatCaptureImage.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.WeChatCaptureImage",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.WeChatCaptureImage.yml\" sourcestartlinenumber=\"1\">截图工具类</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.WeChatInvoker.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.WeChatInvoker.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.WeChatInvoker",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.WeChatInvoker.yml\" sourcestartlinenumber=\"1\">微信执行器</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.WeChatLocalPaths.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.WeChatLocalPaths.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.WeChatLocalPaths",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.WeChatLocalPaths.yml\" sourcestartlinenumber=\"1\">本机微信自动化的数据目录（默认 <code>%LOCALAPPDATA%\\WeChatAuto</code>）。</p>\n<p>需要跨升级、跨安装目录保留的文件都放这里：数据库密钥缓存 <code>wechatkey.dat</code>、\nhot-sync 暂存 <code>hotsync-staging</code>、媒体缓存 <code>media-cache</code>。</p>\n<p>暂存 / 媒体缓存 / 朋友圈下载目录都可被配置覆盖（见 <xref href=\"WeChatAuto.Services.WeAutomation.Config\" data-throw-if-not-resolved=\"false\"></xref>），\n方便 C 盘空间紧张的用户改到大容量磁盘；为空时仍用下面的默认路径。</p>\n<p>不要把这类数据写进程序目录：安装目录可能只读（如 Program Files），\n换目录 / 覆盖升级时也会丢。默认路径一律由 <xref href=\"System.Environment.SpecialFolder.LocalApplicationData\" data-throw-if-not-resolved=\"false\"></xref> 推导，\n不写死盘符、用户名或绝对路径。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.WeChatRecordVideo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.WeChatRecordVideo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.WeChatRecordVideo",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.WeChatTimeParser.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.WeChatTimeParser.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.WeChatTimeParser",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.WeChatVersionHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.WeChatVersionHelper.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.WeChatVersionHelper",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.WeChatVersionHelper.yml\" sourcestartlinenumber=\"1\">微信版本帮助类.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.Win32WindowHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.Win32WindowHelper.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.Win32WindowHelper",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.Win32WindowHelper.yml\" sourcestartlinenumber=\"1\">Win32 窗口操作工具类。\n支持 Windows 10 / Windows 11。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.WinApi.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.WinApi.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.WinApi",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.WinMouse.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.WinMouse.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.WinMouse",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.WindowRect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.WindowRect.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.WindowRect",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.WindowRect.yml\" sourcestartlinenumber=\"1\">Windows 窗口的位置和大小。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.WindowsInputHelper.KeyboardLayoutScope.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.WindowsInputHelper.KeyboardLayoutScope.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.WindowsInputHelper.KeyboardLayoutScope",
+      "Summary": "<p sourcefile=\"api/WeChatAuto.Utils.WindowsInputHelper.KeyboardLayoutScope.yml\" sourcestartlinenumber=\"1\">键盘布局作用域：Dispose 时把之前保存的布局发回目标焦点窗口，实现“用后恢复”。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.WindowsInputHelper.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.WindowsInputHelper.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils.WindowsInputHelper",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WeChatAuto.Utils.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WeChatAuto.Utils.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WeChatAuto.Utils",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.ChatMessage.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.ChatMessage.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.ChatMessage",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.ChatMessage.yml\" sourcestartlinenumber=\"1\">跨 <code>message_*.db</code> 分片合并后的一条聊天消息\n（<xref href=\"WxDecryptNet.Sdk.WeChatDatabase.FetchMessagesByUsername(System.String%2cSystem.String%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>）。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.ChatRoomMember.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.ChatRoomMember.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.ChatRoomMember",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.ChatRoomMember.yml\" sourcestartlinenumber=\"1\">一个群的一名成员（<xref href=\"WxDecryptNet.Sdk.WeChatDatabase.FetchChatRoomMembers(System.String)\" data-throw-if-not-resolved=\"false\"></xref> 或\n<xref href=\"WxDecryptNet.Sdk.WeChatSqlCipher.ParseChatRoomExtBuffer(System.Byte%5b%5d)\" data-throw-if-not-resolved=\"false\"></xref>）。\n群名片与邀请人 username 来自 ext_buffer。群名称、群主/成员/邀请人显示名请关联 contact，本对象不携带这些快照。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.AccountInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.AccountInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.AccountInfo",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.AccountResolveException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.AccountResolveException.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.AccountResolveException",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.DbErrors.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.DbErrors.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.DbErrors",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Core.DbErrors.yml\" sourcestartlinenumber=\"1\">SQLite / SQLCipher 错误的分类。</p>\n<p>\n只回答一个问题：这个异常是否意味着**库本身损坏或密钥/副本错位**（而不是锁冲突、IO 忙、SQL 语法错）。\n调用方据此决定「丢弃 staging 副本、重新一致拷贝」还是「原样重试」。\n</p>\n<p>\n典型来源：staging 副本被 checkpoint 撕裂、SQLCipher 页面 HMAC 不匹配、WAL 与主库世代错位、\n或者密钥不对（SQLCipher 会把「密钥错误」表现为 <code>file is not a database</code>）。\n</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.DerivedImageKeys.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.DerivedImageKeys.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.DerivedImageKeys",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.ImageKeyResolution.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.ImageKeyResolution.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.ImageKeyResolution",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.KeyRecoveryException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.KeyRecoveryException.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.KeyRecoveryException",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.MemoryImageKeyResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.MemoryImageKeyResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.MemoryImageKeyResult",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.SqlCipherReaderException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.SqlCipherReaderException.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.SqlCipherReaderException",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.SqlCipherSessionException.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.SqlCipherSessionException.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.SqlCipherSessionException",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.TemplateScanResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.TemplateScanResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.TemplateScanResult",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.V2Template.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.V2Template.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.V2Template",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.WeChatSqlCipherSession.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.WeChatSqlCipherSession.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.WeChatSqlCipherSession",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.WeChatTarget.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.WeChatTarget.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.WeChatTarget",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.WxChatRoomExtBuffer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.WxChatRoomExtBuffer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.WxChatRoomExtBuffer",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Core.WxChatRoomExtBuffer.yml\" sourcestartlinenumber=\"1\">解析 contact.db 中 chat_room.ext_buffer（protobuf）。\n成员名单、群昵称、邀请人均在此 blob 内，不必再 JOIN contact / name2id。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.WxContactExtraBuffer.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.WxContactExtraBuffer.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.WxContactExtraBuffer",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Core.WxContactExtraBuffer.yml\" sourcestartlinenumber=\"1\"><code>contact.extra_buffer</code> 中对业务有用的字段。解析失败或缺字段时为空串 / 0，永不抛异常。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.WxContactSourceScene.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.WxContactSourceScene.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.WxContactSourceScene",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Core.WxContactSourceScene.yml\" sourcestartlinenumber=\"1\">微信「来源」场景码（<code>contact.extra_buffer</code> #8）到中文文案的映射。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.WxCountryNames.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.WxCountryNames.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.WxCountryNames",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Core.WxCountryNames.yml\" sourcestartlinenumber=\"1\">国家 / 地区 ISO2 码到中文名的映射。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.WxDecrypt.KeyResolution.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.WxDecrypt.KeyResolution.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.WxDecrypt.KeyResolution",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.WxDecrypt.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.WxDecrypt.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.WxDecrypt",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.WxFfmpeg.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.WxFfmpeg.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.WxFfmpeg",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.WxMedia.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.WxMedia.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.WxMedia",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.WxMediaKeyResolver.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.WxMediaKeyResolver.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.WxMediaKeyResolver",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.WxProcessAccountMap.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.WxProcessAccountMap.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.WxProcessAccountMap",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Core.WxProcessAccountMap.yml\" sourcestartlinenumber=\"1\">把「正在运行的微信进程」映射到它自己的账号目录（不依赖昵称/明文侧车）。</p>\n<p>\n原理：微信 4.x 每个账号的主进程会长期持有本账号 <code>db_storage</code> 下\n<code>contact.db</code> / <code>session.db</code> / <code>message_0.db</code> 等文件的句柄，\n通过 Windows Restart Manager（<code>rstrtmgr.dll</code>）查询“谁打开了这个文件”，\n即可得到精确的 pid → 账号目录绑定。\n</p>\n<p>\n只读查询，不读微信内存；任何原生失败都返回“未知”，由调用方回退。\n</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.WxRegionNames.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.WxRegionNames.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.WxRegionNames",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Core.WxRegionNames.yml\" sourcestartlinenumber=\"1\">微信 <code>extra_buffer</code> 地区字段（#6 省 / #7 市）的英文 → 中文映射。\n命中返回值；未命中返回原串（去掉首尾空白），空输入返回空串。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.WxSqlCipher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.WxSqlCipher.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.WxSqlCipher",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.WxVoice.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.WxVoice.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.WxVoice",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Core.WxVoice.yml\" sourcestartlinenumber=\"1\">语音（silk）处理：定位明文 <code>media_N.db</code> 分片、按 <code>svr_id</code> 取 silk、识别音频格式，\n并在 silk / wav / mp3 之间转换（silk→wav 优先用捆绑的原生 <code>silk-v3-decoder</code> 与 NAudio；Python <code>pilk</code> 为次级回退；wav→mp3 可选依赖 <code>ffmpeg</code>；缺失时软失败）。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.WxWinKey.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.WxWinKey.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.WxWinKey",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.WxWxgf.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.WxWxgf.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core.WxWxgf",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Core.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Core.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Core",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Crypto.SnsMediaCrypto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Crypto.SnsMediaCrypto.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Crypto.SnsMediaCrypto",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Crypto.SnsMediaCrypto.yml\" sourcestartlinenumber=\"1\">朋友圈媒体的解密封装（图片整段 XOR / 视频只解前 128KB）。</p>\n<p>这里只做与媒体类型相关的边界逻辑，keystream 由 <xref href=\"WxDecryptNet.Sdk.Crypto.WxIsaac64\" data-throw-if-not-resolved=\"false\"></xref> 生成。\n抽成公共类是为了让“视频前 128KB、ftyp 校验”这类容易写错的细节可以被单元测试覆盖。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Crypto.WxIsaac64.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Crypto.WxIsaac64.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Crypto.WxIsaac64",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Crypto.WxIsaac64.yml\" sourcestartlinenumber=\"1\">微信 <code>WxIsaac64</code> 的纯 C# 实现（ISAAC-64 变体）。</p>\n<p>与常见 ISAAC-64 参考实现的区别（已用真实 WASM 逐字节对齐）：</p>\n<ul><li>seed 初始化使用 coreutils <code>isaac_seed</code> 的 8 个常量（不是单一 golden ratio 常量），\n对 <code>m[256]</code> 做两轮 <code>ISAAC_MIX</code>；</li><li><code>refill</code> 的第二个索引是 <code>m[(y &gt;&gt; 11) &amp; 255]</code>（不是 <code>&gt;&gt; 8</code>）；</li><li>keystream 按 <code>output[255], output[254], …</code> 顺序、每字 8 字节 <b>大端</b> 输出，再按 size 截断。</li></ul>\n<p>输入 key 为 XML 中的十进制字符串（<code>stoull</code> 语义，超出 <xref href=\"System.UInt64\" data-throw-if-not-resolved=\"false\"></xref> 会失败）。\n生成的 keystream 与微信 WASM 模块逐字节一致，可用于朋友圈图片/视频解密，无需 Node/WASM。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Crypto.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Crypto.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Crypto",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.DatabaseInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.DatabaseInfo.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.DatabaseInfo",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.DatabaseInfo.yml\" sourcestartlinenumber=\"1\"><code>db_storage</code> 下的一个数据库文件。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.DatabaseKeyCheck.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.DatabaseKeyCheck.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.DatabaseKeyCheck",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.DatabaseKeyCheck.yml\" sourcestartlinenumber=\"1\">单个数据库的密钥可用性。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.DecryptAllOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.DecryptAllOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.DecryptAllOptions",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.DecryptAllOptions.yml\" sourcestartlinenumber=\"1\">整账号批量解密参数（<xref href=\"WxDecryptNet.Sdk.WeChatDecryptor.DecryptAll(WxDecryptNet.Sdk.DecryptAllOptions)\" data-throw-if-not-resolved=\"false\"></xref>）。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.DecryptAllResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.DecryptAllResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.DecryptAllResult",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.DecryptAllResult.yml\" sourcestartlinenumber=\"1\">整账号批量解密结果。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.DecryptBatchItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.DecryptBatchItem.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.DecryptBatchItem",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.DecryptBatchItem.yml\" sourcestartlinenumber=\"1\">批量解密中的单个文件结果。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.DecryptFileOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.DecryptFileOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.DecryptFileOptions",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.DecryptFileOptions.yml\" sourcestartlinenumber=\"1\">单库解密参数（<xref href=\"WxDecryptNet.Sdk.WeChatDecryptor.DecryptFile(WxDecryptNet.Sdk.DecryptFileOptions)\" data-throw-if-not-resolved=\"false\"></xref>）。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.DecryptFileResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.DecryptFileResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.DecryptFileResult",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.DecryptFileResult.yml\" sourcestartlinenumber=\"1\">单库解密结果（<xref href=\"WxDecryptNet.Sdk.WeChatDecryptor.DecryptFile(WxDecryptNet.Sdk.DecryptFileOptions)\" data-throw-if-not-resolved=\"false\"></xref>）。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.HotSyncFileResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.HotSyncFileResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.HotSyncFileResult",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.HotSyncFileResult.yml\" sourcestartlinenumber=\"1\">热同步中单个文件的（或事件）结果。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.HotSyncOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.HotSyncOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.HotSyncOptions",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.HotSyncOptions.yml\" sourcestartlinenumber=\"1\">热同步参数（一次性 <xref href=\"WxDecryptNet.Sdk.WeChatHotSync.Sync(WxDecryptNet.Sdk.HotSyncOptions)\" data-throw-if-not-resolved=\"false\"></xref> 与循环 <xref href=\"WxDecryptNet.Sdk.WeChatHotSync.Watch(WxDecryptNet.Sdk.HotSyncWatchOptions)\" data-throw-if-not-resolved=\"false\"></xref> 共用）。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.HotSyncResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.HotSyncResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.HotSyncResult",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.HotSyncResult.yml\" sourcestartlinenumber=\"1\">热同步结果：一次性调用的汇总，或 watch 模式的累计事件汇总。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.HotSyncSqlCipherOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.HotSyncSqlCipherOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.HotSyncSqlCipherOptions",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.HotSyncSqlCipherOptions.yml\" sourcestartlinenumber=\"1\">hot-sync 的 SQLCipher 直读参数（<xref href=\"WxDecryptNet.Sdk.WeChatHotSync.OpenSqlCipher(WxDecryptNet.Sdk.HotSyncSqlCipherOptions)\" data-throw-if-not-resolved=\"false\"></xref>）。</p>\n<p>\n不需要明文输出目录：旁路一致拷贝到 staging 后，用 SQLCipher 直接读密库。\n原有 <xref href=\"WxDecryptNet.Sdk.WeChatHotSync.Sync(WxDecryptNet.Sdk.HotSyncOptions)\" data-throw-if-not-resolved=\"false\"></xref> / <xref href=\"WxDecryptNet.Sdk.WeChatHotSync.Watch(WxDecryptNet.Sdk.HotSyncWatchOptions)\" data-throw-if-not-resolved=\"false\"></xref>（staging → 解密明文）保持不变。\n</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.HotSyncWatchOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.HotSyncWatchOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.HotSyncWatchOptions",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.HotSyncWatchOptions.yml\" sourcestartlinenumber=\"1\">循环热同步参数（<xref href=\"WxDecryptNet.Sdk.WeChatHotSync.Watch(WxDecryptNet.Sdk.HotSyncWatchOptions)\" data-throw-if-not-resolved=\"false\"></xref>）：在 <xref href=\"WxDecryptNet.Sdk.HotSyncOptions\" data-throw-if-not-resolved=\"false\"></xref> 基础上增加去抖与退出控制。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.ImageKeyOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.ImageKeyOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.ImageKeyOptions",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.ImageKeyOptions.yml\" sourcestartlinenumber=\"1\">媒体密钥解析参数（<xref href=\"WxDecryptNet.Sdk.WeChatMedia.ResolveImageKey(WxDecryptNet.Sdk.ImageKeyOptions)\" data-throw-if-not-resolved=\"false\"></xref>）。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.ImageKeyResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.ImageKeyResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.ImageKeyResult",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.ImageKeyResult.yml\" sourcestartlinenumber=\"1\">媒体密钥解析结果。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.KeyRecoveryOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.KeyRecoveryOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.KeyRecoveryOptions",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.KeyRecoveryOptions.yml\" sourcestartlinenumber=\"1\">取密钥参数（<xref href=\"WxDecryptNet.Sdk.WeChatKeyRecovery.Recover(WxDecryptNet.Sdk.KeyRecoveryOptions)\" data-throw-if-not-resolved=\"false\"></xref>）。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.KeyRecoveryResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.KeyRecoveryResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.KeyRecoveryResult",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.KeyRecoveryResult.yml\" sourcestartlinenumber=\"1\">取密钥成功后的结果。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.MediaDecryptFileOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.MediaDecryptFileOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.MediaDecryptFileOptions",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.MediaDecryptFileOptions.yml\" sourcestartlinenumber=\"1\">单文件媒体解密参数（<xref href=\"WxDecryptNet.Sdk.WeChatMedia.DecryptFile(WxDecryptNet.Sdk.MediaDecryptFileOptions)\" data-throw-if-not-resolved=\"false\"></xref>）。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.MediaDecryptFileResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.MediaDecryptFileResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.MediaDecryptFileResult",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.MediaDecryptFileResult.yml\" sourcestartlinenumber=\"1\">单文件媒体解密结果。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.MediaDecryptItem.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.MediaDecryptItem.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.MediaDecryptItem",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.MediaDecryptItem.yml\" sourcestartlinenumber=\"1\">目录批量解密中的单个文件结果。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.MediaDecryptOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.MediaDecryptOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.MediaDecryptOptions",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.MediaDecryptOptions.yml\" sourcestartlinenumber=\"1\">目录批量媒体解密参数（<xref href=\"WxDecryptNet.Sdk.WeChatMedia.DecryptDirectory(WxDecryptNet.Sdk.MediaDecryptOptions)\" data-throw-if-not-resolved=\"false\"></xref>）。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.MediaDecryptResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.MediaDecryptResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.MediaDecryptResult",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.MediaDecryptResult.yml\" sourcestartlinenumber=\"1\">目录批量媒体解密结果。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Models.DecryptProgress.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Models.DecryptProgress.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Models.DecryptProgress",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Models.DecryptProgress.yml\" sourcestartlinenumber=\"1\">Progress callback shared by the batch-decrypt and hot-sync facades.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Models.WeChatKey.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Models.WeChatKey.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Models.WeChatKey",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Models.WeChatKey.yml\" sourcestartlinenumber=\"1\">A WeChat 4.x database key: 32 bytes, normally written as a 64-character hex\nstring (an optional <code>0x</code> prefix is accepted).  Immutable.</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Models.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Models.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Models",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Services.MiddleTableInitResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Services.MiddleTableInitResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Services.MiddleTableInitResult",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Services.MiddleTableInitResult.yml\" sourcestartlinenumber=\"1\">中间表初始化结果。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Services.VoiceAsr.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Services.VoiceAsr.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Services.VoiceAsr",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Services.VoiceAsr.yml\" sourcestartlinenumber=\"1\">本地语音转写（ASR）后台队列。</p>\n<p>\n设计约束（与 hot-sync 链路解耦）：\n<ul><li>只在**增量**轮次入队：首轮同步不转写，避免拖慢首轮（见 <code>DecryptAfterUpsert(allowVoiceAsr)</code>）；</li><li>入队只是 <xref href=\"System.Threading.Channels.ChannelWriter%601.TryWrite(%600)\" data-throw-if-not-resolved=\"false\"></xref>，永不阻塞读取/UPSERT/水位推进；</li><li>转写在独立后台线程（<xref href=\"System.Threading.ThreadPriority.BelowNormal\" data-throw-if-not-resolved=\"false\"></xref>、单并发）执行，异常全部吞掉并记日志；</li><li>只回写 <code>wechat_message.Content</code> 一列，失败保持 <code>[语音]</code>，不重试、不改其他字段。</li></ul>\n\n<p>\n模型由用户自行下载：<xref href=\"WeChatAuto.Services.WeAutomation.Config\" data-throw-if-not-resolved=\"false\"></xref> 的\n<code>AsrModelDir</code> 下放 <code>model.int8.onnx</code>（或 <code>model.onnx</code>）与 <code>tokens.txt</code>。\n模型缺失/加载失败时本模块静默禁用，不影响 SDK 任何其他功能。\n</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Services.WeChatAccountHotSyncEngine.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Services.WeChatAccountHotSyncEngine.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Services.WeChatAccountHotSyncEngine",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Services.WeChatAccountHotSyncEngine.yml\" sourcestartlinenumber=\"1\">单账号后台同步引擎：加密库 → 旁路一致拷贝 staging → SQLCipher 直读 → 水位增量 UPSERT 中间表。\n每个 <code>WeChatClient</code> / 账号应持有独立实例（独立 staging 与 <xref href=\"WxDecryptNet.Sdk.WeChatDatabase\" data-throw-if-not-resolved=\"false\"></xref> 生命周期）。\n只读微信侧，绝不写回原生库。SQLCipher 连接必须在再次拷贝 staging 之前 <code>Dispose</code>。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Services.WeChatHotSyncEngineOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Services.WeChatHotSyncEngineOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Services.WeChatHotSyncEngineOptions",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Services.WeChatHotSyncEngineOptions.yml\" sourcestartlinenumber=\"1\">单账号 hot-sync 引擎可选项。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Services.WeChatMessageContentParser.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Services.WeChatMessageContentParser.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Services.WeChatMessageContentParser",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Services.WeChatMessageContentParser.yml\" sourcestartlinenumber=\"1\">引用消息（原生 <code>local_type = 244813135921</code>，即 <code>49 + (57 &lt;&lt; 32)</code>）的 appmsg/refermsg 解析器。</p>\n<p>解析规则：\n外层 <code>&lt;title&gt;</code> 是回复文字，<code>&lt;refermsg&gt;</code> 里是被引用内容；</p>\n<p>被引用内容按 <code>refermsg/type</code> 转成 <code>[图片]</code> / <code>[表情]</code> / <code>[视频]</code> / <code>[语音]</code> / <code>[链接] ...</code>，\n嵌套引用（type=57）递归取内层 title/des/content。</p>\n<p>微信 XML 可能存在未转义字符，故使用正则而不是 <code>XDocument</code>。</p>\n<p>另有 <xref href=\"WxDecryptNet.Sdk.Services.WeChatMessageContentParser.NormalizeForStorage(System.String%2cSystem.Int64)\" data-throw-if-not-resolved=\"false\"></xref>：把非引用 appmsg / 媒体消息的 Content 归一化成可读文本。\n当前 4.x 的 appmsg 标题/URL/recorditem 只在 <code>message_content</code> XML；表情的 <code>desc</code>\n可能是 base64 protobuf（本类会解码，优先 zh_cn）。<code>packed_info_data</code> 的 protobuf\n只承载媒体 md5 / 语音转写等，媒体 md5 仍由 <code>WeChatMessageMediaSync</code> 在归一化之前读取。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Services.WeChatMiddleDatabase",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.yml\" sourcestartlinenumber=\"1\">中间表（SqlSugar）辅助：建库建表、水位查询、联系人/消息/群成员/朋友圈 UPSERT。\n统一读写 <xref href=\"WeChatAuto.Services.WeAutomation.Config\" data-throw-if-not-resolved=\"false\"></xref> 的 <code>DbTppe</code> + <code>ConnectionString</code>。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Services.WeChatNormalizedContent.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Services.WeChatNormalizedContent.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Services.WeChatNormalizedContent",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Services.WeChatNormalizedContent.yml\" sourcestartlinenumber=\"1\">写库前的 Content 归一化结果。只覆盖 Content（以及聊天记录的完整 RecordItem），\n其它列（MessageType / FilePath / Quote* 等）由调用方保持原值。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Services.WeChatParsedQuote.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Services.WeChatParsedQuote.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Services.WeChatParsedQuote",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.Services.WeChatParsedQuote.yml\" sourcestartlinenumber=\"1\">引用消息解析结果。写库时 <code>Content</code> 用回复文字，其余字段落到 <code>wechat_message</code> 的 Quote* 列。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.Services.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.Services.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.Services",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.SqlCipherSessionOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.SqlCipherSessionOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.SqlCipherSessionOptions",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.SqlCipherSessionOptions.yml\" sourcestartlinenumber=\"1\">打开旁路 SQLCipher 会话的参数（<xref href=\"WxDecryptNet.Sdk.WeChatDatabase.Open(WxDecryptNet.Sdk.SqlCipherSessionOptions)\" data-throw-if-not-resolved=\"false\"></xref>）。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.VerifyKeyOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.VerifyKeyOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.VerifyKeyOptions",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.VerifyKeyOptions.yml\" sourcestartlinenumber=\"1\">密钥校验参数（<xref href=\"WxDecryptNet.Sdk.WeChatDecryptor.Verify(WxDecryptNet.Sdk.VerifyKeyOptions)\" data-throw-if-not-resolved=\"false\"></xref>）。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.VerifyKeyResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.VerifyKeyResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.VerifyKeyResult",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.VerifyKeyResult.yml\" sourcestartlinenumber=\"1\">密钥校验结果（只读首页 HMAC，不写文件）。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.VoiceExportOptions.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.VoiceExportOptions.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.VoiceExportOptions",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.VoiceExportOptions.yml\" sourcestartlinenumber=\"1\">语音导出参数（<xref href=\"WxDecryptNet.Sdk.WeChatMedia.ExportVoice(WxDecryptNet.Sdk.VoiceExportOptions)\" data-throw-if-not-resolved=\"false\"></xref>）。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.VoiceExportResult.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.VoiceExportResult.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.VoiceExportResult",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.VoiceExportResult.yml\" sourcestartlinenumber=\"1\">语音导出结果。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.WeChatDatabase.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.WeChatDatabase.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.WeChatDatabase",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.WeChatDatabase.yml\" sourcestartlinenumber=\"1\">SQLCipher 会话层：面向&quot;整个账号&quot;的直读入口。</p>\n<p>\n打开时解析账号与密钥，但**不立刻连接**任何库；调用 <xref href=\"WxDecryptNet.Sdk.WeChatDatabase.Connect(System.String%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> 时，\n先用一致拷贝把 <code>.db</code> + <code>-wal</code>（不拷 <code>-shm</code>）复制到 <code>db_storage</code>\n**之外**的 staging 目录，再在副本上开 SQLCipher，把连接交给调用方。\n因此微信可以继续运行，直播库也不会被长期占用。\n</p>\n<p>\n调用方自己写 SQL，并在用完后 <code>Dispose</code> 连接（文件锁释放后才能对该库再次\n<xref href=\"WxDecryptNet.Sdk.WeChatDatabase.Connect(System.String%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> / 重新旁路拷贝）。生命周期由调用方负责：会话的\n<code>Dispose()</code> 会关闭仍未释放的连接，并删除自动创建的 staging 目录。\n</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.WeChatDecryptor.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.WeChatDecryptor.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.WeChatDecryptor",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.WeChatDecryptor.yml\" sourcestartlinenumber=\"1\">数据库解密门面：把微信 4.x（SQLCipher / WCDB）的加密数据库解密成普通 SQLite。</p>\n<p>\n覆盖三种粒度：单库解密（<xref href=\"WxDecryptNet.Sdk.WeChatDecryptor.DecryptFile(WxDecryptNet.Sdk.DecryptFileOptions)\" data-throw-if-not-resolved=\"false\"></xref>）、整账号批量解密（<xref href=\"WxDecryptNet.Sdk.WeChatDecryptor.DecryptAll(WxDecryptNet.Sdk.DecryptAllOptions)\" data-throw-if-not-resolved=\"false\"></xref>）、\n以及不落盘只验密钥（<xref href=\"WxDecryptNet.Sdk.WeChatDecryptor.Verify(WxDecryptNet.Sdk.VerifyKeyOptions)\" data-throw-if-not-resolved=\"false\"></xref>）和列出待解库（<xref href=\"WxDecryptNet.Sdk.WeChatDecryptor.ListDatabases(System.String)\" data-throw-if-not-resolved=\"false\"></xref>）。\n</p>\n<p>\n所有方法只读源库、只写 <code>--out</code> 指定的输出目录；不会修改微信自己的 <code>db_storage</code>。\n</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.WeChatDisplayName.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.WeChatDisplayName.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.WeChatDisplayName",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.WeChatDisplayName.yml\" sourcestartlinenumber=\"1\">联系人显示名。Remark 优先，空则 NickName；都空则空串。\n不使用 Alias（那是微信号）或 username（已在业务键里）。</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.WeChatHotSync.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.WeChatHotSync.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.WeChatHotSync",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.WeChatHotSync.yml\" sourcestartlinenumber=\"1\">在线热同步门面（hot-sync）：微信<strong sourcefile=\"api/WxDecryptNet.Sdk.WeChatHotSync.yml\" sourcestartlinenumber=\"1\">不用退出</strong>也能读库。</p>\n<p>\n两条路径共用旁路一致快照（<code>.db</code> + <code>-wal</code>，从不拷 <code>-shm</code>，拷到\n<code>db_storage</code> **之外**的 staging，指纹稳定后才继续）：\n</p>\n<ol><li><xref href=\"WxDecryptNet.Sdk.WeChatHotSync.Sync(WxDecryptNet.Sdk.HotSyncOptions)\" data-throw-if-not-resolved=\"false\"></xref> / <xref href=\"WxDecryptNet.Sdk.WeChatHotSync.Watch(WxDecryptNet.Sdk.HotSyncWatchOptions)\" data-throw-if-not-resolved=\"false\"></xref>：staging 副本 → 页解密 → 明文镜像目录；</li><li><xref href=\"WxDecryptNet.Sdk.WeChatHotSync.OpenSqlCipher(WxDecryptNet.Sdk.HotSyncSqlCipherOptions)\" data-throw-if-not-resolved=\"false\"></xref>：staging 副本 → SQLCipher 直读（不落明文），再\n<xref href=\"WxDecryptNet.Sdk.WeChatDatabase.Connect(System.String%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> 拿连接、自写 SQL。</li></ol>\n<p>\n默认目标集（P0）为 <code>message/message_*.db</code> + <code>sns/sns.db</code>；\n<code>IncludeContact</code> 可追加 <code>contact/contact.db</code>（见 <xref href=\"WxDecryptNet.Sdk.WeChatHotSync.ListTargets(System.String%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>）。\n<code>session/session.db</code> 不在拷贝和监视范围内。\n全程只读微信目录、不写回。\n</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.WeChatKeyRecovery.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.WeChatKeyRecovery.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.WeChatKeyRecovery",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.WeChatKeyRecovery.yml\" sourcestartlinenumber=\"1\">获取 key 门面：从运行中的微信进程恢复数据库密钥（<strong sourcefile=\"api/WxDecryptNet.Sdk.WeChatKeyRecovery.yml\" sourcestartlinenumber=\"1\">仅 Windows x64</strong>），\n以及&quot;昵称 / wxid → 账号目录 → db_storage&quot;的定位辅助。</p>\n<p>\n原理：扫描 <code>Weixin.dll</code> 里的 32 字节 <code>internal_db_key</code> 掩码 + 微信进程内存里的密钥指针，\n把每个候选做 XOR 解掩码后，用真实库的首页 HMAC 校验，命中即真密钥。\n全程只读 DLL 与进程内存：不注入、不 Hook、不改微信内存，但杀软/EDR 可能按行为告警。\n</p>\n<p>\n前置条件：微信已启动并登录；本进程与微信同一权限级别（微信用管理员运行时本进程也需提权）。\n</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.WeChatMedia.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.WeChatMedia.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.WeChatMedia",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.WeChatMedia.yml\" sourcestartlinenumber=\"1\">媒体文件门面：解密微信 4.x 的图片/视频/语音，以及解析媒体密钥（image key）。</p>\n<p>\n媒体密钥与数据库密钥是**两套独立**的：数据库 key 解 <code>.db</code>，媒体 key（1 字节 XOR +\n16 字符 AES）解 <code>.dat</code> / <code>.wxgf</code>。本类先尝试本地 <code>kvcomm</code> 侧车解析，\n必要时再扫描微信进程内存。\n</p>\n<p>\n纯本地操作：只读文件（或只读进程内存），不联网。\n</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.WeChatSqlCipher.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.WeChatSqlCipher.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk.WeChatSqlCipher",
+      "Summary": "<p sourcefile=\"api/WxDecryptNet.Sdk.WeChatSqlCipher.yml\" sourcestartlinenumber=\"1\">SQLCipher 直读（低层门面）：直接用 SQLCipher 引擎打开一个<strong sourcefile=\"api/WxDecryptNet.Sdk.WeChatSqlCipher.yml\" sourcestartlinenumber=\"1\">加密数据库文件</strong>并查询，\n不经过&quot;解密成明文 SQLite 文件&quot;的路径。</p>\n<p>\n适合\"只想看几张表 / 几行\"的场景：不产出明文文件，磁盘上不留解密副本。\n引擎为 <code>Microsoft.Data.Sqlite.Core</code> + <code>SQLitePCLRaw.bundle_e_sqlcipher</code>\n（SQLCipher 4 原生库）；SQLCipher 是 SQLite 超集，明文库也能用同一套 API 打开。\n</p>\n<p>\n注意：本类的 <xref href=\"WxDecryptNet.Sdk.WeChatSqlCipher.Open(System.String%2cWxDecryptNet.Sdk.Models.WeChatKey%2cSystem.String%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> 直接打开**给定路径**，\n不会自动做旁路拷贝。要读正在被微信占用的直播库，请用会话层\n<xref href=\"WxDecryptNet.Sdk.WeChatDatabase\" data-throw-if-not-resolved=\"false\"></xref>（它会先一致拷贝到 staging 再打开）。\n</p>\n<p>\n调用方自己写 SQL、自己管连接生命周期：<code>Open</code> 返回已解锁的\n<xref href=\"Microsoft.Data.Sqlite.SqliteConnection\" data-throw-if-not-resolved=\"false\"></xref>，用 <code>using</code> / <code>Dispose</code> 关掉后文件锁即释放\n（默认 <code>Pooling = false</code>），便于随后拷贝或替换这份 clone。\n</p>\n"
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/WxDecryptNet.Sdk.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/WxDecryptNet.Sdk.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "WxDecryptNet.Sdk",
+      "Summary": null
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
+        }
+      },
+      "version": ""
+    }
+  ],
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

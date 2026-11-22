@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class WeChatDatabase | WeChatAuto.SDK API 参考 </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class WeChatDatabase | WeChatAuto.SDK API 参考 ">
+    
+    <meta name="description" content="SQLCipher 会话层：面向&amp;quot;整个账号&amp;quot;的直读入口。  打开时解析账号与密钥，但**不立刻连接**任何库；调用  时， 先用一致拷贝把 .db + -wal（不拷 -shm）复制到 db_storage **之外**的 staging 目录，再在副本上开 SQLCipher，把连接交给调用方。 因此微信可以继续运行，直播库也不会被长期占用。   调用方自己写 SQL，并在用完后 Dispose 连接（文件锁释放后才能对该库再次  / 重新旁路拷贝）。生命周期由调用方负责：会话的 Dispose() 会关闭仍未释放的连接，并删除自动创建的 staging 目录。">
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="WxDecryptNet.Sdk.WeChatDatabase">
+
+
+
+  <h1 id="WxDecryptNet_Sdk_WeChatDatabase" data-uid="WxDecryptNet.Sdk.WeChatDatabase" class="text-break">Class WeChatDatabase</h1>
+  <div class="markdown level0 summary"><p>SQLCipher 会话层：面向&quot;整个账号&quot;的直读入口。</p>
+<p>
+打开时解析账号与密钥，但**不立刻连接**任何库；调用 <a class="xref" href="WxDecryptNet.Sdk.WeChatDatabase.html#WxDecryptNet_Sdk_WeChatDatabase_Connect_System_String_System_Boolean_">Connect(string, bool)</a> 时，
+先用一致拷贝把 <code>.db</code> + <code>-wal</code>（不拷 <code>-shm</code>）复制到 <code>db_storage</code>
+**之外**的 staging 目录，再在副本上开 SQLCipher，把连接交给调用方。
+因此微信可以继续运行，直播库也不会被长期占用。
+</p>
+<p>
+调用方自己写 SQL，并在用完后 <code>Dispose</code> 连接（文件锁释放后才能对该库再次
+<a class="xref" href="WxDecryptNet.Sdk.WeChatDatabase.html#WxDecryptNet_Sdk_WeChatDatabase_Connect_System_String_System_Boolean_">Connect(string, bool)</a> / 重新旁路拷贝）。生命周期由调用方负责：会话的
+<code>Dispose()</code> 会关闭仍未释放的连接，并删除自动创建的 staging 目录。
+</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+    <div class="level1"><span class="xref">WeChatDatabase</span></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="WxDecryptNet.html">WxDecryptNet</a>.<a class="xref" href="WxDecryptNet.Sdk.html">Sdk</a></h6>
+  <h6><strong>Assembly</strong>: WeChatAuto.dll</h6>
+  <h5 id="WxDecryptNet_Sdk_WeChatDatabase_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class WeChatDatabase : IDisposable</code></pre>
+  </div>
+  <h3 id="properties">Properties
+</h3>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatSqlCipher.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDatabase_DbStorage_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.DbStorage*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDatabase_DbStorage" data-uid="WxDecryptNet.Sdk.WeChatDatabase.DbStorage">DbStorage</h4>
+  <div class="markdown level1 summary"><p>该账号的 <code>db_storage</code> 绝对路径（<a class="xref" href="WxDecryptNet.Sdk.WeChatDatabase.html#WxDecryptNet_Sdk_WeChatDatabase_Open_WxDecryptNet_Sdk_SqlCipherSessionOptions_">Open(SqlCipherSessionOptions)</a> 时已解析）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string DbStorage { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatSqlCipher.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDatabase_VssLastError_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.VssLastError*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDatabase_VssLastError" data-uid="WxDecryptNet.Sdk.WeChatDatabase.VssLastError">VssLastError</h4>
+  <div class="markdown level1 summary"><p>VSS 最近一次不可用的原因码；为空表示 VSS 正常或未启用。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? VssLastError { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatSqlCipher.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDatabase_VssLastErrorDetail_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.VssLastErrorDetail*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDatabase_VssLastErrorDetail" data-uid="WxDecryptNet.Sdk.WeChatDatabase.VssLastErrorDetail">VssLastErrorDetail</h4>
+  <div class="markdown level1 summary"><p>VSS 最近一次不可用的详细信息。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string? VssLastErrorDetail { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+</h3>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatSqlCipher.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDatabase_BeginVssRound_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.BeginVssRound*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDatabase_BeginVssRound" data-uid="WxDecryptNet.Sdk.WeChatDatabase.BeginVssRound">BeginVssRound()</h4>
+  <div class="markdown level1 summary"><p>本轮同步开始前调用：VSS 模式按“源库是否变化 + 最小间隔 + 是否有活跃读者”创建/复用快照；
+非 VSS 模式返回 <code>null</code>。返回租约须在本轮结束时 <code>Dispose</code>，用于释放轮次引用。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IDisposable? BeginVssRound()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatSqlCipher.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDatabase_Connect_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.Connect*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDatabase_Connect_System_String_System_Boolean_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.Connect(System.String,System.Boolean)">Connect(string, bool)</h4>
+  <div class="markdown level1 summary"><p>旁路拷贝指定库到 staging，用 SQLCipher 解锁，并把连接交给调用方。
+调用方自己写 SQL；用完必须 <code>Dispose</code>，之后才能对该库再次 <code>Connect</code>（以便重新拷贝）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public SqliteConnection Connect(string dbName, bool readWrite = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">dbName</span></td>
+        <td><p>库名：可传文件名 <code>session.db</code>、相对路径 <code>session/session.db</code>，
+或唯一匹配的文件名（同名多个时会报歧义）。</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><span class="parametername">readWrite</span></td>
+        <td><p>默认 <code>false</code>（只读）。传 <code>true</code> 才读写打开 staging 副本。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.data.sqlite.sqliteconnection">SqliteConnection</a></td>
+        <td><p>已解锁的 <a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.data.sqlite.sqliteconnection">SqliteConnection</a>；不缓存复用，调用方拥有生命周期。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="WxDecryptNet_Sdk_WeChatDatabase_Connect_System_String_System_Boolean__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>多库之间各自独立 staging，不是同一时刻的快照。连接默认只读且 <code>Pooling = false</code>，
+<code>Dispose</code> 后文件锁释放。</p>
+</div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="WxDecryptNet.Sdk.Core.SqlCipherSessionException.html">SqlCipherSessionException</a></td>
+        <td><p>会话未启动/已释放、库名找不到或有歧义、该库仍有未关闭的连接、一致拷贝失败时抛出。</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="WxDecryptNet.Sdk.Core.SqlCipherReaderException.html">SqlCipherReaderException</a></td>
+        <td><p>SQLCipher 解锁失败（密钥不对、库损坏）。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatSqlCipher.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDatabase_DecodeMessageText_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.DecodeMessageText*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDatabase_DecodeMessageText_System_Byte___" data-uid="WxDecryptNet.Sdk.WeChatDatabase.DecodeMessageText(System.Byte[])">DecodeMessageText(byte[]?)</h4>
+  <div class="markdown level1 summary"><p>解码可能是 zstd 的消息正文（字节版，推荐）；语义同 <a class="xref" href="WxDecryptNet.Sdk.WeChatSqlCipher.html#WxDecryptNet_Sdk_WeChatSqlCipher_DecodeMessageText_System_Byte___">DecodeMessageText(byte[]?)</a>。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string DecodeMessageText(byte[]? value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</td>
+        <td><span class="parametername">value</span></td>
+        <td><p>数据库取出的原始字节。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><p>普通 UTF-8 原样返回；zstd 帧解压后的字符串。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatSqlCipher.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDatabase_DecodeMessageText_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.DecodeMessageText*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDatabase_DecodeMessageText_System_Object_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.DecodeMessageText(System.Object)">DecodeMessageText(object?)</h4>
+  <div class="markdown level1 summary"><p>解码 reader 单元格；语义同 <a class="xref" href="WxDecryptNet.Sdk.WeChatSqlCipher.html#WxDecryptNet_Sdk_WeChatSqlCipher_DecodeMessageText_System_Object_">DecodeMessageText(object?)</a>
+（TEXT→string、BLOB→byte[]，勿 <code>as byte[]</code>）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string DecodeMessageText(object? value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>直接传 <code>reader[&quot;message_content&quot;]</code>。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><p>解码后的字符串；<code>null</code>/<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.dbnull">DBNull</a> → &quot;&quot;。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatSqlCipher.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDatabase_DecodeMessageText_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.DecodeMessageText*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDatabase_DecodeMessageText_System_String_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.DecodeMessageText(System.String)">DecodeMessageText(string?)</h4>
+  <div class="markdown level1 summary"><p>解码可能是 zstd 的消息正文（字符串版）；语义同 <a class="xref" href="WxDecryptNet.Sdk.WeChatSqlCipher.html#WxDecryptNet_Sdk_WeChatSqlCipher_DecodeMessageText_System_String_">DecodeMessageText(string?)</a>。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string DecodeMessageText(string? value)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">value</span></td>
+        <td><p>数据库/UI 取出的字符串。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><p>普通文本原样返回；可无损还原的 zstd 载体（Latin-1 / hex / base64）解码后的字符串。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatSqlCipher.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDatabase_Dispose_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.Dispose*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDatabase_Dispose" data-uid="WxDecryptNet.Sdk.WeChatDatabase.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"><p>关闭仍未释放的 SQLCipher 连接；若 staging 目录是会话自动创建的，会尽力删除（删除失败时静默忽略）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+  <h5 id="WxDecryptNet_Sdk_WeChatDatabase_Dispose_remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>幂等：重复调用无副作用。建议用 <code>using var db = WeChatDatabase.Open(...)</code> 保证释放。
+调用方若已自行 <code>Dispose</code> 了 <a class="xref" href="WxDecryptNet.Sdk.WeChatDatabase.html#WxDecryptNet_Sdk_WeChatDatabase_Connect_System_String_System_Boolean_">Connect(string, bool)</a> 返回的连接，这里只做清场。</p>
+</div>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatSqlCipher.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDatabase_FetchChatRoomMembers_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.FetchChatRoomMembers*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDatabase_FetchChatRoomMembers_Microsoft_Data_Sqlite_SqliteConnection_System_String_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.FetchChatRoomMembers(Microsoft.Data.Sqlite.SqliteConnection,System.String)">FetchChatRoomMembers(SqliteConnection, string?)</h4>
+  <div class="markdown level1 summary"><p>使用已经打开的 <code>contact.db</code> 连接读取群成员，不再调用 <a class="xref" href="WxDecryptNet.Sdk.WeChatDatabase.html#WxDecryptNet_Sdk_WeChatDatabase_Connect_System_String_System_Boolean_">Connect(string, bool)</a>。
+供 hot-sync 在同一轮联系人步骤里复用连接，避免二次旁路拷贝。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static IReadOnlyList&lt;ChatRoomMember&gt; FetchChatRoomMembers(SqliteConnection connection, string? roomUsername = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/microsoft.data.sqlite.sqliteconnection">SqliteConnection</a></td>
+        <td><span class="parametername">connection</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">roomUsername</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="WxDecryptNet.Sdk.ChatRoomMember.html">ChatRoomMember</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatSqlCipher.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDatabase_FetchChatRoomMembers_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.FetchChatRoomMembers*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDatabase_FetchChatRoomMembers_System_String_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.FetchChatRoomMembers(System.String)">FetchChatRoomMembers(string?)</h4>
+  <div class="markdown level1 summary"><p>从 <code>contact/contact.db</code> 的 <code>chat_room.ext_buffer</code> 读取群成员
+（含群名片、邀请人）。不查 contact 填显示名；显示名请关联联系人表。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;ChatRoomMember&gt; FetchChatRoomMembers(string? roomUsername = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">roomUsername</span></td>
+        <td><p>群 username（如 <code>123@chatroom</code>）。为 <code>null</code> 或空则返回该账号全部群的成员。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="WxDecryptNet.Sdk.ChatRoomMember.html">ChatRoomMember</a>&gt;</td>
+        <td><p>成员列表（按库中群的顺序，群内保持 blob 顺序）。找不到 contact 库或该群时返回空列表，不抛。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="WxDecryptNet.Sdk.Core.SqlCipherSessionException.html">SqlCipherSessionException</a></td>
+        <td><p>会话已释放，或旁路拷贝 / 连接失败。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatSqlCipher.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDatabase_FetchMessagesByUsername_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.FetchMessagesByUsername*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDatabase_FetchMessagesByUsername_System_String_System_String_System_Boolean_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.FetchMessagesByUsername(System.String,System.String,System.Boolean)">FetchMessagesByUsername(string, string?, bool)</h4>
+  <div class="markdown level1 summary"><p>按 username 跨全部分片拉取一条会话的消息（SQLCipher staging 直读路径）。</p>
+<p>
+默认只扫普通 <code>message/message_N.db</code>（<code>message_\d+.db</code>）；
+公众号在 <code>biz_message_*.db</code>，需 <code class="paramref">includeBizMessage</code> = <code>true</code>。
+表名 = <a class="xref" href="WxDecryptNet.Sdk.WeChatDatabase.html#WxDecryptNet_Sdk_WeChatDatabase_ResolveMessageTableName_System_String_">ResolveMessageTableName(string)</a>；某分片无该表则跳过；全无则返回空列表。
+每分片单独 LEFT JOIN 本库 <code>Name2Id</code>（<code>real_sender_id</code> 禁止跨库复用）；
+正文经 <a class="xref" href="WxDecryptNet.Sdk.WeChatDatabase.html#WxDecryptNet_Sdk_WeChatDatabase_DecodeMessageText_System_Object_">DecodeMessageText(object?)</a> 解码；合并后按
+<code>sort_seq</code>、<code>create_time</code>、<code>local_id</code> 升序。
+</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;ChatMessage&gt; FetchMessagesByUsername(string username, string? myWxid = null, bool includeBizMessage = false)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">username</span></td>
+        <td><p>会话键：私聊 wxid，或群 <code>xxx@chatroom</code>。</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">myWxid</span></td>
+        <td><p>可选：自己的 wxid，用于按<strong>本分片</strong> <code>Name2Id</code> 判断 <a class="xref" href="WxDecryptNet.Sdk.ChatMessage.html#WxDecryptNet_Sdk_ChatMessage_IsMine">IsMine</a>。
+勿用账号文件夹名猜测（文件夹常带 <code>_25e2</code> 等后缀）。</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><span class="parametername">includeBizMessage</span></td>
+        <td><p>是否同时扫 <code>biz_message_<em>.db</em></code>；默认 <code>false</code>（群/私聊只看 <code>message_</code>）。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="WxDecryptNet.Sdk.ChatMessage.html">ChatMessage</a>&gt;</td>
+        <td><p>合并后的消息列表；无任何分片含该表时为空列表（不抛）。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentexception">ArgumentException</a></td>
+        <td><p><code class="paramref">username</code> 为空。</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="WxDecryptNet.Sdk.Core.SqlCipherSessionException.html">SqlCipherSessionException</a></td>
+        <td><p>会话已释放，或旁路拷贝 / 连接失败。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatSqlCipher.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDatabase_InvalidateSource_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.InvalidateSource*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDatabase_InvalidateSource_System_String_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.InvalidateSource(System.String)">InvalidateSource(string?)</h4>
+  <div class="markdown level1 summary"><p>关闭连接并丢弃当前只读源：VSS 模式下失效当前卷快照（下一轮重建）；
+live 模式下只关连接，绝不碰源库。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void InvalidateSource(string? dbName = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">dbName</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatSqlCipher.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDatabase_ListDatabases_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.ListDatabases*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDatabase_ListDatabases" data-uid="WxDecryptNet.Sdk.WeChatDatabase.ListDatabases">ListDatabases()</h4>
+  <div class="markdown level1 summary"><p>列出账号 <code>db_storage</code> 下的所有 <code>*.db</code>（不含 <code>-wal</code>/<code>-shm</code>），每次调用都会重新扫描。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public IReadOnlyList&lt;DatabaseInfo&gt; ListDatabases()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="WxDecryptNet.Sdk.DatabaseInfo.html">DatabaseInfo</a>&gt;</td>
+        <td><p><a class="xref" href="WxDecryptNet.Sdk.DatabaseInfo.html">DatabaseInfo</a> 列表，按相对路径升序；每项含 <code>Rel</code>（如 <code>session/session.db</code>）、
+<code>Folder</code>（如 <code>session</code>）、<code>Filename</code>、<code>Path</code>（直播绝对路径，仅用于定位）。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="WxDecryptNet.Sdk.Core.SqlCipherSessionException.html">SqlCipherSessionException</a></td>
+        <td><p>会话已 <code>Dispose</code> 后调用。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatSqlCipher.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDatabase_Open_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.Open*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDatabase_Open_WxDecryptNet_Sdk_SqlCipherSessionOptions_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.Open(WxDecryptNet.Sdk.SqlCipherSessionOptions)">Open(SqlCipherSessionOptions)</h4>
+  <div class="markdown level1 summary"><p>打开一个账号会话：解析 <code>db_storage</code>、加载密钥、准备 staging 目录并扫描库存。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static WeChatDatabase Open(SqlCipherSessionOptions options)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="WxDecryptNet.Sdk.SqlCipherSessionOptions.html">SqlCipherSessionOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td><p><a class="xref" href="WxDecryptNet.Sdk.SqlCipherSessionOptions.html">SqlCipherSessionOptions</a>：</p>
+<ul><li><code>PathOrAccountDir</code>：账号路径（db_storage / wxid 目录 / 数据根目录），可空——
+为空时用 <code>Nickname</code>/<code>Wxid</code> 在默认根目录下查找；</li><li><code>Nickname</code>/<code>Wxid</code>：账号选择器，规则同 <a class="xref" href="WxDecryptNet.Sdk.WeChatKeyRecovery.html#WxDecryptNet_Sdk_WeChatKeyRecovery_ResolveDbStorage_System_String_System_String_System_String_System_String_System_Nullable_System_Int32__">ResolveDbStorage(string, string?, string?, string?, int?)</a>；</li><li><code>Key</code> 与 <code>KeyFile</code>：二选一（都传时以 <code>Key</code> 优先）；<code>KeyFile</code> 是含 64 位 hex 的文本文件；</li><li><code>VssSource</code> / <code>LiveSource</code>：VSS 优先、live 兜底；不再做 staging 拷贝。</li></ul>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="WxDecryptNet.Sdk.WeChatDatabase.html">WeChatDatabase</a></td>
+        <td><p>已 <code>Start()</code> 的会话对象；用完必须 <code>Dispose()</code>。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="WxDecryptNet_Sdk_WeChatDatabase_Open_WxDecryptNet_Sdk_SqlCipherSessionOptions__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>这里不做任何数据库连接，只是解析 + 建目录，所以很快；真正的拷贝与解锁发生在
+<a class="xref" href="WxDecryptNet.Sdk.WeChatDatabase.html#WxDecryptNet_Sdk_WeChatDatabase_Connect_System_String_System_Boolean_">Connect(string, bool)</a>（每次 Connect 都会重新一致拷贝该库）。</p>
+</div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></td>
+        <td><p><code class="paramref">options</code> 为 <code>null</code>。</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="WxDecryptNet.Sdk.Core.SqlCipherSessionException.html">SqlCipherSessionException</a></td>
+        <td><p>路径无法解析、多账号有歧义、既没给 <code>Key</code> 也没给 <code>KeyFile</code>、密钥格式错误、
+或 staging 目录落在 <code>db_storage</code> 内部时抛出。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatSqlCipher.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDatabase_ResolveMessageTableName_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.ResolveMessageTableName*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDatabase_ResolveMessageTableName_System_String_" data-uid="WxDecryptNet.Sdk.WeChatDatabase.ResolveMessageTableName(System.String)">ResolveMessageTableName(string)</h4>
+  <div class="markdown level1 summary"><p>计算会话在各 <code>message_*.db</code> 分片中的表名：
+<code>&quot;Msg_&quot; + MD5(UTF-8(username)).hex</code>（32 位小写 hex）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static string ResolveMessageTableName(string username)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">username</span></td>
+        <td><p>会话键：私聊 wxid，或群 <code>xxx@chatroom</code>。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><p>如 <code>Msg_a1b2c3...</code>。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentexception">ArgumentException</a></td>
+        <td><p><code class="paramref">username</code> 为空。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a>
+  </div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="WeAutoCommon.Models.FunctionalExtensions.html#WeAutoCommon_Models_FunctionalExtensions_ToMaybe__1___0_">FunctionalExtensions.ToMaybe&lt;T&gt;(T)</a>
+  </div>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatSqlCipher.cs" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

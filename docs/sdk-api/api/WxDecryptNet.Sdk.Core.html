@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Namespace WxDecryptNet.Sdk.Core | WeChatAuto.SDK API 参考 </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Namespace WxDecryptNet.Sdk.Core | WeChatAuto.SDK API 参考 ">
+    
+    
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="WxDecryptNet.Sdk.Core">
+
+  <h1 id="WxDecryptNet_Sdk_Core" data-uid="WxDecryptNet.Sdk.Core" class="text-break">Namespace WxDecryptNet.Sdk.Core</h1>
+  <div class="markdown level0 summary"></div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="markdown level0 remarks"></div>
+    <h3 id="classes">
+Classes
+</h3>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.AccountInfo.html">AccountInfo</a></h4>
+      <section></section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.AccountResolveException.html">AccountResolveException</a></h4>
+      <section></section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.DbErrors.html">DbErrors</a></h4>
+      <section><p>SQLite / SQLCipher 错误的分类。</p>
+<p>
+只回答一个问题：这个异常是否意味着**库本身损坏或密钥/副本错位**（而不是锁冲突、IO 忙、SQL 语法错）。
+调用方据此决定「丢弃 staging 副本、重新一致拷贝」还是「原样重试」。
+</p>
+<p>
+典型来源：staging 副本被 checkpoint 撕裂、SQLCipher 页面 HMAC 不匹配、WAL 与主库世代错位、
+或者密钥不对（SQLCipher 会把「密钥错误」表现为 <code>file is not a database</code>）。
+</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.DerivedImageKeys.html">DerivedImageKeys</a></h4>
+      <section></section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.ImageKeyResolution.html">ImageKeyResolution</a></h4>
+      <section></section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.KeyRecoveryException.html">KeyRecoveryException</a></h4>
+      <section></section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.MemoryImageKeyResult.html">MemoryImageKeyResult</a></h4>
+      <section></section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.SqlCipherReaderException.html">SqlCipherReaderException</a></h4>
+      <section></section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.SqlCipherSessionException.html">SqlCipherSessionException</a></h4>
+      <section></section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.TemplateScanResult.html">TemplateScanResult</a></h4>
+      <section></section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.V2Template.html">V2Template</a></h4>
+      <section></section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.WeChatSqlCipherSession.html">WeChatSqlCipherSession</a></h4>
+      <section></section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.WeChatTarget.html">WeChatTarget</a></h4>
+      <section></section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.WxChatRoomExtBuffer.html">WxChatRoomExtBuffer</a></h4>
+      <section><p>解析 contact.db 中 chat_room.ext_buffer（protobuf）。
+成员名单、群昵称、邀请人均在此 blob 内，不必再 JOIN contact / name2id。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.WxContactExtraBuffer.html">WxContactExtraBuffer</a></h4>
+      <section><p><code>contact.extra_buffer</code> 中对业务有用的字段。解析失败或缺字段时为空串 / 0，永不抛异常。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.WxContactSourceScene.html">WxContactSourceScene</a></h4>
+      <section><p>微信「来源」场景码（<code>contact.extra_buffer</code> #8）到中文文案的映射。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.WxCountryNames.html">WxCountryNames</a></h4>
+      <section><p>国家 / 地区 ISO2 码到中文名的映射。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.WxDecrypt.html">WxDecrypt</a></h4>
+      <section></section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.WxFfmpeg.html">WxFfmpeg</a></h4>
+      <section></section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.WxMedia.html">WxMedia</a></h4>
+      <section></section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.WxMediaKeyResolver.html">WxMediaKeyResolver</a></h4>
+      <section></section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.WxProcessAccountMap.html">WxProcessAccountMap</a></h4>
+      <section><p>把「正在运行的微信进程」映射到它自己的账号目录（不依赖昵称/明文侧车）。</p>
+<p>
+原理：微信 4.x 每个账号的主进程会长期持有本账号 <code>db_storage</code> 下
+<code>contact.db</code> / <code>session.db</code> / <code>message_0.db</code> 等文件的句柄，
+通过 Windows Restart Manager（<code>rstrtmgr.dll</code>）查询“谁打开了这个文件”，
+即可得到精确的 pid → 账号目录绑定。
+</p>
+<p>
+只读查询，不读微信内存；任何原生失败都返回“未知”，由调用方回退。
+</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.WxRegionNames.html">WxRegionNames</a></h4>
+      <section><p>微信 <code>extra_buffer</code> 地区字段（#6 省 / #7 市）的英文 → 中文映射。
+命中返回值；未命中返回原串（去掉首尾空白），空输入返回空串。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.WxSqlCipher.html">WxSqlCipher</a></h4>
+      <section></section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.WxVoice.html">WxVoice</a></h4>
+      <section><p>语音（silk）处理：定位明文 <code>media_N.db</code> 分片、按 <code>svr_id</code> 取 silk、识别音频格式，
+并在 silk / wav / mp3 之间转换（silk→wav 优先用捆绑的原生 <code>silk-v3-decoder</code> 与 NAudio；Python <code>pilk</code> 为次级回退；wav→mp3 可选依赖 <code>ffmpeg</code>；缺失时软失败）。</p>
+</section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.WxWinKey.html">WxWinKey</a></h4>
+      <section></section>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.WxWxgf.html">WxWxgf</a></h4>
+      <section></section>
+    <h3 id="structs">
+Structs
+</h3>
+      <h4><a class="xref" href="WxDecryptNet.Sdk.Core.WxDecrypt.KeyResolution.html">WxDecrypt.KeyResolution</a></h4>
+      <section></section>
+
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

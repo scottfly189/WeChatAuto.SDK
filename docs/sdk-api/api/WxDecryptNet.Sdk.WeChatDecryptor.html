@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class WeChatDecryptor | WeChatAuto.SDK API 参考 </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class WeChatDecryptor | WeChatAuto.SDK API 参考 ">
+    
+    <meta name="description" content="数据库解密门面：把微信 4.x（SQLCipher / WCDB）的加密数据库解密成普通 SQLite。  覆盖三种粒度：单库解密（）、整账号批量解密（）、 以及不落盘只验密钥（）和列出待解库（）。   所有方法只读源库、只写 --out 指定的输出目录；不会修改微信自己的 db_storage。">
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="WxDecryptNet.Sdk.WeChatDecryptor">
+
+
+
+  <h1 id="WxDecryptNet_Sdk_WeChatDecryptor" data-uid="WxDecryptNet.Sdk.WeChatDecryptor" class="text-break">Class WeChatDecryptor</h1>
+  <div class="markdown level0 summary"><p>数据库解密门面：把微信 4.x（SQLCipher / WCDB）的加密数据库解密成普通 SQLite。</p>
+<p>
+覆盖三种粒度：单库解密（<a class="xref" href="WxDecryptNet.Sdk.WeChatDecryptor.html#WxDecryptNet_Sdk_WeChatDecryptor_DecryptFile_WxDecryptNet_Sdk_DecryptFileOptions_">DecryptFile(DecryptFileOptions)</a>）、整账号批量解密（<a class="xref" href="WxDecryptNet.Sdk.WeChatDecryptor.html#WxDecryptNet_Sdk_WeChatDecryptor_DecryptAll_WxDecryptNet_Sdk_DecryptAllOptions_">DecryptAll(DecryptAllOptions)</a>）、
+以及不落盘只验密钥（<a class="xref" href="WxDecryptNet.Sdk.WeChatDecryptor.html#WxDecryptNet_Sdk_WeChatDecryptor_Verify_WxDecryptNet_Sdk_VerifyKeyOptions_">Verify(VerifyKeyOptions)</a>）和列出待解库（<a class="xref" href="WxDecryptNet.Sdk.WeChatDecryptor.html#WxDecryptNet_Sdk_WeChatDecryptor_ListDatabases_System_String_">ListDatabases(string)</a>）。
+</p>
+<p>
+所有方法只读源库、只写 <code>--out</code> 指定的输出目录；不会修改微信自己的 <code>db_storage</code>。
+</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+    <div class="level1"><span class="xref">WeChatDecryptor</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="WxDecryptNet.html">WxDecryptNet</a>.<a class="xref" href="WxDecryptNet.Sdk.html">Sdk</a></h6>
+  <h6><strong>Assembly</strong>: WeChatAuto.dll</h6>
+  <h5 id="WxDecryptNet_Sdk_WeChatDecryptor_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static class WeChatDecryptor</code></pre>
+  </div>
+  <h3 id="methods">Methods
+</h3>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatDecryptor.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDecryptor_DecryptAll_" data-uid="WxDecryptNet.Sdk.WeChatDecryptor.DecryptAll*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDecryptor_DecryptAll_WxDecryptNet_Sdk_DecryptAllOptions_" data-uid="WxDecryptNet.Sdk.WeChatDecryptor.DecryptAll(WxDecryptNet.Sdk.DecryptAllOptions)">DecryptAll(DecryptAllOptions)</h4>
+  <div class="markdown level1 summary"><p>解密整个账号：把 <code>db_storage</code> 下所有可解密的库批量解到输出目录。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DecryptAllResult DecryptAll(DecryptAllOptions options)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="WxDecryptNet.Sdk.DecryptAllOptions.html">DecryptAllOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td><p><a class="xref" href="WxDecryptNet.Sdk.DecryptAllOptions.html">DecryptAllOptions</a>：</p>
+<ul><li><code>Path</code>：账号路径（规则同 <a class="xref" href="WxDecryptNet.Sdk.WeChatDecryptor.html#WxDecryptNet_Sdk_WeChatDecryptor_ListDatabases_System_String_">ListDatabases(string)</a>，必填）；</li><li><code>Key</code>：32 字节密钥（必填）；</li><li><code>OutputDir</code>：输出根目录（必填），其下自动建 <code>&lt;账号名&gt;</code> 子目录；</li><li><code>Flat</code>：true 时不保留 <code>message/</code> 等子目录，全部平铺（重名自动加 <code>__1</code>）；</li><li><code>Jobs</code>：多文件并行度，0 表示自动（<code>min(CPU/2, 8)</code>）；每个库都需要一次独立的
+PBKDF2（salt 不同），所以并行是整账号提速的主要来源；</li><li><code>SkipExisting</code>：目标已存在则跳过，适合增量重跑；</li><li><code>Progress</code>：进度回调 <code>(已完成, 总数, 源路径, 是否成功, 失败原因)</code>，可能来自多个线程。</li></ul>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="WxDecryptNet.Sdk.DecryptAllResult.html">DecryptAllResult</a></td>
+        <td><p><a class="xref" href="WxDecryptNet.Sdk.DecryptAllResult.html">DecryptAllResult</a>：<code>Status</code> 为 <code>success</code>/<code>partial</code>/<code>error</code>；
+<code>Total</code>/<code>Success</code>/<code>Failed</code> 为计数；<code>Jobs</code> 实际并行度；
+<code>Files</code> 为逐文件明细（含 <code>Skipped</code>、<code>FailedPages</code>、<code>ElapsedMs</code> 等）。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="WxDecryptNet_Sdk_WeChatDecryptor_DecryptAll_WxDecryptNet_Sdk_DecryptAllOptions__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>单个文件失败不会中断整批：结果里 <code>Failed</code> &gt; 0、<code>Status</code> 变为 <code>partial</code>。
+并行时每个文件内部强制使用 1 个页线程，避免 <code>Jobs × 页线程</code> 的线程超订。</p>
+</div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></td>
+        <td><p><code class="paramref">options</code> 为 <code>null</code>。</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.invalidoperationexception">InvalidOperationException</a></td>
+        <td><p>开跑前用探针库校验密钥失败（密钥不属于该账号）时抛出——这是&quot;快速失败&quot;，避免每个文件都失败一遍。</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.filenotfoundexception">FileNotFoundException</a></td>
+        <td><p>路径不存在或找不到 <code>db_storage</code>。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatDecryptor.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDecryptor_DecryptFile_" data-uid="WxDecryptNet.Sdk.WeChatDecryptor.DecryptFile*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDecryptor_DecryptFile_WxDecryptNet_Sdk_DecryptFileOptions_" data-uid="WxDecryptNet.Sdk.WeChatDecryptor.DecryptFile(WxDecryptNet.Sdk.DecryptFileOptions)">DecryptFile(DecryptFileOptions)</h4>
+  <div class="markdown level1 summary"><p>解密单个数据库（SQLCipher 页解密 + WAL 合并 + SQLite 健康检查 + 原子落盘）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static DecryptFileResult DecryptFile(DecryptFileOptions options)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="WxDecryptNet.Sdk.DecryptFileOptions.html">DecryptFileOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td><p><a class="xref" href="WxDecryptNet.Sdk.DecryptFileOptions.html">DecryptFileOptions</a>：</p>
+<ul><li><code>SourcePath</code>：源库路径（必填，只读）；</li><li><code>Key</code>：32 字节密钥（必填）；</li><li><code>OutputPath</code>：输出文件；为空时写到当前目录的 <code>&lt;源文件名&gt;.plain.db</code>；</li><li><code>InMemory</code>：改用"整库读入内存"的参考实现（默认走流式，内存占用恒定）；</li><li><code>PageWorkers</code>：单库内按页并行度，0 表示自动（小于 32 MB 用 1，否则 <code>min(CPU/2, 4)</code>）；</li><li><code>SkipQuickCheck</code>：跳过最终 <code>PRAGMA quick_check</code>，仅供合成数据/基准测试，生产不要开。</li></ul>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="WxDecryptNet.Sdk.DecryptFileResult.html">DecryptFileResult</a></td>
+        <td><p><a class="xref" href="WxDecryptNet.Sdk.DecryptFileResult.html">DecryptFileResult</a>：优先看 <code>Success</code>；失败时读 <code>Error</code>（密钥不匹配、
+源库在读取期间被改动、存在待恢复的 <code>-journal</code>、输出未通过 SQLite 校验等）。
+其余常用字段：<code>KeyMode</code>（raw/passphrase）、<code>CopiedAsSqlite</code>（源库本为明文，仅复制）、
+<code>TotalPages</code>/<code>FailedPages</code>（失败页数，&gt;0 即整体失败）、
+<code>HmacWarningPages</code>（非首页 HMAC 异常但内容仍保留的页数，通常无碍）、
+<code>ElapsedMs</code>（本文件耗时）。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="WxDecryptNet_Sdk_WeChatDecryptor_DecryptFile_WxDecryptNet_Sdk_DecryptFileOptions__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>
+密钥错误、文件不足一页、源库被改动等都属于"可预期失败"，通过返回值报告而**不抛异常**，
+调用方判断 <code>Success</code> 即可。
+</p>
+<p>
+写入流程：同目录临时文件 → <code>quick_check</code>（必要时只重建受损索引）→ 原子替换；
+校验不通过会删除临时文件，不会产出半成品，也不会覆盖源库。
+</p>
+</div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></td>
+        <td><p><code class="paramref">options</code> 为 <code>null</code>。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatDecryptor.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDecryptor_ListDatabases_" data-uid="WxDecryptNet.Sdk.WeChatDecryptor.ListDatabases*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDecryptor_ListDatabases_System_String_" data-uid="WxDecryptNet.Sdk.WeChatDecryptor.ListDatabases(System.String)">ListDatabases(string)</h4>
+  <div class="markdown level1 summary"><p>列出某个账号下会被解密的 <code>*.db</code> 文件（绝对路径，按路径不区分大小写升序）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static List&lt;string&gt; ListDatabases(string path)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">path</span></td>
+        <td><p>账号路径，支持四种写法：</p>
+<ul><li><code>...\xwechat_files\&lt;wxid&gt;\db_storage</code>（推荐，直接命中）</li><li><code>...\xwechat_files\&lt;wxid&gt;</code>（wxid 账号目录，自动向下找 <code>db_storage</code>）</li><li><code>db_storage</code> 下的子目录（如 <code>...\db_storage\message</code>，自动向上找）</li><li><code>...\xwechat_files</code> 数据根目录（仅当其中恰好一个账号带 <code>db_storage</code> 时可用）</li></ul>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
+        <td><p>可解密数据库的绝对路径列表。会自动跳过：<code>key_info.db</code>、<code>chat_search_index*.db</code>、
+以 <code>_fts.db</code> 结尾的索引库，以及所有非 <code>.db</code> 文件。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="WxDecryptNet_Sdk_WeChatDecryptor_ListDatabases_System_String__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>只做目录遍历与文件属性读取，不打开数据库，速度很快，适合先&quot;看一眼要解什么&quot;。</p>
+</div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.filenotfoundexception">FileNotFoundException</a></td>
+        <td><p>路径不存在，或无法从该路径定位 <code>db_storage</code>。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatDecryptor.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_WeChatDecryptor_Verify_" data-uid="WxDecryptNet.Sdk.WeChatDecryptor.Verify*"></a>
+  <h4 id="WxDecryptNet_Sdk_WeChatDecryptor_Verify_WxDecryptNet_Sdk_VerifyKeyOptions_" data-uid="WxDecryptNet.Sdk.WeChatDecryptor.Verify(WxDecryptNet.Sdk.VerifyKeyOptions)">Verify(VerifyKeyOptions)</h4>
+  <div class="markdown level1 summary"><p>校验一枚密钥是否属于该账号：只读一个&quot;探针库&quot;的第一页做 HMAC 校验，不写任何文件。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static VerifyKeyResult Verify(VerifyKeyOptions options)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="WxDecryptNet.Sdk.VerifyKeyOptions.html">VerifyKeyOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td><p>见 <a class="xref" href="WxDecryptNet.Sdk.VerifyKeyOptions.html">VerifyKeyOptions</a>：<code>Path</code>（账号路径，规则同 <a class="xref" href="WxDecryptNet.Sdk.WeChatDecryptor.html#WxDecryptNet_Sdk_WeChatDecryptor_ListDatabases_System_String_">ListDatabases(string)</a>）
+与 <code>Key</code>（32 字节密钥）均为必填。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="WxDecryptNet.Sdk.VerifyKeyResult.html">VerifyKeyResult</a></td>
+        <td><p><a class="xref" href="WxDecryptNet.Sdk.VerifyKeyResult.html">VerifyKeyResult</a>：</p>
+<ul><li><code>Valid</code>：密钥是否通过；</li><li><code>Reason</code>：失败原因，<code>key_mismatch</code> 表示密钥不属于该账号，
+<code>no_probe_database</code> 表示目录里没有可用探针，<code>read_error: …</code> 表示读探针失败；</li><li><code>KeyMode</code>：命中的密钥形态（<code>raw</code> 或 <code>passphrase</code>，明文库为空）；</li><li><code>Probe</code>/<code>DbStorage</code>：实际探测的文件与账号目录。</li></ul>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 id="WxDecryptNet_Sdk_WeChatDecryptor_Verify_WxDecryptNet_Sdk_VerifyKeyOptions__remarks">Remarks</h5>
+  <div class="markdown level1 remarks"><p>探针优先级为 msg0.db → msg.db → micromsg.db → favorite.db → mediamsg0.db → sns.db（取第一个 ≥4 KB 的库）。
+只想确认密钥对不对时优先用本方法，比 <a class="xref" href="WxDecryptNet.Sdk.WeChatDecryptor.html#WxDecryptNet_Sdk_WeChatDecryptor_DecryptFile_WxDecryptNet_Sdk_DecryptFileOptions_">DecryptFile(DecryptFileOptions)</a> 快几个数量级。</p>
+</div>
+  <h5 class="exceptions">Exceptions</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception">ArgumentNullException</a></td>
+        <td><p><code class="paramref">options</code> 为 <code>null</code>。</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.io.filenotfoundexception">FileNotFoundException</a></td>
+        <td><p>路径不存在或找不到 <code>db_storage</code>。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/WeChatDecryptor.cs" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

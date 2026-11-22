@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class ChatMessage | WeChatAuto.SDK API 参考 </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class ChatMessage | WeChatAuto.SDK API 参考 ">
+    
+    <meta name="description" content="跨 message_*.db 分片合并后的一条聊天消息 （）。">
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="WxDecryptNet.Sdk.ChatMessage">
+
+
+
+  <h1 id="WxDecryptNet_Sdk_ChatMessage" data-uid="WxDecryptNet.Sdk.ChatMessage" class="text-break">Class ChatMessage</h1>
+  <div class="markdown level0 summary"><p>跨 <code>message_*.db</code> 分片合并后的一条聊天消息
+（<a class="xref" href="WxDecryptNet.Sdk.WeChatDatabase.html#WxDecryptNet_Sdk_WeChatDatabase_FetchMessagesByUsername_System_String_System_String_System_Boolean_">FetchMessagesByUsername(string, string?, bool)</a>）。</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+    <div class="level1"><span class="xref">ChatMessage</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="WxDecryptNet.html">WxDecryptNet</a>.<a class="xref" href="WxDecryptNet.Sdk.html">Sdk</a></h6>
+  <h6><strong>Assembly</strong>: WeChatAuto.dll</h6>
+  <h5 id="WxDecryptNet_Sdk_ChatMessage_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class ChatMessage</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+</h3>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Options/SqlCipherOptions.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_ChatMessage__ctor_" data-uid="WxDecryptNet.Sdk.ChatMessage.#ctor*"></a>
+  <h4 id="WxDecryptNet_Sdk_ChatMessage__ctor" data-uid="WxDecryptNet.Sdk.ChatMessage.#ctor">ChatMessage()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public ChatMessage()</code></pre>
+  </div>
+  <h3 id="properties">Properties
+</h3>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Options/SqlCipherOptions.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_ChatMessage_CreateTime_" data-uid="WxDecryptNet.Sdk.ChatMessage.CreateTime*"></a>
+  <h4 id="WxDecryptNet_Sdk_ChatMessage_CreateTime" data-uid="WxDecryptNet.Sdk.ChatMessage.CreateTime">CreateTime</h4>
+  <div class="markdown level1 summary"><p>创建时间 Unix 秒（<code>create_time</code>）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long CreateTime { get; init; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Options/SqlCipherOptions.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_ChatMessage_IsMine_" data-uid="WxDecryptNet.Sdk.ChatMessage.IsMine*"></a>
+  <h4 id="WxDecryptNet_Sdk_ChatMessage_IsMine" data-uid="WxDecryptNet.Sdk.ChatMessage.IsMine">IsMine</h4>
+  <div class="markdown level1 summary"><p>是否自己发送：调用方传了 <code>myWxid</code>，且该 wxid 在<strong>本分片</strong>
+<code>Name2Id</code> 中能查到，并且 <code>rowid == RealSenderId</code>。
+未传 / 本分片找不到时为 <code>false</code>。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool IsMine { get; init; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Options/SqlCipherOptions.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_ChatMessage_LocalId_" data-uid="WxDecryptNet.Sdk.ChatMessage.LocalId*"></a>
+  <h4 id="WxDecryptNet_Sdk_ChatMessage_LocalId" data-uid="WxDecryptNet.Sdk.ChatMessage.LocalId">LocalId</h4>
+  <div class="markdown level1 summary"><p>本分片内局部 id（<code>local_id</code>）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long LocalId { get; init; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Options/SqlCipherOptions.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_ChatMessage_LocalType_" data-uid="WxDecryptNet.Sdk.ChatMessage.LocalType*"></a>
+  <h4 id="WxDecryptNet_Sdk_ChatMessage_LocalType" data-uid="WxDecryptNet.Sdk.ChatMessage.LocalType">LocalType</h4>
+  <div class="markdown level1 summary"><p>本地消息类型（<code>local_type</code>）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long LocalType { get; init; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Options/SqlCipherOptions.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_ChatMessage_MessageContent_" data-uid="WxDecryptNet.Sdk.ChatMessage.MessageContent*"></a>
+  <h4 id="WxDecryptNet_Sdk_ChatMessage_MessageContent" data-uid="WxDecryptNet.Sdk.ChatMessage.MessageContent">MessageContent</h4>
+  <div class="markdown level1 summary"><p>已用 <a class="xref" href="WxDecryptNet.Sdk.WeChatSqlCipher.html#WxDecryptNet_Sdk_WeChatSqlCipher_DecodeMessageText_System_Object_">DecodeMessageText(object?)</a> 解码的正文。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string MessageContent { get; init; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Options/SqlCipherOptions.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_ChatMessage_RealSenderId_" data-uid="WxDecryptNet.Sdk.ChatMessage.RealSenderId*"></a>
+  <h4 id="WxDecryptNet_Sdk_ChatMessage_RealSenderId" data-uid="WxDecryptNet.Sdk.ChatMessage.RealSenderId">RealSenderId</h4>
+  <div class="markdown level1 summary"><p>发送者在<strong>本分片</strong> <code>Name2Id</code> 中的 <code>rowid</code>
+（禁止跨库复用）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long RealSenderId { get; init; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Options/SqlCipherOptions.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_ChatMessage_Sender_" data-uid="WxDecryptNet.Sdk.ChatMessage.Sender*"></a>
+  <h4 id="WxDecryptNet_Sdk_ChatMessage_Sender" data-uid="WxDecryptNet.Sdk.ChatMessage.Sender">Sender</h4>
+  <div class="markdown level1 summary"><p>本分片 <code>Name2Id.user_name</code>（LEFT JOIN）；找不到时为空串。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Sender { get; init; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Options/SqlCipherOptions.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_ChatMessage_ServerId_" data-uid="WxDecryptNet.Sdk.ChatMessage.ServerId*"></a>
+  <h4 id="WxDecryptNet_Sdk_ChatMessage_ServerId" data-uid="WxDecryptNet.Sdk.ChatMessage.ServerId">ServerId</h4>
+  <div class="markdown level1 summary"><p>服务端消息 id（<code>server_id</code>）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long ServerId { get; init; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Options/SqlCipherOptions.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_ChatMessage_Shard_" data-uid="WxDecryptNet.Sdk.ChatMessage.Shard*"></a>
+  <h4 id="WxDecryptNet_Sdk_ChatMessage_Shard" data-uid="WxDecryptNet.Sdk.ChatMessage.Shard">Shard</h4>
+  <div class="markdown level1 summary"><p>来源分片相对 <code>db_storage</code> 的路径（正斜杠），如 <code>message/message_1.db</code>。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public string Shard { get; init; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Options/SqlCipherOptions.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_ChatMessage_SortSeq_" data-uid="WxDecryptNet.Sdk.ChatMessage.SortSeq*"></a>
+  <h4 id="WxDecryptNet_Sdk_ChatMessage_SortSeq" data-uid="WxDecryptNet.Sdk.ChatMessage.SortSeq">SortSeq</h4>
+  <div class="markdown level1 summary"><p>排序主键（<code>sort_seq</code>）；合并后优先按它排序。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public long SortSeq { get; init; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="WeAutoCommon.Models.FunctionalExtensions.html#WeAutoCommon_Models_FunctionalExtensions_ToMaybe__1___0_">FunctionalExtensions.ToMaybe&lt;T&gt;(T)</a>
+  </div>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Options/SqlCipherOptions.cs" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class MessageMonitor | WeChatAuto.SDK API 参考 </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class MessageMonitor | WeChatAuto.SDK API 参考 ">
+    
+    <meta name="description" content="消息监听器">
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="WeChatAuto.Components.MessageMonitor">
+
+
+
+  <h1 id="WeChatAuto_Components_MessageMonitor" data-uid="WeChatAuto.Components.MessageMonitor" class="text-break">Class MessageMonitor</h1>
+  <div class="markdown level0 summary"><p>消息监听器</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+    <div class="level1"><span class="xref">MessageMonitor</span></div>
+  </div>
+  <div class="implements">
+    <h5>Implements</h5>
+    <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="WeChatAuto.html">WeChatAuto</a>.<a class="xref" href="WeChatAuto.Components.html">Components</a></h6>
+  <h6><strong>Assembly</strong>: WeChatAuto.dll</h6>
+  <h5 id="WeChatAuto_Components_MessageMonitor_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class MessageMonitor : IDisposable</code></pre>
+  </div>
+  <h3 id="fields">Fields
+</h3>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.cs">View Source</a>
+  </span>
+  <h4 id="WeChatAuto_Components_MessageMonitor_businessMessageClassNames" data-uid="WeChatAuto.Components.MessageMonitor.businessMessageClassNames">businessMessageClassNames</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public List&lt;string&gt; businessMessageClassNames</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+</h3>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_MessageMonitor_AddGroupSystemMessageListener_" data-uid="WeChatAuto.Components.MessageMonitor.AddGroupSystemMessageListener*"></a>
+  <h4 id="WeChatAuto_Components_MessageMonitor_AddGroupSystemMessageListener_OneOf_OneOf_System_String_System_Collections_Generic_List_System_String__System_String____System_Func_WeChatAuto_Models_SystemMessageContext_System_Threading_Tasks_Task__System_Threading_CancellationToken_" data-uid="WeChatAuto.Components.MessageMonitor.AddGroupSystemMessageListener(OneOf.OneOf{System.String,System.Collections.Generic.List{System.String},System.String[]},System.Func{WeChatAuto.Models.SystemMessageContext,System.Threading.Tasks.Task},System.Threading.CancellationToken)">AddGroupSystemMessageListener(OneOf&lt;string, List&lt;string&gt;, string[]&gt;, Func&lt;SystemMessageContext, Task&gt;, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>添加系统消息监听，以实现如： 检测到群主邀请好友后发送欢迎消息等功能</p>
+<p>注意：仅适用于群聊，不适用个人,个人请使用下面的开放式/固定式监听，另外，不支持注册监听后再新增待监听的群聊</p>
+<p>多线程监听变化，但是操作等，还得在微信单线程中执行.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task AddGroupSystemMessageListener(OneOf&lt;string, List&lt;string&gt;, string[]&gt; nickNames, Func&lt;SystemMessageContext, Task&gt; callBack, CancellationToken userToken = default)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</td>
+        <td><span class="parametername">nickNames</span></td>
+        <td><p>群聊昵称，可以多个</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;<a class="xref" href="WeChatAuto.Models.SystemMessageContext.html">SystemMessageContext</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a>&gt;</td>
+        <td><span class="parametername">callBack</span></td>
+        <td><p>回调函数,由用户提供,参数：消息上下文<a class="xref" href="WeChatAuto.Models.SystemMessageContext.html">SystemMessageContext</a></p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
+        <td><span class="parametername">userToken</span></td>
+        <td><p>取消令牌,请参考<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a>,可以自行取消消息监听</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_MessageMonitor_AddListeningFriend_" data-uid="WeChatAuto.Components.MessageMonitor.AddListeningFriend*"></a>
+  <h4 id="WeChatAuto_Components_MessageMonitor_AddListeningFriend_System_String_" data-uid="WeChatAuto.Components.MessageMonitor.AddListeningFriend(System.String)">AddListeningFriend(string)</h4>
+  <div class="markdown level1 summary"><p>监听过程中动态添加待监听的好友/群聊</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task AddListeningFriend(string who)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">who</span></td>
+        <td><p>好友/群聊名称</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_MessageMonitor_AddMessageListener_" data-uid="WeChatAuto.Components.MessageMonitor.AddMessageListener*"></a>
+  <h4 id="WeChatAuto_Components_MessageMonitor_AddMessageListener_OneOf_OneOf_System_String_System_Collections_Generic_List_System_String__System_String____System_Func_WeChatAuto_Models_MessageContext_System_Threading_Tasks_Task__System_Boolean_System_Threading_CancellationToken_System_Action_System_String__WeChatAuto_Options_MessageMonitorOptions_" data-uid="WeChatAuto.Components.MessageMonitor.AddMessageListener(OneOf.OneOf{System.String,System.Collections.Generic.List{System.String},System.String[]},System.Func{WeChatAuto.Models.MessageContext,System.Threading.Tasks.Task},System.Boolean,System.Threading.CancellationToken,System.Action{System.String},WeChatAuto.Options.MessageMonitorOptions)">AddMessageListener(OneOf&lt;string, List&lt;string&gt;, string[]&gt;, Func&lt;MessageContext, Task&gt;, bool, CancellationToken, Action&lt;string&gt;, MessageMonitorOptions)</h4>
+  <div class="markdown level1 summary"><p>添加消息监听，用户需要提供一个回调函数，当有消息时，会调用此回调函数</p>
+<p>参考<a class="xref" href="WeChatAuto.Models.MessageContext.html">MessageContext</a></p>
+<p>使用规则：</p> 
+<p>1. 仅能监听“允许消息通知”的好友/群聊,所以需要监听的好友/群聊不要设置为“消息免打扰”;</p>
+<p>2. 如果要避免太多消息影响，请将不监听的好友/群设置为“消息免打扰”，以提高监听性能;</p>
+<p>3. 此方法可以多次添加，第一次添加时会启动消息监听，第二次（类似的第三次等）添加效果等同<a class="xref" href="WeChatAuto.Components.MessageMonitor.html#WeChatAuto_Components_MessageMonitor_AddListeningFriend_System_String_">AddListeningFriend(string)</a>方法</p>
+<p>4. 为了减少会话窗口的滚动，建议不要添加太多消息“置顶”，以提高监听效率.</p>
+<p>执行逻辑:</p>
+<p>1. 启动消息监听器时做做一次全量扫描，即：SDK会将会话列表整个循环一编，会自动点击并回调用户设定的方法，以防止遗漏消息</p>
+<p>2. 以后的监听过程会增量监听，以提高效率.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task AddMessageListener(OneOf&lt;string, List&lt;string&gt;, string[]&gt; nickNames, Func&lt;MessageContext, Task&gt; callBack, bool IsOpenMonitor = false, CancellationToken userToken = default, Action&lt;string&gt; UIInvoker = null, MessageMonitorOptions options = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</td>
+        <td><span class="parametername">nickNames</span></td>
+        <td><p>好友昵称,可以是一个，也可以是多个好友/群聊</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;<a class="xref" href="WeChatAuto.Models.MessageContext.html">MessageContext</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a>&gt;</td>
+        <td><span class="parametername">callBack</span></td>
+        <td><p>回调函数,由用户提供,参数：消息上下文<a class="xref" href="WeChatAuto.Models.MessageContext.html">MessageContext</a></p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><span class="parametername">IsOpenMonitor</span></td>
+        <td><p>是否开启开放式监听，默认不开放(值为false）,如果开启开放式监听，前面的nickNames可以为空，所谓的开放式监听的含义是：无须固定好友/群监听，只要此好友/群没有设置“消息免打挠”就可以监听,而固定式监听为只监听设定的好友/群</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
+        <td><span class="parametername">userToken</span></td>
+        <td><p>取消令牌,请参考<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a>,可以自行取消消息监听</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
+        <td><span class="parametername">UIInvoker</span></td>
+        <td><p>UI的调度器，适用于把微信嵌入UI的场景使用，如：多微信切换Tab页等,SDK会给调用者注入一个微信名称</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="WeChatAuto.Options.MessageMonitorOptions.html">MessageMonitorOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td><p>监听选项，具体请参见<a class="xref" href="WeChatAuto.Options.MessageMonitorOptions.html">MessageMonitorOptions</a></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_MessageMonitor_AddMessageListener_" data-uid="WeChatAuto.Components.MessageMonitor.AddMessageListener*"></a>
+  <h4 id="WeChatAuto_Components_MessageMonitor_AddMessageListener_OneOf_OneOf_System_String_System_Collections_Generic_List_System_String__System_String____System_Func_WeChatAuto_Models_MessageContext_System_Threading_Tasks_Task__System_Collections_Generic_List_WeChatAuto_Models_TimeOnlyRange__System_Boolean_System_Threading_CancellationToken_System_Action_System_String__WeChatAuto_Options_MessageMonitorOptions_" data-uid="WeChatAuto.Components.MessageMonitor.AddMessageListener(OneOf.OneOf{System.String,System.Collections.Generic.List{System.String},System.String[]},System.Func{WeChatAuto.Models.MessageContext,System.Threading.Tasks.Task},System.Collections.Generic.List{WeChatAuto.Models.TimeOnlyRange},System.Boolean,System.Threading.CancellationToken,System.Action{System.String},WeChatAuto.Options.MessageMonitorOptions)">AddMessageListener(OneOf&lt;string, List&lt;string&gt;, string[]&gt;, Func&lt;MessageContext, Task&gt;, List&lt;TimeOnlyRange&gt;, bool, CancellationToken, Action&lt;string&gt;, MessageMonitorOptions)</h4>
+  <div class="markdown level1 summary"><p>添加一天中多个时间段的消息监听，用户需要提供一个回调函数，当有消息时，会调用此回调函数
+参考<a class="xref" href="WeChatAuto.Models.MessageContext.html">MessageContext</a></p>
+<p>使用规则：</p>
+<p>1. 仅能监听“允许消息通知”的好友/群聊,所以需要监听的好友/群聊不要设置为“消息免打扰”;</p>
+<p>2. 如果要避免太多消息影响，请将不监听的好友/群设置为“消息免打扰”，以提高监听性能;</p>
+<p>3. 此方法可以多次添加，第一次添加时会启动消息监听，第二次（类似的第三次等）添加效果等同<a class="xref" href="WeChatAuto.Components.MessageMonitor.html#WeChatAuto_Components_MessageMonitor_AddListeningFriend_System_String_">AddListeningFriend(string)</a>方法</p>
+<p>4. 为了减少会话窗口的滚动，建议不要添加太多消息“置顶”，以提高监听效率.</p>
+<p>执行逻辑:</p>
+<p>1. 启动消息监听器时做做一次全量扫描，即：SDK会将会话列表整个循环一编，会自动点击并回调用户设定的方法，以防止遗漏消息</p>
+<p>2. 以后的监听过程会增量监听，以提高效率.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task AddMessageListener(OneOf&lt;string, List&lt;string&gt;, string[]&gt; nickNames, Func&lt;MessageContext, Task&gt; callBack, List&lt;TimeOnlyRange&gt; range, bool IsOpenMonitor = false, CancellationToken userToken = default, Action&lt;string&gt; UIInvoker = null, MessageMonitorOptions options = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</td>
+        <td><span class="parametername">nickNames</span></td>
+        <td><p>好友昵称,可以是一个，也可以是多个好友/群聊</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;<a class="xref" href="WeChatAuto.Models.MessageContext.html">MessageContext</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a>&gt;</td>
+        <td><span class="parametername">callBack</span></td>
+        <td><p>回调函数,由用户提供,参数：消息上下文<a class="xref" href="WeChatAuto.Models.MessageContext.html">MessageContext</a></p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Models.TimeOnlyRange.html">TimeOnlyRange</a>&gt;</td>
+        <td><span class="parametername">range</span></td>
+        <td><p>一天中的多个时间段,如果设定多个时间段，监听器在这些时间段内开始/结束监听,时间段类请参考:<a class="xref" href="WeChatAuto.Models.TimeOnlyRange.html">TimeOnlyRange</a>,另注意：可以跨天，如设置为:23:00 ~ 02:00</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><span class="parametername">IsOpenMonitor</span></td>
+        <td><p>是否开启开放式监听，默认不开放(值为false）,如果开启开放式监听，前面的nickNames可以为空，所谓的开放式监听的含义是：无须固定好友/群监听，只要此好友/群没有设置“消息免打挠”就可以监听</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
+        <td><span class="parametername">userToken</span></td>
+        <td><p>取消令牌,请参考<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a>,可以自行取消消息监听</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
+        <td><span class="parametername">UIInvoker</span></td>
+        <td><p>UI的调度器，适用于把微信嵌入UI的场景使用，如：多微信切换Tab页等,SDK会给调用者注入一个微信名称</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="WeChatAuto.Options.MessageMonitorOptions.html">MessageMonitorOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td><p>监听选项，具体请参见<a class="xref" href="WeChatAuto.Options.MessageMonitorOptions.html">MessageMonitorOptions</a></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_MessageMonitor_AddMessageListener_" data-uid="WeChatAuto.Components.MessageMonitor.AddMessageListener*"></a>
+  <h4 id="WeChatAuto_Components_MessageMonitor_AddMessageListener_OneOf_OneOf_System_String_System_Collections_Generic_List_System_String__System_String____System_Func_WeChatAuto_Models_MessageContext_System_Threading_Tasks_Task__System_TimeOnly_System_TimeOnly_System_Boolean_System_Threading_CancellationToken_System_Action_System_String__WeChatAuto_Options_MessageMonitorOptions_" data-uid="WeChatAuto.Components.MessageMonitor.AddMessageListener(OneOf.OneOf{System.String,System.Collections.Generic.List{System.String},System.String[]},System.Func{WeChatAuto.Models.MessageContext,System.Threading.Tasks.Task},System.TimeOnly,System.TimeOnly,System.Boolean,System.Threading.CancellationToken,System.Action{System.String},WeChatAuto.Options.MessageMonitorOptions)">AddMessageListener(OneOf&lt;string, List&lt;string&gt;, string[]&gt;, Func&lt;MessageContext, Task&gt;, TimeOnly, TimeOnly, bool, CancellationToken, Action&lt;string&gt;, MessageMonitorOptions)</h4>
+  <div class="markdown level1 summary"><p>添加一个从什么时候开始，什么时候结束的消息监听，用户需要提供一个回调函数，当有消息时，会调用此回调函数
+参考<a class="xref" href="WeChatAuto.Models.MessageContext.html">MessageContext</a>
+添加此监听，在设定的开始时间开始监听，并且在设定的结束时间暂停监听</p>
+<p>使用规则：</p>
+<p>1. 仅能监听“允许消息通知”的好友/群聊,所以需要监听的好友/群聊不要设置为“消息免打扰”;</p>
+<p>2. 如果要避免太多消息影响，请将不监听的好友/群设置为“消息免打扰”，以提高监听性能;</p>
+<p>3. 此方法可以多次添加，第一次添加时会启动消息监听，第二次（类似的第三次等）添加效果等同<a class="xref" href="WeChatAuto.Components.MessageMonitor.html#WeChatAuto_Components_MessageMonitor_AddListeningFriend_System_String_">AddListeningFriend(string)</a>方法</p>
+<p>4. 为了减少会话窗口的滚动，建议不要添加太多消息“置顶”，以提高监听效率.</p>
+<p>执行逻辑:</p>
+<p>1. 启动消息监听器时做做一次全量扫描，即：SDK会将会话列表整个循环一编，会自动点击并回调用户设定的方法，以防止遗漏消息</p>
+<p>2. 以后的监听过程会增量监听，以提高效率.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task AddMessageListener(OneOf&lt;string, List&lt;string&gt;, string[]&gt; nickNames, Func&lt;MessageContext, Task&gt; callBack, TimeOnly startTime, TimeOnly endTime, bool IsOpenMonitor = false, CancellationToken userToken = default, Action&lt;string&gt; UIInvoker = null, MessageMonitorOptions options = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</td>
+        <td><span class="parametername">nickNames</span></td>
+        <td><p>好友昵称,可以是一个，也可以是多个好友/群聊</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;<a class="xref" href="WeChatAuto.Models.MessageContext.html">MessageContext</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a>&gt;</td>
+        <td><span class="parametername">callBack</span></td>
+        <td><p>回调函数,由用户提供,参数：消息上下文<a class="xref" href="WeChatAuto.Models.MessageContext.html">MessageContext</a></p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timeonly">TimeOnly</a></td>
+        <td><span class="parametername">startTime</span></td>
+        <td><p>开始时间</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timeonly">TimeOnly</a></td>
+        <td><span class="parametername">endTime</span></td>
+        <td><p>结束时间</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><span class="parametername">IsOpenMonitor</span></td>
+        <td><p>是否开启开放式监听，默认不开放(值为false）,如果开启开放式监听，前面的nickNames可以为空，所谓的开放式监听的含义是：无须固定好友/群监听，只要此好友/群没有设置“消息免打挠”就可以监听</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
+        <td><span class="parametername">userToken</span></td>
+        <td><p>取消令牌,请参考<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a>,可以自行取消消息监听</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
+        <td><span class="parametername">UIInvoker</span></td>
+        <td><p>UI的调度器，适用于把微信嵌入UI的场景使用，如：多微信切换Tab页等,SDK会给调用者注入一个微信名称</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="WeChatAuto.Options.MessageMonitorOptions.html">MessageMonitorOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td><p>监听选项，具体请参见<a class="xref" href="WeChatAuto.Options.MessageMonitorOptions.html">MessageMonitorOptions</a></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_MessageMonitor_AddMessageListenerWithSubWin_" data-uid="WeChatAuto.Components.MessageMonitor.AddMessageListenerWithSubWin*"></a>
+  <h4 id="WeChatAuto_Components_MessageMonitor_AddMessageListenerWithSubWin_OneOf_OneOf_System_String_System_Collections_Generic_List_System_String__System_String____System_Func_WeChatAuto_Models_MessageContext_System_Threading_Tasks_Task__WeChatAuto_Options_MessageMonitorOptions_System_Threading_CancellationToken_" data-uid="WeChatAuto.Components.MessageMonitor.AddMessageListenerWithSubWin(OneOf.OneOf{System.String,System.Collections.Generic.List{System.String},System.String[]},System.Func{WeChatAuto.Models.MessageContext,System.Threading.Tasks.Task},WeChatAuto.Options.MessageMonitorOptions,System.Threading.CancellationToken)">AddMessageListenerWithSubWin(OneOf&lt;string, List&lt;string&gt;, string[]&gt;, Func&lt;MessageContext, Task&gt;, MessageMonitorOptions, CancellationToken)</h4>
+  <div class="markdown level1 summary"><p>弹窗式消息监听器 - 会弹窗 - 消息监听器
+注意：1.弹窗式消息监听 也能实现系统消息监听，所以如果使用了 弹窗式 监听，就没有必要启用系统消息监听，请参见<a class="xref" href="WeChatAuto.Components.MessageMonitor.html#WeChatAuto_Components_MessageMonitor_AddGroupSystemMessageListener_OneOf_OneOf_System_String_System_Collections_Generic_List_System_String__System_String____System_Func_WeChatAuto_Models_SystemMessageContext_System_Threading_Tasks_Task__System_Threading_CancellationToken_">AddGroupSystemMessageListener(OneOf&lt;string, List&lt;string&gt;, string[]&gt;, Func&lt;SystemMessageContext, Task&gt;, CancellationToken)</a>
+2. 最好不要与开放式监听、轮询式消息拉取混合，弹窗式消息监听、开放式消息监听、轮询式消息拉取择其一即可.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task AddMessageListenerWithSubWin(OneOf&lt;string, List&lt;string&gt;, string[]&gt; nickNames, Func&lt;MessageContext, Task&gt; callBack, MessageMonitorOptions options, CancellationToken userToken)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</td>
+        <td><span class="parametername">nickNames</span></td>
+        <td><p>待监听的好友/群名</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-2">Func</a>&lt;<a class="xref" href="WeChatAuto.Models.MessageContext.html">MessageContext</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a>&gt;</td>
+        <td><span class="parametername">callBack</span></td>
+        <td><p>消息到达时的回调</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="WeChatAuto.Options.MessageMonitorOptions.html">MessageMonitorOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td><p>监听选项，具体请参考<a class="xref" href="WeChatAuto.Options.MessageMonitorOptions.html">MessageMonitorOptions</a></p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
+        <td><span class="parametername">userToken</span></td>
+        <td><p>用户取消token</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_MessageMonitor_AddSubWinListeningFriend_" data-uid="WeChatAuto.Components.MessageMonitor.AddSubWinListeningFriend*"></a>
+  <h4 id="WeChatAuto_Components_MessageMonitor_AddSubWinListeningFriend_System_String_" data-uid="WeChatAuto.Components.MessageMonitor.AddSubWinListeningFriend(System.String)">AddSubWinListeningFriend(string)</h4>
+  <div class="markdown level1 summary"><p>增加弹窗式监听待监听的好友、群</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task AddSubWinListeningFriend(string who)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">who</span></td>
+        <td><p>好友/群的昵称</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.open.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_MessageMonitor_Dispose_" data-uid="WeChatAuto.Components.MessageMonitor.Dispose*"></a>
+  <h4 id="WeChatAuto_Components_MessageMonitor_Dispose" data-uid="WeChatAuto.Components.MessageMonitor.Dispose">Dispose()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public void Dispose()</code></pre>
+  </div>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.open.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_MessageMonitor_Dispose_" data-uid="WeChatAuto.Components.MessageMonitor.Dispose*"></a>
+  <h4 id="WeChatAuto_Components_MessageMonitor_Dispose_System_Boolean_" data-uid="WeChatAuto.Components.MessageMonitor.Dispose(System.Boolean)">Dispose(bool)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected virtual void Dispose(bool disposing)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><span class="parametername">disposing</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_MessageMonitor_FetchFriendInfo_" data-uid="WeChatAuto.Components.MessageMonitor.FetchFriendInfo*"></a>
+  <h4 id="WeChatAuto_Components_MessageMonitor_FetchFriendInfo_System_String_" data-uid="WeChatAuto.Components.MessageMonitor.FetchFriendInfo(System.String)">FetchFriendInfo(string)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task FetchFriendInfo(string who)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">who</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_MessageMonitor_FetchFriendInfoPure_" data-uid="WeChatAuto.Components.MessageMonitor.FetchFriendInfoPure*"></a>
+  <h4 id="WeChatAuto_Components_MessageMonitor_FetchFriendInfoPure_System_String_WeAutoCommon_Models_HeaderInfo_" data-uid="WeChatAuto.Components.MessageMonitor.FetchFriendInfoPure(System.String,WeAutoCommon.Models.HeaderInfo)">FetchFriendInfoPure(string, HeaderInfo)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task FetchFriendInfoPure(string who, HeaderInfo chatInfo)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">who</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="WeAutoCommon.Models.HeaderInfo.html">HeaderInfo</a></td>
+        <td><span class="parametername">chatInfo</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.open.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_MessageMonitor_Finalize_" data-uid="WeChatAuto.Components.MessageMonitor.Finalize*"></a>
+  <h4 id="WeChatAuto_Components_MessageMonitor_Finalize" data-uid="WeChatAuto.Components.MessageMonitor.Finalize">~MessageMonitor()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">protected ~MessageMonitor()</code></pre>
+  </div>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_MessageMonitor_PauseMessageListener_" data-uid="WeChatAuto.Components.MessageMonitor.PauseMessageListener*"></a>
+  <h4 id="WeChatAuto_Components_MessageMonitor_PauseMessageListener" data-uid="WeChatAuto.Components.MessageMonitor.PauseMessageListener">PauseMessageListener()</h4>
+  <div class="markdown level1 summary"><p>暂停消息监听</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task PauseMessageListener()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_MessageMonitor_PullMessages_" data-uid="WeChatAuto.Components.MessageMonitor.PullMessages*"></a>
+  <h4 id="WeChatAuto_Components_MessageMonitor_PullMessages_System_String_System_Int32_System_Boolean_WeChatAuto_Options_PullMessagesOptions_" data-uid="WeChatAuto.Components.MessageMonitor.PullMessages(System.String,System.Int32,System.Boolean,WeChatAuto.Options.PullMessagesOptions)">PullMessages(string, int, bool, PullMessagesOptions)</h4>
+  <div class="markdown level1 summary"><p>轮询式获取聊天信息，适用于轮询中 - 轮询式监听
+应用场景： 如：隔 10-20秒获取指定好友/群的聊天记录,适用于wechat bot获取最新消息的场景</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task&lt;List&lt;SimpleMessageBubble&gt;&gt; PullMessages(string who, int maxFetchNumber = 40, bool IsIncludeSystemMessage = true, PullMessagesOptions options = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">who</span></td>
+        <td><p>好友/群</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td><span class="parametername">maxFetchNumber</span></td>
+        <td><p>最大获取记录数</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td><span class="parametername">IsIncludeSystemMessage</span></td>
+        <td><p>是否包含系统消息，默认为True（默认包含），如果不需要，请设置为False</p>
+</td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="WeChatAuto.Options.PullMessagesOptions.html">PullMessagesOptions</a></td>
+        <td><span class="parametername">options</span></td>
+        <td><p>控制选项，参考<a class="xref" href="WeChatAuto.Options.PullMessagesOptions.html">PullMessagesOptions</a></p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Models.SimpleMessageBubble.html">SimpleMessageBubble</a>&gt;&gt;</td>
+        <td><p>这里获取的消息列表为指的消息列表，需要自己进行去重等，可以用LCS Block算法去重</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_MessageMonitor_RemoveListeningFriend_" data-uid="WeChatAuto.Components.MessageMonitor.RemoveListeningFriend*"></a>
+  <h4 id="WeChatAuto_Components_MessageMonitor_RemoveListeningFriend_System_String_" data-uid="WeChatAuto.Components.MessageMonitor.RemoveListeningFriend(System.String)">RemoveListeningFriend(string)</h4>
+  <div class="markdown level1 summary"><p>监听过程中动态移除被监听的好友/群聊</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task RemoveListeningFriend(string who)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">who</span></td>
+        <td><p>好友/群聊</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_MessageMonitor_RemoveSubWinListeningFriend_" data-uid="WeChatAuto.Components.MessageMonitor.RemoveSubWinListeningFriend*"></a>
+  <h4 id="WeChatAuto_Components_MessageMonitor_RemoveSubWinListeningFriend_System_String_" data-uid="WeChatAuto.Components.MessageMonitor.RemoveSubWinListeningFriend(System.String)">RemoveSubWinListeningFriend(string)</h4>
+  <div class="markdown level1 summary"><p>从弹窗式监听中移除待监听的好友、群,并关闭打开的子窗口.</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task RemoveSubWinListeningFriend(string who)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">who</span></td>
+        <td><p>好友/群的昵称</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_MessageMonitor_ResumeMessageListener_" data-uid="WeChatAuto.Components.MessageMonitor.ResumeMessageListener*"></a>
+  <h4 id="WeChatAuto_Components_MessageMonitor_ResumeMessageListener" data-uid="WeChatAuto.Components.MessageMonitor.ResumeMessageListener">ResumeMessageListener()</h4>
+  <div class="markdown level1 summary"><p>恢复消息监听</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task ResumeMessageListener()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.pull.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_MessageMonitor_WaitClipboard_" data-uid="WeChatAuto.Components.MessageMonitor.WaitClipboard*"></a>
+  <h4 id="WeChatAuto_Components_MessageMonitor_WaitClipboard_System_Func_System_Boolean__System_Int32_System_Int32_" data-uid="WeChatAuto.Components.MessageMonitor.WaitClipboard(System.Func{System.Boolean},System.Int32,System.Int32)">WaitClipboard(Func&lt;bool&gt;, int, int)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool WaitClipboard(Func&lt;bool&gt; condition, int timeoutMs = 1000, int intervalMs = 50)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-1">Func</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</td>
+        <td><span class="parametername">condition</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td><span class="parametername">timeoutMs</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td><span class="parametername">intervalMs</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Components_MessageMonitor___FixedMonitorRunning_" data-uid="WeChatAuto.Components.MessageMonitor.__FixedMonitorRunning*"></a>
+  <h4 id="WeChatAuto_Components_MessageMonitor___FixedMonitorRunning" data-uid="WeChatAuto.Components.MessageMonitor.__FixedMonitorRunning">__FixedMonitorRunning()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Task __FixedMonitorRunning()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task">Task</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="implements">Implements</h3>
+  <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a>
+  </div>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="WeAutoCommon.Models.FunctionalExtensions.html#WeAutoCommon_Models_FunctionalExtensions_ToMaybe__1___0_">FunctionalExtensions.ToMaybe&lt;T&gt;(T)</a>
+  </div>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.cs" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

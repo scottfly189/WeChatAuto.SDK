@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class WxIsaac64 | WeChatAuto.SDK API 参考 </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class WxIsaac64 | WeChatAuto.SDK API 参考 ">
+    
+    <meta name="description" content="微信 WxIsaac64 的纯 C# 实现（ISAAC-64 变体）。 与常见 ISAAC-64 参考实现的区别（已用真实 WASM 逐字节对齐）： seed 初始化使用 coreutils isaac_seed 的 8 个常量（不是单一 golden ratio 常量）， 对 m[256] 做两轮 ISAAC_MIX；refill 的第二个索引是 m[(y &amp;gt;&amp;gt; 11) &amp;amp; 255]（不是 &amp;gt;&amp;gt; 8）；keystream 按 output[255], output[254], … 顺序、每字 8 字节 大端 输出，再按 size 截断。 输入 key 为 XML 中的十进制字符串（stoull 语义，超出  会失败）。 生成的 keystream 与微信 WASM 模块逐字节一致，可用于朋友圈图片/视频解密，无需 Node/WASM。">
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="WxDecryptNet.Sdk.Crypto.WxIsaac64">
+
+
+
+  <h1 id="WxDecryptNet_Sdk_Crypto_WxIsaac64" data-uid="WxDecryptNet.Sdk.Crypto.WxIsaac64" class="text-break">Class WxIsaac64</h1>
+  <div class="markdown level0 summary"><p>微信 <code>WxIsaac64</code> 的纯 C# 实现（ISAAC-64 变体）。</p>
+<p>与常见 ISAAC-64 参考实现的区别（已用真实 WASM 逐字节对齐）：</p>
+<ul><li>seed 初始化使用 coreutils <code>isaac_seed</code> 的 8 个常量（不是单一 golden ratio 常量），
+对 <code>m[256]</code> 做两轮 <code>ISAAC_MIX</code>；</li><li><code>refill</code> 的第二个索引是 <code>m[(y &gt;&gt; 11) &amp; 255]</code>（不是 <code>&gt;&gt; 8</code>）；</li><li>keystream 按 <code>output[255], output[254], …</code> 顺序、每字 8 字节 <b>大端</b> 输出，再按 size 截断。</li></ul>
+<p>输入 key 为 XML 中的十进制字符串（<code>stoull</code> 语义，超出 <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint64">ulong</a> 会失败）。
+生成的 keystream 与微信 WASM 模块逐字节一致，可用于朋友圈图片/视频解密，无需 Node/WASM。</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+    <div class="level1"><span class="xref">WxIsaac64</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="WxDecryptNet.html">WxDecryptNet</a>.<a class="xref" href="WxDecryptNet.Sdk.html">Sdk</a>.<a class="xref" href="WxDecryptNet.Sdk.Crypto.html">Crypto</a></h6>
+  <h6><strong>Assembly</strong>: WeChatAuto.dll</h6>
+  <h5 id="WxDecryptNet_Sdk_Crypto_WxIsaac64_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class WxIsaac64</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+</h3>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Crypto/WxIsaac64.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Crypto_WxIsaac64__ctor_" data-uid="WxDecryptNet.Sdk.Crypto.WxIsaac64.#ctor*"></a>
+  <h4 id="WxDecryptNet_Sdk_Crypto_WxIsaac64__ctor_System_String_" data-uid="WxDecryptNet.Sdk.Crypto.WxIsaac64.#ctor(System.String)">WxIsaac64(string)</h4>
+  <div class="markdown level1 summary"><p>用 XML 中的十进制 key 字符串构造；解析失败抛出 <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.formatexception">FormatException</a>。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public WxIsaac64(string key)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">key</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Crypto/WxIsaac64.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Crypto_WxIsaac64__ctor_" data-uid="WxDecryptNet.Sdk.Crypto.WxIsaac64.#ctor*"></a>
+  <h4 id="WxDecryptNet_Sdk_Crypto_WxIsaac64__ctor_System_UInt64_" data-uid="WxDecryptNet.Sdk.Crypto.WxIsaac64.#ctor(System.UInt64)">WxIsaac64(ulong)</h4>
+  <div class="markdown level1 summary"><p>用 64 位种子构造；等价于 WASM 的 <code>new WxIsaac64(&quot;&lt;seed&gt;&quot;)</code>。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public WxIsaac64(ulong seed)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint64">ulong</a></td>
+        <td><span class="parametername">seed</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+</h3>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Crypto/WxIsaac64.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Crypto_WxIsaac64_GenerateKeystream_" data-uid="WxDecryptNet.Sdk.Crypto.WxIsaac64.GenerateKeystream*"></a>
+  <h4 id="WxDecryptNet_Sdk_Crypto_WxIsaac64_GenerateKeystream_System_Int32_" data-uid="WxDecryptNet.Sdk.Crypto.WxIsaac64.GenerateKeystream(System.Int32)">GenerateKeystream(int)</h4>
+  <div class="markdown level1 summary"><p>生成指定长度的 keystream（字节）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public byte[] GenerateKeystream(int size)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td><span class="parametername">size</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Crypto/WxIsaac64.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Crypto_WxIsaac64_ParseKey_" data-uid="WxDecryptNet.Sdk.Crypto.WxIsaac64.ParseKey*"></a>
+  <h4 id="WxDecryptNet_Sdk_Crypto_WxIsaac64_ParseKey_System_String_" data-uid="WxDecryptNet.Sdk.Crypto.WxIsaac64.ParseKey(System.String)">ParseKey(string)</h4>
+  <div class="markdown level1 summary"><p>把 XML 中的 key 字符串按十进制解析为 <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint64">ulong</a>（对应 C++ <code>stoull(key,0,10)</code>）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static ulong ParseKey(string key)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">key</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.uint64">ulong</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Crypto/WxIsaac64.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Crypto_WxIsaac64_Xor_" data-uid="WxDecryptNet.Sdk.Crypto.WxIsaac64.Xor*"></a>
+  <h4 id="WxDecryptNet_Sdk_Crypto_WxIsaac64_Xor_System_Byte___System_Int32_" data-uid="WxDecryptNet.Sdk.Crypto.WxIsaac64.Xor(System.Byte[],System.Int32)">Xor(byte[], int)</h4>
+  <div class="markdown level1 summary"><p>对 <code class="paramref">data</code> 的前 <code class="paramref">length</code> 字节做 keystream XOR，返回新数组。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public byte[] Xor(byte[] data, int length)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</td>
+        <td><span class="parametername">data</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td><span class="parametername">length</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.byte">byte</a>[]</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="WeAutoCommon.Models.FunctionalExtensions.html#WeAutoCommon_Models_FunctionalExtensions_ToMaybe__1___0_">FunctionalExtensions.ToMaybe&lt;T&gt;(T)</a>
+  </div>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Crypto/WxIsaac64.cs" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

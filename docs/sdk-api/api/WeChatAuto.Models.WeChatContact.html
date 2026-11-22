@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class WeChatContact | WeChatAuto.SDK API 参考 </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class WeChatContact | WeChatAuto.SDK API 参考 ">
+    
+    <meta name="description" content="微信联系人,对应微信联系人表 Contact 支持多微信聚合。差异同步业务键：FromWechatWxId + UserName（对应原生 contact.username）。">
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="WeChatAuto.Models.WeChatContact">
+
+
+
+  <h1 id="WeChatAuto_Models_WeChatContact" data-uid="WeChatAuto.Models.WeChatContact" class="text-break">Class WeChatContact</h1>
+  <div class="markdown level0 summary"><p>微信联系人,对应微信联系人表 Contact
+支持多微信聚合。差异同步业务键：FromWechatWxId + UserName（对应原生 contact.username）。</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+    <div class="level1"><span class="xref">WeChatContact</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="WeChatAuto.html">WeChatAuto</a>.<a class="xref" href="WeChatAuto.Models.html">Models</a></h6>
+  <h6><strong>Assembly</strong>: WeChatAuto.dll</h6>
+  <h5 id="WeChatAuto_Models_WeChatContact_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarTable(&quot;wechat_contact&quot;)]
+[SugarIndex(&quot;index_from_webchat&quot;, &quot;FromWechat&quot;, OrderByType.Asc, false)]
+[SugarIndex(&quot;index_from_webchat_wxid&quot;, &quot;FromWechatWxId&quot;, OrderByType.Asc, false)]
+[SugarIndex(&quot;index_wxid&quot;, &quot;UserName&quot;, OrderByType.Asc, false)]
+[SugarIndex(&quot;index_nickname&quot;, &quot;NickName&quot;, OrderByType.Asc, false)]
+[SugarIndex(&quot;index_remark&quot;, &quot;Remark&quot;, OrderByType.Asc, false)]
+[SugarIndex(&quot;uk_contact&quot;, &quot;FromWechatWxId&quot;, OrderByType.Asc, &quot;UserName&quot;, OrderByType.Asc, false, IsUnique = true)]
+public class WeChatContact</code></pre>
+  </div>
+  <h3 id="constructors">Constructors
+</h3>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact__ctor_" data-uid="WeChatAuto.Models.WeChatContact.#ctor*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact__ctor" data-uid="WeChatAuto.Models.WeChatContact.#ctor">WeChatContact()</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public WeChatContact()</code></pre>
+  </div>
+  <h3 id="properties">Properties
+</h3>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_AddTime_" data-uid="WeChatAuto.Models.WeChatContact.AddTime*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_AddTime" data-uid="WeChatAuto.Models.WeChatContact.AddTime">AddTime</h4>
+  <div class="markdown level1 summary"><p>添加（通过好友 / 关注公众号）时间，unix 秒。取自 contact.extra_buffer #41；
+0 表示原生库没有写该字段（从 3.x 迁移过来的老联系人大多没有）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDescription = &quot;添加时间，unix 秒，来自 contact.extra_buffer #41；0=未知&quot;)]
+public long AddTime { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_Alias_" data-uid="WeChatAuto.Models.WeChatContact.Alias*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_Alias" data-uid="WeChatAuto.Models.WeChatContact.Alias">Alias</h4>
+  <div class="markdown level1 summary"><p>微信号别名，对方设置的 微信号
+对应微信数据库 Contact.db 的 alias 字段</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDataType = &quot;TEXT&quot;, IsNullable = true)]
+public string Alias { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_BigHeadUrl_" data-uid="WeChatAuto.Models.WeChatContact.BigHeadUrl*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_BigHeadUrl" data-uid="WeChatAuto.Models.WeChatContact.BigHeadUrl">BigHeadUrl</h4>
+  <div class="markdown level1 summary"><p>图像大图，对应微信数据库 Contact.db 的 big_head_url</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDataType = &quot;TEXT&quot;, IsNullable = true)]
+public string BigHeadUrl { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_City_" data-uid="WeChatAuto.Models.WeChatContact.City*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_City" data-uid="WeChatAuto.Models.WeChatContact.City">City</h4>
+  <div class="markdown level1 summary"><p>市 / 区。取自 contact.extra_buffer #7，同步时译成中文；未命中保留英文原文。
+微信对直辖市会把区写在这里（如 Haidian → 海淀）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDataType = &quot;TEXT&quot;, IsNullable = true, ColumnDescription = &quot;市/区，来自 contact.extra_buffer #7（同步时英译中）&quot;)]
+public string City { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_Country_" data-uid="WeChatAuto.Models.WeChatContact.Country*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_Country" data-uid="WeChatAuto.Models.WeChatContact.Country">Country</h4>
+  <div class="markdown level1 summary"><p>国家 / 地区代码（ISO2，如 CN / HK / US）。
+取自 contact.extra_buffer protobuf #5；未设置时为空串。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDataType = &quot;TEXT&quot;, IsNullable = true, ColumnDescription = &quot;国家/地区代码(ISO2)，来自 contact.extra_buffer #5&quot;)]
+public string Country { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_CountryName_" data-uid="WeChatAuto.Models.WeChatContact.CountryName*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_CountryName" data-uid="WeChatAuto.Models.WeChatContact.CountryName">CountryName</h4>
+  <div class="markdown level1 summary"><p>国家/地区中文名（<a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_Country">Country</a> 的 ISO2 码翻译，如 CN → 中国大陆）。不落库。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(IsIgnore = true)]
+public string CountryName { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_DeleteFlag_" data-uid="WeChatAuto.Models.WeChatContact.DeleteFlag*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_DeleteFlag" data-uid="WeChatAuto.Models.WeChatContact.DeleteFlag">DeleteFlag</h4>
+  <div class="markdown level1 summary"><p>对应原生 <code>contact.delete_flag</code>。0 表示仍有效；非 0 为原库标记删除。
+原库已不存在的行，同步后也会被标为 1（软删除，不物理删行，以便消息仍能联到显示名）。
+重新出现时随 UPSERT 写入原库的 <code>delete_flag</code>（通常为 0）恢复。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDescription = &quot;原库 contact.delete_flag；0=有效，非0=已删除（含原库已消失）&quot;)]
+public int DeleteFlag { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_FromWechat_" data-uid="WeChatAuto.Models.WeChatContact.FromWechat*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_FromWechat" data-uid="WeChatAuto.Models.WeChatContact.FromWechat">FromWechat</h4>
+  <div class="markdown level1 summary"><p>联系人所属微信昵称
+表示这于哪个微信账号,应用于多微信号场景</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(Length = 200, IsNullable = false, ColumnDescription = &quot;此联系人属于哪个微信昵称&quot;)]
+public string FromWechat { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_FromWechatWxId_" data-uid="WeChatAuto.Models.WeChatContact.FromWechatWxId*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_FromWechatWxId" data-uid="WeChatAuto.Models.WeChatContact.FromWechatWxId">FromWechatWxId</h4>
+  <div class="markdown level1 summary"><p>联系人所属微信的wxid
+表示这于哪个微信账号的wxid,应用于多微信场景
+由我们获取本机的wxid后自动填入</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(Length = 200, IsNullable = false, ColumnDescription = &quot;此联系人属于哪个微信昵称&quot;)]
+public string FromWechatWxId { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_Gender_" data-uid="WeChatAuto.Models.WeChatContact.Gender*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_Gender" data-uid="WeChatAuto.Models.WeChatContact.Gender">Gender</h4>
+  <div class="markdown level1 summary"><p>性别：0 未知 / 1 男 / 2 女。取自 contact.extra_buffer #2。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDescription = &quot;性别：0未知/1男/2女，来自 contact.extra_buffer #2&quot;)]
+public int Gender { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_Id_" data-uid="WeChatAuto.Models.WeChatContact.Id*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_Id" data-uid="WeChatAuto.Models.WeChatContact.Id">Id</h4>
+  <div class="markdown level1 summary"><p>自定义ID,自增，唯一</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(IsPrimaryKey = true, IsIdentity = true)]
+public int Id { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_Labels_" data-uid="WeChatAuto.Models.WeChatContact.Labels*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_Labels" data-uid="WeChatAuto.Models.WeChatContact.Labels">Labels</h4>
+  <div class="markdown level1 summary"><p>微信标签名，逗号分隔（如 <code>声音,wechatauto22</code>）。
+取自 contact.extra_buffer #30 的 label id，同步时用同轮读出的 <code>contact_label</code> 译成名字；
+之后微信侧改名 / 删标签不会回改这里（同步不重扫标签表）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDataType = &quot;TEXT&quot;, IsNullable = true, ColumnDescription = &quot;微信标签名，逗号分隔，来自 contact.extra_buffer #30 + contact_label&quot;)]
+public string Labels { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_LocalType_" data-uid="WeChatAuto.Models.WeChatContact.LocalType*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_LocalType" data-uid="WeChatAuto.Models.WeChatContact.LocalType">LocalType</h4>
+  <div class="markdown level1 summary"><p>对应微信数据库Contact.db的 Contact表的 local_type 字段</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int LocalType { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_NickName_" data-uid="WeChatAuto.Models.WeChatContact.NickName*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_NickName" data-uid="WeChatAuto.Models.WeChatContact.NickName">NickName</h4>
+  <div class="markdown level1 summary"><p>昵称，对应微信数据库Contact.db的 nick_name 字段</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDataType = &quot;TEXT&quot;, IsNullable = true)]
+public string NickName { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_Province_" data-uid="WeChatAuto.Models.WeChatContact.Province*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_Province" data-uid="WeChatAuto.Models.WeChatContact.Province">Province</h4>
+  <div class="markdown level1 summary"><p>省 / 直辖市 / 州。取自 contact.extra_buffer #6，同步时经 <code>WxRegionNames</code> 译成中文；
+未命中的境外州名保留英文原文。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDataType = &quot;TEXT&quot;, IsNullable = true, ColumnDescription = &quot;省/州，来自 contact.extra_buffer #6（同步时英译中）&quot;)]
+public string Province { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_Region_" data-uid="WeChatAuto.Models.WeChatContact.Region*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_Region" data-uid="WeChatAuto.Models.WeChatContact.Region">Region</h4>
+  <div class="markdown level1 summary"><p>展示用地区串：<code>国家·省·市</code>（如 <code>中国大陆·广东·深圳</code>）。不落库。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(IsIgnore = true)]
+public string Region { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_Remark_" data-uid="WeChatAuto.Models.WeChatContact.Remark*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_Remark" data-uid="WeChatAuto.Models.WeChatContact.Remark">Remark</h4>
+  <div class="markdown level1 summary"><p>备注名,对应微信数据库contact.db的 remark 字段</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDataType = &quot;TEXT&quot;, IsNullable = true)]
+public string Remark { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_ShowName_" data-uid="WeChatAuto.Models.WeChatContact.ShowName*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_ShowName" data-uid="WeChatAuto.Models.WeChatContact.ShowName">ShowName</h4>
+  <div class="markdown level1 summary"><p>微信号人肉眼所见的名称
+对应微信的: 显示优先级 remark &gt; nick &gt; username</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(IsIgnore = true)]
+public string ShowName { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_SmallHeadUrl_" data-uid="WeChatAuto.Models.WeChatContact.SmallHeadUrl*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_SmallHeadUrl" data-uid="WeChatAuto.Models.WeChatContact.SmallHeadUrl">SmallHeadUrl</h4>
+  <div class="markdown level1 summary"><p>图像小图，对象微信数据库 Contact.db 的 small_head_url</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDataType = &quot;TEXT&quot;, IsNullable = true)]
+public string SmallHeadUrl { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_Source_" data-uid="WeChatAuto.Models.WeChatContact.Source*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_Source" data-uid="WeChatAuto.Models.WeChatContact.Source">Source</h4>
+  <div class="markdown level1 summary"><p>来源中文文案（由 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_SourceScene">SourceScene</a> 翻译，如「通过群聊添加」）；未知码写「场景码 N」。
+同步时落库成列，方便直接 SQL 查 / 导出。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDataType = &quot;TEXT&quot;, IsNullable = true, ColumnDescription = &quot;来源文案，由 SourceScene 翻译&quot;)]
+public string Source { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_SourceScene_" data-uid="WeChatAuto.Models.WeChatContact.SourceScene*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_SourceScene" data-uid="WeChatAuto.Models.WeChatContact.SourceScene">SourceScene</h4>
+  <div class="markdown level1 summary"><p>来源场景码，取自 contact.extra_buffer #8（1 QQ / 3 微信号 / 6 手机号 / 10 名片 /
+14 群聊 / 15 搜索手机号 / 17 名片分享 / 30 扫一扫）。0 = 原生库没写。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDescription = &quot;来源场景码，来自 contact.extra_buffer #8；0=未知&quot;)]
+public int SourceScene { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_UserName_" data-uid="WeChatAuto.Models.WeChatContact.UserName*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_UserName" data-uid="WeChatAuto.Models.WeChatContact.UserName">UserName</h4>
+  <div class="markdown level1 summary"><p>wxid,对应微信数据库Contact.db的username字段</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">[SugarColumn(ColumnDataType = &quot;TEXT&quot;, IsNullable = true)]
+public string UserName { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs">View Source</a>
+  </span>
+  <a id="WeChatAuto_Models_WeChatContact_WxContactId_" data-uid="WeChatAuto.Models.WeChatContact.WxContactId*"></a>
+  <h4 id="WeChatAuto_Models_WeChatContact_WxContactId" data-uid="WeChatAuto.Models.WeChatContact.WxContactId">WxContactId</h4>
+  <div class="markdown level1 summary"><p>对应微信数据Contact.db的 Contract 表的 id 字段</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public int WxContactId { get; set; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="extensionmethods">Extension Methods</h3>
+  <div>
+      <a class="xref" href="WeAutoCommon.Models.FunctionalExtensions.html#WeAutoCommon_Models_FunctionalExtensions_ToMaybe__1___0_">FunctionalExtensions.ToMaybe&lt;T&gt;(T)</a>
+  </div>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Models/WeChatContact.cs" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>

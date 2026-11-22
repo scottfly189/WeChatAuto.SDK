@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+
+  <head>
+    <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Class WeChatMiddleDatabase | WeChatAuto.SDK API 参考 </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Class WeChatMiddleDatabase | WeChatAuto.SDK API 参考 ">
+    
+    <meta name="description" content="中间表（SqlSugar）辅助：建库建表、水位查询、联系人/消息/群成员/朋友圈 UPSERT。 统一读写  的 DbTppe + ConnectionString。">
+      <link rel="shortcut icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../styles/docfx.css">
+      <link rel="stylesheet" href="../styles/main.css">
+      <meta property="docfx:navrel" content="../toc.html">
+      <meta property="docfx:tocrel" content="toc.html">
+    
+    <meta property="docfx:rel" content="../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a class="navbar-brand" href="../index.html">
+                <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase">
+
+
+
+  <h1 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase" class="text-break">Class WeChatMiddleDatabase</h1>
+  <div class="markdown level0 summary"><p>中间表（SqlSugar）辅助：建库建表、水位查询、联系人/消息/群成员/朋友圈 UPSERT。
+统一读写 <a class="xref" href="WeChatAuto.Services.WeAutomation.html#WeChatAuto_Services_WeAutomation_Config">Config</a> 的 <code>DbTppe</code> + <code>ConnectionString</code>。</p>
+</div>
+  <div class="markdown level0 conceptual"></div>
+  <div class="inheritance">
+    <h5>Inheritance</h5>
+    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+    <div class="level1"><span class="xref">WeChatMiddleDatabase</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone">object.MemberwiseClone()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.tostring">object.ToString()</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)">object.Equals(object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)">object.Equals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.referenceequals">object.ReferenceEquals(object, object)</a>
+    </div>
+    <div>
+      <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
+    </div>
+  </div>
+  <h6><strong>Namespace</strong>: <a class="xref" href="WxDecryptNet.html">WxDecryptNet</a>.<a class="xref" href="WxDecryptNet.Sdk.html">Sdk</a>.<a class="xref" href="WxDecryptNet.Sdk.Services.html">Services</a></h6>
+  <h6><strong>Assembly</strong>: WeChatAuto.dll</h6>
+  <h5 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_syntax">Syntax</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static class WeChatMiddleDatabase</code></pre>
+  </div>
+  <h3 id="fields">Fields
+</h3>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_DefaultFirstRunDays" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.DefaultFirstRunDays">DefaultFirstRunDays</h4>
+  <div class="markdown level1 summary"><p>首轮同步默认窗口天数（消息按原生 <code>create_time</code>，朋友圈按 XML <code>createTime</code>）。与 <code>WeChatConfig.FirstRunDays</code> 默认值一致。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public const int DefaultFirstRunDays = 30</code></pre>
+  </div>
+  <h5 class="fieldValue">Field Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+</h3>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_CreateClient_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.CreateClient*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_CreateClient" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.CreateClient">CreateClient()</h4>
+  <div class="markdown level1 summary"><p>按全局配置创建 SqlSugar 客户端。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SqlSugarClient CreateClient()</code></pre>
+  </div>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_CreateClient_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.CreateClient*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_CreateClient_SqlSugar_DbType_System_String_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.CreateClient(SqlSugar.DbType,System.String)">CreateClient(DbType, string)</h4>
+  <div class="markdown level1 summary"><p>创建 SqlSugar 客户端。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static SqlSugarClient CreateClient(DbType dbType, string connectionString)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">DbType</span></td>
+        <td><span class="parametername">dbType</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">connectionString</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_EnsureTables_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.EnsureTables*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_EnsureTables_SqlSugar_SqlSugarClient_System_Action_System_String__" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.EnsureTables(SqlSugar.SqlSugarClient,System.Action{System.String})">EnsureTables(SqlSugarClient, Action&lt;string&gt;?)</h4>
+  <div class="markdown level1 summary"><p>若库不存在则创建，并初始化中间表（联系人、消息、群成员、朋友圈相关，幂等）。
+若已有 <code>wechat_contact</code> 且 <code>(FromWechatWxId, UserName)</code> 存在重复行，
+会跳过该表的 <code>InitTables</code>（避免唯一索引 <code>uk_contact</code> 失败毁掉已有数据），
+并返回 <a class="xref" href="WxDecryptNet.Sdk.Services.MiddleTableInitResult.html#WxDecryptNet_Sdk_Services_MiddleTableInitResult_ContactUniqueIndexSkipped">ContactUniqueIndexSkipped</a> = true。
+不会自动删重。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static MiddleTableInitResult EnsureTables(SqlSugarClient db, Action&lt;string&gt;? log = null)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.action-1">Action</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
+        <td><span class="parametername">log</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="WxDecryptNet.Sdk.Services.MiddleTableInitResult.html">MiddleTableInitResult</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_FormatMessageTime_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.FormatMessageTime*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_FormatMessageTime_System_Int64_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.FormatMessageTime(System.Int64)">FormatMessageTime(long)</h4>
+  <div class="markdown level1 summary"><p>把原生 unix 秒格式化成展示用消息时间（精确到分钟）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static string FormatMessageTime(long createTimeUnix)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
+        <td><span class="parametername">createTimeUnix</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_FormatMessageType_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.FormatMessageType*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_FormatMessageType_System_Int64_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.FormatMessageType(System.Int64)">FormatMessageType(long)</h4>
+  <div class="markdown level1 summary"><p>把原生 <code>local_type</code> 翻译成与 UIA 中间表相近的中文标签。
+大整数按「低 32 位基础类型 + (subtype&lt;&lt;32)」处理。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static string FormatMessageType(long localType)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
+        <td><span class="parametername">localType</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_LoadChatRoomMembers_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.LoadChatRoomMembers*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_LoadChatRoomMembers_SqlSugar_SqlSugarClient_System_String_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.LoadChatRoomMembers(SqlSugar.SqlSugarClient,System.String)">LoadChatRoomMembers(SqlSugarClient, string)</h4>
+  <div class="markdown level1 summary"><p>读取该账号下已落库的群成员，供增量比对只写新增/变更行。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static List&lt;WeChatChatRoomMember&gt; LoadChatRoomMembers(SqlSugarClient db, string fromWechatWxId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">fromWechatWxId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatChatRoomMember.html">WeChatChatRoomMember</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_LoadContacts_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.LoadContacts*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_LoadContacts_SqlSugar_SqlSugarClient_System_String_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.LoadContacts(SqlSugar.SqlSugarClient,System.String)">LoadContacts(SqlSugarClient, string)</h4>
+  <div class="markdown level1 summary"><p>读取该账号下已落库的联系人，供增量比对只写新增/变更行。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static List&lt;WeChatContact&gt; LoadContacts(SqlSugarClient db, string fromWechatWxId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">fromWechatWxId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_LoadMessageWatermarks_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.LoadMessageWatermarks*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_LoadMessageWatermarks_SqlSugar_SqlSugarClient_System_String_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.LoadMessageWatermarks(SqlSugar.SqlSugarClient,System.String)">LoadMessageWatermarks(SqlSugarClient, string)</h4>
+  <div class="markdown level1 summary"><p>读取该账号下各会话+分片的 SortSeq 水位：MAX(SortSeq)
+按 (FromWechatWxId, ChatUsername, Shard)。忽略 ChatUsername 为空的 UIA 旧行。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Dictionary&lt;(string ChatUsername, int Shard), long&gt; LoadMessageWatermarks(SqlSugarClient db, string fromWechatWxId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">fromWechatWxId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a>&lt;(<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.int32-.chatusername">ChatUsername</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.int32-.shard">Shard</a>), <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_LoadSnsContentHashes_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.LoadSnsContentHashes*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_LoadSnsContentHashes_SqlSugar_SqlSugarClient_System_String_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.LoadSnsContentHashes(SqlSugar.SqlSugarClient,System.String)">LoadSnsContentHashes(SqlSugarClient, string)</h4>
+  <div class="markdown level1 summary"><p>已同步动态的 content 哈希（tid → SHA256）。用于在 MAX(tid) 不变时检测旧帖是否被改写：
+SnsTimeLine 没有独立的更新时间列，点赞/评论写回、编辑正文都会改变 content。
+早期版本写入的行 <code>ContentHash</code> 为空，会被当作“需要重算”一并刷新。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static Dictionary&lt;long, string&gt; LoadSnsContentHashes(SqlSugarClient db, string fromWechatWxId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">fromWechatWxId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2">Dictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_LoadSnsDeletedTids_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.LoadSnsDeletedTids*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_LoadSnsDeletedTids_SqlSugar_SqlSugarClient_System_String_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.LoadSnsDeletedTids(SqlSugar.SqlSugarClient,System.String)">LoadSnsDeletedTids(SqlSugarClient, string)</h4>
+  <div class="markdown level1 summary"><p>该账号中间表里已软删除的动态 tid（通常很少）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static HashSet&lt;long&gt; LoadSnsDeletedTids(SqlSugarClient db, string fromWechatWxId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">fromWechatWxId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1">HashSet</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_LoadSnsTidWatermark_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.LoadSnsTidWatermark*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_LoadSnsTidWatermark_SqlSugar_SqlSugarClient_System_String_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.LoadSnsTidWatermark(SqlSugar.SqlSugarClient,System.String)">LoadSnsTidWatermark(SqlSugarClient, string)</h4>
+  <div class="markdown level1 summary"><p>读取该账号朋友圈水位：中间表 <code>wechat_sns_post</code> 的 MAX(Tid)。
+无行时返回 null。Tid 为有符号整数（本机多为负），MAX 即最新。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static long? LoadSnsTidWatermark(SqlSugarClient db, string fromWechatWxId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">fromWechatWxId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a>?</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_LoadSnsTids_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.LoadSnsTids*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_LoadSnsTids_SqlSugar_SqlSugarClient_System_String_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.LoadSnsTids(SqlSugar.SqlSugarClient,System.String)">LoadSnsTids(SqlSugarClient, string)</h4>
+  <div class="markdown level1 summary"><p>该账号中间表里<strong>未删除</strong>的动态 tid（不含已软删除），用于和原生 tid 集合做差、标记删除。
+已软删除的行只在“原生又重新出现”时用 <a class="xref" href="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.html#WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_LoadSnsDeletedTids_SqlSugar_SqlSugarClient_System_String_">LoadSnsDeletedTids(SqlSugarClient, string)</a> 取出来恢复。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static HashSet&lt;long&gt; LoadSnsTids(SqlSugarClient db, string fromWechatWxId)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">fromWechatWxId</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1">HashSet</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_MapChatRoomMembers_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.MapChatRoomMembers*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_MapChatRoomMembers_SqlSugar_SqlSugarClient_System_String_System_String_System_Collections_Generic_IReadOnlyList_WxDecryptNet_Sdk_ChatRoomMember__" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.MapChatRoomMembers(SqlSugar.SqlSugarClient,System.String,System.String,System.Collections.Generic.IReadOnlyList{WxDecryptNet.Sdk.ChatRoomMember})">MapChatRoomMembers(SqlSugarClient, string, string, IReadOnlyList&lt;ChatRoomMember&gt;)</h4>
+  <div class="markdown level1 summary"><p>把 <code>FetchChatRoomMembers</code> 的结果映射为中间表行。
+不写入可通过关联 <a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a> 得到的显示名。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static List&lt;WeChatChatRoomMember&gt; MapChatRoomMembers(SqlSugarClient db, string fromWechat, string fromWechatWxId, IReadOnlyList&lt;ChatRoomMember&gt; members)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">fromWechat</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">fromWechatWxId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="WxDecryptNet.Sdk.ChatRoomMember.html">ChatRoomMember</a>&gt;</td>
+        <td><span class="parametername">members</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatChatRoomMember.html">WeChatChatRoomMember</a>&gt;</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_MarkMissingContactsDeleted_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.MarkMissingContactsDeleted*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_MarkMissingContactsDeleted_SqlSugar_SqlSugarClient_System_String_System_Collections_Generic_IReadOnlyCollection_System_String__" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.MarkMissingContactsDeleted(SqlSugar.SqlSugarClient,System.String,System.Collections.Generic.IReadOnlyCollection{System.String})">MarkMissingContactsDeleted(SqlSugarClient, string, IReadOnlyCollection&lt;string&gt;)</h4>
+  <div class="markdown level1 summary"><p>把中间表里该账号已有、但本轮原库联系人集合中不再出现的行标记为已删除（<a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_DeleteFlag">DeleteFlag</a> = 1）。
+不物理删行。原库集合为空时不标记，避免 contact.db 缺失或本轮 0 行误把全部联系人标删。
+只更新仍为 0 的行，返回受影响行数。重新出现时由 UPSERT 把 <code>DeleteFlag</code> 写回原库值。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int MarkMissingContactsDeleted(SqlSugarClient db, string fromWechatWxId, IReadOnlyCollection&lt;string&gt; presentUserNames)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">fromWechatWxId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1">IReadOnlyCollection</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>&gt;</td>
+        <td><span class="parametername">presentUserNames</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_MarkSnsPostsDeleted_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.MarkSnsPostsDeleted*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_MarkSnsPostsDeleted_SqlSugar_SqlSugarClient_System_String_System_Collections_Generic_IReadOnlyCollection_System_Int64__" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.MarkSnsPostsDeleted(SqlSugar.SqlSugarClient,System.String,System.Collections.Generic.IReadOnlyCollection{System.Int64})">MarkSnsPostsDeleted(SqlSugarClient, string, IReadOnlyCollection&lt;long&gt;)</h4>
+  <div class="markdown level1 summary"><p>把原生已不存在的动态标记为软删除（<a class="xref" href="WeChatAuto.Models.WeChatSnsPost.html#WeChatAuto_Models_WeChatSnsPost_IsDeleted">IsDeleted</a> = true）。
+只更新仍为 false 的行，返回受影响行数。保留历史与互动数据，不物理删除。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int MarkSnsPostsDeleted(SqlSugarClient db, string fromWechatWxId, IReadOnlyCollection&lt;long&gt; tids)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">fromWechatWxId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1">IReadOnlyCollection</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a>&gt;</td>
+        <td><span class="parametername">tids</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_ReplaceSnsEngagement_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.ReplaceSnsEngagement*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_ReplaceSnsEngagement_SqlSugar_SqlSugarClient_System_String_System_Collections_Generic_IReadOnlyCollection_System_Int64__System_Collections_Generic_IReadOnlyList_WeChatAuto_Models_WeChatSnsLike__System_Collections_Generic_IReadOnlyList_WeChatAuto_Models_WeChatSnsComment__" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.ReplaceSnsEngagement(SqlSugar.SqlSugarClient,System.String,System.Collections.Generic.IReadOnlyCollection{System.Int64},System.Collections.Generic.IReadOnlyList{WeChatAuto.Models.WeChatSnsLike},System.Collections.Generic.IReadOnlyList{WeChatAuto.Models.WeChatSnsComment})">ReplaceSnsEngagement(SqlSugarClient, string, IReadOnlyCollection&lt;long&gt;, IReadOnlyList&lt;WeChatSnsLike&gt;, IReadOnlyList&lt;WeChatSnsComment&gt;)</h4>
+  <div class="markdown level1 summary"><p>对指定动态用当前完整点赞/评论名单 UPSERT，并删掉名单里已不存在的旧行。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void ReplaceSnsEngagement(SqlSugarClient db, string fromWechatWxId, IReadOnlyCollection&lt;long&gt; tids, IReadOnlyList&lt;WeChatSnsLike&gt; likes, IReadOnlyList&lt;WeChatSnsComment&gt; comments)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">fromWechatWxId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1">IReadOnlyCollection</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a>&gt;</td>
+        <td><span class="parametername">tids</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatSnsLike.html">WeChatSnsLike</a>&gt;</td>
+        <td><span class="parametername">likes</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatSnsComment.html">WeChatSnsComment</a>&gt;</td>
+        <td><span class="parametername">comments</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_ReplaceSnsMedia_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.ReplaceSnsMedia*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_ReplaceSnsMedia_SqlSugar_SqlSugarClient_System_String_System_Int64_System_Collections_Generic_IReadOnlyList_WeChatAuto_Models_WeChatSnsMedia__" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.ReplaceSnsMedia(SqlSugar.SqlSugarClient,System.String,System.Int64,System.Collections.Generic.IReadOnlyList{WeChatAuto.Models.WeChatSnsMedia})">ReplaceSnsMedia(SqlSugarClient, string, long, IReadOnlyList&lt;WeChatSnsMedia&gt;)</h4>
+  <div class="markdown level1 summary"><p>替换单条动态的媒体列表（<a class="xref" href="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.html#WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_ReplaceSnsMediaBatch_SqlSugar_SqlSugarClient_System_String_System_Collections_Generic_IReadOnlyCollection_System_Int64__System_Collections_Generic_IReadOnlyList_WeChatAuto_Models_WeChatSnsMedia__">ReplaceSnsMediaBatch(SqlSugarClient, string, IReadOnlyCollection&lt;long&gt;, IReadOnlyList&lt;WeChatSnsMedia&gt;)</a> 的便捷重载）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void ReplaceSnsMedia(SqlSugarClient db, string fromWechatWxId, long tid, IReadOnlyList&lt;WeChatSnsMedia&gt; medias)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">fromWechatWxId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
+        <td><span class="parametername">tid</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatSnsMedia.html">WeChatSnsMedia</a>&gt;</td>
+        <td><span class="parametername">medias</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_ReplaceSnsMediaBatch_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.ReplaceSnsMediaBatch*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_ReplaceSnsMediaBatch_SqlSugar_SqlSugarClient_System_String_System_Collections_Generic_IReadOnlyCollection_System_Int64__System_Collections_Generic_IReadOnlyList_WeChatAuto_Models_WeChatSnsMedia__" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.ReplaceSnsMediaBatch(SqlSugar.SqlSugarClient,System.String,System.Collections.Generic.IReadOnlyCollection{System.Int64},System.Collections.Generic.IReadOnlyList{WeChatAuto.Models.WeChatSnsMedia})">ReplaceSnsMediaBatch(SqlSugarClient, string, IReadOnlyCollection&lt;long&gt;, IReadOnlyList&lt;WeChatSnsMedia&gt;)</h4>
+  <div class="markdown level1 summary"><p>用一批动态当前的完整媒体列表替换中间表里的旧行（按 tid 先删后插）。
+媒体只会随 content 一起变化，因此只在 content 哈希变化 / 新帖时调用。</p>
+<p>点赞/评论写回也会让 content 变化、触发本方法；为了不把已经下载好的图片状态
+清空又重下一次，这里会先读出旧行：<code>(Url, UrlToken, UrlKey)</code> 完全没变时，
+保留下载状态 / 本地路径；变了（比如 token 轮换）则重置为 0，允许用新 token 重试。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static void ReplaceSnsMediaBatch(SqlSugarClient db, string fromWechatWxId, IReadOnlyCollection&lt;long&gt; tids, IReadOnlyList&lt;WeChatSnsMedia&gt; medias)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">fromWechatWxId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1">IReadOnlyCollection</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a>&gt;</td>
+        <td><span class="parametername">tids</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatSnsMedia.html">WeChatSnsMedia</a>&gt;</td>
+        <td><span class="parametername">medias</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_RetargetMessageFilePaths_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.RetargetMessageFilePaths*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_RetargetMessageFilePaths_SqlSugar_SqlSugarClient_System_String_System_Collections_Generic_IReadOnlyList_System_ValueTuple_System_String_System_String___" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.RetargetMessageFilePaths(SqlSugar.SqlSugarClient,System.String,System.Collections.Generic.IReadOnlyList{System.ValueTuple{System.String,System.String}})">RetargetMessageFilePaths(SqlSugarClient, string, IReadOnlyList&lt;(string OldPath, string NewPath)&gt;)</h4>
+  <div class="markdown level1 summary"><p>把缓存目录迁移后的媒体路径从旧位置改成新位置（<span class="xref">WxDecryptNet.Sdk.Services.WeChatMessageMediaSync</span> 的 GUID 子目录分片迁移）。
+只更新该账号下 <code>FilePath</code> 精确等于旧路径的行，并且只改这一列；分批调用时由调用方决定事务粒度。
+返回受影响行数。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int RetargetMessageFilePaths(SqlSugarClient db, string fromWechatWxId, IReadOnlyList&lt;(string OldPath, string NewPath)&gt; moves)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">fromWechatWxId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;(<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.string-.oldpath">OldPath</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.string-.newpath">NewPath</a>)&gt;</td>
+        <td><span class="parametername">moves</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_UnmarkSnsPostsDeleted_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.UnmarkSnsPostsDeleted*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_UnmarkSnsPostsDeleted_SqlSugar_SqlSugarClient_System_String_System_Collections_Generic_IReadOnlyCollection_System_Int64__" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.UnmarkSnsPostsDeleted(SqlSugar.SqlSugarClient,System.String,System.Collections.Generic.IReadOnlyCollection{System.Int64})">UnmarkSnsPostsDeleted(SqlSugarClient, string, IReadOnlyCollection&lt;long&gt;)</h4>
+  <div class="markdown level1 summary"><p>把“之前软删除、但现在又出现在原生时间线”的动态恢复为未删除，返回受影响行数。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int UnmarkSnsPostsDeleted(SqlSugarClient db, string fromWechatWxId, IReadOnlyCollection&lt;long&gt; tids)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">fromWechatWxId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1">IReadOnlyCollection</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a>&gt;</td>
+        <td><span class="parametername">tids</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_UpdateMessageContent_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.UpdateMessageContent*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_UpdateMessageContent_System_String_System_String_System_Int32_System_Int64_System_String_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.UpdateMessageContent(System.String,System.String,System.Int32,System.Int64,System.String)">UpdateMessageContent(string, string, int, long, string)</h4>
+  <div class="markdown level1 summary"><p>仅更新一条消息的 <code>Content</code>（供语音转写后台线程回写）。
+用自然键定位，避免依赖 UPSERT 后是否回填自增 Id。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int UpdateMessageContent(string wxid, string chat, int shard, long localId, string content)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">wxid</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">chat</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td><span class="parametername">shard</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
+        <td><span class="parametername">localId</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">content</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td><p>受影响行数（0 表示该消息尚未入库，或中间表暂不可用）。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_UpgradeMessageFilePaths_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.UpgradeMessageFilePaths*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_UpgradeMessageFilePaths_SqlSugar_SqlSugarClient_System_Collections_Generic_IReadOnlyList_WeChatAuto_Models_WeChatMessage__" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.UpgradeMessageFilePaths(SqlSugar.SqlSugarClient,System.Collections.Generic.IReadOnlyList{WeChatAuto.Models.WeChatMessage})">UpgradeMessageFilePaths(SqlSugarClient, IReadOnlyList&lt;WeChatMessage&gt;)</h4>
+  <div class="markdown level1 summary"><p>将本地明文路径写回 <code>FilePath</code>（解密完成后的升级）。
+只改这一列，并沿用与 <a class="xref" href="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.html#WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_UpsertMessages_SqlSugar_SqlSugarClient_System_Collections_Generic_IReadOnlyList_WeChatAuto_Models_WeChatMessage__">UpsertMessages(SqlSugarClient, IReadOnlyList&lt;WeChatMessage&gt;)</a> 相同的合并规则，不会冲掉已有有效本地路径。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int UpgradeMessageFilePaths(SqlSugarClient db, IReadOnlyList&lt;WeChatMessage&gt; rows)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatMessage.html">WeChatMessage</a>&gt;</td>
+        <td><span class="parametername">rows</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_UpsertChatRoomMembers_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.UpsertChatRoomMembers*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_UpsertChatRoomMembers_SqlSugar_SqlSugarClient_System_Collections_Generic_IReadOnlyList_WeChatAuto_Models_WeChatChatRoomMember__" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.UpsertChatRoomMembers(SqlSugar.SqlSugarClient,System.Collections.Generic.IReadOnlyList{WeChatAuto.Models.WeChatChatRoomMember})">UpsertChatRoomMembers(SqlSugarClient, IReadOnlyList&lt;WeChatChatRoomMember&gt;)</h4>
+  <div class="markdown level1 summary"><p>按业务键 <code>FromWechatWxId + RoomUsername + MemberUsername</code> UPSERT 群成员。
+不删除中间表里本次未出现的旧成员。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int UpsertChatRoomMembers(SqlSugarClient db, IReadOnlyList&lt;WeChatChatRoomMember&gt; rows)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatChatRoomMember.html">WeChatChatRoomMember</a>&gt;</td>
+        <td><span class="parametername">rows</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_UpsertContacts_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.UpsertContacts*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_UpsertContacts_SqlSugar_SqlSugarClient_System_Collections_Generic_IReadOnlyList_WeChatAuto_Models_WeChatContact__" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.UpsertContacts(SqlSugar.SqlSugarClient,System.Collections.Generic.IReadOnlyList{WeChatAuto.Models.WeChatContact})">UpsertContacts(SqlSugarClient, IReadOnlyList&lt;WeChatContact&gt;)</h4>
+  <div class="markdown level1 summary"><p>按业务键 <code>FromWechatWxId + UserName</code> UPSERT 联系人。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int UpsertContacts(SqlSugarClient db, IReadOnlyList&lt;WeChatContact&gt; rows)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a>&gt;</td>
+        <td><span class="parametername">rows</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td><p>受影响行数（插入+更新，以 SqlSugar Storageable 计数为准）。</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_UpsertMessages_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.UpsertMessages*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_UpsertMessages_SqlSugar_SqlSugarClient_System_Collections_Generic_IReadOnlyList_WeChatAuto_Models_WeChatMessage__" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.UpsertMessages(SqlSugar.SqlSugarClient,System.Collections.Generic.IReadOnlyList{WeChatAuto.Models.WeChatMessage})">UpsertMessages(SqlSugarClient, IReadOnlyList&lt;WeChatMessage&gt;)</h4>
+  <div class="markdown level1 summary"><p>按业务键 <code>FromWechatWxId + ChatUsername + Shard + LocalId</code> UPSERT 消息。
+不覆盖 <code>Id</code> / <code>IsBotProcessed</code> / <code>CreateTime</code>。
+<code>FilePath</code> 按规则合并：空则填；服务器 URL 可升级为本地路径；已有有效本地路径不降级、不盲目覆盖（以免冲掉 UIA 已写入的路径）。
+本表故意没有唯一约束（UIA 行键为空/0 会冲突）。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int UpsertMessages(SqlSugarClient db, IReadOnlyList&lt;WeChatMessage&gt; rows)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatMessage.html">WeChatMessage</a>&gt;</td>
+        <td><span class="parametername">rows</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_UpsertSnsComments_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.UpsertSnsComments*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_UpsertSnsComments_SqlSugar_SqlSugarClient_System_Collections_Generic_IReadOnlyList_WeChatAuto_Models_WeChatSnsComment__" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.UpsertSnsComments(SqlSugar.SqlSugarClient,System.Collections.Generic.IReadOnlyList{WeChatAuto.Models.WeChatSnsComment})">UpsertSnsComments(SqlSugarClient, IReadOnlyList&lt;WeChatSnsComment&gt;)</h4>
+  <div class="markdown level1 summary"><p>按业务键 <code>FromWechatWxId + Tid + CommentId</code> UPSERT 评论。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int UpsertSnsComments(SqlSugarClient db, IReadOnlyList&lt;WeChatSnsComment&gt; rows)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatSnsComment.html">WeChatSnsComment</a>&gt;</td>
+        <td><span class="parametername">rows</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_UpsertSnsLikes_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.UpsertSnsLikes*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_UpsertSnsLikes_SqlSugar_SqlSugarClient_System_Collections_Generic_IReadOnlyList_WeChatAuto_Models_WeChatSnsLike__" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.UpsertSnsLikes(SqlSugar.SqlSugarClient,System.Collections.Generic.IReadOnlyList{WeChatAuto.Models.WeChatSnsLike})">UpsertSnsLikes(SqlSugarClient, IReadOnlyList&lt;WeChatSnsLike&gt;)</h4>
+  <div class="markdown level1 summary"><p>按业务键 <code>FromWechatWxId + Tid + UserName</code> UPSERT 点赞。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int UpsertSnsLikes(SqlSugarClient db, IReadOnlyList&lt;WeChatSnsLike&gt; rows)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatSnsLike.html">WeChatSnsLike</a>&gt;</td>
+        <td><span class="parametername">rows</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <span class="small pull-right mobile-hide">
+    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs">View Source</a>
+  </span>
+  <a id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_UpsertSnsPosts_" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.UpsertSnsPosts*"></a>
+  <h4 id="WxDecryptNet_Sdk_Services_WeChatMiddleDatabase_UpsertSnsPosts_SqlSugar_SqlSugarClient_System_Collections_Generic_IReadOnlyList_WeChatAuto_Models_WeChatSnsPost__" data-uid="WxDecryptNet.Sdk.Services.WeChatMiddleDatabase.UpsertSnsPosts(SqlSugar.SqlSugarClient,System.Collections.Generic.IReadOnlyList{WeChatAuto.Models.WeChatSnsPost})">UpsertSnsPosts(SqlSugarClient, IReadOnlyList&lt;WeChatSnsPost&gt;)</h4>
+  <div class="markdown level1 summary"><p>按业务键 <code>FromWechatWxId + Tid</code> UPSERT 朋友圈动态。</p>
+</div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public static int UpsertSnsPosts(SqlSugarClient db, IReadOnlyList&lt;WeChatSnsPost&gt; rows)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">SqlSugarClient</span></td>
+        <td><span class="parametername">db</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1">IReadOnlyList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatSnsPost.html">WeChatSnsPost</a>&gt;</td>
+        <td><span class="parametername">rows</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+</article>
+          </div>
+
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/DataBase_SDK/Services/WeChatMiddleDatabase.cs" class="contribution-link">View Source</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In this article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+      
+      <span>Generated by <strong>DocFX</strong></span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
+    <script type="text/javascript" src="../styles/docfx.js"></script>
+    <script type="text/javascript" src="../styles/main.js"></script>
+  </body>
+</html>
