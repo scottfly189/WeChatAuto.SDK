@@ -824,8 +824,6 @@ bool voiceOk = await client.SendVoiceMessageWithTTSByWxid(
 
 > **返回值怎么理解**：成功不是看界面有没有弹提示，而是发送前记下当前账号的最大 `SortSeq`，发送后最多等 8 秒、每 3 秒查一次，目标会话出现 `IsSelf` 且 `SortSeq` 更大的消息才算成功。
 >
-> **重名风险**：如果两个好友的备注/昵称完全相同，底层仍然可能点错人；水位是按目标 `ChatUsername` 过滤的，点错时会返回 `false`，但消息可能已经发出去。对重名联系人，建议先改成唯一备注，或者用 `GetContact` 拿到 `UserName` 后再确认真实身份。
->
 > `userName` 不存在于中间表、或者 `ShowName` 为空时，这些方法直接返回 `false`，不会抛异常。
 
 ### 7.4 获取消息与聊天历史
