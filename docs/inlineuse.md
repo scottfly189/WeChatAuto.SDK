@@ -422,6 +422,8 @@ VSS 不可用或失败时，是否直接以只读方式打开微信源库。
 ## 七、API 使用指南
 
 > 以下示例均假设已拿到 `client`（`WeChatClient`）与 `factory`（`WeChatClientFactory`），并按需引入命名空间：`WeChatAuto.Services`、`WeChatAuto.Components`、`WeChatAuto.Models`、`WeChatAuto.Options`、`WeAutoCommon.Enums`。社区版 / VIP 版能力差异见 [WECHATAUTO.SDK 能力表](./ability.md)。
+>
+> 7.12 是 VIP 的数据库读取（Database Read），社区版没有；7.13 的按 WxId 精准发送也只在 VIP 版提供。
 
 ### 7.1 获取微信客户端
 
@@ -460,7 +462,40 @@ await client.CloseSubWin("某好友");
 
 // 导航
 await client.SwitchNavigation(NavigationType.朋友圈);
+
+// 版本号 / 保存头像
+string version = client.GetWechatVersion();
+await client.SaveOwnerAvator(@"C:\temp\avatar.png");
+
+// 关闭查询窗口 / 关闭导航窗口
+await client.CloseSearchWindow("某好友");
+await client.CloseNavWin(NavigationType.朋友圈);
+
+// 打开 / 关闭本微信主窗口（同步写法和异步写法都有）
+client.CloseWindow();
+client.OpenWindow();
+await client.CloseWindowAsync();
+await client.OpenWindowAsync();
+
+// 点击任务栏微信图标：索引从 1 开始，也可以按昵称
+await client.ClickNotifyIcon(1);
+await client.ClickNotifyIcon("某昵称");
+
+// 把你自己的窗口移动到微信主窗口中间（例如你弹出的提示窗）
+client.MoveWinToMainCenter(yourWindow);
+
+// 💎 VIP：通过界面自动读取微信存储位置（一般不需要，SDK 会自动读并缓存）
+var storageRoot = await client.GetWeChatStorageRootByAutomation();
 ```
+
+> `CloseNavWin` 只支持聊天文件、朋友圈、视频号、看一看、搜一搜、小程序面板等通过导航栏打开的窗口；不是所有窗口都能关。
+
+| 方法 | 说明 |
+|---|---|
+| `GetTitle()` | 取当前聊天窗口的标题对象 `HeaderInfo`，含标题、会话类型、群人数、企业微信公司名等；判断“当前是不是可聊天对象”时很有用 |
+| `GetOnlyTitle()` | 只取当前聊天窗口的标题字符串，等价于 `GetTitle()` 再取 `Title` |
+| `FocuseSenderInput()` | 点击当前聊天窗口的输入区域获取焦点；也可以用来取消系统消息提醒、关闭右侧栏 |
+| `Dispose()` | 释放单个客户端；**不建议手动调用**，`WeChatClient` 由 `WeChatClientFactory` 统一创建和释放 |
 
 ### 7.3 发送消息
 
@@ -746,6 +781,22 @@ await client.SendVoiceMessageWithTTS("某好友", "sk-xxx", "你好",
 
 !> 复刻的 `targetModel` 必须与合成时的 `model` 一致，不能跨模型使用。
 
+#### 发送后自动关闭窗口（适合 Harness 调用）
+
+下面这些方法会在发送成功后调用 `CloseWindowAsync()` 关闭微信主窗口，适合 DeepSeek Harness 这类“发完就退出”的自动化脚本；如果用户还要继续操作微信，不要用带 `AndClose` 的版本。
+
+| 方法 | 说明 |
+|---|---|
+| `SendMessageAndClose(who, message, atUser, refer)` | 发文本后关闭窗口 |
+| `SendMessageAndClose(message, atUser, refer)` | 给当前窗口发文本后关闭窗口 |
+| `SendFileAndClose(who, files)` | 发文件后关闭窗口 |
+| `SendEmojiAndClose(who, emoji, atUserList)` | 发表情后关闭窗口 |
+| `SendVoiceMessageAndClose(who, filePath)` | 发语音文件后关闭窗口 |
+| `SendVoiceMessageAndClose(filePath)` | 给当前窗口发语音后关闭窗口 |
+| `SendVoiceMessageWithTTSAndClose(...)` | TTS 发语音后关闭窗口 |
+
+> `SendVoiceMessageAndClose` 和 `SendVoiceMessageWithTTSAndClose` 仍然依赖虚拟声卡（Cable input/output），和普通语音发送的要求一样。
+
 ### 7.4 获取消息与聊天历史
 
 ```csharp
@@ -754,14 +805,33 @@ var msgs = await client.PullMessages("某好友", maxFetchNumber: 20);
 foreach (var m in msgs)
     Console.WriteLine(m);   // 格式：类型 - 时间 - 谁: 内容
 
-// 按日期获取聊天历史
+// 当前聊天窗口的历史：不传日期 = 今天；也可以只传日期
+var currentToday = await client.GetChatHistory();
+var currentDay = await client.GetChatHistory(new DateTime(2026, 10, 1));
+
+// 指定好友/群的历史：只传日期，或传开始/结束时间
 var today = await client.GetChatHistory("某好友", DateTime.Today);
 var range = await client.GetChatHistory("某好友", new DateTime(2026, 10, 1), new DateTime(2026, 10, 20));
 
 // 拍一拍 / 引用
 await client.TapWho("某好友");
 await client.ReferencedMessage("某好友", "某条消息内容");
+
+// 引用一个消息对象（例如 MessageContext / PullMessages 返回的消息）
+await client.ReferencedMessage(chatSimpleMessage);
+
+// 引用当前页最后一条；只引用当前页，不会翻页
+await client.ReferencedLastMessage();
 ```
+
+| 方法 | 说明 |
+|---|---|
+| `GetChatHistory(DateTime date)` | 当前窗口指定日期；不传日期就是今天 |
+| `GetChatHistory(string who, DateTime date)` | 指定好友/群指定日期 |
+| `GetChatHistory(string who, DateTime start, DateTime end)` | 指定好友/群的时间段，适合历史消息很多时分段取 |
+| `ReferencedMessage(ChatSimpleMessage message, int prevScrollNumber = 30)` | 用消息对象引用；当前页找不到会往前滚动 |
+| `ReferencedMessage(string who, string message, int prevScrollNumber = 30)` | 按“谁 + 内容”引用 |
+| `ReferencedLastMessage()` | 引用当前页最后一条，不翻页 |
 
 ### 7.5 会话管理
 
@@ -782,6 +852,13 @@ await client.SetTopMost("某好友", false);       // 取消置顶
 await client.SetDoNotDisturb("某好友", true);  // 免打扰
 await client.SetDoNotDisturb("某好友", false);  // 取消 免打扰 模式
 ```
+
+| 方法 | 说明 |
+|---|---|
+| `GetVisibleConversationTitles()` | 只取会话列表当前可见的标题，比完整会话对象更轻 |
+| `Up(callback)` / `Down(callback)` | 手动向上/向下滚动会话列表；回调返回 `true` 表示继续滚，返回 `false` 表示停 |
+
+> `Up` / `Down` 适合自己实现“边滚边找”的场景，回调参数里带当前可见元素和会话列表区域；一般业务直接用 `SearchFriend` / `LocateConversation` 就够了。
 
 ### 7.6 好友与通讯录
 
@@ -818,6 +895,22 @@ foreach (var kv in results)
 // 删除好友
 await client.RemoveFriend("某好友");
 ```
+
+#### 好友缓存与“添加朋友”窗口
+
+| 方法 | 说明 |
+|---|---|
+| `GetFriendListFromCache()` / `GetFriendListFromCacheAsync()` | 取缓存里的全部好友，同步/异步各一版 |
+| `GetFriendFromCache(who)` / `GetFriendFromCacheAsync(who)` | 按好友名取一个；重名时可能不唯一 |
+| `GetFriendsFromCache(who)` | 按好友名取多个，专门处理重名 |
+| `GetFriendWithWxIDFromCache(wxid)` / `GetFriendWithWxIDFromCacheAsync(wxid)` | 按 wxid 取，wxid 不会重复，最稳 |
+| `RemoveFriendFromCache(who)` / `RemoveFriendFromCacheAsync(who)` | 从缓存移除一个好友 |
+| `RemoveFriendWithWxIDFromCache(wxid)` / `RemoveFriendWithWxIDFromCacheAsync(wxid)` | 按 wxid 从缓存移除 |
+| `AddOrUpdateFriendFromCache(friend)` / `AddOrUpdateFriendFromCacheAsync(friend)` | 手动往缓存里加/改一个好友 |
+| `OpenAddFriensWin()` | 打开“添加朋友”窗口；方法名就是 `Friens`，少一个 `d`，照抄 |
+| `CloseAddFriendWin()` | 关闭“添加朋友”窗口 |
+
+> 缓存只是“快”，不是“唯一真相”：新好友、备注变化时，SDK 在需要 wxid 的业务里会自动补拉；但批量业务最好先用 `GetAllFriends(fromCache: false)` 刷一遍，再按 wxid 维护自己的映射。
 
 ### 7.7 群管理
 
@@ -883,6 +976,15 @@ await client.AddMessageListener(
     "某好友", ctx => { /* ... */ },
     new TimeOnly(9, 0), new TimeOnly(18, 0));
 
+// 一天多个时间段，也可以跨天（例如 23:00~02:00）
+await client.AddMessageListener(
+    "某好友", ctx => { /* ... */ },
+    new List<TimeOnlyRange>
+    {
+        new() { StarTime = new TimeOnly(9, 0), EndTime = new TimeOnly(12, 0) },
+        new() { StarTime = new TimeOnly(14, 0), EndTime = new TimeOnly(18, 0) },
+    });
+
 // 子窗口监听（弹窗式，返回更及时，回调为 async）
 await client.AddMessageListenerWithSubWin("某好友", async ctx =>
 {
@@ -902,6 +1004,10 @@ await client.PauseMessageListener();
 await client.ResumeMessageListener();
 await client.AddListeningFriend("某好友");
 await client.RemoveListeningFriend("某好友");
+
+// 弹窗式监听增减对象
+await client.AddSubWinListeningFriend("某好友");
+await client.RemoveSubWinListeningFriend("某好友");
 ```
 
 > **监听规则**（务必注意）：只能监听"允许消息通知"的好友/群聊，请勿给被监听对象设置"消息免打扰"；不监听的对象建议设免打扰以提升性能；建议减少"置顶"数量以降低滚动。
@@ -940,6 +1046,11 @@ var options = new FriendRequestAutoAcceptOptions
 
 await client.AddFriendRequestAutoAcceptListener(options);
 
+// 不启动监听，立即把当前待处理的好友申请批量过一遍
+var passed = await client.PassedAllNewFriend(options);
+foreach (var item in passed)
+    Console.WriteLine($"已通过：{item.Who}");   // NewFriendBackItem
+
 // 暂停 / 恢复 / 停止
 await client.PauseNewFriendListener();
 await client.ResumeNewFriendListener();
@@ -949,6 +1060,12 @@ await client.StopNewFriendListener();   // 停止后可换配置重新启动
 ### 7.10 朋友圈（💎）
 
 ```csharp
+// 打开朋友圈（已打开则提到最前），需要自己控制窗口时用
+var momentsWindow = await client.OpenMoments();
+
+// 关闭朋友圈
+await client.CloseMoments();
+
 // 发朋友圈（图文，多图需在同一目录）
 await client.AddMoments(
     new List<string> { @"C:\img\a.jpg", @"C:\img\b.jpg" },
@@ -962,16 +1079,222 @@ await client.RemoveMoments("今天天气不错");
 ### 7.11 消息转发（💎）
 
 ```csharp
-// 转发多条（默认最后 5 条）
+// 转发多条（默认最后 5 条，ForwardMerge = 合并转发）
 await client.ForwardMultipleMessage("某好友", "某群", rowCount: 5);
 
-// 转发单条
+// 逐条转发，并同时转给多个对象
+await client.ForwardMultipleMessage(
+    "某好友",
+    new[] { "群A", "群B" },
+    ForwardMessageTypeEnums.ForwardOneByOne,
+    rowCount: 3);
+
+// 转发单条：按“谁 + 内容”
 await client.ForwardSingleMessage("某好友", "某条消息内容", "某群");
+
+// 转发单条：直接传消息对象（例如 MessageContext / PullMessages 拿到的消息）
+await client.ForwardSingleMessage(chatSimpleMessage, "某群");
 ```
+
+### 7.12 数据库读取（Database Read，💎）
+
+> 这一节对应 `WeChatClient_Vip.cs` 的 `#region 数据库database read`。只有 VIP 版、并且配置了 `UseDatabaseRead = true` 时才可用；社区版没有这些方法。
+>
+> 这些方法都是**同步方法**，查的是 SDK 已经同步到中间表的数据，不会写微信原库。`client.UserName` 是当前微信号的 wxid，查询用它做账号隔离；`DataBaseKey`、`DbStorage` 由 SDK 内部维护，一般不需要手写。
+
+#### 7.12.1 联系人
+
+| 方法 | 说明 |
+|---|---|
+| `GetContact(userName)` | 按 username（wxid / 群 id）精确取一条联系人；找不到或已删除返回 `null` |
+| `FindContacts(keyword)` | 按关键字模糊查找，匹配 `UserName`、`NickName`、`Remark`、`Alias` |
+| `GetAllContacts()` | 取当前微信号全部联系人，自动排除已删除行 |
+| `GetContactWithShowName(showName)` | 按显示名精确取一条；重名时返回 `UserName` 升序的第一条 |
+| `GetContactsWithShowName(showName)` | 按显示名精确取多条，专门处理重名 |
+
+> `WeChatContact.ShowName` 的显示顺序是：**备注 → 微信号别名 → 昵称 → UserName**。所以界面上看到的群名可能是群备注，不一定是群本身的 `NickName`；按显示名查的时候要用 `ShowName`，不要自己拼。
+
+```csharp
+// 先拿全部联系人，再从里面取 username 和显示名
+var contacts = client.GetAllContacts();
+foreach (var c in contacts)
+    Console.WriteLine($"{c.UserName}  {c.ShowName}");
+
+// 按 username 精确取
+var one = client.GetContact("wxid_xxx");
+
+// 按显示名取（可能重名，所以有“一条”和“多条”两个版本）
+var byName = client.GetContactWithShowName("张三");
+var sameName = client.GetContactsWithShowName("张三");
+```
+
+#### 7.12.2 聊天记录与搜索
+
+| 方法 | 说明 |
+|---|---|
+| `GetChatMessages(chatUsername, count = 50)` | 取指定会话最近 `count` 条，按 `SortSeq` **从新到旧**，适合浏览 |
+| `GetRecentChatMessages(chatUsername, count = 50)` | 取最近 `count` 条后，再按 `SortSeq` **从旧到新**，适合直接喂给 LLM 当上下文 |
+| `GetNewMessages(afterSortSeq)` | 取 `SortSeq` 比给定值更大的新消息，按从旧到新；做增量同步用 |
+| `GetMaxSortSeq()` | 当前微信号消息的最大 `SortSeq`；没有消息返回 `0`，用来做增量水位 |
+| `SearchMessages(keyword, chatUsername = null)` | 只在当前微信号搜索 `Content`；可限定会话；结果从新到旧 |
+| `SearchAllMessages(keyword, chatUsername = null)` | 跨所有微信号搜索 `Content`；结果里带 `FromWechatWxId`，显示名按各自账号解析 |
+
+> **水位只能用 `SortSeq`**，不要用自增主键 `Id`，也不要用写入时间 `CreateTime`。第一次先 `GetMaxSortSeq()`，之后每次只取比它更大的消息，再把水位更新成这次最大的 `SortSeq`。
+>
+> `SearchAllMessages` 不绑定当前 `client.UserName`；`SortSeq` 只在同一个微信号内有序，跨账号比较时要结合 `FromWechatWxId`。
+
+```csharp
+// 最近 20 条，按从旧到新，直接当 LLM 上下文
+var recent = client.GetRecentChatMessages("wxid_xxx", 20);
+foreach (var item in recent)
+    Console.WriteLine($"{item.SenderDisplayName}: {item.Message.Content}");
+
+// 增量：先取当前水位，再取新消息，最后更新水位
+long watermark = client.GetMaxSortSeq();
+foreach (var item in client.GetNewMessages(watermark))
+{
+    Console.WriteLine($"{item.ChatDisplayName} / {item.SenderDisplayName}: {item.Message.Content}");
+    watermark = item.Message.SortSeq;
+}
+
+// 搜索：当前账号 / 全部账号
+var mine = client.SearchMessages("合同", "wxid_xxx");
+var all = client.SearchAllMessages("合同");
+```
+
+`WeChatMessageQueryResult` 里常用的字段：
+
+- `Message`：原始消息对象（`Content`、`MsgCreateTime`、`MessageTime`、`SortSeq`、`IsSelf` 等）；
+- `ChatDisplayName`：会话显示名；
+- `SenderDisplayName`：发送者显示名；
+- `QuoteDisplayName`：被引用消息的显示名（有引用时）。
+
+#### 7.12.3 群与群成员
+
+| 方法 | 说明 |
+|---|---|
+| `GetRoomMembers(roomUsername)` | 按群 username 取成员，并带上群名片和各人的显示名 |
+| `GetAllChatRooms()` | 取当前微信号全部群聊（`UserName` 含 `@chatroom`，不含已删除） |
+| `GetChatRoomWithShowName(showName)` | 按群的显示名精确取一个；重名时返回 `UserName` 升序的第一条 |
+| `GetChatRoomsWithShowName(showName)` | 按群的显示名精确取多个，处理重名 |
+| `GetRoomMembersByShowName(showName)` | 按群的显示名取成员；重名时取第一条对应的群，找不到返回空列表 |
+| `GetChatRoomsByLocalType(int localType)` | 在群聊中按原生 `LocalType` 过滤；本机观察群多为 `2` |
+| `GetChatRoomsByLocalType(ContactLocalType localType)` | 同上，但用枚举；目前收录了 `Friend = 1`、`ChatRoom = 2` |
+
+> 判断“是不是群”最终仍以 `UserName` 是否包含 `@chatroom` 为准；`LocalType` 只是附加过滤。群有备注时，显示名是备注，不是群名，所以按显示名查要用 `ShowName`。
+
+```csharp
+var rooms = client.GetAllChatRooms();
+foreach (var room in rooms)
+    Console.WriteLine($"{room.UserName}  {room.ShowName}");
+
+// 按显示名取群，再按群 username 取成员
+var room = client.GetChatRoomWithShowName("某个群");
+if (room != null)
+{
+    var members = client.GetRoomMembers(room.UserName);
+    foreach (var m in members)
+        Console.WriteLine($"{m.Member.MemberUsername}  {m.MemberDisplayName}");
+}
+
+// 只看“群”类型的群
+var chatRooms = client.GetChatRoomsByLocalType(ContactLocalType.ChatRoom);
+```
+
+#### 7.12.4 朋友圈
+
+| 方法 | 说明 |
+|---|---|
+| `GetSnsPost(tid)` | 按 tid 取一条朋友圈，一次带回媒体、点赞、评论；找不到返回 `null` |
+| `GetSnsPosts(limit)` | 取最近 `limit` 条朋友圈，按发布时间从新到旧；`limit` 必须大于 0 |
+| `GetSnsPostsByDate(date)` | 取某一天的朋友圈；按中国标准时间（UTC+8）的日历日判断，时分秒会被忽略 |
+| `GetSnsPostsByUserName(userName)` | 取某个发布者（真实 `UserName`/wxid）的朋友圈，从新到旧 |
+| `GetSnsPostsByShowName(showName)` | 按发布者显示名取朋友圈；显示名完全一致，重名会一并返回 |
+
+`WeChatSnsPostQueryResult` 里常用的字段：
+
+- `Post`：朋友圈原始对象（正文、时间、tid 等）；
+- `UserDisplayName`：发布者显示名；
+- `Media`：图片 / 视频 / 文件等媒体列表；
+- `Likes`：点赞列表；
+- `Comments`：评论列表。
+
+```csharp
+var latest = client.GetSnsPosts(20);
+var one = client.GetSnsPost(1234567890123456789);
+var today = client.GetSnsPostsByDate(DateTime.Today);
+var byUser = client.GetSnsPostsByUserName("wxid_xxx");
+var byName = client.GetSnsPostsByShowName("张三");
+```
+
+#### 7.12.5 自定义查询
+
+| 方法 | 说明 |
+|---|---|
+| `Query(sql)` | 执行一条 `SELECT`（含 `WITH ... SELECT`），返回 `IList<IDictionary<string, object>>` |
+
+> `Query` 是给复杂查询留的通用入口：它**不会自动追加当前微信号条件**，SQL 由你自己写；只支持查询，`INSERT` / `UPDATE` / `DELETE` 这类写操作会抛异常。SQL 也是你自己拼的，注意注入风险，不要直接把用户输入拼进去。
+
+```csharp
+var rows = client.Query(
+    "SELECT ChatUsername, SenderWxId, Content, MsgCreateTime " +
+    "FROM wechat_message " +
+    "WHERE FromWechatWxId = 'wxid_xxx' " +
+    "ORDER BY SortSeq DESC LIMIT 20");
+
+foreach (var row in rows)
+    Console.WriteLine($"{row["ChatUsername"]}: {row["Content"]}");
+```
+
+#### 7.12.6 存储位置（辅助）
+
+`GetWeChatStorageRootByAutomation()` 会临时打开微信的“设置 → 账号与存储”，读出“存储位置”再关掉设置窗口。
+
+- 一般不需要调用：SDK 在第一次需要读数据库时会自动读一次并缓存；
+- 只有在做诊断、或者你想自己确认当前存储路径时才用；
+- 它依赖 UI Tree 和设置窗口的控件，微信改版后可能需要更新；
+- 属于 VIP 能力，社区版没有数据库读取，也就不需要这个值。
+
+```csharp
+var storageRoot = await client.GetWeChatStorageRootByAutomation();
+Console.WriteLine(storageRoot);
+```
+
+### 7.13 按 WxId 精准发送（💎）
+
+> 这一节对应 `WeChatClient_Vip.cs` 的 `#region 按 username 发送`。它先到中间表里按 `UserName`（好友 wxid / 群 `xxx@chatroom`）找到联系人，再用联系人的 `ShowName` 调用普通发送方法，所以叫“按 WxId 精准发送”，但群聊传的是群 id。
+
+| 方法 | 说明 |
+|---|---|
+| `SendMessageByWxid(userName, message, atUser, refer)` | 按 username 发文本，支持 @ 和引用 |
+| `SendFileByWxid(userName, files)` | 按 username 发文件 |
+| `SendEmojiByWxid(userName, emoji, atUserList)` | 按 username 发表情 |
+| `SendVoiceMessageByWxid(userName, filePath)` | 按 username 发语音文件（需要虚拟声卡） |
+| `SendVoiceMessageWithTTSByWxid(userName, apiKey, message, options, optimizeWithLlm, customProcess)` | 按 username 用 TTS 发语音 |
+
+```csharp
+// 按好友 wxid 发文本
+bool ok = await client.SendMessageByWxid("wxid_xxx", "你好");
+
+// 按群 id 发文件（群 id 形如 xxx@chatroom）
+bool fileOk = await client.SendFileByWxid("1234567890@chatroom", new[] { @"C:\report.pdf" });
+
+// 按 wxid 用 TTS 发语音
+bool voiceOk = await client.SendVoiceMessageWithTTSByWxid(
+    "wxid_xxx", "sk-你的千问APIKey", "你好",
+    new VoiceOptions { Voice = "longanhuan_v3.1" });
+```
+
+> **返回值怎么理解**：成功不是看界面有没有弹提示，而是发送前记下当前账号的最大 `SortSeq`，发送后最多等 8 秒、每 3 秒查一次，目标会话出现 `IsSelf` 且 `SortSeq` 更大的消息才算成功。
+>
+> **重名风险**：如果两个好友的备注/昵称完全相同，底层仍然可能点错人；水位是按目标 `ChatUsername` 过滤的，点错时会返回 `false`，但消息可能已经发出去。对重名联系人，建议先改成唯一备注，或者用 `GetContact` 拿到 `UserName` 后再确认真实身份。
+>
+> `userName` 不存在于中间表、或者 `ShowName` 为空时，这些方法直接返回 `false`，不会抛异常。
 
 ---
 
 ## 八、多微信实例
+
 
 `WeChatClientFactory` 一个进程可同时管理多个微信客户端：
 
