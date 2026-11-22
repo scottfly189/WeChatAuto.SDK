@@ -40,14 +40,15 @@ SDK 的界面操作通过 Windows UI Automation（FlaUI/UIA3）驱动微信，�
 - 开发环境（VS 运行）：`bin\Debug\netx.x-windows\models`
 - 模型文件下载：[Tools/models](https://github.com/scottfly189/WeChatAuto.SDK/tree/master/Tools)
 
-> 部分能力（如消息监听中的昵称识别）依赖 OCR，建议直接开启。
+> 部分能力（如消息监听中的昵称识别）依赖 OCR，建议直接开启,但现在获取微信消息官方建议走Database read路线，所以此约定基本上过时了。
 
-### 2.4 虚拟声卡（仅发语音消息需要）
+### 2.4 虚拟声卡（仅发微信语音消息需要）
 
 `SendVoiceMessage` / TTS 语音依赖虚拟声卡 **Cable input / Cable output**：
 
 - 在 `声音 → 设置 → 输入设备` 改成 `Cable output`；
 - 未安装请在 [VBCABLE_Driver_Pack45.zip](https://github.com/alexzhao189/wechatautosdk/blob/main/Resources/VBCABLE_Driver_Pack45.zip) 下载。
+- 如果需要发送微信语音消息的能力，请务必安装虚拟声卡并设置好输入输出设备;
 
 ### 2.5 技术基础知识准备
 
@@ -123,10 +124,6 @@ dotnet add package WeChatAuto4x.SDK
 
 ```
 
-4. 把OCR模型文件放到项目根目录下(我这里是:```D:\repo\WeChatAuto.SDK\test\demo\bin\Debug\net10.0-windows\models```)，OCR模型文件下载地址：[模型文件下载](https://github.com/scottfly189/WeChatAuto.SDK/tree/master/Tools)
-
-> 注：直接拷贝models文件夹到项目根目录下即可，或者在代码中指定模型文件路径。
-
 5. 在 Program.cs 中编写如下代码：
 
 ```csharp
@@ -137,7 +134,6 @@ using Microsoft.Extensions.DependencyInjection;
 // 1. 初始化（内部依赖注入，适用于普通控制台程序）
 var serviceProvider = WeAutomation.Initialize(options =>
 {
-    options.EnableOCR = true;         // 部分能力依赖 OCR，建议开启（需提前放置 models 目录）
     options.IsForceOpenUITree = true; // 微信未公开 UI Tree 时自动强开；确认已开启可设为 false
     options.DebugMode = false;        // 生产环境建议关闭（开启会在获得焦点时高亮边框）
 });
@@ -156,7 +152,7 @@ var client = clientFactory.GetWeChatClient(names.First());
 await client.SendMessage("某好友", "hello world!!");
 ```
 
-5. 编译、运行
+6. 编译、运行
 
 ```bash
 dotnet build
