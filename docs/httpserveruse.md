@@ -347,7 +347,7 @@ client
 | 接口前缀 | 客户端自动为所有请求加 `/api/v1` |
 | 字段命名 | `snake_case`，严格保持 swagger 原样 |
 | 响应 | swagger 中响应无 schema（仅 `200 OK`），各客户端统一返回**原始响应体**，不构造响应 DTO |
-| 接口规模 | 8 组、102 个操作（含 Database Read、`...-and-close`、窗口打开/关闭等）、42+ 个数据模型/枚举；以实际运行的服务和 Swagger 为准 |
+| 接口规模 | 9 组、115 个操作（含 Database Read、朋友圈、转发、WxId 发送等）、42+ 个数据模型/枚举；以实际运行的服务和 Swagger 为准 |
 
 > ⚠️ 这些客户端由 `swagger.json` 自动生成，**未经充分测试**；接口的准确行为以本指南与 `HttpSupport/Server/Docs/api-site/swagger.json` 为准。
 >
@@ -493,6 +493,11 @@ Base：`/api/v1/clients/{clientId}/friends`
 | `POST` | `/add-window/open` | 打开“添加朋友”窗口 | — |
 | `POST` | `/add-window/close` | 关闭“添加朋友”窗口 | — |
 | `POST` | `/add` | 通过手机号/微信号查找并添加好友 | `AddFriendsRequest` |
+| `POST` | `/pass-all` | 立即批量通过当前待处理的好友申请 | `PassedAllNewFriendRequest` |
+| `POST` | `/auto-accept/start` | 启动新好友自动通过监听 | `PassedAllNewFriendRequest` |
+| `POST` | `/auto-accept/pause` | 暂停自动通过监听 | — |
+| `POST` | `/auto-accept/resume` | 恢复自动通过监听 | — |
+| `POST` | `/auto-accept/stop` | 停止自动通过监听 | — |
 | `GET` | `/` | 获取所有好友信息，默认优先读缓存 | `fromCache`（query） |
 | `GET` | `/names` | 获取所有好友名称列表 | — |
 | `DELETE` | `/{nickName}` | 从通讯录移除好友 | — |
@@ -551,6 +556,10 @@ Base：`/api/v1/clients/{clientId}/messages`
 | `POST` | `/send-emoji-by-wxid` | 按用户名发表情 | `SendEmojiByWxidRequest` |
 | `POST` | `/send-voice-message-by-wxid` | 按用户名发语音文件 | `SendVoiceMessageByWxidRequest` |
 | `POST` | `/send-voice-message-tts-by-wxid` | 按用户名用 TTS 发语音 | `SendVoiceMessageTtsByWxidRequest` |
+| `POST` | `/forward-multiple` | 转发多条消息（合并/逐条） | `ForwardMultipleMessageRequest` |
+| `POST` | `/forward-single` | 转发单条消息 | `ForwardSingleMessageRequest` |
+| `POST` | `/pull` | 轮询拉取指定会话的新消息 | `PullMessagesRequest` |
+| `POST` | `/clone-voice` | 声音复刻，返回 voice_id | `CloneVoiceRequest` |
 | `GET` | `/history` | 获取聊天历史（按日期或时间段） | `who`、`date`、`start_date`、`end_date` |
 | `POST` | `/tap` | 拍一拍当前窗口好友 | `TapRequest` |
 | `POST` | `/reference` | 引用当前窗口的好友消息 | `ReferenceRequest` |
@@ -584,7 +593,18 @@ Base：`/api/v1/clients/{clientId}/window`
 | `GET` | `/handler` | 获取微信窗口句柄 | — |
 | `GET` | `/process-id` | 获取微信窗口进程 ID | — |
 
-### 9.8 数据库读取（Database Read，💎）
+### 9.8 朋友圈（Moments，💎）
+
+Base：`/api/v1/clients/{clientId}/moments`
+
+| 方法 | 路径 | 说明 | 请求体 |
+|---|---|---|---|
+| `POST` | `/open` | 打开朋友圈（已打开则提到最前） | — |
+| `POST` | `/close` | 关闭朋友圈 | — |
+| `POST` | `/add` | 发朋友圈（图文，多图需在同一目录） | `AddMomentsRequest` |
+| `POST` | `/remove` | 删除自己发的朋友圈（按文字内容） | `RemoveMomentsRequest` |
+
+### 9.9 数据库读取（Database Read，💎）
 
 Base：`/api/v1/clients/{clientId}/database`
 
@@ -620,7 +640,7 @@ Base：`/api/v1/clients/{clientId}/database`
 
 > `/query` 只接受 `SELECT`（含 `WITH ... SELECT`），不会自动追加 `FromWechatWxId` 条件；SQL 由调用方自己拼，注意注入风险。复杂报表建议直接连中间库，详见 [数据库 Schema](schema.md)。
 
-### 9.9 常用请求示例
+### 9.10 常用请求示例
 
 ```bash
 # 发文本（who 为空 = 当前焦点窗口；at_users 可选）
@@ -652,6 +672,28 @@ curl -G http://localhost:5000/api/v1/clients/<wxid>/database/messages/recent \
 
 curl http://localhost:5000/api/v1/clients/<wxid>/database/messages/max-sort-seq \
   -H "X-API-Key: your-key"
+
+# 转发多条 / 轮询拉取
+curl -X POST http://localhost:5000/api/v1/clients/<wxid>/messages/forward-multiple \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your-key" \
+  -d '{"who": "张三", "to": ["群A"], "f_type": "ForwardMerge", "row_count": 3}'
+
+curl -X POST http://localhost:5000/api/v1/clients/<wxid>/messages/pull \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your-key" \
+  -d '{"who": "张三", "max_fetch_number": 20}'
+
+# 发朋友圈 / 批量通过新好友
+curl -X POST http://localhost:5000/api/v1/clients/<wxid>/moments/add \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your-key" \
+  -d '{"image_files": ["C:\\img\\a.jpg"], "content": "今天天气不错"}'
+
+curl -X POST http://localhost:5000/api/v1/clients/<wxid>/friends/pass-all \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: your-key" \
+  -d '{"keyword": ["合作"], "suffix": "客户", "label": "客户"}'
 
 # 查某天/某个时间段的历史
 curl -G http://localhost:5000/api/v1/clients/<wxid>/messages/history \
