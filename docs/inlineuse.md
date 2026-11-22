@@ -801,6 +801,43 @@ await client.SendVoiceMessageWithTTS("某好友", "sk-xxx", "你好",
 
 > 这一小节对应 `WeChatClient_Vip.cs` 的 `#region 按 username 发送`。它先到中间表里按 `UserName`（好友 wxid / 群 `xxx@chatroom`）找到联系人，再用联系人的 `ShowName` 调用普通发送方法，所以叫“按 WxId 精准发送”，但群聊传的是群 id。
 
+##### 怎么拿到 WxId
+
+`Send...ByWxid` 里的 `userName` 不是备注，不是昵称，也不是联系人的“微信号”；它是微信内部的 `UserName`：好友通常是 `wxid_...`，群是 `...@chatroom`。
+
+| 要拿谁 | 推荐方法 | 取哪个字段 |
+|---|---|---|
+| 当前登录账号 | `client.GetOwerInfo()` | `.WxId`；VIP 版也可以直接用 `client.UserName` |
+| 好友（界面自动化 / 社区版） | `await client.GetAllFriends(fromCache: false)` | `FriendInfo.WxId`；缓存里也可以用 `GetFriendFromCache(名称).WxId` |
+| 好友或群（VIP 数据库） | `client.GetAllContacts()`、`GetContactWithShowName(...)` | `WeChatContact.UserName` |
+| 群（VIP 数据库） | `client.GetAllChatRooms()`、`GetChatRoomWithShowName(...)` | `WeChatContact.UserName` |
+| 从消息反推 | `GetChatMessages(...)`、`GetRecentChatMessages(...)`、`SearchMessages(...)` | 会话看 `Message.ChatUsername`，发送者看 `Message.SenderWxId` |
+| 直接查库 | `SELECT UserName, ShowName FROM wechat_contact ...` | `UserName` |
+
+```csharp
+// 1. 当前登录账号的 wxid
+var me = client.GetOwerInfo().WxId;
+
+// 2. 好友：界面自动化方式（社区版也能用）
+var friends = await client.GetAllFriends(fromCache: false);
+var friend = friends.FirstOrDefault(f => f.Name == "张三");
+if (friend != null && !string.IsNullOrWhiteSpace(friend.WxId))
+    await client.SendMessageByWxid(friend.WxId, "你好");
+
+// 3. 好友和群：VIP 数据库方式更稳
+var contact = client.GetContactWithShowName("张三");
+if (contact != null)
+    await client.SendMessageByWxid(contact.UserName, "你好");
+
+var room = client.GetChatRoomWithShowName("某群");
+if (room != null)
+    await client.SendMessageByWxid(room.UserName, "大家好");
+```
+
+> `WeChatContact.Alias` 是对方自己设置的“微信号”，不是 `UserName`；`ShowName` 只是给人看的显示名。`Send...ByWxid` 要的是 `UserName`，不要传 `Alias`，也不要传备注/昵称。
+>
+> `GetAllFriends` 对普通好友能拿到 `WxId`，但群聊、部分企业微信联系人可能拿不到；群聊建议走 VIP 的 `GetAllChatRooms` / `GetChatRoomWithShowName`。拿到后先判断 `WxId` / `UserName` 是否为空，再调用发送。
+
 | 方法 | 说明 |
 |---|---|
 | `SendMessageByWxid(userName, message, atUser, refer)` | 按 username 发文本，支持 @ 和引用 |
