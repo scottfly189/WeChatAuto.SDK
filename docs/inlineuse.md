@@ -1215,15 +1215,13 @@ Console.WriteLine($"联系人：{contacts.Count}");
 
 **这几步分别在做什么：**
 
-1. **`UseDatabaseRead = true`**：总开关。不开就是纯 UI 自动化，7.12 的方法不能用，也不会建中间表。
-2. **`WeChatStorageRoot`**：微信的“设置 → 账号与存储 → 存储位置”。一般留空，SDK 会在第一次需要读库时自动读一次，并把结果缓存到 `%LOCALAPPDATA%\WeChatAuto\wechatkey.dat`；多个微信要共用同一个路径，不要一个号填一个。
-3. **`DbTppe` + `ConnectionString`**：中间表写到哪个数据库。默认 SQLite，零安装；换成 SQL Server / MySQL / PostgreSQL 时，这两个要一起改，并提前建好库、给账号建表和写数据的权限。
-4. **首轮同步**：不是瞬间完成。初始化后 SDK 会在后台把联系人、消息、群成员、朋友圈同步到中间表，数据量大时要等一会儿；先查 `wechat_contact` / `wechat_message` 有没有数据，再调用 7.12 的 API。
-5. **可选项**：`FirstRunDays` 控制首轮回看天数；`HotSyncFirstRunTextOnly` 让首轮先只同步文字、媒体之后增量补；`HotSyncCopyLog` 用于大库排查，平时关着即可。
+1. `UseDatabaseRead = true`*：总开关。不开就是纯 UI 自动化，7.12 的方法不能用，也不会建中间表。
+2. `WeChatStorageRoot`*：微信的“设置 → 账号与存储 → 存储位置”。一般留空，SDK 会在第一次启动时自动通过自动化来获取到，并把结果缓存到 `%LOCALAPPDATA%\WeChatAuto\wechatkey.dat`；多个微信要共用同一个路径，不要一个号填一个。
+3. **`DbTppe` + `ConnectionString`**：中间表写到哪个数据库。默认 SQLite，零安装；换成 SQL Server / MySQL / PostgreSQL 时，这两个要一起改。
+4. **可选项**：`FirstRunDays` 控制首轮回看天数；`HotSyncFirstRunTextOnly` 让首轮先只同步文字、媒体之后增量补；`HotSyncCopyLog` 用于大库排查，平时关着即可。
 
 **常见卡点：**
 
-- `UseDatabaseRead` 忘了打开：`GetAllContacts()` 等没有数据或不可用；
 - `DbTppe` 改了、`ConnectionString` 没改：连不上，或者还写到旧库；
 - `WeChatStorageRoot` 填了不存在的目录：以配置为准时读不到库；不确定就留空；
 - 多个微信填了不同存储路径：微信本身要求同一个存储位置，应该统一；
