@@ -65,6 +65,52 @@
         }
       }
     },
+    "/api/v1/clients/{clientId}/version": {
+      "get": {
+        "tags": [
+          "Clients"
+        ],
+        "summary": "获取本微信的版本号。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/storage-root": {
+      "get": {
+        "tags": [
+          "Clients"
+        ],
+        "summary": "通过界面自动读取微信存储位置（VIP，一般不需要，SDK 会自动读取并缓存）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/clients/{clientId}/avatar": {
       "post": {
         "tags": [
@@ -386,6 +432,728 @@
         }
       }
     },
+    "/api/v1/clients/{clientId}/database/contacts": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "获取当前微信号全部联系人（不含已删除）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/contacts/{userName}": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "按 username（wxid / 群 id）取一条联系人。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/contacts/search": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "按关键字模糊搜索联系人（匹配 UserName / NickName / Remark / Alias）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/contacts/by-show-name": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "按显示名取联系人；重名时返回多个。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "showName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/contacts/by-show-name/first": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "按显示名取第一条联系人（重名时取 UserName 升序第一条）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "showName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/messages": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "取指定会话最近 N 条消息（从新到旧）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chatUsername",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/messages/recent": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "取指定会话最近 N 条消息（从旧到新，适合 LLM 上下文）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chatUsername",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "count",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/messages/new": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "取 SortSeq 大于指定值的新消息（从旧到新）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "afterSortSeq",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/messages/max-sort-seq": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "取当前微信号消息的最大 SortSeq（增量水位）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/messages/search": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "按正文关键字搜索当前微信号消息。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chatUsername",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/messages/search-all": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "按正文关键字跨所有微信号搜索消息。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "chatUsername",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/rooms": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "获取当前微信号全部群聊。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/rooms/{roomUsername}/members": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "按群 username 取成员列表。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "roomUsername",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/rooms/by-show-name": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "按群的显示名取群；重名时返回多个。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "showName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/rooms/by-show-name/first": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "按群的显示名取第一条群。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "showName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/rooms/by-show-name/members": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "按群的显示名取成员列表；重名时取第一条群。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "showName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/rooms/by-local-type": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "按联系人 LocalType 过滤群聊（本机观察群多为 2）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "localType",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/sns/posts": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "取最近 N 条朋友圈（含媒体、点赞、评论）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/sns/posts/{tid}": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "按 tid 取一条朋友圈（含媒体、点赞、评论）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/sns/posts/by-date": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "取某一天的朋友圈（按中国标准时间 UTC+8 的日历日）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/sns/posts/by-user": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "取某个发布者（真实 UserName / wxid）的朋友圈。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/sns/posts/by-show-name": {
+      "get": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "按发布者显示名取朋友圈；重名会一并返回。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "showName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/database/query": {
+      "post": {
+        "tags": [
+          "Database"
+        ],
+        "summary": "执行一条 SELECT 查询（仅查询，不允许写操作；不会自动追加当前微信号条件）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatabaseQueryRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatabaseQueryRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatabaseQueryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/clients/{clientId}/friends/add-window/open": {
       "post": {
         "tags": [
@@ -467,6 +1235,159 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/friends/pass-all": {
+      "post": {
+        "tags": [
+          "Friends"
+        ],
+        "summary": "立即批量通过当前待处理的新好友申请（不启动持续监听）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PassedAllNewFriendRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PassedAllNewFriendRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PassedAllNewFriendRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/friends/auto-accept/start": {
+      "post": {
+        "tags": [
+          "Friends"
+        ],
+        "summary": "启动新好友自动通过监听（按关键词/后缀/标签规则）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PassedAllNewFriendRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PassedAllNewFriendRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PassedAllNewFriendRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/friends/auto-accept/pause": {
+      "post": {
+        "tags": [
+          "Friends"
+        ],
+        "summary": "暂停新好友自动通过监听。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/friends/auto-accept/resume": {
+      "post": {
+        "tags": [
+          "Friends"
+        ],
+        "summary": "恢复新好友自动通过监听。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/friends/auto-accept/stop": {
+      "post": {
+        "tags": [
+          "Friends"
+        ],
+        "summary": "停止新好友自动通过监听。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -1389,6 +2310,48 @@
         }
       }
     },
+    "/api/v1/clients/{clientId}/messages/send-and-close": {
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "发送文本消息后关闭微信窗口（指定对象或当前聊天窗口，支持 @ 与引用）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendMessageRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendMessageRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendMessageRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/clients/{clientId}/messages/send-file": {
       "post": {
         "tags": [
@@ -1431,12 +2394,96 @@
         }
       }
     },
+    "/api/v1/clients/{clientId}/messages/send-file-and-close": {
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "发送文件后关闭微信窗口。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendFileRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendFileRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendFileRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/clients/{clientId}/messages/send-emoji": {
       "post": {
         "tags": [
           "Messages"
         ],
         "summary": "发送表情（按名称/描述/索引）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendEmojiRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendEmojiRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendEmojiRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/messages/send-emoji-and-close": {
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "发送表情后关闭微信窗口（按名称/描述/索引）。",
         "parameters": [
           {
             "name": "clientId",
@@ -1641,6 +2688,48 @@
         }
       }
     },
+    "/api/v1/clients/{clientId}/messages/send-voice-message-and-close": {
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "发送语音消息后关闭微信窗口（需虚拟声卡 Cable input/Cable output）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendVoiceMessageRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendVoiceMessageRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendVoiceMessageRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/clients/{clientId}/messages/send-voice-message-tts": {
       "post": {
         "tags": [
@@ -1672,6 +2761,426 @@
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/SendVoiceMessageTtsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/messages/send-voice-message-tts-and-close": {
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "文字转语音发送后关闭微信窗口（默认阿里千问 Qwen-Audio-TTS）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendVoiceMessageTtsRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendVoiceMessageTtsRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendVoiceMessageTtsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/messages/send-by-wxid": {
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "按联系人 UserName（wxid / 群 id）发送文本。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendMessageByWxidRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendMessageByWxidRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendMessageByWxidRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/messages/send-file-by-wxid": {
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "按联系人 UserName（wxid / 群 id）发送文件。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendFileByWxidRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendFileByWxidRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendFileByWxidRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/messages/send-emoji-by-wxid": {
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "按联系人 UserName（wxid / 群 id）发送表情。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendEmojiByWxidRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendEmojiByWxidRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendEmojiByWxidRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/messages/send-voice-message-by-wxid": {
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "按联系人 UserName（wxid / 群 id）发送语音文件。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendVoiceMessageByWxidRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendVoiceMessageByWxidRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendVoiceMessageByWxidRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/messages/send-voice-message-tts-by-wxid": {
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "按联系人 UserName（wxid / 群 id）用 TTS 发送语音。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendVoiceMessageTtsByWxidRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendVoiceMessageTtsByWxidRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendVoiceMessageTtsByWxidRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/messages/forward-multiple": {
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "转发多条消息（默认合并转发）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForwardMultipleMessageRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForwardMultipleMessageRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForwardMultipleMessageRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/messages/forward-single": {
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "转发单条消息（message 与 chat_simple_message 二选一）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForwardSingleMessageRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForwardSingleMessageRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForwardSingleMessageRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/messages/pull": {
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "轮询拉取指定会话的新消息（用于自己实现轮询）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PullMessagesRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PullMessagesRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PullMessagesRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/messages/clone-voice": {
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "声音复刻：上传参考音频创建一个自定义音色，返回 voice_id。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloneVoiceRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloneVoiceRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloneVoiceRequest"
               }
             }
           }
@@ -1837,6 +3346,136 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/moments/open": {
+      "post": {
+        "tags": [
+          "Moments"
+        ],
+        "summary": "打开朋友圈（已打开则提到最前）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/moments/close": {
+      "post": {
+        "tags": [
+          "Moments"
+        ],
+        "summary": "关闭朋友圈。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/moments/add": {
+      "post": {
+        "tags": [
+          "Moments"
+        ],
+        "summary": "发朋友圈（图文，多图需在同一目录）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMomentsRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMomentsRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMomentsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/moments/remove": {
+      "post": {
+        "tags": [
+          "Moments"
+        ],
+        "summary": "删除自己发的朋友圈（按文字内容）。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveMomentsRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveMomentsRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemoveMomentsRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -2043,6 +3682,52 @@
         }
       }
     },
+    "/api/v1/clients/{clientId}/window/open": {
+      "post": {
+        "tags": [
+          "Window"
+        ],
+        "summary": "打开本微信窗口。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/window/close": {
+      "post": {
+        "tags": [
+          "Window"
+        ],
+        "summary": "关闭本微信窗口。",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/clients/{clientId}/window/close-search-window": {
       "post": {
         "tags": [
@@ -2221,16 +3906,16 @@
       "AddFriendsOptions": {
         "type": "object",
         "properties": {
-          "interval_time": {
+          "intervalTime": {
             "type": "integer",
             "description": "间隔时间,以秒为单位，默认为三秒，如果担心风控，可以把此时间设置长一点",
             "format": "int32"
           },
-          "is_close_win": {
+          "isCloseWin": {
             "type": "boolean",
             "description": "是否关闭增加朋友窗口,默认关闭，可以设置为false不关闭"
           },
-          "say_hi": {
+          "sayHi": {
             "type": "string",
             "description": "加好友时打招呼内容,如果为空，则保持微信默认",
             "nullable": true
@@ -2287,6 +3972,27 @@
         "additionalProperties": false,
         "description": "从群聊中添加好友。"
       },
+      "AddMomentsRequest": {
+        "type": "object",
+        "properties": {
+          "image_files": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "nullable": true
+          },
+          "options": {
+            "$ref": "#/components/schemas/MomentsOptions"
+          }
+        },
+        "additionalProperties": false,
+        "description": "发朋友圈。"
+      },
       "ChangeGroupMemoRequest": {
         "type": "object",
         "properties": {
@@ -2328,7 +4034,7 @@
           "message": {
             "$ref": "#/components/schemas/ChatSimpleMessage"
           },
-          "is_close_search_win": {
+          "isCloseSearchWin": {
             "type": "boolean",
             "description": "是否关闭查找窗口，默认是关闭，如果设置为false,则不关闭查找窗口，速度会略快，但需要自行关闭查找窗口."
           }
@@ -2349,17 +4055,17 @@
             "description": "消息",
             "nullable": true
           },
-          "send_date_time": {
+          "sendDateTime": {
             "type": "string",
             "description": "消息日期",
             "nullable": true
           },
-          "date_time": {
+          "dateTime": {
             "type": "string",
             "description": "消息日期,日期时间格式",
             "format": "date-time"
           },
-          "unique_string": {
+          "uniqueString": {
             "type": "string",
             "description": "唯一字符串",
             "nullable": true
@@ -2369,19 +4075,43 @@
       },
       "ChatType": {
         "enum": [
-          "好友",
-          "企业微信",
-          "群聊",
-          "公众号",
-          "订阅号",
-          "服务通知",
-          "腾讯新闻",
-          "微信团队",
-          "文件传输助手",
-          "其他"
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
         ],
-        "type": "string",
-        "description": "聊天类型"
+        "type": "integer",
+        "description": "聊天类型",
+        "format": "int32"
+      },
+      "CloneVoiceRequest": {
+        "type": "object",
+        "properties": {
+          "api_key": {
+            "type": "string",
+            "nullable": true
+          },
+          "audio_url": {
+            "type": "string",
+            "nullable": true
+          },
+          "target_model": {
+            "type": "string",
+            "nullable": true
+          },
+          "prefix": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "声音复刻。"
       },
       "Color": {
         "type": "object",
@@ -2406,19 +4136,19 @@
             "format": "int32",
             "readOnly": true
           },
-          "is_known_color": {
+          "isKnownColor": {
             "type": "boolean",
             "readOnly": true
           },
-          "is_empty": {
+          "isEmpty": {
             "type": "boolean",
             "readOnly": true
           },
-          "is_named_color": {
+          "isNamedColor": {
             "type": "boolean",
             "readOnly": true
           },
-          "is_system_color": {
+          "isSystemColor": {
             "type": "boolean",
             "readOnly": true
           },
@@ -2471,15 +4201,88 @@
         "additionalProperties": false,
         "description": "创建群聊。"
       },
+      "DatabaseQueryRequest": {
+        "type": "object",
+        "properties": {
+          "sql": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "数据库只读查询。仅支持 SELECT（含 WITH ... SELECT），不会自动追加当前微信号条件。"
+      },
+      "ForwardMessageTypeEnums": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "ForwardMultipleMessageRequest": {
+        "type": "object",
+        "properties": {
+          "who": {
+            "type": "string",
+            "nullable": true
+          },
+          "to": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "f_type": {
+            "$ref": "#/components/schemas/ForwardMessageTypeEnums"
+          },
+          "row_count": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "转发多条消息。"
+      },
+      "ForwardSingleMessageRequest": {
+        "type": "object",
+        "properties": {
+          "who": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "chat_simple_message": {
+            "$ref": "#/components/schemas/ChatSimpleMessage"
+          },
+          "to": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "prev_scroll_number": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "转发单条消息（message 与 chat_simple_message 二选一）。"
+      },
       "FriendInfo": {
         "type": "object",
         "properties": {
-          "nick_name": {
+          "nickName": {
             "type": "string",
             "description": "昵称",
             "nullable": true
           },
-          "memo_name": {
+          "memoName": {
             "type": "string",
             "description": "备注名",
             "nullable": true
@@ -2497,7 +4300,7 @@
             "description": "标签",
             "nullable": true
           },
-          "same_group_number": {
+          "sameGroupNumber": {
             "type": "string",
             "description": "共同群数量",
             "nullable": true
@@ -2512,30 +4315,30 @@
             "description": "来源",
             "nullable": true
           },
-          "wx_id": {
+          "wxId": {
             "type": "string",
             "description": "微信ID",
             "nullable": true
           },
-          "avatar_path": {
+          "avatarPath": {
             "type": "string",
             "description": "头像路径",
             "nullable": true
           },
-          "avatar_image": {
+          "avatarImage": {
             "$ref": "#/components/schemas/Image"
           },
-          "avatar_image_base64": {
+          "avatarImageBase64": {
             "type": "string",
             "nullable": true
           },
-          "friend_search_result": {
+          "friendSearchResult": {
             "$ref": "#/components/schemas/FriendSearchResultEnums"
           },
-          "chat_type": {
+          "chatType": {
             "$ref": "#/components/schemas/ChatType"
           },
-          "add_date_time": {
+          "addDateTime": {
             "type": "string",
             "description": "添加好友时间，>4.x版本才有此属性",
             "nullable": true
@@ -2550,14 +4353,30 @@
         "additionalProperties": false,
         "description": "个人信息"
       },
+      "FriendKeywordRuleRequest": {
+        "type": "object",
+        "properties": {
+          "suffix": {
+            "type": "string",
+            "nullable": true
+          },
+          "label": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "单个关键词对应的备注后缀和标签。"
+      },
       "FriendSearchResultEnums": {
         "enum": [
-          "Friend",
-          "No_Find",
-          "NotFriend"
+          0,
+          1,
+          2
         ],
-        "type": "string",
-        "description": "通过wxid查询，或者通过手机号查询结果枚举"
+        "type": "integer",
+        "description": "通过wxid查询，或者通过手机号查询结果枚举",
+        "format": "int32"
       },
       "GroupMemberRequest": {
         "type": "object",
@@ -2580,8 +4399,8 @@
       "Image": {
         "type": "object",
         "properties": {
-          "tag": { },
-          "physical_dimension": {
+          "tag": {},
+          "physicalDimension": {
             "$ref": "#/components/schemas/SizeF"
           },
           "size": {
@@ -2599,12 +4418,12 @@
             "default": false,
             "readOnly": true
           },
-          "horizontal_resolution": {
+          "horizontalResolution": {
             "type": "number",
             "format": "float",
             "readOnly": true
           },
-          "vertical_resolution": {
+          "verticalResolution": {
             "type": "number",
             "format": "float",
             "readOnly": true
@@ -2614,13 +4433,13 @@
             "format": "int32",
             "readOnly": true
           },
-          "raw_format": {
+          "rawFormat": {
             "$ref": "#/components/schemas/ImageFormat"
           },
-          "pixel_format": {
+          "pixelFormat": {
             "$ref": "#/components/schemas/PixelFormat"
           },
-          "property_id_list": {
+          "propertyIdList": {
             "type": "array",
             "items": {
               "type": "integer",
@@ -2629,7 +4448,7 @@
             "nullable": true,
             "readOnly": true
           },
-          "property_items": {
+          "propertyItems": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PropertyItem"
@@ -2640,7 +4459,7 @@
           "palette": {
             "$ref": "#/components/schemas/ColorPalette"
           },
-          "frame_dimensions_list": {
+          "frameDimensionsList": {
             "type": "array",
             "items": {
               "type": "string",
@@ -2695,25 +4514,53 @@
         "additionalProperties": false,
         "description": "定位会话。"
       },
+      "MomentsOptions": {
+        "type": "object",
+        "properties": {
+          "atUsrs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "朋友圈被@的好友",
+            "nullable": true
+          },
+          "labels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "朋友圈哪些设定的标签可以看，如果没有设置标签，则全部可见.",
+            "nullable": true
+          },
+          "isCloseMoments": {
+            "type": "boolean",
+            "description": "是否执行操作后关闭朋友圈,默认关闭，也可以设置为False,然后使用者可以手动关闭"
+          }
+        },
+        "additionalProperties": false,
+        "description": "朋友圈选项"
+      },
       "NavigationType": {
         "enum": [
-          "聊天",
-          "通讯录",
-          "收藏",
-          "聊天文件",
-          "朋友圈",
-          "搜一搜",
-          "视频号",
-          "看一看",
-          "小程序面板",
-          "手机",
-          "设置及其他",
-          "微信",
-          "游戏中心",
-          "更多"
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13
         ],
-        "type": "string",
-        "description": "导航栏类型"
+        "type": "integer",
+        "description": "导航栏类型",
+        "format": "int32"
       },
       "NotifyIconClickRequest": {
         "type": "object",
@@ -2731,32 +4578,65 @@
         "additionalProperties": false,
         "description": "点击任务栏微信图标。index 与 wechat_name 二选一。"
       },
+      "PassedAllNewFriendRequest": {
+        "type": "object",
+        "properties": {
+          "keyword": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "suffix": {
+            "type": "string",
+            "nullable": true
+          },
+          "label": {
+            "type": "string",
+            "nullable": true
+          },
+          "passed_delete": {
+            "type": "boolean"
+          },
+          "keyword_rules": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/FriendKeywordRuleRequest"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "批量通过新好友申请 / 启动自动通过监听。"
+      },
       "PixelFormat": {
         "enum": [
-          "DontCare",
-          "Max",
-          "Indexed",
-          "Gdi",
-          "Format16bppRgb555",
-          "Format16bppRgb565",
-          "Format24bppRgb",
-          "Format32bppRgb",
-          "Format1bppIndexed",
-          "Format4bppIndexed",
-          "Format8bppIndexed",
-          "Alpha",
-          "Format16bppArgb1555",
-          "PAlpha",
-          "Format32bppPArgb",
-          "Extended",
-          "Format16bppGrayScale",
-          "Format48bppRgb",
-          "Format64bppPArgb",
-          "Canonical",
-          "Format32bppArgb",
-          "Format64bppArgb"
+          0,
+          15,
+          65536,
+          131072,
+          135173,
+          135174,
+          137224,
+          139273,
+          196865,
+          197634,
+          198659,
+          262144,
+          397319,
+          524288,
+          925707,
+          1048576,
+          1052676,
+          1060876,
+          1851406,
+          2097152,
+          2498570,
+          3424269
         ],
-        "type": "string"
+        "type": "integer",
+        "format": "int32"
       },
       "PropertyItem": {
         "type": "object",
@@ -2781,6 +4661,24 @@
         },
         "additionalProperties": false
       },
+      "PullMessagesRequest": {
+        "type": "object",
+        "properties": {
+          "who": {
+            "type": "string",
+            "nullable": true
+          },
+          "max_fetch_number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "include_system_message": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "description": "轮询拉取消息。"
+      },
       "ReferenceRequest": {
         "type": "object",
         "properties": {
@@ -2802,6 +4700,17 @@
         },
         "additionalProperties": false,
         "description": "引用消息。优先使用 message（ChatSimpleMessage），否则使用 who + message_content。"
+      },
+      "RemoveMomentsRequest": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "删除自己发的朋友圈（按文字内容）。"
       },
       "RenameGroupRequest": {
         "type": "object",
@@ -2840,6 +4749,33 @@
         "additionalProperties": false,
         "description": "搜索会话。"
       },
+      "SendEmojiByWxidRequest": {
+        "type": "object",
+        "properties": {
+          "user_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "emoji": {
+            "type": "string",
+            "nullable": true
+          },
+          "index": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "at_users": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "按联系人 UserName 发送表情。emoji 与 index 二选一（优先 index）。"
+      },
       "SendEmojiRequest": {
         "type": "object",
         "properties": {
@@ -2869,6 +4805,24 @@
         "additionalProperties": false,
         "description": "发送表情。emoji 与 index 二选一（优先使用 index）。"
       },
+      "SendFileByWxidRequest": {
+        "type": "object",
+        "properties": {
+          "user_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "按联系人 UserName 发送文件。"
+      },
       "SendFileRequest": {
         "type": "object",
         "properties": {
@@ -2886,6 +4840,31 @@
         },
         "additionalProperties": false,
         "description": "发送文件。who 为空时发送给当前焦点聊天窗口。"
+      },
+      "SendMessageByWxidRequest": {
+        "type": "object",
+        "properties": {
+          "user_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "at_users": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "refer": {
+            "$ref": "#/components/schemas/ChatRefer"
+          }
+        },
+        "additionalProperties": false,
+        "description": "按联系人 UserName（wxid / 群 id）发送文本。user_name 必填。"
       },
       "SendMessageRequest": {
         "type": "object",
@@ -2931,6 +4910,21 @@
         "additionalProperties": false,
         "description": "发起多人语音聊天。who 为空时作用于当前焦点聊天窗口。"
       },
+      "SendVoiceMessageByWxidRequest": {
+        "type": "object",
+        "properties": {
+          "user_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "file_path": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "按联系人 UserName 发送语音文件。"
+      },
       "SendVoiceMessageRequest": {
         "type": "object",
         "properties": {
@@ -2945,6 +4939,31 @@
         },
         "additionalProperties": false,
         "description": "发送语音消息。who 为空时发送给当前焦点聊天窗口。"
+      },
+      "SendVoiceMessageTtsByWxidRequest": {
+        "type": "object",
+        "properties": {
+          "user_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "api_key": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "options": {
+            "$ref": "#/components/schemas/VoiceOptions"
+          },
+          "optimize_with_llm": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false,
+        "description": "按联系人 UserName 用 TTS 发送语音。"
       },
       "SendVoiceMessageTtsRequest": {
         "type": "object",
@@ -3002,7 +5021,7 @@
       "Size": {
         "type": "object",
         "properties": {
-          "is_empty": {
+          "isEmpty": {
             "type": "boolean",
             "readOnly": true
           },
@@ -3020,7 +5039,7 @@
       "SizeF": {
         "type": "object",
         "properties": {
-          "is_empty": {
+          "isEmpty": {
             "type": "boolean",
             "readOnly": true
           },
@@ -3099,7 +5118,7 @@
             "description": "语音合成模型。Qwen-Audio-TTS 系列均支持指令控制、声音复刻与流式输出。\r\n可选值：qwen-audio-3.1-tts-flash（默认，系统音色最丰富）、qwen-audio-3.0-tts-flash、qwen-audio-3.0-tts-plus（官方推荐，适合克隆/设计音色）。",
             "nullable": true
           },
-          "language_type": {
+          "languageType": {
             "type": "string",
             "description": "语言类型。Qwen-Audio-TTS 已不再使用该参数（由音色自身或指令控制决定），保留仅为向后兼容。",
             "nullable": true
@@ -3133,11 +5152,11 @@
             "format": "int32",
             "nullable": true
           },
-          "optimize_instructions": {
+          "optimizeInstructions": {
             "type": "boolean",
             "description": "是否在发送前用LLM进行口语化校核"
           },
-          "is_stream": {
+          "isStream": {
             "type": "boolean"
           }
         },
@@ -3166,7 +5185,7 @@
   },
   "security": [
     {
-      "ApiKey": [ ]
+      "ApiKey": []
     }
   ],
   "tags": [
@@ -3177,6 +5196,9 @@
       "name": "Conversations"
     },
     {
+      "name": "Database"
+    },
+    {
       "name": "Friends"
     },
     {
@@ -3184,6 +5206,9 @@
     },
     {
       "name": "Messages"
+    },
+    {
+      "name": "Moments"
     },
     {
       "name": "Navigation"
