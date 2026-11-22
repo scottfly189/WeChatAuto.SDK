@@ -1186,9 +1186,12 @@ var serviceProvider = WeAutomation.Initialize(options =>
     //    如果明确知道路径，也可以手动指定；多微信必须填同一个路径
     // options.WeChatStorageRoot = @"D:\xwechat_files";
 
-    // 3. 中间表数据库：默认 SQLite，文件会落在当前工作目录
+    // 3. 中间表数据库：默认 SQLite，文件会落在当前工作目录,可以换成 SQL Server / MySQL / PostgreSQL等数据库;
     options.DbTppe = DbType.Sqlite;
     options.ConnectionString = "Data Source=wechat.db";
+    //可选 启用vss卷快照与直连访问微信数据库，默认都为True,如果 HotSyncVssSource=false,HotSyncLiveSource=true,则仅使用直连访问微信数据库的方式
+    // options.HotSyncVssSource = true;  
+    // options.HotSyncLiveSource = true;
 
     // 可选：首轮往回补多少天历史（默认 30；0 表示只同步启动后的新消息）
     // options.FirstRunDays = 30;
