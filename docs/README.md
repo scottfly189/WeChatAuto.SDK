@@ -63,7 +63,7 @@ WeChatAuto.SDK 提供两种接入方式，核心能力是同一套，按你的�
 # 🏗️ 总体架构
 
 <div align="center">
-<img src="images/jg.png" alt="WeChatAuto.SDK 总体架构：业务系统通过标准 SQL 或 HTTP API 访问中间数据库；读链路来自微信本地数据库快照，写链路通过界面自动化操作微信客户端" width="1200px" />
+<img src="images/jg.png" alt="WeChatAuto.SDK 总体架构：业务系统通过标准 SQL 或 HTTP API 访问中间数据库；读链路来自微信本地数据库快照，写链路通过界面自动化操作微信客户端" width="900px" />
 </div>
 
 这张图把 SDK 分成三条线：
