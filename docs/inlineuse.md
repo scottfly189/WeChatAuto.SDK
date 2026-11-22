@@ -253,22 +253,169 @@ app.MapGet("/send", async (string who, string message, IServiceProvider sp) =>
 app.Run();
 ```
 
-### 6.3 常用配置项（`WeChatConfig`）
+### 6.3 配置项说明（WeChatConfig.cs）
 
-| 配置项 | 默认 | 说明 |
-|---|---|---|
-| `EnableOCR` | `false` | 是否启用 OCR（部分能力必需，需放置 models 目录） |
-| `IsForceOpenUITree` | `false` | 微信未公开 UI Tree 时是否强开 |
-| `IsOptimizeMainWindowLayout` | `true` | 启动时是否自动排列/优化主窗口布局 |
-| `DebugMode` | `false` | 调试模式，开启后获得焦点时高亮边框 |
-| `InitAdressBook` | `false` | 是否启动即初始化通讯录缓存，**以 wxid 为核心业务强烈建议开启** |
-| `DefaultSavePath` | `wxauto_download` | 下载文件/图片默认保存路径 |
-| `EnableRecordVideo` / `TargetVideoPath` | `false` | 是否录制视频及保存路径（依赖 ffmpeg） |
-| `EnableMouseKeyboardSimulator` | `false` | 是否启用硬件键鼠模拟器（需购买设备） |
-| `ProcessDpiAwareness` | `1` | DPI 感知级别（应用已设置 DPI 感知则此参数无效） |
-| `ListenInterval` 等 | 见源码 | 各类监听的时间间隔（秒） |
+这一节把 `WeChatConfig` 里的字段一次讲全。你不需要一次记住，用到哪个查哪个。
 
-> 完整配置项见 `WeAutoCommon.Configs.WeChatConfig`，多数字段同时支持 snake_case 的 JSON 序列化名。
+表格里的默认值以**代码里的初始值**为准；`💎` 表示这是 VIP 版才用得到的能力，社区版保持默认即可，不需要改。少数字段的注释里还写着旧默认值，和代码不一致时以表格为准：例如 `HotSyncVssSource`、`HotSyncLiveSource`、`IsForceOpenUITree` 的代码初始值都是 `true`，旧注释里写的是 `false`。
+
+| 配置项 | 默认值 | 适用版本 | 说明 |
+|---|---|---|---|
+| `UseDatabaseRead` | `false` | 💎 VIP | 是否启用“数据库安全读取 / 热同步”。`false` 是纯 UI 自动化；`true` 才会读微信数据库、建中间表。只做发送、监听、界面操作时保持 `false` 即可。 |
+| `WeChatStorageRoot` | 空 | 💎 VIP | 微信数据存储根目录，例如 `D:\xwechat_files`。只有 `UseDatabaseRead=true` 才用得到；留空会自动读取并缓存，多微信共用同一个根目录；显式配置且目录存在时以配置为准。 |
+| `DbTppe` | `Sqlite` | 💎 VIP | 中间表数据库类型，对应 SqlSugar 的 `DbType`。注意代码里的字段名就是 `DbTppe`，不是 `DbType`，写代码时照抄，不要自己改。默认 SQLite，也可以换成 SQL Server、MySQL、PostgreSQL、Oracle 等。 |
+| `ConnectionString` | `Data Source=wechat.db` | 💎 VIP | 中间表连接字符串，和 `DbTppe` 配套使用。默认是当前目录下的 SQLite 文件；换其他数据库时，按对应数据库的格式填写。 |
+| `FirstRunDays` | `30` | 💎 VIP | 账号第一次同步时，往回补多少天的历史消息。`0` 表示首轮不补历史，只同步启动之后的新消息；负数按 `0` 处理，只记日志，不会报错。 |
+| `HotSyncVssSource` | `true` | 💎 VIP | 是否用 VSS 卷快照作为热同步的只读源。开启后不用整库拷贝，按源库变化和最小间隔创建或复用快照；需要管理员权限和 VSS，失败时回退到 live（如果开启了 live）。 |
+| `HotSyncLiveSource` | `true` | 💎 VIP | VSS 不可用或失败时，是否直接以只读方式打开微信源库。优先级低于 VSS；两个都开时先试 VSS，失败再 live；两个都关且 VSS 失败时会报错。 |
+| `HotSyncFirstRunTextOnly` | `false` | 💎 VIP | 首轮只同步文字：历史的图片、文件、视频只保留 `[图片]`、`[文件]`、`[视频]` 占位，不做路径解析、解密和下载；增量轮次会恢复正常媒体处理。语音不受影响，仍由 `AsrIncludeFirstRound` 控制。 |
+| `HotSyncCopyLog` | `false` | 💎 VIP | 是否把热同步的 VSS / live 源读取诊断日志写到独立文件。开启后写到 `%LOCALAPPDATA%\WeChatAuto\logs\hotsync-copy.log`，用来排查“几十 GB 的大库慢在哪个库、有没有反复重试”；对同步逻辑没有影响。 |
+| `SnsFirstRunDays` | `0` | 💎 VIP | 朋友圈首次同步往回看多少天。**`0` 或负数表示全量回补**，和 `FirstRunDays` 的语义正好相反，不要混用。只影响还没有朋友圈水位的账号。 |
+| `DownloadSnsImages` | `false` | 💎 VIP | 是否下载朋友圈图片 / 视频到本机。默认关闭；开启后由独立的旁路后台任务处理，不进入热同步主循环，只处理待下载媒体，成功或永久失败都会写状态。 |
+| `HotSyncVssMinIntervalSeconds` | `2.0` | 💎 VIP | 两次新建 VSS 快照的最小间隔（秒）。源库没有变化时不会新建快照。 |
+| `MediaCacheDir` | 空 | 💎 VIP | 消息媒体缓存根目录，存放图片、语音解密后的文件。为空时用 `%LOCALAPPDATA%\WeChatAuto\media-cache`；支持绝对路径和 `%ENV%` 环境变量。 |
+| `AsrEnabled` | `false` | 💎 VIP | 是否启用本地语音转写：增量同步到的语音会在后台转成文字，回写到中间表的 `wechat_message.Content`。首轮默认不转写。模型需要自己下载并放到 `AsrModelDir`，SDK 不随包提供模型。 |
+| `AsrIncludeFirstRound` | `false` | 💎 VIP | 首轮同步是否也做语音转写。默认只在增量轮次转写，避免首轮全量同步时和 ASR 抢 CPU；打开它只是性能取舍，不是功能差异。 |
+| `AsrModelDir` | 空 | 💎 VIP | ASR 模型目录。启用语音转写时必填，目录下直接放 `model.int8.onnx`（或 `model.onnx`）和 `tokens.txt`；支持绝对路径和 `%ENV%`。 |
+| `AsrModelDownloadUrl` | 默认 R2 地址 | 💎 VIP | 模型下载地址，只用于说明和日志提示，**不会自动下载**。换自建镜像时改这里，模型不可用的日志会带上这个地址，方便排查。 |
+| `AsrModelName` | `sensevoice-small-int8` | 💎 VIP | 模型标识，写入日志和中间表，方便知道这条转写是哪个模型产生的。 |
+| `AsrNumThreads` | `2` | 💎 VIP | ASR 在 onnxruntime 里的线程数。CPU 场景建议 1–4，不是越大越快。 |
+| `AsrLanguage` | `auto` | 💎 VIP | 语种：`auto`（自动识别）、`zh`（中文）、`yue`（粤语）、`en`、`ja`、`ko`。 |
+| `AsrUseItn` | `true` | 💎 VIP | 是否启用 SenseVoice 的逆文本归一化，把数字、日期等转成更自然的写法。 |
+| `AsrContentPrefix` | 空 | 💎 VIP | 写入 `Content` 的前缀。默认只写转写文本；设成 `[语音] ` 可以保留“这是语音”的标记，同时让检索和机器人还能拿到文本。 |
+| `AsrQueueCapacity` | `512` | 💎 VIP | ASR 后台队列容量。队列满时丢弃新任务，不会影响同步主链路。 |
+| `AsrMaxSeconds` | `120` | 💎 VIP | 超过这个秒数的音频跳过转写。微信语音通常不到 60 秒，默认值已经够用。 |
+| `SnsMediaDir` | 空 | 💎 VIP | 朋友圈下载媒体的根目录。为空时用 `%LOCALAPPDATA%\WeChatAuto\sns-media`；支持绝对路径和 `%ENV%`。 |
+| `StartupSyncOverlayFactory` | 空 | 💎 VIP | “进入系统”启动同步轮的提示窗口工厂，只在这个启动轮调用，运行期增量不再提示。标了 `[JsonIgnore]`，**不参与 JSON 配置**，要在 `WeAutomation.Initialize` 的配置回调里设置。 |
+| `IsForceOpenUITree` | `true` | 社区 + VIP | 微信没有公开 UI Tree 时，是否强开 UI Tree。默认开启；普通环境建议保持开启，关掉后很多界面操作会找不到控件。它只影响界面自动化，不参与数据库读取。 |
+| `IsOptimizeMainWindowLayout` | `true` | 社区 + VIP | 启动时是否自动优化微信主窗口布局，默认优化；不想让 SDK 动窗口时可以关掉。 |
+| `MonitorMessageMaxDownInterval` | `8` | 社区 + VIP | UI 自动化消息监听时向下滚动的次数。监听列表多建议 10–30，少建议 5–10，太大会拖慢监听。 |
+| `MonitorNewFriendRequestInterval` | `20` | 社区 + VIP | 好友申请监听的间隔，单位秒。 |
+| `MonitorInterval` | `3` | 社区 + VIP | 固定式消息监听的间隔，单位秒。注意：消息读取官方推荐以 Database Read 为主（💎 VIP）。 |
+| `ConversationInterval` | `5` | 社区 + VIP | 会话列表鼠标滚动的行数。 |
+| `MonentsScrollMaxStep` | `30` | 社区 + VIP | 滚动删除朋友圈内容时的最大滚动次数。朋友圈内容多时可以调大。 |
+| `EnableOCR` | `false` | 社区 + VIP | 是否启用 OCR。部分功能受微信限制必须用 OCR；启用时要把模型放到 `models/` 目录，并配置下面几个模型路径。UI 自动化消息监听建议开启；数据库读取不需要 OCR。 |
+| `OCRDetModelFilePath` | `PP-OCRv6_det_small.onnx` | 社区 + VIP | OCR 检测模型路径。 |
+| `OCRClsModelFilePath` | `ch_ppocr_mobile_v2.0_cls_mobile.onnx` | 社区 + VIP | OCR 方向分类模型路径。 |
+| `OCRRecModelFilePath` | `PP-OCRv6_rec_small.onnx` | 社区 + VIP | OCR 文字识别模型路径。 |
+| `OCRDictModelFilePath` | `ppocrv6_dict.txt` | 社区 + VIP | OCR 字典文件路径。 |
+| `DebugMode` | `false` | 社区 + VIP | 调试模式。开启后获得焦点时会高亮边框，方便定位当前操作的是哪个控件。 |
+| `CaptureUIPath` | 当前目录下 `Captures` | 社区 + VIP | 出错时捕获 UI 截图的保存路径。 |
+| `EnableRecordVideo` | `false` | 社区 + VIP | 是否启用视频录制。开启后依赖 ffmpeg，第一次使用可能会自动下载。 |
+| `TargetVideoPath` | 当前目录下 `Videos` | 社区 + VIP | 录制视频的保存路径。 |
+| `EnableMouseKeyboardSimulator` | `false` | 社区 + VIP | 是否启用硬件键鼠模拟器。启用后键鼠操作走模拟器，而不是 Windows 自动化；需要购买对应设备。 |
+| `KMDeviceVID` | `0x1701` | 社区 + VIP | 键鼠模拟器设备 VID。 |
+| `KMDevicePID` | `0x2612` | 社区 + VIP | 键鼠模拟器设备 PID。 |
+| `KMVerifyUserData` | `4F6A21981BE675822DEE7B9BC39F3791` | 社区 + VIP | 键鼠模拟器校验数据。 |
+| `KMOffsetOfClick` | `5` | 社区 + VIP | 点击偏移量，单位像素。实际点击位置会减去一个随机偏移，避免每次都点同一个点。 |
+| `KMOutputStringType` | `0` | 社区 + VIP | 模拟器输出字符串的编码方式：`0` ANSI、`1` Unicode、`2` ANSI 更快但受输入法影响、`3` Unicode 更快但受输入法影响、`4` 剪贴板粘贴（长文本更快，且不受输入法影响）。 |
+| `KMMouseMoveMode` | `0` | 社区 + VIP | 模拟器鼠标移动模式。 |
+| `ProcessDpiAwareness` | `1` | 社区 + VIP | 进程 DPI 感知：`0` 不设置、`1` 系统 DPI、`2` 每显示器 DPI。如果使用 SDK 的应用已经设置过 DPI 感知，这个参数无效。 |
+| `HistoryMessageOffset_X` | `77` | 社区 + VIP | 历史消息 X 偏移距离，界面自动化滚动和定位时用。 |
+| `HistoryMessageOffset_Y` | `40` | 社区 + VIP | 历史消息 Y 偏移距离。 |
+| `HistoryRetryNumber` | `6` | 社区 + VIP | 历史消息滚动时的重试次数。 |
+| `AvatorToWeixinButtonOffsetY` | `40` | 社区 + VIP | 头像按钮距离微信按钮的 Y 轴偏移量。 |
+| `MaxHistoryMessageFetchNumber` | `40` | 社区 + VIP | UI 自动化消息监听时，回调最多返回多少条历史消息。通常不需要读完整历史，默认 40 条够用；消息读取官方推荐以 Database Read 为主（💎 VIP）。 |
+
+> 配置项名称就是 C# 字段名。若通过 JSON 配置，优先看字段上的 `[JsonPropertyName]`（例如 `first_run_days`、`hotsync_copy_log`）；没有标注的字段，按你们的 JSON 序列化命名规则来写，拿不准就用代码方式设置。`StartupSyncOverlayFactory` 标了 `[JsonIgnore]`，只能通过代码设置。
+
+#### 重要配置项说明
+
+##### `UseDatabaseRead`（默认 `false`，💎 VIP）
+
+这是“要不要读微信数据库”的总开关，也是最容易影响使用方式的一项。
+
+- 保持 `false`：SDK 只通过界面自动化操作微信，能发消息、监听、加好友、管理群；不读数据库，也不需要配置存储目录和数据库连接。
+- 改成 `true`：才会启用 VIP 的数据库安全读取和热同步，把联系人、消息、群成员、朋友圈同步到中间表；这时才需要关心 `WeChatStorageRoot`、`DbTppe`、`ConnectionString` 这些配置。
+- 如果你只是做一个“帮我发消息、盯新消息”的机器人，保持默认 `false` 就行；要做数据平台、历史查询、多账号聚合，再打开它。
+
+##### `WeChatStorageRoot`（默认空，💎 VIP）
+
+微信把聊天数据放在一个“存储位置”里，常见形式是 `D:\xwechat_files`。
+
+- 一般不用填：留空时，SDK 会在第一个微信客户端启动、真正需要读数据库时，自动读一次微信的设置，然后把结果缓存到 `%LOCALAPPDATA%\WeChatAuto\wechatkey.dat`；之后启动直接读缓存，不会再操作微信设置窗口。
+- 多个微信要填成同一个路径，微信自己也是这么设计的；不要一个号填一个路径。
+- 如果你明确知道路径，也可以手动填；填了并且目录存在时，以你填的为准，同时会顺手写回缓存。
+- 只有 `UseDatabaseRead=true` 时这项才有意义。
+
+##### `DbTppe`（默认 `Sqlite`，💎 VIP）
+
+这是中间表使用的数据库类型。
+
+- 代码里的字段名就是 `DbTppe`，不是 `DbType`，这是一个历史拼写；写代码或配置时照抄，不要自己改成 `DbType`，否则编译不过。
+- 默认 `Sqlite`，数据落在 `ConnectionString` 指定的 `.db` 文件里，适合单机、小规模、快速上手。
+- 数据量大、要多系统共享时，可以换成 SQL Server、MySQL、PostgreSQL、Oracle 等；换之前先确认目标数据库已建好、账号有建表和写数据权限。
+- 它只影响 VIP 的中间表和数据库读取，和社区版的界面自动化无关。
+
+##### `ConnectionString`（默认 `Data Source=wechat.db`，💎 VIP）
+
+这是中间表的连接字符串，和 `DbTppe` 必须配套。
+
+- 默认是当前目录下的 SQLite 文件 `wechat.db`，不需要装数据库，适合先跑通。
+- 换 SQL Server、MySQL、PostgreSQL 等时，按对应数据库的标准格式填写；不要只改 `DbTppe` 不改连接字符串，也不要只改连接字符串不改 `DbTppe`。
+- 连接字符串里通常包含账号密码，注意不要把它提交到公开仓库或发给无关人员。
+
+##### `FirstRunDays`（默认 `30`，💎 VIP）
+
+账号第一次同步时，往回补多少天的历史消息。
+
+- 默认补 30 天，适合大多数“先看到最近一个月”的场景。
+- 设为 `0`：首轮不补历史，只同步从启动时刻开始的新消息；适合只想从今天开始接数据的业务。
+- 设为负数：按 `0` 处理，只记一条日志，不会抛异常或中断启动。
+- 注意：这是“消息”的语义；朋友圈的 `SnsFirstRunDays` 是另一套规则，`0` 表示全量回补，不要混用。
+
+##### `HotSyncVssSource`（默认 `true`，💎 VIP）
+
+热同步读取微信数据库时，是否使用 Windows 的 VSS 卷快照。
+
+- VSS 可以理解成“给磁盘拍一个瞬间快照”，SDK 读快照，不直接读正在写的微信库，也不用把几十 GB 的库整个拷贝一份。
+- 开启后需要管理员权限和 VSS 服务；每一轮会根据源库有没有变化、以及最小间隔，决定新建还是复用快照。
+- 如果 VSS 不可用（权限、系统限制、杀毒软件拦截等），会回退到 `HotSyncLiveSource`；如果 live 也关了，就会报错。
+- 大库、长期运行，建议保持开启；小库、VSS 经常失败的环境，可以关掉它、只开 live。
+
+##### `HotSyncLiveSource`（默认 `true`，💎 VIP）
+
+VSS 不可用或失败时，是否直接以只读方式打开微信源库。
+
+- 它的优先级比 VSS 低：两个都开时，先试 VSS，失败才用 live。
+- live 是“直接读微信正在用的库”，不需要 VSS 权限，但更依赖微信自己的写入节奏；适合作为兜底方案。
+- 两个都关掉，又遇到 VSS 失败，热同步会报错；一般不建议两个都关。
+- 常见组合：VSS 开 + live 开（默认，最稳）；VSS 关 + live 开（VSS 权限搞不定时）；VSS 开 + live 关（只允许快照，不允许直接读源库）。
+
+##### `HotSyncFirstRunTextOnly`（默认 `false`，💎 VIP）
+
+首轮同步时，是否只同步文字。
+
+- 开启后，首轮遇到图片、文件、视频只写 `[图片]`、`[文件]`、`[视频]` 占位，不去解析路径、解密或下载；这样首轮会快很多。
+- 增量轮次会恢复正常媒体处理，所以不用担心“开了就永远没有图片”。
+- 语音不受这个开关影响，仍然由 `AsrIncludeFirstRound` 控制首轮要不要转写。
+- 历史媒体很多、首轮想先快速把文字接进来时，可以打开；不着急、希望首轮就带媒体，就保持 `false`。
+
+##### `HotSyncCopyLog`（默认 `false`，💎 VIP）
+
+是否把热同步读取源库的诊断日志单独写一个文件。
+
+- 开启后写到 `%LOCALAPPDATA%\WeChatAuto\logs\hotsync-copy.log`，每行会记录开始、进度、重试、完成、失败，以及是哪个库、多大、耗时多少。
+- 它的用途是排查“几十 GB 的大库到底慢在哪个库、有没有反复重试”，对同步逻辑本身没有影响，也不会改数据。
+- 平时可以关着；现场排查大库问题时再打开，排查完关掉即可。
+
+##### `MediaCacheDir`（默认空，💎 VIP）
+
+消息媒体缓存根目录，用来放图片、语音解密后的文件。
+
+- 为空时用 `%LOCALAPPDATA%\WeChatAuto\media-cache`，一般不需要改。
+- 支持绝对路径和 `%ENV%` 环境变量；C 盘空间紧张时，可以指到 D 盘等大容量磁盘。
+- 它和 `SnsMediaDir` 不是一回事：`MediaCacheDir` 放聊天消息的媒体，`SnsMediaDir` 放朋友圈下载的媒体。
+- 只有 VIP 的数据库读取 / 媒体同步会用到。
+
+##### `IsForceOpenUITree`（默认 `true`，社区 + VIP）
+
+微信默认不一定会把 UI Tree 暴露给外部程序；没有 UI Tree，界面自动化就很难找到控件。
+
+- 开启后，SDK 会在启动阶段扫描 `weixin.dll` 里的门控字节并写入，让微信把 UI Tree 暴露出来；这是启动阶段的兼容处理，不参与业务数据读写。
+- 默认是开启的；普通环境建议保持开启。关掉后，很多界面操作会找不到控件，除非你确认当前微信版本本身已经开放了 UI Tree。
+- 它只影响界面自动化，和 `UseDatabaseRead`、数据库读取没有关系；数据库读取不需要强开 UI Tree。
+- 如果企业电脑有杀毒软件、EDR 或强管控，写入 `weixin.dll` 可能被拦截；这时可以和 IT 确认后再决定是否开启，或者只用 VIP 的数据库读取能力。
 
 ---
 
