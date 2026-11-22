@@ -180,7 +180,7 @@ WeAutomation.Initialize(...)        // 初始化入口（全局唯一）
                         ├── Conversations    会话列表
                         ├── ChatContent      聊天内容 / 发送
                         ├── AddressBookList  通讯录
-                        ├── MessageMonitor   消息监听 💎
+                        ├── MessageMonitor   消息监听 
                         ├── NewFriendMonitor 新好友监听 💎
                         ├── Moments          朋友圈 💎
                         ├── OwnerGroup       自有群
@@ -423,7 +423,7 @@ VSS 不可用或失败时，是否直接以只读方式打开微信源库。
 
 > 以下示例均假设已拿到 `client`（`WeChatClient`）与 `factory`（`WeChatClientFactory`），并按需引入命名空间：`WeChatAuto.Services`、`WeChatAuto.Components`、`WeChatAuto.Models`、`WeChatAuto.Options`、`WeAutoCommon.Enums`。社区版 / VIP 版能力差异见 [WECHATAUTO.SDK 能力表](./ability.md)。
 >
-> 7.12 是 VIP 的数据库读取（Database Read），社区版没有；7.13 的按 WxId 精准发送也只在 VIP 版提供。
+> 7.12 是 VIP 的数据库读取（Database Read），社区版没有；7.3 里的“按 WxId 精准发送”也只在 VIP 版提供。
 
 ### 7.1 获取微信客户端
 
@@ -796,6 +796,37 @@ await client.SendVoiceMessageWithTTS("某好友", "sk-xxx", "你好",
 | `SendVoiceMessageWithTTSAndClose(...)` | TTS 发语音后关闭窗口 |
 
 > `SendVoiceMessageAndClose` 和 `SendVoiceMessageWithTTSAndClose` 仍然依赖虚拟声卡（Cable input/output），和普通语音发送的要求一样。
+
+#### 按 WxId 精准发送（💎）
+
+> 这一小节对应 `WeChatClient_Vip.cs` 的 `#region 按 username 发送`。它先到中间表里按 `UserName`（好友 wxid / 群 `xxx@chatroom`）找到联系人，再用联系人的 `ShowName` 调用普通发送方法，所以叫“按 WxId 精准发送”，但群聊传的是群 id。
+
+| 方法 | 说明 |
+|---|---|
+| `SendMessageByWxid(userName, message, atUser, refer)` | 按 username 发文本，支持 @ 和引用 |
+| `SendFileByWxid(userName, files)` | 按 username 发文件 |
+| `SendEmojiByWxid(userName, emoji, atUserList)` | 按 username 发表情 |
+| `SendVoiceMessageByWxid(userName, filePath)` | 按 username 发语音文件（需要虚拟声卡） |
+| `SendVoiceMessageWithTTSByWxid(userName, apiKey, message, options, optimizeWithLlm, customProcess)` | 按 username 用 TTS 发语音 |
+
+```csharp
+// 按好友 wxid 发文本
+bool ok = await client.SendMessageByWxid("wxid_xxx", "你好");
+
+// 按群 id 发文件（群 id 形如 xxx@chatroom）
+bool fileOk = await client.SendFileByWxid("1234567890@chatroom", new[] { @"C:\report.pdf" });
+
+// 按 wxid 用 TTS 发语音
+bool voiceOk = await client.SendVoiceMessageWithTTSByWxid(
+    "wxid_xxx", "sk-你的千问APIKey", "你好",
+    new VoiceOptions { Voice = "longanhuan_v3.1" });
+```
+
+> **返回值怎么理解**：成功不是看界面有没有弹提示，而是发送前记下当前账号的最大 `SortSeq`，发送后最多等 8 秒、每 3 秒查一次，目标会话出现 `IsSelf` 且 `SortSeq` 更大的消息才算成功。
+>
+> **重名风险**：如果两个好友的备注/昵称完全相同，底层仍然可能点错人；水位是按目标 `ChatUsername` 过滤的，点错时会返回 `false`，但消息可能已经发出去。对重名联系人，建议先改成唯一备注，或者用 `GetContact` 拿到 `UserName` 后再确认真实身份。
+>
+> `userName` 不存在于中间表、或者 `ShowName` 为空时，这些方法直接返回 `false`，不会抛异常。
 
 ### 7.4 获取消息与聊天历史
 
@@ -1288,37 +1319,6 @@ VIP 中间表一共 7 张：
 5. **大整数按 64 位处理**：`Tid`、`LocalId`、`ServerId`、`SortSeq`、`LocalType`、`MsgCreateTime` 都可能超过 32 位整数范围。
 
 > `client.Query(...)` 只适合临时查数：它不会自动帮你加 `FromWechatWxId` 条件，也不做写入。真正常态化的报表，建议直接连中间库、用视图或定时任务跑，别把复杂 SQL 塞在业务代码里。
-
-### 7.13 按 WxId 精准发送（💎）
-
-> 这一节对应 `WeChatClient_Vip.cs` 的 `#region 按 username 发送`。它先到中间表里按 `UserName`（好友 wxid / 群 `xxx@chatroom`）找到联系人，再用联系人的 `ShowName` 调用普通发送方法，所以叫“按 WxId 精准发送”，但群聊传的是群 id。
-
-| 方法 | 说明 |
-|---|---|
-| `SendMessageByWxid(userName, message, atUser, refer)` | 按 username 发文本，支持 @ 和引用 |
-| `SendFileByWxid(userName, files)` | 按 username 发文件 |
-| `SendEmojiByWxid(userName, emoji, atUserList)` | 按 username 发表情 |
-| `SendVoiceMessageByWxid(userName, filePath)` | 按 username 发语音文件（需要虚拟声卡） |
-| `SendVoiceMessageWithTTSByWxid(userName, apiKey, message, options, optimizeWithLlm, customProcess)` | 按 username 用 TTS 发语音 |
-
-```csharp
-// 按好友 wxid 发文本
-bool ok = await client.SendMessageByWxid("wxid_xxx", "你好");
-
-// 按群 id 发文件（群 id 形如 xxx@chatroom）
-bool fileOk = await client.SendFileByWxid("1234567890@chatroom", new[] { @"C:\report.pdf" });
-
-// 按 wxid 用 TTS 发语音
-bool voiceOk = await client.SendVoiceMessageWithTTSByWxid(
-    "wxid_xxx", "sk-你的千问APIKey", "你好",
-    new VoiceOptions { Voice = "longanhuan_v3.1" });
-```
-
-> **返回值怎么理解**：成功不是看界面有没有弹提示，而是发送前记下当前账号的最大 `SortSeq`，发送后最多等 8 秒、每 3 秒查一次，目标会话出现 `IsSelf` 且 `SortSeq` 更大的消息才算成功。
->
-> **重名风险**：如果两个好友的备注/昵称完全相同，底层仍然可能点错人；水位是按目标 `ChatUsername` 过滤的，点错时会返回 `false`，但消息可能已经发出去。对重名联系人，建议先改成唯一备注，或者用 `GetContact` 拿到 `UserName` 后再确认真实身份。
->
-> `userName` 不存在于中间表、或者 `ShowName` 为空时，这些方法直接返回 `false`，不会抛异常。
 
 ---
 
