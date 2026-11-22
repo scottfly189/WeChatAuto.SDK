@@ -18,7 +18,8 @@ namespace WeAutoCommon.Configs
     public class WeChatConfig
     {
         /// <summary>
-        /// 微信数据库安全读取方案，也是默认的方案，如果设置为 False,那么为纯ui automation方案;
+        /// 是否启用微信数据库安全读取（VIP）。默认 <c>false</c>，即纯 UI Automation；
+        /// 设为 <c>true</c> 后启用数据库读取 / 热同步，需要配置微信存储目录和数据库连接。
         /// </summary>
         public bool UseDatabaseRead { get; set; } = false;
 
@@ -55,7 +56,7 @@ namespace WeAutoCommon.Configs
         public int FirstRunDays { get; set; } = 30;
 
         /// <summary>
-        /// 是否用 VSS 卷快照作为 hot-sync 只读源（默认 <c>false</c>）。
+        /// 是否用 VSS 卷快照作为 hot-sync 只读源（默认 <c>true</c>）。
         /// <para>
         /// 开启后首轮/增量都不再整库拷贝；每轮按源库变化/最小间隔创建或复用快照，
         /// 读 db+wal；需要管理员/VSS，失败回退 live（若开启），否则报错。
@@ -65,7 +66,7 @@ namespace WeAutoCommon.Configs
         public bool HotSyncVssSource { get; set; } = true;
 
         /// <summary>
-        /// VSS 不可用/失败时是否直接只读打开微信源库（默认 <c>false</c>）。
+        /// VSS 不可用/失败时是否直接只读打开微信源库（默认 <c>true</c>）。
         /// 优先级低于 <see cref="HotSyncVssSource"/>；两者都开时先 VSS，失败才 live。
         /// </summary>
         [JsonPropertyName("hotsync_live_source")]
@@ -219,7 +220,7 @@ namespace WeAutoCommon.Configs
         public Func<string, IntPtr, IDisposable> StartupSyncOverlayFactory { get; set; }
 
         /// <summary>
-        /// 在微信的UI Tree未被腾迅公开的情况下是否强开UI Tree,默认为False
+        /// 在微信的 UI Tree 未被腾讯公开的情况下是否强开 UI Tree，默认 <c>true</c>。
         /// </summary>
         public bool IsForceOpenUITree { get; set; } = true;
 
