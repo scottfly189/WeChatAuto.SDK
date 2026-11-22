@@ -1,48 +1,65 @@
 # HttpSupport 客户端 SDK（多语言）
 
-本目录包含由服务端 `swagger.json` 自动生成的各语言客户端调用代码与单元测试。
+本目录是 **OpenAPI Generator 7.27.0** 根据 `HttpSupport/Server/Docs/api-site/swagger.json` 生成的标准客户端：
 
-> ⚠️ **重要声明**：以下所有客户端代码均由 `swagger.json` 自动生成，**未经充分测试**。
-> 接口的准确行为请以官方文档为准：`HttpSupport/Server/Docs/api-site/swagger.json` 与 `HttpSupport/Server/Docs/API接入指南.md`。
+- **115 个 HTTP 接口**
+- **58 个 `components.schemas`**
+- 按模块生成 API 类：`ClientsApi`、`ConversationsApi`、`DatabaseApi`、`FriendsApi`、`GroupsApi`、`MessagesApi`、`MomentsApi`、`NavigationApi`、`WindowApi`
+
+> 本次已用标准 OpenAPI Generator 重新生成，**替换了之前手写的统一 `WeChatAutoClient` 封装**。方法名、返回类型和目录结构以各语言生成结果为准；旧的调用代码需要按新 API 调整。
 
 ## 公共约定
 
 | 项目 | 值 |
 | --- | --- |
 | 默认 Base URL | `http://localhost:5000`（来自 `App.json` 的 `Http.Port`） |
-| 鉴权 | 可选 `X-API-Key` 请求头（来自 `App.json` 的 `Http.ApiKey`，为空时服务端不校验） |
-| 接口前缀 | 所有接口均在 `/api/v1/...` 下 |
-| 接口数量 | 65 个（7 个分组：Clients / Conversations / Friends / Groups / Messages / Navigation / Window） |
-| 数据模型 | 42 个 `components.schemas` |
-| 响应类型 | swagger 中所有响应仅声明 `200 OK`、无 schema，因此各客户端统一返回原始 JSON，未臆造响应 DTO |
+| 鉴权 | 可选 `X-API-Key` 请求头（`App.json` 的 `Http.ApiKey`，为空时服务端不校验） |
+| 接口前缀 | `/api/v1/...` |
+| 字段命名 | 传输层保持 swagger 的 `snake_case` |
+| 响应 | 以 swagger 中各接口的 schema 为准；生成器会按 schema 生成响应模型 |
 
 ## 各语言目录
 
-| 语言 | 目录 | 构建/测试 |
-| --- | --- | --- |
-| .NET (C#) | [`.net/`](.net/) | `dotnet build` / `dotnet test`（xUnit） |
-| C++ | [`c++/`](c++/) | 头文件库 + CMake，测试用 `tests/test_client.cpp`（MSVC 需 `/utf-8`） |
-| Go | [`go/`](go/) | `go test ./...` |
-| Java | [`java/`](java/) | `mvn test`（Maven + JUnit 5） |
-| Node.js | [`node/`](node/) | `npm test`（`node --test`） |
-| Python | [`python/`](python/) | `python -m pytest tests/` |
-| Rust | [`rust/`](rust/) | `cargo test` |
+| 语言 | 目录 | 入口 | 构建 / 测试 |
+| --- | --- | --- | --- |
+| .NET (C#) | [`.net/`](.net/) | `WeChatAuto.Client.sln` | `dotnet build .net/WeChatAuto.Client.sln` |
+| C++ | [`c++/`](c++/) | `cpp-tiny` 生成（`lib/` + `src/`） | 见 `c++/README.md` |
+| Go | [`go/`](go/) | 模块 `wechatauto` | `cd go && go test ./...` |
+| Java | [`java/`](java/) | Maven / Gradle 工程 | `cd java && mvn test` |
+| Node.js | [`node/`](node/) | `src/index.js` | `cd node && npm install && npm test` |
+| Python | [`python/`](python/) | `wechatauto` 包 | `cd python && pip install -r requirements.txt && pytest` |
+| Rust | [`rust/`](rust/) | `Cargo.toml` | `cd rust && cargo test` |
 
-每个语言目录内均包含：
-- **src**：客户端实现（统一入口类 `WeChatAutoClient` / 等价类型，65 个接口方法 + 42 个数据模型/枚举）；
-- **test**：单元测试用例（通过 mock/fake 传输层验证 HTTP 方法、路径、查询参数、`X-API-Key` 头与 JSON 请求体，无需运行服务端）；
-- **README.md**：该语言的使用说明与假设说明。
+## 使用方式
 
-## 通用用法示例
+每个语言目录的 `README.md` 都有完整的安装、初始化和示例。通用步骤：
 
-各语言的客户端构造方式一致：传入 `baseUrl`（默认 `http://localhost:5000`）、`apiKey`（可选），以及可注入的底层 HTTP 客户端，便于在测试中替换为 mock。
+1. 启动 HTTP Server（`Server.exe`，默认端口 `5000`）；
+2. 用 `GET /api/v1/clients` 拿到 `clientId`；
+3. 按模块调用生成的 API 类，例如发送文本：
+   - C#：`MessagesApi.Send(...)`
+   - Python：`MessagesApi(...).send(...)`
+   - Node：`MessagesApi.send(...)`
+   - 其余语言见各自 README。
 
-以发送文本消息为例（各语言方法名一致，均为 `sendMessage(clientId, body)`）：
+## 重新生成
 
-- C#：`var client = new WeChatAutoClient("http://localhost:5000", apiKey);`
-- Python：`client = WeChatAutoClient(base_url="http://localhost:5000", api_key="...")`
-- 其余语言同理，见各目录 README。
+生成命令（在仓库根目录执行，需要 Node.js + Java）：
 
-## 生成说明
+```bash
+npx --yes @openapitools/openapi-generator-cli generate \
+  -i HttpSupport/Server/Docs/api-site/swagger.json \
+  -g python -o HttpSupport/Client/python \
+  --additional-properties packageName=wechatauto
+```
 
-这些代码由 `swagger.json`（`HttpSupport/Server/Docs/api-site/swagger.json`）驱动生成；字段名在传输层严格保持 swagger 中的 `snake_case`（含 `FriendInfo.lable` 等原样拼写），枚举值保留中文/英文原始字符串。
+其他语言把 `-g` 换成对应 generator 即可：
+
+- C#：`csharp`
+- C++：`cpp-tiny`
+- Go：`go`
+- Java：`java`
+- Node.js：`javascript`
+- Rust：`rust`
+
+> 生成器版本固定为 `7.27.0`；不同版本生成的文件结构可能不同。

@@ -12,6 +12,7 @@
           "Clients"
         ],
         "summary": "获取全部微信客户端的概要信息列表。",
+        "operationId": "Clients_GetAll",
         "responses": {
           "200": {
             "description": "OK"
@@ -25,6 +26,7 @@
           "Clients"
         ],
         "summary": "获取指定微信客户端的概要信息（昵称、wxid、头像路径、进程ID、窗口句柄、任务栏索引）。",
+        "operationId": "Clients_GetInfo",
         "parameters": [
           {
             "name": "clientId",
@@ -48,6 +50,7 @@
           "Clients"
         ],
         "summary": "获取本微信的个人信息（头像文件位置、wxid、昵称）。",
+        "operationId": "Clients_GetOwnerInfo",
         "parameters": [
           {
             "name": "clientId",
@@ -71,6 +74,7 @@
           "Clients"
         ],
         "summary": "获取本微信的版本号。",
+        "operationId": "Clients_GetVersion",
         "parameters": [
           {
             "name": "clientId",
@@ -94,6 +98,7 @@
           "Clients"
         ],
         "summary": "通过界面自动读取微信存储位置（VIP，一般不需要，SDK 会自动读取并缓存）。",
+        "operationId": "Clients_GetStorageRoot",
         "parameters": [
           {
             "name": "clientId",
@@ -117,6 +122,7 @@
           "Clients"
         ],
         "summary": "保存本微信头像到指定路径。",
+        "operationId": "Clients_SaveAvatar",
         "parameters": [
           {
             "name": "clientId",
@@ -159,6 +165,7 @@
           "Clients"
         ],
         "summary": "点击任务栏微信图标，按索引或微信名称定位。",
+        "operationId": "Clients_ClickNotifyIcon",
         "parameters": [
           {
             "name": "clientId",
@@ -201,6 +208,7 @@
           "Conversations"
         ],
         "summary": "获取会话列表所有会话的标题。",
+        "operationId": "Conversations_GetAllConversations",
         "parameters": [
           {
             "name": "clientId",
@@ -224,6 +232,7 @@
           "Conversations"
         ],
         "summary": "获取会话列表可见会话的标题。",
+        "operationId": "Conversations_GetVisibleTitles",
         "parameters": [
           {
             "name": "clientId",
@@ -247,6 +256,7 @@
           "Conversations"
         ],
         "summary": "获取可见会话列表（含名称、未读消息数、头像等）。",
+        "operationId": "Conversations_GetVisibleConversations",
         "parameters": [
           {
             "name": "clientId",
@@ -270,6 +280,7 @@
           "Conversations"
         ],
         "summary": "搜索好友/群聊。",
+        "operationId": "Conversations_Search",
         "parameters": [
           {
             "name": "clientId",
@@ -312,6 +323,7 @@
           "Conversations"
         ],
         "summary": "定位会话，滚动会话列表使指定会话可见。",
+        "operationId": "Conversations_Locate",
         "parameters": [
           {
             "name": "clientId",
@@ -354,6 +366,7 @@
           "Conversations"
         ],
         "summary": "设置会话消息免打扰。",
+        "operationId": "Conversations_SetDoNotDisturb",
         "parameters": [
           {
             "name": "clientId",
@@ -396,6 +409,7 @@
           "Conversations"
         ],
         "summary": "设置会话置顶。",
+        "operationId": "Conversations_SetTopMost",
         "parameters": [
           {
             "name": "clientId",
@@ -438,6 +452,7 @@
           "Database"
         ],
         "summary": "获取当前微信号全部联系人（不含已删除）。",
+        "operationId": "Database_GetContacts",
         "parameters": [
           {
             "name": "clientId",
@@ -461,6 +476,7 @@
           "Database"
         ],
         "summary": "按 username（wxid / 群 id）取一条联系人。",
+        "operationId": "Database_GetContact",
         "parameters": [
           {
             "name": "clientId",
@@ -492,6 +508,7 @@
           "Database"
         ],
         "summary": "按关键字模糊搜索联系人（匹配 UserName / NickName / Remark / Alias）。",
+        "operationId": "Database_SearchContacts",
         "parameters": [
           {
             "name": "clientId",
@@ -522,6 +539,7 @@
           "Database"
         ],
         "summary": "按显示名取联系人；重名时返回多个。",
+        "operationId": "Database_GetContactsByShowName",
         "parameters": [
           {
             "name": "clientId",
@@ -552,6 +570,7 @@
           "Database"
         ],
         "summary": "按显示名取第一条联系人（重名时取 UserName 升序第一条）。",
+        "operationId": "Database_GetContactByShowName",
         "parameters": [
           {
             "name": "clientId",
@@ -582,6 +601,7 @@
           "Database"
         ],
         "summary": "取指定会话最近 N 条消息（从新到旧）。",
+        "operationId": "Database_GetMessages",
         "parameters": [
           {
             "name": "clientId",
@@ -621,6 +641,7 @@
           "Database"
         ],
         "summary": "取指定会话最近 N 条消息（从旧到新，适合 LLM 上下文）。",
+        "operationId": "Database_GetRecentMessages",
         "parameters": [
           {
             "name": "clientId",
@@ -660,6 +681,7 @@
           "Database"
         ],
         "summary": "取 SortSeq 大于指定值的新消息（从旧到新）。",
+        "operationId": "Database_GetNewMessages",
         "parameters": [
           {
             "name": "clientId",
@@ -691,6 +713,7 @@
           "Database"
         ],
         "summary": "取当前微信号消息的最大 SortSeq（增量水位）。",
+        "operationId": "Database_GetMaxSortSeq",
         "parameters": [
           {
             "name": "clientId",
@@ -714,6 +737,7 @@
           "Database"
         ],
         "summary": "按正文关键字搜索当前微信号消息。",
+        "operationId": "Database_SearchMessages",
         "parameters": [
           {
             "name": "clientId",
@@ -751,6 +775,7 @@
           "Database"
         ],
         "summary": "按正文关键字跨所有微信号搜索消息。",
+        "operationId": "Database_SearchAllMessages",
         "parameters": [
           {
             "name": "clientId",
@@ -788,6 +813,7 @@
           "Database"
         ],
         "summary": "获取当前微信号全部群聊。",
+        "operationId": "Database_GetRooms",
         "parameters": [
           {
             "name": "clientId",
@@ -811,6 +837,7 @@
           "Database"
         ],
         "summary": "按群 username 取成员列表。",
+        "operationId": "Database_GetRoomMembers",
         "parameters": [
           {
             "name": "clientId",
@@ -842,6 +869,7 @@
           "Database"
         ],
         "summary": "按群的显示名取群；重名时返回多个。",
+        "operationId": "Database_GetRoomsByShowName",
         "parameters": [
           {
             "name": "clientId",
@@ -872,6 +900,7 @@
           "Database"
         ],
         "summary": "按群的显示名取第一条群。",
+        "operationId": "Database_GetRoomByShowName",
         "parameters": [
           {
             "name": "clientId",
@@ -902,6 +931,7 @@
           "Database"
         ],
         "summary": "按群的显示名取成员列表；重名时取第一条群。",
+        "operationId": "Database_GetRoomMembersByShowName",
         "parameters": [
           {
             "name": "clientId",
@@ -932,6 +962,7 @@
           "Database"
         ],
         "summary": "按联系人 LocalType 过滤群聊（本机观察群多为 2）。",
+        "operationId": "Database_GetRoomsByLocalType",
         "parameters": [
           {
             "name": "clientId",
@@ -963,6 +994,7 @@
           "Database"
         ],
         "summary": "取最近 N 条朋友圈（含媒体、点赞、评论）。",
+        "operationId": "Database_GetSnsPosts",
         "parameters": [
           {
             "name": "clientId",
@@ -995,6 +1027,7 @@
           "Database"
         ],
         "summary": "按 tid 取一条朋友圈（含媒体、点赞、评论）。",
+        "operationId": "Database_GetSnsPost",
         "parameters": [
           {
             "name": "clientId",
@@ -1027,6 +1060,7 @@
           "Database"
         ],
         "summary": "取某一天的朋友圈（按中国标准时间 UTC+8 的日历日）。",
+        "operationId": "Database_GetSnsPostsByDate",
         "parameters": [
           {
             "name": "clientId",
@@ -1058,6 +1092,7 @@
           "Database"
         ],
         "summary": "取某个发布者（真实 UserName / wxid）的朋友圈。",
+        "operationId": "Database_GetSnsPostsByUserName",
         "parameters": [
           {
             "name": "clientId",
@@ -1088,6 +1123,7 @@
           "Database"
         ],
         "summary": "按发布者显示名取朋友圈；重名会一并返回。",
+        "operationId": "Database_GetSnsPostsByShowName",
         "parameters": [
           {
             "name": "clientId",
@@ -1118,6 +1154,7 @@
           "Database"
         ],
         "summary": "执行一条 SELECT 查询（仅查询，不允许写操作；不会自动追加当前微信号条件）。",
+        "operationId": "Database_Query",
         "parameters": [
           {
             "name": "clientId",
@@ -1160,6 +1197,7 @@
           "Friends"
         ],
         "summary": "打开新增朋友窗口。",
+        "operationId": "Friends_OpenAddWindow",
         "parameters": [
           {
             "name": "clientId",
@@ -1183,6 +1221,7 @@
           "Friends"
         ],
         "summary": "关闭新增朋友窗口。",
+        "operationId": "Friends_CloseAddWindow",
         "parameters": [
           {
             "name": "clientId",
@@ -1206,6 +1245,7 @@
           "Friends"
         ],
         "summary": "通过手机号码/微信号查找并添加好友。",
+        "operationId": "Friends_Add",
         "parameters": [
           {
             "name": "clientId",
@@ -1248,6 +1288,7 @@
           "Friends"
         ],
         "summary": "立即批量通过当前待处理的新好友申请（不启动持续监听）。",
+        "operationId": "Friends_PassAll",
         "parameters": [
           {
             "name": "clientId",
@@ -1290,6 +1331,7 @@
           "Friends"
         ],
         "summary": "启动新好友自动通过监听（按关键词/后缀/标签规则）。",
+        "operationId": "Friends_StartAutoAccept",
         "parameters": [
           {
             "name": "clientId",
@@ -1332,6 +1374,7 @@
           "Friends"
         ],
         "summary": "暂停新好友自动通过监听。",
+        "operationId": "Friends_PauseAutoAccept",
         "parameters": [
           {
             "name": "clientId",
@@ -1355,6 +1398,7 @@
           "Friends"
         ],
         "summary": "恢复新好友自动通过监听。",
+        "operationId": "Friends_ResumeAutoAccept",
         "parameters": [
           {
             "name": "clientId",
@@ -1378,6 +1422,7 @@
           "Friends"
         ],
         "summary": "停止新好友自动通过监听。",
+        "operationId": "Friends_StopAutoAccept",
         "parameters": [
           {
             "name": "clientId",
@@ -1401,6 +1446,7 @@
           "Friends"
         ],
         "summary": "获取所有好友的信息列表（默认优先从缓存读取）。",
+        "operationId": "Friends_GetAllFriends",
         "parameters": [
           {
             "name": "clientId",
@@ -1432,6 +1478,7 @@
           "Friends"
         ],
         "summary": "获取所有好友名称列表（有备注优先备注名）。",
+        "operationId": "Friends_GetAllFriendNames",
         "parameters": [
           {
             "name": "clientId",
@@ -1455,6 +1502,7 @@
           "Friends"
         ],
         "summary": "从通讯录移除好友。",
+        "operationId": "Friends_RemoveFriend",
         "parameters": [
           {
             "name": "clientId",
@@ -1486,6 +1534,7 @@
           "Friends"
         ],
         "summary": "获取缓存中的全部好友信息列表。",
+        "operationId": "Friends_GetFriendListFromCache",
         "parameters": [
           {
             "name": "clientId",
@@ -1507,6 +1556,7 @@
           "Friends"
         ],
         "summary": "手动新增或修改缓存中的好友对象。",
+        "operationId": "Friends_AddOrUpdateFriend",
         "parameters": [
           {
             "name": "clientId",
@@ -1549,6 +1599,7 @@
           "Friends"
         ],
         "summary": "按名称从缓存获取好友列表（适用于昵称重复场景）。",
+        "operationId": "Friends_GetFriendsFromCache",
         "parameters": [
           {
             "name": "clientId",
@@ -1580,6 +1631,7 @@
           "Friends"
         ],
         "summary": "按 wxid 从缓存获取好友信息。",
+        "operationId": "Friends_GetFriendByWxidFromCache",
         "parameters": [
           {
             "name": "clientId",
@@ -1609,6 +1661,7 @@
           "Friends"
         ],
         "summary": "按 wxid 从缓存移除好友。",
+        "operationId": "Friends_RemoveFriendByWxidFromCache",
         "parameters": [
           {
             "name": "clientId",
@@ -1640,6 +1693,7 @@
           "Friends"
         ],
         "summary": "按名称从缓存获取单个好友信息。",
+        "operationId": "Friends_GetFriendFromCache",
         "parameters": [
           {
             "name": "clientId",
@@ -1669,6 +1723,7 @@
           "Friends"
         ],
         "summary": "按名称从缓存移除好友。",
+        "operationId": "Friends_RemoveFriendFromCache",
         "parameters": [
           {
             "name": "clientId",
@@ -1700,6 +1755,7 @@
           "Groups"
         ],
         "summary": "判断群聊是否为自有群。",
+        "operationId": "Groups_IsOwner",
         "parameters": [
           {
             "name": "clientId",
@@ -1731,6 +1787,7 @@
           "Groups"
         ],
         "summary": "获取群主昵称。",
+        "operationId": "Groups_GetOwner",
         "parameters": [
           {
             "name": "clientId",
@@ -1762,6 +1819,7 @@
           "Groups"
         ],
         "summary": "获取群聊成员列表。",
+        "operationId": "Groups_GetMembers",
         "parameters": [
           {
             "name": "clientId",
@@ -1790,6 +1848,7 @@
           "Groups"
         ],
         "summary": "添加群聊成员（适用于自有群）。",
+        "operationId": "Groups_AddMembers",
         "parameters": [
           {
             "name": "clientId",
@@ -1830,6 +1889,7 @@
           "Groups"
         ],
         "summary": "移除群聊成员（适用于自有群）。",
+        "operationId": "Groups_RemoveMembers",
         "parameters": [
           {
             "name": "clientId",
@@ -1872,6 +1932,7 @@
           "Groups"
         ],
         "summary": "退出群聊。",
+        "operationId": "Groups_Quit",
         "parameters": [
           {
             "name": "clientId",
@@ -1911,6 +1972,7 @@
           "Groups"
         ],
         "summary": "创建群聊，已存在则打开群聊。",
+        "operationId": "Groups_Create",
         "parameters": [
           {
             "name": "clientId",
@@ -1953,6 +2015,7 @@
           "Groups"
         ],
         "summary": "修改群名（适用于自有群）。",
+        "operationId": "Groups_ChangeName",
         "parameters": [
           {
             "name": "clientId",
@@ -1995,6 +2058,7 @@
           "Groups"
         ],
         "summary": "修改自己在群中的昵称。",
+        "operationId": "Groups_ChangeNickName",
         "parameters": [
           {
             "name": "clientId",
@@ -2037,6 +2101,7 @@
           "Groups"
         ],
         "summary": "修改群备注（仅自己可见）。",
+        "operationId": "Groups_ChangeMemo",
         "parameters": [
           {
             "name": "clientId",
@@ -2079,6 +2144,7 @@
           "Groups"
         ],
         "summary": "更新群公告（仅适用于自有群）。",
+        "operationId": "Groups_UpdateNotice",
         "parameters": [
           {
             "name": "clientId",
@@ -2121,6 +2187,7 @@
           "Groups"
         ],
         "summary": "邀请群聊成员（适用于外部群）。",
+        "operationId": "Groups_Invite",
         "parameters": [
           {
             "name": "clientId",
@@ -2163,6 +2230,7 @@
           "Groups"
         ],
         "summary": "把群聊成员加为自己的好友（适用于外部群，注意微信风控）。",
+        "operationId": "Groups_AddMembersToFriends",
         "parameters": [
           {
             "name": "clientId",
@@ -2205,6 +2273,7 @@
           "Messages"
         ],
         "summary": "获取当前聊天窗口的标题对象。",
+        "operationId": "Messages_GetTitle",
         "parameters": [
           {
             "name": "clientId",
@@ -2228,6 +2297,7 @@
           "Messages"
         ],
         "summary": "获取当前聊天窗口的标题名称。",
+        "operationId": "Messages_GetOnlyTitle",
         "parameters": [
           {
             "name": "clientId",
@@ -2251,6 +2321,7 @@
           "Messages"
         ],
         "summary": "聚焦当前窗口的消息输入区。",
+        "operationId": "Messages_FocusInput",
         "parameters": [
           {
             "name": "clientId",
@@ -2274,6 +2345,7 @@
           "Messages"
         ],
         "summary": "发送文本消息（指定对象或当前聊天窗口，支持 @ 与引用）。",
+        "operationId": "Messages_Send",
         "parameters": [
           {
             "name": "clientId",
@@ -2316,6 +2388,7 @@
           "Messages"
         ],
         "summary": "发送文本消息后关闭微信窗口（指定对象或当前聊天窗口，支持 @ 与引用）。",
+        "operationId": "Messages_SendAndClose",
         "parameters": [
           {
             "name": "clientId",
@@ -2358,6 +2431,7 @@
           "Messages"
         ],
         "summary": "发送文件。",
+        "operationId": "Messages_SendFile",
         "parameters": [
           {
             "name": "clientId",
@@ -2400,6 +2474,7 @@
           "Messages"
         ],
         "summary": "发送文件后关闭微信窗口。",
+        "operationId": "Messages_SendFileAndClose",
         "parameters": [
           {
             "name": "clientId",
@@ -2442,6 +2517,7 @@
           "Messages"
         ],
         "summary": "发送表情（按名称/描述/索引）。",
+        "operationId": "Messages_SendEmoji",
         "parameters": [
           {
             "name": "clientId",
@@ -2484,6 +2560,7 @@
           "Messages"
         ],
         "summary": "发送表情后关闭微信窗口（按名称/描述/索引）。",
+        "operationId": "Messages_SendEmojiAndClose",
         "parameters": [
           {
             "name": "clientId",
@@ -2526,6 +2603,7 @@
           "Messages"
         ],
         "summary": "发起单人语音聊天。",
+        "operationId": "Messages_SendVoiceChat",
         "parameters": [
           {
             "name": "clientId",
@@ -2568,6 +2646,7 @@
           "Messages"
         ],
         "summary": "发起单人视频聊天。",
+        "operationId": "Messages_SendVideoChat",
         "parameters": [
           {
             "name": "clientId",
@@ -2610,6 +2689,7 @@
           "Messages"
         ],
         "summary": "发起多人语音聊天（群聊）。",
+        "operationId": "Messages_SendVoiceChats",
         "parameters": [
           {
             "name": "clientId",
@@ -2652,6 +2732,7 @@
           "Messages"
         ],
         "summary": "发送语音消息（需虚拟声卡 Cable input/Cable output）。",
+        "operationId": "Messages_SendVoiceMessage",
         "parameters": [
           {
             "name": "clientId",
@@ -2694,6 +2775,7 @@
           "Messages"
         ],
         "summary": "发送语音消息后关闭微信窗口（需虚拟声卡 Cable input/Cable output）。",
+        "operationId": "Messages_SendVoiceMessageAndClose",
         "parameters": [
           {
             "name": "clientId",
@@ -2736,6 +2818,7 @@
           "Messages"
         ],
         "summary": "文字转语音发送（默认阿里千问 Qwen-Audio-TTS）。",
+        "operationId": "Messages_SendVoiceMessageTts",
         "parameters": [
           {
             "name": "clientId",
@@ -2778,6 +2861,7 @@
           "Messages"
         ],
         "summary": "文字转语音发送后关闭微信窗口（默认阿里千问 Qwen-Audio-TTS）。",
+        "operationId": "Messages_SendVoiceMessageTtsAndClose",
         "parameters": [
           {
             "name": "clientId",
@@ -2820,6 +2904,7 @@
           "Messages"
         ],
         "summary": "按联系人 UserName（wxid / 群 id）发送文本。",
+        "operationId": "Messages_SendByWxid",
         "parameters": [
           {
             "name": "clientId",
@@ -2862,6 +2947,7 @@
           "Messages"
         ],
         "summary": "按联系人 UserName（wxid / 群 id）发送文件。",
+        "operationId": "Messages_SendFileByWxid",
         "parameters": [
           {
             "name": "clientId",
@@ -2904,6 +2990,7 @@
           "Messages"
         ],
         "summary": "按联系人 UserName（wxid / 群 id）发送表情。",
+        "operationId": "Messages_SendEmojiByWxid",
         "parameters": [
           {
             "name": "clientId",
@@ -2946,6 +3033,7 @@
           "Messages"
         ],
         "summary": "按联系人 UserName（wxid / 群 id）发送语音文件。",
+        "operationId": "Messages_SendVoiceMessageByWxid",
         "parameters": [
           {
             "name": "clientId",
@@ -2988,6 +3076,7 @@
           "Messages"
         ],
         "summary": "按联系人 UserName（wxid / 群 id）用 TTS 发送语音。",
+        "operationId": "Messages_SendVoiceMessageTtsByWxid",
         "parameters": [
           {
             "name": "clientId",
@@ -3030,6 +3119,7 @@
           "Messages"
         ],
         "summary": "转发多条消息（默认合并转发）。",
+        "operationId": "Messages_ForwardMultiple",
         "parameters": [
           {
             "name": "clientId",
@@ -3072,6 +3162,7 @@
           "Messages"
         ],
         "summary": "转发单条消息（message 与 chat_simple_message 二选一）。",
+        "operationId": "Messages_ForwardSingle",
         "parameters": [
           {
             "name": "clientId",
@@ -3114,6 +3205,7 @@
           "Messages"
         ],
         "summary": "轮询拉取指定会话的新消息（用于自己实现轮询）。",
+        "operationId": "Messages_Pull",
         "parameters": [
           {
             "name": "clientId",
@@ -3156,6 +3248,7 @@
           "Messages"
         ],
         "summary": "声音复刻：上传参考音频创建一个自定义音色，返回 voice_id。",
+        "operationId": "Messages_CloneVoice",
         "parameters": [
           {
             "name": "clientId",
@@ -3198,6 +3291,7 @@
           "Messages"
         ],
         "summary": "获取聊天历史（支持按日期或时间段查询）。",
+        "operationId": "Messages_GetHistory",
         "parameters": [
           {
             "name": "clientId",
@@ -3252,6 +3346,7 @@
           "Messages"
         ],
         "summary": "拍一拍当前聊天窗口的好友。",
+        "operationId": "Messages_Tap",
         "parameters": [
           {
             "name": "clientId",
@@ -3294,6 +3389,7 @@
           "Messages"
         ],
         "summary": "引用当前窗口的好友消息。",
+        "operationId": "Messages_Reference",
         "parameters": [
           {
             "name": "clientId",
@@ -3336,6 +3432,7 @@
           "Messages"
         ],
         "summary": "引用当前窗口最后一条消息。",
+        "operationId": "Messages_ReferenceLast",
         "parameters": [
           {
             "name": "clientId",
@@ -3359,6 +3456,7 @@
           "Moments"
         ],
         "summary": "打开朋友圈（已打开则提到最前）。",
+        "operationId": "Moments_Open",
         "parameters": [
           {
             "name": "clientId",
@@ -3382,6 +3480,7 @@
           "Moments"
         ],
         "summary": "关闭朋友圈。",
+        "operationId": "Moments_Close",
         "parameters": [
           {
             "name": "clientId",
@@ -3405,6 +3504,7 @@
           "Moments"
         ],
         "summary": "发朋友圈（图文，多图需在同一目录）。",
+        "operationId": "Moments_Add",
         "parameters": [
           {
             "name": "clientId",
@@ -3447,6 +3547,7 @@
           "Moments"
         ],
         "summary": "删除自己发的朋友圈（按文字内容）。",
+        "operationId": "Moments_Remove",
         "parameters": [
           {
             "name": "clientId",
@@ -3489,6 +3590,7 @@
           "Navigation"
         ],
         "summary": "切换导航栏。",
+        "operationId": "Navigation_Switch",
         "parameters": [
           {
             "name": "clientId",
@@ -3531,6 +3633,7 @@
           "Navigation"
         ],
         "summary": "关闭通过导航栏打开的窗口（聊天文件、朋友圈、视频号等）。",
+        "operationId": "Navigation_Close",
         "parameters": [
           {
             "name": "clientId",
@@ -3573,6 +3676,7 @@
           "Window"
         ],
         "summary": "最大化微信窗口。",
+        "operationId": "Window_Maximize",
         "parameters": [
           {
             "name": "clientId",
@@ -3596,6 +3700,7 @@
           "Window"
         ],
         "summary": "还原微信窗口。",
+        "operationId": "Window_Restore",
         "parameters": [
           {
             "name": "clientId",
@@ -3619,6 +3724,7 @@
           "Window"
         ],
         "summary": "置顶微信窗口。",
+        "operationId": "Window_Pin",
         "parameters": [
           {
             "name": "clientId",
@@ -3642,6 +3748,7 @@
           "Window"
         ],
         "summary": "取消置顶微信窗口。",
+        "operationId": "Window_Unpin",
         "parameters": [
           {
             "name": "clientId",
@@ -3665,6 +3772,7 @@
           "Window"
         ],
         "summary": "使主窗口获取焦点。",
+        "operationId": "Window_Focus",
         "parameters": [
           {
             "name": "clientId",
@@ -3688,6 +3796,7 @@
           "Window"
         ],
         "summary": "打开本微信窗口。",
+        "operationId": "Window_Open",
         "parameters": [
           {
             "name": "clientId",
@@ -3711,6 +3820,7 @@
           "Window"
         ],
         "summary": "关闭本微信窗口。",
+        "operationId": "Window_Close",
         "parameters": [
           {
             "name": "clientId",
@@ -3734,6 +3844,7 @@
           "Window"
         ],
         "summary": "关闭查询窗口（已打开则关闭）。",
+        "operationId": "Window_CloseSearchWindow",
         "parameters": [
           {
             "name": "clientId",
@@ -3776,6 +3887,7 @@
           "Window"
         ],
         "summary": "打开指定对象的子窗口。",
+        "operationId": "Window_OpenSubWindow",
         "parameters": [
           {
             "name": "clientId",
@@ -3818,6 +3930,7 @@
           "Window"
         ],
         "summary": "关闭指定对象的子窗口（已存在则关闭）。",
+        "operationId": "Window_CloseSubWindow",
         "parameters": [
           {
             "name": "clientId",
@@ -3860,6 +3973,7 @@
           "Window"
         ],
         "summary": "获取本微信窗口句柄。",
+        "operationId": "Window_GetHandler",
         "parameters": [
           {
             "name": "clientId",
@@ -3883,6 +3997,7 @@
           "Window"
         ],
         "summary": "获取本微信窗口进程 ID。",
+        "operationId": "Window_GetProcessId",
         "parameters": [
           {
             "name": "clientId",

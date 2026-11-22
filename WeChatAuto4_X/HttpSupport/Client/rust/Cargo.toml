@@ -1,15 +1,23 @@
 [package]
-name = "wechatauto-client"
-version = "0.1.0"
+name = "wechatauto_client"
+version = "1.0.0"
+authors = ["OpenAPI Generator team and contributors"]
+description = "💯 <b>安全、快速构建微信 Agent 的开发基座</b> - <b><font color='red'>不注入</font></b>、<b><font color='red'>不破解</font></b>、<b><font color='red'>不写一行代码获取微信聊天记录</font></b>，让你<font color='red'>快速上线</font>你的微信应用，并<font color='red'>安全发布</font>到用户端！"
+# Override this license by providing a License Object in the OpenAPI.
+license = "Unlicense"
 edition = "2021"
-description = "Auto-generated Rust client SDK for the WECHATAUTO.SDK WeChat automation API."
-license = "MIT"
 
 [dependencies]
-reqwest = { version = "0.12", features = ["json"] }
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-thiserror = "2"
+serde = { version = "^1.0", features = ["derive"] }
+serde_with = { version = "^3.8", default-features = false, features = ["base64", "std", "macros"] }
+serde_json = "^1.0"
+serde_repr = "^0.1"
+url = "^2.5"
+uuid = { version = "^1.8", features = ["serde", "v4"] }
+chrono = { version = "^0.4",  features = ["serde"] }
+reqwest = { version = "^0.13", default-features = false, features = ["json", "multipart", "query", "form"] }
 
-[dev-dependencies]
-tokio = { version = "1", features = ["full"] }
+[features]
+default = ["native-tls"]
+native-tls = ["reqwest/native-tls"]
+rustls = ["reqwest/rustls"]

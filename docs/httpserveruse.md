@@ -336,120 +336,30 @@ client
 
 ## 8. 官方客户端 SDK（多语言）
 
-!>不想手写 HTTP 请求的话，仓库已提供 **7 个语言**的客户端封装、由 `swagger.json` 自动生成的官方客户端 SDK，位于 [HttpSupport/Client](https://github.com/scottfly189/WeChatAuto.SDK/tree/master/WeChatAuto4_X/HttpSupport/Client)中。
+本次已用 **OpenAPI Generator 7.27.0** 从 `swagger.json` 重新生成 7 个语言客户端，覆盖 **115 个接口 / 58 个 schema**。
 
-统一约定：
+> 与旧版统一 `WeChatAutoClient` 不同：标准生成器按模块生成 API 类（`ClientsApi`、`MessagesApi`、`DatabaseApi` 等），方法名形如 `MessagesSend` / `messages_send`；旧调用代码需要按新生成结果调整。
 
-| 项 | 约定 |
-|---|---|
-| 默认 Base URL | `http://localhost:5000`（来自 `App.json` → `Http.Port`） |
-| 鉴权 | 可选 `X-API-Key` 请求头（`App.json` → `Http.ApiKey`，为空时服务端不校验、客户端也不发送） |
-| 接口前缀 | 客户端自动为所有请求加 `/api/v1` |
-| 字段命名 | `snake_case`，严格保持 swagger 原样 |
-| 响应 | swagger 中响应无 schema（仅 `200 OK`），各客户端统一返回**原始响应体**，不构造响应 DTO |
-| 接口规模 | 9 组、115 个操作（含 Database Read、朋友圈、转发、WxId 发送等）、42+ 个数据模型/枚举；以实际运行的服务和 Swagger 为准 |
-
-> ⚠️ 这些客户端由 `swagger.json` 自动生成，**未经充分测试**；接口的准确行为以本指南与 `HttpSupport/Server/Docs/api-site/swagger.json` 为准。
->
-> 自动生成客户端可能还没覆盖最近新增的 `...-and-close`、`window/open`、`window/close`、`clients/version` 等接口；需要这些接口时，直接用原始 HTTP 调用，或先重新生成 `swagger.json` 和客户端。
-
-| 语言 | 目录 | 构建 / 测试 | 说明 |
+| 语言 | 目录 | 入口 | 构建 / 测试 |
 |---|---|---|---|
-| .NET (C#) | `HttpSupport/Client/.net/` | `dotnet build` / `dotnet test` | net8.0 类库，入口 `WeChatAutoClient` |
-| C++ | `HttpSupport/Client/c++/` | `cmake` / `ctest` | C++17 header-only，可选 libcurl |
-| Go | `HttpSupport/Client/go/` | `go test ./...` | 仅标准库，入口 `NewClient` |
-| Java | `HttpSupport/Client/java/` | `mvn test` | JDK 11+ + Maven + Jackson |
-| Node.js | `HttpSupport/Client/node/` | `npm test` | ES modules，Node 18+，零运行时依赖 |
-| Python | `HttpSupport/Client/python/` | `python -m pytest tests/` | 仅依赖 `requests` |
-| Rust | `HttpSupport/Client/rust/` | `cargo test` | `tokio` + `serde_json` |
+| .NET (C#) | `HttpSupport/Client/.net/` | `WeChatAuto.Client.sln` | `dotnet build` / `dotnet test` |
+| C++ | `HttpSupport/Client/c++/` | `cpp-tiny` 生成（`lib/` + `src/`） | 见 `c++/README.md` |
+| Go | `HttpSupport/Client/go/` | 模块 `wechatauto` | `go test ./...` |
+| Java | `HttpSupport/Client/java/` | Maven / Gradle 工程 | `mvn test` |
+| Node.js | `HttpSupport/Client/node/` | `src/index.js` | `npm install` / `npm test` |
+| Python | `HttpSupport/Client/python/` | `wechatauto` 包 | `pip install -r requirements.txt` / `pytest` |
+| Rust | `HttpSupport/Client/rust/` | `Cargo.toml` | `cargo test` |
 
-### 快速上手：发送一条文本消息
+### 生成约定
 
-各语言构造方式一致：传入 `baseUrl`（默认 `http://localhost:5000`）与可选 `apiKey`；方法名与接口一一对应，路径参数按位置传入。
+- 默认 Base URL：`http://localhost:5000`（来自 `App.json` 的 `Http.Port`）；
+- 鉴权：可选 `X-API-Key` 请求头（`App.json` 的 `Http.ApiKey`，为空时服务端不校验）；
+- 接口前缀：`/api/v1/...`；
+- 字段命名：传输层保持 swagger 的 `snake_case`；
+- 响应：按 swagger 的 schema 生成；不同语言对空响应/JSON 的处理以各目录 README 为准；
+- 每个语言目录都自带生成后的 README、API 类和模型；完整方法列表见各目录 README。
 
-**C#**
-
-```csharp
-using WeChatAuto.Client;
-using WeChatAuto.Client.Models;
-
-var client = new WeChatAutoClient("http://localhost:5000", "your-api-key");
-await client.SendMessageAsync("wxid_xxx", new SendMessageRequest { Who = "某好友", Message = "你好" });
-```
-
-**Python**
-
-```python
-from wechatauto import WeChatAutoClient, models
-
-client = WeChatAutoClient(base_url="http://localhost:5000", api_key="")
-client.send_message("wxid_xxx", models.SendMessageRequest(who="某好友", message="你好"))
-```
-
-**Go**
-
-```go
-import wechatauto "wechatauto/client"
-
-c := wechatauto.NewClient("http://localhost:5000", "", nil)
-who, msg := "某好友", "你好"
-body, err := c.SendMessage("wxid_xxx", wechatauto.SendMessageRequest{Who: &who, Message: &msg})
-```
-
-**Java**
-
-```java
-WeChatAutoClient client = new WeChatAutoClient("http://localhost:5000", "your-api-key");
-SendMessageRequest req = new SendMessageRequest();
-req.setWho("某好友");
-req.setMessage("你好");
-String rawJson = client.sendMessage("wxid_xxx", req);
-```
-
-**Node.js**
-
-```js
-import { WeChatAutoClient } from 'wechatauto-client';
-
-const client = new WeChatAutoClient('http://localhost:5000', 'your-api-key');
-await client.sendMessage('wxid_xxx', { who: '某好友', message: '你好' });
-```
-
-**Rust**
-
-```rust
-use wechatauto_client::models::{ChatRefer, ChatSimpleMessage, SendMessageRequest};
-use wechatauto_client::WeChatAutoClient;
-
-let client = WeChatAutoClient::new("http://localhost:5000");
-let body = SendMessageRequest {
-    who: Some("某好友".to_string()),
-    message: Some("你好".to_string()),
-    at_users: None,
-    // 注意：生成模型里 refer 为必填字段，需构造一个空的引用对象
-    refer: ChatRefer {
-        date: String::new(),
-        message: ChatSimpleMessage { who: None, message: None, send_date_time: None, date_time: String::new(), unique_string: None },
-        is_close_search_win: false,
-    },
-};
-client.send_message("wxid_xxx", &body).await?;
-```
-
-**C++**
-
-```cpp
-#include <wechatauto/wechatauto_client.hpp>
-
-wechatauto::WeChatAutoClient client("http://localhost:5000", "your-api-key");
-wechatauto::SendMessageRequest req;
-req.who = "某好友";
-req.message = "你好";
-std::string result = client.sendMessage("wxid_xxx", req);
-```
-
-> 每个语言目录内都自带 README 与单元测试；测试通过 mock/fake 传输层离线验证 URL、查询参数、`X-API-Key` 头与 JSON 请求体。更多细节见 `HttpSupport/Client/README.md` 及各语言目录下的 README。
-
+> 重新生成用 `npx --yes @openapitools/openapi-generator-cli generate ...`，具体命令和各语言 generator 名称见 `HttpSupport/Client/README.md`。
 ## 9. 接口参考
 
 > 所有接口统一前缀 `/api/v1`。下表省略了公共前缀 `/api/v1/clients/{clientId}`，实际调用时要补全；`{...}` 是路径参数。
@@ -715,3 +625,4 @@ curl -G http://localhost:5000/api/v1/clients/<wxid>/groups/members \
 - **404 微信客户端不存在**：`clientId` 填错，或大小写/精确匹配不符——先用 `GET /api/v1/clients` 取准确的 `wx_id`。
 - **返回 204 没有 body，是不是失败了**：不是，写操作成功就是 204。
 - **有现成的客户端 SDK 吗**：有。仓库已提供 7 个语言（.NET / C++ / Go / Java / Node.js / Python / Rust）的官方客户端 SDK（见第 8 节），位于 `HttpSupport/Client/`。想自己生成或需要其他语言，仍可把 `http://<主机>:<端口>/swagger/v1/swagger.json` 交给 openapi-generator / Kiota(.NET) / openapi-python-client(Python) / progenitor(Rust) 自动生成。
+
