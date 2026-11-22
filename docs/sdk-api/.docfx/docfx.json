@@ -1,0 +1,41 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dotnet/docfx/main/schemas/docfx.schema.json",
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "bin",
+          "files": [
+            "WeChatAuto.dll",
+            "WeChatAuto.xml",
+            "WeAutoCommon.dll",
+            "WeAutoCommon.xml"
+          ]
+        }
+      ],
+      "dest": "api",
+      "filter": "filter.yml"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "api/**.yml",
+          "index.md",
+          "toc.yml"
+        ]
+      }
+    ],
+    "output": "out",
+    "template": [
+      "default"
+    ],
+    "globalMetadata": {
+      "_appName": "WeChatAuto.SDK",
+      "_appTitle": "WeChatAuto.SDK API 参考",
+      "_enableSearch": true,
+      "pdf": false
+    }
+  }
+}

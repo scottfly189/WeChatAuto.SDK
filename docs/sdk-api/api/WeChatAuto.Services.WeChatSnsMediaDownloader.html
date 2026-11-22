@@ -86,7 +86,7 @@
 这里用独立定时器 + 独立 DB 连接，按 <code>wechat_sns_media</code> 的待处理行慢慢消化；
 下载器整个挂掉也只影响媒体文件，不影响消息 / 联系人 / 群成员 / 朋友圈数据同步。</p>
 <p><b>加密</b>：朋友圈图片 / 视频是 Isaac64 流加密。图片看响应头 <code>X-Enc</code>，
-视频看前 8 字节是否有 <code>ftyp</code>；解密由纯 C# <a class="xref" href="WxDecryptNet.Sdk.Crypto.WxIsaac64.html">WxIsaac64</a> 完成，
+视频看前 8 字节是否有 <code>ftyp</code>；解密由纯 C# <span class="xref">WxDecryptNet.Sdk.Crypto.WxIsaac64</span> 完成，
 无需 Node / WASM，也没有额外的模块安装步骤。</p>
 <p><b>幂等</b>：每行 <code>DownloadStatus</code> / <code>DownloadAttempts</code> 落库：
 成功 1，永久失败（token 过期 / 404 / 不是图片 / 缺 key）2 不再重试，非媒体 3 跳过。
@@ -195,7 +195,7 @@
   </span>
   <a id="WeChatAuto_Services_WeChatSnsMediaDownloader_EnsureStarted_" data-uid="WeChatAuto.Services.WeChatSnsMediaDownloader.EnsureStarted*"></a>
   <h4 id="WeChatAuto_Services_WeChatSnsMediaDownloader_EnsureStarted" data-uid="WeChatAuto.Services.WeChatSnsMediaDownloader.EnsureStarted">EnsureStarted()</h4>
-  <div class="markdown level1 summary"><p>开关打开即启动；解密由纯 C# <a class="xref" href="WxDecryptNet.Sdk.Crypto.WxIsaac64.html">WxIsaac64</a> 完成，不再依赖 Node/WASM。</p>
+  <div class="markdown level1 summary"><p>开关打开即启动；解密由纯 C# <span class="xref">WxDecryptNet.Sdk.Crypto.WxIsaac64</span> 完成，不再依赖 Node/WASM。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
