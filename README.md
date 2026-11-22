@@ -258,7 +258,7 @@ Database Read 是 VIP 能力，本仓库社区开源版不包含这部分代码�
 [加入 Telegram](https://t.me/wechatauto_sdk/1) · [@wechatauto_sdk](https://t.me/wechatauto_sdk)
 
 <p align="center">
-  <img src="./docs/images/telegram-qr.png" alt="Telegram @WECHATAUTO_SDK" width="220" />
+  <img src="./docs/images/telegram-qr.png" alt="Telegram @WECHATAUTO_SDK" width="1200" />
 </p>
 
 ## 📝 许可证
