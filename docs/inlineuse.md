@@ -1013,7 +1013,7 @@ await client.AddChatGroupMemberToFriends("某外部群", new List<string> { "张
 
 ### 7.8 消息监听（事件驱动）
 
-监听以**事件回调**方式触发：来消息时调用你的回调，`MessageContext` 里带有新消息、历史消息、`Sender`（回复当前窗口）、`Client`（完整能力）。
+监听以**事件回调**方式触发：来消息时调用你的回调，`MessageContext` 里带有新消息、历史消息。
 
 **注：消息监听是以UI Automation的方式实现的，会占用键盘鼠标资源，并且同时服务几十个群时，会存在卡顿的情况，建议仅在<20个群/好友的场景下使用。**
 
@@ -1311,6 +1311,9 @@ foreach (var row in rows)
     Console.WriteLine($"{row["ChatUsername"]}: {row["Content"]}");
 ```
 
+> `client.Query(...)` 只适合临时查数：它不会自动帮你加 `FromWechatWxId` 条件，也不做写入。真正常态化的报表，建议直接连中间库、用视图或定时任务跑，别把复杂 SQL 塞在业务代码里。
+
+
 #### 7.12.6 存储位置（辅助）
 
 `GetWeChatStorageRootByAutomation()` 会临时打开微信的“设置 → 账号与存储”，读出“存储位置”再关掉设置窗口。
@@ -1344,15 +1347,6 @@ VIP 中间表一共 7 张：
 | `wechat_sns_comment` | 某条动态下面的评论（含回复） |
 | `wechat_sns_media` | 某条动态里的图片 / 视频明细，一张图或一个视频一行 |
 
-直接写 SQL 时，有几条和 API 一样的规矩，提前记住会少踩坑：
-
-1. **多账号永远带 `FromWechatWxId`**：`FromWechat` 只是当时的微信昵称，可能重名、也可能改名，不能当账号标识；
-2. **显示名去 `wechat_contact` 联**：消息表里的 `ChatUsername` / `SenderWxId` 对应 `wechat_contact.UserName`，显示名按“备注 → 微信号 → 昵称 → UserName”的顺序取，不要自己拼；
-3. **增量用 `SortSeq`**：记下已经处理过的最大 `SortSeq`，下次只查更大的；不要用自增主键 `Id`，也不要用 `CreateTime` 当聊天顺序；
-4. **朋友圈用 `Tid` 串**：`wechat_sns_post.Tid` 对应 `wechat_sns_like` / `wechat_sns_comment` / `wechat_sns_media` 的 `Tid`；
-5. **大整数按 64 位处理**：`Tid`、`LocalId`、`ServerId`、`SortSeq`、`LocalType`、`MsgCreateTime` 都可能超过 32 位整数范围。
-
-> `client.Query(...)` 只适合临时查数：它不会自动帮你加 `FromWechatWxId` 条件，也不做写入。真正常态化的报表，建议直接连中间库、用视图或定时任务跑，别把复杂 SQL 塞在业务代码里。
 
 ---
 
