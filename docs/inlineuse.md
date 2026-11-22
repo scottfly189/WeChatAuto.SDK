@@ -180,7 +180,7 @@ WeAutomation.Initialize(...)        // 初始化入口（全局唯一）
                         ├── Conversations    会话列表
                         ├── ChatContent      聊天内容 / 发送
                         ├── AddressBookList  通讯录
-                        ├── MessageMonitor   消息监听 
+                        ├── MessageMonitor   消息监听 💎
                         ├── NewFriendMonitor 新好友监听 💎
                         ├── Moments          朋友圈 💎
                         ├── OwnerGroup       自有群
