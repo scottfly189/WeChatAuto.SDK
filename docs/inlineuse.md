@@ -1167,6 +1167,67 @@ await client.ForwardSingleMessage(chatSimpleMessage, "某群");
 >
 > 这些方法都是**同步方法**，查的是 SDK 已经同步到中间表的数据，不会写微信原库。`client.UserName` 是当前微信号的 wxid，查询用它做账号隔离；`DataBaseKey`、`DbStorage` 由 SDK 内部维护，一般不需要手写。
 
+#### 前置条件：怎么启用 Database Read
+
+Database Read 默认是关的，要在初始化回调里显式打开。下面是最小可用配置：
+
+```csharp
+using SqlSugar;
+using Microsoft.Extensions.DependencyInjection;
+using WeChatAuto.Components;
+using WeChatAuto.Services;
+
+var serviceProvider = WeAutomation.Initialize(options =>
+{
+    // 1. 打开“数据库读取 / 热同步”总开关
+    options.UseDatabaseRead = true;
+
+    // 2. 微信数据存储位置：一般留空，SDK 会自动读取并缓存
+    //    如果明确知道路径，也可以手动指定；多微信必须填同一个路径
+    // options.WeChatStorageRoot = @"D:\xwechat_files";
+
+    // 3. 中间表数据库：默认 SQLite，文件会落在当前工作目录
+    options.DbTppe = DbType.Sqlite;
+    options.ConnectionString = "Data Source=wechat.db";
+
+    // 可选：首轮往回补多少天历史（默认 30；0 表示只同步启动后的新消息）
+    // options.FirstRunDays = 30;
+
+    // 可选：首轮只同步文字，历史图片/文件/视频先跳过，速度更快
+    // options.HotSyncFirstRunTextOnly = true;
+
+    // 可选：大库排查时打开热同步复制日志
+    // options.HotSyncCopyLog = true;
+});
+
+var factory = serviceProvider.GetRequiredService<WeChatClientFactory>();
+var client = factory.GetWeChatClient("你的微信名");
+
+// 初始化后先确认同步有没有数据，再调用 7.12 的查询方法
+var contacts = client.GetAllContacts();
+Console.WriteLine($"联系人：{contacts.Count}");
+```
+
+如果你用的是外部 DI（ASP.NET Core / Generic Host），写法一样，只是把 `WeAutomation.Initialize(...)` 换成 `WeAutomation.Initialize(builder.Services, options => { ... })`。
+
+**这几步分别在做什么：**
+
+1. **`UseDatabaseRead = true`**：总开关。不开就是纯 UI 自动化，7.12 的方法不能用，也不会建中间表。
+2. **`WeChatStorageRoot`**：微信的“设置 → 账号与存储 → 存储位置”。一般留空，SDK 会在第一次需要读库时自动读一次，并把结果缓存到 `%LOCALAPPDATA%\WeChatAuto\wechatkey.dat`；多个微信要共用同一个路径，不要一个号填一个。
+3. **`DbTppe` + `ConnectionString`**：中间表写到哪个数据库。默认 SQLite，零安装；换成 SQL Server / MySQL / PostgreSQL 时，这两个要一起改，并提前建好库、给账号建表和写数据的权限。
+4. **首轮同步**：不是瞬间完成。初始化后 SDK 会在后台把联系人、消息、群成员、朋友圈同步到中间表，数据量大时要等一会儿；先查 `wechat_contact` / `wechat_message` 有没有数据，再调用 7.12 的 API。
+5. **可选项**：`FirstRunDays` 控制首轮回看天数；`HotSyncFirstRunTextOnly` 让首轮先只同步文字、媒体之后增量补；`HotSyncCopyLog` 用于大库排查，平时关着即可。
+
+**常见卡点：**
+
+- `UseDatabaseRead` 忘了打开：`GetAllContacts()` 等没有数据或不可用；
+- `DbTppe` 改了、`ConnectionString` 没改：连不上，或者还写到旧库；
+- `WeChatStorageRoot` 填了不存在的目录：以配置为准时读不到库；不确定就留空；
+- 多个微信填了不同存储路径：微信本身要求同一个存储位置，应该统一；
+- 社区版没有 Database Read：这一段只适用于 VIP 版。
+
+> 用 HTTP Server 的话，数据库连接在 `App.json` 的 `Database` 节点配置，不需要在 `Initialize` 里再写一遍；内嵌 SDK 才用上面的 `WeAutomation.Initialize` 回调。
+
 #### 7.12.1 联系人
 
 | 方法 | 说明 |
