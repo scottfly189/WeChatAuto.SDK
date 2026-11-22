@@ -1,95 +1,125 @@
 <!DOCTYPE html>
-<!--[if IE]><![endif]-->
 <html>
-
   <head>
     <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
       <title>Class OCRService | WeChatAuto.SDK API 参考 </title>
-      <meta name="viewport" content="width=device-width">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta name="title" content="Class OCRService | WeChatAuto.SDK API 参考 ">
-    
-    
-      <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
-      <link rel="stylesheet" href="../styles/docfx.css">
-      <link rel="stylesheet" href="../styles/main.css">
-      <meta property="docfx:navrel" content="../toc.html">
-      <meta property="docfx:tocrel" content="toc.html">
-    
-    <meta property="docfx:rel" content="../">
-    
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
   </head>
-  <body data-spy="scroll" data-target="#affix" data-offset="120">
-    <div id="wrapper">
-      <header>
 
-        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-
-              <a class="navbar-brand" href="../index.html">
-                <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
-              </a>
-            </div>
-            <div class="collapse navbar-collapse" id="navbar">
-              <form class="navbar-form navbar-right" role="search" id="search">
-                <div class="form-group">
-                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
-                </div>
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
+            WeChatAuto.SDK
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
               </form>
             </div>
           </div>
-        </nav>
-
-        <div class="subnav navbar navbar-default">
-          <div class="container hide-when-search" id="breadcrumb">
-            <ul class="breadcrumb">
-              <li></li>
-            </ul>
-          </div>
         </div>
-      </header>
-      <div class="container body-content">
+      </nav>
+    </header>
 
-        <div id="search-results">
-          <div class="search-list">Search Results for <span></span></div>
-          <div class="sr-items">
-            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
           </div>
-          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
         </div>
       </div>
-      <div role="main" class="container body-content hide-when-search">
 
-        <div class="sidenav hide-when-search">
-          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
-          <div class="sidetoggle collapse" id="sidetoggle">
-            <div id="sidetoc"></div>
-          </div>
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
         </div>
-        <div class="article row grid-right">
-          <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="WeChatAuto.Services.OCRService">
+
+        <article data-uid="WeChatAuto.Services.OCRService">
 
 
 
-  <h1 id="WeChatAuto_Services_OCRService" data-uid="WeChatAuto.Services.OCRService" class="text-break">Class OCRService</h1>
-  <div class="markdown level0 summary"></div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="inheritance">
-    <h5>Inheritance</h5>
-    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
-    <div class="level1"><span class="xref">OCRService</span></div>
+  <h1 id="WeChatAuto_Services_OCRService" data-uid="WeChatAuto.Services.OCRService" class="text-break">
+Class OCRService  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="WeChatAuto.html">WeChatAuto</a>.<a class="xref" href="WeChatAuto.Services.html">Services</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>WeChatAuto.dll</dd></dl>
   </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
+
+  <div class="markdown summary"></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class OCRService</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">OCRService</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
     </div>
@@ -111,991 +141,765 @@
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
     </div>
-  </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="WeChatAuto.html">WeChatAuto</a>.<a class="xref" href="WeChatAuto.Services.html">Services</a></h6>
-  <h6><strong>Assembly</strong>: WeChatAuto.dll</h6>
-  <h5 id="WeChatAuto_Services_OCRService_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class OCRService</code></pre>
-  </div>
-  <h3 id="constructors">Constructors
-</h3>
+  </dd></dl>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs">View Source</a>
-  </span>
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="WeAutoCommon.Models.FunctionalExtensions.html#WeAutoCommon_Models_FunctionalExtensions_ToMaybe__1___0_">FunctionalExtensions.ToMaybe&lt;T&gt;(T)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
   <a id="WeChatAuto_Services_OCRService__ctor_" data-uid="WeChatAuto.Services.OCRService.#ctor*"></a>
-  <h4 id="WeChatAuto_Services_OCRService__ctor" data-uid="WeChatAuto.Services.OCRService.#ctor">OCRService()</h4>
+
+  <h3 id="WeChatAuto_Services_OCRService__ctor" data-uid="WeChatAuto.Services.OCRService.#ctor">
+  OCRService()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public OCRService()</code></pre>
   </div>
-  <h3 id="properties">Properties
-</h3>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs">View Source</a>
-  </span>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
   <a id="WeChatAuto_Services_OCRService_OcrEngin_" data-uid="WeChatAuto.Services.OCRService.OcrEngin*"></a>
-  <h4 id="WeChatAuto_Services_OCRService_OcrEngin" data-uid="WeChatAuto.Services.OCRService.OcrEngin">OcrEngin</h4>
+
+  <h3 id="WeChatAuto_Services_OCRService_OcrEngin" data-uid="WeChatAuto.Services.OCRService.OcrEngin">
+  OcrEngin
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public OcrLite OcrEngin { get; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">OcrLite</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="methods">Methods
-</h3>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">OcrLite</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
   <a id="WeChatAuto_Services_OCRService_CaptureRect_" data-uid="WeChatAuto.Services.OCRService.CaptureRect*"></a>
-  <h4 id="WeChatAuto_Services_OCRService_CaptureRect_System_Drawing_Rectangle_" data-uid="WeChatAuto.Services.OCRService.CaptureRect(System.Drawing.Rectangle)">CaptureRect(Rectangle)</h4>
+
+  <h3 id="WeChatAuto_Services_OCRService_CaptureRect_System_Drawing_Rectangle_" data-uid="WeChatAuto.Services.OCRService.CaptureRect(System.Drawing.Rectangle)">
+  CaptureRect(Rectangle)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public static Bitmap CaptureRect(Rectangle rect)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.rectangle">Rectangle</a></td>
-        <td><span class="parametername">rect</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.bitmap">Bitmap</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>rect</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.rectangle">Rectangle</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.bitmap">Bitmap</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Services_OCRService_ContainsTemplate_" data-uid="WeChatAuto.Services.OCRService.ContainsTemplate*"></a>
-  <h4 id="WeChatAuto_Services_OCRService_ContainsTemplate_Emgu_CV_Mat_Emgu_CV_Mat_System_Double_" data-uid="WeChatAuto.Services.OCRService.ContainsTemplate(Emgu.CV.Mat,Emgu.CV.Mat,System.Double)">ContainsTemplate(Mat, Mat, double)</h4>
+
+  <h3 id="WeChatAuto_Services_OCRService_ContainsTemplate_Emgu_CV_Mat_Emgu_CV_Mat_System_Double_" data-uid="WeChatAuto.Services.OCRService.ContainsTemplate(Emgu.CV.Mat,Emgu.CV.Mat,System.Double)">
+  ContainsTemplate(Mat, Mat, double)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public bool ContainsTemplate(Mat source, Mat template, double threshold = 0.95)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Mat</span></td>
-        <td><span class="parametername">source</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">Mat</span></td>
-        <td><span class="parametername">template</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></td>
-        <td><span class="parametername">threshold</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>source</code> <span class="xref">Mat</span></dt>
+    <dd></dd>
+    <dt><code>template</code> <span class="xref">Mat</span></dt>
+    <dd></dd>
+    <dt><code>threshold</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Services_OCRService_CropCalendarColumn_" data-uid="WeChatAuto.Services.OCRService.CropCalendarColumn*"></a>
-  <h4 id="WeChatAuto_Services_OCRService_CropCalendarColumn_Emgu_CV_Mat_System_Int32_" data-uid="WeChatAuto.Services.OCRService.CropCalendarColumn(Emgu.CV.Mat,System.Int32)">CropCalendarColumn(Mat, int)</h4>
+
+  <h3 id="WeChatAuto_Services_OCRService_CropCalendarColumn_Emgu_CV_Mat_System_Int32_" data-uid="WeChatAuto.Services.OCRService.CropCalendarColumn(Emgu.CV.Mat,System.Int32)">
+  CropCalendarColumn(Mat, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>微信日期控件处理.
 根据指定的列索引（周几）裁剪出日历对应的单列图像</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Mat CropCalendarColumn(Mat src, int colIndex)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Mat</span></td>
-        <td><span class="parametername">src</span></td>
-        <td><p>原始图像Mat</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">colIndex</span></td>
-        <td><p>列索引（0 代表第 1 列，...，6 代表第 7 列）</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Mat</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>src</code> <span class="xref">Mat</span></dt>
+    <dd><p>原始图像Mat</p>
+</dd>
+    <dt><code>colIndex</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>列索引（0 代表第 1 列，...，6 代表第 7 列）</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Mat</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Services_OCRService_Detect_" data-uid="WeChatAuto.Services.OCRService.Detect*"></a>
-  <h4 id="WeChatAuto_Services_OCRService_Detect_System_Drawing_Bitmap_System_Int32_System_Int32_System_Single_System_Single_System_Single_System_Boolean_System_Boolean_System_Boolean_" data-uid="WeChatAuto.Services.OCRService.Detect(System.Drawing.Bitmap,System.Int32,System.Int32,System.Single,System.Single,System.Single,System.Boolean,System.Boolean,System.Boolean)">Detect(Bitmap, int, int, float, float, float, bool, bool, bool)</h4>
+
+  <h3 id="WeChatAuto_Services_OCRService_Detect_System_Drawing_Bitmap_System_Int32_System_Int32_System_Single_System_Single_System_Single_System_Boolean_System_Boolean_System_Boolean_" data-uid="WeChatAuto.Services.OCRService.Detect(System.Drawing.Bitmap,System.Int32,System.Int32,System.Single,System.Single,System.Single,System.Boolean,System.Boolean,System.Boolean)">
+  Detect(Bitmap, int, int, float, float, float, bool, bool, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public OcrResult Detect(Bitmap bitmap, int padding = 0, int maxSideLen = 1024, float boxScoreThresh = 0.5, float boxThresh = 0.3, float unClipRatio = 1.6, bool doAngle = true, bool mostAngle = false, bool isTest = false)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.bitmap">Bitmap</a></td>
-        <td><span class="parametername">bitmap</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">padding</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">maxSideLen</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></td>
-        <td><span class="parametername">boxScoreThresh</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></td>
-        <td><span class="parametername">boxThresh</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></td>
-        <td><span class="parametername">unClipRatio</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td><span class="parametername">doAngle</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td><span class="parametername">mostAngle</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td><span class="parametername">isTest</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">OcrResult</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>bitmap</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.bitmap">Bitmap</a></dt>
+    <dd></dd>
+    <dt><code>padding</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>maxSideLen</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>boxScoreThresh</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+    <dt><code>boxThresh</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+    <dt><code>unClipRatio</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+    <dt><code>doAngle</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+    <dt><code>mostAngle</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+    <dt><code>isTest</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">OcrResult</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Services_OCRService_DetectAsync_" data-uid="WeChatAuto.Services.OCRService.DetectAsync*"></a>
-  <h4 id="WeChatAuto_Services_OCRService_DetectAsync_System_Drawing_Bitmap_System_Int32_System_Int32_System_Single_System_Single_System_Single_System_Boolean_System_Boolean_System_Boolean_" data-uid="WeChatAuto.Services.OCRService.DetectAsync(System.Drawing.Bitmap,System.Int32,System.Int32,System.Single,System.Single,System.Single,System.Boolean,System.Boolean,System.Boolean)">DetectAsync(Bitmap, int, int, float, float, float, bool, bool, bool)</h4>
+
+  <h3 id="WeChatAuto_Services_OCRService_DetectAsync_System_Drawing_Bitmap_System_Int32_System_Int32_System_Single_System_Single_System_Single_System_Boolean_System_Boolean_System_Boolean_" data-uid="WeChatAuto.Services.OCRService.DetectAsync(System.Drawing.Bitmap,System.Int32,System.Int32,System.Single,System.Single,System.Single,System.Boolean,System.Boolean,System.Boolean)">
+  DetectAsync(Bitmap, int, int, float, float, float, bool, bool, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Task&lt;OcrResult&gt; DetectAsync(Bitmap bitmap, int padding = 0, int maxSideLen = 1024, float boxScoreThresh = 0.5, float boxThresh = 0.3, float unClipRatio = 1.6, bool doAngle = true, bool mostAngle = false, bool isTest = false)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.bitmap">Bitmap</a></td>
-        <td><span class="parametername">bitmap</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">padding</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">maxSideLen</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></td>
-        <td><span class="parametername">boxScoreThresh</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></td>
-        <td><span class="parametername">boxThresh</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></td>
-        <td><span class="parametername">unClipRatio</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td><span class="parametername">doAngle</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td><span class="parametername">mostAngle</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td><span class="parametername">isTest</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<span class="xref">OcrResult</span>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>bitmap</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.bitmap">Bitmap</a></dt>
+    <dd></dd>
+    <dt><code>padding</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>maxSideLen</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>boxScoreThresh</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+    <dt><code>boxThresh</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+    <dt><code>unClipRatio</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+    <dt><code>doAngle</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+    <dt><code>mostAngle</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+    <dt><code>isTest</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<span class="xref">OcrResult</span>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Services_OCRService_GetMatFromBitmap_" data-uid="WeChatAuto.Services.OCRService.GetMatFromBitmap*"></a>
-  <h4 id="WeChatAuto_Services_OCRService_GetMatFromBitmap_System_Drawing_Bitmap_" data-uid="WeChatAuto.Services.OCRService.GetMatFromBitmap(System.Drawing.Bitmap)">GetMatFromBitmap(Bitmap)</h4>
+
+  <h3 id="WeChatAuto_Services_OCRService_GetMatFromBitmap_System_Drawing_Bitmap_" data-uid="WeChatAuto.Services.OCRService.GetMatFromBitmap(System.Drawing.Bitmap)">
+  GetMatFromBitmap(Bitmap)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Mat GetMatFromBitmap(Bitmap bmp)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.bitmap">Bitmap</a></td>
-        <td><span class="parametername">bmp</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Mat</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>bmp</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.bitmap">Bitmap</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Mat</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Services_OCRService_GetMatFromElement_" data-uid="WeChatAuto.Services.OCRService.GetMatFromElement*"></a>
-  <h4 id="WeChatAuto_Services_OCRService_GetMatFromElement_FlaUI_Core_AutomationElements_AutomationElement_" data-uid="WeChatAuto.Services.OCRService.GetMatFromElement(FlaUI.Core.AutomationElements.AutomationElement)">GetMatFromElement(AutomationElement)</h4>
+
+  <h3 id="WeChatAuto_Services_OCRService_GetMatFromElement_FlaUI_Core_AutomationElements_AutomationElement_" data-uid="WeChatAuto.Services.OCRService.GetMatFromElement(FlaUI.Core.AutomationElements.AutomationElement)">
+  GetMatFromElement(AutomationElement)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>通过自动化元素获取OpenCV的Mat对象</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Mat GetMatFromElement(AutomationElement element)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">AutomationElement</span></td>
-        <td><span class="parametername">element</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Mat</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>element</code> <span class="xref">AutomationElement</span></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Mat</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Services_OCRService_GetPointFromDateTime_" data-uid="WeChatAuto.Services.OCRService.GetPointFromDateTime*"></a>
-  <h4 id="WeChatAuto_Services_OCRService_GetPointFromDateTime_Emgu_CV_Mat_System_DateOnly_System_Int32_System_Boolean_" data-uid="WeChatAuto.Services.OCRService.GetPointFromDateTime(Emgu.CV.Mat,System.DateOnly,System.Int32,System.Boolean)">GetPointFromDateTime(Mat, DateOnly, int, bool)</h4>
+
+  <h3 id="WeChatAuto_Services_OCRService_GetPointFromDateTime_Emgu_CV_Mat_System_DateOnly_System_Int32_System_Boolean_" data-uid="WeChatAuto.Services.OCRService.GetPointFromDateTime(Emgu.CV.Mat,System.DateOnly,System.Int32,System.Boolean)">
+  GetPointFromDateTime(Mat, DateOnly, int, bool)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>得到微信日期控件的某日期的坐标.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Point GetPointFromDateTime(Mat src, DateOnly date, int padding, bool isTest = false)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Mat</span></td>
-        <td><span class="parametername">src</span></td>
-        <td><p>源图形矩阵</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.dateonly">DateOnly</a></td>
-        <td><span class="parametername">date</span></td>
-        <td><p>待定位的日期</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">padding</span></td>
-        <td><p>被白，为了提高识别率，建议为：15</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td><span class="parametername">isTest</span></td>
-        <td><p>是否是测试</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></td>
-        <td><p>日期对应的坐标</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>src</code> <span class="xref">Mat</span></dt>
+    <dd><p>源图形矩阵</p>
+</dd>
+    <dt><code>date</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.dateonly">DateOnly</a></dt>
+    <dd><p>待定位的日期</p>
+</dd>
+    <dt><code>padding</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>被白，为了提高识别率，建议为：15</p>
+</dd>
+    <dt><code>isTest</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否是测试</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></dt>
+    <dd><p>日期对应的坐标</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Services_OCRService_InitOCREngin_" data-uid="WeChatAuto.Services.OCRService.InitOCREngin*"></a>
-  <h4 id="WeChatAuto_Services_OCRService_InitOCREngin_WeAutoCommon_Configs_WeChatConfig_" data-uid="WeChatAuto.Services.OCRService.InitOCREngin(WeAutoCommon.Configs.WeChatConfig)">InitOCREngin(WeChatConfig)</h4>
+
+  <h3 id="WeChatAuto_Services_OCRService_InitOCREngin_WeAutoCommon_Configs_WeChatConfig_" data-uid="WeChatAuto.Services.OCRService.InitOCREngin(WeAutoCommon.Configs.WeChatConfig)">
+  InitOCREngin(WeChatConfig)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void InitOCREngin(WeChatConfig config)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="WeAutoCommon.Configs.WeChatConfig.html">WeChatConfig</a></td>
-        <td><span class="parametername">config</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>config</code> <a class="xref" href="WeAutoCommon.Configs.WeChatConfig.html">WeChatConfig</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Services_OCRService_OCRVerticalDetect_" data-uid="WeChatAuto.Services.OCRService.OCRVerticalDetect*"></a>
-  <h4 id="WeChatAuto_Services_OCRService_OCRVerticalDetect_FlaUI_Core_AutomationElements_AutomationElement_System_Single_System_String_System_Boolean_System_Int32_System_Int32_" data-uid="WeChatAuto.Services.OCRService.OCRVerticalDetect(FlaUI.Core.AutomationElements.AutomationElement,System.Single,System.String,System.Boolean,System.Int32,System.Int32)">OCRVerticalDetect(AutomationElement, float, string, bool, int, int)</h4>
+
+  <h3 id="WeChatAuto_Services_OCRService_OCRVerticalDetect_FlaUI_Core_AutomationElements_AutomationElement_System_Single_System_String_System_Boolean_System_Int32_System_Int32_" data-uid="WeChatAuto.Services.OCRService.OCRVerticalDetect(FlaUI.Core.AutomationElements.AutomationElement,System.Single,System.String,System.Boolean,System.Int32,System.Int32)">
+  OCRVerticalDetect(AutomationElement, float, string, bool, int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>OCR识别，找出特定文字的中心坐标,此坐标针对屏幕
 仅支持竖向方向的截取</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Point OCRVerticalDetect(AutomationElement rootElement, float rioRadio, string findStr, bool isTest = false, int Index = 0, int retryNumber = 2)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">AutomationElement</span></td>
-        <td><span class="parametername">rootElement</span></td>
-        <td><p>基础自动化元素</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></td>
-        <td><span class="parametername">rioRadio</span></td>
-        <td><p>坚向方向的截取比例，如0.5,只取原因上半部分</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">findStr</span></td>
-        <td><p>找寻的字符串</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td><span class="parametername">isTest</span></td>
-        <td><p>是否测试</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">Index</span></td>
-        <td><p>索引，如果返回字符串有多个,以第几个为准</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">retryNumber</span></td>
-        <td><p>如果没有找到，重试次数</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>rootElement</code> <span class="xref">AutomationElement</span></dt>
+    <dd><p>基础自动化元素</p>
+</dd>
+    <dt><code>rioRadio</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>坚向方向的截取比例，如0.5,只取原因上半部分</p>
+</dd>
+    <dt><code>findStr</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>找寻的字符串</p>
+</dd>
+    <dt><code>isTest</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否测试</p>
+</dd>
+    <dt><code>Index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>索引，如果返回字符串有多个,以第几个为准</p>
+</dd>
+    <dt><code>retryNumber</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>如果没有找到，重试次数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Services_OCRService_OCRVerticalDetect_" data-uid="WeChatAuto.Services.OCRService.OCRVerticalDetect*"></a>
-  <h4 id="WeChatAuto_Services_OCRService_OCRVerticalDetect_System_Drawing_Rectangle_System_Single_System_String_System_Boolean_System_Int32_System_Int32_" data-uid="WeChatAuto.Services.OCRService.OCRVerticalDetect(System.Drawing.Rectangle,System.Single,System.String,System.Boolean,System.Int32,System.Int32)">OCRVerticalDetect(Rectangle, float, string, bool, int, int)</h4>
+
+  <h3 id="WeChatAuto_Services_OCRService_OCRVerticalDetect_System_Drawing_Rectangle_System_Single_System_String_System_Boolean_System_Int32_System_Int32_" data-uid="WeChatAuto.Services.OCRService.OCRVerticalDetect(System.Drawing.Rectangle,System.Single,System.String,System.Boolean,System.Int32,System.Int32)">
+  OCRVerticalDetect(Rectangle, float, string, bool, int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>OCR识别，找出特定文字的中心坐标,此坐标针对屏幕
 仅支持竖向方向的截取</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Point OCRVerticalDetect(Rectangle rootRect, float rioRadio, string findStr, bool isTest = false, int Index = 0, int retryNumber = 2)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.rectangle">Rectangle</a></td>
-        <td><span class="parametername">rootRect</span></td>
-        <td><p>基础自动化元素的Rectangle</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></td>
-        <td><span class="parametername">rioRadio</span></td>
-        <td><p>坚向方向的截取比例，如0.5,只取原因上半部分</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">findStr</span></td>
-        <td><p>找寻的字符串</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td><span class="parametername">isTest</span></td>
-        <td><p>是否测试</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">Index</span></td>
-        <td><p>索引，如果返回字符串有多个,以第几个为准</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">retryNumber</span></td>
-        <td><p>如果没有找到，重试次数</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>rootRect</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.rectangle">Rectangle</a></dt>
+    <dd><p>基础自动化元素的Rectangle</p>
+</dd>
+    <dt><code>rioRadio</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd><p>坚向方向的截取比例，如0.5,只取原因上半部分</p>
+</dd>
+    <dt><code>findStr</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>找寻的字符串</p>
+</dd>
+    <dt><code>isTest</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd><p>是否测试</p>
+</dd>
+    <dt><code>Index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>索引，如果返回字符串有多个,以第几个为准</p>
+</dd>
+    <dt><code>retryNumber</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>如果没有找到，重试次数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Services_OCRService_OCRVerticalLeftCuttingDetect_" data-uid="WeChatAuto.Services.OCRService.OCRVerticalLeftCuttingDetect*"></a>
-  <h4 id="WeChatAuto_Services_OCRService_OCRVerticalLeftCuttingDetect_FlaUI_Core_AutomationElements_AutomationElement_System_Single_System_Int32_System_String_System_Boolean_System_Int32_System_Int32_" data-uid="WeChatAuto.Services.OCRService.OCRVerticalLeftCuttingDetect(FlaUI.Core.AutomationElements.AutomationElement,System.Single,System.Int32,System.String,System.Boolean,System.Int32,System.Int32)">OCRVerticalLeftCuttingDetect(AutomationElement, float, int, string, bool, int, int)</h4>
+
+  <h3 id="WeChatAuto_Services_OCRService_OCRVerticalLeftCuttingDetect_FlaUI_Core_AutomationElements_AutomationElement_System_Single_System_Int32_System_String_System_Boolean_System_Int32_System_Int32_" data-uid="WeChatAuto.Services.OCRService.OCRVerticalLeftCuttingDetect(FlaUI.Core.AutomationElements.AutomationElement,System.Single,System.Int32,System.String,System.Boolean,System.Int32,System.Int32)">
+  OCRVerticalLeftCuttingDetect(AutomationElement, float, int, string, bool, int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Point OCRVerticalLeftCuttingDetect(AutomationElement rootElement, float rioRadio, int leftCutting, string findStr, bool isTest = false, int Index = 0, int retryNumber = 2)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">AutomationElement</span></td>
-        <td><span class="parametername">rootElement</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></td>
-        <td><span class="parametername">rioRadio</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">leftCutting</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">findStr</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td><span class="parametername">isTest</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">Index</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">retryNumber</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>rootElement</code> <span class="xref">AutomationElement</span></dt>
+    <dd></dd>
+    <dt><code>rioRadio</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+    <dt><code>leftCutting</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>findStr</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>isTest</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+    <dt><code>Index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>retryNumber</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Services_OCRService_OCRVerticalLeftCuttingDetect_" data-uid="WeChatAuto.Services.OCRService.OCRVerticalLeftCuttingDetect*"></a>
-  <h4 id="WeChatAuto_Services_OCRService_OCRVerticalLeftCuttingDetect_System_Drawing_Rectangle_System_Single_System_Int32_System_String_System_Boolean_System_Int32_System_Int32_" data-uid="WeChatAuto.Services.OCRService.OCRVerticalLeftCuttingDetect(System.Drawing.Rectangle,System.Single,System.Int32,System.String,System.Boolean,System.Int32,System.Int32)">OCRVerticalLeftCuttingDetect(Rectangle, float, int, string, bool, int, int)</h4>
+
+  <h3 id="WeChatAuto_Services_OCRService_OCRVerticalLeftCuttingDetect_System_Drawing_Rectangle_System_Single_System_Int32_System_String_System_Boolean_System_Int32_System_Int32_" data-uid="WeChatAuto.Services.OCRService.OCRVerticalLeftCuttingDetect(System.Drawing.Rectangle,System.Single,System.Int32,System.String,System.Boolean,System.Int32,System.Int32)">
+  OCRVerticalLeftCuttingDetect(Rectangle, float, int, string, bool, int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Point OCRVerticalLeftCuttingDetect(Rectangle rootRect, float rioRadio, int leftCutting, string findStr, bool isTest = false, int Index = 0, int retryNumber = 2)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.rectangle">Rectangle</a></td>
-        <td><span class="parametername">rootRect</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></td>
-        <td><span class="parametername">rioRadio</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">leftCutting</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">findStr</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td><span class="parametername">isTest</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">Index</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">retryNumber</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>rootRect</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.rectangle">Rectangle</a></dt>
+    <dd></dd>
+    <dt><code>rioRadio</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.single">float</a></dt>
+    <dd></dd>
+    <dt><code>leftCutting</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>findStr</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>isTest</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+    <dt><code>Index</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>retryNumber</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.drawing.point">Point</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Services_OCRService_ProcessImageForOcr_" data-uid="WeChatAuto.Services.OCRService.ProcessImageForOcr*"></a>
-  <h4 id="WeChatAuto_Services_OCRService_ProcessImageForOcr_Emgu_CV_Mat_System_Int32_" data-uid="WeChatAuto.Services.OCRService.ProcessImageForOcr(Emgu.CV.Mat,System.Int32)">ProcessImageForOcr(Mat, int)</h4>
+
+  <h3 id="WeChatAuto_Services_OCRService_ProcessImageForOcr_Emgu_CV_Mat_System_Int32_" data-uid="WeChatAuto.Services.OCRService.ProcessImageForOcr(Emgu.CV.Mat,System.Int32)">
+  ProcessImageForOcr(Mat, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>对图像进行预处理：仅切除无用极宽空白，保持文字原始清晰度与笔画边缘</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Mat ProcessImageForOcr(Mat src, int padding = 15)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Mat</span></td>
-        <td><span class="parametername">src</span></td>
-        <td><p>源图（彩色或灰度 Mat）</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">padding</span></td>
-        <td><p>裁剪后四周保留的像素 padding</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Mat</span></td>
-        <td><p>处理后的 Mat 对象</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>src</code> <span class="xref">Mat</span></dt>
+    <dd><p>源图（彩色或灰度 Mat）</p>
+</dd>
+    <dt><code>padding</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>裁剪后四周保留的像素 padding</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><span class="xref">Mat</span></dt>
+    <dd><p>处理后的 Mat 对象</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Services_OCRService_ToGray_" data-uid="WeChatAuto.Services.OCRService.ToGray*"></a>
-  <h4 id="WeChatAuto_Services_OCRService_ToGray_Emgu_CV_Mat_Emgu_CV_Mat_" data-uid="WeChatAuto.Services.OCRService.ToGray(Emgu.CV.Mat,Emgu.CV.Mat)">ToGray(Mat, Mat)</h4>
+
+  <h3 id="WeChatAuto_Services_OCRService_ToGray_Emgu_CV_Mat_Emgu_CV_Mat_" data-uid="WeChatAuto.Services.OCRService.ToGray(Emgu.CV.Mat,Emgu.CV.Mat)">
+  ToGray(Mat, Mat)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public void ToGray(Mat src, Mat dst)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">Mat</span></td>
-        <td><span class="parametername">src</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><span class="xref">Mat</span></td>
-        <td><span class="parametername">dst</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="extensionmethods">Extension Methods</h3>
-  <div>
-      <a class="xref" href="WeAutoCommon.Models.FunctionalExtensions.html#WeAutoCommon_Models_FunctionalExtensions_ToMaybe__1___0_">FunctionalExtensions.ToMaybe&lt;T&gt;(T)</a>
-  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>src</code> <span class="xref">Mat</span></dt>
+    <dd></dd>
+    <dt><code>dst</code> <span class="xref">Mat</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
 
 </article>
-          </div>
 
-          <div class="hidden-sm col-md-2" role="complementary">
-            <div class="sideaffix">
-              <div class="contribution">
-                <ul class="nav">
-                  <li>
-                    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs" class="contribution-link">View Source</a>
-                  </li>
-                </ul>
-              </div>
-              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-                <h5>In this article</h5>
-                <div></div>
-              </nav>
-            </div>
-          </div>
+        <div class="contribution d-print-none">
+          <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Services/OCRService.cs" class="edit-link">Edit this page</a>
         </div>
+
+
       </div>
 
-      <footer>
-        <div class="grad-bottom"></div>
-        <div class="footer">
-          <div class="container">
-            <span class="pull-right">
-              <a href="#top">Back to top</a>
-            </span>
-      
-      <span>Generated by <strong>DocFX</strong></span>
-          </div>
-        </div>
-      </footer>
-    </div>
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
 
-    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
-    <script type="text/javascript" src="../styles/docfx.js"></script>
-    <script type="text/javascript" src="../styles/main.js"></script>
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

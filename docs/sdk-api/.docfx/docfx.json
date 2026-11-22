@@ -29,7 +29,8 @@
     ],
     "output": "out",
     "template": [
-      "default"
+      "default",
+      "_templates/modern"
     ],
     "globalMetadata": {
       "_appName": "WeChatAuto.SDK",

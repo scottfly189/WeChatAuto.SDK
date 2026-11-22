@@ -1,96 +1,126 @@
 <!DOCTYPE html>
-<!--[if IE]><![endif]-->
 <html>
-
   <head>
     <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
       <title>Class WeChatConfig | WeChatAuto.SDK API 参考 </title>
-      <meta name="viewport" content="width=device-width">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta name="title" content="Class WeChatConfig | WeChatAuto.SDK API 参考 ">
-    
-    <meta name="description" content="微信自动化参数配置类">
-      <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
-      <link rel="stylesheet" href="../styles/docfx.css">
-      <link rel="stylesheet" href="../styles/main.css">
-      <meta property="docfx:navrel" content="../toc.html">
-      <meta property="docfx:tocrel" content="toc.html">
-    
-    <meta property="docfx:rel" content="../">
-    
+      
+      <meta name="description" content="微信自动化参数配置类">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
   </head>
-  <body data-spy="scroll" data-target="#affix" data-offset="120">
-    <div id="wrapper">
-      <header>
 
-        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-
-              <a class="navbar-brand" href="../index.html">
-                <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
-              </a>
-            </div>
-            <div class="collapse navbar-collapse" id="navbar">
-              <form class="navbar-form navbar-right" role="search" id="search">
-                <div class="form-group">
-                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
-                </div>
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
+            WeChatAuto.SDK
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
               </form>
             </div>
           </div>
-        </nav>
-
-        <div class="subnav navbar navbar-default">
-          <div class="container hide-when-search" id="breadcrumb">
-            <ul class="breadcrumb">
-              <li></li>
-            </ul>
-          </div>
         </div>
-      </header>
-      <div class="container body-content">
+      </nav>
+    </header>
 
-        <div id="search-results">
-          <div class="search-list">Search Results for <span></span></div>
-          <div class="sr-items">
-            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
           </div>
-          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
         </div>
       </div>
-      <div role="main" class="container body-content hide-when-search">
 
-        <div class="sidenav hide-when-search">
-          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
-          <div class="sidetoggle collapse" id="sidetoggle">
-            <div id="sidetoc"></div>
-          </div>
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
         </div>
-        <div class="article row grid-right">
-          <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="WeAutoCommon.Configs.WeChatConfig">
+
+        <article data-uid="WeAutoCommon.Configs.WeChatConfig">
 
 
 
-  <h1 id="WeAutoCommon_Configs_WeChatConfig" data-uid="WeAutoCommon.Configs.WeChatConfig" class="text-break">Class WeChatConfig</h1>
-  <div class="markdown level0 summary"><p>微信自动化参数配置类</p>
-</div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="inheritance">
-    <h5>Inheritance</h5>
-    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
-    <div class="level1"><span class="xref">WeChatConfig</span></div>
+  <h1 id="WeAutoCommon_Configs_WeChatConfig" data-uid="WeAutoCommon.Configs.WeChatConfig" class="text-break">
+Class WeChatConfig  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="WeAutoCommon.html">WeAutoCommon</a>.<a class="xref" href="WeAutoCommon.Configs.html">Configs</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>WeAutoCommon.dll</dd></dl>
   </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
+
+  <div class="markdown summary"><p>微信自动化参数配置类</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class WeChatConfig</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">WeChatConfig</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
     </div>
@@ -112,179 +142,227 @@
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
     </div>
-  </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="WeAutoCommon.html">WeAutoCommon</a>.<a class="xref" href="WeAutoCommon.Configs.html">Configs</a></h6>
-  <h6><strong>Assembly</strong>: WeAutoCommon.dll</h6>
-  <h5 id="WeAutoCommon_Configs_WeChatConfig_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class WeChatConfig</code></pre>
-  </div>
-  <h3 id="constructors">Constructors
-</h3>
+  </dd></dl>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="WeAutoCommon.Models.FunctionalExtensions.html#WeAutoCommon_Models_FunctionalExtensions_ToMaybe__1___0_">FunctionalExtensions.ToMaybe&lt;T&gt;(T)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig__ctor_" data-uid="WeAutoCommon.Configs.WeChatConfig.#ctor*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig__ctor" data-uid="WeAutoCommon.Configs.WeChatConfig.#ctor">WeChatConfig()</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig__ctor" data-uid="WeAutoCommon.Configs.WeChatConfig.#ctor">
+  WeChatConfig()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public WeChatConfig()</code></pre>
   </div>
-  <h3 id="fields">Fields
-</h3>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_AvatorToWeixinButtonOffsetY" data-uid="WeAutoCommon.Configs.WeChatConfig.AvatorToWeixinButtonOffsetY">AvatorToWeixinButtonOffsetY</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="fields">Fields
+</h2>
+
+
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_AvatorToWeixinButtonOffsetY" data-uid="WeAutoCommon.Configs.WeChatConfig.AvatorToWeixinButtonOffsetY">
+  AvatorToWeixinButtonOffsetY
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>头像按钮距离微信按钮的Y轴偏移量</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;avator_to_weixin_button_offset_y&quot;)]
 public int AvatorToWeixinButtonOffsetY</code></pre>
   </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_HistoryMessageOffset_X" data-uid="WeAutoCommon.Configs.WeChatConfig.HistoryMessageOffset_X">HistoryMessageOffset_X</h4>
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_HistoryMessageOffset_X" data-uid="WeAutoCommon.Configs.WeChatConfig.HistoryMessageOffset_X">
+  HistoryMessageOffset_X
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>历史消息X偏移距离</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;history_message_offset_x&quot;)]
 public int HistoryMessageOffset_X</code></pre>
   </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_HistoryMessageOffset_Y" data-uid="WeAutoCommon.Configs.WeChatConfig.HistoryMessageOffset_Y">HistoryMessageOffset_Y</h4>
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_HistoryMessageOffset_Y" data-uid="WeAutoCommon.Configs.WeChatConfig.HistoryMessageOffset_Y">
+  HistoryMessageOffset_Y
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>历史消息Y偏移距离</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;history_message_offset_y&quot;)]
 public int HistoryMessageOffset_Y</code></pre>
   </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_HistoryRetryNumber" data-uid="WeAutoCommon.Configs.WeChatConfig.HistoryRetryNumber">HistoryRetryNumber</h4>
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_HistoryRetryNumber" data-uid="WeAutoCommon.Configs.WeChatConfig.HistoryRetryNumber">
+  HistoryRetryNumber
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>历史消息滚动时重试次数</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;history_retry_number&quot;)]
 public int HistoryRetryNumber</code></pre>
   </div>
-  <h5 class="fieldValue">Field Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="properties">Properties
-</h3>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+  <h4 class="section">Field Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="properties">Properties
+</h2>
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_AsrContentPrefix_" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrContentPrefix*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_AsrContentPrefix" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrContentPrefix">AsrContentPrefix</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_AsrContentPrefix" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrContentPrefix">
+  AsrContentPrefix
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>写入 <code>Content</code> 的前缀，默认空串（即只写转写文本）。
 设为 <code>[语音] </code> 可保留「这是语音」的标记，同时让检索/机器人仍能拿到文本。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;asr_content_prefix&quot;)]
 public string AsrContentPrefix { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_AsrEnabled_" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrEnabled*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_AsrEnabled" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrEnabled">AsrEnabled</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_AsrEnabled" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrEnabled">
+  AsrEnabled
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>是否启用本地语音转写：增量同步到的语音 wav 在后台线程转文字，回写中间表
 <code>wechat_message.Content</code>（首轮同步不转写，避免拖慢首轮）。</p>
 <p>默认关闭；模型由用户自行下载并放到 <a class="xref" href="WeAutoCommon.Configs.WeChatConfig.html#WeAutoCommon_Configs_WeChatConfig_AsrModelDir">AsrModelDir</a>，SDK 不随包发布模型。</p>
@@ -293,32 +371,36 @@ public string AsrContentPrefix { get; set; }</code></pre>
 下载后请放到 <a class="xref" href="WeAutoCommon.Configs.WeChatConfig.html#WeAutoCommon_Configs_WeChatConfig_AsrModelDir">AsrModelDir</a>的目录
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;asr_enabled&quot;)]
 public bool AsrEnabled { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_AsrIncludeFirstRound_" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrIncludeFirstRound*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_AsrIncludeFirstRound" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrIncludeFirstRound">AsrIncludeFirstRound</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_AsrIncludeFirstRound" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrIncludeFirstRound">
+  AsrIncludeFirstRound
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>首轮同步也转写（默认 <code>false</code>）。</p>
 <p>
 首轮要全量导入且通常是冷启动，ASR 与同步会争 CPU；默认只在增量轮次转写。
@@ -326,121 +408,137 @@ public bool AsrEnabled { get; set; }</code></pre>
 </p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;asr_include_first_round&quot;)]
 public bool AsrIncludeFirstRound { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_AsrLanguage_" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrLanguage*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_AsrLanguage" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrLanguage">AsrLanguage</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_AsrLanguage" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrLanguage">
+  AsrLanguage
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>语种：<code>auto</code>（默认，自动识别）/ <code>zh</code> / <code>yue</code>（粤语）/ <code>en</code> / <code>ja</code> / <code>ko</code>。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;asr_language&quot;)]
 public string AsrLanguage { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_AsrMaxSeconds_" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrMaxSeconds*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_AsrMaxSeconds" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrMaxSeconds">AsrMaxSeconds</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_AsrMaxSeconds" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrMaxSeconds">
+  AsrMaxSeconds
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>超过该秒数的音频跳过（微信语音 &lt;60s），默认 120</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;asr_max_seconds&quot;)]
 public int AsrMaxSeconds { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_AsrModelDir_" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrModelDir*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_AsrModelDir" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrModelDir">AsrModelDir</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_AsrModelDir" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrModelDir">
+  AsrModelDir
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>ASR 模型目录（必填，启用时）。约定目录下直接放 sherpa-onnx SenseVoice 的两个文件：
 <code>model.int8.onnx</code>（或 <code>model.onnx</code>）与 <code>tokens.txt</code>。
 支持绝对路径和 <code>%ENV%</code> 环境变量。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;asr_model_dir&quot;)]
 public string AsrModelDir { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_AsrModelDownloadUrl_" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrModelDownloadUrl*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_AsrModelDownloadUrl" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrModelDownloadUrl">AsrModelDownloadUrl</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_AsrModelDownloadUrl" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrModelDownloadUrl">
+  AsrModelDownloadUrl
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>ASR 模型下载地址（<strong>说明用，不会自动下载</strong>）。</p>
 <p>
 默认指向仓库 <code>Resources/sensevoice-small.rar</code> 中记录的 R2 地址：
@@ -452,178 +550,202 @@ public string AsrModelDir { get; set; }</code></pre>
 </p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;asr_model_download_url&quot;)]
 public string AsrModelDownloadUrl { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_AsrModelName_" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrModelName*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_AsrModelName" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrModelName">AsrModelName</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_AsrModelName" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrModelName">
+  AsrModelName
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>模型标识，写入日志与中间表内容来源；默认 <code>sensevoice-small-int8</code>。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;asr_model_name&quot;)]
 public string AsrModelName { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_AsrNumThreads_" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrNumThreads*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_AsrNumThreads" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrNumThreads">AsrNumThreads</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_AsrNumThreads" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrNumThreads">
+  AsrNumThreads
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>ASR 线程数（onnxruntime 内部并行度），默认 2；CPU 优先建议 1–4。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;asr_num_threads&quot;)]
 public int AsrNumThreads { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_AsrQueueCapacity_" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrQueueCapacity*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_AsrQueueCapacity" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrQueueCapacity">AsrQueueCapacity</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_AsrQueueCapacity" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrQueueCapacity">
+  AsrQueueCapacity
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>后台队列容量，默认 512；满时丢弃新任务（不影响同步链路）。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;asr_queue_capacity&quot;)]
 public int AsrQueueCapacity { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_AsrUseItn_" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrUseItn*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_AsrUseItn" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrUseItn">AsrUseItn</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_AsrUseItn" data-uid="WeAutoCommon.Configs.WeChatConfig.AsrUseItn">
+  AsrUseItn
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>是否启用 SenseVoice 的逆文本归一化（数字/日期转写），默认开启。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;asr_use_itn&quot;)]
 public bool AsrUseItn { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_CaptureUIPath_" data-uid="WeAutoCommon.Configs.WeChatConfig.CaptureUIPath*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_CaptureUIPath" data-uid="WeAutoCommon.Configs.WeChatConfig.CaptureUIPath">CaptureUIPath</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_CaptureUIPath" data-uid="WeAutoCommon.Configs.WeChatConfig.CaptureUIPath">
+  CaptureUIPath
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>出错后捕获UI保存路径
 默认保存到当前目录下的Capture文件夹,可以修改为其他路径</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;capture_ui_path&quot;)]
 public string CaptureUIPath { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_ConnectionString_" data-uid="WeAutoCommon.Configs.WeChatConfig.ConnectionString*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_ConnectionString" data-uid="WeAutoCommon.Configs.WeChatConfig.ConnectionString">ConnectionString</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_ConnectionString" data-uid="WeAutoCommon.Configs.WeChatConfig.ConnectionString">
+  ConnectionString
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>数据库连接字符串
 &quot;ConnectionString&quot;: &quot;PORT=5432;DATABASE=xxx;HOST=localhost;PASSWORD=xxx;USER ID=xxx&quot;, // PostgreSQL（Kdbndp、OpenGauss通用）
 &quot;ConnectionString&quot;: &quot;Server=localhost;Database=xxx;Uid=xxx;Pwd=xxx;SslMode=None;AllowLoadLocalInfile=true;AllowUserVariables=true;&quot;, // MySql,
@@ -632,271 +754,307 @@ public string CaptureUIPath { get; set; }</code></pre>
 &quot;ConnectionString&quot;: &quot;host=222.71.212.3;Port=27017;Database=testDB;Username= root;Password=123456;authSource=admin;replicaSet=&quot;, // MongoDB</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public string ConnectionString { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_ConversationInterval_" data-uid="WeAutoCommon.Configs.WeChatConfig.ConversationInterval*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_ConversationInterval" data-uid="WeAutoCommon.Configs.WeChatConfig.ConversationInterval">ConversationInterval</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_ConversationInterval" data-uid="WeAutoCommon.Configs.WeChatConfig.ConversationInterval">
+  ConversationInterval
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>会话列表鼠标滚动行数.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;conversation_interval&quot;)]
 public int ConversationInterval { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_DbTppe_" data-uid="WeAutoCommon.Configs.WeChatConfig.DbTppe*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_DbTppe" data-uid="WeAutoCommon.Configs.WeChatConfig.DbTppe">DbTppe</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_DbTppe" data-uid="WeAutoCommon.Configs.WeChatConfig.DbTppe">
+  DbTppe
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>数据库类型，几乎支持所有数据库类型，默认是sqlite数据库,可以改成其他的数据库</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public DbType DbTppe { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">DbType</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><span class="xref">DbType</span></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_DebugMode_" data-uid="WeAutoCommon.Configs.WeChatConfig.DebugMode*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_DebugMode" data-uid="WeAutoCommon.Configs.WeChatConfig.DebugMode">DebugMode</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_DebugMode" data-uid="WeAutoCommon.Configs.WeChatConfig.DebugMode">
+  DebugMode
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>是否启用调试模式</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;debug_mode&quot;)]
 public bool DebugMode { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_DownloadSnsImages_" data-uid="WeAutoCommon.Configs.WeChatConfig.DownloadSnsImages*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_DownloadSnsImages" data-uid="WeAutoCommon.Configs.WeChatConfig.DownloadSnsImages">DownloadSnsImages</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_DownloadSnsImages" data-uid="WeAutoCommon.Configs.WeChatConfig.DownloadSnsImages">
+  DownloadSnsImages
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>是否下载朋友圈图片 / 视频到本机，默认 <code>false</code>（不下载，保持 hot-sync 原有耗时）。</p>
 <p>开启后由独立的旁路后台任务处理：只处理 <code>wechat_sns_media</code> 里
 <code>MediaType</code> 为 2（图片）/ 4、5、6（视频）且 <code>DownloadStatus=0</code> 的行，
 落盘路径写入 <code>LocalPath</code>，成功 / 永久失败都会写状态，不会反复重试。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;download_sns_images&quot;)]
 public bool DownloadSnsImages { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_EnableMouseKeyboardSimulator_" data-uid="WeAutoCommon.Configs.WeChatConfig.EnableMouseKeyboardSimulator*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_EnableMouseKeyboardSimulator" data-uid="WeAutoCommon.Configs.WeChatConfig.EnableMouseKeyboardSimulator">EnableMouseKeyboardSimulator</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_EnableMouseKeyboardSimulator" data-uid="WeAutoCommon.Configs.WeChatConfig.EnableMouseKeyboardSimulator">
+  EnableMouseKeyboardSimulator
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>是否启用鼠标键盘模拟器
 启用后，键盘鼠标操作会通过模拟器进行操作，而不是通过windows automation进行操作。
 注意：需要购买键鼠模拟器，并在此处启用。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;enable_mouse_keyboard_simulator&quot;)]
 public bool EnableMouseKeyboardSimulator { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_EnableOCR_" data-uid="WeAutoCommon.Configs.WeChatConfig.EnableOCR*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_EnableOCR" data-uid="WeAutoCommon.Configs.WeChatConfig.EnableOCR">EnableOCR</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_EnableOCR" data-uid="WeAutoCommon.Configs.WeChatConfig.EnableOCR">
+  EnableOCR
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>是否启用OCR,但是一些功能由于腾迅的限制必须要启用OCR
 如果启用OCR,则必须保证OCR模型在models目录下，并且需要配置好模型文件名称
 如果启用UI Automation方式的消息监听，请设置为<code>true</code>
 注：获取微信消息官方推荐以 Database Read 为主;</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;enable_ocr&quot;)]
 public bool EnableOCR { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_EnableRecordVideo_" data-uid="WeAutoCommon.Configs.WeChatConfig.EnableRecordVideo*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_EnableRecordVideo" data-uid="WeAutoCommon.Configs.WeChatConfig.EnableRecordVideo">EnableRecordVideo</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_EnableRecordVideo" data-uid="WeAutoCommon.Configs.WeChatConfig.EnableRecordVideo">
+  EnableRecordVideo
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>是否启用视频录制</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;enable_record_video&quot;)]
 public bool EnableRecordVideo { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_FirstRunDays_" data-uid="WeAutoCommon.Configs.WeChatConfig.FirstRunDays*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_FirstRunDays" data-uid="WeAutoCommon.Configs.WeChatConfig.FirstRunDays">FirstRunDays</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_FirstRunDays" data-uid="WeAutoCommon.Configs.WeChatConfig.FirstRunDays">
+  FirstRunDays
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>账号首次同步时的历史窗口天数，默认 30。
 0 表示首轮不回补历史，只同步从启动时刻起的新数据。负数按 0 处理（记一条日志，不会抛异常或中断启动）。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;first_run_days&quot;)]
 public int FirstRunDays { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_HotSyncCopyLog_" data-uid="WeAutoCommon.Configs.WeChatConfig.HotSyncCopyLog*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_HotSyncCopyLog" data-uid="WeAutoCommon.Configs.WeChatConfig.HotSyncCopyLog">HotSyncCopyLog</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_HotSyncCopyLog" data-uid="WeAutoCommon.Configs.WeChatConfig.HotSyncCopyLog">
+  HotSyncCopyLog
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>是否把 hot-sync 的 VSS/live 源读取诊断日志写到独立文件（默认 <code>false</code>）。</p>
 <p>
 开启后写 <code>%LOCALAPPDATA%\WeChatAuto\logs\hotsync-copy.log</code>，每行一条
@@ -905,122 +1063,138 @@ public int FirstRunDays { get; set; }</code></pre>
 </p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;hotsync_copy_log&quot;)]
 public bool HotSyncCopyLog { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_HotSyncFirstRunTextOnly_" data-uid="WeAutoCommon.Configs.WeChatConfig.HotSyncFirstRunTextOnly*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_HotSyncFirstRunTextOnly" data-uid="WeAutoCommon.Configs.WeChatConfig.HotSyncFirstRunTextOnly">HotSyncFirstRunTextOnly</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_HotSyncFirstRunTextOnly" data-uid="WeAutoCommon.Configs.WeChatConfig.HotSyncFirstRunTextOnly">
+  HotSyncFirstRunTextOnly
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>首轮仅同步文字：历史图片/文件/视频不做路径解析、解密、下载，Content 保留
 <code>[图片]</code>/<code>[文件]</code>/<code>[视频]</code> 占位符；增量轮次恢复正常媒体处理。</p>
 <p>语音不受影响，仍按 <code>AsrIncludeFirstRound</code> 等现有机制处理。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;hotsync_first_run_text_only&quot;)]
 public bool HotSyncFirstRunTextOnly { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_HotSyncLiveSource_" data-uid="WeAutoCommon.Configs.WeChatConfig.HotSyncLiveSource*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_HotSyncLiveSource" data-uid="WeAutoCommon.Configs.WeChatConfig.HotSyncLiveSource">HotSyncLiveSource</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_HotSyncLiveSource" data-uid="WeAutoCommon.Configs.WeChatConfig.HotSyncLiveSource">
+  HotSyncLiveSource
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>VSS 不可用/失败时是否直接只读打开微信源库（默认 <code>true</code>）。
 优先级低于 <a class="xref" href="WeAutoCommon.Configs.WeChatConfig.html#WeAutoCommon_Configs_WeChatConfig_HotSyncVssSource">HotSyncVssSource</a>；两者都开时先 VSS，失败才 live。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;hotsync_live_source&quot;)]
 public bool HotSyncLiveSource { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_HotSyncVssMinIntervalSeconds_" data-uid="WeAutoCommon.Configs.WeChatConfig.HotSyncVssMinIntervalSeconds*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_HotSyncVssMinIntervalSeconds" data-uid="WeAutoCommon.Configs.WeChatConfig.HotSyncVssMinIntervalSeconds">HotSyncVssMinIntervalSeconds</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_HotSyncVssMinIntervalSeconds" data-uid="WeAutoCommon.Configs.WeChatConfig.HotSyncVssMinIntervalSeconds">
+  HotSyncVssMinIntervalSeconds
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>VSS 两次新建快照的最小间隔（秒），默认 2；源库没变时不新建。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;hotsync_vss_min_interval_seconds&quot;)]
 public double HotSyncVssMinIntervalSeconds { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.double">double</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_HotSyncVssSource_" data-uid="WeAutoCommon.Configs.WeChatConfig.HotSyncVssSource*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_HotSyncVssSource" data-uid="WeAutoCommon.Configs.WeChatConfig.HotSyncVssSource">HotSyncVssSource</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_HotSyncVssSource" data-uid="WeAutoCommon.Configs.WeChatConfig.HotSyncVssSource">
+  HotSyncVssSource
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>是否用 VSS 卷快照作为 hot-sync 只读源（默认 <code>true</code>）。</p>
 <p>
 开启后首轮/增量都不再整库拷贝；每轮按源库变化/最小间隔创建或复用快照，
@@ -1028,205 +1202,233 @@ public double HotSyncVssMinIntervalSeconds { get; set; }</code></pre>
 </p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;hotsync_vss_source&quot;)]
 public bool HotSyncVssSource { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_IsForceOpenUITree_" data-uid="WeAutoCommon.Configs.WeChatConfig.IsForceOpenUITree*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_IsForceOpenUITree" data-uid="WeAutoCommon.Configs.WeChatConfig.IsForceOpenUITree">IsForceOpenUITree</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_IsForceOpenUITree" data-uid="WeAutoCommon.Configs.WeChatConfig.IsForceOpenUITree">
+  IsForceOpenUITree
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>在微信的 UI Tree 未被腾讯公开的情况下是否强开 UI Tree，默认 <code>true</code>。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public bool IsForceOpenUITree { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_IsOptimizeMainWindowLayout_" data-uid="WeAutoCommon.Configs.WeChatConfig.IsOptimizeMainWindowLayout*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_IsOptimizeMainWindowLayout" data-uid="WeAutoCommon.Configs.WeChatConfig.IsOptimizeMainWindowLayout">IsOptimizeMainWindowLayout</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_IsOptimizeMainWindowLayout" data-uid="WeAutoCommon.Configs.WeChatConfig.IsOptimizeMainWindowLayout">
+  IsOptimizeMainWindowLayout
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>是否启动的时候自动优化主窗口布局,默认是True,即优化，可以设置为不优化。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public bool IsOptimizeMainWindowLayout { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_KMDevicePID_" data-uid="WeAutoCommon.Configs.WeChatConfig.KMDevicePID*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_KMDevicePID" data-uid="WeAutoCommon.Configs.WeChatConfig.KMDevicePID">KMDevicePID</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_KMDevicePID" data-uid="WeAutoCommon.Configs.WeChatConfig.KMDevicePID">
+  KMDevicePID
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>键鼠模拟器设备PID</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;km_device_pid&quot;)]
 public int KMDevicePID { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_KMDeviceVID_" data-uid="WeAutoCommon.Configs.WeChatConfig.KMDeviceVID*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_KMDeviceVID" data-uid="WeAutoCommon.Configs.WeChatConfig.KMDeviceVID">KMDeviceVID</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_KMDeviceVID" data-uid="WeAutoCommon.Configs.WeChatConfig.KMDeviceVID">
+  KMDeviceVID
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>键鼠模拟器设备VID</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;km_device_vid&quot;)]
 public int KMDeviceVID { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_KMMouseMoveMode_" data-uid="WeAutoCommon.Configs.WeChatConfig.KMMouseMoveMode*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_KMMouseMoveMode" data-uid="WeAutoCommon.Configs.WeChatConfig.KMMouseMoveMode">KMMouseMoveMode</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_KMMouseMoveMode" data-uid="WeAutoCommon.Configs.WeChatConfig.KMMouseMoveMode">
+  KMMouseMoveMode
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>配置键鼠模拟器鼠标移动模式</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;km_mouse_move_mode&quot;)]
 public int KMMouseMoveMode { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_KMOffsetOfClick_" data-uid="WeAutoCommon.Configs.WeChatConfig.KMOffsetOfClick*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_KMOffsetOfClick" data-uid="WeAutoCommon.Configs.WeChatConfig.KMOffsetOfClick">KMOffsetOfClick</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_KMOffsetOfClick" data-uid="WeAutoCommon.Configs.WeChatConfig.KMOffsetOfClick">
+  KMOffsetOfClick
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>点击偏移量,单位像素
 为了避免每次点击都点击到同一个位置，可以设置一个偏移量，实际点击位置为点击位置减去偏移量的一个随机值</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;km_offset_of_click&quot;)]
 public int KMOffsetOfClick { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_KMOutputStringType_" data-uid="WeAutoCommon.Configs.WeChatConfig.KMOutputStringType*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_KMOutputStringType" data-uid="WeAutoCommon.Configs.WeChatConfig.KMOutputStringType">KMOutputStringType</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_KMOutputStringType" data-uid="WeAutoCommon.Configs.WeChatConfig.KMOutputStringType">
+  KMOutputStringType
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>配置键鼠模拟器输出字符串编码类型
 0: 输出ANSI字符串
 1：输出Unicode字符串
@@ -1235,541 +1437,613 @@ public int KMOffsetOfClick { get; set; }</code></pre>
 4: 使用剪贴板粘贴输出字符串。优点是输出字符多时速度更快且不受输入法影响</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;km_output_string_type&quot;)]
 public int KMOutputStringType { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_KMVerifyUserData_" data-uid="WeAutoCommon.Configs.WeChatConfig.KMVerifyUserData*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_KMVerifyUserData" data-uid="WeAutoCommon.Configs.WeChatConfig.KMVerifyUserData">KMVerifyUserData</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_KMVerifyUserData" data-uid="WeAutoCommon.Configs.WeChatConfig.KMVerifyUserData">
+  KMVerifyUserData
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>键鼠模拟器校验数据</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;km_verify_user_data&quot;)]
 public string KMVerifyUserData { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_MaxHistoryMessageFetchNumber_" data-uid="WeAutoCommon.Configs.WeChatConfig.MaxHistoryMessageFetchNumber*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_MaxHistoryMessageFetchNumber" data-uid="WeAutoCommon.Configs.WeChatConfig.MaxHistoryMessageFetchNumber">MaxHistoryMessageFetchNumber</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_MaxHistoryMessageFetchNumber" data-uid="WeAutoCommon.Configs.WeChatConfig.MaxHistoryMessageFetchNumber">
+  MaxHistoryMessageFetchNumber
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>用于消息监听中，返回给回调函数历史消息最大记录数，因为事实上无须读完整个历史消息的。
 注：获取微信消息官方推荐以 Database Read 为主;</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;max_history_message_fetch_number&quot;)]
 public int MaxHistoryMessageFetchNumber { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_MediaCacheDir_" data-uid="WeAutoCommon.Configs.WeChatConfig.MediaCacheDir*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_MediaCacheDir" data-uid="WeAutoCommon.Configs.WeChatConfig.MediaCacheDir">MediaCacheDir</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_MediaCacheDir" data-uid="WeAutoCommon.Configs.WeChatConfig.MediaCacheDir">
+  MediaCacheDir
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>消息媒体缓存根目录（图片 / 语音解密后的文件）。为空时用
 <code>%LOCALAPPDATA%\WeChatAuto\media-cache</code>。支持绝对路径和 <code>%ENV%</code> 环境变量。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;media_cache_dir&quot;)]
 public string MediaCacheDir { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_MonentsScrollMaxStep_" data-uid="WeAutoCommon.Configs.WeChatConfig.MonentsScrollMaxStep*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_MonentsScrollMaxStep" data-uid="WeAutoCommon.Configs.WeChatConfig.MonentsScrollMaxStep">MonentsScrollMaxStep</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_MonentsScrollMaxStep" data-uid="WeAutoCommon.Configs.WeChatConfig.MonentsScrollMaxStep">
+  MonentsScrollMaxStep
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>当滚动删除朋友圈内容时，最大滚动次数,如果朋友圈内容多，请将此值设置大一些。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;monents_scroll_max_step&quot;)]
 public int MonentsScrollMaxStep { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_MonitorInterval_" data-uid="WeAutoCommon.Configs.WeChatConfig.MonitorInterval*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_MonitorInterval" data-uid="WeAutoCommon.Configs.WeChatConfig.MonitorInterval">MonitorInterval</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_MonitorInterval" data-uid="WeAutoCommon.Configs.WeChatConfig.MonitorInterval">
+  MonitorInterval
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>固定式消息监听的时间间隔，单位为秒
 注：获取微信消息官方推荐以 Database Read 为主;</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;monitor_interval&quot;)]
 public int MonitorInterval { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_MonitorMessageMaxDownInterval_" data-uid="WeAutoCommon.Configs.WeChatConfig.MonitorMessageMaxDownInterval*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_MonitorMessageMaxDownInterval" data-uid="WeAutoCommon.Configs.WeChatConfig.MonitorMessageMaxDownInterval">MonitorMessageMaxDownInterval</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_MonitorMessageMaxDownInterval" data-uid="WeAutoCommon.Configs.WeChatConfig.MonitorMessageMaxDownInterval">
+  MonitorMessageMaxDownInterval
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>消息监听时往下滚动的次数，如果监听列表多，建议设置成：10-30
 如果监听列表少，建议设置成:5~10，以提高效率
 用于UI Automation方式的监听中</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;monitor_message_max_down_interval&quot;)]
 public int MonitorMessageMaxDownInterval { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_MonitorNewFriendRequestInterval_" data-uid="WeAutoCommon.Configs.WeChatConfig.MonitorNewFriendRequestInterval*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_MonitorNewFriendRequestInterval" data-uid="WeAutoCommon.Configs.WeChatConfig.MonitorNewFriendRequestInterval">MonitorNewFriendRequestInterval</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_MonitorNewFriendRequestInterval" data-uid="WeAutoCommon.Configs.WeChatConfig.MonitorNewFriendRequestInterval">
+  MonitorNewFriendRequestInterval
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>好友申请监听间隔时间，单位为秒</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;monitor_new_friend_request_interval&quot;)]
 public int MonitorNewFriendRequestInterval { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_OCRClsModelFilePath_" data-uid="WeAutoCommon.Configs.WeChatConfig.OCRClsModelFilePath*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_OCRClsModelFilePath" data-uid="WeAutoCommon.Configs.WeChatConfig.OCRClsModelFilePath">OCRClsModelFilePath</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_OCRClsModelFilePath" data-uid="WeAutoCommon.Configs.WeChatConfig.OCRClsModelFilePath">
+  OCRClsModelFilePath
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>ocr-cls模型路径</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;ocr_cls_model_file_path&quot;)]
 public string OCRClsModelFilePath { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_OCRDetModelFilePath_" data-uid="WeAutoCommon.Configs.WeChatConfig.OCRDetModelFilePath*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_OCRDetModelFilePath" data-uid="WeAutoCommon.Configs.WeChatConfig.OCRDetModelFilePath">OCRDetModelFilePath</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_OCRDetModelFilePath" data-uid="WeAutoCommon.Configs.WeChatConfig.OCRDetModelFilePath">
+  OCRDetModelFilePath
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>ocr-det模型路径</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;ocr_det_model_file_path&quot;)]
 public string OCRDetModelFilePath { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_OCRDictModelFilePath_" data-uid="WeAutoCommon.Configs.WeChatConfig.OCRDictModelFilePath*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_OCRDictModelFilePath" data-uid="WeAutoCommon.Configs.WeChatConfig.OCRDictModelFilePath">OCRDictModelFilePath</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_OCRDictModelFilePath" data-uid="WeAutoCommon.Configs.WeChatConfig.OCRDictModelFilePath">
+  OCRDictModelFilePath
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>OCR的字典文件路径</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;ocr_dict_model_file_path&quot;)]
 public string OCRDictModelFilePath { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_OCRRecModelFilePath_" data-uid="WeAutoCommon.Configs.WeChatConfig.OCRRecModelFilePath*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_OCRRecModelFilePath" data-uid="WeAutoCommon.Configs.WeChatConfig.OCRRecModelFilePath">OCRRecModelFilePath</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_OCRRecModelFilePath" data-uid="WeAutoCommon.Configs.WeChatConfig.OCRRecModelFilePath">
+  OCRRecModelFilePath
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>ocr-rec模型路径</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;ocr_rec_model_file_path&quot;)]
 public string OCRRecModelFilePath { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_ProcessDpiAwareness_" data-uid="WeAutoCommon.Configs.WeChatConfig.ProcessDpiAwareness*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_ProcessDpiAwareness" data-uid="WeAutoCommon.Configs.WeChatConfig.ProcessDpiAwareness">ProcessDpiAwareness</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_ProcessDpiAwareness" data-uid="WeAutoCommon.Configs.WeChatConfig.ProcessDpiAwareness">
+  ProcessDpiAwareness
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>进程DPI感知值,如果使用库的应用已经设置DPI感知，此参数无效。
 0: 不设置,进程对DPI完全不知晓，按逻辑像素绘制，可能会出现点击不准确的情况。
 1: PROCESS_SYSTEM_DPI_AWARE 默认值,进程只根据主显示器DPI绘制，DPI感知生效。
 2: PROCESS_PER_MONITOR_DPI_AWARE，进程根据每个显示器DPI绘制,DPI感知生效。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;process_dpi_awareness&quot;)]
 public int ProcessDpiAwareness { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_SnsFirstRunDays_" data-uid="WeAutoCommon.Configs.WeChatConfig.SnsFirstRunDays*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_SnsFirstRunDays" data-uid="WeAutoCommon.Configs.WeChatConfig.SnsFirstRunDays">SnsFirstRunDays</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_SnsFirstRunDays" data-uid="WeAutoCommon.Configs.WeChatConfig.SnsFirstRunDays">
+  SnsFirstRunDays
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>朋友圈（SNS）首次同步的回看天数。<b>0 或负数表示全量回补</b></p>
 <p>注意与 <a class="xref" href="WeAutoCommon.Configs.WeChatConfig.html#WeAutoCommon_Configs_WeChatConfig_FirstRunDays">FirstRunDays</a> 的语义不同：消息的 0 表示「不回补历史」，
 朋友圈的 0 表示「全部历史都要」。朋友圈单账号通常只有几千条，全量成本可控。</p>
 <p>只影响「中间表还没有该账号朋友圈水位」的首次同步；已有水位的账号不受影响。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;sns_first_run_days&quot;)]
 public int SnsFirstRunDays { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_SnsMediaDir_" data-uid="WeAutoCommon.Configs.WeChatConfig.SnsMediaDir*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_SnsMediaDir" data-uid="WeAutoCommon.Configs.WeChatConfig.SnsMediaDir">SnsMediaDir</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_SnsMediaDir" data-uid="WeAutoCommon.Configs.WeChatConfig.SnsMediaDir">
+  SnsMediaDir
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>朋友圈下载媒体根目录。为空时用 <code>%LOCALAPPDATA%\WeChatAuto\sns-media</code>。
 支持绝对路径和 <code>%ENV%</code> 环境变量。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;sns_media_dir&quot;)]
 public string SnsMediaDir { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_StartupSyncOverlayFactory_" data-uid="WeAutoCommon.Configs.WeChatConfig.StartupSyncOverlayFactory*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_StartupSyncOverlayFactory" data-uid="WeAutoCommon.Configs.WeChatConfig.StartupSyncOverlayFactory">StartupSyncOverlayFactory</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_StartupSyncOverlayFactory" data-uid="WeAutoCommon.Configs.WeChatConfig.StartupSyncOverlayFactory">
+  StartupSyncOverlayFactory
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>&quot;进入系统&quot;的启动同步轮（打开应用后、首轮全量之外的补齐/增量 UPSERT/补水位那一次）的提示窗口工厂，可为空。</p>
 <p>参数：本微信昵称、本微信主窗口句柄；返回的 <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a> 在本轮同步结束时释放，
 Dispose 时应关闭提示窗口。只在这个启动轮调用；启动完成后运行期 hot-sync 的增量轮次不再提示。</p>
 <p>请在工厂启动前（即 <code>WeAutomation.Initialize</code> 的配置回调里）设置；运行期修改对下一次启动轮生效。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonIgnore]
 public Func&lt;string, nint, IDisposable&gt; StartupSyncOverlayFactory { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-3">Func</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.intptr">nint</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-3">Func</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.intptr">nint</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.idisposable">IDisposable</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_TargetVideoPath_" data-uid="WeAutoCommon.Configs.WeChatConfig.TargetVideoPath*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_TargetVideoPath" data-uid="WeAutoCommon.Configs.WeChatConfig.TargetVideoPath">TargetVideoPath</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_TargetVideoPath" data-uid="WeAutoCommon.Configs.WeChatConfig.TargetVideoPath">
+  TargetVideoPath
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>视频录制保存路径
 默认保存到当前目录下的Video文件夹,可以修改为其他路径</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">[JsonPropertyName(&quot;target_video_path&quot;)]
 public string TargetVideoPath { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_UseDatabaseRead_" data-uid="WeAutoCommon.Configs.WeChatConfig.UseDatabaseRead*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_UseDatabaseRead" data-uid="WeAutoCommon.Configs.WeChatConfig.UseDatabaseRead">UseDatabaseRead</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_UseDatabaseRead" data-uid="WeAutoCommon.Configs.WeChatConfig.UseDatabaseRead">
+  UseDatabaseRead
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>是否启用微信数据库安全读取（VIP）。默认 <code>false</code>，即纯 UI Automation；
 设为 <code>true</code> 后启用数据库读取 / 热同步，需要配置微信存储目录和数据库连接。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public bool UseDatabaseRead { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs">View Source</a>
-  </span>
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
   <a id="WeAutoCommon_Configs_WeChatConfig_WeChatStorageRoot_" data-uid="WeAutoCommon.Configs.WeChatConfig.WeChatStorageRoot*"></a>
-  <h4 id="WeAutoCommon_Configs_WeChatConfig_WeChatStorageRoot" data-uid="WeAutoCommon.Configs.WeChatConfig.WeChatStorageRoot">WeChatStorageRoot</h4>
+
+  <h3 id="WeAutoCommon_Configs_WeChatConfig_WeChatStorageRoot" data-uid="WeAutoCommon.Configs.WeChatConfig.WeChatStorageRoot">
+  WeChatStorageRoot
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>微信存储位置，取法: 微信主窗口--&gt; 设置 --&gt; 账号与存储 --&gt; 存储位置（形如 <code>D:\xwechat_files</code>）。
 如果有多微信，多个微信应该设置成一样（微信自身就是这种设定）。</p>
 <p>
@@ -1780,67 +2054,51 @@ public string TargetVideoPath { get; set; }</code></pre>
 <p>显式配置（且目录存在）时以配置为准，并顺带写回缓存。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public string WeChatStorageRoot { get; set; }</code></pre>
   </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="extensionmethods">Extension Methods</h3>
-  <div>
-      <a class="xref" href="WeAutoCommon.Models.FunctionalExtensions.html#WeAutoCommon_Models_FunctionalExtensions_ToMaybe__1___0_">FunctionalExtensions.ToMaybe&lt;T&gt;(T)</a>
-  </div>
+
+
+
+
+
+  <h4 class="section">Property Value</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
 
 </article>
-          </div>
 
-          <div class="hidden-sm col-md-2" role="complementary">
-            <div class="sideaffix">
-              <div class="contribution">
-                <ul class="nav">
-                  <li>
-                    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs" class="contribution-link">View Source</a>
-                  </li>
-                </ul>
-              </div>
-              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-                <h5>In this article</h5>
-                <div></div>
-              </nav>
-            </div>
-          </div>
+        <div class="contribution d-print-none">
+          <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeAutoCommon/Configs/WeChatConfig.cs" class="edit-link">Edit this page</a>
         </div>
+
+
       </div>
 
-      <footer>
-        <div class="grad-bottom"></div>
-        <div class="footer">
-          <div class="container">
-            <span class="pull-right">
-              <a href="#top">Back to top</a>
-            </span>
-      
-      <span>Generated by <strong>DocFX</strong></span>
-          </div>
-        </div>
-      </footer>
-    </div>
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
 
-    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
-    <script type="text/javascript" src="../styles/docfx.js"></script>
-    <script type="text/javascript" src="../styles/main.js"></script>
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

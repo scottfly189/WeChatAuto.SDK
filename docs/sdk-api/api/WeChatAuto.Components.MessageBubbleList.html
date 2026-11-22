@@ -1,96 +1,126 @@
 <!DOCTYPE html>
-<!--[if IE]><![endif]-->
 <html>
-
   <head>
     <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
       <title>Class MessageBubbleList | WeChatAuto.SDK API 参考 </title>
-      <meta name="viewport" content="width=device-width">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta name="title" content="Class MessageBubbleList | WeChatAuto.SDK API 参考 ">
-    
-    <meta name="description" content="聊天内容区气泡列表">
-      <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
-      <link rel="stylesheet" href="../styles/docfx.css">
-      <link rel="stylesheet" href="../styles/main.css">
-      <meta property="docfx:navrel" content="../toc.html">
-      <meta property="docfx:tocrel" content="toc.html">
-    
-    <meta property="docfx:rel" content="../">
-    
+      
+      <meta name="description" content="聊天内容区气泡列表">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
   </head>
-  <body data-spy="scroll" data-target="#affix" data-offset="120">
-    <div id="wrapper">
-      <header>
 
-        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-
-              <a class="navbar-brand" href="../index.html">
-                <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
-              </a>
-            </div>
-            <div class="collapse navbar-collapse" id="navbar">
-              <form class="navbar-form navbar-right" role="search" id="search">
-                <div class="form-group">
-                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
-                </div>
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
+            WeChatAuto.SDK
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
               </form>
             </div>
           </div>
-        </nav>
-
-        <div class="subnav navbar navbar-default">
-          <div class="container hide-when-search" id="breadcrumb">
-            <ul class="breadcrumb">
-              <li></li>
-            </ul>
-          </div>
         </div>
-      </header>
-      <div class="container body-content">
+      </nav>
+    </header>
 
-        <div id="search-results">
-          <div class="search-list">Search Results for <span></span></div>
-          <div class="sr-items">
-            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
           </div>
-          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
         </div>
       </div>
-      <div role="main" class="container body-content hide-when-search">
 
-        <div class="sidenav hide-when-search">
-          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
-          <div class="sidetoggle collapse" id="sidetoggle">
-            <div id="sidetoc"></div>
-          </div>
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
         </div>
-        <div class="article row grid-right">
-          <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="WeChatAuto.Components.MessageBubbleList">
+
+        <article data-uid="WeChatAuto.Components.MessageBubbleList">
 
 
 
-  <h1 id="WeChatAuto_Components_MessageBubbleList" data-uid="WeChatAuto.Components.MessageBubbleList" class="text-break">Class MessageBubbleList</h1>
-  <div class="markdown level0 summary"><p>聊天内容区气泡列表</p>
-</div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="inheritance">
-    <h5>Inheritance</h5>
-    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
-    <div class="level1"><span class="xref">MessageBubbleList</span></div>
+  <h1 id="WeChatAuto_Components_MessageBubbleList" data-uid="WeChatAuto.Components.MessageBubbleList" class="text-break">
+Class MessageBubbleList  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="WeChatAuto.html">WeChatAuto</a>.<a class="xref" href="WeChatAuto.Components.html">Components</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>WeChatAuto.dll</dd></dl>
   </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
+
+  <div class="markdown summary"><p>聊天内容区气泡列表</p>
+</div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public class MessageBubbleList</code></pre>
+  </div>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">MessageBubbleList</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
     </div>
@@ -112,313 +142,253 @@
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
     </div>
-  </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="WeChatAuto.html">WeChatAuto</a>.<a class="xref" href="WeChatAuto.Components.html">Components</a></h6>
-  <h6><strong>Assembly</strong>: WeChatAuto.dll</h6>
-  <h5 id="WeChatAuto_Components_MessageBubbleList_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class MessageBubbleList</code></pre>
-  </div>
-  <h3 id="methods">Methods
-</h3>
+  </dd></dl>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs">View Source</a>
-  </span>
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="WeAutoCommon.Models.FunctionalExtensions.html#WeAutoCommon_Models_FunctionalExtensions_ToMaybe__1___0_">FunctionalExtensions.ToMaybe&lt;T&gt;(T)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
   <a id="WeChatAuto_Components_MessageBubbleList_FetchFileAsync_" data-uid="WeChatAuto.Components.MessageBubbleList.FetchFileAsync*"></a>
-  <h4 id="WeChatAuto_Components_MessageBubbleList_FetchFileAsync_FlaUI_Core_AutomationElements_AutomationElement_System_Threading_CancellationToken_" data-uid="WeChatAuto.Components.MessageBubbleList.FetchFileAsync(FlaUI.Core.AutomationElements.AutomationElement,System.Threading.CancellationToken)">FetchFileAsync(AutomationElement, CancellationToken)</h4>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_FetchFileAsync_FlaUI_Core_AutomationElements_AutomationElement_System_Threading_CancellationToken_" data-uid="WeChatAuto.Components.MessageBubbleList.FetchFileAsync(FlaUI.Core.AutomationElements.AutomationElement,System.Threading.CancellationToken)">
+  FetchFileAsync(AutomationElement, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>抓取文件信息，并且返回<a class="xref" href="WeChatAuto.Models.FetchedMedia.html">FetchedMedia</a>对象</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Task&lt;FetchedMedia&gt; FetchFileAsync(AutomationElement bubble, CancellationToken token = default)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">AutomationElement</span></td>
-        <td><span class="parametername">bubble</span></td>
-        <td><p>消息气泡</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
-        <td><span class="parametername">token</span></td>
-        <td><p>取消令牌</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="WeChatAuto.Models.FetchedMedia.html">FetchedMedia</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>bubble</code> <span class="xref">AutomationElement</span></dt>
+    <dd><p>消息气泡</p>
+</dd>
+    <dt><code>token</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd><p>取消令牌</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="WeChatAuto.Models.FetchedMedia.html">FetchedMedia</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_MessageBubbleList_FetchImageAsync_" data-uid="WeChatAuto.Components.MessageBubbleList.FetchImageAsync*"></a>
-  <h4 id="WeChatAuto_Components_MessageBubbleList_FetchImageAsync_FlaUI_Core_AutomationElements_AutomationElement_System_Threading_CancellationToken_" data-uid="WeChatAuto.Components.MessageBubbleList.FetchImageAsync(FlaUI.Core.AutomationElements.AutomationElement,System.Threading.CancellationToken)">FetchImageAsync(AutomationElement, CancellationToken)</h4>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_FetchImageAsync_FlaUI_Core_AutomationElements_AutomationElement_System_Threading_CancellationToken_" data-uid="WeChatAuto.Components.MessageBubbleList.FetchImageAsync(FlaUI.Core.AutomationElements.AutomationElement,System.Threading.CancellationToken)">
+  FetchImageAsync(AutomationElement, CancellationToken)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>抓取一个图片信息，并且返回<a class="xref" href="WeChatAuto.Models.FetchedMedia.html">FetchedMedia</a>对象</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Task&lt;FetchedMedia&gt; FetchImageAsync(AutomationElement bubble, CancellationToken token = default)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">AutomationElement</span></td>
-        <td><span class="parametername">bubble</span></td>
-        <td><p>消息气泡</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></td>
-        <td><span class="parametername">token</span></td>
-        <td><p>取消令牌</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="WeChatAuto.Models.FetchedMedia.html">FetchedMedia</a>&gt;</td>
-        <td><p>返回抓取的图片信息</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>bubble</code> <span class="xref">AutomationElement</span></dt>
+    <dd><p>消息气泡</p>
+</dd>
+    <dt><code>token</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken">CancellationToken</a></dt>
+    <dd><p>取消令牌</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="WeChatAuto.Models.FetchedMedia.html">FetchedMedia</a>&gt;</dt>
+    <dd><p>返回抓取的图片信息</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_MessageBubbleList_ForwardMultipleMessage_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardMultipleMessage*"></a>
-  <h4 id="WeChatAuto_Components_MessageBubbleList_ForwardMultipleMessage_OneOf_OneOf_System_String_System_String____WeAutoCommon_Enums_ForwardMessageTypeEnums_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardMultipleMessage(OneOf.OneOf{System.String,System.String[]},WeAutoCommon.Enums.ForwardMessageTypeEnums,System.Int32)">ForwardMultipleMessage(OneOf&lt;string, string[]&gt;, ForwardMessageTypeEnums, int)</h4>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_ForwardMultipleMessage_OneOf_OneOf_System_String_System_String____WeAutoCommon_Enums_ForwardMessageTypeEnums_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardMultipleMessage(OneOf.OneOf{System.String,System.String[]},WeAutoCommon.Enums.ForwardMessageTypeEnums,System.Int32)">
+  ForwardMultipleMessage(OneOf&lt;string, string[]&gt;, ForwardMessageTypeEnums, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>转发多条消息,默认转发最后5条消息，可以自行指定转发多少条消息
 注意：只能转发本窗口的消息</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; ForwardMultipleMessage(OneOf&lt;string, string[]&gt; to, ForwardMessageTypeEnums fType = ForwardMessageTypeEnums.ForwardMerge, int rowCount = 5)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</td>
-        <td><span class="parametername">to</span></td>
-        <td><p>要转发给谁</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="WeAutoCommon.Enums.ForwardMessageTypeEnums.html">ForwardMessageTypeEnums</a></td>
-        <td><span class="parametername">fType</span></td>
-        <td><p>消息转发类型，详情请参见<a class="xref" href="WeAutoCommon.Enums.ForwardMessageTypeEnums.html">ForwardMessageTypeEnums</a></p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">rowCount</span></td>
-        <td><p>要转发多少条消息，默认是最后的5条消息,如果当前没有5条，则转发所有消息</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>to</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</dt>
+    <dd><p>要转发给谁</p>
+</dd>
+    <dt><code>fType</code> <a class="xref" href="WeAutoCommon.Enums.ForwardMessageTypeEnums.html">ForwardMessageTypeEnums</a></dt>
+    <dd><p>消息转发类型，详情请参见<a class="xref" href="WeAutoCommon.Enums.ForwardMessageTypeEnums.html">ForwardMessageTypeEnums</a></p>
+</dd>
+    <dt><code>rowCount</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>要转发多少条消息，默认是最后的5条消息,如果当前没有5条，则转发所有消息</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_MessageBubbleList_ForwardMultipleMessage_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardMultipleMessage*"></a>
-  <h4 id="WeChatAuto_Components_MessageBubbleList_ForwardMultipleMessage_System_String_OneOf_OneOf_System_String_System_String____WeAutoCommon_Enums_ForwardMessageTypeEnums_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardMultipleMessage(System.String,OneOf.OneOf{System.String,System.String[]},WeAutoCommon.Enums.ForwardMessageTypeEnums,System.Int32)">ForwardMultipleMessage(string, OneOf&lt;string, string[]&gt;, ForwardMessageTypeEnums, int)</h4>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_ForwardMultipleMessage_System_String_OneOf_OneOf_System_String_System_String____WeAutoCommon_Enums_ForwardMessageTypeEnums_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardMultipleMessage(System.String,OneOf.OneOf{System.String,System.String[]},WeAutoCommon.Enums.ForwardMessageTypeEnums,System.Int32)">
+  ForwardMultipleMessage(string, OneOf&lt;string, string[]&gt;, ForwardMessageTypeEnums, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>转发多条消息,默认转发最后5条消息，可以自行指定转发多少条消息</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; ForwardMultipleMessage(string who, OneOf&lt;string, string[]&gt; to, ForwardMessageTypeEnums fType = ForwardMessageTypeEnums.ForwardMerge, int rowCount = 5)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">who</span></td>
-        <td><p>被转发消息的好友/群聊,可以为空，则转发本窗口的消息</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</td>
-        <td><span class="parametername">to</span></td>
-        <td><p>要转发给谁</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="WeAutoCommon.Enums.ForwardMessageTypeEnums.html">ForwardMessageTypeEnums</a></td>
-        <td><span class="parametername">fType</span></td>
-        <td><p>消息转发类型，详情请参见<a class="xref" href="WeAutoCommon.Enums.ForwardMessageTypeEnums.html">ForwardMessageTypeEnums</a></p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">rowCount</span></td>
-        <td><p>要转发多少条消息，默认是最后的5条消息,如果当前没有5条，则转发所有消息</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>被转发消息的好友/群聊,可以为空，则转发本窗口的消息</p>
+</dd>
+    <dt><code>to</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</dt>
+    <dd><p>要转发给谁</p>
+</dd>
+    <dt><code>fType</code> <a class="xref" href="WeAutoCommon.Enums.ForwardMessageTypeEnums.html">ForwardMessageTypeEnums</a></dt>
+    <dd><p>消息转发类型，详情请参见<a class="xref" href="WeAutoCommon.Enums.ForwardMessageTypeEnums.html">ForwardMessageTypeEnums</a></p>
+</dd>
+    <dt><code>rowCount</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>要转发多少条消息，默认是最后的5条消息,如果当前没有5条，则转发所有消息</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_MessageBubbleList_ForwardSingleMessage_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardSingleMessage*"></a>
-  <h4 id="WeChatAuto_Components_MessageBubbleList_ForwardSingleMessage_System_String_System_String_OneOf_OneOf_System_String_System_String____System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardSingleMessage(System.String,System.String,OneOf.OneOf{System.String,System.String[]},System.Int32)">ForwardSingleMessage(string, string, OneOf&lt;string, string[]&gt;, int)</h4>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_ForwardSingleMessage_System_String_System_String_OneOf_OneOf_System_String_System_String____System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardSingleMessage(System.String,System.String,OneOf.OneOf{System.String,System.String[]},System.Int32)">
+  ForwardSingleMessage(string, string, OneOf&lt;string, string[]&gt;, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>转发单条消息</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; ForwardSingleMessage(string who, string message, OneOf&lt;string, string[]&gt; to, int prevScrollNumber = 30)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">who</span></td>
-        <td><p>要转发的好友昵称</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">message</span></td>
-        <td><p>要转发的消息内容</p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</td>
-        <td><span class="parametername">to</span></td>
-        <td><p>要转发给谁,可以多人/群</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">prevScrollNumber</span></td>
-        <td><p>如果当前页找不到，往前滚动的次数</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>要转发的好友昵称</p>
+</dd>
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>要转发的消息内容</p>
+</dd>
+    <dt><code>to</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</dt>
+    <dd><p>要转发给谁,可以多人/群</p>
+</dd>
+    <dt><code>prevScrollNumber</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>如果当前页找不到，往前滚动的次数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_MessageBubbleList_ForwardSingleMessage_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardSingleMessage*"></a>
-  <h4 id="WeChatAuto_Components_MessageBubbleList_ForwardSingleMessage_WeChatAuto_Models_ChatSimpleMessage_OneOf_OneOf_System_String_System_String____System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardSingleMessage(WeChatAuto.Models.ChatSimpleMessage,OneOf.OneOf{System.String,System.String[]},System.Int32)">ForwardSingleMessage(ChatSimpleMessage, OneOf&lt;string, string[]&gt;, int)</h4>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_ForwardSingleMessage_WeChatAuto_Models_ChatSimpleMessage_OneOf_OneOf_System_String_System_String____System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.ForwardSingleMessage(WeChatAuto.Models.ChatSimpleMessage,OneOf.OneOf{System.String,System.String[]},System.Int32)">
+  ForwardSingleMessage(ChatSimpleMessage, OneOf&lt;string, string[]&gt;, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>转发单条消息
 注意：仅限于本窗口单条转发消息
 流程：</p>
@@ -430,547 +400,426 @@
 </ol>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; ForwardSingleMessage(ChatSimpleMessage chatSimpleMessage, OneOf&lt;string, string[]&gt; to, int prevScrollNumber = 30)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a></td>
-        <td><span class="parametername">chatSimpleMessage</span></td>
-        <td><p>要转发的消息<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a></p>
-</td>
-      </tr>
-      <tr>
-        <td><span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</td>
-        <td><span class="parametername">to</span></td>
-        <td><p>要转发给谁</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">prevScrollNumber</span></td>
-        <td><p>如果当前页找不到，往前翻页的次数</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>chatSimpleMessage</code> <a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a></dt>
+    <dd><p>要转发的消息<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a></p>
+</dd>
+    <dt><code>to</code> <span class="xref">OneOf</span>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>[]&gt;</dt>
+    <dd><p>要转发给谁</p>
+</dd>
+    <dt><code>prevScrollNumber</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>如果当前页找不到，往前翻页的次数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_MessageBubbleList_GetChatHistory_" data-uid="WeChatAuto.Components.MessageBubbleList.GetChatHistory*"></a>
-  <h4 id="WeChatAuto_Components_MessageBubbleList_GetChatHistory_System_DateTime_" data-uid="WeChatAuto.Components.MessageBubbleList.GetChatHistory(System.DateTime)">GetChatHistory(DateTime)</h4>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_GetChatHistory_System_DateTime_" data-uid="WeChatAuto.Components.MessageBubbleList.GetChatHistory(System.DateTime)">
+  GetChatHistory(DateTime)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>根据日期获取当前聊天窗口的聊天历史</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Task&lt;List&lt;ChatSimpleMessage&gt;&gt; GetChatHistory(DateTime date = default)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a></td>
-        <td><span class="parametername">date</span></td>
-        <td><p>查询日期,如果为空则为当天日期</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a>&gt;&gt;</td>
-        <td><p>返回<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a>列表</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>date</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a></dt>
+    <dd><p>查询日期,如果为空则为当天日期</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a>&gt;&gt;</dt>
+    <dd><p>返回<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a>列表</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_MessageBubbleList_GetChatHistory_" data-uid="WeChatAuto.Components.MessageBubbleList.GetChatHistory*"></a>
-  <h4 id="WeChatAuto_Components_MessageBubbleList_GetChatHistory_System_String_System_DateTime_" data-uid="WeChatAuto.Components.MessageBubbleList.GetChatHistory(System.String,System.DateTime)">GetChatHistory(string, DateTime)</h4>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_GetChatHistory_System_String_System_DateTime_" data-uid="WeChatAuto.Components.MessageBubbleList.GetChatHistory(System.String,System.DateTime)">
+  GetChatHistory(string, DateTime)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>根据日期获取聊天历史</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Task&lt;List&lt;ChatSimpleMessage&gt;&gt; GetChatHistory(string who, DateTime date = default)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">who</span></td>
-        <td><p>微信名称，可以是好友/群聊的微信名称</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a></td>
-        <td><span class="parametername">date</span></td>
-        <td><p>查询日期,如果不传，则是当天日期</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a>&gt;&gt;</td>
-        <td><p>返回<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a>列表</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>微信名称，可以是好友/群聊的微信名称</p>
+</dd>
+    <dt><code>date</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a></dt>
+    <dd><p>查询日期,如果不传，则是当天日期</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a>&gt;&gt;</dt>
+    <dd><p>返回<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a>列表</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_MessageBubbleList_GetChatHistory_" data-uid="WeChatAuto.Components.MessageBubbleList.GetChatHistory*"></a>
-  <h4 id="WeChatAuto_Components_MessageBubbleList_GetChatHistory_System_String_System_DateTime_System_DateTime_" data-uid="WeChatAuto.Components.MessageBubbleList.GetChatHistory(System.String,System.DateTime,System.DateTime)">GetChatHistory(string, DateTime, DateTime)</h4>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_GetChatHistory_System_String_System_DateTime_System_DateTime_" data-uid="WeChatAuto.Components.MessageBubbleList.GetChatHistory(System.String,System.DateTime,System.DateTime)">
+  GetChatHistory(string, DateTime, DateTime)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>获取一段时间的聊天历史记录，包括日期-时间，其他的获取消息历史的api仅支持日期</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Task&lt;List&lt;ChatSimpleMessage&gt;&gt; GetChatHistory(string who, DateTime startDate, DateTime endDate)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">who</span></td>
-        <td><p>微信名称，可以是好友/群聊的微信名称</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a></td>
-        <td><span class="parametername">startDate</span></td>
-        <td><p>开始日期,包括日期与时间</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a></td>
-        <td><span class="parametername">endDate</span></td>
-        <td><p>结束日期，包括日期与时间</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a>&gt;&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>微信名称，可以是好友/群聊的微信名称</p>
+</dd>
+    <dt><code>startDate</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a></dt>
+    <dd><p>开始日期,包括日期与时间</p>
+</dd>
+    <dt><code>endDate</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a></dt>
+    <dd><p>结束日期，包括日期与时间</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1">List</a>&lt;<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a>&gt;&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_MessageBubbleList_GetMd5_" data-uid="WeChatAuto.Components.MessageBubbleList.GetMd5*"></a>
-  <h4 id="WeChatAuto_Components_MessageBubbleList_GetMd5_System_String_" data-uid="WeChatAuto.Components.MessageBubbleList.GetMd5(System.String)">GetMd5(string)</h4>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_GetMd5_System_String_" data-uid="WeChatAuto.Components.MessageBubbleList.GetMd5(System.String)">
+  GetMd5(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public static string GetMd5(string input)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">input</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>input</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_MessageBubbleList_ReferencedLastMessage_" data-uid="WeChatAuto.Components.MessageBubbleList.ReferencedLastMessage*"></a>
-  <h4 id="WeChatAuto_Components_MessageBubbleList_ReferencedLastMessage" data-uid="WeChatAuto.Components.MessageBubbleList.ReferencedLastMessage">ReferencedLastMessage()</h4>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_ReferencedLastMessage" data-uid="WeChatAuto.Components.MessageBubbleList.ReferencedLastMessage">
+  ReferencedLastMessage()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>引用最后一条消息
 注意，只能引用有的消息，不会翻页，如果消息不在当前页，则不会引用</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; ReferencedLastMessage()</code></pre>
   </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs">View Source</a>
-  </span>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_MessageBubbleList_ReferencedMessage_" data-uid="WeChatAuto.Components.MessageBubbleList.ReferencedMessage*"></a>
-  <h4 id="WeChatAuto_Components_MessageBubbleList_ReferencedMessage_System_String_System_String_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.ReferencedMessage(System.String,System.String,System.Int32)">ReferencedMessage(string, string, int)</h4>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_ReferencedMessage_System_String_System_String_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.ReferencedMessage(System.String,System.String,System.Int32)">
+  ReferencedMessage(string, string, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>引用消息</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; ReferencedMessage(string who, string message, int prevScrollNumber = 30)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">who</span></td>
-        <td><p>要引用的好友昵称</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">message</span></td>
-        <td><p>要引用的消息内容</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">prevScrollNumber</span></td>
-        <td><p>如果当前页找不到，往前滚动的次数</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>要引用的好友昵称</p>
+</dd>
+    <dt><code>message</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>要引用的消息内容</p>
+</dd>
+    <dt><code>prevScrollNumber</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>如果当前页找不到，往前滚动的次数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_MessageBubbleList_ReferencedMessage_" data-uid="WeChatAuto.Components.MessageBubbleList.ReferencedMessage*"></a>
-  <h4 id="WeChatAuto_Components_MessageBubbleList_ReferencedMessage_WeChatAuto_Models_ChatSimpleMessage_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.ReferencedMessage(WeChatAuto.Models.ChatSimpleMessage,System.Int32)">ReferencedMessage(ChatSimpleMessage, int)</h4>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_ReferencedMessage_WeChatAuto_Models_ChatSimpleMessage_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.ReferencedMessage(WeChatAuto.Models.ChatSimpleMessage,System.Int32)">
+  ReferencedMessage(ChatSimpleMessage, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>引用消息</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; ReferencedMessage(ChatSimpleMessage chatSimpleMessage, int prevScrollNumber = 30)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a></td>
-        <td><span class="parametername">chatSimpleMessage</span></td>
-        <td><p>要引用的消息<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a></p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">prevScrollNumber</span></td>
-        <td><p>如果当前页找不到，往前滚动的次数</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>chatSimpleMessage</code> <a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a></dt>
+    <dd><p>要引用的消息<a class="xref" href="WeChatAuto.Models.ChatSimpleMessage.html">ChatSimpleMessage</a></p>
+</dd>
+    <dt><code>prevScrollNumber</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>如果当前页找不到，往前滚动的次数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_MessageBubbleList_TapWho_" data-uid="WeChatAuto.Components.MessageBubbleList.TapWho*"></a>
-  <h4 id="WeChatAuto_Components_MessageBubbleList_TapWho_System_String_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.TapWho(System.String,System.Int32)">TapWho(string, int)</h4>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_TapWho_System_String_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.TapWho(System.String,System.Int32)">
+  TapWho(string, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>拍一拍
 注意：只能拍一拍当前聊天窗口的好友
 只有两个地方可以拍一拍：一个是群聊中，一个是好友聊天窗口（非企业微信).</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; TapWho(string who, int prevScrollNumber = 30)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">who</span></td>
-        <td><p>要拍一拍的好友昵称</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">prevScrollNumber</span></td>
-        <td><p>如果当前页找不到，往前滚动的次数</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</td>
-        <td><p>是否成功拍一拍</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>who</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>要拍一拍的好友昵称</p>
+</dd>
+    <dt><code>prevScrollNumber</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>如果当前页找不到，往前滚动的次数</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd><p>是否成功拍一拍</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_MessageBubbleList_WaitClipboard_" data-uid="WeChatAuto.Components.MessageBubbleList.WaitClipboard*"></a>
-  <h4 id="WeChatAuto_Components_MessageBubbleList_WaitClipboard_System_Func_System_Boolean__System_Int32_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.WaitClipboard(System.Func{System.Boolean},System.Int32,System.Int32)">WaitClipboard(Func&lt;bool&gt;, int, int)</h4>
+
+  <h3 id="WeChatAuto_Components_MessageBubbleList_WaitClipboard_System_Func_System_Boolean__System_Int32_System_Int32_" data-uid="WeChatAuto.Components.MessageBubbleList.WaitClipboard(System.Func{System.Boolean},System.Int32,System.Int32)">
+  WaitClipboard(Func&lt;bool&gt;, int, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public bool WaitClipboard(Func&lt;bool&gt; condition, int timeoutMs = 1000, int intervalMs = 50)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-1">Func</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</td>
-        <td><span class="parametername">condition</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">timeoutMs</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">intervalMs</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="extensionmethods">Extension Methods</h3>
-  <div>
-      <a class="xref" href="WeAutoCommon.Models.FunctionalExtensions.html#WeAutoCommon_Models_FunctionalExtensions_ToMaybe__1___0_">FunctionalExtensions.ToMaybe&lt;T&gt;(T)</a>
-  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>condition</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.func-1">Func</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd></dd>
+    <dt><code>timeoutMs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+    <dt><code>intervalMs</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
 
 </article>
-          </div>
 
-          <div class="hidden-sm col-md-2" role="complementary">
-            <div class="sideaffix">
-              <div class="contribution">
-                <ul class="nav">
-                  <li>
-                    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs" class="contribution-link">View Source</a>
-                  </li>
-                </ul>
-              </div>
-              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-                <h5>In this article</h5>
-                <div></div>
-              </nav>
-            </div>
-          </div>
+        <div class="contribution d-print-none">
+          <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageBubbleList.cs" class="edit-link">Edit this page</a>
         </div>
+
+
       </div>
 
-      <footer>
-        <div class="grad-bottom"></div>
-        <div class="footer">
-          <div class="container">
-            <span class="pull-right">
-              <a href="#top">Back to top</a>
-            </span>
-      
-      <span>Generated by <strong>DocFX</strong></span>
-          </div>
-        </div>
-      </footer>
-    </div>
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
 
-    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
-    <script type="text/javascript" src="../styles/docfx.js"></script>
-    <script type="text/javascript" src="../styles/main.js"></script>
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

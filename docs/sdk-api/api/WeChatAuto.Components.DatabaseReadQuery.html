@@ -1,98 +1,128 @@
 <!DOCTYPE html>
-<!--[if IE]><![endif]-->
 <html>
-
   <head>
     <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
       <title>Class DatabaseReadQuery | WeChatAuto.SDK API 参考 </title>
-      <meta name="viewport" content="width=device-width">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta name="title" content="Class DatabaseReadQuery | WeChatAuto.SDK API 参考 ">
-    
-    <meta name="description" content="按单个微信号查询中间表（Database Read）。 默认方法都会带上构造时传入的 FromWechatWxId；跨账号搜索请用 ，复杂查询请用  自行写 SQL。 通常通过  的同名方法调用；单元测试可以直接构造本类型。">
-      <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
-      <link rel="stylesheet" href="../styles/docfx.css">
-      <link rel="stylesheet" href="../styles/main.css">
-      <meta property="docfx:navrel" content="../toc.html">
-      <meta property="docfx:tocrel" content="toc.html">
-    
-    <meta property="docfx:rel" content="../">
-    
+      
+      <meta name="description" content="按单个微信号查询中间表（Database Read）。 默认方法都会带上构造时传入的 FromWechatWxId；跨账号搜索请用 ，复杂查询请用  自行写 SQL。 通常通过  的同名方法调用；单元测试可以直接构造本类型。">
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
   </head>
-  <body data-spy="scroll" data-target="#affix" data-offset="120">
-    <div id="wrapper">
-      <header>
 
-        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-
-              <a class="navbar-brand" href="../index.html">
-                <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
-              </a>
-            </div>
-            <div class="collapse navbar-collapse" id="navbar">
-              <form class="navbar-form navbar-right" role="search" id="search">
-                <div class="form-group">
-                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
-                </div>
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
+            WeChatAuto.SDK
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
               </form>
             </div>
           </div>
-        </nav>
-
-        <div class="subnav navbar navbar-default">
-          <div class="container hide-when-search" id="breadcrumb">
-            <ul class="breadcrumb">
-              <li></li>
-            </ul>
-          </div>
         </div>
-      </header>
-      <div class="container body-content">
+      </nav>
+    </header>
 
-        <div id="search-results">
-          <div class="search-list">Search Results for <span></span></div>
-          <div class="sr-items">
-            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
           </div>
-          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
         </div>
       </div>
-      <div role="main" class="container body-content hide-when-search">
 
-        <div class="sidenav hide-when-search">
-          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
-          <div class="sidetoggle collapse" id="sidetoggle">
-            <div id="sidetoc"></div>
-          </div>
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
         </div>
-        <div class="article row grid-right">
-          <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="WeChatAuto.Components.DatabaseReadQuery">
+
+        <article data-uid="WeChatAuto.Components.DatabaseReadQuery">
 
 
 
-  <h1 id="WeChatAuto_Components_DatabaseReadQuery" data-uid="WeChatAuto.Components.DatabaseReadQuery" class="text-break">Class DatabaseReadQuery</h1>
-  <div class="markdown level0 summary"><p>按单个微信号查询中间表（Database Read）。
+  <h1 id="WeChatAuto_Components_DatabaseReadQuery" data-uid="WeChatAuto.Components.DatabaseReadQuery" class="text-break">
+Class DatabaseReadQuery  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h1>
+
+  <div class="facts text-secondary">
+    <dl><dt>Namespace</dt><dd><a class="xref" href="WeChatAuto.html">WeChatAuto</a>.<a class="xref" href="WeChatAuto.Components.html">Components</a></dd></dl>
+  <dl><dt>Assembly</dt><dd>WeChatAuto.dll</dd></dl>
+  </div>
+
+  <div class="markdown summary"><p>按单个微信号查询中间表（Database Read）。
 默认方法都会带上构造时传入的 <code>FromWechatWxId</code>；跨账号搜索请用 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_SearchAllMessages_System_String_System_String_">SearchAllMessages(string, string)</a>，复杂查询请用 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_Query_System_String_">Query(string)</a> 自行写 SQL。
 通常通过 <a class="xref" href="WeChatAuto.Components.WeChatClient.html">WeChatClient</a> 的同名方法调用；单元测试可以直接构造本类型。</p>
 </div>
-  <div class="markdown level0 conceptual"></div>
-  <div class="inheritance">
-    <h5>Inheritance</h5>
-    <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
-    <div class="level1"><span class="xref">DatabaseReadQuery</span></div>
+  <div class="markdown conceptual"></div>
+
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public sealed class DatabaseReadQuery</code></pre>
   </div>
-  <div class="inheritedMembers">
-    <h5>Inherited Members</h5>
+
+
+
+
+  <dl class="typelist inheritance">
+    <dt>Inheritance</dt>
+    <dd>
+      <div><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
+      <div><span class="xref">DatabaseReadQuery</span></div>
+    </dd>
+  </dl>
+
+
+
+  <dl class="typelist inheritedMembers">
+    <dt>Inherited Members</dt>
+    <dd>
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gettype">object.GetType()</a>
     </div>
@@ -111,1366 +141,1156 @@
     <div>
       <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object.gethashcode">object.GetHashCode()</a>
     </div>
-  </div>
-  <h6><strong>Namespace</strong>: <a class="xref" href="WeChatAuto.html">WeChatAuto</a>.<a class="xref" href="WeChatAuto.Components.html">Components</a></h6>
-  <h6><strong>Assembly</strong>: WeChatAuto.dll</h6>
-  <h5 id="WeChatAuto_Components_DatabaseReadQuery_syntax">Syntax</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public sealed class DatabaseReadQuery</code></pre>
-  </div>
-  <h3 id="constructors">Constructors
-</h3>
+  </dd></dl>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <dl class="typelist extensionMethods">
+    <dt>Extension Methods</dt>
+    <dd>
+  <div>
+      <a class="xref" href="WeAutoCommon.Models.FunctionalExtensions.html#WeAutoCommon_Models_FunctionalExtensions_ToMaybe__1___0_">FunctionalExtensions.ToMaybe&lt;T&gt;(T)</a>
+  </div>
+  </dd></dl>
+
+
+
+
+
+  <h2 class="section" id="constructors">Constructors
+</h2>
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery__ctor_" data-uid="WeChatAuto.Components.DatabaseReadQuery.#ctor*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery__ctor_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.#ctor(System.String)">DatabaseReadQuery(string)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery__ctor_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.#ctor(System.String)">
+  DatabaseReadQuery(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>创建绑定到指定微信号的查询器。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public DatabaseReadQuery(string fromWechatWxId)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">fromWechatWxId</span></td>
-        <td><p>当前微信的 wxid，对应中间表 <code>FromWechatWxId</code>。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="methods">Methods
-</h3>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>fromWechatWxId</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>当前微信的 wxid，对应中间表 <code>FromWechatWxId</code>。</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 class="section" id="methods">Methods
+</h2>
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_ExecuteQuery_" data-uid="WeChatAuto.Components.DatabaseReadQuery.ExecuteQuery*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_ExecuteQuery_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.ExecuteQuery(System.String)">ExecuteQuery(string)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_ExecuteQuery_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.ExecuteQuery(System.String)">
+  ExecuteQuery(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>执行用户传入的 SELECT 查询（不绑定某个微信号）。说明见 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_Query_System_String_">Query(string)</a>。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public static IList&lt;IDictionary&lt;string, object&gt;&gt; ExecuteQuery(string sql)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">sql</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2">IDictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>&gt;&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>sql</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2">IDictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>&gt;&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_FindContacts_" data-uid="WeChatAuto.Components.DatabaseReadQuery.FindContacts*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_FindContacts_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.FindContacts(System.String)">FindContacts(string)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_FindContacts_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.FindContacts(System.String)">
+  FindContacts(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>按关键字模糊查找联系人，匹配 <code>UserName</code> / <code>NickName</code> / <code>Remark</code> / <code>Alias</code>。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IList&lt;WeChatContact&gt; FindContacts(string keyword)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">keyword</span></td>
-        <td><p>关键字，不能为空。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>keyword</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>关键字，不能为空。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetAllChatRooms_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetAllChatRooms*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetAllChatRooms" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetAllChatRooms">GetAllChatRooms()</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetAllChatRooms" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetAllChatRooms">
+  GetAllChatRooms()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>获取当前微信号的全部群聊（联系人 <code>UserName</code> 含 <code>@chatroom</code>；不含已删除行）。
 开发者可从返回结果中取得群的 <code>UserName</code> 和 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_ShowName">ShowName</a>，再调用 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_GetRoomMembers_System_String_">GetRoomMembers(string)</a>。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IList&lt;WeChatContact&gt; GetAllChatRooms()</code></pre>
   </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetAllContacts_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetAllContacts*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetAllContacts" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetAllContacts">GetAllContacts()</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetAllContacts" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetAllContacts">
+  GetAllContacts()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>获取当前微信号的全部联系人（不含 <code>DeleteFlag != 0</code> 的已删除行）。
 开发者可从返回结果中取得 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_UserName">UserName</a> 和 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_ShowName">ShowName</a>，再进行后续查询。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IList&lt;WeChatContact&gt; GetAllContacts()</code></pre>
   </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetChatMessages_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetChatMessages*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetChatMessages_System_String_System_Int32_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetChatMessages(System.String,System.Int32)">GetChatMessages(string, int)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetChatMessages_System_String_System_Int32_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetChatMessages(System.String,System.Int32)">
+  GetChatMessages(string, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>取指定会话的聊天记录，按 <code>SortSeq</code> 从新到旧（适合浏览最近历史）。
 若要取最近若干条再按从旧到新排列（例如作为 LLM 上下文），请用 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_GetRecentChatMessages_System_String_System_Int32_">GetRecentChatMessages(string, int)</a>。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IList&lt;WeChatMessageQueryResult&gt; GetChatMessages(string chatUsername, int count = 50)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">chatUsername</span></td>
-        <td><p>会话 username（好友 wxid 或群 id）。</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">count</span></td>
-        <td><p>条数，默认 50。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatMessageQueryResult.html">WeChatMessageQueryResult</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>chatUsername</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>会话 username（好友 wxid 或群 id）。</p>
+</dd>
+    <dt><code>count</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>条数，默认 50。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatMessageQueryResult.html">WeChatMessageQueryResult</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetChatRoomWithShowName_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetChatRoomWithShowName*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetChatRoomWithShowName_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetChatRoomWithShowName(System.String)">GetChatRoomWithShowName(string)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetChatRoomWithShowName_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetChatRoomWithShowName(System.String)">
+  GetChatRoomWithShowName(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>按显示名取一个群。群也可以设置备注，界面上看到的是 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_ShowName">ShowName</a>
 （备注 &gt; 微信号别名 &gt; 群名 <code>NickName</code> &gt; UserName），所以不能只按群名查找。
 若有多个群显示名相同，返回 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_GetChatRoomsWithShowName_System_String_">GetChatRoomsWithShowName(string)</a> 中的第一条（按 <code>UserName</code> 升序）。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public WeChatContact GetChatRoomWithShowName(string showName)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">showName</span></td>
-        <td><p>显示名，必须与 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_ShowName">ShowName</a> 完全一致，不是模糊匹配。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a></td>
-        <td><p>找不到时返回 <code>null</code>。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>showName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>显示名，必须与 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_ShowName">ShowName</a> 完全一致，不是模糊匹配。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a></dt>
+    <dd><p>找不到时返回 <code>null</code>。</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetChatRoomsByLocalType_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetChatRoomsByLocalType*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetChatRoomsByLocalType_System_Int32_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetChatRoomsByLocalType(System.Int32)">GetChatRoomsByLocalType(int)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetChatRoomsByLocalType_System_Int32_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetChatRoomsByLocalType(System.Int32)">
+  GetChatRoomsByLocalType(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>在当前微信号的群聊中，按联系人 <code>LocalType</code> 筛选。
 中间表目前没有单独的「群组类型」列（原生 <code>chat_room_type</code> 尚未同步），完整 <code>LocalType</code> 枚举也未核实；
 本机观察群多为 <code>2</code>。是否为群仍以 <code>UserName</code> 含 <code>@chatroom</code> 为准，本方法只是再按 <code>LocalType</code> 过滤。
 已观察过的值请优先用 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_GetChatRoomsByLocalType_WeChatAuto_Models_ContactLocalType_">GetChatRoomsByLocalType(ContactLocalType)</a>。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IList&lt;WeChatContact&gt; GetChatRoomsByLocalType(int localType)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">localType</span></td>
-        <td><p>联系人 <code>LocalType</code> 值，例如本机观察的群多为 2。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>localType</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>联系人 <code>LocalType</code> 值，例如本机观察的群多为 2。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetChatRoomsByLocalType_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetChatRoomsByLocalType*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetChatRoomsByLocalType_WeChatAuto_Models_ContactLocalType_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetChatRoomsByLocalType(WeChatAuto.Models.ContactLocalType)">GetChatRoomsByLocalType(ContactLocalType)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetChatRoomsByLocalType_WeChatAuto_Models_ContactLocalType_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetChatRoomsByLocalType(WeChatAuto.Models.ContactLocalType)">
+  GetChatRoomsByLocalType(ContactLocalType)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>在当前微信号的群聊中，按已经观察过的联系人类型筛选。
 是否为群仍以 <code>UserName</code> 含 <code>@chatroom</code> 为准，本方法只是再按类型过滤。
 目前只收录本机已观察的 <a class="xref" href="WeChatAuto.Models.ContactLocalType.html#WeChatAuto_Models_ContactLocalType_Friend">Friend</a>（1）和 <a class="xref" href="WeChatAuto.Models.ContactLocalType.html#WeChatAuto_Models_ContactLocalType_ChatRoom">ChatRoom</a>（2）；
 其他数值请用 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_GetChatRoomsByLocalType_System_Int32_">GetChatRoomsByLocalType(int)</a>。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IList&lt;WeChatContact&gt; GetChatRoomsByLocalType(ContactLocalType localType)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="WeChatAuto.Models.ContactLocalType.html">ContactLocalType</a></td>
-        <td><span class="parametername">localType</span></td>
-        <td><p>已观察过的联系人类型。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>localType</code> <a class="xref" href="WeChatAuto.Models.ContactLocalType.html">ContactLocalType</a></dt>
+    <dd><p>已观察过的联系人类型。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetChatRoomsWithShowName_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetChatRoomsWithShowName*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetChatRoomsWithShowName_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetChatRoomsWithShowName(System.String)">GetChatRoomsWithShowName(string)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetChatRoomsWithShowName_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetChatRoomsWithShowName(System.String)">
+  GetChatRoomsWithShowName(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>按显示名查找当前微信号的群，可能返回多个（显示名允许重复）。
 匹配规则与 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_GetChatRoomWithShowName_System_String_">GetChatRoomWithShowName(string)</a> 相同：按 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_ShowName">ShowName</a> 完全一致，已设备注的群要用备注来查，用原群名会找不到。
 结果按 <code>UserName</code> 升序。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IList&lt;WeChatContact&gt; GetChatRoomsWithShowName(string showName)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">showName</span></td>
-        <td><p>显示名，必须与 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_ShowName">ShowName</a> 完全一致。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>showName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>显示名，必须与 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_ShowName">ShowName</a> 完全一致。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetContact_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetContact*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetContact_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetContact(System.String)">GetContact(string)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetContact_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetContact(System.String)">
+  GetContact(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>按联系人稳定标识 <code class="paramref">userName</code> 取一条联系人。
 显示名请用返回值的 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_ShowName">ShowName</a>（备注 &gt; 微信号别名 &gt; 昵称 &gt; UserName）。
 若开发时还拿不到 <code class="paramref">userName</code>，请先用 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_GetAllContacts">GetAllContacts()</a> 或 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_GetContactsWithShowName_System_String_">GetContactsWithShowName(string)</a> 取得。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public WeChatContact GetContact(string userName)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">userName</span></td>
-        <td><p>联系人 username（wxid / 群 id），不是显示名。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a></td>
-        <td><p>找不到或已标记删除（<code>DeleteFlag != 0</code>）时返回 <code>null</code>。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>userName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>联系人 username（wxid / 群 id），不是显示名。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a></dt>
+    <dd><p>找不到或已标记删除（<code>DeleteFlag != 0</code>）时返回 <code>null</code>。</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetContactWithShowName_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetContactWithShowName*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetContactWithShowName_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetContactWithShowName(System.String)">GetContactWithShowName(string)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetContactWithShowName_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetContactWithShowName(System.String)">
+  GetContactWithShowName(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>按显示名取一条联系人。显示名规则与 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_ShowName">ShowName</a> 相同（备注 &gt; 微信号别名 &gt; 昵称 &gt; UserName）。
 若有多条同名，返回 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_GetContactsWithShowName_System_String_">GetContactsWithShowName(string)</a> 中的第一条（按 <code>UserName</code> 升序）。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public WeChatContact GetContactWithShowName(string showName)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">showName</span></td>
-        <td><p>显示名，必须与 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_ShowName">ShowName</a> 完全一致，不是模糊匹配。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a></td>
-        <td><p>找不到时返回 <code>null</code>。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>showName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>显示名，必须与 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_ShowName">ShowName</a> 完全一致，不是模糊匹配。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a></dt>
+    <dd><p>找不到时返回 <code>null</code>。</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetContactsWithShowName_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetContactsWithShowName*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetContactsWithShowName_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetContactsWithShowName(System.String)">GetContactsWithShowName(string)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetContactsWithShowName_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetContactsWithShowName(System.String)">
+  GetContactsWithShowName(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>按显示名查找当前微信号的联系人，可能返回多条（显示名允许重复）。
 显示名规则与 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_ShowName">ShowName</a> 相同；匹配是完全一致，不是模糊查找。
 结果按 <code>UserName</code> 升序。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IList&lt;WeChatContact&gt; GetContactsWithShowName(string showName)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">showName</span></td>
-        <td><p>显示名，必须与 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_ShowName">ShowName</a> 完全一致。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>showName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>显示名，必须与 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_ShowName">ShowName</a> 完全一致。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Models.WeChatContact.html">WeChatContact</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetMaxSortSeq_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetMaxSortSeq*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetMaxSortSeq" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetMaxSortSeq">GetMaxSortSeq()</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetMaxSortSeq" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetMaxSortSeq">
+  GetMaxSortSeq()
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>当前微信号 <code>wechat_message</code> 的最大 <code>SortSeq</code>。没有消息时返回 0。
 给 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_GetNewMessages_System_Int64_">GetNewMessages(long)</a> 提供起步值：先取本值，再只查比它更大的新消息。
 按 username 发送前也会记录这个值，发送后用 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_HasOutgoingMessageAfter_System_String_System_Int64_">HasOutgoingMessageAfter(string, long)</a> 确认是否出现自己发出的新记录。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public long GetMaxSortSeq()</code></pre>
   </div>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetNewMessages_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetNewMessages*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetNewMessages_System_Int64_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetNewMessages(System.Int64)">GetNewMessages(long)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetNewMessages_System_Int64_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetNewMessages(System.Int64)">
+  GetNewMessages(long)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>取出 <code class="paramref">afterSortSeq</code> 之后的新消息，按 <code>SortSeq</code> 从旧到新。
 请用上次已经处理到的最大 <code>SortSeq</code>，不要用自增主键 <code>Id</code> 或写入时间 <code>CreateTime</code>。
 第一次调用可用 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_GetMaxSortSeq">GetMaxSortSeq()</a> 取得当前值。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IList&lt;WeChatMessageQueryResult&gt; GetNewMessages(long afterSortSeq)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
-        <td><span class="parametername">afterSortSeq</span></td>
-        <td><p>上次已处理到的 <code>SortSeq</code>，只返回比它更大的行。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatMessageQueryResult.html">WeChatMessageQueryResult</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>afterSortSeq</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd><p>上次已处理到的 <code>SortSeq</code>，只返回比它更大的行。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatMessageQueryResult.html">WeChatMessageQueryResult</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetRecentChatMessages_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetRecentChatMessages*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetRecentChatMessages_System_String_System_Int32_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetRecentChatMessages(System.String,System.Int32)">GetRecentChatMessages(string, int)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetRecentChatMessages_System_String_System_Int32_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetRecentChatMessages(System.String,System.Int32)">
+  GetRecentChatMessages(string, int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>取指定会话最近的 <code class="paramref">count</code> 条聊天记录，再按 <code>SortSeq</code> 从旧到新排列。
 适合直接作为 LLM 对话上下文；与 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_GetChatMessages_System_String_System_Int32_">GetChatMessages(string, int)</a> 取的是同一批最近消息，只是排序相反。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IList&lt;WeChatMessageQueryResult&gt; GetRecentChatMessages(string chatUsername, int count = 50)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">chatUsername</span></td>
-        <td><p>会话 username（好友 wxid 或群 id）。</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">count</span></td>
-        <td><p>最近条数，默认 50。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatMessageQueryResult.html">WeChatMessageQueryResult</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>chatUsername</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>会话 username（好友 wxid 或群 id）。</p>
+</dd>
+    <dt><code>count</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>最近条数，默认 50。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatMessageQueryResult.html">WeChatMessageQueryResult</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetRoomMembers_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetRoomMembers*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetRoomMembers_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetRoomMembers(System.String)">GetRoomMembers(string)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetRoomMembers_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetRoomMembers(System.String)">
+  GetRoomMembers(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>取指定群的成员列表，并带上群名片和联系人显示名。
 若开发时还拿不到 <code class="paramref">roomUsername</code>，请先用 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_GetAllChatRooms">GetAllChatRooms()</a>、
 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_GetChatRoomsWithShowName_System_String_">GetChatRoomsWithShowName(string)</a> 或 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_GetRoomMembersByShowName_System_String_">GetRoomMembersByShowName(string)</a>。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IList&lt;WeChatRoomMemberQueryResult&gt; GetRoomMembers(string roomUsername)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">roomUsername</span></td>
-        <td><p>群 username，如 <code>xxx@chatroom</code>。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatRoomMemberQueryResult.html">WeChatRoomMemberQueryResult</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>roomUsername</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群 username，如 <code>xxx@chatroom</code>。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatRoomMemberQueryResult.html">WeChatRoomMemberQueryResult</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetRoomMembersByShowName_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetRoomMembersByShowName*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetRoomMembersByShowName_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetRoomMembersByShowName(System.String)">GetRoomMembersByShowName(string)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetRoomMembersByShowName_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetRoomMembersByShowName(System.String)">
+  GetRoomMembersByShowName(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>按群的显示名取成员列表（规则见 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_GetChatRoomWithShowName_System_String_">GetChatRoomWithShowName(string)</a>）。
 若有多个群显示名相同，返回第一条对应群的成员；找不到该群时返回空列表。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IList&lt;WeChatRoomMemberQueryResult&gt; GetRoomMembersByShowName(string showName)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">showName</span></td>
-        <td><p>群的显示名（备注优先于群名）。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatRoomMemberQueryResult.html">WeChatRoomMemberQueryResult</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>showName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>群的显示名（备注优先于群名）。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatRoomMemberQueryResult.html">WeChatRoomMemberQueryResult</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetSnsPost_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetSnsPost*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetSnsPost_System_Int64_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetSnsPost(System.Int64)">GetSnsPost(long)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetSnsPost_System_Int64_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetSnsPost(System.Int64)">
+  GetSnsPost(long)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>按 tid 取一条朋友圈，并一次带回媒体、点赞和评论。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public WeChatSnsPostQueryResult GetSnsPost(long tid)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
-        <td><span class="parametername">tid</span></td>
-        <td><p>朋友圈 tid（有符号，与中间表 <code>wechat_sns_post.Tid</code> 相同）。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="WeChatAuto.Components.WeChatSnsPostQueryResult.html">WeChatSnsPostQueryResult</a></td>
-        <td><p>找不到该动态时返回 <code>null</code>。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>tid</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd><p>朋友圈 tid（有符号，与中间表 <code>wechat_sns_post.Tid</code> 相同）。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="WeChatAuto.Components.WeChatSnsPostQueryResult.html">WeChatSnsPostQueryResult</a></dt>
+    <dd><p>找不到该动态时返回 <code>null</code>。</p>
+</dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetSnsPosts_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetSnsPosts*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetSnsPosts_System_Int32_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetSnsPosts(System.Int32)">GetSnsPosts(int)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetSnsPosts_System_Int32_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetSnsPosts(System.Int32)">
+  GetSnsPosts(int)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>取当前微信号最多 <code class="paramref">limit</code> 条朋友圈，按发布时间 <code>CreateTime</code> 从新到旧，并一次带回媒体、点赞和评论。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IList&lt;WeChatSnsPostQueryResult&gt; GetSnsPosts(int limit)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td><span class="parametername">limit</span></td>
-        <td><p>最多返回多少条，必须大于 0。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatSnsPostQueryResult.html">WeChatSnsPostQueryResult</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>limit</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></dt>
+    <dd><p>最多返回多少条，必须大于 0。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatSnsPostQueryResult.html">WeChatSnsPostQueryResult</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetSnsPostsByDate_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetSnsPostsByDate*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetSnsPostsByDate_System_DateTime_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetSnsPostsByDate(System.DateTime)">GetSnsPostsByDate(DateTime)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetSnsPostsByDate_System_DateTime_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetSnsPostsByDate(System.DateTime)">
+  GetSnsPostsByDate(DateTime)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>取当前微信号某一天的朋友圈，按发布时间 <code>CreateTime</code> 从新到旧，并一次带回媒体、点赞和评论。
 是否属于该天，以 <code>CreateTime</code>（unix 秒）是否落在中国标准时间（UTC+8）的该日历日为准，只看参数的年、月、日。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IList&lt;WeChatSnsPostQueryResult&gt; GetSnsPostsByDate(DateTime date)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a></td>
-        <td><span class="parametername">date</span></td>
-        <td><p>要查询的日历日，时分秒会被忽略。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatSnsPostQueryResult.html">WeChatSnsPostQueryResult</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>date</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.datetime">DateTime</a></dt>
+    <dd><p>要查询的日历日，时分秒会被忽略。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatSnsPostQueryResult.html">WeChatSnsPostQueryResult</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetSnsPostsByShowName_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetSnsPostsByShowName*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetSnsPostsByShowName_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetSnsPostsByShowName(System.String)">GetSnsPostsByShowName(string)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetSnsPostsByShowName_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetSnsPostsByShowName(System.String)">
+  GetSnsPostsByShowName(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>取当前微信号某个显示名对应好友的朋友圈，按发布时间 <code>CreateTime</code> 从新到旧，并一次带回媒体、点赞和评论。
 显示名规则与 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_ShowName">ShowName</a> 相同，必须完全一致；
 若多个好友显示名相同，会一并返回他们的动态。找不到该显示名时返回空列表。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IList&lt;WeChatSnsPostQueryResult&gt; GetSnsPostsByShowName(string showName)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">showName</span></td>
-        <td><p>好友显示名，必须与 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_ShowName">ShowName</a> 完全一致。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatSnsPostQueryResult.html">WeChatSnsPostQueryResult</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>showName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>好友显示名，必须与 <a class="xref" href="WeChatAuto.Models.WeChatContact.html#WeChatAuto_Models_WeChatContact_ShowName">ShowName</a> 完全一致。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatSnsPostQueryResult.html">WeChatSnsPostQueryResult</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_GetSnsPostsByUserName_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetSnsPostsByUserName*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_GetSnsPostsByUserName_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetSnsPostsByUserName(System.String)">GetSnsPostsByUserName(string)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_GetSnsPostsByUserName_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.GetSnsPostsByUserName(System.String)">
+  GetSnsPostsByUserName(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>取当前微信号某个好友（发布者 <code>UserName</code>，即真实 wxid）的朋友圈，按发布时间 <code>CreateTime</code> 从新到旧，并一次带回媒体、点赞和评论。
 找不到该发布者的动态时返回空列表。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IList&lt;WeChatSnsPostQueryResult&gt; GetSnsPostsByUserName(string userName)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">userName</span></td>
-        <td><p>发布者的 <code>UserName</code>（真实 wxid），不是显示名。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatSnsPostQueryResult.html">WeChatSnsPostQueryResult</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>userName</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>发布者的 <code>UserName</code>（真实 wxid），不是显示名。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatSnsPostQueryResult.html">WeChatSnsPostQueryResult</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_HasOutgoingMessageAfter_" data-uid="WeChatAuto.Components.DatabaseReadQuery.HasOutgoingMessageAfter*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_HasOutgoingMessageAfter_System_String_System_Int64_" data-uid="WeChatAuto.Components.DatabaseReadQuery.HasOutgoingMessageAfter(System.String,System.Int64)">HasOutgoingMessageAfter(string, long)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_HasOutgoingMessageAfter_System_String_System_Int64_" data-uid="WeChatAuto.Components.DatabaseReadQuery.HasOutgoingMessageAfter(System.String,System.Int64)">
+  HasOutgoingMessageAfter(string, long)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>当前微信号指定会话中，是否出现 <code>SortSeq</code> 大于 <code class="paramref">afterSortSeq</code> 且 <code>IsSelf == true</code> 的消息。
 按 <code>ChatUsername</code> 限定会话：只能说明「这个 username 的会话里出现了自己发出的新记录」，
 不能在发出前阻止同名误点；若点错了人，本方法应返回 <code>false</code>（消息可能已经发到别人）。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public bool HasOutgoingMessageAfter(string chatUsername, long afterSortSeq)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">chatUsername</span></td>
-        <td><p>会话 username（好友 wxid 或群 id）。</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
-        <td><span class="parametername">afterSortSeq</span></td>
-        <td><p>发送前记下的最大 <code>SortSeq</code>，只认比它更大的行。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>chatUsername</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>会话 username（好友 wxid 或群 id）。</p>
+</dd>
+    <dt><code>afterSortSeq</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd><p>发送前记下的最大 <code>SortSeq</code>，只认比它更大的行。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_Query_" data-uid="WeChatAuto.Components.DatabaseReadQuery.Query*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_Query_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.Query(System.String)">Query(string)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_Query_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.Query(System.String)">
+  Query(string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>执行用户传入的 SELECT 查询，并把结果做成字典列表返回（不用 <code>DataTable</code>，方便调用方解析或序列化）。
 这是给复杂查询预留的通用入口，SQL 由调用方自行编写，本方法不会自动追加 <code>FromWechatWxId</code> 条件。
 只支持 SELECT（含 <code>WITH ... SELECT</code>）。中间表由同步写入，在这里做增加、修改或删除没有意义，这类语句会抛出异常。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IList&lt;IDictionary&lt;string, object&gt;&gt; Query(string sql)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">sql</span></td>
-        <td><p>一条 SELECT 语句。请自行注意注入风险：这是给开发者执行自己的查询用的。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2">IDictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>&gt;&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>sql</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>一条 SELECT 语句。请自行注意注入风险：这是给开发者执行自己的查询用的。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2">IDictionary</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a>, <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a>&gt;&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_SearchAllMessages_" data-uid="WeChatAuto.Components.DatabaseReadQuery.SearchAllMessages*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_SearchAllMessages_System_String_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.SearchAllMessages(System.String,System.String)">SearchAllMessages(string, string)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_SearchAllMessages_System_String_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.SearchAllMessages(System.String,System.String)">
+  SearchAllMessages(string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>按正文关键字对 <code>wechat_message</code> 全量搜索（匹配 <code>Content</code>），不限定微信号。
 中间表是多微信聚合的，可用本方法先找出关键词出现在哪些账号和会话，再自行处理。
 可限定会话；结果按 <code>SortSeq</code> 从新到旧。注意 <code>SortSeq</code> 只在同一微信号内有序，跨账号时请结合返回行的 <code>FromWechatWxId</code> 判断。
 显示名按各自行的所属账号解析。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IList&lt;WeChatMessageQueryResult&gt; SearchAllMessages(string keyword, string chatUsername = null)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">keyword</span></td>
-        <td><p>正文关键字，不能为空。</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">chatUsername</span></td>
-        <td><p>可选，限定会话 username。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatMessageQueryResult.html">WeChatMessageQueryResult</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>keyword</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>正文关键字，不能为空。</p>
+</dd>
+    <dt><code>chatUsername</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>可选，限定会话 username。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatMessageQueryResult.html">WeChatMessageQueryResult</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_SearchMessages_" data-uid="WeChatAuto.Components.DatabaseReadQuery.SearchMessages*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_SearchMessages_System_String_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.SearchMessages(System.String,System.String)">SearchMessages(string, string)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_SearchMessages_System_String_System_String_" data-uid="WeChatAuto.Components.DatabaseReadQuery.SearchMessages(System.String,System.String)">
+  SearchMessages(string, string)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>按正文关键字搜索当前微信号的消息（匹配 <code>Content</code>）。
 可限定会话；不传 <code class="paramref">chatUsername</code> 时搜索当前微信号下的全部会话。
 结果按 <code>SortSeq</code> 从新到旧。
 若要跨微信号对 <code>wechat_message</code> 全量搜索，请用 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_SearchAllMessages_System_String_System_String_">SearchAllMessages(string, string)</a>。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public IList&lt;WeChatMessageQueryResult&gt; SearchMessages(string keyword, string chatUsername = null)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">keyword</span></td>
-        <td><p>正文关键字，不能为空。</p>
-</td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">chatUsername</span></td>
-        <td><p>可选，限定会话 username。</p>
-</td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatMessageQueryResult.html">WeChatMessageQueryResult</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <span class="small pull-right mobile-hide">
-    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs">View Source</a>
-  </span>
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>keyword</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>正文关键字，不能为空。</p>
+</dd>
+    <dt><code>chatUsername</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd><p>可选，限定会话 username。</p>
+</dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1">IList</a>&lt;<a class="xref" href="WeChatAuto.Components.WeChatMessageQueryResult.html">WeChatMessageQueryResult</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
   <a id="WeChatAuto_Components_DatabaseReadQuery_WaitForOutgoingMessageAsync_" data-uid="WeChatAuto.Components.DatabaseReadQuery.WaitForOutgoingMessageAsync*"></a>
-  <h4 id="WeChatAuto_Components_DatabaseReadQuery_WaitForOutgoingMessageAsync_System_String_System_Int64_System_Nullable_System_TimeSpan__System_Nullable_System_TimeSpan__" data-uid="WeChatAuto.Components.DatabaseReadQuery.WaitForOutgoingMessageAsync(System.String,System.Int64,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})">WaitForOutgoingMessageAsync(string, long, TimeSpan?, TimeSpan?)</h4>
+
+  <h3 id="WeChatAuto_Components_DatabaseReadQuery_WaitForOutgoingMessageAsync_System_String_System_Int64_System_Nullable_System_TimeSpan__System_Nullable_System_TimeSpan__" data-uid="WeChatAuto.Components.DatabaseReadQuery.WaitForOutgoingMessageAsync(System.String,System.Int64,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})">
+  WaitForOutgoingMessageAsync(string, long, TimeSpan?, TimeSpan?)
+  <a class="header-action link-secondary" title="View source" href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs"><i class="bi bi-code-slash"></i></a>
+  </h3>
+
   <div class="markdown level1 summary"><p>发送结束后轮询 <a class="xref" href="WeChatAuto.Components.DatabaseReadQuery.html#WeChatAuto_Components_DatabaseReadQuery_HasOutgoingMessageAfter_System_String_System_Int64_">HasOutgoingMessageAfter(string, long)</a>：先立即看一次，之后按 <code class="paramref">interval</code> 重试，直到超时。
 默认最多等 8 秒、每 3 秒看一次。</p>
 </div>
   <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
+
   <div class="codewrapper">
     <pre><code class="lang-csharp hljs">public Task&lt;bool&gt; WaitForOutgoingMessageAsync(string chatUsername, long afterSortSeq, TimeSpan? timeout = null, TimeSpan? interval = null)</code></pre>
   </div>
-  <h5 class="parameters">Parameters</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
-        <td><span class="parametername">chatUsername</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></td>
-        <td><span class="parametername">afterSortSeq</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a>?</td>
-        <td><span class="parametername">timeout</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a>?</td>
-        <td><span class="parametername">interval</span></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h5 class="returns">Returns</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <h3 id="extensionmethods">Extension Methods</h3>
-  <div>
-      <a class="xref" href="WeAutoCommon.Models.FunctionalExtensions.html#WeAutoCommon_Models_FunctionalExtensions_ToMaybe__1___0_">FunctionalExtensions.ToMaybe&lt;T&gt;(T)</a>
-  </div>
+
+  <h4 class="section">Parameters</h4>
+  <dl class="parameters">
+    <dt><code>chatUsername</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></dt>
+    <dd></dd>
+    <dt><code>afterSortSeq</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int64">long</a></dt>
+    <dd></dd>
+    <dt><code>timeout</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a>?</dt>
+    <dd></dd>
+    <dt><code>interval</code> <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.timespan">TimeSpan</a>?</dt>
+    <dd></dd>
+  </dl>
+
+  <h4 class="section">Returns</h4>
+  <dl class="parameters">
+    <dt><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1">Task</a>&lt;<a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a>&gt;</dt>
+    <dd></dd>
+  </dl>
+
+
+
+
+
+
+
+
+
+
+
 
 </article>
-          </div>
 
-          <div class="hidden-sm col-md-2" role="complementary">
-            <div class="sideaffix">
-              <div class="contribution">
-                <ul class="nav">
-                  <li>
-                    <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs" class="contribution-link">View Source</a>
-                  </li>
-                </ul>
-              </div>
-              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-                <h5>In this article</h5>
-                <div></div>
-              </nav>
-            </div>
-          </div>
+        <div class="contribution d-print-none">
+          <a href="https://github.com/scottfly189/wxauto.net/blob/a5297ce0c1d4843b0ab0a402e2c170c2f76633cf/WeChatAuto4_X/WeChatAuto/Components/MessageMonitor.database.cs" class="edit-link">Edit this page</a>
         </div>
+
+
       </div>
 
-      <footer>
-        <div class="grad-bottom"></div>
-        <div class="footer">
-          <div class="container">
-            <span class="pull-right">
-              <a href="#top">Back to top</a>
-            </span>
-      
-      <span>Generated by <strong>DocFX</strong></span>
-          </div>
-        </div>
-      </footer>
-    </div>
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
 
-    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
-    <script type="text/javascript" src="../styles/docfx.js"></script>
-    <script type="text/javascript" src="../styles/main.js"></script>
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

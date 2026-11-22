@@ -1,113 +1,139 @@
 <!DOCTYPE html>
-<!--[if IE]><![endif]-->
 <html>
-
   <head>
     <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
       <title>Namespace WeChatAuto.Utils | WeChatAuto.SDK API 参考 </title>
-      <meta name="viewport" content="width=device-width">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <meta name="title" content="Namespace WeChatAuto.Utils | WeChatAuto.SDK API 参考 ">
-    
-    
-      <link rel="shortcut icon" href="../favicon.ico">
-      <link rel="stylesheet" href="../styles/docfx.vendor.min.css">
-      <link rel="stylesheet" href="../styles/docfx.css">
-      <link rel="stylesheet" href="../styles/main.css">
-      <meta property="docfx:navrel" content="../toc.html">
-      <meta property="docfx:tocrel" content="toc.html">
-    
-    <meta property="docfx:rel" content="../">
-    
+      
+      
+      <link rel="icon" href="../favicon.ico">
+      <link rel="stylesheet" href="../public/docfx.min.css">
+      <link rel="stylesheet" href="../public/main.css">
+      <meta name="docfx:navrel" content="../toc.html">
+      <meta name="docfx:tocrel" content="toc.html">
+      
+      <meta name="docfx:rel" content="../">
+      
+      
+      
+      <meta name="loc:inThisArticle" content="In this article">
+      <meta name="loc:searchResultsCount" content="{count} results for &quot;{query}&quot;">
+      <meta name="loc:searchNoResults" content="No results for &quot;{query}&quot;">
+      <meta name="loc:tocFilter" content="Filter by title">
+      <meta name="loc:nextArticle" content="Next">
+      <meta name="loc:prevArticle" content="Previous">
+      <meta name="loc:themeLight" content="Light">
+      <meta name="loc:themeDark" content="Dark">
+      <meta name="loc:themeAuto" content="Auto">
+      <meta name="loc:changeTheme" content="Change theme">
+      <meta name="loc:copy" content="Copy">
+      <meta name="loc:downloadPdf" content="Download PDF">
+
+      <script type="module" src="./../public/docfx.min.js"></script>
+
+      <script>
+        const theme = localStorage.getItem('theme') || 'auto'
+        document.documentElement.setAttribute('data-bs-theme', theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme)
+      </script>
+
   </head>
-  <body data-spy="scroll" data-target="#affix" data-offset="120">
-    <div id="wrapper">
-      <header>
 
-        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-
-              <a class="navbar-brand" href="../index.html">
-                <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
-              </a>
-            </div>
-            <div class="collapse navbar-collapse" id="navbar">
-              <form class="navbar-form navbar-right" role="search" id="search">
-                <div class="form-group">
-                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
-                </div>
+  <body class="tex2jax_ignore" data-layout="" data-yaml-mime="ManagedReference">
+    <header class="bg-body border-bottom">
+      <nav id="autocollapse" class="navbar navbar-expand-md" role="navigation">
+        <div class="container-xxl flex-nowrap">
+          <a class="navbar-brand" href="../index.html">
+            <img id="logo" class="svg" src="../logo.svg" alt="WeChatAuto.SDK">
+            WeChatAuto.SDK
+          </a>
+          <button class="btn btn-lg d-md-none border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navpanel" aria-controls="navpanel" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navpanel">
+            <div id="navbar">
+              <form class="search" role="search" id="search">
+                <i class="bi bi-search"></i>
+                <input class="form-control" id="search-query" type="search" disabled placeholder="Search" autocomplete="off" aria-label="Search">
               </form>
             </div>
           </div>
-        </nav>
-
-        <div class="subnav navbar navbar-default">
-          <div class="container hide-when-search" id="breadcrumb">
-            <ul class="breadcrumb">
-              <li></li>
-            </ul>
-          </div>
         </div>
-      </header>
-      <div class="container body-content">
+      </nav>
+    </header>
 
-        <div id="search-results">
-          <div class="search-list">Search Results for <span></span></div>
-          <div class="sr-items">
-            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+    <main class="container-xxl">
+      <div class="toc-offcanvas">
+        <div class="offcanvas-md offcanvas-start" tabindex="-1" id="tocOffcanvas" aria-labelledby="tocOffcanvasLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="tocOffcanvasLabel">Table of Contents</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#tocOffcanvas" aria-label="Close"></button>
           </div>
-          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
+          <div class="offcanvas-body">
+            <nav class="toc" id="toc"></nav>
+          </div>
         </div>
       </div>
-      <div role="main" class="container body-content hide-when-search">
 
-        <div class="sidenav hide-when-search">
-          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
-          <div class="sidetoggle collapse" id="sidetoggle">
-            <div id="sidetoc"></div>
-          </div>
+      <div class="content">
+        <div class="actionbar">
+          <button class="btn btn-lg border-0 d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#tocOffcanvas" aria-controls="tocOffcanvas" aria-expanded="false" aria-label="Show table of contents">
+            <i class="bi bi-list"></i>
+          </button>
+
+          <nav id="breadcrumb"></nav>
         </div>
-        <div class="article row grid-right">
-          <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="WeChatAuto.Utils">
+
+        <article data-uid="WeChatAuto.Utils">
 
   <h1 id="WeChatAuto_Utils" data-uid="WeChatAuto.Utils" class="text-break">Namespace WeChatAuto.Utils</h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
   <div class="markdown level0 remarks"></div>
+
     <h3 id="classes">
 Classes
 </h3>
-      <h4><a class="xref" href="WeChatAuto.Utils.AutoLogger-1.html">AutoLogger&lt;T&gt;</a></h4>
-      <section><p>自动化日志类</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.AutoWaiting.html">AutoWaiting</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.AutomationElementComparer.html">AutomationElementComparer</a></h4>
-      <section><p>AutomationElement比较器，基于名称进行比较，不考虑重复名称的情况</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.AutomationIntArrayComparer.html">AutomationIntArrayComparer</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.AutomationRuntimeComparer.html">AutomationRuntimeComparer</a></h4>
-      <section><p>AutomationElement比较器，基于runtimeid进行比较</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.ClipboardApi.html">ClipboardApi</a></h4>
-      <section><p>Windows剪贴板API工具类</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.ClipboardHelper.html">ClipboardHelper</a></h4>
-      <section><p>Windows剪贴板工具类</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.CursorHelper.html">CursorHelper</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.CyberOverlay.html">CyberOverlay</a></h4>
-      <section><p>赛博朋克风格的屏幕提示框。</p>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.AutoLogger-1.html">AutoLogger&lt;T&gt;</a></dt>
+      <dd><p>自动化日志类</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.AutoWaiting.html">AutoWaiting</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.AutomationElementComparer.html">AutomationElementComparer</a></dt>
+      <dd><p>AutomationElement比较器，基于名称进行比较，不考虑重复名称的情况</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.AutomationIntArrayComparer.html">AutomationIntArrayComparer</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.AutomationRuntimeComparer.html">AutomationRuntimeComparer</a></dt>
+      <dd><p>AutomationElement比较器，基于runtimeid进行比较</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.ClipboardApi.html">ClipboardApi</a></dt>
+      <dd><p>Windows剪贴板API工具类</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.ClipboardHelper.html">ClipboardHelper</a></dt>
+      <dd><p>Windows剪贴板工具类</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.CursorHelper.html">CursorHelper</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.CyberOverlay.html">CyberOverlay</a></dt>
+      <dd><p>赛博朋克风格的屏幕提示框。</p>
 <p>
 用于在耗时操作（例如强开 UI Tree 扫描 weixin.dll）期间，在屏幕上绘制一个
 无边框、置顶、不抢焦点、不进入任务栏的半透明 HUD 提示框。
@@ -121,73 +147,119 @@ Classes
 {
 // 执行耗时操作
 }</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.DiffBlock-1.html">DiffBlock&lt;T&gt;</a></h4>
-      <section><p>Diff连续块</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.DiffItem-1.html">DiffItem&lt;T&gt;</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.DpiAwareness.html">DpiAwareness</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.DpiHelper.html">DpiHelper</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.DrawHightlightHelper.html">DrawHightlightHelper</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.ElementVisibleHelper.html">ElementVisibleHelper</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.ForceOpenUITree.html">ForceOpenUITree</a></h4>
-      <section><p>强开 UI Tree。</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.DiffBlock-1.html">DiffBlock&lt;T&gt;</a></dt>
+      <dd><p>Diff连续块</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.DiffItem-1.html">DiffItem&lt;T&gt;</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.DpiAwareness.html">DpiAwareness</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.DpiHelper.html">DpiHelper</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.DrawHightlightHelper.html">DrawHightlightHelper</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.ElementVisibleHelper.html">ElementVisibleHelper</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.ForceOpenUITree.html">ForceOpenUITree</a></dt>
+      <dd><p>强开 UI Tree。</p>
 <p>
 通过向正在运行的微信(Weixin)进程的 Qt 无障碍“门控字节”写入 1，强制微信公开 UI Tree。
 该工具不会启动微信、不会注入代码、不会修改内存页保护，只会写入 Weixin.dll 中
 那一个已存在的 Qt 无障碍状态字节，并在写入前校验进程、模块、PE 节、扫描证据与当前字节值。
 </p>
 <p>本类移植自 <code>qt_accessibility_activator.py</code>。</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.ForceOpenUITree.ActivationResult.html">ForceOpenUITree.ActivationResult</a></h4>
-      <section><p>强开 UI Tree 的执行结果。</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.ForceOpenUITree.UiaVerification.html">ForceOpenUITree.UiaVerification</a></h4>
-      <section><p>UIA（UI Automation）验证结果，用于确认 UI Tree 是否真正物化。</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.ImageHashCacheHelper.html">ImageHashCacheHelper</a></h4>
-      <section><p>昵称Image的缓存帮助类</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.LcsHelper.html">LcsHelper</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.MessageCacheHelper.html">MessageCacheHelper</a></h4>
-      <section><p>消息缓存助手类，提供消息缓存的读取和写入功能</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.MessageComparer.html">MessageComparer</a></h4>
-      <section><p>消息是否相等比较器</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.MouseScrollHelper.html">MouseScrollHelper</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.Probability.html">Probability</a></h4>
-      <section><p>随机决策</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.RuntimeIDExtensions.html">RuntimeIDExtensions</a></h4>
-      <section><p>RuntimeId的扩展</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.ShellNotifyHelper.html">ShellNotifyHelper</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.SupperMouseKey.html">SupperMouseKey</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.UITreeGlobal.html">UITreeGlobal</a></h4>
-      <section><p>记录一些异变化的UI Tree路径.</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.WeChatAction.html">WeChatAction</a></h4>
-      <section><p>按 PID 找微信主窗、唤回（含关窗仅留托盘）、最小化、恢复等。
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.ForceOpenUITree.ActivationResult.html">ForceOpenUITree.ActivationResult</a></dt>
+      <dd><p>强开 UI Tree 的执行结果。</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.ForceOpenUITree.UiaVerification.html">ForceOpenUITree.UiaVerification</a></dt>
+      <dd><p>UIA（UI Automation）验证结果，用于确认 UI Tree 是否真正物化。</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.ImageHashCacheHelper.html">ImageHashCacheHelper</a></dt>
+      <dd><p>昵称Image的缓存帮助类</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.LcsHelper.html">LcsHelper</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.MessageCacheHelper.html">MessageCacheHelper</a></dt>
+      <dd><p>消息缓存助手类，提供消息缓存的读取和写入功能</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.MessageComparer.html">MessageComparer</a></dt>
+      <dd><p>消息是否相等比较器</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.MouseScrollHelper.html">MouseScrollHelper</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.Probability.html">Probability</a></dt>
+      <dd><p>随机决策</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.RuntimeIDExtensions.html">RuntimeIDExtensions</a></dt>
+      <dd><p>RuntimeId的扩展</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.ShellNotifyHelper.html">ShellNotifyHelper</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.SupperMouseKey.html">SupperMouseKey</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.UITreeGlobal.html">UITreeGlobal</a></dt>
+      <dd><p>记录一些异变化的UI Tree路径.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.WeChatAction.html">WeChatAction</a></dt>
+      <dd><p>按 PID 找微信主窗、唤回（含关窗仅留托盘）、最小化、恢复等。
 主窗是 Qt51514QWindowIcon + 标题「微信」。</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.WeChatCaptureImage.html">WeChatCaptureImage</a></h4>
-      <section><p>截图工具类</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.WeChatInvoker.html">WeChatInvoker</a></h4>
-      <section><p>微信执行器</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.WeChatLocalPaths.html">WeChatLocalPaths</a></h4>
-      <section><p>本机微信自动化的数据目录（默认 <code>%LOCALAPPDATA%\WeChatAuto</code>）。</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.WeChatCaptureImage.html">WeChatCaptureImage</a></dt>
+      <dd><p>截图工具类</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.WeChatInvoker.html">WeChatInvoker</a></dt>
+      <dd><p>微信执行器</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.WeChatLocalPaths.html">WeChatLocalPaths</a></dt>
+      <dd><p>本机微信自动化的数据目录（默认 <code>%LOCALAPPDATA%\WeChatAuto</code>）。</p>
 <p>需要跨升级、跨安装目录保留的文件都放这里：数据库密钥缓存 <code>wechatkey.dat</code>、
 hot-sync 暂存 <code>hotsync-staging</code>、媒体缓存 <code>media-cache</code>。</p>
 <p>暂存 / 媒体缓存 / 朋友圈下载目录都可被配置覆盖（见 <a class="xref" href="WeChatAuto.Services.WeAutomation.html#WeChatAuto_Services_WeAutomation_Config">Config</a>），
@@ -195,80 +267,94 @@ hot-sync 暂存 <code>hotsync-staging</code>、媒体缓存 <code>media-cache</c
 <p>不要把这类数据写进程序目录：安装目录可能只读（如 Program Files），
 换目录 / 覆盖升级时也会丢。默认路径一律由 <a class="xref" href="https://learn.microsoft.com/dotnet/api/system.environment.specialfolder#system-environment-specialfolder-localapplicationdata">LocalApplicationData</a> 推导，
 不写死盘符、用户名或绝对路径。</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.WeChatRecordVideo.html">WeChatRecordVideo</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.WeChatTimeParser.html">WeChatTimeParser</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.WeChatVersionHelper.html">WeChatVersionHelper</a></h4>
-      <section><p>微信版本帮助类.</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.Win32WindowHelper.html">Win32WindowHelper</a></h4>
-      <section><p>Win32 窗口操作工具类。
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.WeChatRecordVideo.html">WeChatRecordVideo</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.WeChatTimeParser.html">WeChatTimeParser</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.WeChatVersionHelper.html">WeChatVersionHelper</a></dt>
+      <dd><p>微信版本帮助类.</p>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.Win32WindowHelper.html">Win32WindowHelper</a></dt>
+      <dd><p>Win32 窗口操作工具类。
 支持 Windows 10 / Windows 11。</p>
-</section>
-      <h4><a class="xref" href="WeChatAuto.Utils.WinApi.html">WinApi</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.WinMouse.html">WinMouse</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.WindowsInputHelper.html">WindowsInputHelper</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.WindowsInputHelper.KeyboardLayoutScope.html">WindowsInputHelper.KeyboardLayoutScope</a></h4>
-      <section><p>键盘布局作用域：Dispose 时把之前保存的布局发回目标焦点窗口，实现“用后恢复”。</p>
-</section>
+</dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.WinApi.html">WinApi</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.WinMouse.html">WinMouse</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.WindowsInputHelper.html">WindowsInputHelper</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.WindowsInputHelper.KeyboardLayoutScope.html">WindowsInputHelper.KeyboardLayoutScope</a></dt>
+      <dd><p>键盘布局作用域：Dispose 时把之前保存的布局发回目标焦点窗口，实现“用后恢复”。</p>
+</dd>
+    </dl>
     <h3 id="structs">
 Structs
 </h3>
-      <h4><a class="xref" href="WeChatAuto.Utils.CursorHelper.CURSORINFO.html">CursorHelper.CURSORINFO</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.CursorHelper.POINTAPI.html">CursorHelper.POINTAPI</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.WeChatAction.WinInfo.html">WeChatAction.WinInfo</a></h4>
-      <section></section>
-      <h4><a class="xref" href="WeChatAuto.Utils.WindowRect.html">WindowRect</a></h4>
-      <section><p>Windows 窗口的位置和大小。</p>
-</section>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.CursorHelper.CURSORINFO.html">CursorHelper.CURSORINFO</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.CursorHelper.POINTAPI.html">CursorHelper.POINTAPI</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.WeChatAction.WinInfo.html">WeChatAction.WinInfo</a></dt>
+      <dd></dd>
+    </dl>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.WindowRect.html">WindowRect</a></dt>
+      <dd><p>Windows 窗口的位置和大小。</p>
+</dd>
+    </dl>
     <h3 id="enums">
 Enums
 </h3>
-      <h4><a class="xref" href="WeChatAuto.Utils.DiffType.html">DiffType</a></h4>
-      <section></section>
+    <dl class="jumplist">
+      <dt><a class="xref" href="WeChatAuto.Utils.DiffType.html">DiffType</a></dt>
+      <dd></dd>
+    </dl>
 
 
 </article>
-          </div>
 
-          <div class="hidden-sm col-md-2" role="complementary">
-            <div class="sideaffix">
-              <div class="contribution">
-                <ul class="nav">
-                </ul>
-              </div>
-              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-                <h5>In this article</h5>
-                <div></div>
-              </nav>
-            </div>
-          </div>
+        <div class="contribution d-print-none">
         </div>
+
+
       </div>
 
-      <footer>
-        <div class="grad-bottom"></div>
-        <div class="footer">
-          <div class="container">
-            <span class="pull-right">
-              <a href="#top">Back to top</a>
-            </span>
-      
-      <span>Generated by <strong>DocFX</strong></span>
-          </div>
-        </div>
-      </footer>
-    </div>
+      <div class="affix">
+        <nav id="affix"></nav>
+      </div>
+    </main>
 
-    <script type="text/javascript" src="../styles/docfx.vendor.min.js"></script>
-    <script type="text/javascript" src="../styles/docfx.js"></script>
-    <script type="text/javascript" src="../styles/main.js"></script>
+    <div class="container-xxl search-results" id="search-results"></div>
+
+    <footer class="border-top text-secondary">
+      <div class="container-xxl">
+        <div class="flex-fill">
+          <span>Made with <a href="https://dotnet.github.io/docfx">docfx</a></span>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
