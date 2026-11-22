@@ -242,6 +242,7 @@ namespace WeAutoCommon.Configs
         public int MonitorNewFriendRequestInterval { get; set; } = 20;
         /// <summary>
         /// 固定式消息监听的时间间隔，单位为秒
+        /// 注：获取微信消息官方推荐以 Database Read 为主;
         /// </summary>
         [JsonPropertyName("monitor_interval")]
         public int MonitorInterval { get; set; } = 3;
@@ -260,6 +261,7 @@ namespace WeAutoCommon.Configs
         /// 是否启用OCR,但是一些功能由于腾迅的限制必须要启用OCR
         /// 如果启用OCR,则必须保证OCR模型在models目录下，并且需要配置好模型文件名称
         /// 如果启用UI Automation方式的消息监听，请设置为<c>true</c>
+        /// 注：获取微信消息官方推荐以 Database Read 为主;
         /// </summary>
         [JsonPropertyName("enable_ocr")]
         public bool EnableOCR { get; set; } = false;
@@ -379,6 +381,7 @@ namespace WeAutoCommon.Configs
         public int AvatorToWeixinButtonOffsetY = 40;
         /// <summary>
         /// 用于消息监听中，返回给回调函数历史消息最大记录数，因为事实上无须读完整个历史消息的。
+        /// 注：获取微信消息官方推荐以 Database Read 为主;
         /// </summary>
         [JsonPropertyName("max_history_message_fetch_number")]
         public int MaxHistoryMessageFetchNumber { get; set; } = 40;
