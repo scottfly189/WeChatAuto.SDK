@@ -125,9 +125,20 @@ await client.SendMessage("AI.Net_test","hello world!!");
 ... 更多功能请参考文档
 ```
 
-## 给 AI 用
+## 给 AI 生吞的接口文档
 
-完整接口说明：[https://scottfly189.github.io/WeChatAuto.SDK/llms-full.txt](https://scottfly189.github.io/WeChatAuto.SDK/llms-full.txt)，短索引：[https://scottfly189.github.io/WeChatAuto.SDK/llms.txt](https://scottfly189.github.io/WeChatAuto.SDK/llms.txt)。备用（社区 raw）：[https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms-full.txt](https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms-full.txt)、[https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms.txt](https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms.txt)。请先喂 llms-full.txt；社区版不要调仅 VIP 接口。
+完整接口说明：[https://scottfly189.github.io/WeChatAuto.SDK/llms-full.txt](https://scottfly189.github.io/WeChatAuto.SDK/llms-full.txt);
+
+短索引：[https://scottfly189.github.io/WeChatAuto.SDK/llms.txt](https://scottfly189.github.io/WeChatAuto.SDK/llms.txt)。
+
+备用（raw）：[https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms-full.txt](https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms-full.txt)
+
+[https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms.txt](https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms.txt)
+
+> [!TIP]
+> 请给你的 AI 先喂 llms-full.txt，或者直接把 `raw` 里的 llms-full.txt 的在线链接喂给 AI，之后向AI提问：这个 SDK 的能力有哪些？它的接口文档在哪里？它的使用示例有哪些？它的使用限制是什么？它的使用注意事项有哪些？它的使用风险是什么？它的使用场景有哪些？它的使用方式有哪些？它的使用方法有哪些？它的使用步骤有哪些？它的使用流程有哪些？它的使用技巧有哪些？它的使用经验有哪些？它的使用心得有哪些？它的使用建议有哪些？它的使用指南有哪些？
+>
+> AI熟悉接口后，你不可以让AI制作你的微信机器人代码了!
 
 ## 🚣 项目结构
 
