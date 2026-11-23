@@ -258,6 +258,7 @@ ORDER BY CreateTime;
 - [HTTP WebAPI 开发方式](httpserveruse.md)：启动、配置、Swagger 联调；
 - [内嵌开发方式](inlineuse.md)：`WeAutomation.Initialize(...)` 与 `WeChatClient`；
 - [常见问题](faq.md)：部署、运行环境、常见报错。
+- [给 AI 用](https://scottfly189.github.io/WeChatAuto.SDK/llms-full.txt)：完整接口说明（[短索引](https://scottfly189.github.io/WeChatAuto.SDK/llms.txt)；[社区 raw 备用](https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms-full.txt)）。请先喂 llms-full.txt；社区版不要调仅 VIP 接口。
 
 ---
 

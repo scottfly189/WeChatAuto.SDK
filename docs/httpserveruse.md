@@ -1,3 +1,5 @@
+> 给 AI 用：先阅读 [https://scottfly189.github.io/WeChatAuto.SDK/llms-full.txt](https://scottfly189.github.io/WeChatAuto.SDK/llms-full.txt)（[短索引](https://scottfly189.github.io/WeChatAuto.SDK/llms.txt)；[社区 raw 备用](https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms-full.txt)）。社区版不要调仅 VIP 接口。
+
 !> 如果你不是 .NET、不想管理 SDK 生命周期，或需要跨语言/远程调用,请使用 [HTTP WebAPI 方式](https://scottfly189.github.io/WeChatAuto.SDK/main.html#/httpserveruse)，<strong>`不需要书写一行代码获取微信消息`</strong>，官方推荐!
 
 # 一、HTTP WebAPI介绍

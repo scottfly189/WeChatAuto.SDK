@@ -1,3 +1,5 @@
+> 给 AI 用：先阅读 [https://scottfly189.github.io/WeChatAuto.SDK/llms-full.txt](https://scottfly189.github.io/WeChatAuto.SDK/llms-full.txt)（[短索引](https://scottfly189.github.io/WeChatAuto.SDK/llms.txt)；[社区 raw 备用](https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms-full.txt)）。社区版不要调仅 VIP 接口。
+
 !> 内嵌方式（Embedded）即：在你的 .NET 应用里直接引用 **NuGet 包 / DLL**，在**自己的进程内**调用 SDK 的 API。类型安全、能力最全、可深度定制，尤其适合需要**事件回调、低延迟、把微信能力深度集成进自己业务**的场景。本文档覆盖社区版 + VIP 版全部 API，标 💎 的为 **VIP 专有能力**。
 
 > 如果你不是 .NET、不想管理 SDK 生命周期，或需要跨语言/远程调用，请改用 [HTTP WebAPI 方式](https://scottfly189.github.io/WeChatAuto.SDK/main.html#/httpserveruse)，官方推荐。

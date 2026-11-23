@@ -124,6 +124,11 @@ await client.SendMessage("AI.Net_test","hello world!!");
 
 ... 更多功能请参考文档
 ```
+
+## 给 AI 用
+
+完整接口说明：[https://scottfly189.github.io/WeChatAuto.SDK/llms-full.txt](https://scottfly189.github.io/WeChatAuto.SDK/llms-full.txt)，短索引：[https://scottfly189.github.io/WeChatAuto.SDK/llms.txt](https://scottfly189.github.io/WeChatAuto.SDK/llms.txt)。备用（社区 raw）：[https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms-full.txt](https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms-full.txt)、[https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms.txt](https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms.txt)。请先喂 llms-full.txt；社区版不要调仅 VIP 接口。
+
 ## 🚣 项目结构
 
 ```

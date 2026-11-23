@@ -1,0 +1,26 @@
+# WeChatAuto.SDK — llms.txt
+
+生成日期: 2026-11-23（Asia/Shanghai）
+完整接口说明见同目录 llms-full.txt（社区与 VIP 将来使用同一份全文）。
+核对水位: 社区 scottfly189/WeChatAuto.SDK master @ bcfc04f；VIP alexzhao189/wechatautosdk main @ cc77ac5
+
+产品: WeChatAuto.SDK。口号: 不注入、双路径、安全构建。
+社区仓: https://github.com/scottfly189/WeChatAuto.SDK （master）。公开 NuGet: WeChatAuto4x.SDK。官网: https://scottfly189.github.io/WeChatAuto.SDK/
+VIP 仓: alexzhao189/wechatautosdk（main，私有，由支持渠道交付）。联系: https://github.com/scottfly189/scottfly189/blob/main/vip.md
+交流: https://t.me/wechatauto_sdk/1
+
+硬规则: 每个接口都有「适用范围: 社区 | VIP | 社区+VIP」与「availability: community | vip | both」。只有社区版时禁止调用仅 VIP 接口，也不要编造。未标明适用范围的章节不得当社区接口用。按 UserName/wxid 发送属于 VIP。用语只写「社区 / VIP」。
+
+技术路线: 本机 Windows 微信桌面 + UI Automation，不是 Docker 桌面 Computer Use。双路径并存：UIA 负责必须点界面的写操作（社区即可）；Database Read（仅 VIP）只读同步到自己的中间库，不写回微信原库。环境: Windows 10+，.NET net6.0-windows 至 net10.0-windows，微信已登录且窗口打开。本文不列微信内部版本对照。
+
+安装（社区）: 目标框架改为 *-windows；dotnet add package WeChatAuto4x.SDK 与 Microsoft.Extensions.DependencyInjection。VIP 在同一套 WeAutomation.Initialize 上设置 UseDatabaseRead = true。community_allin.rar 是限时 VIP 体验包，不是社区构建。MCP 文档仍在完成中。
+
+最小示例见 llms-full.txt 开头。入口: WeAutomation.Initialize → WeChatClientFactory → WeChatClient。HTTP 默认 http://<主机>:5000 ，Swagger /swagger，请求头 X-API-Key（空则不校验）。clientId 推荐用 wx_id。
+
+使用边界: 只在本人有权的设备、账号和会话上使用；不要批量骚扰或规避平台规则。加好友、拉群、群内加好友须控制频率。
+
+社区能力（VIP 同样包含）: 窗口/导航、会话、按显示名发送（文本/文件/表情/语音/TTS）、UIA 历史与引用、好友与缓存、群管理、开放式/弹窗式/轮询式监听、一次性通过好友申请、个人信息。who 是显示名，可空表示当前焦点窗口。
+
+仅 VIP: Database Read 官方查询（联系人/消息/群/朋友圈/Query）、中间表七张、按 UserName 发送、转发、朋友圈写操作、声音复刻、新好友持续自动通过监听、自动读存储位置、热同步配置（VSS 优先，失败 live 直读；首轮仅文字默认关；本地语音转写默认关且默认仅增量）。Query 只支持 SELECT（含 WITH ... SELECT），不自动加 FromWechatWxId。消息游标用 SortSeq。显示名规则 Remark > Alias > NickName > UserName。列表查询默认不含已删除行。GetSnsPosts 的 SDK limit 为必填；HTTP 默认 limit=20。
+
+调用任何方法前请打开 llms-full.txt 对应章节核对接参、返回值与适用范围。文末有「仅 VIP 接口」总表。
