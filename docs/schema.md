@@ -25,7 +25,7 @@ HTTP 服务跑起来之后，你不用再去翻微信自己的文件。通讯录
 它们的关系可以记成下面这张简图。所有「人」的显示名，最后都回到通讯录：
 
 ```text
-wechat_contact  ←  几乎所有显示名都来这里（备注优先，没有再用昵称）
+wechat_contact  ←  几乎所有显示名都来这里（Remark > Alias > NickName > UserName）
        ↑
        │  UserName = 消息里的 ChatUsername / SenderWxId
        │           = 群成员里的 RoomUsername / MemberUsername / Owner / Inviter
@@ -38,14 +38,15 @@ wechat_sns_post ── Tid ──┬── wechat_sns_like
                          └── wechat_sns_media
 ```
 
-新手先把这 6 条记住，后面查库会少走很多弯路：
+新手先把这 7 条记住，后面查库会少走很多弯路：
 
-1. **显示名不要在消息表里找。** 表里已经不再保留 `Who` / `Sender` 这类列。用 `ChatUsername` / `SenderWxId` 去联 `wechat_contact.UserName`，备注优先，空则用昵称。
+1. **显示名不要在消息表里找。** 表里已经不再保留 `Who` / `Sender` 这类列。用 `ChatUsername` / `SenderWxId` 去联 `wechat_contact.UserName`，显示名按 `Remark` > `Alias` > `NickName` > `UserName` 取。
 2. **多号筛选永远带上 `FromWechatWxId`。** `FromWechat` 只是该账号当时的昵称，可能重名，也可能改名。
 3. **定位一条消息**用 `FromWechatWxId + ChatUsername + Shard + LocalId`。各分片里的 `LocalId` 都从 1 计，不带 `Shard` 会把不同消息当成同一条。
 4. **只想处理新消息时，用 `SortSeq` 记住「看到哪了」。** 记下已经处理过的最大 `SortSeq`，下次只查比它更大的行。不要用自增主键 `Id`，也不要用记录写入时间 `CreateTime`，它们都不代表聊天顺序。
 5. **朋友圈用 `Tid` 把动态、点赞、评论、媒体串起来。** `Tid`、消息里的 `LocalId` / `ServerId` / `SortSeq` / `LocalType` / `MsgCreateTime` 都可能超过 32 位整数范围，请按 64 位整数读写。
 6. **两个名叫 `CreateTime` 的字段不是一回事。** 在 `wechat_message` 里，聊天发生时间是 `MsgCreateTime`（Unix 秒），`CreateTime` 只是这条记录进中间表的时间。在朋友圈各表里，`CreateTime` 才是动态、点赞或评论的发布时间（也是 Unix 秒）。
+7. **查现行通讯录时请加上 `DeleteFlag = 0`。** 列表类官方查询默认不返回已删除行（`DeleteFlag != 0`）。联表给历史消息取显示名时不要过滤这一列，软删就是为了名字还能对上。手写 SQL 或 `Query(sql)` 不会自动过滤。
 
 下面按表说明字段。查询示例在最后一节。
 
@@ -55,7 +56,7 @@ wechat_sns_post ── Tid ──┬── wechat_sns_like
 
 **唯一键：** `FromWechatWxId + UserName`
 
-显示名怎么取：`Remark`（备注）优先，没有备注再用 `NickName`（昵称）。`Alias` 是对方自己设置的微信号，不是备注。
+显示名怎么取（与 SDK 里 `WeChatContact.ShowName`、官方查询 API 一致）：`Remark`（备注）> `Alias`（对方设置的微信号）> `NickName`（昵称）> `UserName`。这是计算属性，不落库；手写 SQL 时请按同样顺序自己拼接。`Alias` 不是备注。
 
 | 字段名 | 说明 |
 | --- | --- |
@@ -78,6 +79,9 @@ wechat_sns_post ── Tid ──┬── wechat_sns_like
 | `SourceScene` | 来源场景码。已知取值见下表；`0` 表示原数据里没写 |
 | `Source` | 来源中文文案（由 `SourceScene` 翻译，如「通过群聊添加」）；未知码会写成「场景码 N」，方便直接查询和导出 |
 | `AddTime` | 添加好友或关注公众号的时间（Unix 秒）。`0` 表示原数据里没有这个时间（不少从旧版迁移过来的联系人会是 0） |
+| `DeleteFlag` | 对应原库 `contact.delete_flag`。`0` 表示仍有效；非 `0` 为已删除（包括原库已不存在、同步后被软标记的行）。软删除不会物理删行，以便历史消息仍能联到显示名。联系人重新出现时，会随同步恢复（通常回到 `0`） |
+
+列表类官方查询默认不返回 `DeleteFlag != 0` 的行，例如取全部联系人、按 `UserName` 或显示名查找、群列表；按 `UserName` 发送时经 `GetContact` 也会过滤。直接用 `Query(sql)` 或手写 SQL 查中间表时不会自动过滤：查现行通讯录请加上 `DeleteFlag = 0`；联表给历史消息取显示名时不要过滤，软删行正是为了还能对上名字。
 
 `SourceScene` 已核实的取值：
 
@@ -114,7 +118,7 @@ wechat_sns_post ── Tid ──┬── wechat_sns_like
 | `LocalId` | 该会话在该分片内的本地消息编号。请按 64 位整数读写 |
 | `ServerId` | 微信服务端消息 id，可能为 0。可作辅助查找，不是本表唯一键。请按 64 位整数读写 |
 | `SortSeq` | 消息的排序序号，也是「新消息看到哪了」应使用的记号。查询聊天记录请按本字段或 `MsgCreateTime` 排序（从大到小即从新到旧）。请按 64 位整数读写 |
-| `SenderWxId` | 发送者 wxid。会话和发送者的显示名，请用 `ChatUsername` / `SenderWxId` 关联 `wechat_contact`（备注优先，空则昵称） |
+| `SenderWxId` | 发送者 wxid。会话和发送者的显示名，请用 `ChatUsername` / `SenderWxId` 关联 `wechat_contact`（`Remark` > `Alias` > `NickName` > `UserName`） |
 | `LocalType` | 微信原有的消息类型编码。部分类型带有子类型，数值会很大，请按 64 位整数读写。常见取值见下表 |
 | `MessageType` | 消息类型名称，如文字、图片、语音、引用、文件。已核实的标签还包括：个人名片、视频、动画表情、位置、链接、语音通话、系统、撤回消息、拍一拍、聊天记录、红包，以及未单独列出时的「其他」。`LocalType` 为 0 时，本字段可能为空 |
 | `Content` | 消息正文。引用消息只存回复文字，被引用内容在 `Quote*` 列；聊天记录的完整内容在 `RecordItem`。常见写法见下方 |
@@ -197,7 +201,7 @@ wechat_sns_post ── Tid ──┬── wechat_sns_like
 
 `Tid` 是有符号的 64 位整数，关联点赞、评论、媒体时用它。`TidUnsigned` 是同一值的无符号十进制字符串，方便对照和展示，查询关联请仍用 `Tid`。
 
-发布者显示名：本表有 `NickName`，写入时会按 `UserName` 查通讯录，备注优先；没有备注时，才保留动态里原来的昵称。更稳妥的做法，仍然是自己再联一次 `wechat_contact`。
+发布者显示名：本表有 `NickName`，写入时会按 `UserName` 查通讯录，备注优先；没有备注时，才保留动态里原来的昵称。更稳妥的做法，仍然是自己再联一次 `wechat_contact`，按 `Remark` > `Alias` > `NickName` > `UserName` 取。
 
 | 字段名 | 说明 |
 | --- | --- |
@@ -375,7 +379,7 @@ SELECT
   m.Content,
   m.FilePath,
   m.IsSelf,
-  COALESCE(NULLIF(c.Remark, ''), c.NickName, m.SenderWxId) AS sender_name
+  COALESCE(NULLIF(c.Remark, ''), NULLIF(c.Alias, ''), NULLIF(c.NickName, ''), c.UserName, m.SenderWxId) AS sender_name
 FROM wechat_message m
 LEFT JOIN wechat_contact c
   ON c.FromWechatWxId = m.FromWechatWxId
@@ -386,13 +390,13 @@ ORDER BY m.SortSeq DESC
 LIMIT 50;
 ```
 
-列出某个群的成员，以及群名片和通讯录里的备注 / 昵称：
+列出某个群的成员，以及群名片和通讯录显示名（`Remark` > `Alias` > `NickName` > `UserName`）：
 
 ```sql
 SELECT
   r.MemberUsername,
   r.GroupNickname,
-  COALESCE(NULLIF(c.Remark, ''), c.NickName, r.MemberUsername) AS display_name,
+  COALESCE(NULLIF(c.Remark, ''), NULLIF(c.Alias, ''), NULLIF(c.NickName, ''), c.UserName, r.MemberUsername) AS display_name,
   CASE WHEN r.MemberUsername = r.Owner THEN 1 ELSE 0 END AS is_owner
 FROM wechat_chat_room_member r
 LEFT JOIN wechat_contact c
