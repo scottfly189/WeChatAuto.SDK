@@ -125,7 +125,7 @@ await client.SendMessage("AI.Net_test","hello world!!");
 ... 更多功能请参考文档
 ```
 
-## 给 AI 生吞的接口文档
+## 🥶 给 AI 生吞的接口文档
 
 完整接口说明：[https://scottfly189.github.io/WeChatAuto.SDK/llms-full.txt](https://scottfly189.github.io/WeChatAuto.SDK/llms-full.txt);
 
