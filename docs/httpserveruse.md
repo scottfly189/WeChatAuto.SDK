@@ -125,10 +125,33 @@
 
 **8. 核心操作: 通过Swagger测试一条消息发送**
 - 首先点击右下角的 `notifyicon` 图标，打开主控台(有时候会被任务栏隐藏，点击右下角的 `^` 展开图标列表就可以看到);
-![主空台](./images/try1.png)
-- 
+![主控台](./images/try1.png)
+1. 点击 `HTTP Server` 右边的链接，打开Swagger页面;
+2. 在Swagger页面中，点击 `Clients` → `GET /api/v1/clients`，点击 `Try it out` 按钮，然后点击 `Execute` 按钮，就可以获取到当前运行的微信客户端列表;
+3. 我们继续，我们找到发送文本消息的接口，点击 `Messages` → `POST /api/v1/clients/{clientId}/messages/send`，点击 `Try it out` 按钮
+![主控台](./images/try2.png)
 
+进行下面的操作：
 
+在 `clientId` 中输入你的微信客户端昵称(如: `AI.Net`)，在 `Request body` 中输入如下内容:
+
+```json
+{
+  "who": "你的好友昵称",
+  "message": "你好啊",
+  "at_users": [],
+  "refer":{}
+}
+```
+
+注：为了顺利完成测试，@好友与引用消息的参数可以不填，at_users和refer可以为空数组或空对象。
+
+设置完毕后，点击 `Execute` 按钮，就可以自动发送一条文本消息给指定的好友了，参见下图:
+
+![发送消息](./images/try3.png)
+
+- 同样原理，你可以测试发送文件、发送表情、发送语音消息等功能，具体请参见Swagger页面的API定义。
+- 你过关了！你既然知道在Swagger页面发送消息，也就知道在ApiFox中发送消息，或者你直接可以在Python、Go、Java、Node.js、Rust等语言中发送消息了;
 
 <details>
 <summary>扩展学习：测试集</summary>
