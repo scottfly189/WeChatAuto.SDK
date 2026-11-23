@@ -1,7 +1,7 @@
 # WeChatAuto.SDK — llms-full.txt
 
 生成日期: 2026-11-23（Asia/Shanghai）
-文档性质: 给大模型一次生吞的完整接口说明（审阅草稿，尚未入库或发布）
+文档性质: 给大模型一次生吞的完整接口说明
 核对水位: 社区仓 scottfly189/WeChatAuto.SDK master @ bcfc04f；VIP 仓 alexzhao189/wechatautosdk main @ cc77ac5
 
 ================================================================================
