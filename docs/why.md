@@ -140,7 +140,7 @@ VIP 的数据读取走 Safe Database Read，不再靠在界面上逐条抓消息
 微信默认并不公开 UI Tree，常规界面自动化方案在拿不到 UI Tree 时会直接失效。WeChatAuto.SDK 内置“强开 UI Tree”能力：
 
 - 定位 `weixin.dll` 中的门控字节并写入，让微信暴露 UI Tree；
-- 过程中有可视化进度提示，状态清晰可见。
+- 如果没有这个功能，你总不能要求客户说：`你的微信版本不提供 UI Tree，你先养养号吧...😂`
 
 **效果**：不依赖微信是否“开放”，兼容性更强；即使某个微信版本改了控件，也只是维护界面定位，而不是重做整套逆向方案。
 
@@ -156,10 +156,20 @@ VIP 的数据读取走 Safe Database Read，不再靠在界面上逐条抓消息
 
 **效果**：可以最小化远程桌面、关闭远程桌面客户端，而不用担心“人一断开，机器人就停了”。
 
+### 安全！安全！安全！
+
+没有安全一切都是空谈！没有安全连发布到客户端的勇气都没有！客户的微信被封号了，估计客户会准备49米的大刀，让你先跑10米....🥶
+
+WeChatAuto.SDK 的严守安全边界:
+
+**数据库读取**: 严禁`Hook/注入`微信进程!严禁`回写`微信原始数据库!就是数据库读取，我们也不直接读取微信原始数据库，而是做VSS卷快照/旁路-->旁路读取,我们做到对微信原始数据库影响最少！
+
+**发送消息等操作**: 严禁`Hook/协议`!我们选择的是UI Automation的自动化方案,虽然发送的时候会抢占键鼠，但这是已知的最安全的方案！
+
 ---
 
 ## 为 AI Agent / 多语言接入而生
-
+- **LLM友好**: 我们提供给LLM生吞的`llms-full.txt`，包含所有接口、参数、返回值、错误码、示例，LLM可直接生成调用代码。
 - **事件驱动**：好友申请、新消息监听通过回调 / Channel 推给你，天然适合接 LLM 做自动应答。
 - **语音交互**：支持文字转语音发送；VIP 提供声音复刻，语音 Agent 开箱即用。
 - **多语言客户端**：除 .NET 外，还提供 C++ / Go / Java / Node.js / Python / Rust 官方客户端，任何技术栈都能接。
@@ -190,39 +200,9 @@ VIP 的数据读取走 Safe Database Read，不再靠在界面上逐条抓消息
 
 ---
 
-## 快速开始（30 秒上手）
-
-### 内嵌方式（.NET）
-
-```bash
-dotnet add package WeChatAuto4x.SDK
-```
-
-```csharp
-var sp = WeAutomation.Initialize(o => o.EnableOCR = true);
-using var factory = sp.GetRequiredService<WeChatClientFactory>();
-var client = factory.GetWeChatClient("你的微信名");
-await client.SendMessage("好友昵称", "hello world!");
-```
-
-### HTTP WebAPI 方式
-
-```bash
-# 启动 Server 后，任何语言都能调用
-curl http://localhost:5000/api/v1/clients
-
-curl -X POST http://localhost:5000/api/v1/clients/<clientId>/messages/send \
-  -H "Content-Type: application/json" \
-  -d '{"who": "好友昵称", "message": "你好"}'
-```
-
-更多接口与字段见 [HTTP 服务使用说明](httpserveruse.md) 与 [中间表字段说明](schema.md)。
-
----
-
 ## 一句话总结
 
-> **别人要么只会读，要么只会点；我们既能读全，又能动手，还能把多个微信的数据放进同一套表里。**
+> **别人要么只会读，要么只会点；我们既能读全，又能动手，还能把多个微信的数据聚合到同一套表里。**
 >
 > 如果你要的是「**快速、稳定、可维护、能上生产**」的微信自动化能力，而不是一个随时可能被封号、要跟着微信逆向跑的玩具——选择 **WeChatAuto.SDK**。
 
