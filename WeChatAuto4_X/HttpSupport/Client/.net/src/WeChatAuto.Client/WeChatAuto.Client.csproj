@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo><!-- setting GenerateAssemblyInfo to false causes this bug https://github.com/dotnet/project-system/issues/3934 -->
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFrameworks>net10.0;net48</TargetFrameworks>
     <AssemblyName>WeChatAuto.Client</AssemblyName>
     <PackageId>WeChatAuto.Client</PackageId>
     <OutputType>Library</OutputType>
@@ -18,6 +18,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>Minor update</PackageReleaseNotes>
     <Nullable>annotations</Nullable>
+    <LangVersion>latest</LangVersion>
     <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
   </PropertyGroup>
 
@@ -27,8 +28,12 @@
     <PackageReference Include="Polly" Version="8.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
+
   <ItemGroup>
+    <None Include="WeChatAuto.Client.targets" Pack="true" PackagePath="buildTransitive\WeChatAuto.Client.targets" />
   </ItemGroup>
 </Project>

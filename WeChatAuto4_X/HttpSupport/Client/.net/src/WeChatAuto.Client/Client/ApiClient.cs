@@ -196,7 +196,11 @@ namespace WeChatAuto.Client.Client
     /// </remarks>
     public partial class ApiClient : IDisposable, ISynchronousClient, IAsynchronousClient
     {
+#if NET48
+        private const string HttpOptionsCookieContainerKey = "CookieContainer";
+#else
         private static readonly HttpRequestOptionsKey<List<Cookie>> _httpOptionsCookieContainerKey = new("CookieContainer");
+#endif
         private readonly string _baseUrl;
 
         private readonly HttpClientHandler _httpClientHandler;
@@ -418,7 +422,11 @@ namespace WeChatAuto.Client.Client
             // TODO provide an alternative that allows cookies per request instead of per API client
             if (options.Cookies != null && options.Cookies.Count > 0)
             {
+#if NET48
+                request.Properties[HttpOptionsCookieContainerKey] = options.Cookies;
+#else
                 request.Options.Set(_httpOptionsCookieContainerKey, options.Cookies);
+#endif
             }
 
             return request;
@@ -506,7 +514,12 @@ namespace WeChatAuto.Client.Client
                 }
 
 
+#if NET48
+                if (req.Properties.TryGetValue(HttpOptionsCookieContainerKey, out var cookieContainerObj)
+                    && cookieContainerObj is List<Cookie> cookieContainer)
+#else
                 if (req.Options.TryGetValue(_httpOptionsCookieContainerKey, out var cookieContainer))
+#endif
                 {
                     if (_httpClientHandler == null) throw new InvalidOperationException("Request property `CookieContainer` not supported when the client is explicitly created without an HttpClientHandler, use the proper constructor.");
                     foreach (var cookie in cookieContainer)

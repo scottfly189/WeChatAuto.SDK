@@ -14,7 +14,7 @@
 <a href="https://www.rust-lang.org/"><img src="https://img.shields.io/badge/Rust-blue?logo=rust&logoColor=white" alt="Rust" /></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="license MIT" /></a>
 </p>
-<p><strong><a href="https://scottfly189.github.io/WeChatAuto.SDK/">Website</a> · <a href="https://github.com/scottfly189/WeChatAuto.SDK/releases/download/2.0.7/community_allin.rar">一键试用</a> · <a href="https://scottfly189.github.io/WeChatAuto.SDK/main.html#/README">Guides</a> · <a href="#-faq">FAQ</a></strong></p>
+<p><strong><a href="https://scottfly189.github.io/WeChatAuto.SDK/">官网</a> · <a href="https://github.com/scottfly189/WeChatAuto.SDK/releases/download/2.0.7/community_allin.rar">一键试用</a> · <a href="https://scottfly189.github.io/WeChatAuto.SDK/main.html#/README">技术文档</a> · <a href="#-faq">FAQ</a></strong></p>
 <p><a href="./docs/why.md">为什么选择我们?</a></p>
 </div>
 

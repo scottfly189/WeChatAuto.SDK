@@ -1,0 +1,10 @@
+<Project>
+  <!--
+    .NET Framework 4.8 的 System.Net.Http 不是 SDK 默认引用的框架程序集。
+    客户端公开了 HttpClient 构造函数，net48 使用方需要显式引用它；
+    通过 buildTransitive 让 NuGet 包的使用方自动获得该引用，避免每个项目手工添加。
+  -->
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+</Project>

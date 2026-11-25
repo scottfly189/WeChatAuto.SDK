@@ -38,7 +38,11 @@ namespace WeChatAuto.Client.Model
         /// <param name="date">日期,如果不设置则不进行日期筛选.</param>
         /// <param name="message">message.</param>
         /// <param name="isCloseSearchWin">是否关闭查找窗口，默认是关闭，如果设置为false,则不关闭查找窗口，速度会略快，但需要自行关闭查找窗口..</param>
+#if NET48
+        public ChatRefer(DateTime date = default, ChatSimpleMessage message = default, bool isCloseSearchWin = default)
+#else
         public ChatRefer(DateOnly date = default, ChatSimpleMessage message = default, bool isCloseSearchWin = default)
+#endif
         {
             this.Date = date;
             this.Message = message;
@@ -50,7 +54,11 @@ namespace WeChatAuto.Client.Model
         /// </summary>
         /// <value>日期,如果不设置则不进行日期筛选</value>
         [DataMember(Name = "date", EmitDefaultValue = false)]
+#if NET48
+        public DateTime Date { get; set; }
+#else
         public DateOnly Date { get; set; }
+#endif
 
         /// <summary>
         /// Gets or Sets Message
