@@ -15,9 +15,10 @@ public class UiTestFixture : IDisposable
         _serviceProvider = WeAutomation.Initialize(options =>
         {
             // options.IsOptimizeMainWindowLayout = false;
+            options.UseDatabaseRead = false;
             options.IsForceOpenUITree = true;
             options.DebugMode = false;
-            options.EnableOCR = true;
+            options.EnableOCR = false;
             options.EnableMouseKeyboardSimulator = false;
             options.KMDeviceVID = 0x1701;
             options.KMDevicePID = 0x2612;
