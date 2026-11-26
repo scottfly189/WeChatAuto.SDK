@@ -1012,6 +1012,14 @@
               "format": "int32",
               "default": 20
             }
+          },
+          {
+            "name": "refreshSNS",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
           }
         ],
         "responses": {
@@ -1077,6 +1085,14 @@
               "type": "string",
               "format": "date-time"
             }
+          },
+          {
+            "name": "refreshSNS",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
           }
         ],
         "responses": {
@@ -1108,6 +1124,14 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "refreshSNS",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
           }
         ],
         "responses": {
@@ -1138,6 +1162,14 @@
             "in": "query",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "refreshSNS",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
             }
           }
         ],
@@ -3481,6 +3513,30 @@
         ],
         "summary": "关闭朋友圈。",
         "operationId": "Moments_Close",
+        "parameters": [
+          {
+            "name": "clientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/clients/{clientId}/moments/refresh": {
+      "post": {
+        "tags": [
+          "Moments"
+        ],
+        "summary": "刷新朋友圈并等待数据落库。",
+        "operationId": "Moments_Refresh",
         "parameters": [
           {
             "name": "clientId",

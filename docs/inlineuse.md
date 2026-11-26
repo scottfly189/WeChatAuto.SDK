@@ -1133,6 +1133,9 @@ var momentsWindow = await client.OpenMoments();
 // 关闭朋友圈
 await client.CloseMoments();
 
+// 手动刷新朋友圈：会打开/聚焦朋友圈并点击刷新，等待最新数据落库
+var refreshed = await client.RefreshSnsList();
+
 // 发朋友圈（图文，多图需在同一目录）
 await client.AddMoments(
     new List<string> { @"C:\img\a.jpg", @"C:\img\b.jpg" },
@@ -1335,10 +1338,12 @@ var chatRooms = client.GetChatRoomsByLocalType(ContactLocalType.ChatRoom);
 | 方法 | 说明 |
 |---|---|
 | `GetSnsPost(tid)` | 按 tid 取一条朋友圈，一次带回媒体、点赞、评论；找不到返回 `null` |
-| `GetSnsPosts(limit)` | 取最近 `limit` 条朋友圈，按发布时间从新到旧；`limit` 必须大于 0 |
-| `GetSnsPostsByDate(date)` | 取某一天的朋友圈；按中国标准时间（UTC+8）的日历日判断，时分秒会被忽略 |
-| `GetSnsPostsByUserName(userName)` | 取某个发布者（真实 `UserName`/wxid）的朋友圈，从新到旧 |
-| `GetSnsPostsByShowName(showName)` | 按发布者显示名取朋友圈；显示名完全一致，重名会一并返回 |
+| `GetSnsPosts(limit, refreshSNS = false)` | 取最近 `limit` 条朋友圈，按发布时间从新到旧；`limit` 必须大于 0 |
+| `GetSnsPostsByDate(date, refreshSNS = false)` | 取某一天的朋友圈；按中国标准时间（UTC+8）的日历日判断，时分秒会被忽略 |
+| `GetSnsPostsByUserName(userName, refreshSNS = false)` | 取某个发布者（真实 `UserName`/wxid）的朋友圈，从新到旧 |
+| `GetSnsPostsByShowName(showName, refreshSNS = false)` | 按发布者显示名取朋友圈；显示名完全一致，重名会一并返回 |
+
+> `refreshSNS=true` 会先打开朋友圈（已打开时点击刷新），再查询中间表；会额外等待约 2–5 秒。默认 `false`，只读当前已同步的数据。
 
 `WeChatSnsPostQueryResult` 里常用的字段：
 
@@ -1349,9 +1354,15 @@ var chatRooms = client.GetChatRoomsByLocalType(ContactLocalType.ChatRoom);
 - `Comments`：评论列表。
 
 ```csharp
+// 先手动刷新，再查询（适合明确要最新数据的场景）
+var refreshed = await client.RefreshSnsList();
 var latest = client.GetSnsPosts(20);
+
+// 也可以在一次查询里带上 refreshSNS，省一次显式调用
+var latestFresh = client.GetSnsPosts(20, refreshSNS: true);
+
 var one = client.GetSnsPost(1234567890123456789);
-var today = client.GetSnsPostsByDate(DateTime.Today);
+var today = client.GetSnsPostsByDate(DateTime.Today, refreshSNS: true);
 var byUser = client.GetSnsPostsByUserName("wxid_xxx");
 var byName = client.GetSnsPostsByShowName("张三");
 ```

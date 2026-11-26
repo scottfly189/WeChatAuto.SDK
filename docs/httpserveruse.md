@@ -548,8 +548,11 @@ Base：`/api/v1/clients/{clientId}/moments`
 |---|---|---|---|
 | `POST` | `/open` | 打开朋友圈（已打开则提到最前） | — |
 | `POST` | `/close` | 关闭朋友圈 | — |
+| `POST` | `/refresh` | 刷新朋友圈并等待数据落库；成功返回 `{"success":true/false}` | — |
 | `POST` | `/add` | 发朋友圈（图文，多图需在同一目录） | `AddMomentsRequest` |
 | `POST` | `/remove` | 删除自己发的朋友圈（按文字内容） | `RemoveMomentsRequest` |
+
+> `/refresh` 会打开并聚焦朋友圈窗口（已打开时点击刷新），等待数据加载/落库；不是纯后台操作，通常需要等待 2–5 秒，网络慢时更久。微信只有在朋友圈 UI 被打开/刷新后才会把最新时间线写入原生库，因此刷新后立即查询更准确。
 
 ### 9.9 数据库读取（Database Read，💎）
 
@@ -578,13 +581,15 @@ Base：`/api/v1/clients/{clientId}/database`
 | `GET` | `/rooms/by-show-name/first` | 按群显示名取第一条群 | `showName`（query） |
 | `GET` | `/rooms/by-show-name/members` | 按群显示名取成员 | `showName`（query） |
 | `GET` | `/rooms/by-local-type` | 按联系人 `LocalType` 过滤群聊 | `localType`（query，本机群多为 2） |
-| `GET` | `/sns/posts` | 取最近 N 条朋友圈（含媒体/赞/评） | `limit`（默认 20） |
+| `GET` | `/sns/posts` | 取最近 N 条朋友圈（含媒体/赞/评） | `limit`（默认 20）、`refreshSNS`（可选，默认 false） |
 | `GET` | `/sns/posts/{tid}` | 按 tid 取一条朋友圈 | — |
-| `GET` | `/sns/posts/by-date` | 取某一天的朋友圈（UTC+8 日历日） | `date`（query） |
-| `GET` | `/sns/posts/by-user` | 按发布者真实 username 取朋友圈 | `userName`（query） |
-| `GET` | `/sns/posts/by-show-name` | 按发布者显示名取朋友圈 | `showName`（query） |
+| `GET` | `/sns/posts/by-date` | 取某一天的朋友圈（UTC+8 日历日） | `date`（query）、`refreshSNS`（可选，默认 false） |
+| `GET` | `/sns/posts/by-user` | 按发布者真实 username 取朋友圈 | `userName`（query）、`refreshSNS`（可选，默认 false） |
+| `GET` | `/sns/posts/by-show-name` | 按发布者显示名取朋友圈 | `showName`（query）、`refreshSNS`（可选，默认 false） |
 | `POST` | `/query` | 执行只读 `SELECT`，返回字典列表 | `DatabaseQueryRequest` |
 
+> `refreshSNS=true` 会先打开朋友圈并点击刷新，再返回查询结果；会额外等待 2–5 秒，默认 `false`。不传该参数时只读当前中间表，速度不受影响。
+>
 > `/query` 只接受 `SELECT`（含 `WITH ... SELECT`），不会自动追加 `FromWechatWxId` 条件；SQL 由调用方自己拼，注意注入风险。复杂报表建议直接连中间库，详见 [数据库 Schema](schema.md)。
 
 ### 9.10 常用请求示例
