@@ -18,16 +18,6 @@ namespace WeAutoCommon.Configs
     public class WeChatConfig
     {
         /// <summary>
-        /// 是否自动刷新朋友圈数据,默认为<c>false</c>,即不会自动刷新朋友圈数据，
-        /// 可选的：也可以在调用获取朋友圈数据的api时将参数<c>ensureFresh</c>设置为<c>true</c>，也会帮自动刷新朋友圈
-        /// </summary>
-        public bool SnsAutoRefreshEnabled = false;
-        /// <summary>
-        /// 朋友圈自动刷新的秒数，默认为<c>30</c>秒.
-        /// 此参数在<seealso cref="SnsAutoRefreshEnabled"/>开启时才生效.
-        /// </summary>
-        public int SnsAutoRefreshIntervalSeconds = 30;
-        /// <summary>
         /// 是否启用微信数据库安全读取（VIP）。默认 <c>false</c>，即纯 UI Automation；
         /// 设为 <c>true</c> 后启用数据库读取 / 热同步，需要配置微信存储目录和数据库连接。
         /// </summary>
