@@ -1063,7 +1063,7 @@ namespace WeChatAuto.Components
         /// 刷新朋友圈
         /// </summary>
         /// <returns></returns>
-        public async Task<bool> RefeshSnsList() => await this.Moments.RefeshSnsList();
+        public async Task<bool> RefreshSnsList() => await this.Moments.RefreshSnsList();
         #endregion
 
         #region  消息监听管理

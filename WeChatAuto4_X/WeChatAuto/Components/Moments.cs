@@ -57,7 +57,7 @@ namespace WeChatAuto.Components
 		/// 静默刷新朋友圈.
 		/// </summary>
 		/// <returns></returns>
-		public async Task<bool> RefeshSnsList()
+		public async Task<bool> RefreshSnsList()
 		{
 			return await WeChatInvoker.Call(RefreshSnsListCore);
 		}
