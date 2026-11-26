@@ -63,16 +63,16 @@ namespace WeChatAuto.Components
 		}
 
 		/// <summary>
-		/// 静默刷新朋友圈核心方法
+		/// 刷新朋友圈核心方法
 		/// </summary>
 		/// <param name="automation"></param>
 		/// <returns></returns>
-        private bool RefreshSnsListCore(UIA3Automation automation)
-        {
-            var result = IsOpenMomentsWin(automation);
+		private bool RefreshSnsListCore(UIA3Automation automation)
+		{
+			var result = IsOpenMomentsWin(automation);
 			if (!result.success)
 			{
-				OpenMomentsCore(automation);	
+				OpenMomentsCore(automation);
 			}
 			result = IsOpenMomentsWin(automation);
 			if (!result.success)
@@ -80,14 +80,18 @@ namespace WeChatAuto.Components
 				throw new Exception("错误：朋友圈窗口没有打开，可能UI Tree发生错误，请联系作者！");
 			}
 			var snsWin = result.win;
-			var refreshButtonRetry = Retry.WhileNull(()=>snsWin.FindFirstByXPath(UITreeGlobal.Sns_Refresh_button),TimeSpan.FromSeconds(2),TimeSpan.FromMilliseconds(200));
+			var refreshButtonRetry = Retry.WhileNull(() => snsWin.FindFirstByXPath(UITreeGlobal.Sns_Refresh_button), TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
 			if (refreshButtonRetry.Success)
 			{
+				snsWin.Focus();
 				var button = refreshButtonRetry.Result.AsButton();
-				button.Invoke();
+				button.Click();
+				this._Client.MainWindow.Focus();
+				RandomWait.Wait(2000, 5000);
+				return true;
 			}
 			throw new Exception("错误：朋友圈窗口没有打开，可能UI Tree发生错误，请联系作者！");
-        }
+		}
 
 
 		internal AutomationElement GetToolBar(UIA3Automation automation)
