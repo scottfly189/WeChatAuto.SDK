@@ -65,6 +65,10 @@
 # 二、HTTP服务使用指南
 !> 后面的WebAPI调用依赖打开`HTTP服务`, 请使用者在使用前阅读本 `HTTP服务使用指南`,重要！
 
+!> 前置条件: 请将你的微信拖动到桌面的右下角任务栏，如下图所示:
+
+![任务栏](./images/status_bar.png)
+
 **1. 请先下载[HTTP服务端](https://github.com/scottfly189/WeChatAuto.SDK/releases/download/2.0.7/community_allin.rar),放置在本机/服务器的某个目录，然后解压缩;**
 **2. 在解压缩的目录中打开 `Server.exe` 应用，如下图所示:**
 
