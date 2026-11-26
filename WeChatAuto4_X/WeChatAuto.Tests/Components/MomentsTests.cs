@@ -23,7 +23,7 @@ public class MomentsTests
         var framework = _globalFixture.clientFactory;
         var client = framework.GetWeChatClient(_wxClientName);
         // When
-        var result = await client.Moments.RefeshSnsList();
+        var result = await client.RefeshSnsList();
         // Then
         Assert.True(result);
     }

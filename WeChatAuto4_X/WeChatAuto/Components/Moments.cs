@@ -72,12 +72,18 @@ namespace WeChatAuto.Components
 			var result = IsOpenMomentsWin(automation);
 			if (!result.success)
 			{
-				OpenMomentsCore(automation);
+				var win = OpenMomentsCore(automation);
+				if (win != null)
+				{
+					RandomWait.Wait(2000, 5000);
+					return true;
+				}
 			}
 			result = IsOpenMomentsWin(automation);
 			if (!result.success)
 			{
-				throw new Exception("错误：朋友圈窗口没有打开，可能UI Tree发生错误，请联系作者！");
+				_logger.Error("错误：朋友圈窗口没有打开，可能UI Tree发生错误，请联系作者！");
+				return false;
 			}
 			var snsWin = result.win;
 			var refreshButtonRetry = Retry.WhileNull(() => snsWin.FindFirstByXPath(UITreeGlobal.Sns_Refresh_button), TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
@@ -90,7 +96,8 @@ namespace WeChatAuto.Components
 				RandomWait.Wait(2000, 5000);
 				return true;
 			}
-			throw new Exception("错误：朋友圈窗口没有打开，可能UI Tree发生错误，请联系作者！");
+			_logger.Error("错误：朋友圈窗口没有打开，可能UI Tree发生错误，请联系作者！");
+			return false;
 		}
 
 
@@ -123,6 +130,8 @@ namespace WeChatAuto.Components
 				if (result.success)
 				{
 					this._Client.MoveWinToMainCenter(result.win);
+					RandomWait.Wait(500,2000);
+					this._Client.Navigation.SwitchNavigationCore(automation, NavigationType.微信);
 					return result.win;
 				}
 			}

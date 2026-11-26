@@ -1047,6 +1047,25 @@ namespace WeChatAuto.Components
 
         #endregion
 
+        #region 朋友圈管理
+        /// <summary>
+        /// 打开朋友圈,如果未打开，则打开朋友圈，如果已经打开了，则窗口提前到顶端
+        /// </summary>
+        /// <returns>返回朋友圈窗口对象|</returns>
+        public async Task<Window> OpenMoments() => await this.Moments.OpenMoments();
+        /// <summary>
+        /// 关闭朋友圈
+        /// </summary>
+        /// <returns></returns>
+        public async Task CloseMoments() => await this.Moments.CloseMoments();
+
+        /// <summary>
+        /// 刷新朋友圈
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> RefeshSnsList() => await this.Moments.RefeshSnsList();
+        #endregion
+
         #region  消息监听管理
         /// <summary>
         /// <para>添加系统消息监听，以实现如： 检测到群主邀请好友后发送欢迎消息等功能</para>
