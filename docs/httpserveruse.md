@@ -67,7 +67,7 @@
 
 !> 前置条件: 请将你的微信拖动到桌面的右下角任务栏，如下图所示:
 
-![任务栏](./images/status_bar.png)
+<img src="./images/status_bar.png" width="1200px"/>
 
 **1. 请先下载[HTTP服务端](https://github.com/scottfly189/WeChatAuto.SDK/releases/download/2.0.7/community_allin.rar),放置在本机/服务器的某个目录，然后解压缩;**
 **2. 在解压缩的目录中打开 `Server.exe` 应用，如下图所示:**
@@ -217,7 +217,7 @@
 >
 > 服务端启动时会固定开启 `UseDatabaseRead`，所以 HTTP 服务本身不需要你再去 `WeAutomation.Initialize` 里配数据库；你只需要把 `App.json` 的 `Database` 配对。
 
-<img src='./images/appconfig.png' width='1200'/>
+<img src='./images/appconfig.png' width='1200px'/>
 
 ## 2. 接入信息
 
