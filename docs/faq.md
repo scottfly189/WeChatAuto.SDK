@@ -70,4 +70,6 @@ WeAutomation.Initialize(builder.Services, options =>
 
 ## ❓ 怎么给 AI 用
 
-把 [https://scottfly189.github.io/WeChatAuto.SDK/llms-full.txt](https://scottfly189.github.io/WeChatAuto.SDK/llms-full.txt) 喂给大模型（短索引：[https://scottfly189.github.io/WeChatAuto.SDK/llms.txt](https://scottfly189.github.io/WeChatAuto.SDK/llms.txt)）。备用（社区 raw）：[https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms-full.txt](https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms-full.txt)、[https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms.txt](https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms.txt)。请先喂 llms-full.txt；社区版不要调仅 VIP 接口。
+- 把 [https://scottfly189.github.io/WeChatAuto.SDK/llms-full.txt](https://scottfly189.github.io/WeChatAuto.SDK/llms-full.txt);
+
+- 备用（社区 raw）：[https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms-full.txt](https://raw.githubusercontent.com/scottfly189/WeChatAuto.SDK/master/docs/llms-full.txt);
