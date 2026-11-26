@@ -35,7 +35,7 @@ SDK 的界面操作通过 Windows UI Automation（FlaUI/UIA3）驱动微信，�
 - 参考 [如果没有 UI Tree 怎么办](https://github.com/scottfly189/WeChatAuto.SDK/issues/3)；
 - 用 `inspect.exe` / `FlaUInspect` 等工具可查看 UI Tree（[工具下载](https://github.com/scottfly189/WeChatAuto.SDK/tree/master/Tools)）。
 
-### 2.3 OCR 模型（部分能力必需）
+### 2.3 OCR 模型（在UIA的消息监听场景需要打开）
 
 若启用 OCR（`EnableOCR = true`），需把 OCR 模型文件 `models` 文件夹放到**程序运行目录**下：
 
@@ -52,7 +52,13 @@ SDK 的界面操作通过 Windows UI Automation（FlaUI/UIA3）驱动微信，�
 - 未安装请在 [VBCABLE_Driver_Pack45.zip](https://github.com/alexzhao189/wechatautosdk/blob/main/Resources/VBCABLE_Driver_Pack45.zip) 下载。
 - 如果需要发送微信语音消息的能力，请务必安装虚拟声卡并设置好输入输出设备;
 
-### 2.5 技术基础知识准备
+### 2.5 请将你的微信拖动到桌面的右下角任务栏
+
+👉 如下图所示:
+
+<img src="./images/status_bar.png" width="1200px"/>
+
+### 2.6 技术基础知识准备
 
 - 要想熟悉调用/看懂SDK的源码，最好能熟悉一下.net的`OneOf`库的使用，这个类似`Typescript`的union类型;
 - SDK使用`MessagePack`做为缓存，并且也使用了`SqlSugarCore`以支持各种数据库，如果有条件，也请先了解;
