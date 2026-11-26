@@ -9,6 +9,12 @@
   > 查看UI Tree的方法：下载并安装 UI Tree查看工具，如: inspect.exe或者FlaUInspect等，[下载链接](https://github.com/scottfly189/WeChatAuto.SDK/tree/master/Tools)
 - 如果经过上面的步骤还不行，请联系作者，并将你的代码发给他看;
 
+## ❓ 发送消息失败？
+
+回答： 部分API需要将微信拖动到任务栏右边,如下图所示:
+
+<img src="./images/status_bar.png" width="1200px"/>
+
 ## ❓ WechatAuto.sdk可以直接运行吗？
 回答：SDK支持两种开发模式
 
