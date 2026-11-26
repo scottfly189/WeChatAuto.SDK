@@ -45,14 +45,120 @@ namespace WeChatAuto.Components
 		private AutoLogger<Moments> _logger;
 		private WeChatClient _Client;
 
-
-
 		internal Moments(WeChatClient client, UIThreadInvoker uiThreadInvoker, IServiceProvider serviceProvider)
 		{
 			_logger = serviceProvider.GetRequiredService<AutoLogger<Moments>>();
 			_uiMainThreadInvoker = uiThreadInvoker;
 			_Client = client;
 			_serviceProvider = serviceProvider;
+		}
+
+		/// <summary>
+		/// 静默刷新朋友圈.
+		/// </summary>
+		/// <returns></returns>
+		public async Task<bool> RefeshSnsList()
+		{
+			return await WeChatInvoker.Call(RefreshSnsListCore);
+		}
+
+		/// <summary>
+		/// 静默刷新朋友圈核心方法
+		/// </summary>
+		/// <param name="automation"></param>
+		/// <returns></returns>
+        private bool RefreshSnsListCore(UIA3Automation automation)
+        {
+            var result = IsOpenMomentsWin(automation);
+			if (!result.success)
+			{
+				OpenMomentsCore(automation);	
+			}
+			result = IsOpenMomentsWin(automation);
+			if (!result.success)
+			{
+				throw new Exception("错误：朋友圈窗口没有打开，可能UI Tree发生错误，请联系作者！");
+			}
+			var snsWin = result.win;
+			var refreshButtonRetry = Retry.WhileNull(()=>snsWin.FindFirstByXPath(UITreeGlobal.Sns_Refresh_button),TimeSpan.FromSeconds(2),TimeSpan.FromMilliseconds(200));
+			if (refreshButtonRetry.Success)
+			{
+				var button = refreshButtonRetry.Result.AsButton();
+				button.Invoke();
+			}
+			throw new Exception("错误：朋友圈窗口没有打开，可能UI Tree发生错误，请联系作者！");
+        }
+
+
+		internal AutomationElement GetToolBar(UIA3Automation automation)
+		{
+			var window = OpenMomentsCore(automation);
+			if (window == null)
+				return null;
+			var toolBarRetry = Retry.WhileNull(() => window.FindFirstByXPath(UITreeGlobal.Sns_Toolbar_path), TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
+			return toolBarRetry.Success ? toolBarRetry.Result : null;
+		}
+
+		/// <summary>
+		/// 打开朋友圈,如果未打开，则打开朋友圈，如果已经打开了，则窗口提前
+		/// </summary>
+		/// <returns></returns>
+		public async Task<Window> OpenMoments()
+		{
+			return await WeChatInvoker.Call(OpenMomentsCore);
+		}
+
+		internal Window OpenMomentsCore(UIA3Automation automation)
+		{
+			(bool success, Window win) result = IsOpenMomentsWin(automation);
+			if (!result.success)
+			{
+				this._Client.Navigation.SwitchNavigationCore(automation, NavigationType.朋友圈);
+				RandomWait.Wait(600, 1200);
+				result = IsOpenMomentsWin(automation);
+				if (result.success)
+				{
+					this._Client.MoveWinToMainCenter(result.win);
+					return result.win;
+				}
+			}
+			else
+			{
+				this._Client.MoveWinToMainCenter(result.win);
+				return result.win;
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// 是否打开朋友圈
+		/// </summary>
+		/// <param name="automation"></param>
+		/// <returns></returns>
+		internal (bool success, Window win) IsOpenMomentsWin(UIA3Automation automation)
+		{
+			var desktop = automation.GetDesktop();
+			var winRetry = Retry.WhileNull(() => desktop.FindFirstChild(cf => cf.ByProcessId(this._Client.MainWindow.Properties.ProcessId).And(cf.ByName("朋友圈")).And(cf.ByAutomationId("SNSWindow"))), TimeSpan.FromSeconds(2), TimeSpan.FromMilliseconds(200));
+			return (winRetry.Success, winRetry.Result.AsWindow());
+		}
+		/// <summary>
+		/// 关闭朋友圈
+		/// </summary>
+		/// <returns></returns>
+		public async Task CloseMoments()
+		{
+			await WeChatInvoker.Call(CloseMomentsCore);
+		}
+
+		internal void CloseMomentsCore(UIA3Automation automation)
+		{
+			(bool success, Window win) result = IsOpenMomentsWin(automation);
+			if (result.success)
+			{
+				result.win.Focus();
+				result.win.Close();
+				RandomWait.Wait(600, 900);
+			}
 		}
 	}
 }

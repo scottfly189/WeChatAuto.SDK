@@ -1,12 +1,20 @@
 using System.Text.Json;
-using WeChatAuto.Client;
-using WeChatAuto.Client.Models;
+using WeChatAuto.Client.Api;
+using WeChatAuto.Client.Client;
+using WeChatAuto.Client.Model;
 
 namespace WinFormWithHttpWebAPI;
 
 public partial class Form1 : Form
 {
-    private readonly WeChatAutoClient _client = new();
+    // 服务端 App.json 默认端口为 5000；如果改过端口，请同步修改这里。
+    private static readonly Configuration Configuration = new()
+    {
+        BasePath = "http://localhost:5000",
+    };
+
+    private readonly GroupsApi _groupsApi = new(Configuration);
+    private readonly MessagesApi _messagesApi = new(Configuration);
 
     public Form1()
     {
@@ -31,13 +39,17 @@ public partial class Form1 : Form
                 return;
             }
 
-            // 客户端返回服务端的原始响应体（群成员列表的 JSON 字符串）。
-            string? result = await _client.GetGroupMembersAsync(clientId, groupName);
+            // 同步接口放在后台线程，避免获取群成员时卡住界面。
+            ApiResponse<Object> response = await Task.Run(
+                () => _groupsApi.GroupsGetMembersWithHttpInfo(clientId, groupName));
+
+            // RawContent 是服务端返回的原始 JSON，例如 ["wxid_xxx", "wxid_yyy"]。
+            string? result = response.RawContent;
 
             listBox1.Items.Clear();
             List<string>? members = string.IsNullOrWhiteSpace(result)
                 ? null
-                : JsonSerializer.Deserialize<List<string>>(result!);
+                : JsonSerializer.Deserialize<List<string>>(result);
 
             if (members != null)
             {
@@ -76,9 +88,9 @@ public partial class Form1 : Form
             // who 为空时发送给当前焦点聊天窗口。
             string? who = string.IsNullOrWhiteSpace(textBox2.Text) ? null : textBox2.Text.Trim();
 
-            await _client.SendMessageAsync(clientId, new SendMessageRequest
+            await _messagesApi.MessagesSendAsync(clientId, new SendMessageRequest
             {
-                Who = who,
+                Who = who!,
                 Message = message,
             });
 

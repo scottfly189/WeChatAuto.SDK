@@ -16,6 +16,17 @@ public class MomentsTests
         _output = output;
         _globalFixture = globalFixture;
     }
+    [Fact(DisplayName = "刷新朋友圈")]
+    public async Task TestRefresh_sns_list()
+    {
+        // Given
+        var framework = _globalFixture.clientFactory;
+        var client = framework.GetWeChatClient(_wxClientName);
+        // When
+        var result = await client.Moments.RefeshSnsList();
+        // Then
+        Assert.True(result);
+    }
     // [Fact(DisplayName = "打开朋友圈-关闭朋友圈-vip功能")]
     // public async Task Test_open_close_moments()
     // {
